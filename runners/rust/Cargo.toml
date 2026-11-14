@@ -1,0 +1,10 @@
+[package]
+name = "runner-rust"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+stellar-xdr = { version = "=30.0.0", default-features = false, features = ["std", "base64", "type_enum"] }
+
+[profile.release]
+opt-level = 2

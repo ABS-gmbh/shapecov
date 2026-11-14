@@ -1,0 +1,471 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://shapecov.invalid/manifest.schema.json",
+  "title": "ShapeCov corpus manifest (draft 0.1)",
+  "description": "One record per corpus entry. An entry is one XDR value, stored base64-encoded in its own file. Every field a consumer needs to judge an indexer or SDK against the entry is here, and none of it comes from the software under test.",
+  "type": "object",
+  "required": [
+    "manifest_version",
+    "xdr_schema",
+    "entries"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "manifest_version": {
+      "const": "0.1-draft"
+    },
+    "xdr_schema": {
+      "description": "The XDR definitions the corpus is checked against. Cells and paths in the entries refer to these.",
+      "type": "object",
+      "required": [
+        "repo",
+        "tag",
+        "commit",
+        "protocol_version"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "repo": {
+          "type": "string"
+        },
+        "tag": {
+          "type": "string"
+        },
+        "commit": {
+          "type": "string"
+        },
+        "protocol_version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "previous": {
+          "description": "The older definitions used to find which cells are new, for protocol tagging.",
+          "type": "object",
+          "required": [
+            "tag",
+            "commit",
+            "protocol_version"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "tag": {
+              "type": "string"
+            },
+            "commit": {
+              "type": "string"
+            },
+            "protocol_version": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
+        }
+      }
+    },
+    "entries": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/entry"
+      }
+    }
+  },
+  "$defs": {
+    "cell": {
+      "description": "A coverage cell from the XDR schema: a union case (arm:Union.CASE) or an enum value (enum:Enum.MEMBER).",
+      "type": "string",
+      "pattern": "^(arm|enum):[A-Za-z0-9_]+\\.[A-Za-z0-9_-]+$"
+    },
+    "path": {
+      "description": "Dotted XDR field names with [i] for array elements, starting inside the entry's root value. A union is addressed by its discriminant name (type, v, code, ...) and its arm name, the layout stellar-core's JSON output uses.",
+      "type": "string",
+      "pattern": "^[A-Za-z_][A-Za-z0-9_]*(\\[[0-9]+\\])*(\\.[A-Za-z_][A-Za-z0-9_]*(\\[[0-9]+\\])*)*$"
+    },
+    "check_result": {
+      "enum": [
+        "pass",
+        "fail",
+        "not_applicable",
+        "not_run"
+      ]
+    },
+    "entry": {
+      "type": "object",
+      "required": [
+        "id",
+        "title",
+        "xdr_type",
+        "file",
+        "sha256",
+        "size_bytes",
+        "protocol_version",
+        "caps",
+        "synthetic",
+        "source",
+        "shape",
+        "cells",
+        "expected",
+        "validation"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "description": "Stable entry ID. Never reused, never renamed.",
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9-]*$"
+        },
+        "title": {
+          "type": "string"
+        },
+        "xdr_type": {
+          "description": "Root XDR type of the entry. Ledger-level entries are LedgerCloseMeta; smaller types are allowed for SDK conformance entries.",
+          "type": "string"
+        },
+        "file": {
+          "description": "Path relative to the manifest. One line of base64.",
+          "type": "string"
+        },
+        "sha256": {
+          "description": "SHA-256 of the raw XDR bytes.",
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "size_bytes": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "protocol_version": {
+          "description": "For a network ledger, the ledger's protocol version. For a synthetic entry, the lowest protocol whose XDR can decode it.",
+          "type": "integer",
+          "minimum": 1
+        },
+        "caps": {
+          "description": "The CAPs this entry exercises, each tied to the schema cells that show it.",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "cap",
+              "cells"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "cap": {
+                "type": "string",
+                "pattern": "^CAP-[0-9]{4}(-[0-9]{2})?$"
+              },
+              "cells": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/$defs/cell"
+                },
+                "minItems": 1
+              },
+              "note": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "synthetic": {
+          "description": "false only if the bytes were produced by a Stellar network or by stellar-core. true for anything generated or hand-made.",
+          "type": "boolean"
+        },
+        "source": {
+          "oneOf": [
+            {
+              "type": "object",
+              "required": [
+                "kind",
+                "network",
+                "network_passphrase",
+                "ledger_seq",
+                "ledger_hash",
+                "close_time",
+                "retrieved_from",
+                "retrieved_on"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "kind": {
+                  "const": "network_ledger"
+                },
+                "network": {
+                  "enum": [
+                    "pubnet",
+                    "testnet",
+                    "futurenet"
+                  ]
+                },
+                "network_passphrase": {
+                  "type": "string"
+                },
+                "ledger_seq": {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                "ledger_hash": {
+                  "type": "string",
+                  "pattern": "^[0-9a-f]{64}$"
+                },
+                "close_time": {
+                  "description": "Unix seconds, from the ledger header.",
+                  "type": "integer"
+                },
+                "retrieved_from": {
+                  "type": "string",
+                  "format": "uri"
+                },
+                "retrieved_on": {
+                  "type": "string",
+                  "format": "date"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "required": [
+                "kind",
+                "generator",
+                "value_file"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "kind": {
+                  "const": "generated"
+                },
+                "generator": {
+                  "description": "The tool that wrote the bytes.",
+                  "type": "string"
+                },
+                "value_file": {
+                  "description": "The readable value the bytes were encoded from.",
+                  "type": "string"
+                },
+                "notes": {
+                  "type": "string"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "required": [
+                "kind",
+                "stellar_core_commit",
+                "golden_file"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "kind": {
+                  "const": "stellar_core_golden"
+                },
+                "stellar_core_commit": {
+                  "type": "string"
+                },
+                "golden_file": {
+                  "description": "Path of the golden LedgerCloseMeta in stellar-core's src/testdata.",
+                  "type": "string"
+                }
+              }
+            }
+          ]
+        },
+        "shape": {
+          "description": "One or two sentences: what is unusual about this entry and why software trips on it.",
+          "type": "string"
+        },
+        "cells": {
+          "description": "Every schema cell the entry exercises, as computed by the independent decoder.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/cell"
+          },
+          "uniqueItems": true
+        },
+        "cells_new_in_protocol": {
+          "description": "The subset of cells that do not exist in xdr_schema.previous.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/cell"
+          },
+          "uniqueItems": true
+        },
+        "expected": {
+          "type": "object",
+          "required": [
+            "decoded"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "decoded": {
+              "description": "Expected decoded values. Any decoder must report exactly these.",
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "object",
+                "required": [
+                  "path",
+                  "value"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                  "path": {
+                    "$ref": "#/$defs/path"
+                  },
+                  "value": {},
+                  "note": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "indexer": {
+              "description": "What an indexer must produce from this entry, derived from the decoded entry, never from an indexer.",
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": [
+                  "expect"
+                ],
+                "properties": {
+                  "expect": {
+                    "enum": [
+                      "signer_state_change"
+                    ]
+                  },
+                  "signer_key": {
+                    "description": "SEP-23 strkey of the signer.",
+                    "type": "string"
+                  },
+                  "derived_from": {
+                    "$ref": "#/$defs/path"
+                  }
+                }
+              }
+            },
+            "sdk": {
+              "description": "Checks on what an SDK does with the decoded value beyond decoding it.",
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": [
+                  "check",
+                  "path"
+                ],
+                "properties": {
+                  "check": {
+                    "enum": [
+                      "map_entries_preserved"
+                    ]
+                  },
+                  "path": {
+                    "$ref": "#/$defs/path"
+                  },
+                  "entries": {
+                    "type": "integer",
+                    "minimum": 0
+                  }
+                }
+              }
+            }
+          }
+        },
+        "validation": {
+          "description": "Recorded results of the checks that make an entry trustworthy. tools/corpus_check.py re-runs them.",
+          "type": "object",
+          "required": [
+            "independent_decoder",
+            "rs_stellar_xdr_roundtrip",
+            "stellar_core",
+            "core_golden"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "independent_decoder": {
+              "$ref": "#/$defs/check_result"
+            },
+            "rs_stellar_xdr_roundtrip": {
+              "$ref": "#/$defs/check_result"
+            },
+            "stellar_core": {
+              "type": "object",
+              "required": [
+                "version",
+                "command",
+                "result"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "version": {
+                  "type": "string"
+                },
+                "command": {
+                  "description": "How stellar-core was asked to decode the entry.",
+                  "type": "string"
+                },
+                "result": {
+                  "$ref": "#/$defs/check_result"
+                },
+                "expected_values_agree": {
+                  "description": "How many expected.decoded values stellar-core's own output confirms.",
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "expected_values_rendered_differently": {
+                  "description": "Values stellar-core prints in another form (for example a key as a strkey), so the path does not line up.",
+                  "type": "integer",
+                  "minimum": 0
+                }
+              }
+            },
+            "core_golden": {
+              "description": "Agreement with a stellar-core golden LedgerCloseMeta. not_applicable when no golden covers this entry.",
+              "$ref": "#/$defs/check_result"
+            },
+            "sdk_decoders": {
+              "description": "Decode and re-encode result per SDK.",
+              "type": "object",
+              "additionalProperties": {
+                "enum": [
+                  "agree",
+                  "disagree",
+                  "unsupported",
+                  "not_run"
+                ]
+              }
+            }
+          }
+        },
+        "sightings": {
+          "description": "Public bug reports this entry reproduces or relates to.",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "ref",
+              "relation"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "ref": {
+                "description": "owner/repo#number",
+                "type": "string",
+                "pattern": "^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+#[0-9]+$"
+              },
+              "relation": {
+                "enum": [
+                  "reproduces",
+                  "related_to",
+                  "regression_test_for"
+                ]
+              },
+              "evidence": {
+                "description": "Path to the recorded reproduction.",
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

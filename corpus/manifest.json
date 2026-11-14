@@ -1,0 +1,434 @@
+{
+ "manifest_version": "0.1-draft",
+ "xdr_schema": {
+  "repo": "stellar/stellar-xdr",
+  "tag": "v30.0",
+  "commit": "4f524bbac80c781c06e4fb5fc93a2d0d331d6705",
+  "protocol_version": 30,
+  "previous": {
+   "tag": "v28.0",
+   "commit": "9c9c145953e80990d6ff1ae3a6a973a0ce6d0694",
+   "protocol_version": 28
+  }
+ },
+ "entries": [
+  {
+   "id": "testnet-4437357-signed-payload-signer",
+   "title": "Real testnet ledger in which SetOptions adds an ed25519 signed-payload signer",
+   "xdr_type": "LedgerCloseMeta",
+   "file": "entries/testnet-4437357.LedgerCloseMeta.xdr.b64",
+   "sha256": "582e694b96bf69f894763909a1b058c1a2523d5634f2e0947393cee9765f4e0e",
+   "size_bytes": 58256,
+   "protocol_version": 28,
+   "caps": [
+    {
+     "cap": "CAP-0040",
+     "cells": [
+      "arm:SignerKey.SIGNER_KEY_TYPE_ED25519_SIGNED_PAYLOAD"
+     ],
+     "note": "Signed-payload signers exist since protocol 19 and are still rare on the network."
+    }
+   ],
+   "synthetic": false,
+   "source": {
+    "kind": "network_ledger",
+    "network": "testnet",
+    "network_passphrase": "Test SDF Network ; September 2015",
+    "ledger_seq": 4437357,
+    "ledger_hash": "0984e28878f8b074c3710f52630f5b6bc5a369bf61a15e7364b6123edf1881b6",
+    "close_time": 1788210372,
+    "retrieved_from": "https://aws-public-blockchain.s3.us-east-2.amazonaws.com/v1.1/stellar/ledgers/testnet/2025-12-18/FFBC9DFF--4416000-4479999/FFBC4A92--4437357.xdr.zst",
+    "retrieved_on": "2026-11-14"
+   },
+   "shape": "The first transaction is a SetOptions that adds a signer whose key is a signed payload (a P... strkey: a 32-byte ed25519 key plus a 3-byte payload). A signer key of this type is 40 bytes or more, so code that assumes every signer is a 32-byte account key truncates it, rejects it, or stops.",
+   "cells": [
+    "arm:AccountEntryExt.0",
+    "arm:AccountEntryExt.1",
+    "arm:AccountEntryExtensionV1Ext.2",
+    "arm:AccountEntryExtensionV2Ext.3",
+    "arm:Asset.ASSET_TYPE_CREDIT_ALPHANUM4",
+    "arm:Asset.ASSET_TYPE_NATIVE",
+    "arm:ContractEventBody.0",
+    "arm:ContractExecutable.CONTRACT_EXECUTABLE_WASM",
+    "arm:ExtensionPoint.0",
+    "arm:GeneralizedTransactionSet.1",
+    "arm:HostFunction.HOST_FUNCTION_TYPE_INVOKE_CONTRACT",
+    "arm:InvokeHostFunctionResult.INVOKE_HOST_FUNCTION_SUCCESS",
+    "arm:LedgerCloseMeta.2",
+    "arm:LedgerCloseMetaExt.1",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_CREATED",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_STATE",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_UPDATED",
+    "arm:LedgerEntryData.ACCOUNT",
+    "arm:LedgerEntryData.CONTRACT_DATA",
+    "arm:LedgerEntryData.TTL",
+    "arm:LedgerEntryExt.0",
+    "arm:LedgerHeaderExt.0",
+    "arm:LedgerHeaderHistoryEntryExt.0",
+    "arm:LedgerKey.CONTRACT_CODE",
+    "arm:LedgerKey.CONTRACT_DATA",
+    "arm:Memo.MEMO_HASH",
+    "arm:Memo.MEMO_NONE",
+    "arm:MuxedAccount.KEY_TYPE_ED25519",
+    "arm:OperationBody.INVOKE_HOST_FUNCTION",
+    "arm:OperationBody.PAYMENT",
+    "arm:OperationBody.SET_OPTIONS",
+    "arm:OperationResult.opINNER",
+    "arm:OperationResultTr.INVOKE_HOST_FUNCTION",
+    "arm:OperationResultTr.PAYMENT",
+    "arm:OperationResultTr.SET_OPTIONS",
+    "arm:PaymentResult.PAYMENT_NO_DESTINATION",
+    "arm:PaymentResult.PAYMENT_SUCCESS",
+    "arm:Preconditions.PRECOND_TIME",
+    "arm:PublicKey.PUBLIC_KEY_TYPE_ED25519",
+    "arm:SCAddress.SC_ADDRESS_TYPE_ACCOUNT",
+    "arm:SCAddress.SC_ADDRESS_TYPE_CONTRACT",
+    "arm:SCVal.SCV_ADDRESS",
+    "arm:SCVal.SCV_BOOL",
+    "arm:SCVal.SCV_BYTES",
+    "arm:SCVal.SCV_CONTRACT_INSTANCE",
+    "arm:SCVal.SCV_I128",
+    "arm:SCVal.SCV_LEDGER_KEY_CONTRACT_INSTANCE",
+    "arm:SCVal.SCV_MAP",
+    "arm:SCVal.SCV_STRING",
+    "arm:SCVal.SCV_SYMBOL",
+    "arm:SCVal.SCV_U32",
+    "arm:SCVal.SCV_U64",
+    "arm:SCVal.SCV_VEC",
+    "arm:SCVal.SCV_VOID",
+    "arm:SetOptionsResult.SET_OPTIONS_SUCCESS",
+    "arm:SignerKey.SIGNER_KEY_TYPE_ED25519_SIGNED_PAYLOAD",
+    "arm:SorobanAuthorizedFunction.SOROBAN_AUTHORIZED_FUNCTION_TYPE_CONTRACT_FN",
+    "arm:SorobanCredentials.SOROBAN_CREDENTIALS_SOURCE_ACCOUNT",
+    "arm:SorobanTransactionDataExt.0",
+    "arm:SorobanTransactionMetaExt.1",
+    "arm:StellarValueExt.STELLAR_VALUE_SIGNED",
+    "arm:TransactionEnvelope.ENVELOPE_TYPE_TX",
+    "arm:TransactionExt.0",
+    "arm:TransactionExt.1",
+    "arm:TransactionMeta.4",
+    "arm:TransactionPhase.0",
+    "arm:TransactionPhase.1",
+    "arm:TransactionResultExt.0",
+    "arm:TransactionResultResult.txFAILED",
+    "arm:TransactionResultResult.txSUCCESS",
+    "arm:TxSetComponent.TXSET_COMP_TXS_MAYBE_DISCOUNTED_FEE",
+    "enum:ContractDataDurability.PERSISTENT",
+    "enum:ContractEventType.CONTRACT",
+    "enum:ContractEventType.DIAGNOSTIC",
+    "enum:TransactionEventStage.TRANSACTION_EVENT_STAGE_AFTER_ALL_TXS",
+    "enum:TransactionEventStage.TRANSACTION_EVENT_STAGE_BEFORE_ALL_TXS"
+   ],
+   "cells_new_in_protocol": [],
+   "expected": {
+    "decoded": [
+     {
+      "path": "v",
+      "value": 2
+     },
+     {
+      "path": "v2.ledgerHeader.header.ledgerSeq",
+      "value": 4437357
+     },
+     {
+      "path": "v2.ledgerHeader.header.ledgerVersion",
+      "value": 28
+     },
+     {
+      "path": "v2.ledgerHeader.hash",
+      "value": "0984e28878f8b074c3710f52630f5b6bc5a369bf61a15e7364b6123edf1881b6"
+     },
+     {
+      "path": "v2.ledgerHeader.header.scpValue.closeTime",
+      "value": 1788210372
+     },
+     {
+      "path": "v2.txSet.v1TxSet.phases[0].v0Components[0].txsMaybeDiscountedFee.txs[0].v1.tx.operations[0].body.type",
+      "value": "SET_OPTIONS"
+     },
+     {
+      "path": "v2.txSet.v1TxSet.phases[0].v0Components[0].txsMaybeDiscountedFee.txs[0].v1.tx.operations[0].body.setOptionsOp.signer.key.type",
+      "value": "SIGNER_KEY_TYPE_ED25519_SIGNED_PAYLOAD"
+     },
+     {
+      "path": "v2.txSet.v1TxSet.phases[0].v0Components[0].txsMaybeDiscountedFee.txs[0].v1.tx.operations[0].body.setOptionsOp.signer.key.ed25519SignedPayload.ed25519",
+      "value": "44ad47185a30e91c245e8b0582b191e27d99fb40f9ff48ca0d7e1264ec879b20"
+     },
+     {
+      "path": "v2.txSet.v1TxSet.phases[0].v0Components[0].txsMaybeDiscountedFee.txs[0].v1.tx.operations[0].body.setOptionsOp.signer.key.ed25519SignedPayload.payload",
+      "value": "deadbe"
+     },
+     {
+      "path": "v2.txSet.v1TxSet.phases[0].v0Components[0].txsMaybeDiscountedFee.txs[0].v1.tx.operations[0].body.setOptionsOp.signer.weight",
+      "value": 1
+     },
+     {
+      "path": "v2.txProcessing[0].result.transactionHash",
+      "value": "d9f78749cd01297cd5f22c7f2c798c9eec93d56f399e1c4cc2f8977ca52b9fed",
+      "note": "Equals the hash of the SetOptions transaction above, computed from its XDR and the network passphrase."
+     },
+     {
+      "path": "v2.txProcessing[0].result.result.result.code",
+      "value": "txSUCCESS"
+     },
+     {
+      "path": "v2.txProcessing[0].result.result.result.results[0].tr.setOptionsResult.code",
+      "value": "SET_OPTIONS_SUCCESS"
+     }
+    ],
+    "indexer": [
+     {
+      "expect": "signer_state_change",
+      "signer_key": "PBCK2RYYLIYOSHBEL2FQLAVRSHRH3GP3ID476SGKBV7BEZHMQ6NSAAAAAAB55LN6AANMS",
+      "derived_from": "v2.txSet.v1TxSet.phases[0].v0Components[0].txsMaybeDiscountedFee.txs[0].v1.tx.operations[0].body.setOptionsOp.signer.key"
+     }
+    ]
+   },
+   "validation": {
+    "independent_decoder": "pass",
+    "rs_stellar_xdr_roundtrip": "pass",
+    "stellar_core": {
+     "version": "30.0.0",
+     "command": "dump-xdr (meta-debug stream)",
+     "result": "pass",
+     "expected_values_agree": 13,
+     "expected_values_rendered_differently": 0
+    },
+    "core_golden": "not_applicable",
+    "sdk_decoders": {
+     "@stellar/stellar-sdk 17.4.0": "agree",
+     "stellar-sdk 17.0.1": "agree",
+     "go-stellar-sdk v0.9.0": "agree",
+     "network.lightsail:stellar-sdk 6.0.0": "agree"
+    }
+   },
+   "sightings": [
+    {
+     "ref": "stellar/wallet-backend#729",
+     "relation": "reproduces",
+     "evidence": "evidence/wallet-backend-729.md"
+    },
+    {
+     "ref": "stellar/wallet-backend#716",
+     "relation": "related_to"
+    }
+   ]
+  },
+  {
+   "id": "synthetic-scmap-colliding-keys",
+   "title": "Contract return value: a map whose keys u32 1 and symbol \"1\" print the same",
+   "xdr_type": "TransactionMeta",
+   "file": "entries/synthetic-scmap-colliding-keys.TransactionMeta.xdr.b64",
+   "sha256": "8ac0392d6aae2da43ac14064909c6115eed0c6341af3b9657de29939c3a9852e",
+   "size_bytes": 100,
+   "protocol_version": 23,
+   "caps": [
+    {
+     "cap": "CAP-0046-01",
+     "cells": [
+      "arm:SCVal.SCV_MAP",
+      "arm:SCVal.SCV_U32",
+      "arm:SCVal.SCV_SYMBOL"
+     ],
+     "note": "Soroban maps may hold keys of different types. The keys here are in host order (u32 before symbol)."
+    },
+    {
+     "cap": "CAP-0067",
+     "cells": [
+      "arm:TransactionMeta.4"
+     ],
+     "note": "TransactionMeta v4 first appears in the protocol 23 XDR."
+    }
+   ],
+   "synthetic": true,
+   "source": {
+    "kind": "generated",
+    "generator": "tools/encode.py",
+    "value_file": "values/synthetic-scmap-colliding-keys.TransactionMeta.json",
+    "notes": "Decode-level entry: a minimal TransactionMeta v4 that carries only the return value. It is not the meta of a transaction that was applied."
+   },
+   "shape": "The Soroban return value is a map with two entries whose keys are different values but convert to the same text, u32 1 and symbol \"1\". Code that turns the map into a string-keyed object keeps one entry and loses the other without an error.",
+   "cells": [
+    "arm:ExtensionPoint.0",
+    "arm:SCVal.SCV_MAP",
+    "arm:SCVal.SCV_SYMBOL",
+    "arm:SCVal.SCV_U32",
+    "arm:SorobanTransactionMetaExt.0",
+    "arm:TransactionMeta.4"
+   ],
+   "cells_new_in_protocol": [],
+   "expected": {
+    "decoded": [
+     {
+      "path": "v",
+      "value": 4
+     },
+     {
+      "path": "v4.sorobanMeta.returnValue.type",
+      "value": "SCV_MAP"
+     },
+     {
+      "path": "v4.sorobanMeta.returnValue.map[0].key.type",
+      "value": "SCV_U32"
+     },
+     {
+      "path": "v4.sorobanMeta.returnValue.map[0].key.u32",
+      "value": 1
+     },
+     {
+      "path": "v4.sorobanMeta.returnValue.map[0].val.u32",
+      "value": 10
+     },
+     {
+      "path": "v4.sorobanMeta.returnValue.map[1].key.type",
+      "value": "SCV_SYMBOL"
+     },
+     {
+      "path": "v4.sorobanMeta.returnValue.map[1].key.sym",
+      "value": "1"
+     },
+     {
+      "path": "v4.sorobanMeta.returnValue.map[1].val.u32",
+      "value": 20
+     }
+    ],
+    "sdk": [
+     {
+      "check": "map_entries_preserved",
+      "path": "v4.sorobanMeta.returnValue",
+      "entries": 2
+     }
+    ]
+   },
+   "validation": {
+    "independent_decoder": "pass",
+    "rs_stellar_xdr_roundtrip": "pass",
+    "stellar_core": {
+     "version": "30.0.0",
+     "command": "print-xdr --filetype meta",
+     "result": "pass",
+     "expected_values_agree": 8,
+     "expected_values_rendered_differently": 0
+    },
+    "core_golden": "not_applicable",
+    "sdk_decoders": {
+     "@stellar/stellar-sdk 17.4.0": "agree",
+     "stellar-sdk 17.0.1": "agree",
+     "go-stellar-sdk v0.9.0": "agree",
+     "network.lightsail:stellar-sdk 6.0.0": "agree"
+    }
+   },
+   "sightings": [
+    {
+     "ref": "stellar/js-stellar-sdk#1789",
+     "relation": "reproduces",
+     "evidence": "evidence/js-stellar-sdk-1789.md"
+    }
+   ]
+  },
+  {
+   "id": "synthetic-muxed-contract-address",
+   "title": "Contract call whose argument is a muxed contract address with an ID above 2^53",
+   "xdr_type": "TransactionEnvelope",
+   "file": "entries/synthetic-muxed-contract-address.TransactionEnvelope.xdr.b64",
+   "sha256": "63764e5e578987e0d18ee56e9b4501c3a192451e07750b49fca6125e3d746ff2",
+   "size_bytes": 252,
+   "protocol_version": 30,
+   "caps": [
+    {
+     "cap": "CAP-0084",
+     "cells": [
+      "arm:SCAddress.SC_ADDRESS_TYPE_MUXED_CONTRACT"
+     ],
+     "note": "This union case does not exist in the protocol 28 XDR, so a decoder built on older definitions must fail on this entry, not misread it."
+    }
+   ],
+   "synthetic": true,
+   "source": {
+    "kind": "generated",
+    "generator": "tools/encode.py",
+    "value_file": "values/synthetic-muxed-contract-address.TransactionEnvelope.json",
+    "notes": "Decode-level entry: unsigned, with no Soroban resource data, so the network would not apply it. The source key is the ed25519 key of seed bytes 0..31; the contract IDs are SHA-256 of the labels shapecov:contract:a and shapecov:contract:b."
+   },
+   "shape": "The second argument of the call is an ScAddress of the new muxed-contract type, with a 64-bit ID of 2^53 + 1. Software on pre-protocol-30 XDR cannot decode the address type, and software that holds the ID in a floating-point number reports 2^53.",
+   "cells": [
+    "arm:HostFunction.HOST_FUNCTION_TYPE_INVOKE_CONTRACT",
+    "arm:Memo.MEMO_NONE",
+    "arm:MuxedAccount.KEY_TYPE_ED25519",
+    "arm:OperationBody.INVOKE_HOST_FUNCTION",
+    "arm:Preconditions.PRECOND_NONE",
+    "arm:PublicKey.PUBLIC_KEY_TYPE_ED25519",
+    "arm:SCAddress.SC_ADDRESS_TYPE_ACCOUNT",
+    "arm:SCAddress.SC_ADDRESS_TYPE_CONTRACT",
+    "arm:SCAddress.SC_ADDRESS_TYPE_MUXED_CONTRACT",
+    "arm:SCVal.SCV_ADDRESS",
+    "arm:SCVal.SCV_I128",
+    "arm:TransactionEnvelope.ENVELOPE_TYPE_TX",
+    "arm:TransactionExt.0"
+   ],
+   "cells_new_in_protocol": [
+    "arm:SCAddress.SC_ADDRESS_TYPE_MUXED_CONTRACT"
+   ],
+   "expected": {
+    "decoded": [
+     {
+      "path": "type",
+      "value": "ENVELOPE_TYPE_TX"
+     },
+     {
+      "path": "v1.tx.fee",
+      "value": 100
+     },
+     {
+      "path": "v1.tx.operations[0].body.type",
+      "value": "INVOKE_HOST_FUNCTION"
+     },
+     {
+      "path": "v1.tx.operations[0].body.invokeHostFunctionOp.hostFunction.invokeContract.functionName",
+      "value": "transfer"
+     },
+     {
+      "path": "v1.tx.operations[0].body.invokeHostFunctionOp.hostFunction.invokeContract.args[1].type",
+      "value": "SCV_ADDRESS"
+     },
+     {
+      "path": "v1.tx.operations[0].body.invokeHostFunctionOp.hostFunction.invokeContract.args[1].address.type",
+      "value": "SC_ADDRESS_TYPE_MUXED_CONTRACT"
+     },
+     {
+      "path": "v1.tx.operations[0].body.invokeHostFunctionOp.hostFunction.invokeContract.args[1].address.muxedContract.id",
+      "value": 9007199254740993,
+      "note": "2^53 + 1. Must not be rounded."
+     },
+     {
+      "path": "v1.tx.operations[0].body.invokeHostFunctionOp.hostFunction.invokeContract.args[1].address.muxedContract.contractId",
+      "value": "dbd77c4ad2cf9782918da1a2dcabb95ba5d698c237f246aea4ccf19174b610fd"
+     },
+     {
+      "path": "v1.tx.operations[0].body.invokeHostFunctionOp.hostFunction.invokeContract.args[2].i128.lo",
+      "value": 10000000
+     }
+    ]
+   },
+   "validation": {
+    "independent_decoder": "pass",
+    "rs_stellar_xdr_roundtrip": "pass",
+    "stellar_core": {
+     "version": "30.0.0",
+     "command": "print-xdr --filetype tx",
+     "result": "pass",
+     "expected_values_agree": 6,
+     "expected_values_rendered_differently": 3
+    },
+    "core_golden": "not_applicable",
+    "sdk_decoders": {
+     "@stellar/stellar-sdk 17.4.0": "agree",
+     "stellar-sdk 17.0.1": "agree",
+     "go-stellar-sdk v0.9.0": "agree",
+     "network.lightsail:stellar-sdk 6.0.0": "agree"
+    }
+   },
+   "sightings": []
+  }
+ ]
+}

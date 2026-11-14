@@ -1,0 +1,10 @@
+{
+  "name": "shapecov-sdk-semantic",
+  "private": true,
+  "type": "module",
+  "description": "Semantic conformance checks that decode a corpus entry with several pinned SDK versions.",
+  "dependencies": {
+    "sdk-17.2.1": "npm:@stellar/stellar-sdk@17.2.1",
+    "sdk-17.4.0": "npm:@stellar/stellar-sdk@17.4.0"
+  }
+}

@@ -1,0 +1,51 @@
+{
+ "v": 4,
+ "v4": {
+  "ext": {
+   "v": 0
+  },
+  "txChangesBefore": [],
+  "operations": [
+   {
+    "ext": {
+     "v": 0
+    },
+    "changes": [],
+    "events": []
+   }
+  ],
+  "txChangesAfter": [],
+  "sorobanMeta": {
+   "ext": {
+    "v": 0
+   },
+   "returnValue": {
+    "type": "SCV_MAP",
+    "map": [
+     {
+      "key": {
+       "type": "SCV_U32",
+       "u32": 1
+      },
+      "val": {
+       "type": "SCV_U32",
+       "u32": 10
+      }
+     },
+     {
+      "key": {
+       "type": "SCV_SYMBOL",
+       "sym": "1"
+      },
+      "val": {
+       "type": "SCV_U32",
+       "u32": 20
+      }
+     }
+    ]
+   }
+  },
+  "events": [],
+  "diagnosticEvents": []
+ }
+}

@@ -1,0 +1,73 @@
+{
+ "type": "ENVELOPE_TYPE_TX",
+ "v1": {
+  "tx": {
+   "sourceAccount": {
+    "type": "KEY_TYPE_ED25519",
+    "ed25519": "03a107bff3ce10be1d70dd18e74bc09967e4d6309ba50d5f1ddc8664125531b8"
+   },
+   "fee": 100,
+   "seqNum": 1,
+   "cond": {
+    "type": "PRECOND_NONE"
+   },
+   "memo": {
+    "type": "MEMO_NONE"
+   },
+   "operations": [
+    {
+     "sourceAccount": null,
+     "body": {
+      "type": "INVOKE_HOST_FUNCTION",
+      "invokeHostFunctionOp": {
+       "hostFunction": {
+        "type": "HOST_FUNCTION_TYPE_INVOKE_CONTRACT",
+        "invokeContract": {
+         "contractAddress": {
+          "type": "SC_ADDRESS_TYPE_CONTRACT",
+          "contractId": "d283e7e06d18cf9dea2dbb9d78dff2e11e74e24712e0da789f9d3834f02d3974"
+         },
+         "functionName": "transfer",
+         "args": [
+          {
+           "type": "SCV_ADDRESS",
+           "address": {
+            "type": "SC_ADDRESS_TYPE_ACCOUNT",
+            "accountId": {
+             "type": "PUBLIC_KEY_TYPE_ED25519",
+             "ed25519": "03a107bff3ce10be1d70dd18e74bc09967e4d6309ba50d5f1ddc8664125531b8"
+            }
+           }
+          },
+          {
+           "type": "SCV_ADDRESS",
+           "address": {
+            "type": "SC_ADDRESS_TYPE_MUXED_CONTRACT",
+            "muxedContract": {
+             "id": 9007199254740993,
+             "contractId": "dbd77c4ad2cf9782918da1a2dcabb95ba5d698c237f246aea4ccf19174b610fd"
+            }
+           }
+          },
+          {
+           "type": "SCV_I128",
+           "i128": {
+            "hi": 0,
+            "lo": 10000000
+           }
+          }
+         ]
+        }
+       },
+       "auth": []
+      }
+     }
+    }
+   ],
+   "ext": {
+    "v": 0
+   }
+  },
+  "signatures": []
+ }
+}
