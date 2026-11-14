@@ -123,3 +123,14 @@ inside `golang:1.26`, and `mvn dependency:copy-dependencies -DoutputDirectory=li
 - CAP tags are assigned by hand. Only "new in protocol 30" is computed, from the difference
   between the v28.0 and v30.0 XDR.
 - Go linter and hardening guide.
+
+## Licence
+
+Apache-2.0, see `LICENSE`.
+
+Files from other projects keep their own terms:
+
+- `schema/x/` and `schema/x-v28.0/` are the XDR definitions from `stellar/stellar-xdr` (tags v30.0
+  and v28.0), which is also Apache-2.0. The exact commits are in `schema/SOURCE`.
+- `corpus/entries/testnet-4437357.LedgerCloseMeta.xdr.b64` is a ledger from the public Stellar
+  testnet, fetched from Stellar's public ledger archive.
