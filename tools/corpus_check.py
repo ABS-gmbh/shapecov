@@ -32,6 +32,7 @@ import json
 import shutil
 import struct
 import subprocess
+import tempfile
 import sys
 from pathlib import Path
 
@@ -220,21 +221,39 @@ def core_decode(entries, raws, rep):
 
 
 def sdk_checks(entries):
+    """Run each entry's expected.sdk checks against pinned SDK versions. Findings about SDKs are
+    printed; they are not corpus failures and do not change the exit status."""
     sem = ROOT / "harness" / "sdk-semantic"
-    targets = [("js", ["node", str(sem / "map_entries.mjs"), "sdk-17.2.1"]),
-               ("js", ["node", str(sem / "map_entries.mjs"), "sdk-17.4.0"]),
-               ("py", [str(ROOT / "runners/python/.venv/bin/python"), str(sem / "map_entries.py")])]
+    py = str(ROOT / "runners/python/.venv/bin/python")
     for e in entries:
+        entry = str(CORPUS / e["file"])
         for x in e["expected"].get("sdk", []):
-            print(f"{e['id']}: {x['check']} at {x['path']} (expect {x['entries']} entries)")
-            for kind, cmd in targets:
-                p = subprocess.run(cmd + [e["xdr_type"], str(CORPUS / e["file"]), x["path"], str(x["entries"])],
-                                   capture_output=True, text=True, cwd=sem)
+            if x["check"] == "map_entries_preserved":
+                print(f"{e['id']}: {x['check']} at {x['path']} (expect {x['entries']} entries)")
+                tail = [e["xdr_type"], entry, x["path"], str(x["entries"])]
+                targets = [["node", str(sem / "map_entries.mjs"), "sdk-17.2.1"] + tail,
+                           ["node", str(sem / "map_entries.mjs"), "sdk-17.4.0"] + tail,
+                           [py, str(sem / "map_entries.py")] + tail]
+            elif x["check"] == "ids_exact":
+                print(f"{e['id']}: {x['check']} at {x['path']}")
+                spec = tempfile.NamedTemporaryFile("w", suffix=".json", delete=False)
+                json.dump(x, spec)
+                spec.close()
+                targets = [["node", str(sem / "ids.mjs"), "sdk-17.2.1", entry, spec.name],
+                           ["node", str(sem / "ids.mjs"), "sdk-17.4.0", entry, spec.name],
+                           [py, str(sem / "ids.py"), entry, spec.name]]
+            else:
+                print(f"{e['id']}: {x['check']}: no runner for this check kind in corpus_check")
+                continue
+            for cmd in targets:
+                p = subprocess.run(cmd, capture_output=True, text=True, cwd=sem)
                 try:
                     r = json.loads(p.stdout.strip().split("\n")[-1])
-                    print(f"  {r['result']:<10} {r['sdk']}" + (f": {r['detail']}" if r.get("detail") else ""))
                 except (json.JSONDecodeError, IndexError):
-                    print(f"  error      {' '.join(cmd[-2:])}: {p.stderr.strip()[-200:]}")
+                    print(f"  error      {' '.join(cmd[1:3])}: {p.stderr.strip()[-200:]}")
+                    continue
+                detail = r.get("detail") or "; ".join(r.get("wrong", []) + r.get("accepted", []))
+                print(f"  {r['result']:<10} {r['sdk']}" + (f": {detail[:300]}" if detail else ""))
 
 
 def main():
