@@ -10302,14 +10302,22 @@
     ]
    },
    "validation": {
-    "independent_decoder": "not_run",
-    "rs_stellar_xdr_roundtrip": "not_run",
+    "independent_decoder": "pass",
+    "rs_stellar_xdr_roundtrip": "pass",
     "stellar_core": {
      "version": "30.0.0",
-     "command": "",
-     "result": "not_run"
+     "command": "dump-xdr (meta-debug stream)",
+     "result": "pass",
+     "expected_values_agree": 5,
+     "expected_values_rendered_differently": 0
     },
-    "core_golden": "not_applicable"
+    "core_golden": "not_applicable",
+    "sdk_decoders": {
+     "@stellar/stellar-sdk 17.4.0": "agree",
+     "stellar-sdk 17.0.1": "agree",
+     "go-stellar-sdk v0.9.0": "agree",
+     "network.lightsail:stellar-sdk 6.0.0": "agree"
+    }
    },
    "sightings": [
     {
