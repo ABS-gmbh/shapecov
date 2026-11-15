@@ -274,3 +274,6 @@ Only the implicit checks apply: the ledger is ingested without an error and ever
 | 2026-11-15T13:16:56+00:00 | `764a4f5b`, `c152783c`, `3e22515a` | rpc, datalake | 1 | 42.0 | 35488 | 3 | 6 |
 | 2026-11-15T13:20:19+00:00 | `79ea2acd`, `6e5a5910`, `3e22515a` | rpc, datalake | 1 | 27.0 | 36164 | 3 | 6 |
 | 2026-11-15T13:21:13+00:00 | `f8e5786d`, `bb0b162b` | rpc, datalake | 1 | 20.9 | 36404 | 2 | 4 |
+| 2026-11-15T13:25:55+00:00 | `79ea2acd`, `6e5a5910`, `2a0a84ea`, `2c873353` | rpc, datalake | 1 | 93.8 | 36064 | 4 | 8 |
+| 2026-11-15T13:27:29+00:00 | `764a4f5b`, `c152783c` | rpc, datalake | 1 | 16.2 | 35936 | 2 | 4 |
+| 2026-11-15T13:27:46+00:00 | `79ea2acd`, `6e5a5910`, `f8e5786d`, `bb0b162b` | rpc, datalake | 1 | 28.9 | 35956 | 4 | 8 |

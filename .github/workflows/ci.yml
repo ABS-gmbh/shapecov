@@ -1,0 +1,88 @@
+# Checks that run on every push and pull request. See README.md, "CI".
+name: ci
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  corpus:
+    name: corpus and guide
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install jsonschema==4.23.0
+      - name: Encoder self-tests (SEP-23 strkey, RFC 8032 ed25519)
+        run: |
+          python tools/strkey.py
+          python tools/ed25519.py
+      - name: Corpus manifest and every entry (independent decoder, hashes, expectations)
+        run: python tools/corpus_check.py --quiet
+      - name: Indexer-hardening guide agrees with the corpus
+        run: python guide/check_guide.py
+
+  linter:
+    name: linter
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: linter
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: linter/go.mod
+          cache-dependency-path: linter/go.sum
+      - name: gofmt
+        run: |
+          out=$(gofmt -l .)
+          if [ -n "$out" ]; then echo "$out"; exit 1; fi
+      - run: go vet ./...
+      - run: go test -count=1 ./...
+
+  conformance:
+    name: conformance (5 SDKs and stellar-core)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    needs: corpus
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: pip install jsonschema==4.23.0
+      - name: Rust runner (rs-stellar-xdr, the reference)
+        working-directory: runners/rust
+        run: cargo build --release --locked
+      - name: JavaScript runner
+        working-directory: runners/js
+        run: npm ci --no-audit --no-fund
+      - name: Python runner
+        run: |
+          python -m venv runners/python/.venv
+          runners/python/.venv/bin/pip install stellar-sdk==17.0.1
+      - name: Go runner
+        run: docker run --rm -v "$PWD/runners/go:/work" golang:1.26 sh /work/build.sh
+      - name: Java runner
+        run: >
+          docker run --rm -v "$PWD/runners/java:/work" -w /work maven:3.9-eclipse-temurin-21
+          sh -c "mvn -q dependency:copy-dependencies -DoutputDirectory=lib && javac -cp 'lib/*' Runner.java"
+      - name: stellar-core 30.0.0
+        run: docker pull --platform linux/amd64 stellar/stellar-core:30.0.0-3642.0e49751aa.noble
+      - name: Pinned-SDK checks
+        working-directory: harness/sdk-semantic
+        run: npm install --no-audit --no-fund
+      - name: Every entry through five SDKs, stellar-core and the pinned-SDK checks
+        run: python tools/corpus_check.py --sdks rust,js,python,go,java --core --sdk-checks --quiet

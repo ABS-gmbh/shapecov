@@ -14,8 +14,9 @@ Results: [`RESULTS.md`](RESULTS.md). Adapter contract: [`ADAPTER.md`](ADAPTER.md
 ## Run it
 
 ```sh
-harness/replay/run.sh          # sighting matrix (4 commits) + every entry at current main
-harness/replay/run.sh quick    # #729 only: pre-fix and fix commits, both inputs (about 1 minute once built)
+harness/replay/run.sh            # sightings + every entry at current main
+harness/replay/run.sh sightings  # every pair in sightings.json, then `replay.py check`
+harness/replay/run.sh quick      # #729 only: pre-fix and fix commits, both inputs (about 1 minute once built)
 ```
 
 Needs Docker, git and python3 (standard library only). Network access is used to clone
@@ -29,6 +30,7 @@ Lower level:
 python3 harness/replay/replay.py run --refs <ref>[,<ref>…] [--entries ID,…| --all-entries] \
         [--inputs rpc,datalake] [--max-protocol N] [--timeout 120] [--keep]
 python3 harness/replay/replay.py report      # rebuild RESULTS.md from out/results.jsonl
+python3 harness/replay/replay.py check       # fail unless out/results.jsonl matches sightings.json
 ```
 
 ## How it works

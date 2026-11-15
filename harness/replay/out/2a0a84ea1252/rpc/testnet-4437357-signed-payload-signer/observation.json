@@ -8,13 +8,13 @@
  "ingested": false,
  "error": "panic: executing root command: running ingest: running 'ingest' from 0 to 0: processing ledger 4437357: ingesting processed data failed after 5 attempts: persisting ledger data for ledger 4437357: running atomic function in RunInTransaction: inserting processed data into db for ledger 4437357: batch inserting state changes: pgx CopyFrom state_changes: ERROR: COPY from stdin failed: converting signer_account_id: converting address to bytes: stellar address PBCK2RYYLIYOSHBEL2FQLAVRSHRH3GP3ID476SGKBV7BEZHMQ6NSAAAAAAB55LN6AANMS has a 40-byte key payload; the account_id column stores only 32-byte account/contract keys (SQLSTATE 57014)",
  "command": "wallet-backend ingest  (configured by environment: ARCHIVE_URL=http://shapecov-replay-feeder:8000/archive/testnet-4437357-signed-payload-signer, DATABASE_URL=postgres://postgres@shapecov-replay-db:5432/replay?sslmode=disable, DATASTORE_BUCKET_PATH=shapecov-lake/testnet-4437357-signed-payload-signer, DATASTORE_BUFFER_SIZE=4, DATASTORE_ENDPOINT_URL=http://shapecov-replay-feeder:9000, DATASTORE_NUM_WORKERS=2, DATASTORE_REGION=us-east-1, GET_LEDGERS_LIMIT=10, INGESTION_MODE=live, LEDGER_BACKEND_TYPE=rpc, LOG_LEVEL=INFO, NETWORK=testnet, NETWORK_PASSPHRASE=Test SDF Network ; September 2015, RPC_URL=http://shapecov-replay-feeder:8000/rpc/testnet-4437357-signed-payload-signer, STELLAR_ENVIRONMENT=development)",
- "seconds_to_outcome": 16.4,
+ "seconds_to_outcome": 16.3,
  "cursor": 4437356,
  "process": {
   "outcome": "exited by itself before the ledger was ingested",
   "exit_code": 2,
   "oom_killed": false,
-  "started_finished": "2026-11-15T10:17:10.922005007Z 2026-11-15T10:17:26.276205209Z"
+  "started_finished": "2026-11-15T13:26:45.745801302Z 2026-11-15T13:27:01.177885045Z"
  },
  "log_errors": [
   "panic: executing root command: running ingest: running 'ingest' from 0 to 0: processing ledger 4437357: ingesting processed data failed after 5 attempts: persisting ledger data for ledger 4437357: running atomic function in RunInTransaction: inserting processed data into db for ledger 4437357: batch inserting state changes: pgx CopyFrom state_changes: ERROR: COPY from stdin failed: converting signer_account_id: converting address to bytes: stellar address PBCK2RYYLIYOSHBEL2FQLAVRSHRH3GP3ID476SGKBV7BEZHMQ6NSAAAAAAB55LN6AANMS has a 40-byte key payload; the account_id column stores only 32-byte account/contract keys (SQLSTATE 57014)"
@@ -31,5 +31,5 @@
   "operations_accounts": 0,
   "state_changes": 0
  },
- "seconds": 16.9
+ "seconds": 16.8
 }

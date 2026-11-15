@@ -1,19 +1,19 @@
-time="2026-11-15T13:20:37.672Z" level=info msg="📦 Git Commit: 6e5a59101158dc2996295450190142366062cd05" pid=1
-time="2026-11-15T13:20:37.672Z" level=info msg="📦 Version: 0.2.0" pid=1
-time="2026-11-15T13:20:37.673Z" level=debug msg="Setting log level to: info" pid=1
-time="2026-11-15T13:20:37.685Z" level=info msg="Set chunk interval \"1 day\" on transactions" pid=1
-time="2026-11-15T13:20:37.685Z" level=info msg="Set chunk interval \"1 day\" on transactions_accounts" pid=1
-time="2026-11-15T13:20:37.685Z" level=info msg="Set chunk interval \"1 day\" on operations" pid=1
-time="2026-11-15T13:20:37.686Z" level=info msg="Set chunk interval \"1 day\" on operations_accounts" pid=1
-time="2026-11-15T13:20:37.686Z" level=info msg="Set chunk interval \"1 day\" on state_changes" pid=1
-SDK 2026/11/15 13:20:37 WARN Response has no supported checksum. Not validating response payload.
-time="2026-11-15T13:20:37.816Z" level=info msg="Using datastore backend with buffer size 4, 2 workers" pid=1
-time="2026-11-15T13:20:37.820Z" level=info msg="protocol SEP41 history production disabled; cursor not initialized" pid=1
-time="2026-11-15T13:20:37.820Z" level=info msg="protocol SEP41 current-state production disabled; cursor not initialized" pid=1
-time="2026-11-15T13:20:37.821Z" level=info msg="Starting ingestion from ledger: 3" pid=1
-SDK 2026/11/15 13:20:37 WARN Response has no supported checksum. Not validating response payload.
-time="2026-11-15T13:20:37.836Z" level=info msg="Shutting down servers..." pid=1
-time="2026-11-15T13:20:37.836Z" level=info msg="Servers gracefully stopped" pid=1
+time="2026-11-15T13:27:59.230Z" level=info msg="📦 Git Commit: 6e5a59101158dc2996295450190142366062cd05" pid=1
+time="2026-11-15T13:27:59.230Z" level=info msg="📦 Version: 0.2.0" pid=1
+time="2026-11-15T13:27:59.231Z" level=debug msg="Setting log level to: info" pid=1
+time="2026-11-15T13:27:59.263Z" level=info msg="Set chunk interval \"1 day\" on transactions" pid=1
+time="2026-11-15T13:27:59.264Z" level=info msg="Set chunk interval \"1 day\" on transactions_accounts" pid=1
+time="2026-11-15T13:27:59.265Z" level=info msg="Set chunk interval \"1 day\" on operations" pid=1
+time="2026-11-15T13:27:59.265Z" level=info msg="Set chunk interval \"1 day\" on operations_accounts" pid=1
+time="2026-11-15T13:27:59.266Z" level=info msg="Set chunk interval \"1 day\" on state_changes" pid=1
+SDK 2026/11/15 13:27:59 WARN Response has no supported checksum. Not validating response payload.
+time="2026-11-15T13:27:59.431Z" level=info msg="Using datastore backend with buffer size 4, 2 workers" pid=1
+time="2026-11-15T13:27:59.436Z" level=info msg="protocol SEP41 history production disabled; cursor not initialized" pid=1
+time="2026-11-15T13:27:59.436Z" level=info msg="protocol SEP41 current-state production disabled; cursor not initialized" pid=1
+time="2026-11-15T13:27:59.438Z" level=info msg="Starting ingestion from ledger: 3" pid=1
+SDK 2026/11/15 13:27:59 WARN Response has no supported checksum. Not validating response payload.
+time="2026-11-15T13:27:59.473Z" level=info msg="Shutting down servers..." pid=1
+time="2026-11-15T13:27:59.473Z" level=info msg="Servers gracefully stopped" pid=1
 Usage:
   wallet-backend ingest [flags]
 
@@ -62,7 +62,7 @@ Flags:
 panic: executing root command: running ingest: running 'ingest' from 0 to 0: processing ledger 3: ingesting processed data for ledger 3 failed with a permanent error: persisting ledger data for ledger 3: running atomic function in RunInTransaction: inserting processed data into db for ledger 3: batch inserting transactions: pgx CopyFrom transactions_accounts: ERROR: duplicate key value violates unique constraint "2_transactions_accounts_pkey" (SQLSTATE 23505)
 
 goroutine 1 [running]:
-github.com/stellar/wallet-backend/cmd.Execute({{0x2313140?, 0x61688?}, {0x21bb577?, 0x3ca02973c1e0?}})
+github.com/stellar/wallet-backend/cmd.Execute({{0x2313140?, 0x61688?}, {0x21bb577?, 0xe950dcbc1e0?}})
 	/src/cmd/root.go:35 +0x7c
 main.main()
 	/src/main.go:15 +0x34

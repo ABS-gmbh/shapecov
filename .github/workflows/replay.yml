@@ -1,0 +1,36 @@
+# The replay harness against stellar/wallet-backend: every sighting in harness/replay/sightings.json,
+# then `replay.py check`. It builds nine wallet-backend commits, so it does not run on every push.
+name: replay
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 4 * * 1"
+  push:
+    branches: [main]
+    paths:
+      - "harness/replay/**"
+      - "corpus/manifest.json"
+      - "corpus/entries/**"
+
+permissions:
+  contents: read
+
+jobs:
+  sightings:
+    name: sightings reproduce before their fixes and pass after
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: harness/replay/run.sh sightings
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: replay-results
+          path: |
+            harness/replay/RESULTS.md
+            harness/replay/out/

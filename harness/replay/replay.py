@@ -5,6 +5,7 @@
                 [--entries ID,ID | --all-entries] [--max-protocol N] [--timeout 120]
                 [--proposed FILE] [--work DIR] [--out DIR]
   replay.py report [--out DIR]       regenerate RESULTS.md from out/results.jsonl
+  replay.py check [--out DIR]        fail unless out/results.jsonl matches every claim in sightings.json
 
 Entries are discovered from corpus/manifest.json (xdr_type == LedgerCloseMeta). By default the
 entries that carry `expected.indexer` are run; --all-entries runs every LedgerCloseMeta entry
@@ -314,6 +315,27 @@ def cmd_report(a):
         f.write("\n".join(L) + "\n")
 
 
+def cmd_check(a):
+    """Compare recorded results with the claims in sightings.json; exit 1 on any difference."""
+    with open(os.path.join(HERE, "sightings.json")) as f:
+        claims = json.load(f)["sightings"]
+    results = load_results(os.path.abspath(a.out))
+    bad = 0
+    for c in claims:
+        got = {k[2]: r["result"] for k, r in results.items() if k[0] == c["entry"] and k[1] == c["commit"]}
+        if not got:
+            print("MISSING   %-40s %s at %s: no recorded run" % (c["issue"], c["entry"], c["commit"][:12]))
+            bad += 1
+            continue
+        for inp, res in sorted(got.items()):
+            ok = res == c["expect"]
+            bad += not ok
+            print("%-9s %-40s %s at %s, %s: %s (claimed %s)" % ("ok" if ok else "DIFFERS", c["issue"], c["entry"],
+                                                              c["commit"][:12], inp, res, c["expect"]))
+    print("SIGHTINGS OK" if not bad else "%d SIGHTING CHECK(S) FAILED" % bad)
+    sys.exit(1 if bad else 0)
+
+
 def main():
     ap = argparse.ArgumentParser()
     sub = ap.add_subparsers(dest="verb", required=True)
@@ -331,8 +353,10 @@ def main():
     p.add_argument("--out", default=os.path.join(HERE, "out"))
     p = sub.add_parser("report")
     p.add_argument("--out", default=os.path.join(HERE, "out"))
+    p = sub.add_parser("check")
+    p.add_argument("--out", default=os.path.join(HERE, "out"))
     a = ap.parse_args()
-    {"run": cmd_run, "report": cmd_report}[a.verb](a)
+    {"run": cmd_run, "report": cmd_report, "check": cmd_check}[a.verb](a)
 
 
 if __name__ == "__main__":

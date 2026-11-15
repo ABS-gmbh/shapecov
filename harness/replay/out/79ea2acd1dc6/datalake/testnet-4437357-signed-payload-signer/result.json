@@ -1,7 +1,7 @@
 {
  "entry_id": "testnet-4437357-signed-payload-signer",
  "adapter": "wallet-backend",
- "ref": "79ea2acd1d",
+ "ref": "79ea2acd1dc65a07166133cc04b12e76db314db0",
  "commit": "79ea2acd1dc65a07166133cc04b12e76db314db0",
  "input": "datalake",
  "protocol_version": 28,
@@ -44,9 +44,9 @@
   "outcome": "stopped by the adapter after the ledger was ingested",
   "exit_code": 0,
   "oom_killed": false,
-  "started_finished": "2026-11-15T10:10:26.502787834Z 2026-11-15T10:10:27.622887001Z"
+  "started_finished": "2026-11-15T13:26:01.600711462Z 2026-11-15T13:26:02.708868087Z"
  },
- "seconds": 2.4,
+ "seconds": 2.2,
  "feeder_requests": 6,
  "evidence": "out/79ea2acd1dc6/datalake/testnet-4437357-signed-payload-signer"
 }

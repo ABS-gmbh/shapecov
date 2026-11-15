@@ -1,0 +1,15 @@
+{
+ "note": "The replay results the README's 'Reproduced sightings' table claims. `replay.py check` fails if out/results.jsonl disagrees with any of them, for any input. Commits are full wallet-backend SHAs.",
+ "sightings": [
+  {"issue": "stellar/wallet-backend#716 (signed payload)", "entry": "testnet-4437357-signed-payload-signer", "commit": "79ea2acd1dc65a07166133cc04b12e76db314db0", "expect": "mishandled"},
+  {"issue": "stellar/wallet-backend#729", "entry": "testnet-4437357-signed-payload-signer", "commit": "6e5a59101158dc2996295450190142366062cd05", "expect": "mishandled"},
+  {"issue": "stellar/wallet-backend#729", "entry": "testnet-4437357-signed-payload-signer", "commit": "2a0a84ea12523b6c92e278c0c84b443041240095", "expect": "mishandled"},
+  {"issue": "stellar/wallet-backend#729 fix", "entry": "testnet-4437357-signed-payload-signer", "commit": "2c873353c1f0f3c9b145e25a7d009023ad104a1c", "expect": "pass"},
+  {"issue": "stellar/wallet-backend#731", "entry": "localcore-sac-trust-p28-5", "commit": "764a4f5bcbff5abb0949d93da37f769063013ea0", "expect": "dropped"},
+  {"issue": "stellar/wallet-backend#731 fix (#734)", "entry": "localcore-sac-trust-p28-5", "commit": "c152783c054c765c8b51fd26ed313fd1ebc1c50c", "expect": "pass"},
+  {"issue": "stellar/wallet-backend#716 (muxed)", "entry": "localcore-muxed-source-p22-3", "commit": "79ea2acd1dc65a07166133cc04b12e76db314db0", "expect": "mishandled"},
+  {"issue": "#693 side effect: duplicate key", "entry": "localcore-muxed-source-p22-3", "commit": "6e5a59101158dc2996295450190142366062cd05", "expect": "mishandled"},
+  {"issue": "#693 side effect: duplicate key", "entry": "localcore-muxed-source-p22-3", "commit": "f8e5786d22c04adad16318f2e126728beec5aac9", "expect": "mishandled"},
+  {"issue": "stellar/wallet-backend#716 (muxed) fix", "entry": "localcore-muxed-source-p22-3", "commit": "bb0b162b072583c7dabffbdee664d1c117e5ba56", "expect": "pass"}
+ ]
+}
