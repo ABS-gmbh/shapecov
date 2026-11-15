@@ -86,6 +86,9 @@ every field; `corpus/evidence/` records the two reproduced sightings.
 - `tools/oracle.py` derives from any ledger what changed in ledger state, including every account's
   net balance change, so every corpus ledger is a test of the indexer, not only the ones with
   hand-written expectations.
+- `harness/replay/adapters/stellar-etl/` runs the same ledgers through stellar-etl's own export
+  commands, reading the data lake through its GCS client, and checks its effects and token
+  transfers against the same oracle. It found E1 in `FINDINGS.md`.
 - `harness/wallet-backend/` is the earlier, database-free version: it calls wallet-backend's
   `indexer.ProcessLedger` from a Go test.
 - `harness/sdk-semantic/` runs the manifest's SDK checks against pinned SDK versions.
@@ -141,8 +144,8 @@ Two GitHub Actions workflows in `.github/workflows/`:
 - Semantic checks above the codec beyond the one in the corpus (map key collisions): issuer
   ordering, ID wrap-around and others.
 - Coverage of the 351 schema cells no valid case reaches yet.
-- The replay harness has one adapter (wallet-backend). Only one corpus entry has `expected.indexer`
-  rows so far; the others get the implicit checks only. See `harness/replay/README.md`, "Limits".
+- Replay adapters beyond wallet-backend and stellar-etl. Three corpus entries have hand-written
+  `expected.indexer` rows; the oracle checks every ledger. See `harness/replay/README.md`, "Limits".
 - CAP tags are assigned by hand. Only "new in protocol 30" is computed, from the difference
   between the v28.0 and v30.0 XDR.
 - Review of the hardening guide by a stellar-core or platform engineer, which the RFP requires

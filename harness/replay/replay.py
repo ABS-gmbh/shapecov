@@ -5,6 +5,7 @@
                 [--entries ID,ID | --all-entries] [--max-protocol N] [--timeout 120]
                 [--proposed FILE] [--work DIR] [--out DIR]
   replay.py report [--out DIR]       regenerate RESULTS.md from out/results.jsonl
+  replay.py rejudge [--out DIR]      recompute the oracle verdicts from the stored observations
   replay.py check [--out DIR]        fail unless out/results.jsonl matches every claim in sightings.json
 
 Entries are discovered from corpus/manifest.json (xdr_type == LedgerCloseMeta). By default the
@@ -32,7 +33,7 @@ import classify  # noqa: E402
 NET = "shapecov-replay-net"
 FEEDER = "shapecov-replay-feeder"
 FEEDER_IMAGE = os.environ.get("REPLAY_FEEDER_IMAGE", "python:3.14-slim")
-RESULT_ORDER = {"mishandled": 0, "dropped": 1, "error": 2, "pass": 3}
+RESULT_ORDER = {"mishandled": 0, "dropped": 1, "error": 2, "pass": 3, "not applicable": 4}
 
 
 def sh(args, check=True):
@@ -124,12 +125,27 @@ def oracle_verdict(entry, obs, mapping, value):
         exps += mapping.balance_expectations(oracle.balances(value), passphrase)
     c = classify.classify(exps, obs)
     known, unexplained = {}, []
+    if not obs.get("ingested"):
+        # Every check is moot when the indexer did not take the ledger: that failure is itself the
+        # finding, unless a known issue explains it.
+        failure = {"expect": "ingested", "error": obs.get("error") or "", "via": {}}
+        what = ("the indexer did not ingest this ledger: %s" % obs["error"]) if obs.get("error") else \
+               "the indexer did not ingest this ledger and raised no error"
+        issue = mapping.known_issue(failure)
+        if issue:
+            known.setdefault(issue, []).append(what)
+        else:
+            unexplained.append(what)
     if hasattr(mapping, "balance_expectations") and obs.get("ingested"):
         # The other direction: a stored balance movement for an account where the ledger shows none.
         # Only accounts (G...) are compared; the oracle does not see balances held by contracts.
+        # Tokens other than Stellar Asset Contracts keep balances in contract storage, which the
+        # oracle does not read, so their movements are not compared either.
         expected_keys = {(x["tx_hash"], x["op_order"], x["account"], x["token"]) for x in exps if x["expect"] == "balance_net"}
+        unseen = {(m.get("tx_hash"), m.get("op_order"), m.get("account"), m.get("token"))
+                  for m in obs.get("balance_movements") or [] if m.get("token_kind") == "contract"}
         for k, total in sorted(classify.balance_sums(obs).items(), key=str):
-            if k not in expected_keys and total and (k[2] or "").startswith("G"):
+            if k not in expected_keys and k not in unseen and total and (k[2] or "").startswith("G"):
                 unexplained.append("balance of %s in token %s, tx %s, %s: the stored rows add up to %+d, the "
                                    "ledger shows no change" % (k[2], k[3], (k[0] or "?")[:12],
                                                                "the fee" if k[1] == 0 else "operation %s" % k[1], total))
@@ -193,6 +209,9 @@ def cmd_run(a):
                                                        info["dependency_pins"].get("github.com/stellar/go-stellar-sdk")), flush=True)
             adapter(a.adapter, "up", "--commit", commit, "--work", work, "--network", NET)
             for inp in a.inputs.split(","):
+                if info.get("inputs") and inp not in info["inputs"]:
+                    print("skipping input %s: the adapter reads only %s" % (inp, ", ".join(info["inputs"])), flush=True)
+                    continue
                 for e in selected:
                     ix = index["entries"].get(e["id"])
                     jdir = os.path.join(out, commit[:12], inp, e["id"])
@@ -204,6 +223,12 @@ def cmd_run(a):
                     if ix is None:
                         problem = next((p["problem"] for p in index["problems"] if p["id"] == e["id"]), "not indexed")
                         r = dict(base, result="error", note="the feeder cannot serve this entry: " + problem)
+                        results[(e["id"], commit, inp)] = r
+                        continue
+                    if info.get("supported_networks") and ix["passphrase"] not in info["supported_networks"]:
+                        r = dict(base, result="not applicable",
+                                 note="the indexer reads only these networks: %s; this entry is on %r"
+                                      % ("; ".join(info["supported_networks"]), ix["passphrase"]))
                         results[(e["id"], commit, inp)] = r
                         continue
                     job = {"job_version": 1, "entry_id": e["id"], "ref": ref, "commit": commit, "input": inp,
@@ -232,6 +257,10 @@ def cmd_run(a):
                     with open(os.path.join(jdir, "feeder-requests.jsonl"), "w") as f:
                         f.writelines(reqs)
                     exps = list(e.get("expected", {}).get("indexer") or [])
+                    if exps and mapping is not None and hasattr(mapping, "manifest_expectations"):
+                        # The manifest's expectations are in wallet-backend's vocabulary; an adapter keeps
+                        # the ones that apply to its indexer.
+                        exps = mapping.manifest_expectations(exps)
                     source = "manifest" if exps else "none (implicit checks only)"
                     if e["id"] in proposed:
                         exps += proposed[e["id"]]
@@ -268,7 +297,7 @@ def cmd_run(a):
         run_meta["seconds"] = round(time.time() - t_start, 1)
         if not a.keep:
             sh(["docker", "rm", "-f", FEEDER, "shapecov-replay-db", "shapecov-replay-ingest",
-                "shapecov-replay-migrate"], check=False)
+                "shapecov-replay-migrate", "shapecov-replay-etl"], check=False)
             sh(["docker", "network", "rm", NET], check=False)
     runs_path = os.path.join(out, "runs.jsonl")
     with open(runs_path, "a") as f:
@@ -277,6 +306,39 @@ def cmd_run(a):
     cmd_report(a)
     print("feeder: %s" % json.dumps(run_meta["feeder_stats"]))
     print("done in %.0fs; results in %s" % (run_meta["seconds"], os.path.join(out, "results.jsonl")))
+
+
+def cmd_rejudge(a):
+    """Recompute every oracle verdict from the stored observations, e.g. after expect.py or known.json
+    changed. The indexer is not run again."""
+    import base64
+    import oracle
+    from decode import Decoder
+    out = os.path.abspath(a.out)
+    mapping = adapter_mapping(adapter_of(out))
+    if mapping is None:
+        raise SystemExit("the adapter has no oracle mapping")
+    with open(os.path.join(REPO, "corpus", "manifest.json")) as f:
+        entries = {e["id"]: e for e in json.load(f)["entries"]}
+    dec = Decoder(json.load(open(os.path.join(REPO, "schema", "schema.json"))))
+    results, n = load_results(out), 0
+    for k, r in results.items():
+        path = os.path.join(HERE, r.get("evidence") or "-", "observation.json")
+        if not os.path.isfile(path) or k[0] not in entries:
+            continue
+        with open(path) as f:
+            obs = json.load(f)
+        if obs.get("adapter_failure"):
+            continue
+        e = entries[k[0]]
+        value = dec.decode("LedgerCloseMeta", base64.b64decode(open(os.path.join(REPO, "corpus", e["file"])).read()))
+        r["oracle"] = oracle_verdict(e, obs, mapping, value)
+        with open(os.path.join(HERE, r["evidence"], "result.json"), "w") as f:
+            json.dump(r, f, indent=1)
+        n += 1
+    save_results(out, results)
+    print("rejudged %d results" % n)
+    cmd_report(a)
 
 
 def cmd_report(a):
@@ -300,11 +362,15 @@ def cmd_report(a):
             entries.append(k[0])
     with_exp = [e for e in entries if any(r.get("expectations") for k, r in results.items() if k[0] == e)]
     without = [e for e in entries if e not in with_exp]
-    L = ["# Replay results", "",
-         "Generated by `harness/replay/replay.py report` from `out/results.jsonl`. Do not edit by hand.", "",
-         "Each cell is the result for one entry at one commit, per input: `rpc` is the mock stellar-rpc",
-         "`getLedgers` endpoint, `datalake` is the Galexie layout on an S3-compatible store. Every cell is a run",
-         "of the indexer's own `ingest` command against PostgreSQL/TimescaleDB with the tables read back.", "",
+    name = adapter_of(out)
+    mapping = adapter_mapping(name)
+    intro = getattr(mapping, "REPORT_INTRO", None) or [
+        "Each cell is the result for one entry at one commit, per input: `rpc` is the mock stellar-rpc",
+        "`getLedgers` endpoint, `datalake` is the Galexie layout on an S3-compatible store. Every cell is a run",
+        "of the indexer's own `ingest` command against PostgreSQL/TimescaleDB with the tables read back."]
+    L = ["# Replay results: %s" % name if name != "wallet-backend" else "# Replay results", "",
+         "Generated by `harness/replay/replay.py report --out %s` from `%s/results.jsonl`. Do not edit by hand."
+         % (os.path.relpath(out, HERE), os.path.relpath(out, HERE)), ""] + list(intro) + ["",
          "## Commits", "", "| Commit | Date | Subject | go-stellar-sdk pin | Source or dependencies modified |",
          "|---|---|---|---|---|"]
     for c in order:
@@ -324,7 +390,7 @@ def cmd_report(a):
                 cells, proto = [], ""
                 for c in order:
                     r = results.get((e, c, inp))
-                    cells.append(r["result"] if r else "not run")
+                    cells.append(("n/a" if r["result"] == "not applicable" else r["result"]) if r else "not run")
                     if r:
                         proto = r.get("protocol_version", "")
                 if any(x != "not run" for x in cells):
@@ -339,13 +405,16 @@ def cmd_report(a):
     for (e, c, inp), r in results.items():
         counts.setdefault((c, inp), {}).setdefault(r["result"], 0)
         counts[(c, inp)][r["result"]] += 1
-    L.extend(["", "## Totals", "", "| Commit | Input | pass | mishandled | dropped | error |", "|---|---|---|---|---|---|"])
+    na = any("not applicable" in n for n in counts.values())
+    L.extend(["", "## Totals", "", "| Commit | Input | pass | mishandled | dropped | error |" + (" not applicable |" if na else ""),
+              "|---|---|---|---|---|---|" + ("---|" if na else "")])
     for c in order:
         for inp in inputs:
             n = counts.get((c, inp))
             if n:
                 L.append("| `%s` | %s | %d | %d | %d | %d |" % (c[:8], inp, n.get("pass", 0), n.get("mishandled", 0),
-                                                              n.get("dropped", 0), n.get("error", 0)))
+                                                              n.get("dropped", 0), n.get("error", 0))
+                         + (" %d |" % n.get("not applicable", 0) if na else ""))
     orc = {k: r["oracle"] for k, r in results.items() if r.get("oracle")}
     if orc:
         L.extend(["", "## Oracle checks", "",
@@ -371,7 +440,8 @@ def cmd_report(a):
         # A failure at a commit that sightings.json claims fails for this entry is that sighting,
         # found again by the oracle without the manifest's expectation; anything else is unexplained.
         with open(os.path.join(HERE, "sightings.json")) as f:
-            claimed = {(x["entry"], x["commit"]): x["issue"] for x in json.load(f)["sightings"] if x["expect"] != "pass"}
+            claimed = {(x["entry"], x["commit"]): x["issue"] for x in json.load(f)["sightings"]
+                       if x["expect"] != "pass" and x.get("adapter", "wallet-backend") == name}
         rows = [(k, d) for k, v in sorted(orc.items()) for d in v["unexplained"]]
         sighting = [(k, d) for k, d in rows if (k[0], k[1]) in claimed]
         unexplained = [(k, d) for k, d in rows if (k[0], k[1]) not in claimed]
@@ -382,9 +452,13 @@ def cmd_report(a):
         for k, d in unexplained:
             L.append("- `%s` at `%s`, %s: %s" % (k[0], k[1][:12], k[2], d.replace("|", "\\|")))
     L.extend(["", "## Details of every result that is not `pass`", ""])
+    notes = sorted({r["note"] for r in results.values() if r["result"] == "not applicable"})
+    if notes:
+        L.extend(["`n/a` (not applicable): %d runs. %s" % (sum(r["result"] == "not applicable" for r in results.values()),
+                                                         " ".join(n[0].upper() + n[1:] + "." for n in notes)), ""])
     for k in sorted(results, key=lambda k: (k[0], order.index(k[1]) if k[1] in order else 99, k[2])):
         r = results[k]
-        if r["result"] == "pass":
+        if r["result"] in ("pass", "not applicable"):
             continue
         L.append("### `%s` at `%s`, input %s: %s" % (k[0], k[1][:12], k[2], r["result"]))
         L.append("")
@@ -399,8 +473,8 @@ def cmd_report(a):
         if r.get("process"):
             L.append("- indexer process: %s (exit code %s)" % (r["process"]["outcome"], r["process"]["exit_code"]))
         if r.get("evidence"):
-            L.append("- evidence: `%s/` (job.json, ingest.log, observation.json, result.json, feeder-requests.jsonl)"
-                     % r["evidence"])
+            L.append("- evidence: `%s/` (%s)" % (r["evidence"], getattr(
+                mapping, "EVIDENCE_FILES", "job.json, ingest.log, observation.json, result.json, feeder-requests.jsonl")))
         L.append("")
     if runs:
         L.extend(["## Runs", "", "| Started (UTC) | Refs | Inputs | Entries | Seconds | Feeder peak RSS (kB) | Ledgers served by RPC | Objects served by S3 |",
@@ -411,14 +485,28 @@ def cmd_report(a):
                 run["started"], ", ".join("`%s`" % i["commit"][:8] for i in run["refs"]), ", ".join(run["inputs"]),
                 len(run["entries"]), run.get("seconds"), s.get("maxrss_kb"), s.get("ledgers_served_rpc"),
                 s.get("objects_served_s3")))
-    with open(os.path.join(HERE, "RESULTS.md"), "w") as f:
+    with open(os.path.join(HERE, "RESULTS.md" if name == "wallet-backend" else "RESULTS-%s.md" % name), "w") as f:
         f.write("\n".join(L) + "\n")
+
+
+def adapter_of(out):
+    """The adapter whose runs are recorded in this out directory (wallet-backend if none are)."""
+    path = os.path.join(out, "runs.jsonl")
+    if os.path.isfile(path):
+        with open(path) as f:
+            names = {json.loads(x).get("adapter", "wallet-backend") for x in f if x.strip()}
+        if len(names) == 1:
+            return names.pop()
+        if names:
+            raise SystemExit("%s mixes adapters %s: use one --out directory per adapter" % (out, sorted(names)))
+    return "wallet-backend"
 
 
 def cmd_check(a):
     """Compare recorded results with the claims in sightings.json; exit 1 on any difference."""
+    name = adapter_of(os.path.abspath(a.out))
     with open(os.path.join(HERE, "sightings.json")) as f:
-        claims = json.load(f)["sightings"]
+        claims = [c for c in json.load(f)["sightings"] if c.get("adapter", "wallet-backend") == name]
     results = load_results(os.path.abspath(a.out))
     bad = 0
     for c in claims:
@@ -463,11 +551,13 @@ def main():
     p.add_argument("--out", default=os.path.join(HERE, "out"))
     p = sub.add_parser("report")
     p.add_argument("--out", default=os.path.join(HERE, "out"))
+    p = sub.add_parser("rejudge")
+    p.add_argument("--out", default=os.path.join(HERE, "out"))
     p = sub.add_parser("check")
     p.add_argument("--out", default=os.path.join(HERE, "out"))
     p.add_argument("--oracle", action="store_true", help="also fail on unexplained oracle failures")
     a = ap.parse_args()
-    {"run": cmd_run, "report": cmd_report, "check": cmd_check}[a.verb](a)
+    {"run": cmd_run, "report": cmd_report, "rejudge": cmd_rejudge, "check": cmd_check}[a.verb](a)
 
 
 if __name__ == "__main__":

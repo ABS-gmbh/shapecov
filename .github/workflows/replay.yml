@@ -1,6 +1,7 @@
 # The replay harness against stellar/wallet-backend: every sighting in harness/replay/sightings.json,
 # then `replay.py check`. It builds nine wallet-backend commits (about 5 minutes), so it runs on
 # pushes and pull requests that change the harness or the corpus, weekly, and on demand.
+# A second job runs every ledger through stellar-etl's current master with the same oracle check.
 name: replay
 
 on:
@@ -48,3 +49,22 @@ jobs:
           path: |
             harness/replay/RESULTS.md
             harness/replay/out/
+
+  stellar-etl:
+    name: every ledger through stellar-etl master, oracle checked
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Replay
+        run: harness/replay/run.sh etl
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: replay-results-stellar-etl
+          path: |
+            harness/replay/RESULTS-stellar-etl.md
+            harness/replay/out-stellar-etl/

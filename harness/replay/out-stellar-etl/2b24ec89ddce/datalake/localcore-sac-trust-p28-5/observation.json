@@ -1,0 +1,62 @@
+{
+ "observation_version": 1,
+ "adapter": "stellar-etl",
+ "commit": "2b24ec89ddce7fc0beb7795de982c93e6895eaf3",
+ "input": "datalake",
+ "entry_id": "localcore-sac-trust-p28-5",
+ "ledger_seq": 5,
+ "ingested": true,
+ "error": null,
+ "adapter_failure": false,
+ "transactions": [
+  {
+   "hash": "3739928234a57a2e5899da59d1e0ac7128d3c681f53f7c5c23d2a96dbe7a57ba",
+   "tx_order": 1,
+   "result_code": "TransactionResultCodeTxSuccess",
+   "successful": true,
+   "participants": []
+  }
+ ],
+ "operations": [
+  {
+   "tx_hash": "3739928234a57a2e5899da59d1e0ac7128d3c681f53f7c5c23d2a96dbe7a57ba",
+   "tx_order": 1,
+   "op_order": 1,
+   "type": "invoke_host_function",
+   "participants": []
+  }
+ ],
+ "state_changes": [],
+ "balance_movements": [
+  {
+   "tx_hash": "3739928234a57a2e5899da59d1e0ac7128d3c681f53f7c5c23d2a96dbe7a57ba",
+   "op_order": 0,
+   "account": "GAKLOY2E7ZEJMCPGH74PVRHMRIDZGSKVOWJEDLWCOJUYS7ME5GXPOSFS",
+   "token": "CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC",
+   "delta": -50000100,
+   "token_kind": "asset",
+   "event": "fee"
+  },
+  {
+   "tx_hash": "3739928234a57a2e5899da59d1e0ac7128d3c681f53f7c5c23d2a96dbe7a57ba",
+   "op_order": 0,
+   "account": "GAKLOY2E7ZEJMCPGH74PVRHMRIDZGSKVOWJEDLWCOJUYS7ME5GXPOSFS",
+   "token": "CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC",
+   "delta": 49792599,
+   "token_kind": "asset",
+   "event": "fee"
+  }
+ ],
+ "unreadable": [],
+ "row_counts": {
+  "transactions": 1,
+  "operations": 1,
+  "effects": 0,
+  "token_transfer": 2
+ },
+ "seconds": 1.1,
+ "process": {
+  "outcome": "exited",
+  "exit_code": 0
+ }
+}

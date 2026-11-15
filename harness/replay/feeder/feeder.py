@@ -12,6 +12,15 @@ existing Stellar pipelines already consume.
                <entry-id>/.config.json
                <entry-id>/<partition>/<file>.xdr.zst
              GET object, HEAD object, ListObjectsV2 (path style)
+  port 9100  the same data lake through the Google Cloud Storage JSON and XML APIs, for clients
+             pointed at it with STORAGE_EMULATOR_HOST (the standard GCS client setting)
+             bucket `shapecov-lake`, one prefix per entry and network:
+               <entry-id>/<network>/.config.json
+               <entry-id>/<network>/<partition>/<file>.xdr.zst
+             <network> is pubnet, testnet or futurenet, from the entry's passphrase: stellar-etl
+             appends that name to the bucket path it is given. Entries on any other network are
+             not served on this port.
+             GET bucket, GET object metadata, list objects (JSON API); GET/HEAD object (XML API)
 
 Entries are discovered from corpus/manifest.json at start (xdr_type == LedgerCloseMeta).
 Memory is bounded: the index keeps a few fields per entry, ledger bytes are
@@ -20,7 +29,7 @@ built by streaming base64 -> zstd.
 
 Python 3.14 standard library only (compression.zstd).
 
-  feeder.py --corpus <dir> --work <dir> [--build-only] [--rpc-port 8000] [--s3-port 9000]
+  feeder.py --corpus <dir> --work <dir> [--build-only] [--rpc-port 8000] [--s3-port 9000] [--gcs-port 9100]
 """
 import argparse
 import base64
@@ -44,8 +53,11 @@ LEDGERS_PER_BATCH = 1
 BATCHES_PER_PARTITION = 64000
 RETENTION_WINDOW = 120960
 
-STATS = {"rpc_requests": 0, "s3_requests": 0, "other_requests": 0, "bytes_served": 0,
-         "ledgers_served_rpc": 0, "objects_served_s3": 0}
+STATS = {"rpc_requests": 0, "s3_requests": 0, "gcs_requests": 0, "other_requests": 0, "bytes_served": 0,
+         "ledgers_served_rpc": 0, "objects_served_s3": 0, "objects_served_gcs": 0}
+GCS_NETWORKS = {"Public Global Stellar Network ; September 2015": "pubnet",
+                "Test SDF Network ; September 2015": "testnet",
+                "Test SDF Future Network ; October 2022": "futurenet"}
 LOCK = threading.Lock()
 LOG = None
 
@@ -441,6 +453,150 @@ class S3Handler(BaseHTTPRequestHandler):
     do_POST = do_DELETE = do_PUT
 
 
+# ---------------------------------------------------------------- Google Cloud Storage front end
+
+class GCSHandler(S3Handler):
+    """The S3 handler's lake, named and listed the way the GCS JSON and XML APIs do it."""
+    index = {}
+
+    def _send_json(self, status, obj, head_only=False):
+        data = json.dumps(obj).encode()
+        self.send_response(status)
+        self.send_header("Content-Type", "application/json; charset=UTF-8")
+        self.send_header("Content-Length", str(len(data)))
+        self.end_headers()
+        if not head_only:
+            self.wfile.write(data)
+
+    def _not_found(self, rec, what, head_only=False):
+        rec["status"] = 404
+        log_request(rec)
+        self._send_json(404, {"error": {"code": 404, "message": "No such %s." % what,
+                                        "errors": [{"reason": "notFound", "message": "No such %s." % what}]}}, head_only)
+
+    def _lake_key(self, name):
+        """GCS object name <entry>/<network>/<rest> -> lake key <entry>/<rest>, or None."""
+        parts = name.split("/", 2)
+        if len(parts) < 3:
+            return None
+        e = self.index.get(parts[0])
+        if e is None or GCS_NETWORKS.get(e["passphrase"]) != parts[1]:
+            return None
+        return parts[0] + "/" + parts[2]
+
+    def _gcs_name(self, key):
+        entry, rest = key.split("/", 1)
+        e = self.index.get(entry)
+        net = GCS_NETWORKS.get(e["passphrase"]) if e else None
+        return entry + "/" + net + "/" + rest if net else None
+
+    def _resource(self, name, key):
+        path = os.path.join(self.lake, "data", key)
+        st = os.stat(path)
+        with open(path, "rb") as f:
+            md5 = base64.b64encode(hashlib.md5(f.read()).digest()).decode()
+        meta = {}
+        meta_path = os.path.join(self.lake, "meta", key + ".json")
+        if os.path.isfile(meta_path):
+            with open(meta_path) as f:
+                meta = json.load(f)
+        stamp = time.strftime("%Y-%m-%dT%H:%M:%S.000Z", time.gmtime(st.st_mtime))
+        return {"kind": "storage#object", "id": "%s/%s/1" % (BUCKET, name), "name": name, "bucket": BUCKET,
+                "generation": "1", "metageneration": "1", "contentType": "application/octet-stream",
+                "size": str(st.st_size), "md5Hash": md5, "etag": md5, "storageClass": "STANDARD",
+                "timeCreated": stamp, "updated": stamp, "metadata": meta}
+
+    def _serve(self, head_only):
+        bump("gcs_requests")
+        u = urlsplit(self.path)
+        q = parse_qs(u.query, keep_blank_values=True)
+        rec = {"port": "gcs", "http": "HEAD" if head_only else "GET", "path": self.path}
+        raw = u.path
+        if raw.startswith("/storage/v1/b/"):
+            rest = raw[len("/storage/v1/b/"):]
+            bucket, _, obj = rest.partition("/o")
+            bucket = unquote(bucket)
+            if bucket != BUCKET:
+                return self._not_found(rec, "bucket", head_only)
+            if not _ and not obj:  # bucket metadata
+                rec["status"] = 200
+                log_request(rec)
+                return self._send_json(200, {"kind": "storage#bucket", "id": BUCKET, "name": BUCKET,
+                                             "location": "US", "storageClass": "STANDARD"}, head_only)
+            if obj in ("", "/"):  # list objects
+                prefix = (q.get("prefix") or [""])[0]
+                start = (q.get("pageToken") or q.get("startOffset") or [""])[0]
+                after = bool(q.get("pageToken"))
+                limit = min(int((q.get("maxResults") or ["1000"])[0]), 1000)
+                items, token = [], None
+                for key, _p in self._keys():
+                    name = self._gcs_name(key)
+                    if name is None or not name.startswith(prefix):
+                        continue
+                    if start and (name <= start if after else name < start):
+                        continue
+                    if len(items) == limit:
+                        token = items[-1]["name"]
+                        break
+                    items.append(self._resource(name, key))
+                body = {"kind": "storage#objects", "items": items}
+                if token:
+                    body["nextPageToken"] = token
+                rec["status"] = 200
+                rec["keys"] = len(items)
+                log_request(rec)
+                return self._send_json(200, body, head_only)
+            name = unquote(obj[1:])
+            key = self._lake_key(name)
+            if key is None or not os.path.isfile(os.path.join(self.lake, "data", key)):
+                return self._not_found(rec, "object", head_only)
+            if (q.get("alt") or [""])[0] == "media":
+                return self._send_object(rec, key, head_only)
+            rec["status"] = 200
+            log_request(rec)
+            return self._send_json(200, self._resource(name, key), head_only)
+        # XML API read: /<bucket>/<object>
+        bucket, _, name = unquote(raw).lstrip("/").partition("/")
+        if bucket != BUCKET:
+            return self._not_found(rec, "bucket", head_only)
+        key = self._lake_key(name)
+        if key is None or not os.path.isfile(os.path.join(self.lake, "data", key)):
+            return self._not_found(rec, "object", head_only)
+        return self._send_object(rec, key, head_only)
+
+    def _send_object(self, rec, key, head_only):
+        path = os.path.join(self.lake, "data", key)
+        st = os.stat(path)
+        self.send_response(200)
+        self.send_header("Content-Type", "application/octet-stream")
+        self.send_header("Content-Length", str(st.st_size))
+        self.send_header("Last-Modified", time.strftime("%a, %d %b %Y %H:%M:%S GMT", time.gmtime(st.st_mtime)))
+        self.send_header("X-Goog-Generation", "1")
+        self.send_header("X-Goog-Metageneration", "1")
+        self.send_header("X-Goog-Stored-Content-Length", str(st.st_size))
+        self.send_header("X-Goog-Stored-Content-Encoding", "identity")
+        self.end_headers()
+        if not head_only:
+            with open(path, "rb") as f:
+                while True:
+                    chunk = f.read(CHUNK)
+                    if not chunk:
+                        break
+                    self.wfile.write(chunk)
+            bump("bytes_served", st.st_size)
+            bump("objects_served_gcs")
+        rec["status"] = 200
+        rec["size"] = st.st_size
+        log_request(rec)
+
+    def do_PUT(self):
+        bump("gcs_requests")
+        log_request({"port": "gcs", "http": self.command, "path": self.path, "status": 405})
+        self._send_json(405, {"error": {"code": 405, "message": "this store is read-only"}})
+
+    do_POST = do_DELETE = do_PATCH = do_PUT
+
+
 def main():
     global LOG
     ap = argparse.ArgumentParser()
@@ -448,6 +604,7 @@ def main():
     ap.add_argument("--work", required=True)
     ap.add_argument("--rpc-port", type=int, default=8000)
     ap.add_argument("--s3-port", type=int, default=9000)
+    ap.add_argument("--gcs-port", type=int, default=9100)
     ap.add_argument("--build-only", action="store_true")
     a = ap.parse_args()
     os.makedirs(a.work, exist_ok=True)
@@ -467,6 +624,11 @@ def main():
     rpc = ThreadingHTTPServer(("0.0.0.0", a.rpc_port), RPCHandler)
     s3 = ThreadingHTTPServer(("0.0.0.0", a.s3_port), S3Handler)
     threading.Thread(target=s3.serve_forever, daemon=True).start()
+    GCSHandler.lake = lake
+    GCSHandler.index = index
+    gcs = ThreadingHTTPServer(("0.0.0.0", a.gcs_port), GCSHandler)
+    threading.Thread(target=gcs.serve_forever, daemon=True).start()
+    print("feeder: gcs on :%d" % a.gcs_port, flush=True)
     print("feeder: rpc on :%d, s3 on :%d" % (a.rpc_port, a.s3_port), flush=True)
     rpc.serve_forever()
 

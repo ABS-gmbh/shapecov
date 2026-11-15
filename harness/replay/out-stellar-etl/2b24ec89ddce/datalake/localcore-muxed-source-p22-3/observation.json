@@ -1,0 +1,43 @@
+{
+ "observation_version": 1,
+ "adapter": "stellar-etl",
+ "commit": "2b24ec89ddce7fc0beb7795de982c93e6895eaf3",
+ "input": "datalake",
+ "entry_id": "localcore-muxed-source-p22-3",
+ "ledger_seq": 3,
+ "ingested": false,
+ "error": "token_transfer exited 1: time=\"2026-11-15T22:17:15.209Z\" level=fatal msg=\"could not transform token transfers for ledger 3: error reading from unified events stream, expected version 4 got 3\" pid=36",
+ "adapter_failure": false,
+ "transactions": [
+  {
+   "hash": "863d5491949c106f30d20b732e13d9c6ec6d857f0d64130ee86ed97db409d45f",
+   "tx_order": 1,
+   "result_code": "TransactionResultCodeTxSuccess",
+   "successful": true,
+   "participants": []
+  }
+ ],
+ "operations": [
+  {
+   "tx_hash": "863d5491949c106f30d20b732e13d9c6ec6d857f0d64130ee86ed97db409d45f",
+   "tx_order": 1,
+   "op_order": 1,
+   "type": "invoke_host_function",
+   "participants": []
+  }
+ ],
+ "state_changes": [],
+ "balance_movements": [],
+ "unreadable": [],
+ "row_counts": {
+  "transactions": 1,
+  "operations": 1,
+  "effects": 0,
+  "token_transfer": 0
+ },
+ "seconds": 1.1,
+ "process": {
+  "outcome": "exited",
+  "exit_code": 1
+ }
+}

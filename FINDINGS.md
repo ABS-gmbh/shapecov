@@ -53,6 +53,28 @@ That search can miss things; check again before filing.
   `stellar-xdr` (py-stellar-base #1264). Version 0.2.0 rejects this input. The finding holds for
   the released SDK 17.0.1 only, and our reply on the issue says so.
 
+## Confirmed, not filed yet
+
+### E1. stellar-etl `export_token_transfer` fails on every ledger before protocol 23
+
+- Affects: stellar-etl `master` (`2b24ec89`, 11 November 2026) and every release since #340
+  (September 2025).
+- Evidence: the replay harness's stellar-etl adapter. On `localcore-classic-p22-3` (one
+  `CreateAccount`) and `localcore-muxed-source-p22-3` (one contract call), both protocol 22 ledgers
+  from stellar-core 22.2.1, `export_token_transfer` exits with `error reading from unified events
+  stream, expected version 4 got 3`. The other three exports take the same ledgers.
+- Cause: stellar-etl builds go-stellar-sdk's token transfer processor with
+  `NewEventsProcessorForUnifiedEvents`, which requires `TransactionMeta` v4 for every transaction.
+  #340 replaced `NewEventsProcessor` with it and added no protocol check.
+- Check: with the same pinned SDK, `NewEventsProcessor` returns the right events for both ledgers
+  and the SDK's `VerifyEvents` passes (`repro/stellar-etl-ttp/`).
+- Effect: a token transfer export over any range that starts before protocol 23 stops at the
+  first ledger with a transaction, for example a backfill after a fix to the token transfer path.
+- Searched on 15 November: no report in stellar-etl or go-stellar-sdk. The July 2026 audit (#448)
+  lists token transfer classification as consistent without covering older ledgers.
+- Details: `corpus/evidence/stellar-etl-token-transfer-pre23.md`. Draft issue:
+  `issues/E1-stellar-etl-token-transfer-pre23.md`.
+
 ## Reproduced sightings from the RFP
 
 Each is reproduced from an entry in `corpus/`. The SDK sightings have their commands and output in
@@ -96,7 +118,18 @@ CI against `harness/replay/sightings.json` (see `harness/replay/RESULTS.md`).
 - stellar/wallet-backend#816: 3 accounts created by XLM sent through the native asset contract (once
   directly, twice from inside another contract) get no `ACCOUNT CREATE` row.
 
-No other row is missing for any of the 51 ledgers. That now includes balances: all 4057 net balance
+The same oracle, mapped to stellar-etl's effects and token transfer exports, confirms an open
+stellar-etl issue at `master` (`2b24ec89`):
+
+- stellar/stellar-etl#460 (filed by a maintainer in July): the effects export emits no
+  `account_created` for an account created by XLM sent through the native asset contract, and no
+  `trustline_created` for a trustline created by the asset contract's `trust()` (CAP-73). Four
+  rows across three ledgers (`testnet-5709224`, `pubnet-65480300`, `localcore-sac-trust-p28-5`).
+
+No other effect is missing and every net balance matches for the 25 ledgers stellar-etl can read.
+See `harness/replay/RESULTS-stellar-etl.md`.
+
+For wallet-backend, no other row is missing for any of the 51 ledgers. That now includes balances: all 4057 net balance
 checks per input (every account's XLM and trustline balance per operation, and every net fee) match,
 and no balance row is stored where the ledger shows no change. See `harness/replay/RESULTS.md`,
 "Oracle checks".

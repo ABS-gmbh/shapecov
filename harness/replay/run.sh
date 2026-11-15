@@ -5,9 +5,11 @@
 #   harness/replay/run.sh sightings   every pair in sightings.json, then `replay.py check`
 #   harness/replay/run.sh full        sightings, plus every LedgerCloseMeta entry at current main, then
 #                                     fail on any oracle failure that is neither a known issue nor a sighting
+#   harness/replay/run.sh etl         every LedgerCloseMeta entry through stellar-etl's current master
+#                                     (results in out-stellar-etl/, RESULTS-stellar-etl.md), same oracle check
 #
 # Needs: Docker, git, python3 (standard library only). Network access is used only to clone
-# wallet-backend, pull the images and download the Go modules each commit pins; the indexer
+# wallet-backend or stellar-etl, pull the images and download the Go modules each commit pins; the indexer
 # itself runs on an internal Docker network with no route out.
 # Set REPLAY_WORK to reuse clones and builds between runs (default: harness/replay/.work).
 set -eu
@@ -43,9 +45,15 @@ case "${1:-full}" in
     python3 replay.py run --refs "$MAIN" --all-entries $both --timeout 60
     python3 replay.py check --oracle
     ;;
+  etl)
+    ETL=$(git ls-remote https://github.com/stellar/stellar-etl refs/heads/master | cut -f1)
+    python3 replay.py run --adapter stellar-etl --refs "$ETL" --all-entries --inputs datalake --timeout 60 \
+      --out out-stellar-etl
+    python3 replay.py check --oracle --out out-stellar-etl
+    ;;
   *)
-    echo "usage: $0 [quick|sightings|full]" >&2
+    echo "usage: $0 [quick|sightings|full|etl]" >&2
     exit 2
     ;;
 esac
-echo "see $(pwd)/RESULTS.md"
+echo "see $(pwd)/RESULTS*.md"

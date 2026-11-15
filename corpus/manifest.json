@@ -10353,6 +10353,103 @@
      "evidence": "../harness/replay/RESULTS.md"
     }
    ]
+  },
+  {
+   "id": "localcore-classic-p22-3",
+   "title": "Protocol 22 ledger with one classic transaction (TransactionMeta v3)",
+   "xdr_type": "LedgerCloseMeta",
+   "file": "entries/localcore-classic-p22-3.LedgerCloseMeta.xdr.b64",
+   "sha256": "3d1e20afe72a6df62a97583e4994f1fae5c82192063fa1132d548b9a3fda8bea",
+   "size_bytes": 1696,
+   "protocol_version": 22,
+   "caps": [],
+   "synthetic": false,
+   "source": {
+    "kind": "local_stellar_core",
+    "stellar_core_version": "stellar-core 22.2.1 (e70f0aed87b41679dce63b98e5cce48fa8c56dc0)",
+    "image": "stellar/stellar-core:22.2.1-2429.e70f0aed8.focal",
+    "network_passphrase": "Test SDF Network ; September 2015",
+    "ledger_seq": 3,
+    "ledger_hash": "cb603358e317b0b635e62f91dca37a3d53bf32e8b459bd599cdb7d3cb09dd1b5",
+    "scenario": "classic-p22",
+    "generator": "tools/localcore.py",
+    "notes": "Standalone network, manual close, fixed keys and close times; see the scenario in tools/localcore.py."
+   },
+   "shape": "A ledger from before protocol 23 holding only a CreateAccount: TransactionMeta v3, no unified events. Added as replay evidence that a pre-protocol-23 ledger is rejected for every transaction, not only for Soroban ones, by tools that read only the protocol-23 event stream.",
+   "patterns": {},
+   "designated": {
+    "patterns": [],
+    "cells": []
+   },
+   "cells": [
+    "arm:AccountEntryExt.0",
+    "arm:AccountEntryExt.1",
+    "arm:AccountEntryExtensionV1Ext.2",
+    "arm:AccountEntryExtensionV2Ext.3",
+    "arm:CreateAccountResult.CREATE_ACCOUNT_SUCCESS",
+    "arm:ExtensionPoint.0",
+    "arm:GeneralizedTransactionSet.1",
+    "arm:LedgerCloseMeta.1",
+    "arm:LedgerCloseMetaExt.0",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_CREATED",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_STATE",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_UPDATED",
+    "arm:LedgerEntryData.ACCOUNT",
+    "arm:LedgerEntryExt.0",
+    "arm:LedgerHeaderExt.0",
+    "arm:LedgerHeaderHistoryEntryExt.0",
+    "arm:Memo.MEMO_NONE",
+    "arm:MuxedAccount.KEY_TYPE_ED25519",
+    "arm:OperationBody.CREATE_ACCOUNT",
+    "arm:OperationResult.opINNER",
+    "arm:OperationResultTr.CREATE_ACCOUNT",
+    "arm:Preconditions.PRECOND_NONE",
+    "arm:PublicKey.PUBLIC_KEY_TYPE_ED25519",
+    "arm:StellarValueExt.STELLAR_VALUE_SIGNED",
+    "arm:TransactionEnvelope.ENVELOPE_TYPE_TX",
+    "arm:TransactionExt.0",
+    "arm:TransactionMeta.3",
+    "arm:TransactionPhase.0",
+    "arm:TransactionResultExt.0",
+    "arm:TransactionResultResult.txSUCCESS",
+    "arm:TxSetComponent.TXSET_COMP_TXS_MAYBE_DISCOUNTED_FEE"
+   ],
+   "cells_new_in_protocol": [],
+   "expected": {
+    "decoded": [
+     {
+      "path": "v",
+      "value": 1
+     },
+     {
+      "path": "v1.ledgerHeader.header.ledgerSeq",
+      "value": 3
+     },
+     {
+      "path": "v1.ledgerHeader.header.ledgerVersion",
+      "value": 22
+     },
+     {
+      "path": "v1.ledgerHeader.hash",
+      "value": "cb603358e317b0b635e62f91dca37a3d53bf32e8b459bd599cdb7d3cb09dd1b5"
+     },
+     {
+      "path": "v1.ledgerHeader.header.scpValue.closeTime",
+      "value": 1600179123
+     }
+    ]
+   },
+   "validation": {
+    "independent_decoder": "not_run",
+    "rs_stellar_xdr_roundtrip": "not_run",
+    "stellar_core": {
+     "version": "30.0.0",
+     "command": "",
+     "result": "not_run"
+    },
+    "core_golden": "not_applicable"
+   },
+   "sightings": []
   }
  ]
 }

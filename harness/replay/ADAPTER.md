@@ -4,8 +4,10 @@ An adapter lets the replay harness run the corpus against one indexer. The harne
 (`replay.py`) owns the corpus, the ledger inputs and the verdict. The adapter owns only the
 indexer: building it, starting it, pointing it at a ledger, and reading back what it stored.
 
-The reference adapter is `adapters/wallet-backend/adapter.py`. A new adapter goes in
-`adapters/<name>/adapter.py` and is selected with `replay.py run --adapter <name>`.
+The reference adapter is `adapters/wallet-backend/adapter.py`; `adapters/stellar-etl/adapter.py` is
+the second. A new adapter goes in `adapters/<name>/adapter.py` and is selected with
+`replay.py run --adapter <name> --out out-<name>`: one output directory per adapter, and the report
+goes to `RESULTS-<name>.md`.
 
 ## Rules
 
@@ -60,7 +62,13 @@ prepare(ref) -> up(commit) -> run(job) for every entry and input -> down
 ```
 
 Required: `commit`, `commit_date`, `subject`, `source_modified`, `dependency_pins`,
-`dependencies_modified`. Extra fields are kept and shown in `out/runs.jsonl`.
+`dependencies_modified`. Extra fields are kept and shown in `out/runs.jsonl`. Two optional fields
+change what the harness runs:
+
+| Field | Effect |
+|---|---|
+| `inputs` | The inputs the indexer can read, e.g. `["datalake"]`. Other inputs are skipped. |
+| `supported_networks` | The network passphrases the indexer can read. An entry on any other network gets the result `not applicable` (`n/a` in the report) and is not run. |
 
 ## The job (`run --job`)
 
@@ -90,7 +98,10 @@ The harness writes one job per entry, commit and input:
   shapes. Its window is exactly the one ledger in the job.
 - `datalake` is the Galexie layout (`.config.json`, `<partition>/<file>.xdr.zst`, zstd
   `LedgerCloseMetaBatch`, one ledger per file) on an S3-compatible store: GET, HEAD and
-  ListObjectsV2, path style. Any credentials are accepted.
+  ListObjectsV2, path style. Any credentials are accepted. The same files are also served through
+  the Google Cloud Storage JSON and XML APIs on `shapecov-replay-feeder:9100`, for a GCS client
+  pointed there with `STORAGE_EMULATOR_HOST`: bucket `shapecov-lake`, prefix
+  `<entry-id>/<network>/` where `<network>` is `pubnet`, `testnet` or `futurenet`.
 - `network_passphrase` comes from the entry, not from a default. Entries from stellar-core's
   own test data use `(V) (;,,;) (V)`.
 - The history archive is not served. Position the indexer so that it does not need a
@@ -140,7 +151,8 @@ give the stored bytes as hex, so that a damaged value can be shown exactly.
 | `error` | The indexer's own error when it did not finish the ledger, else `null`. |
 | `adapter_failure` | `true` when the adapter, not the indexer, failed, for example the indexer's migrations did not run. The harness then reports `error`, not a verdict. |
 | `unreadable` | Every stored address that does not decode as a valid SEP-23 address. |
-| `transactions`, `operations`, `state_changes` | What the indexer stored for this ledger, read back from its own storage. An indexer without one of these concepts leaves the list empty. |
+| `transactions`, `operations`, `state_changes` | What the indexer stored for this ledger, read back from its own storage. An indexer without one of these concepts leaves the list empty. `state_changes` rows use the indexer's own vocabulary in `category` and `reason`: stellar-etl's adapter writes each effect as category `EFFECT` with the effect type as reason. |
+| `balance_movements` (optional) | Signed balance movements, `{tx_hash, op_order, account, token, delta, token_kind}`, for an indexer that does not store wallet-backend `BALANCE` rows. `op_order` 0 is the fee. `token_kind` is `asset` for a Stellar Asset Contract and `contract` for any other token contract, whose balances the oracle cannot see. |
 
 Write any logs you have (`ingest.log`, `migrate.log`, …) next to `observation.json`. The
 harness keeps the whole directory as evidence.
@@ -160,10 +172,14 @@ by providing two files next to `adapter.py`:
 |---|---|
 | `expect.py` | `expectations(changes, network_passphrase)`: the row the indexer should store for each oracle change, as expectations in the format below (`state_change`, `participant`, …), each with a `via` field saying where the oracle saw the change. Also `known_issue(expectation)`. |
 | `known.json` | Open upstream issues that explain a failing oracle expectation, as match rules on the row and on where the change happened. |
-| `expect.py` (optional) | `balance_expectations(records, network_passphrase)`: one `balance_net` expectation per balance record, naming the indexer's token and operation position. The harness then also reports stored balance movements for an account where the ledger shows none. |
+| `expect.py` (optional) | `balance_expectations(records, network_passphrase)`: one `balance_net` expectation per balance record, naming the indexer's token and operation position. The harness then also reports stored balance movements for an account where the ledger shows none (asset contracts only). |
+| `expect.py` (optional) | `manifest_expectations(exps)`: the manifest's hand-written expectations are in wallet-backend's vocabulary; this keeps or rewrites the ones that apply to this indexer. `REPORT_INTRO`: the lines that describe a cell at the top of the report. |
 
 `expect.py` only names rows in the indexer's own vocabulary; whether a row is expected always comes
-from the ledger. The harness then gives every replay a second verdict, `oracle`, beside the
+from the ledger. A ledger the indexer did not ingest is itself an oracle failure: `known_issue` is
+asked about `{"expect": "ingested", "error": ...}`, and a `known.json` rule can match the error text
+with `"error_contains"`. After changing `expect.py` or `known.json`, `replay.py rejudge --out <dir>`
+recomputes every oracle verdict from the stored observations without running the indexer again. The harness then gives every replay a second verdict, `oracle`, beside the
 `result` below. Each failing oracle check is either labelled with a known issue or listed as
 **unexplained**: a candidate new finding. The `result` used by `sightings.json` is unaffected.
 
@@ -177,6 +193,7 @@ Each run gets exactly one result:
 | `mishandled` | The indexer raised an error on this valid ledger, or stored a wrong or unreadable value. |
 | `dropped` | The ledger, or a row the manifest expects, is missing, and no error was raised. |
 | `error` | The adapter or the feeder failed. This says nothing about the indexer. |
+| `not applicable` | The indexer cannot read this entry's network (`supported_networks`); not run. |
 
 If `mishandled` and `dropped` both apply, the result is `mishandled` and both lists are kept.
 

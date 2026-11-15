@@ -1,0 +1,1334 @@
+{
+ "observation_version": 1,
+ "adapter": "stellar-etl",
+ "commit": "2b24ec89ddce7fc0beb7795de982c93e6895eaf3",
+ "input": "datalake",
+ "entry_id": "testnet-5707122",
+ "ledger_seq": 5707122,
+ "ingested": true,
+ "error": null,
+ "adapter_failure": false,
+ "transactions": [
+  {
+   "hash": "9e3d287604738ab2bddf0c951859cbc7b9bb2db3e7eb324bcd1eb08057fcfc59",
+   "tx_order": 1,
+   "result_code": "TransactionResultCodeTxSuccess",
+   "successful": true,
+   "participants": []
+  },
+  {
+   "hash": "3e234005a596187a81284c4f9715166f89a4fb9e24ba71421363af85041be9a2",
+   "tx_order": 2,
+   "result_code": "TransactionResultCodeTxSuccess",
+   "successful": true,
+   "participants": []
+  },
+  {
+   "hash": "48364b37424e21b28421edcf1f41e36abccc38f835392f7ce896c3e4dd27fb14",
+   "tx_order": 3,
+   "result_code": "TransactionResultCodeTxSuccess",
+   "successful": true,
+   "participants": []
+  },
+  {
+   "hash": "b2dc070034edfdd110615e13eaded5e1a641a6dee9d7b54ab848d0a8c476d974",
+   "tx_order": 4,
+   "result_code": "TransactionResultCodeTxFailed",
+   "successful": false,
+   "participants": []
+  },
+  {
+   "hash": "db0082cf789c28e3621c2c47acfca161ef421fb4069a9187b653dabcda0b3685",
+   "tx_order": 5,
+   "result_code": "TransactionResultCodeTxSuccess",
+   "successful": true,
+   "participants": []
+  },
+  {
+   "hash": "0c512d359dbe419ee2ea7c5cd9ac6f5593f77344bffc369a13915d49d1d9ddde",
+   "tx_order": 6,
+   "result_code": "TransactionResultCodeTxFailed",
+   "successful": false,
+   "participants": []
+  },
+  {
+   "hash": "cac1ce2e642b8b4b3d2730ae155e9b95d69b82d4612516236e7f4801fee16728",
+   "tx_order": 7,
+   "result_code": "TransactionResultCodeTxFailed",
+   "successful": false,
+   "participants": []
+  },
+  {
+   "hash": "87f0fd2f32f5f91aeba2abf6dd59c7db3321b654ba43905cd1ab9cf363f8eacf",
+   "tx_order": 8,
+   "result_code": "TransactionResultCodeTxSuccess",
+   "successful": true,
+   "participants": []
+  },
+  {
+   "hash": "62e2152d02e81d916ef0454ea9b8c2f9216eceb6969e198d562d9f08af70863f",
+   "tx_order": 9,
+   "result_code": "TransactionResultCodeTxFailed",
+   "successful": false,
+   "participants": []
+  },
+  {
+   "hash": "7d50c9bcc45317ebcd814fbab202e33b75521757b1e2d1ff55931db6cd0343e4",
+   "tx_order": 10,
+   "result_code": "TransactionResultCodeTxSuccess",
+   "successful": true,
+   "participants": []
+  },
+  {
+   "hash": "71553e2240fa6236d2db4ac8f342d9b7ffee922c716bead8a15f50c7773279f2",
+   "tx_order": 11,
+   "result_code": "TransactionResultCodeTxSuccess",
+   "successful": true,
+   "participants": []
+  },
+  {
+   "hash": "20a7212e31939a6f1437ae1427be447f5d1dd5d3b76441f35a0420af39769704",
+   "tx_order": 12,
+   "result_code": "TransactionResultCodeTxSuccess",
+   "successful": true,
+   "participants": []
+  },
+  {
+   "hash": "e68f7effc846dddcc0a585808cbe6b61bf6d5f871540df9f0c00e53d13ff3928",
+   "tx_order": 13,
+   "result_code": "TransactionResultCodeTxSuccess",
+   "successful": true,
+   "participants": []
+  },
+  {
+   "hash": "a1f1b926750901f5fd0d92991ffe46e5566d9a05e03f9e3dfc550a7a743d850f",
+   "tx_order": 14,
+   "result_code": "TransactionResultCodeTxSuccess",
+   "successful": true,
+   "participants": []
+  },
+  {
+   "hash": "8f00622ea382cf2d1d2853215891c6a962db57e0183ed57ea78a9dc2458d2b08",
+   "tx_order": 15,
+   "result_code": "TransactionResultCodeTxSuccess",
+   "successful": true,
+   "participants": []
+  },
+  {
+   "hash": "d9332f9084c45943015b80b4c0c80a8089a4ac39164bdc77edbff27b69baefc7",
+   "tx_order": 16,
+   "result_code": "TransactionResultCodeTxSuccess",
+   "successful": true,
+   "participants": []
+  },
+  {
+   "hash": "566dd045cc1d22d14befb393ce5d6d1b1525b615ae8a7219e0b48f2009c6f9cc",
+   "tx_order": 17,
+   "result_code": "TransactionResultCodeTxSuccess",
+   "successful": true,
+   "participants": []
+  },
+  {
+   "hash": "aca8a81064f87b0ab37a2ad3aa7547122bfba17b49a8e837f88b5a259e89d68c",
+   "tx_order": 18,
+   "result_code": "TransactionResultCodeTxSuccess",
+   "successful": true,
+   "participants": []
+  },
+  {
+   "hash": "7c87939708332962f800ac835f00f4fbf989ceafa6a16f1827ca18f65ce326c2",
+   "tx_order": 19,
+   "result_code": "TransactionResultCodeTxSuccess",
+   "successful": true,
+   "participants": []
+  }
+ ],
+ "operations": [
+  {
+   "tx_hash": "9e3d287604738ab2bddf0c951859cbc7b9bb2db3e7eb324bcd1eb08057fcfc59",
+   "tx_order": 1,
+   "op_order": 1,
+   "type": "path_payment_strict_send",
+   "participants": []
+  },
+  {
+   "tx_hash": "3e234005a596187a81284c4f9715166f89a4fb9e24ba71421363af85041be9a2",
+   "tx_order": 2,
+   "op_order": 1,
+   "type": "path_payment_strict_send",
+   "participants": []
+  },
+  {
+   "tx_hash": "48364b37424e21b28421edcf1f41e36abccc38f835392f7ce896c3e4dd27fb14",
+   "tx_order": 3,
+   "op_order": 1,
+   "type": "path_payment_strict_send",
+   "participants": []
+  },
+  {
+   "tx_hash": "b2dc070034edfdd110615e13eaded5e1a641a6dee9d7b54ab848d0a8c476d974",
+   "tx_order": 4,
+   "op_order": 1,
+   "type": "payment",
+   "participants": []
+  },
+  {
+   "tx_hash": "db0082cf789c28e3621c2c47acfca161ef421fb4069a9187b653dabcda0b3685",
+   "tx_order": 5,
+   "op_order": 1,
+   "type": "path_payment_strict_send",
+   "participants": []
+  },
+  {
+   "tx_hash": "0c512d359dbe419ee2ea7c5cd9ac6f5593f77344bffc369a13915d49d1d9ddde",
+   "tx_order": 6,
+   "op_order": 1,
+   "type": "manage_sell_offer",
+   "participants": []
+  },
+  {
+   "tx_hash": "cac1ce2e642b8b4b3d2730ae155e9b95d69b82d4612516236e7f4801fee16728",
+   "tx_order": 7,
+   "op_order": 1,
+   "type": "path_payment_strict_send",
+   "participants": []
+  },
+  {
+   "tx_hash": "87f0fd2f32f5f91aeba2abf6dd59c7db3321b654ba43905cd1ab9cf363f8eacf",
+   "tx_order": 8,
+   "op_order": 1,
+   "type": "clawback",
+   "participants": []
+  },
+  {
+   "tx_hash": "87f0fd2f32f5f91aeba2abf6dd59c7db3321b654ba43905cd1ab9cf363f8eacf",
+   "tx_order": 8,
+   "op_order": 2,
+   "type": "payment",
+   "participants": []
+  },
+  {
+   "tx_hash": "62e2152d02e81d916ef0454ea9b8c2f9216eceb6969e198d562d9f08af70863f",
+   "tx_order": 9,
+   "op_order": 1,
+   "type": "manage_data",
+   "participants": []
+  },
+  {
+   "tx_hash": "7d50c9bcc45317ebcd814fbab202e33b75521757b1e2d1ff55931db6cd0343e4",
+   "tx_order": 10,
+   "op_order": 1,
+   "type": "invoke_host_function",
+   "participants": []
+  },
+  {
+   "tx_hash": "71553e2240fa6236d2db4ac8f342d9b7ffee922c716bead8a15f50c7773279f2",
+   "tx_order": 11,
+   "op_order": 1,
+   "type": "invoke_host_function",
+   "participants": []
+  },
+  {
+   "tx_hash": "20a7212e31939a6f1437ae1427be447f5d1dd5d3b76441f35a0420af39769704",
+   "tx_order": 12,
+   "op_order": 1,
+   "type": "invoke_host_function",
+   "participants": []
+  },
+  {
+   "tx_hash": "e68f7effc846dddcc0a585808cbe6b61bf6d5f871540df9f0c00e53d13ff3928",
+   "tx_order": 13,
+   "op_order": 1,
+   "type": "invoke_host_function",
+   "participants": []
+  },
+  {
+   "tx_hash": "a1f1b926750901f5fd0d92991ffe46e5566d9a05e03f9e3dfc550a7a743d850f",
+   "tx_order": 14,
+   "op_order": 1,
+   "type": "invoke_host_function",
+   "participants": []
+  },
+  {
+   "tx_hash": "8f00622ea382cf2d1d2853215891c6a962db57e0183ed57ea78a9dc2458d2b08",
+   "tx_order": 15,
+   "op_order": 1,
+   "type": "invoke_host_function",
+   "participants": []
+  },
+  {
+   "tx_hash": "d9332f9084c45943015b80b4c0c80a8089a4ac39164bdc77edbff27b69baefc7",
+   "tx_order": 16,
+   "op_order": 1,
+   "type": "invoke_host_function",
+   "participants": []
+  },
+  {
+   "tx_hash": "566dd045cc1d22d14befb393ce5d6d1b1525b615ae8a7219e0b48f2009c6f9cc",
+   "tx_order": 17,
+   "op_order": 1,
+   "type": "invoke_host_function",
+   "participants": []
+  },
+  {
+   "tx_hash": "aca8a81064f87b0ab37a2ad3aa7547122bfba17b49a8e837f88b5a259e89d68c",
+   "tx_order": 18,
+   "op_order": 1,
+   "type": "invoke_host_function",
+   "participants": []
+  },
+  {
+   "tx_hash": "7c87939708332962f800ac835f00f4fbf989ceafa6a16f1827ca18f65ce326c2",
+   "tx_order": 19,
+   "op_order": 1,
+   "type": "invoke_host_function",
+   "participants": []
+  }
+ ],
+ "state_changes": [
+  {
+   "tx_hash": "9e3d287604738ab2bddf0c951859cbc7b9bb2db3e7eb324bcd1eb08057fcfc59",
+   "tx_order": 1,
+   "op_order": 1,
+   "category": "EFFECT",
+   "reason": "account_credited",
+   "account": "GDNXSCNDSCWY7P4VQ6JOBURIMSO6IV5XVQPIEPL53JXHDM7RFWJXQ5OB",
+   "signer_key": null,
+   "token": "native",
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "op_order": 1
+   }
+  },
+  {
+   "tx_hash": "9e3d287604738ab2bddf0c951859cbc7b9bb2db3e7eb324bcd1eb08057fcfc59",
+   "tx_order": 1,
+   "op_order": 1,
+   "category": "EFFECT",
+   "reason": "account_debited",
+   "account": "GDNXSCNDSCWY7P4VQ6JOBURIMSO6IV5XVQPIEPL53JXHDM7RFWJXQ5OB",
+   "signer_key": null,
+   "token": "EURAU:GAZY34UABFGXV7WWWAUH7UIXQ2ELXTRK6WDR6M56GMFV2R44LIBFTAHA",
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "op_order": 1
+   }
+  },
+  {
+   "tx_hash": "9e3d287604738ab2bddf0c951859cbc7b9bb2db3e7eb324bcd1eb08057fcfc59",
+   "tx_order": 1,
+   "op_order": 1,
+   "category": "EFFECT",
+   "reason": "liquidity_pool_trade",
+   "account": "GDNXSCNDSCWY7P4VQ6JOBURIMSO6IV5XVQPIEPL53JXHDM7RFWJXQ5OB",
+   "signer_key": null,
+   "token": null,
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "op_order": 1
+   }
+  },
+  {
+   "tx_hash": "3e234005a596187a81284c4f9715166f89a4fb9e24ba71421363af85041be9a2",
+   "tx_order": 2,
+   "op_order": 1,
+   "category": "EFFECT",
+   "reason": "account_credited",
+   "account": "GCBU25X6IVXNABCFBWCLVQOREZTNY7TQ6FV56SLLLO2HJOJ2NLYSIIN6",
+   "signer_key": null,
+   "token": "3XA:GCGYOGZ53VTKWMIBPFW5GRY5W434FKIOFU7EQ7ZMQ63G6J7JWK5HZOZP",
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "op_order": 1
+   }
+  },
+  {
+   "tx_hash": "3e234005a596187a81284c4f9715166f89a4fb9e24ba71421363af85041be9a2",
+   "tx_order": 2,
+   "op_order": 1,
+   "category": "EFFECT",
+   "reason": "account_debited",
+   "account": "GCBU25X6IVXNABCFBWCLVQOREZTNY7TQ6FV56SLLLO2HJOJ2NLYSIIN6",
+   "signer_key": null,
+   "token": "native",
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "op_order": 1
+   }
+  },
+  {
+   "tx_hash": "3e234005a596187a81284c4f9715166f89a4fb9e24ba71421363af85041be9a2",
+   "tx_order": 2,
+   "op_order": 1,
+   "category": "EFFECT",
+   "reason": "liquidity_pool_trade",
+   "account": "GCBU25X6IVXNABCFBWCLVQOREZTNY7TQ6FV56SLLLO2HJOJ2NLYSIIN6",
+   "signer_key": null,
+   "token": null,
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "op_order": 1
+   }
+  },
+  {
+   "tx_hash": "48364b37424e21b28421edcf1f41e36abccc38f835392f7ce896c3e4dd27fb14",
+   "tx_order": 3,
+   "op_order": 1,
+   "category": "EFFECT",
+   "reason": "account_credited",
+   "account": "GBJYADWXF77OF33Q7ZCYMYWF7O45LX2K5D2T3V3DXDSL7PY5D3JZPXSQ",
+   "signer_key": null,
+   "token": "LUMOS:GBQQRFW6FK6MEITJCQLF7UJKWUYEOIONOFLVOQOWHVOAQUHZHLDNRCZW",
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "op_order": 1
+   }
+  },
+  {
+   "tx_hash": "48364b37424e21b28421edcf1f41e36abccc38f835392f7ce896c3e4dd27fb14",
+   "tx_order": 3,
+   "op_order": 1,
+   "category": "EFFECT",
+   "reason": "account_debited",
+   "account": "GBJYADWXF77OF33Q7ZCYMYWF7O45LX2K5D2T3V3DXDSL7PY5D3JZPXSQ",
+   "signer_key": null,
+   "token": "native",
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "op_order": 1
+   }
+  },
+  {
+   "tx_hash": "48364b37424e21b28421edcf1f41e36abccc38f835392f7ce896c3e4dd27fb14",
+   "tx_order": 3,
+   "op_order": 1,
+   "category": "EFFECT",
+   "reason": "liquidity_pool_trade",
+   "account": "GBJYADWXF77OF33Q7ZCYMYWF7O45LX2K5D2T3V3DXDSL7PY5D3JZPXSQ",
+   "signer_key": null,
+   "token": null,
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "op_order": 1
+   }
+  },
+  {
+   "tx_hash": "db0082cf789c28e3621c2c47acfca161ef421fb4069a9187b653dabcda0b3685",
+   "tx_order": 5,
+   "op_order": 1,
+   "category": "EFFECT",
+   "reason": "account_credited",
+   "account": "GDWBOJCUQOMIDHUME33ECFJGETOPOLNLXIAR6PCZIJE73WJ7BHAWS3AH",
+   "signer_key": null,
+   "token": "SWAP:GDDQWL4KQY4WJXOXCLM3K4NGVPUSDPWGUTCFUWELO2VSKDGXJKD72B23",
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "op_order": 1
+   }
+  },
+  {
+   "tx_hash": "db0082cf789c28e3621c2c47acfca161ef421fb4069a9187b653dabcda0b3685",
+   "tx_order": 5,
+   "op_order": 1,
+   "category": "EFFECT",
+   "reason": "account_debited",
+   "account": "GDWBOJCUQOMIDHUME33ECFJGETOPOLNLXIAR6PCZIJE73WJ7BHAWS3AH",
+   "signer_key": null,
+   "token": "USDC:GCURD5EEOWOKONF5L3RNJU3HP5D4UHSI5I7ZBKX4IW7E6NJXMHG6VSNL",
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "op_order": 1
+   }
+  },
+  {
+   "tx_hash": "db0082cf789c28e3621c2c47acfca161ef421fb4069a9187b653dabcda0b3685",
+   "tx_order": 5,
+   "op_order": 1,
+   "category": "EFFECT",
+   "reason": "liquidity_pool_trade",
+   "account": "GDWBOJCUQOMIDHUME33ECFJGETOPOLNLXIAR6PCZIJE73WJ7BHAWS3AH",
+   "signer_key": null,
+   "token": null,
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "op_order": 1
+   }
+  },
+  {
+   "tx_hash": "db0082cf789c28e3621c2c47acfca161ef421fb4069a9187b653dabcda0b3685",
+   "tx_order": 5,
+   "op_order": 1,
+   "category": "EFFECT",
+   "reason": "liquidity_pool_trade",
+   "account": "GDWBOJCUQOMIDHUME33ECFJGETOPOLNLXIAR6PCZIJE73WJ7BHAWS3AH",
+   "signer_key": null,
+   "token": null,
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "op_order": 1
+   }
+  },
+  {
+   "tx_hash": "87f0fd2f32f5f91aeba2abf6dd59c7db3321b654ba43905cd1ab9cf363f8eacf",
+   "tx_order": 8,
+   "op_order": 1,
+   "category": "EFFECT",
+   "reason": "account_credited",
+   "account": "GAGYF77NYKYWEDZZGG2X7SBVCVMLKHLZ4OZFWOLN2HLU2AZJLUKDJQXL",
+   "signer_key": null,
+   "token": "GYEN:GAGYF77NYKYWEDZZGG2X7SBVCVMLKHLZ4OZFWOLN2HLU2AZJLUKDJQXL",
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "op_order": 1
+   }
+  },
+  {
+   "tx_hash": "87f0fd2f32f5f91aeba2abf6dd59c7db3321b654ba43905cd1ab9cf363f8eacf",
+   "tx_order": 8,
+   "op_order": 1,
+   "category": "EFFECT",
+   "reason": "account_debited",
+   "account": "GCSTPPRBHQ24ODI4JSPYN5IDSJOEHMKACQR5ER3UFKOCU6EI6LDPEKJJ",
+   "signer_key": null,
+   "token": "GYEN:GAGYF77NYKYWEDZZGG2X7SBVCVMLKHLZ4OZFWOLN2HLU2AZJLUKDJQXL",
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "op_order": 1
+   }
+  },
+  {
+   "tx_hash": "87f0fd2f32f5f91aeba2abf6dd59c7db3321b654ba43905cd1ab9cf363f8eacf",
+   "tx_order": 8,
+   "op_order": 2,
+   "category": "EFFECT",
+   "reason": "account_credited",
+   "account": "GAGYF77NYKYWEDZZGG2X7SBVCVMLKHLZ4OZFWOLN2HLU2AZJLUKDJQXL",
+   "signer_key": null,
+   "token": "GYEN:GAGYF77NYKYWEDZZGG2X7SBVCVMLKHLZ4OZFWOLN2HLU2AZJLUKDJQXL",
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "op_order": 2
+   }
+  },
+  {
+   "tx_hash": "87f0fd2f32f5f91aeba2abf6dd59c7db3321b654ba43905cd1ab9cf363f8eacf",
+   "tx_order": 8,
+   "op_order": 2,
+   "category": "EFFECT",
+   "reason": "account_debited",
+   "account": "GAGYF77NYKYWEDZZGG2X7SBVCVMLKHLZ4OZFWOLN2HLU2AZJLUKDJQXL",
+   "signer_key": null,
+   "token": "GYEN:GAGYF77NYKYWEDZZGG2X7SBVCVMLKHLZ4OZFWOLN2HLU2AZJLUKDJQXL",
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "op_order": 2
+   }
+  },
+  {
+   "tx_hash": "a1f1b926750901f5fd0d92991ffe46e5566d9a05e03f9e3dfc550a7a743d850f",
+   "tx_order": 14,
+   "op_order": 1,
+   "category": "EFFECT",
+   "reason": "contract_debited",
+   "account": "GAGVZMODPYFTULIVSY3RGFADIC5LF4LLSN37N4MFWGNZ57TYBXL2LQQX",
+   "signer_key": null,
+   "token": "USDC:GAGVZMODPYFTULIVSY3RGFADIC5LF4LLSN37N4MFWGNZ57TYBXL2LQQX",
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "op_order": 1
+   }
+  },
+  {
+   "tx_hash": "a1f1b926750901f5fd0d92991ffe46e5566d9a05e03f9e3dfc550a7a743d850f",
+   "tx_order": 14,
+   "op_order": 1,
+   "category": "EFFECT",
+   "reason": "contract_debited",
+   "account": "GAGVZMODPYFTULIVSY3RGFADIC5LF4LLSN37N4MFWGNZ57TYBXL2LQQX",
+   "signer_key": null,
+   "token": "USDC:GAGVZMODPYFTULIVSY3RGFADIC5LF4LLSN37N4MFWGNZ57TYBXL2LQQX",
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "op_order": 1
+   }
+  },
+  {
+   "tx_hash": "d9332f9084c45943015b80b4c0c80a8089a4ac39164bdc77edbff27b69baefc7",
+   "tx_order": 16,
+   "op_order": 1,
+   "category": "EFFECT",
+   "reason": "account_debited",
+   "account": "GACVXELMTE6JXAQCMR4OJOYBZFD6VUDLV4YZGUR2ONN77EGZVY4YCLY5",
+   "signer_key": null,
+   "token": "native",
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "op_order": 1
+   }
+  },
+  {
+   "tx_hash": "d9332f9084c45943015b80b4c0c80a8089a4ac39164bdc77edbff27b69baefc7",
+   "tx_order": 16,
+   "op_order": 1,
+   "category": "EFFECT",
+   "reason": "contract_credited",
+   "account": "GBDCULE53LUPK4XHUCXBI35MAZFQHENMZ3JRKAJS2PPYBV646M6XKVHG",
+   "signer_key": null,
+   "token": "native",
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "op_order": 1
+   }
+  },
+  {
+   "tx_hash": "d9332f9084c45943015b80b4c0c80a8089a4ac39164bdc77edbff27b69baefc7",
+   "tx_order": 16,
+   "op_order": 1,
+   "category": "EFFECT",
+   "reason": "account_debited",
+   "account": "GBDCULE53LUPK4XHUCXBI35MAZFQHENMZ3JRKAJS2PPYBV646M6XKVHG",
+   "signer_key": null,
+   "token": "CETES:GC3CW7EDYRTWQ635VDIGY6S4ZUF5L6TQ7AA4MWS7LEQDBLUSZXV7UPS4",
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "op_order": 1
+   }
+  },
+  {
+   "tx_hash": "d9332f9084c45943015b80b4c0c80a8089a4ac39164bdc77edbff27b69baefc7",
+   "tx_order": 16,
+   "op_order": 1,
+   "category": "EFFECT",
+   "reason": "account_credited",
+   "account": "GACVXELMTE6JXAQCMR4OJOYBZFD6VUDLV4YZGUR2ONN77EGZVY4YCLY5",
+   "signer_key": null,
+   "token": "CETES:GC3CW7EDYRTWQ635VDIGY6S4ZUF5L6TQ7AA4MWS7LEQDBLUSZXV7UPS4",
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "op_order": 1
+   }
+  },
+  {
+   "tx_hash": "d9332f9084c45943015b80b4c0c80a8089a4ac39164bdc77edbff27b69baefc7",
+   "tx_order": 16,
+   "op_order": 1,
+   "category": "EFFECT",
+   "reason": "contract_debited",
+   "account": "GBDCULE53LUPK4XHUCXBI35MAZFQHENMZ3JRKAJS2PPYBV646M6XKVHG",
+   "signer_key": null,
+   "token": "native",
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "op_order": 1
+   }
+  },
+  {
+   "tx_hash": "d9332f9084c45943015b80b4c0c80a8089a4ac39164bdc77edbff27b69baefc7",
+   "tx_order": 16,
+   "op_order": 1,
+   "category": "EFFECT",
+   "reason": "account_credited",
+   "account": "GBDCULE53LUPK4XHUCXBI35MAZFQHENMZ3JRKAJS2PPYBV646M6XKVHG",
+   "signer_key": null,
+   "token": "native",
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "op_order": 1
+   }
+  }
+ ],
+ "balance_movements": [
+  {
+   "tx_hash": "9e3d287604738ab2bddf0c951859cbc7b9bb2db3e7eb324bcd1eb08057fcfc59",
+   "op_order": 0,
+   "account": "GDNXSCNDSCWY7P4VQ6JOBURIMSO6IV5XVQPIEPL53JXHDM7RFWJXQ5OB",
+   "token": "CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC",
+   "delta": -100,
+   "token_kind": "asset",
+   "event": "fee"
+  },
+  {
+   "tx_hash": "3e234005a596187a81284c4f9715166f89a4fb9e24ba71421363af85041be9a2",
+   "op_order": 0,
+   "account": "GCBU25X6IVXNABCFBWCLVQOREZTNY7TQ6FV56SLLLO2HJOJ2NLYSIIN6",
+   "token": "CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC",
+   "delta": -100,
+   "token_kind": "asset",
+   "event": "fee"
+  },
+  {
+   "tx_hash": "48364b37424e21b28421edcf1f41e36abccc38f835392f7ce896c3e4dd27fb14",
+   "op_order": 0,
+   "account": "GBJYADWXF77OF33Q7ZCYMYWF7O45LX2K5D2T3V3DXDSL7PY5D3JZPXSQ",
+   "token": "CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC",
+   "delta": -100,
+   "token_kind": "asset",
+   "event": "fee"
+  },
+  {
+   "tx_hash": "b2dc070034edfdd110615e13eaded5e1a641a6dee9d7b54ab848d0a8c476d974",
+   "op_order": 0,
+   "account": "GAB62KEKMKHDOMF3256P4CS7FCWRDUPT7M2CLD4JGKFWCA2H3DW3NRRB",
+   "token": "CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC",
+   "delta": -100,
+   "token_kind": "asset",
+   "event": "fee"
+  },
+  {
+   "tx_hash": "db0082cf789c28e3621c2c47acfca161ef421fb4069a9187b653dabcda0b3685",
+   "op_order": 0,
+   "account": "GDWBOJCUQOMIDHUME33ECFJGETOPOLNLXIAR6PCZIJE73WJ7BHAWS3AH",
+   "token": "CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC",
+   "delta": -100,
+   "token_kind": "asset",
+   "event": "fee"
+  },
+  {
+   "tx_hash": "0c512d359dbe419ee2ea7c5cd9ac6f5593f77344bffc369a13915d49d1d9ddde",
+   "op_order": 0,
+   "account": "GBSX2ZFLIJVE75VFWJURAXPSS4TBOV4FZ34VCRLWM2D7GKI37AD3FFNV",
+   "token": "CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC",
+   "delta": -100,
+   "token_kind": "asset",
+   "event": "fee"
+  },
+  {
+   "tx_hash": "cac1ce2e642b8b4b3d2730ae155e9b95d69b82d4612516236e7f4801fee16728",
+   "op_order": 0,
+   "account": "GCPVRBB3CZSRH4QNAK2GBMBIKVQSA3DHXSG3HOSI4VNX5QNMBIHNKGIR",
+   "token": "CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC",
+   "delta": -100,
+   "token_kind": "asset",
+   "event": "fee"
+  },
+  {
+   "tx_hash": "87f0fd2f32f5f91aeba2abf6dd59c7db3321b654ba43905cd1ab9cf363f8eacf",
+   "op_order": 0,
+   "account": "GAGYF77NYKYWEDZZGG2X7SBVCVMLKHLZ4OZFWOLN2HLU2AZJLUKDJQXL",
+   "token": "CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC",
+   "delta": -200,
+   "token_kind": "asset",
+   "event": "fee"
+  },
+  {
+   "tx_hash": "62e2152d02e81d916ef0454ea9b8c2f9216eceb6969e198d562d9f08af70863f",
+   "op_order": 0,
+   "account": "GDD6SE5TQFQGCESB3ILEIY4ETWMHZKDXTSRZTJW2E6N5I34F4C27SJDJ",
+   "token": "CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC",
+   "delta": -100,
+   "token_kind": "asset",
+   "event": "fee"
+  },
+  {
+   "tx_hash": "7d50c9bcc45317ebcd814fbab202e33b75521757b1e2d1ff55931db6cd0343e4",
+   "op_order": 0,
+   "account": "GALM72DE4HBXTRGDYE3HF52QDNOJST36N6SB4I42XRQRESF5DPXBRBPW",
+   "token": "CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC",
+   "delta": -607575,
+   "token_kind": "asset",
+   "event": "fee"
+  },
+  {
+   "tx_hash": "71553e2240fa6236d2db4ac8f342d9b7ffee922c716bead8a15f50c7773279f2",
+   "op_order": 0,
+   "account": "GBF5XWE5SWHROB764GW6NWOVPBUTSM7ENTLO2ILBBBNYMKKILPIJQWJ3",
+   "token": "CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC",
+   "delta": -58257,
+   "token_kind": "asset",
+   "event": "fee"
+  },
+  {
+   "tx_hash": "20a7212e31939a6f1437ae1427be447f5d1dd5d3b76441f35a0420af39769704",
+   "op_order": 0,
+   "account": "GAKXHLL6JG3WHTLYL3UH72PYNBPDXAKOBT7IAYPK5JMS7L5PGGGIRATR",
+   "token": "CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC",
+   "delta": -58247,
+   "token_kind": "asset",
+   "event": "fee"
+  },
+  {
+   "tx_hash": "e68f7effc846dddcc0a585808cbe6b61bf6d5f871540df9f0c00e53d13ff3928",
+   "op_order": 0,
+   "account": "GAWNGIYUZNCUHJWHUQ2ID7ZJFQ2BLQEU7KPGJ6P526LOKWIO375DRZWA",
+   "token": "CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC",
+   "delta": -29549,
+   "token_kind": "asset",
+   "event": "fee"
+  },
+  {
+   "tx_hash": "a1f1b926750901f5fd0d92991ffe46e5566d9a05e03f9e3dfc550a7a743d850f",
+   "op_order": 0,
+   "account": "GAGVZMODPYFTULIVSY3RGFADIC5LF4LLSN37N4MFWGNZ57TYBXL2LQQX",
+   "token": "CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC",
+   "delta": -30774,
+   "token_kind": "asset",
+   "event": "fee"
+  },
+  {
+   "tx_hash": "8f00622ea382cf2d1d2853215891c6a962db57e0183ed57ea78a9dc2458d2b08",
+   "op_order": 0,
+   "account": "GACVXELMTE6JXAQCMR4OJOYBZFD6VUDLV4YZGUR2ONN77EGZVY4YCLY5",
+   "token": "CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC",
+   "delta": -97517,
+   "token_kind": "asset",
+   "event": "fee"
+  },
+  {
+   "tx_hash": "d9332f9084c45943015b80b4c0c80a8089a4ac39164bdc77edbff27b69baefc7",
+   "op_order": 0,
+   "account": "GBDCULE53LUPK4XHUCXBI35MAZFQHENMZ3JRKAJS2PPYBV646M6XKVHG",
+   "token": "CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC",
+   "delta": -230889,
+   "token_kind": "asset",
+   "event": "fee"
+  },
+  {
+   "tx_hash": "566dd045cc1d22d14befb393ce5d6d1b1525b615ae8a7219e0b48f2009c6f9cc",
+   "op_order": 0,
+   "account": "GB32JP5GNOQLW4NUMV6H2UBOSMB4DROL7YNDBWAHYXMVFLLJOH3LXKHK",
+   "token": "CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC",
+   "delta": -97496,
+   "token_kind": "asset",
+   "event": "fee"
+  },
+  {
+   "tx_hash": "aca8a81064f87b0ab37a2ad3aa7547122bfba17b49a8e837f88b5a259e89d68c",
+   "op_order": 0,
+   "account": "GDUQ3DXGSNRGPNNGHLKXLSVPRC3V2PAYMP6ITW3ICSRLF64KVOTPA6AT",
+   "token": "CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC",
+   "delta": -101054,
+   "token_kind": "asset",
+   "event": "fee"
+  },
+  {
+   "tx_hash": "7c87939708332962f800ac835f00f4fbf989ceafa6a16f1827ca18f65ce326c2",
+   "op_order": 0,
+   "account": "GBDT24V2UV2WJS6FKGB4WZD2IHCBATZGF7XFCL5AGFAH54JHTKODVQJR",
+   "token": "CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC",
+   "delta": -10611,
+   "token_kind": "asset",
+   "event": "fee"
+  },
+  {
+   "tx_hash": "9e3d287604738ab2bddf0c951859cbc7b9bb2db3e7eb324bcd1eb08057fcfc59",
+   "op_order": 1,
+   "account": "GDNXSCNDSCWY7P4VQ6JOBURIMSO6IV5XVQPIEPL53JXHDM7RFWJXQ5OB",
+   "token": "CDQCT4RSLLVHLDTYKQWJ5PUZIWLHPBKOAKUFOD4VP2SREEAQVV4455CK",
+   "delta": -137632436,
+   "token_kind": "asset",
+   "event": "transfer"
+  },
+  {
+   "tx_hash": "9e3d287604738ab2bddf0c951859cbc7b9bb2db3e7eb324bcd1eb08057fcfc59",
+   "op_order": 1,
+   "account": "LD4ST3S2I3H3PFCDUSKWBWDYJ4AAEOTIYPIPFHADB2ISPI2TE4A2IE6K",
+   "token": "CDQCT4RSLLVHLDTYKQWJ5PUZIWLHPBKOAKUFOD4VP2SREEAQVV4455CK",
+   "delta": 137632436,
+   "token_kind": "asset",
+   "event": "transfer"
+  },
+  {
+   "tx_hash": "9e3d287604738ab2bddf0c951859cbc7b9bb2db3e7eb324bcd1eb08057fcfc59",
+   "op_order": 1,
+   "account": "LD4ST3S2I3H3PFCDUSKWBWDYJ4AAEOTIYPIPFHADB2ISPI2TE4A2IE6K",
+   "token": "CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC",
+   "delta": -171823596,
+   "token_kind": "asset",
+   "event": "transfer"
+  },
+  {
+   "tx_hash": "9e3d287604738ab2bddf0c951859cbc7b9bb2db3e7eb324bcd1eb08057fcfc59",
+   "op_order": 1,
+   "account": "GDNXSCNDSCWY7P4VQ6JOBURIMSO6IV5XVQPIEPL53JXHDM7RFWJXQ5OB",
+   "token": "CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC",
+   "delta": 171823596,
+   "token_kind": "asset",
+   "event": "transfer"
+  },
+  {
+   "tx_hash": "9e3d287604738ab2bddf0c951859cbc7b9bb2db3e7eb324bcd1eb08057fcfc59",
+   "op_order": 1,
+   "account": "GDNXSCNDSCWY7P4VQ6JOBURIMSO6IV5XVQPIEPL53JXHDM7RFWJXQ5OB",
+   "token": "CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC",
+   "delta": -171823596,
+   "token_kind": "asset",
+   "event": "transfer"
+  },
+  {
+   "tx_hash": "9e3d287604738ab2bddf0c951859cbc7b9bb2db3e7eb324bcd1eb08057fcfc59",
+   "op_order": 1,
+   "account": "GDNXSCNDSCWY7P4VQ6JOBURIMSO6IV5XVQPIEPL53JXHDM7RFWJXQ5OB",
+   "token": "CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC",
+   "delta": 171823596,
+   "token_kind": "asset",
+   "event": "transfer"
+  },
+  {
+   "tx_hash": "3e234005a596187a81284c4f9715166f89a4fb9e24ba71421363af85041be9a2",
+   "op_order": 1,
+   "account": "GCBU25X6IVXNABCFBWCLVQOREZTNY7TQ6FV56SLLLO2HJOJ2NLYSIIN6",
+   "token": "CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC",
+   "delta": -94338040,
+   "token_kind": "asset",
+   "event": "transfer"
+  },
+  {
+   "tx_hash": "3e234005a596187a81284c4f9715166f89a4fb9e24ba71421363af85041be9a2",
+   "op_order": 1,
+   "account": "LDYJJHWYQUIQYNLM5SIBQ4XTEO6IWVOYGOIPOZIXQWUEXTMA5VV5E4AD",
+   "token": "CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC",
+   "delta": 94338040,
+   "token_kind": "asset",
+   "event": "transfer"
+  },
+  {
+   "tx_hash": "3e234005a596187a81284c4f9715166f89a4fb9e24ba71421363af85041be9a2",
+   "op_order": 1,
+   "account": "LDYJJHWYQUIQYNLM5SIBQ4XTEO6IWVOYGOIPOZIXQWUEXTMA5VV5E4AD",
+   "token": "CB6Y7R6U3J2MQMPWH2FKQOV4I3TF6ISPSV27D6SEIA6BT6KRSJD43QAR",
+   "delta": -15689626,
+   "token_kind": "asset",
+   "event": "transfer"
+  },
+  {
+   "tx_hash": "3e234005a596187a81284c4f9715166f89a4fb9e24ba71421363af85041be9a2",
+   "op_order": 1,
+   "account": "GCBU25X6IVXNABCFBWCLVQOREZTNY7TQ6FV56SLLLO2HJOJ2NLYSIIN6",
+   "token": "CB6Y7R6U3J2MQMPWH2FKQOV4I3TF6ISPSV27D6SEIA6BT6KRSJD43QAR",
+   "delta": 15689626,
+   "token_kind": "asset",
+   "event": "transfer"
+  },
+  {
+   "tx_hash": "3e234005a596187a81284c4f9715166f89a4fb9e24ba71421363af85041be9a2",
+   "op_order": 1,
+   "account": "GCBU25X6IVXNABCFBWCLVQOREZTNY7TQ6FV56SLLLO2HJOJ2NLYSIIN6",
+   "token": "CB6Y7R6U3J2MQMPWH2FKQOV4I3TF6ISPSV27D6SEIA6BT6KRSJD43QAR",
+   "delta": -15689626,
+   "token_kind": "asset",
+   "event": "transfer"
+  },
+  {
+   "tx_hash": "3e234005a596187a81284c4f9715166f89a4fb9e24ba71421363af85041be9a2",
+   "op_order": 1,
+   "account": "GCBU25X6IVXNABCFBWCLVQOREZTNY7TQ6FV56SLLLO2HJOJ2NLYSIIN6",
+   "token": "CB6Y7R6U3J2MQMPWH2FKQOV4I3TF6ISPSV27D6SEIA6BT6KRSJD43QAR",
+   "delta": 15689626,
+   "token_kind": "asset",
+   "event": "transfer"
+  },
+  {
+   "tx_hash": "48364b37424e21b28421edcf1f41e36abccc38f835392f7ce896c3e4dd27fb14",
+   "op_order": 1,
+   "account": "GBJYADWXF77OF33Q7ZCYMYWF7O45LX2K5D2T3V3DXDSL7PY5D3JZPXSQ",
+   "token": "CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC",
+   "delta": -86722478,
+   "token_kind": "asset",
+   "event": "transfer"
+  },
+  {
+   "tx_hash": "48364b37424e21b28421edcf1f41e36abccc38f835392f7ce896c3e4dd27fb14",
+   "op_order": 1,
+   "account": "LD4WIT5V5U2YM3ZIR7A3SSGH6TDDFQPG3MV6X5OLEWXOOUXT6BW7LNKA",
+   "token": "CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC",
+   "delta": 86722478,
+   "token_kind": "asset",
+   "event": "transfer"
+  },
+  {
+   "tx_hash": "48364b37424e21b28421edcf1f41e36abccc38f835392f7ce896c3e4dd27fb14",
+   "op_order": 1,
+   "account": "LD4WIT5V5U2YM3ZIR7A3SSGH6TDDFQPG3MV6X5OLEWXOOUXT6BW7LNKA",
+   "token": "CAMREOWBQEZT6AGJ3EPIR2TNO434ZEINJNDVQ5RDMHGGVUQK23W4P24X",
+   "delta": -3545837490,
+   "token_kind": "asset",
+   "event": "transfer"
+  },
+  {
+   "tx_hash": "48364b37424e21b28421edcf1f41e36abccc38f835392f7ce896c3e4dd27fb14",
+   "op_order": 1,
+   "account": "GBJYADWXF77OF33Q7ZCYMYWF7O45LX2K5D2T3V3DXDSL7PY5D3JZPXSQ",
+   "token": "CAMREOWBQEZT6AGJ3EPIR2TNO434ZEINJNDVQ5RDMHGGVUQK23W4P24X",
+   "delta": 3545837490,
+   "token_kind": "asset",
+   "event": "transfer"
+  },
+  {
+   "tx_hash": "48364b37424e21b28421edcf1f41e36abccc38f835392f7ce896c3e4dd27fb14",
+   "op_order": 1,
+   "account": "GBJYADWXF77OF33Q7ZCYMYWF7O45LX2K5D2T3V3DXDSL7PY5D3JZPXSQ",
+   "token": "CAMREOWBQEZT6AGJ3EPIR2TNO434ZEINJNDVQ5RDMHGGVUQK23W4P24X",
+   "delta": -3545837490,
+   "token_kind": "asset",
+   "event": "transfer"
+  },
+  {
+   "tx_hash": "48364b37424e21b28421edcf1f41e36abccc38f835392f7ce896c3e4dd27fb14",
+   "op_order": 1,
+   "account": "GBJYADWXF77OF33Q7ZCYMYWF7O45LX2K5D2T3V3DXDSL7PY5D3JZPXSQ",
+   "token": "CAMREOWBQEZT6AGJ3EPIR2TNO434ZEINJNDVQ5RDMHGGVUQK23W4P24X",
+   "delta": 3545837490,
+   "token_kind": "asset",
+   "event": "transfer"
+  },
+  {
+   "tx_hash": "db0082cf789c28e3621c2c47acfca161ef421fb4069a9187b653dabcda0b3685",
+   "op_order": 1,
+   "account": "GDWBOJCUQOMIDHUME33ECFJGETOPOLNLXIAR6PCZIJE73WJ7BHAWS3AH",
+   "token": "CCJLL5AINWR53BKR3QY45K7FDDGTDIEJS5KGWCYM2XCRBG54JKHX5CCC",
+   "delta": -139271681,
+   "token_kind": "asset",
+   "event": "transfer"
+  },
+  {
+   "tx_hash": "db0082cf789c28e3621c2c47acfca161ef421fb4069a9187b653dabcda0b3685",
+   "op_order": 1,
+   "account": "LD3U4GA35VQVEPXDYG3GPMWZ2LPQL3TUTC5DOSAD23SCER5SWIYGDSMB",
+   "token": "CCJLL5AINWR53BKR3QY45K7FDDGTDIEJS5KGWCYM2XCRBG54JKHX5CCC",
+   "delta": 139271681,
+   "token_kind": "asset",
+   "event": "transfer"
+  },
+  {
+   "tx_hash": "db0082cf789c28e3621c2c47acfca161ef421fb4069a9187b653dabcda0b3685",
+   "op_order": 1,
+   "account": "LD3U4GA35VQVEPXDYG3GPMWZ2LPQL3TUTC5DOSAD23SCER5SWIYGDSMB",
+   "token": "CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC",
+   "delta": -1093105195,
+   "token_kind": "asset",
+   "event": "transfer"
+  },
+  {
+   "tx_hash": "db0082cf789c28e3621c2c47acfca161ef421fb4069a9187b653dabcda0b3685",
+   "op_order": 1,
+   "account": "GDWBOJCUQOMIDHUME33ECFJGETOPOLNLXIAR6PCZIJE73WJ7BHAWS3AH",
+   "token": "CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC",
+   "delta": 1093105195,
+   "token_kind": "asset",
+   "event": "transfer"
+  },
+  {
+   "tx_hash": "db0082cf789c28e3621c2c47acfca161ef421fb4069a9187b653dabcda0b3685",
+   "op_order": 1,
+   "account": "GDWBOJCUQOMIDHUME33ECFJGETOPOLNLXIAR6PCZIJE73WJ7BHAWS3AH",
+   "token": "CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC",
+   "delta": -1093105195,
+   "token_kind": "asset",
+   "event": "transfer"
+  },
+  {
+   "tx_hash": "db0082cf789c28e3621c2c47acfca161ef421fb4069a9187b653dabcda0b3685",
+   "op_order": 1,
+   "account": "LDYALQVC24LQQ5F3GGGOJ3QAGN7ZAYMKGPHHKS5LUWDU6X3JHCCFH3MI",
+   "token": "CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC",
+   "delta": 1093105195,
+   "token_kind": "asset",
+   "event": "transfer"
+  },
+  {
+   "tx_hash": "db0082cf789c28e3621c2c47acfca161ef421fb4069a9187b653dabcda0b3685",
+   "op_order": 1,
+   "account": "LDYALQVC24LQQ5F3GGGOJ3QAGN7ZAYMKGPHHKS5LUWDU6X3JHCCFH3MI",
+   "token": "CBS7EA3GUX67MAY6WOTQYBTY47FG3MKWRLIDBOM3EAS265DKGL5U65BA",
+   "delta": -1420016196,
+   "token_kind": "asset",
+   "event": "transfer"
+  },
+  {
+   "tx_hash": "db0082cf789c28e3621c2c47acfca161ef421fb4069a9187b653dabcda0b3685",
+   "op_order": 1,
+   "account": "GDWBOJCUQOMIDHUME33ECFJGETOPOLNLXIAR6PCZIJE73WJ7BHAWS3AH",
+   "token": "CBS7EA3GUX67MAY6WOTQYBTY47FG3MKWRLIDBOM3EAS265DKGL5U65BA",
+   "delta": 1420016196,
+   "token_kind": "asset",
+   "event": "transfer"
+  },
+  {
+   "tx_hash": "db0082cf789c28e3621c2c47acfca161ef421fb4069a9187b653dabcda0b3685",
+   "op_order": 1,
+   "account": "GDWBOJCUQOMIDHUME33ECFJGETOPOLNLXIAR6PCZIJE73WJ7BHAWS3AH",
+   "token": "CBS7EA3GUX67MAY6WOTQYBTY47FG3MKWRLIDBOM3EAS265DKGL5U65BA",
+   "delta": -1420016196,
+   "token_kind": "asset",
+   "event": "transfer"
+  },
+  {
+   "tx_hash": "db0082cf789c28e3621c2c47acfca161ef421fb4069a9187b653dabcda0b3685",
+   "op_order": 1,
+   "account": "GDWBOJCUQOMIDHUME33ECFJGETOPOLNLXIAR6PCZIJE73WJ7BHAWS3AH",
+   "token": "CBS7EA3GUX67MAY6WOTQYBTY47FG3MKWRLIDBOM3EAS265DKGL5U65BA",
+   "delta": 1420016196,
+   "token_kind": "asset",
+   "event": "transfer"
+  },
+  {
+   "tx_hash": "87f0fd2f32f5f91aeba2abf6dd59c7db3321b654ba43905cd1ab9cf363f8eacf",
+   "op_order": 1,
+   "account": "GCSTPPRBHQ24ODI4JSPYN5IDSJOEHMKACQR5ER3UFKOCU6EI6LDPEKJJ",
+   "token": "CAWZALLSBTPWTVNRLIF6TJSKZ5FWELKGGJPVNBMP6F7EGZTVZ5DRS4MS",
+   "delta": -40403716,
+   "token_kind": "asset",
+   "event": "clawback"
+  },
+  {
+   "tx_hash": "87f0fd2f32f5f91aeba2abf6dd59c7db3321b654ba43905cd1ab9cf363f8eacf",
+   "op_order": 2,
+   "account": "GAGYF77NYKYWEDZZGG2X7SBVCVMLKHLZ4OZFWOLN2HLU2AZJLUKDJQXL",
+   "token": "CAWZALLSBTPWTVNRLIF6TJSKZ5FWELKGGJPVNBMP6F7EGZTVZ5DRS4MS",
+   "delta": -40403716,
+   "token_kind": "asset",
+   "event": "transfer"
+  },
+  {
+   "tx_hash": "87f0fd2f32f5f91aeba2abf6dd59c7db3321b654ba43905cd1ab9cf363f8eacf",
+   "op_order": 2,
+   "account": "GAGYF77NYKYWEDZZGG2X7SBVCVMLKHLZ4OZFWOLN2HLU2AZJLUKDJQXL",
+   "token": "CAWZALLSBTPWTVNRLIF6TJSKZ5FWELKGGJPVNBMP6F7EGZTVZ5DRS4MS",
+   "delta": 40403716,
+   "token_kind": "asset",
+   "event": "transfer"
+  },
+  {
+   "tx_hash": "a1f1b926750901f5fd0d92991ffe46e5566d9a05e03f9e3dfc550a7a743d850f",
+   "op_order": 1,
+   "account": "CDO5TKQUEGINSQMX4NE62AGR2FSANGTOVV5Z77AQHQBFT5VGV4DUTAX3",
+   "token": "CBVJ6GYJJ55ALTHN32OJEFGUZWWTMDFGIBCM42SPYQ4GWLKX2XARAP2N",
+   "delta": 219711431908,
+   "token_kind": "asset",
+   "event": "mint"
+  },
+  {
+   "tx_hash": "a1f1b926750901f5fd0d92991ffe46e5566d9a05e03f9e3dfc550a7a743d850f",
+   "op_order": 1,
+   "account": "CDO5TKQUEGINSQMX4NE62AGR2FSANGTOVV5Z77AQHQBFT5VGV4DUTAX3",
+   "token": "CBM44TNMCPYIFJO4PSMDZA7IXKJRRNHA6EOWNWI3X4V47DDC7WQXXD3E",
+   "delta": -2591378715930,
+   "token_kind": "asset",
+   "event": "burn"
+  },
+  {
+   "tx_hash": "a1f1b926750901f5fd0d92991ffe46e5566d9a05e03f9e3dfc550a7a743d850f",
+   "op_order": 1,
+   "account": "CBLKPKQEGPLPJNRGJFCE2JLRNGWZATG4WI55AA77UYNZXLLYNVNOFHBS",
+   "token": "CAEXCVZUCB6FGYKU6YAEUJMVCLS74SPSQ2TTEOLJ27A3C6C627OQON47",
+   "delta": 1333381321,
+   "token_kind": "asset",
+   "event": "mint"
+  },
+  {
+   "tx_hash": "a1f1b926750901f5fd0d92991ffe46e5566d9a05e03f9e3dfc550a7a743d850f",
+   "op_order": 1,
+   "account": "CBLKPKQEGPLPJNRGJFCE2JLRNGWZATG4WI55AA77UYNZXLLYNVNOFHBS",
+   "token": "CBM44TNMCPYIFJO4PSMDZA7IXKJRRNHA6EOWNWI3X4V47DDC7WQXXD3E",
+   "delta": -565879093924,
+   "token_kind": "asset",
+   "event": "burn"
+  },
+  {
+   "tx_hash": "d9332f9084c45943015b80b4c0c80a8089a4ac39164bdc77edbff27b69baefc7",
+   "op_order": 1,
+   "account": "GACVXELMTE6JXAQCMR4OJOYBZFD6VUDLV4YZGUR2ONN77EGZVY4YCLY5",
+   "token": "CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC",
+   "delta": -3342817,
+   "token_kind": "asset",
+   "event": "transfer"
+  },
+  {
+   "tx_hash": "d9332f9084c45943015b80b4c0c80a8089a4ac39164bdc77edbff27b69baefc7",
+   "op_order": 1,
+   "account": "CDNTAGN46U2O6CJE45KNJBYROQXYJNMO53QFHYNGZOVZMBTEDEADAXIS",
+   "token": "CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC",
+   "delta": 3342817,
+   "token_kind": "asset",
+   "event": "transfer"
+  },
+  {
+   "tx_hash": "d9332f9084c45943015b80b4c0c80a8089a4ac39164bdc77edbff27b69baefc7",
+   "op_order": 1,
+   "account": "GBDCULE53LUPK4XHUCXBI35MAZFQHENMZ3JRKAJS2PPYBV646M6XKVHG",
+   "token": "CC72F57YTPX76HAA64JQOEGHQAPSADQWSY5DWVBR66JINPFDLNCQYHIC",
+   "delta": -11443116,
+   "token_kind": "asset",
+   "event": "transfer"
+  },
+  {
+   "tx_hash": "d9332f9084c45943015b80b4c0c80a8089a4ac39164bdc77edbff27b69baefc7",
+   "op_order": 1,
+   "account": "GACVXELMTE6JXAQCMR4OJOYBZFD6VUDLV4YZGUR2ONN77EGZVY4YCLY5",
+   "token": "CC72F57YTPX76HAA64JQOEGHQAPSADQWSY5DWVBR66JINPFDLNCQYHIC",
+   "delta": 11443116,
+   "token_kind": "asset",
+   "event": "transfer"
+  },
+  {
+   "tx_hash": "d9332f9084c45943015b80b4c0c80a8089a4ac39164bdc77edbff27b69baefc7",
+   "op_order": 1,
+   "account": "CDNTAGN46U2O6CJE45KNJBYROQXYJNMO53QFHYNGZOVZMBTEDEADAXIS",
+   "token": "CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC",
+   "delta": -3342817,
+   "token_kind": "asset",
+   "event": "transfer"
+  },
+  {
+   "tx_hash": "d9332f9084c45943015b80b4c0c80a8089a4ac39164bdc77edbff27b69baefc7",
+   "op_order": 1,
+   "account": "GBDCULE53LUPK4XHUCXBI35MAZFQHENMZ3JRKAJS2PPYBV646M6XKVHG",
+   "token": "CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC",
+   "delta": 3342817,
+   "token_kind": "asset",
+   "event": "transfer"
+  },
+  {
+   "tx_hash": "7d50c9bcc45317ebcd814fbab202e33b75521757b1e2d1ff55931db6cd0343e4",
+   "op_order": 0,
+   "account": "GALM72DE4HBXTRGDYE3HF52QDNOJST36N6SB4I42XRQRESF5DPXBRBPW",
+   "token": "CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC",
+   "delta": 82060,
+   "token_kind": "asset",
+   "event": "fee"
+  },
+  {
+   "tx_hash": "71553e2240fa6236d2db4ac8f342d9b7ffee922c716bead8a15f50c7773279f2",
+   "op_order": 0,
+   "account": "GBF5XWE5SWHROB764GW6NWOVPBUTSM7ENTLO2ILBBBNYMKKILPIJQWJ3",
+   "token": "CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC",
+   "delta": 7060,
+   "token_kind": "asset",
+   "event": "fee"
+  },
+  {
+   "tx_hash": "20a7212e31939a6f1437ae1427be447f5d1dd5d3b76441f35a0420af39769704",
+   "op_order": 0,
+   "account": "GAKXHLL6JG3WHTLYL3UH72PYNBPDXAKOBT7IAYPK5JMS7L5PGGGIRATR",
+   "token": "CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC",
+   "delta": 6670,
+   "token_kind": "asset",
+   "event": "fee"
+  },
+  {
+   "tx_hash": "e68f7effc846dddcc0a585808cbe6b61bf6d5f871540df9f0c00e53d13ff3928",
+   "op_order": 0,
+   "account": "GAWNGIYUZNCUHJWHUQ2ID7ZJFQ2BLQEU7KPGJ6P526LOKWIO375DRZWA",
+   "token": "CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC",
+   "delta": 6889,
+   "token_kind": "asset",
+   "event": "fee"
+  },
+  {
+   "tx_hash": "a1f1b926750901f5fd0d92991ffe46e5566d9a05e03f9e3dfc550a7a743d850f",
+   "op_order": 0,
+   "account": "GAGVZMODPYFTULIVSY3RGFADIC5LF4LLSN37N4MFWGNZ57TYBXL2LQQX",
+   "token": "CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC",
+   "delta": 5741,
+   "token_kind": "asset",
+   "event": "fee"
+  },
+  {
+   "tx_hash": "8f00622ea382cf2d1d2853215891c6a962db57e0183ed57ea78a9dc2458d2b08",
+   "op_order": 0,
+   "account": "GACVXELMTE6JXAQCMR4OJOYBZFD6VUDLV4YZGUR2ONN77EGZVY4YCLY5",
+   "token": "CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC",
+   "delta": 55498,
+   "token_kind": "asset",
+   "event": "fee"
+  },
+  {
+   "tx_hash": "d9332f9084c45943015b80b4c0c80a8089a4ac39164bdc77edbff27b69baefc7",
+   "op_order": 0,
+   "account": "GBDCULE53LUPK4XHUCXBI35MAZFQHENMZ3JRKAJS2PPYBV646M6XKVHG",
+   "token": "CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC",
+   "delta": 201209,
+   "token_kind": "asset",
+   "event": "fee"
+  },
+  {
+   "tx_hash": "566dd045cc1d22d14befb393ce5d6d1b1525b615ae8a7219e0b48f2009c6f9cc",
+   "op_order": 0,
+   "account": "GB32JP5GNOQLW4NUMV6H2UBOSMB4DROL7YNDBWAHYXMVFLLJOH3LXKHK",
+   "token": "CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC",
+   "delta": 55499,
+   "token_kind": "asset",
+   "event": "fee"
+  },
+  {
+   "tx_hash": "aca8a81064f87b0ab37a2ad3aa7547122bfba17b49a8e837f88b5a259e89d68c",
+   "op_order": 0,
+   "account": "GDUQ3DXGSNRGPNNGHLKXLSVPRC3V2PAYMP6ITW3ICSRLF64KVOTPA6AT",
+   "token": "CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC",
+   "delta": 5332,
+   "token_kind": "asset",
+   "event": "fee"
+  },
+  {
+   "tx_hash": "7c87939708332962f800ac835f00f4fbf989ceafa6a16f1827ca18f65ce326c2",
+   "op_order": 0,
+   "account": "GBDT24V2UV2WJS6FKGB4WZD2IHCBATZGF7XFCL5AGFAH54JHTKODVQJR",
+   "token": "CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC",
+   "delta": 4875,
+   "token_kind": "asset",
+   "event": "fee"
+  }
+ ],
+ "unreadable": [],
+ "row_counts": {
+  "transactions": 19,
+  "operations": 20,
+  "effects": 25,
+  "token_transfer": 52
+ },
+ "seconds": 1.0,
+ "process": {
+  "outcome": "exited",
+  "exit_code": 0
+ }
+}

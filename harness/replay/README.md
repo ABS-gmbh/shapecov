@@ -1,6 +1,7 @@
 # Replay harness
 
-Runs `LedgerCloseMeta` corpus entries through a real indexer and reports, per entry and commit,
+Runs `LedgerCloseMeta` corpus entries through a real indexer (stellar/wallet-backend or
+stellar/stellar-etl) and reports, per entry and commit,
 whether the indexer stored them correctly (`pass`), stored something wrong or failed on valid data
 (`mishandled`), or silently lost them (`dropped`).
 
@@ -9,7 +10,8 @@ from a Go test with no database. Here the indexer runs as it does in production:
 its own `migrate up`, its own `ingest` command, a real TimescaleDB, and a ledger delivered
 through one of two inputs that existing pipelines already read from.
 
-Results: [`RESULTS.md`](RESULTS.md). Adapter contract: [`ADAPTER.md`](ADAPTER.md).
+Results: [`RESULTS.md`](RESULTS.md) (wallet-backend), [`RESULTS-stellar-etl.md`](RESULTS-stellar-etl.md).
+Adapter contract: [`ADAPTER.md`](ADAPTER.md).
 
 ## Run it
 
@@ -17,6 +19,7 @@ Results: [`RESULTS.md`](RESULTS.md). Adapter contract: [`ADAPTER.md`](ADAPTER.md
 harness/replay/run.sh            # sightings + every entry at current main
 harness/replay/run.sh sightings  # every pair in sightings.json, then `replay.py check`
 harness/replay/run.sh quick      # #729 only: pre-fix and fix commits, both inputs (about 1 minute once built)
+harness/replay/run.sh etl        # every entry through stellar-etl's current master (about 3 minutes with the build)
 ```
 
 Needs Docker, git and python3 (standard library only). Network access is used to clone
@@ -30,8 +33,12 @@ Lower level:
 python3 harness/replay/replay.py run --refs <ref>[,<ref>…] [--entries ID,…| --all-entries] \
         [--inputs rpc,datalake] [--max-protocol N] [--timeout 120] [--keep]
 python3 harness/replay/replay.py report      # rebuild RESULTS.md from out/results.jsonl
+python3 harness/replay/replay.py rejudge     # recompute the oracle verdicts from the stored observations
 python3 harness/replay/replay.py check       # fail unless out/results.jsonl matches sightings.json
 ```
+
+Every verb takes `--adapter` (`run`) or `--out` (all): stellar-etl's results live in
+`out-stellar-etl/`, one output directory per adapter.
 
 ## How it works
 
@@ -39,7 +46,8 @@ python3 harness/replay/replay.py check       # fail unless out/results.jsonl mat
 corpus/manifest.json ──► feeder (Docker, internal network)
                           ├─ :8000  mock stellar-rpc  (getHealth, getNetwork, getLatestLedger,
                           │                            getVersionInfo, getLedgerEntries, getLedgers)
-                          └─ :9000  S3-compatible store with the Galexie data-lake layout
+                          ├─ :9000  S3-compatible store with the Galexie data-lake layout
+                          └─ :9100  the same lake through the GCS JSON and XML APIs
                                          │
 replay.py ── adapter prepare ──► go build of the commit, unmodified (Docker)
           ── adapter up ───────► TimescaleDB (Docker, tmpfs)
@@ -53,7 +61,7 @@ replay.py ── adapter prepare ──► go build of the commit, unmodified (D
   entries are picked up with no code change. The network passphrase is taken per entry.
 - **Bounded memory.** The feeder indexes a few header fields per entry and streams ledger bytes from
   disk in 64 KiB chunks for both inputs. Peak RSS is recorded in each run (about 36 MB serving all
-  48 entries).
+  52 entries).
 - **No route out.** The feeder, database and indexer share a Docker network created with
   `--internal`.
 - **Expectations come only from the manifest.** The indexer's output is never used to decide what
@@ -149,9 +157,49 @@ network passphrase.
 All of these were run through both inputs, with the same result. Logs, jobs, observations and
 feeder request logs for every cell are under `out/<commit>/<input>/<entry>/`.
 
+## stellar-etl
+
+`adapters/stellar-etl/` runs stellar-etl unmodified at a given commit: built with cgo in the Go image
+its own `docker/Dockerfile` names, then `export_transactions`, `export_operations`, `export_effects`
+and `export_token_transfer` for the one ledger. stellar-etl's datastore type is fixed to Google
+Cloud Storage, so the feeder also serves the lake through the GCS JSON and XML APIs, and the
+exporter's own GCS client is pointed at it with `STORAGE_EMULATOR_HOST`, the client library's
+standard setting. No flag, source line or dependency is changed.
+
+The oracle maps onto stellar-etl's own vocabulary (`adapters/stellar-etl/expect.py`): each change
+in ledger state should produce the matching Horizon-model effect (`account_created`,
+`signer_created`, `trustline_flags_updated` naming the trustor, …), and each account's net balance
+change should equal the net of its CAP-67 token transfer events (fees at position 0, refunds as
+negative fee events). The manifest's hand-written expectations name wallet-backend rows, so only
+their `transaction` checks apply here.
+
+At stellar-etl `master` (`2b24ec89`), all 52 ledgers (results in
+[`RESULTS-stellar-etl.md`](RESULTS-stellar-etl.md)):
+
+| | Ledgers | Rows checked | Met | Known | Unexplained |
+|---|---|---|---|---|---|
+| Effects (state changes) | 25 | 97 | 93 | 4: stellar-etl#460 | 0 |
+| Net balances (token transfers) | 25 | 3993 | 3993 | none | 0 |
+| Ledger not exported | 2 of 25 | | | 2: our finding E1 (not filed) | 0 |
+| Not applicable (stellar-core test network) | 27 | | | | |
+
+- **stellar-etl#460** (open, filed by a maintainer in July): an account created by XLM sent through
+  the native asset contract gets no `account_created` effect, and a trustline created by the asset
+  contract's `trust()` (CAP-73) gets no `trustline_created`. The oracle found all four rows from
+  ledger data alone: `testnet-5709224` (both shapes), `pubnet-65480300`, `localcore-sac-trust-p28-5`.
+- **E1, new:** `export_token_transfer` fails on every ledger before protocol 23 that holds a
+  transaction (`localcore-classic-p22-3`, `localcore-muxed-source-p22-3`): stellar-etl builds the
+  token transfer processor in unified-events mode, which requires `TransactionMeta` v4. The SDK's
+  other constructor handles both ledgers. Evidence: `corpus/evidence/stellar-etl-token-transfer-pre23.md`.
+
+Custom token contracts (SEP-41 tokens other than asset contracts) keep balances in contract
+storage, which the oracle does not read, so their token transfer events are not compared.
+
 ## Limits
 
-- **wallet-backend is the only adapter.** A stellar-etl adapter was started but not finished.
+- **stellar-etl reads only pubnet, testnet and futurenet** from a GCS data lake, so the 27 entries
+  from stellar-core's own test data (passphrase `(V) (;,,;) (V)`) are `n/a` for it, and its one input
+  is `datalake`.
 - **Older commits can only decode up to protocol 28.** They pin go-stellar-sdk v0.7.3, so protocol 29
   and 30 entries are run at current `main` only. `--max-protocol 28` selects the older-compatible
   entries. Dependencies are never upgraded to work around this.

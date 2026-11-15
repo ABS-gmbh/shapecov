@@ -1,46 +1,46 @@
 {
- "entry_id": "testnet-5692653",
  "adapter": "wallet-backend",
- "ref": "3e22515a44979fdc3a558fda3991ca2b48e38cef",
- "commit": "3e22515a44979fdc3a558fda3991ca2b48e38cef",
- "input": "rpc",
- "protocol_version": 30,
- "sdk_pin": "v0.8.0",
- "mode": "unmodified",
- "result": "pass",
- "mishandled": [],
- "dropped": [],
  "checks": [],
+ "commit": "3e22515a44979fdc3a558fda3991ca2b48e38cef",
+ "dropped": [],
+ "entry_id": "testnet-5692653",
+ "evidence": "out/3e22515a4497/rpc/testnet-5692653",
  "expectations": 0,
  "expectations_source": "none (implicit checks only)",
- "ledger": {
-  "seq": 5692653,
-  "hash": "cdca1cfeed9547ea92fabef45277d6e8d0dc1b9f2d44fb0837a598a7a84586da",
-  "close_time": 1794486908,
-  "protocol": 30
- },
- "ingested": true,
- "row_counts": {
-  "transactions": 13,
-  "transactions_accounts": 25,
-  "operations": 13,
-  "operations_accounts": 21,
-  "state_changes": 31
- },
- "process": {
-  "outcome": "stopped by the adapter after the ledger was ingested",
-  "exit_code": 0,
-  "oom_killed": false,
-  "started_finished": "2026-11-15T21:45:41.471369504Z 2026-11-15T21:45:42.614845213Z"
- },
- "seconds": 2.2,
  "feeder_requests": 4,
- "evidence": "out/3e22515a4497/rpc/testnet-5692653",
+ "ingested": true,
+ "input": "rpc",
+ "ledger": {
+  "close_time": 1794486908,
+  "hash": "cdca1cfeed9547ea92fabef45277d6e8d0dc1b9f2d44fb0837a598a7a84586da",
+  "protocol": 30,
+  "seq": 5692653
+ },
+ "mishandled": [],
+ "mode": "unmodified",
  "oracle": {
   "verdict": "pass",
   "rows_expected": 22,
   "rows_met": 22,
   "known": {},
   "unexplained": []
- }
+ },
+ "process": {
+  "exit_code": 0,
+  "oom_killed": false,
+  "outcome": "stopped by the adapter after the ledger was ingested",
+  "started_finished": "2026-11-15T21:45:41.471369504Z 2026-11-15T21:45:42.614845213Z"
+ },
+ "protocol_version": 30,
+ "ref": "3e22515a44979fdc3a558fda3991ca2b48e38cef",
+ "result": "pass",
+ "row_counts": {
+  "operations": 13,
+  "operations_accounts": 21,
+  "state_changes": 31,
+  "transactions": 13,
+  "transactions_accounts": 25
+ },
+ "sdk_pin": "v0.8.0",
+ "seconds": 2.2
 }

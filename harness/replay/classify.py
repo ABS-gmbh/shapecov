@@ -79,8 +79,14 @@ def _state_change(exp, obs):
 
 
 def balance_sums(obs):
-    """(tx_hash, op_order, account, token) -> CREDIT minus DEBIT, over the stored BALANCE rows."""
+    """(tx_hash, op_order, account, token) -> net stored movement. An adapter either lists signed
+    `balance_movements` itself, or stores wallet-backend BALANCE rows: CREDIT minus DEBIT."""
     sums = {}
+    if "balance_movements" in obs:
+        for m in obs["balance_movements"] or []:
+            k = (m.get("tx_hash"), m.get("op_order"), m.get("account"), m.get("token"))
+            sums[k] = sums.get(k, 0) + int(m["delta"])
+        return sums
     for r in obs.get("state_changes") or []:
         if r.get("category") != "BALANCE" or r.get("reason") not in ("CREDIT", "DEBIT"):
             continue

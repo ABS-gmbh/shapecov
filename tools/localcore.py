@@ -23,6 +23,9 @@ Scenarios (one per run):
                      from 23.0.0 refuse to queue it at any protocol, and 22.x refuse it only when
                      it carries non-source-account authorization, so 22.2.1 is the newest release
                      that can produce this ledger.
+  classic-p22        Protocol 22, stellar-core 22.2.1. One CreateAccount from the root account: a
+                     ledger before protocol 23 with only a classic transaction, so TransactionMeta
+                     v3 and no unified events. Tools that need protocol-23 meta reject it.
   sac-trust-p28      Protocol 28, stellar-core 30.0.0. Create a trustor account, deploy the Stellar
                      Asset Contract for USD issued by the root account, then have the trustor call
                      the contract's trust(trustor) (CAP-73) in a ledger of its own. That creates a
@@ -60,7 +63,7 @@ from encode import Encoder  # noqa: E402
 ROOT = Path(__file__).resolve().parent.parent
 IMAGE = "stellar/stellar-core:30.0.0-3642.0e49751aa.noble"
 IMAGE_V22 = "stellar/stellar-core:22.2.1-2429.e70f0aed8.focal"
-SCENARIOS = {"muxed-source-p22": IMAGE_V22, "muxed-source-refused-p24": IMAGE, "memo-and-offer-p30": IMAGE,
+SCENARIOS = {"muxed-source-p22": IMAGE_V22, "classic-p22": IMAGE_V22, "muxed-source-refused-p24": IMAGE, "memo-and-offer-p30": IMAGE,
              "sac-trust-p28": IMAGE}
 NAME = "shapecov-localcore-gen"
 PASSPHRASES = {"testnet": "Test SDF Network ; September 2015",
@@ -258,6 +261,8 @@ def main():
         run["stellar_core_version"] = info["build"]
         if a.scenario == "muxed-source-p22":
             muxed_source(core, enc, root, step, run, 22, accepted=True)
+        elif a.scenario == "classic-p22":
+            classic_p22(core, enc, root, payee, step, run)
         elif a.scenario == "sac-trust-p28":
             sac_trust_p28(core, enc, dec, root, step, run)
         elif a.scenario == "muxed-source-refused-p24":
@@ -308,6 +313,16 @@ def muxed_source(core, enc, root, step, run, protocol, accepted):
         run["ledger_muxed_source_p%d" % protocol] = core.close()
     elif step(name, protocol, blob, h, "ERROR txSOROBAN_INVALID")["status"] != "ERROR":
         raise SystemExit("the deploy was accepted, expected the queue to refuse it")
+
+
+def classic_p22(core, enc, root, payee, step, run):
+    core.upgrade(22)
+    t = tx(root.muxed(), 1, [{"sourceAccount": None, "body": {"type": "CREATE_ACCOUNT", "createAccountOp": {
+        "destination": payee.account(), "startingBalance": 100_0000000}}}])
+    blob, h = envelope(enc, core, t, root)
+    step("classic-p22: create account", 22, blob, h, "PENDING, applied")
+    run["payee"] = strkey.account(payee.pub)
+    run["ledger_classic_p22"] = core.close()
 
 
 def memo_and_offer_p30(core, enc, root, payee, step, run):
