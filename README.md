@@ -10,7 +10,8 @@ is a corpus of 51 entries (48 real ledgers from testnet, pubnet and stellar-core
 and a replay harness that runs wallet-backend's own `ingest` command against TimescaleDB, fed
 through a mock stellar-rpc or a Galexie data lake. It reproduces wallet-backend #716 and #729 at
 their commits; see `harness/replay/RESULTS.md`. A Go linter (`linter/`) checks indexer source for the
-three ingestion mistakes the RFP names. The hardening guide is not started. See
+three ingestion mistakes the RFP names. A draft indexer-hardening guide (`guide/`) is checked against
+the corpus manifest by `guide/check_guide.py`. See
 "Not built" below.
 
 ## What it does
@@ -125,8 +126,10 @@ inside `golang:1.26`, and `mvn dependency:copy-dependencies -DoutputDirectory=li
   rows so far; the others get the implicit checks only. See `harness/replay/README.md`, "Limits".
 - CAP tags are assigned by hand. Only "new in protocol 30" is computed, from the difference
   between the v28.0 and v30.0 XDR.
-- The hardening guide. The linter does not run clean on wallet-backend `main`: it reports 4
-  findings, all real and none of them a bug to file as is (see `linter/README.md`).
+- Review of the hardening guide by a stellar-core or platform engineer, which the RFP requires
+  before publication. Three shapes it describes have no corpus entry yet.
+- The linter does not run clean on wallet-backend `main`: it reports 4 findings, all real and none
+  of them a bug to file as is (see `linter/README.md`).
 
 ## Licence
 
