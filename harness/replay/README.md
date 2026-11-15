@@ -191,9 +191,9 @@ At stellar-etl `master` (`2b24ec89`), all 55 ledgers (results in
 
 | | Rows checked | Met | Known | Unexplained |
 |---|---|---|---|---|
-| Accounts, signers, thresholds, flags, data, trustlines | 102 | 96 | 4: stellar-etl#460; 2: E3 | 0 |
+| Accounts, signers, thresholds, flags, data, trustlines | 102 | 96 | 4: stellar-etl#460; 2: stellar-etl#514 (E3) | 0 |
 | Trades (crossed offers) | 151 | 151 | none | 0 |
-| Liquidity pools | 705 | 704 | 1: E2 | 0 |
+| Liquidity pools | 705 | 704 | 1: stellar-etl#513 (E2) | 0 |
 | Claimable balances | 18 | 18 | none | 0 |
 | Sponsorship (entries and signers) | 21 | 21 | none | 0 |
 | Net balances (token transfers) | 3998 | 3998 | none | 0 |
@@ -209,11 +209,11 @@ At stellar-etl `master` (`2b24ec89`), all 55 ledgers (results in
   token transfer processor in unified-events mode, which requires `TransactionMeta` v4. The SDK's
   other constructor handles both ledgers. Evidence: `corpus/evidence/stellar-etl-token-transfer-pre23.md`.
 
-- **E2, new, not filed:** a revocation that redeems pool shares in two pools at once gets one
+- **E2, new, filed as stellar-etl#513:** a revocation that redeems pool shares in two pools at once gets one
   `liquidity_pool_revoked`, for one pool, and that effect's `reserves_revoked` names the other
   pool's AAA claimable balance. Shown on `localcore-pool-revoke-two-pools-7` (stellar-core 30.0.0);
   Horizon has the same code. Evidence: `corpus/evidence/stellar-etl-pool-revocation.md`.
-- **E3, new, not filed:** the pool-share trustlines that revocation removes get no
+- **E3, new, filed as stellar-etl#514:** the pool-share trustlines that revocation removes get no
   `trustline_removed` effect; only ChangeTrust emits one. The effects-model counterpart of
   wallet-backend#817.
 

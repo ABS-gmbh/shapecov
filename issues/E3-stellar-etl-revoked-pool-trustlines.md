@@ -1,4 +1,6 @@
-# Draft, not filed: stellar/stellar-etl
+# Filed 16 November 2026: https://github.com/stellar/stellar-etl/issues/514
+
+The filed text names #513 where this says "the multi-pool revocation report".
 
 **Title:** Pool-share trustlines removed by an authorization revocation get no trustline_removed effect
 

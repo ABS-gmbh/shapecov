@@ -1,6 +1,6 @@
 # Findings
 
-Run date: 14 November 2026, updated 15 November 2026. Versions are in `README.md`.
+Run date: 14 November 2026, updated 16 November 2026. Versions are in `README.md`.
 
 Filed upstream:
 
@@ -10,6 +10,8 @@ Filed upstream:
 | P1 | https://github.com/StellarCN/py-stellar-base/issues/1262 | 14 November 2026 |
 | P2 | https://github.com/StellarCN/py-stellar-base/issues/1263 | 14 November 2026 |
 | E1 | https://github.com/stellar/stellar-etl/issues/512 | 15 November 2026 |
+| E2 | https://github.com/stellar/stellar-etl/issues/513 | 16 November 2026 |
+| E3 | https://github.com/stellar/stellar-etl/issues/514 | 16 November 2026 |
 
 "Confirmed" means: reproduced outside the harness with a short script in `repro/`, root cause
 located in the SDK source, and stellar-core 30.0.0 checked on the same class of bytes.
@@ -76,7 +78,7 @@ That search can miss things; check again before filing.
 - Filed: stellar/stellar-etl#512. Details: `corpus/evidence/stellar-etl-token-transfer-pre23.md`.
   Issue text: `issues/E1-stellar-etl-token-transfer-pre23.md`.
 
-## Confirmed, not filed yet
+## Confirmed, filed 16 November
 
 ### E2. stellar-etl: a revocation that redeems pool shares in several pools gets one `liquidity_pool_revoked`, citing another pool's balance
 
@@ -90,15 +92,15 @@ That search can miss things; check again before filing.
 - Found by: the oracle, with no hand-written expectation; predicted from the code first.
 - Cause: `addLiquidityPoolRevokedEffect` reads only the first pool change
   (`getLiquidityPoolAndProductDelta(nil)`) and maps the new claimable balances by asset alone.
-- Details: `corpus/evidence/stellar-etl-pool-revocation.md`. Draft:
-  `issues/E2-stellar-etl-multi-pool-revocation.md`.
+- Filed: stellar/stellar-etl#513. Details: `corpus/evidence/stellar-etl-pool-revocation.md`.
+  Issue text: `issues/E2-stellar-etl-multi-pool-revocation.md`.
 
 ### E3. stellar-etl: pool-share trustlines removed by a revocation get no `trustline_removed`
 
 - Same ledger: the two pool-share trustlines the revocation removes get no effect; only ChangeTrust
   emits `trustline_removed`, in stellar-etl and in Horizon. The effects-model counterpart of
   stellar/wallet-backend#817, which the same ledger also shows in wallet-backend.
-- Draft: `issues/E3-stellar-etl-revoked-pool-trustlines.md`.
+- Filed: stellar/stellar-etl#514. Issue text: `issues/E3-stellar-etl-revoked-pool-trustlines.md`.
 
 Searched on 15 November: no report in stellar-etl, stellar-horizon or go-stellar-sdk. stellar-etl
 #458 concerns only the order of a revocation's claimable balance effects.

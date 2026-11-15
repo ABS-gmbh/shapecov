@@ -24,7 +24,7 @@
    }
   },
   {
-   "issue": "FINDINGS.md E2 (stellar-etl, not filed upstream yet)",
+   "issue": "stellar/stellar-etl#513",
    "note": "A revocation that redeems pool shares in several pools gets one liquidity_pool_revoked effect: getLiquidityPoolAndProductDelta(nil) returns the first pool change only. Horizon's effects processor has the same call.",
    "match": {
     "reason": "liquidity_pool_revoked",
@@ -35,7 +35,7 @@
    }
   },
   {
-   "issue": "FINDINGS.md E3 (stellar-etl, not filed upstream yet)",
+   "issue": "stellar/stellar-etl#514",
    "note": "A pool-share trustline removed by an authorization revocation gets no trustline_removed effect; only ChangeTrust emits it, in stellar-etl and in Horizon. The effects-model counterpart of stellar/wallet-backend#817.",
    "match": {
     "reason": "trustline_removed",

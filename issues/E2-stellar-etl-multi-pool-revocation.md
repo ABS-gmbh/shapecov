@@ -1,4 +1,4 @@
-# Draft, not filed: stellar/stellar-etl
+# Filed 16 November 2026: https://github.com/stellar/stellar-etl/issues/513
 
 **Title:** A revocation that redeems pool shares in several pools gets one liquidity_pool_revoked effect, citing another pool's claimable balance
 

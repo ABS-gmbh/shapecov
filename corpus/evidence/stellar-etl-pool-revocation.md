@@ -1,7 +1,7 @@
 # Evidence: effects for a revocation that redeems pool shares in two pools
 
 Found by the oracle through the replay harness's stellar-etl adapter on 15 November 2026, at
-stellar-etl `master` `2b24ec89`. Not filed upstream yet; draft texts in
+stellar-etl `master` `2b24ec89`. Filed on 16 November as stellar/stellar-etl#513 (E2) and #514 (E3); the texts are in
 `issues/E2-stellar-etl-multi-pool-revocation.md` and `issues/E3-stellar-etl-revoked-pool-trustlines.md`.
 
 ## The ledger
