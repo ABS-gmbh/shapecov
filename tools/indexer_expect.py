@@ -14,6 +14,12 @@ Rules (one per corpus pattern that has one):
                              change for the trustline's account, whose token is the asset's Stellar
                              Asset Contract ID (sha256 of the HashIDPreimage CONTRACT_ID for the asset
                              under the entry's network passphrase, CAP-46).
+
+  soroban-op-muxed-source    For every transaction with a contract-invocation operation that runs as a
+                             muxed account (its own source, or the transaction's when it has none): the
+                             base account (the muxed account's ed25519 key as a G... address) is a
+                             participant of that transaction, identified by its hash (sha256 of the
+                             TransactionSignaturePayload under the entry's network passphrase).
 """
 import argparse
 import base64
@@ -65,6 +71,28 @@ def created_trustlines_by_contract(value):
                     yield path, data["trustLine"]
 
 
+def muxed_soroban_sources(value):
+    """Yield (path, envelope, ed25519 hex) for contract invocations that run as a muxed account."""
+    body = value["v%d" % value["v"]]
+    for k, env in enumerate(tx_list(body)):
+        if env.get("type") != "ENVELOPE_TYPE_TX":
+            continue
+        tx = env["v1"]["tx"]
+        for j, op in enumerate(tx["operations"]):
+            if op["body"]["type"] != "INVOKE_HOST_FUNCTION":
+                continue
+            src = op.get("sourceAccount") or tx["sourceAccount"]
+            if "med25519" in src:
+                yield "tx %d, operation %d" % (k, j), env, src["med25519"]["ed25519"]
+
+
+def tx_hash(enc, env, passphrase):
+    payload = enc.encode("TransactionSignaturePayload", {
+        "networkId": hashlib.sha256(passphrase.encode()).hexdigest(),
+        "taggedTransaction": {"type": "ENVELOPE_TYPE_TX", "tx": env["v1"]["tx"]}})
+    return hashlib.sha256(payload).hexdigest()
+
+
 def sac_contract_id(enc, asset, passphrase):
     preimage = {"type": "ENVELOPE_TYPE_CONTRACT_ID", "contractID": {
         "networkID": hashlib.sha256(passphrase.encode()).hexdigest(),
@@ -86,6 +114,10 @@ def expectations(entry, dec, enc):
             if reason:
                 e["reason"] = reason
             out.append(e)
+    for where, env, key in muxed_soroban_sources(value):
+        out.append({"expect": "participant", "account": strkey.account(key),
+                    "tx_hash": tx_hash(enc, env, passphrase),
+                    "note": "base account of the muxed source (%s)" % where})
     return out
 
 

@@ -16,128 +16,132 @@ of the indexer's own `ingest` command against PostgreSQL/TimescaleDB with the ta
 | `2c873353c1f0` | 2026-09-08 | fix: handle CAP-40 signed-payload signers in ingestion (#729) | v0.7.3 | no |
 | `764a4f5bcbff` | 2026-09-17 | feat(db): require code and issuer on SAC contract_tokens rows (#740) | v0.7.3 | no |
 | `c152783c054c` | 2026-09-17 | fix: record SAC-created trustline state changes (#734) | v0.7.3 | no |
+| `f8e5786d22c0` | 2026-09-18 | ci: notify Slack when a new issue is opened (#748) | v0.7.3 | no |
+| `bb0b162b0725` | 2026-09-25 | fix(indexer): reduce a Soroban operation's source to its base account | v0.7.3 | no |
 | `3e22515a4497` | 2026-11-12 | fix(services): cap Blend decimals at 70 on ingest and when serving pools (#802) | v0.8.0 | no |
 
 ## Entries with indexer expectations
 
 Expectations come from `expected.indexer` in the corpus manifest unless the detail section says otherwise.
 
-| Entry | Protocol | Input | `79ea2acd` | `6e5a5910` | `2a0a84ea` | `2c873353` | `764a4f5b` | `c152783c` | `3e22515a` |
-|---|---|---|---|---|---|---|---|---|---|
-| `localcore-sac-trust-p28-5` | 28 | rpc | not run | not run | not run | not run | dropped | pass | pass |
-| `localcore-sac-trust-p28-5` | 28 | datalake | not run | not run | not run | not run | dropped | pass | pass |
-| `testnet-4437357-signed-payload-signer` | 28 | rpc | mishandled | mishandled | mishandled | pass | not run | not run | pass |
-| `testnet-4437357-signed-payload-signer` | 28 | datalake | mishandled | mishandled | mishandled | pass | not run | not run | pass |
+| Entry | Protocol | Input | `79ea2acd` | `6e5a5910` | `2a0a84ea` | `2c873353` | `764a4f5b` | `c152783c` | `f8e5786d` | `bb0b162b` | `3e22515a` |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| `localcore-muxed-source-p22-3` | 22 | rpc | mishandled | mishandled | not run | not run | not run | not run | mishandled | pass | pass |
+| `localcore-muxed-source-p22-3` | 22 | datalake | mishandled | mishandled | not run | not run | not run | not run | mishandled | pass | pass |
+| `localcore-sac-trust-p28-5` | 28 | rpc | not run | not run | not run | not run | dropped | pass | not run | not run | pass |
+| `localcore-sac-trust-p28-5` | 28 | datalake | not run | not run | not run | not run | dropped | pass | not run | not run | pass |
+| `testnet-4437357-signed-payload-signer` | 28 | rpc | mishandled | mishandled | mishandled | pass | not run | not run | not run | not run | pass |
+| `testnet-4437357-signed-payload-signer` | 28 | datalake | mishandled | mishandled | mishandled | pass | not run | not run | not run | not run | pass |
 
 ## Entries without indexer expectations
 
 Only the implicit checks apply: the ledger is ingested without an error and every stored address reads back as a valid SEP-23 address. `pass` here does not say the stored rows are right.
 
-| Entry | Protocol | Input | `79ea2acd` | `6e5a5910` | `2a0a84ea` | `2c873353` | `764a4f5b` | `c152783c` | `3e22515a` |
-|---|---|---|---|---|---|---|---|---|---|
-| `golden-claimablebalance-3635a801-1` | 30 | rpc | not run | not run | not run | not run | not run | not run | pass |
-| `golden-claimablebalance-3635a801-1` | 30 | datalake | not run | not run | not run | not run | not run | not run | pass |
-| `golden-frozenledgerkeys-0d70bfa2-11` | 30 | rpc | not run | not run | not run | not run | not run | not run | pass |
-| `golden-frozenledgerkeys-0d70bfa2-11` | 30 | datalake | not run | not run | not run | not run | not run | not run | pass |
-| `golden-frozenledgerkeys-0d70bfa2-16` | 30 | rpc | not run | not run | not run | not run | not run | not run | pass |
-| `golden-frozenledgerkeys-0d70bfa2-16` | 30 | datalake | not run | not run | not run | not run | not run | not run | pass |
-| `golden-frozenledgerkeys-1cd53aa0-23` | 30 | rpc | not run | not run | not run | not run | not run | not run | pass |
-| `golden-frozenledgerkeys-1cd53aa0-23` | 30 | datalake | not run | not run | not run | not run | not run | not run | pass |
-| `golden-frozenledgerkeys-3f24be68-11` | 30 | rpc | not run | not run | not run | not run | not run | not run | pass |
-| `golden-frozenledgerkeys-3f24be68-11` | 30 | datalake | not run | not run | not run | not run | not run | not run | pass |
-| `golden-frozenledgerkeys-3f24be68-4` | 30 | rpc | not run | not run | not run | not run | not run | not run | pass |
-| `golden-frozenledgerkeys-3f24be68-4` | 30 | datalake | not run | not run | not run | not run | not run | not run | pass |
-| `golden-frozenledgerkeys-7a27fd53-34` | 30 | rpc | not run | not run | not run | not run | not run | not run | pass |
-| `golden-frozenledgerkeys-7a27fd53-34` | 30 | datalake | not run | not run | not run | not run | not run | not run | pass |
-| `golden-frozenledgerkeys-a0fb94c3-10` | 30 | rpc | not run | not run | not run | not run | not run | not run | pass |
-| `golden-frozenledgerkeys-a0fb94c3-10` | 30 | datalake | not run | not run | not run | not run | not run | not run | pass |
-| `golden-frozenledgerkeys-c8e33a7d-3` | 30 | rpc | not run | not run | not run | not run | not run | not run | pass |
-| `golden-frozenledgerkeys-c8e33a7d-3` | 30 | datalake | not run | not run | not run | not run | not run | not run | pass |
-| `golden-invokehostfunction-1373c067-11` | 30 | rpc | not run | not run | not run | not run | not run | not run | pass |
-| `golden-invokehostfunction-1373c067-11` | 30 | datalake | not run | not run | not run | not run | not run | not run | pass |
-| `golden-invokehostfunction-1dd4c042-10` | 30 | rpc | not run | not run | not run | not run | not run | not run | pass |
-| `golden-invokehostfunction-1dd4c042-10` | 30 | datalake | not run | not run | not run | not run | not run | not run | pass |
-| `golden-invokehostfunction-41088f6e-29` | 23 | rpc | not run | not run | not run | not run | not run | not run | pass |
-| `golden-invokehostfunction-41088f6e-29` | 23 | datalake | not run | not run | not run | not run | not run | not run | pass |
-| `golden-invokehostfunction-49190109-10` | 30 | rpc | not run | not run | not run | not run | not run | not run | pass |
-| `golden-invokehostfunction-49190109-10` | 30 | datalake | not run | not run | not run | not run | not run | not run | pass |
-| `golden-invokehostfunction-4c437318-42` | 30 | rpc | not run | not run | not run | not run | not run | not run | pass |
-| `golden-invokehostfunction-4c437318-42` | 30 | datalake | not run | not run | not run | not run | not run | not run | pass |
-| `golden-invokehostfunction-57a486ab-17` | 30 | rpc | not run | not run | not run | not run | not run | not run | pass |
-| `golden-invokehostfunction-57a486ab-17` | 30 | datalake | not run | not run | not run | not run | not run | not run | pass |
-| `golden-invokehostfunction-60000be2-10` | 30 | rpc | not run | not run | not run | not run | not run | not run | pass |
-| `golden-invokehostfunction-60000be2-10` | 30 | datalake | not run | not run | not run | not run | not run | not run | pass |
-| `golden-invokehostfunction-692fdd0e-17` | 30 | rpc | not run | not run | not run | not run | not run | not run | pass |
-| `golden-invokehostfunction-692fdd0e-17` | 30 | datalake | not run | not run | not run | not run | not run | not run | pass |
-| `golden-invokehostfunction-7f92354d-11` | 30 | rpc | not run | not run | not run | not run | not run | not run | pass |
-| `golden-invokehostfunction-7f92354d-11` | 30 | datalake | not run | not run | not run | not run | not run | not run | pass |
-| `golden-invokehostfunction-92400d0c-31` | 30 | rpc | not run | not run | not run | not run | not run | not run | pass |
-| `golden-invokehostfunction-92400d0c-31` | 30 | datalake | not run | not run | not run | not run | not run | not run | pass |
-| `golden-invokehostfunction-938fb779-18` | 30 | rpc | not run | not run | not run | not run | not run | not run | pass |
-| `golden-invokehostfunction-938fb779-18` | 30 | datalake | not run | not run | not run | not run | not run | not run | pass |
-| `golden-invokehostfunction-a8df5d4d-2` | 30 | rpc | not run | not run | not run | not run | not run | not run | pass |
-| `golden-invokehostfunction-a8df5d4d-2` | 30 | datalake | not run | not run | not run | not run | not run | not run | pass |
-| `golden-invokehostfunction-e6b26f2a-0` | 0 | rpc | not run | not run | not run | not run | not run | not run | pass |
-| `golden-invokehostfunction-e6b26f2a-0` | 0 | datalake | not run | not run | not run | not run | not run | not run | pass |
-| `golden-invokehostfunction-e6b26f2a-1` | 29 | rpc | not run | not run | not run | not run | not run | not run | pass |
-| `golden-invokehostfunction-e6b26f2a-1` | 29 | datalake | not run | not run | not run | not run | not run | not run | pass |
-| `golden-invokehostfunction-f2fc9bf3-12` | 20 | rpc | not run | not run | not run | not run | not run | not run | pass |
-| `golden-invokehostfunction-f2fc9bf3-12` | 20 | datalake | not run | not run | not run | not run | not run | not run | pass |
-| `golden-invokehostfunction-f5fa0a4b-12` | 30 | rpc | not run | not run | not run | not run | not run | not run | pass |
-| `golden-invokehostfunction-f5fa0a4b-12` | 30 | datalake | not run | not run | not run | not run | not run | not run | pass |
-| `golden-offer-9a363b75-30` | 30 | rpc | not run | not run | not run | not run | not run | not run | pass |
-| `golden-offer-9a363b75-30` | 30 | datalake | not run | not run | not run | not run | not run | not run | pass |
-| `golden-pathpayment-34519f44-22` | 30 | rpc | not run | not run | not run | not run | not run | not run | pass |
-| `golden-pathpayment-34519f44-22` | 30 | datalake | not run | not run | not run | not run | not run | not run | pass |
-| `pubnet-65479774` | 29 | rpc | not run | not run | not run | not run | not run | not run | pass |
-| `pubnet-65479774` | 29 | datalake | not run | not run | not run | not run | not run | not run | pass |
-| `pubnet-65480264` | 29 | rpc | not run | not run | not run | not run | not run | not run | pass |
-| `pubnet-65480264` | 29 | datalake | not run | not run | not run | not run | not run | not run | pass |
-| `pubnet-65480300` | 29 | rpc | not run | not run | not run | not run | not run | not run | pass |
-| `pubnet-65480300` | 29 | datalake | not run | not run | not run | not run | not run | not run | pass |
-| `pubnet-65480508` | 29 | rpc | not run | not run | not run | not run | not run | not run | pass |
-| `pubnet-65480508` | 29 | datalake | not run | not run | not run | not run | not run | not run | pass |
-| `pubnet-65480598` | 29 | rpc | not run | not run | not run | not run | not run | not run | pass |
-| `pubnet-65480598` | 29 | datalake | not run | not run | not run | not run | not run | not run | pass |
-| `testnet-5681488` | 30 | rpc | not run | not run | not run | not run | not run | not run | pass |
-| `testnet-5681488` | 30 | datalake | not run | not run | not run | not run | not run | not run | pass |
-| `testnet-5692653` | 30 | rpc | not run | not run | not run | not run | not run | not run | pass |
-| `testnet-5692653` | 30 | datalake | not run | not run | not run | not run | not run | not run | pass |
-| `testnet-5707122` | 30 | rpc | not run | not run | not run | not run | not run | not run | pass |
-| `testnet-5707122` | 30 | datalake | not run | not run | not run | not run | not run | not run | pass |
-| `testnet-5708889` | 30 | rpc | not run | not run | not run | not run | not run | not run | pass |
-| `testnet-5708889` | 30 | datalake | not run | not run | not run | not run | not run | not run | pass |
-| `testnet-5709224` | 30 | rpc | not run | not run | not run | not run | not run | not run | pass |
-| `testnet-5709224` | 30 | datalake | not run | not run | not run | not run | not run | not run | pass |
-| `testnet-5710719` | 30 | rpc | not run | not run | not run | not run | not run | not run | pass |
-| `testnet-5710719` | 30 | datalake | not run | not run | not run | not run | not run | not run | pass |
-| `testnet-5711238` | 30 | rpc | not run | not run | not run | not run | not run | not run | pass |
-| `testnet-5711238` | 30 | datalake | not run | not run | not run | not run | not run | not run | pass |
-| `testnet-5711641` | 30 | rpc | not run | not run | not run | not run | not run | not run | pass |
-| `testnet-5711641` | 30 | datalake | not run | not run | not run | not run | not run | not run | pass |
-| `testnet-5712621` | 30 | rpc | not run | not run | not run | not run | not run | not run | pass |
-| `testnet-5712621` | 30 | datalake | not run | not run | not run | not run | not run | not run | pass |
-| `testnet-5716828` | 30 | rpc | not run | not run | not run | not run | not run | not run | pass |
-| `testnet-5716828` | 30 | datalake | not run | not run | not run | not run | not run | not run | pass |
-| `testnet-5718650` | 30 | rpc | not run | not run | not run | not run | not run | not run | pass |
-| `testnet-5718650` | 30 | datalake | not run | not run | not run | not run | not run | not run | pass |
-| `testnet-5719527` | 30 | rpc | not run | not run | not run | not run | not run | not run | pass |
-| `testnet-5719527` | 30 | datalake | not run | not run | not run | not run | not run | not run | pass |
-| `testnet-5722195` | 30 | rpc | not run | not run | not run | not run | not run | not run | pass |
-| `testnet-5722195` | 30 | datalake | not run | not run | not run | not run | not run | not run | pass |
-| `testnet-5725684` | 30 | rpc | not run | not run | not run | not run | not run | not run | pass |
-| `testnet-5725684` | 30 | datalake | not run | not run | not run | not run | not run | not run | pass |
-| `testnet-5726002` | 30 | rpc | not run | not run | not run | not run | not run | not run | pass |
-| `testnet-5726002` | 30 | datalake | not run | not run | not run | not run | not run | not run | pass |
+| Entry | Protocol | Input | `79ea2acd` | `6e5a5910` | `2a0a84ea` | `2c873353` | `764a4f5b` | `c152783c` | `f8e5786d` | `bb0b162b` | `3e22515a` |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| `golden-claimablebalance-3635a801-1` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `golden-claimablebalance-3635a801-1` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `golden-frozenledgerkeys-0d70bfa2-11` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `golden-frozenledgerkeys-0d70bfa2-11` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `golden-frozenledgerkeys-0d70bfa2-16` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `golden-frozenledgerkeys-0d70bfa2-16` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `golden-frozenledgerkeys-1cd53aa0-23` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `golden-frozenledgerkeys-1cd53aa0-23` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `golden-frozenledgerkeys-3f24be68-11` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `golden-frozenledgerkeys-3f24be68-11` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `golden-frozenledgerkeys-3f24be68-4` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `golden-frozenledgerkeys-3f24be68-4` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `golden-frozenledgerkeys-7a27fd53-34` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `golden-frozenledgerkeys-7a27fd53-34` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `golden-frozenledgerkeys-a0fb94c3-10` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `golden-frozenledgerkeys-a0fb94c3-10` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `golden-frozenledgerkeys-c8e33a7d-3` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `golden-frozenledgerkeys-c8e33a7d-3` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `golden-invokehostfunction-1373c067-11` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `golden-invokehostfunction-1373c067-11` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `golden-invokehostfunction-1dd4c042-10` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `golden-invokehostfunction-1dd4c042-10` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `golden-invokehostfunction-41088f6e-29` | 23 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `golden-invokehostfunction-41088f6e-29` | 23 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `golden-invokehostfunction-49190109-10` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `golden-invokehostfunction-49190109-10` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `golden-invokehostfunction-4c437318-42` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `golden-invokehostfunction-4c437318-42` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `golden-invokehostfunction-57a486ab-17` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `golden-invokehostfunction-57a486ab-17` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `golden-invokehostfunction-60000be2-10` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `golden-invokehostfunction-60000be2-10` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `golden-invokehostfunction-692fdd0e-17` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `golden-invokehostfunction-692fdd0e-17` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `golden-invokehostfunction-7f92354d-11` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `golden-invokehostfunction-7f92354d-11` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `golden-invokehostfunction-92400d0c-31` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `golden-invokehostfunction-92400d0c-31` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `golden-invokehostfunction-938fb779-18` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `golden-invokehostfunction-938fb779-18` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `golden-invokehostfunction-a8df5d4d-2` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `golden-invokehostfunction-a8df5d4d-2` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `golden-invokehostfunction-e6b26f2a-0` | 0 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `golden-invokehostfunction-e6b26f2a-0` | 0 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `golden-invokehostfunction-e6b26f2a-1` | 29 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `golden-invokehostfunction-e6b26f2a-1` | 29 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `golden-invokehostfunction-f2fc9bf3-12` | 20 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `golden-invokehostfunction-f2fc9bf3-12` | 20 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `golden-invokehostfunction-f5fa0a4b-12` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `golden-invokehostfunction-f5fa0a4b-12` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `golden-offer-9a363b75-30` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `golden-offer-9a363b75-30` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `golden-pathpayment-34519f44-22` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `golden-pathpayment-34519f44-22` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `pubnet-65479774` | 29 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `pubnet-65479774` | 29 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `pubnet-65480264` | 29 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `pubnet-65480264` | 29 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `pubnet-65480300` | 29 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `pubnet-65480300` | 29 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `pubnet-65480508` | 29 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `pubnet-65480508` | 29 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `pubnet-65480598` | 29 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `pubnet-65480598` | 29 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `testnet-5681488` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `testnet-5681488` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `testnet-5692653` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `testnet-5692653` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `testnet-5707122` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `testnet-5707122` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `testnet-5708889` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `testnet-5708889` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `testnet-5709224` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `testnet-5709224` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `testnet-5710719` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `testnet-5710719` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `testnet-5711238` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `testnet-5711238` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `testnet-5711641` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `testnet-5711641` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `testnet-5712621` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `testnet-5712621` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `testnet-5716828` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `testnet-5716828` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `testnet-5718650` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `testnet-5718650` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `testnet-5719527` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `testnet-5719527` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `testnet-5722195` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `testnet-5722195` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `testnet-5725684` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `testnet-5725684` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `testnet-5726002` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `testnet-5726002` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 
 ## Totals
 
 | Commit | Input | pass | mishandled | dropped | error |
 |---|---|---|---|---|---|
-| `79ea2acd` | rpc | 0 | 1 | 0 | 0 |
-| `79ea2acd` | datalake | 0 | 1 | 0 | 0 |
-| `6e5a5910` | rpc | 0 | 1 | 0 | 0 |
-| `6e5a5910` | datalake | 0 | 1 | 0 | 0 |
+| `79ea2acd` | rpc | 0 | 2 | 0 | 0 |
+| `79ea2acd` | datalake | 0 | 2 | 0 | 0 |
+| `6e5a5910` | rpc | 0 | 2 | 0 | 0 |
+| `6e5a5910` | datalake | 0 | 2 | 0 | 0 |
 | `2a0a84ea` | rpc | 0 | 1 | 0 | 0 |
 | `2a0a84ea` | datalake | 0 | 1 | 0 | 0 |
 | `2c873353` | rpc | 1 | 0 | 0 | 0 |
@@ -146,10 +150,58 @@ Only the implicit checks apply: the ledger is ingested without an error and ever
 | `764a4f5b` | datalake | 0 | 0 | 1 | 0 |
 | `c152783c` | rpc | 1 | 0 | 0 | 0 |
 | `c152783c` | datalake | 1 | 0 | 0 | 0 |
-| `3e22515a` | rpc | 49 | 0 | 0 | 0 |
-| `3e22515a` | datalake | 49 | 0 | 0 | 0 |
+| `f8e5786d` | rpc | 0 | 1 | 0 | 0 |
+| `f8e5786d` | datalake | 0 | 1 | 0 | 0 |
+| `bb0b162b` | rpc | 1 | 0 | 0 | 0 |
+| `bb0b162b` | datalake | 1 | 0 | 0 | 0 |
+| `3e22515a` | rpc | 50 | 0 | 0 | 0 |
+| `3e22515a` | datalake | 50 | 0 | 0 | 0 |
 
 ## Details of every result that is not `pass`
+
+### `localcore-muxed-source-p22-3` at `79ea2acd1dc6`, input datalake: mishandled
+
+- mishandled: transactions_accounts.account_id holds a value that does not read back as a valid address: stored 6062fc1d0bd091b2b61c0dd656346b2a68d7d347c6f2c2c8ee6d04470256fc05f7 reads as MBRPYHIL2CI3FNQ4BXLFMNDLFJUNPU2HY3ZMFSHONUCEOASW7QC7PFTY (muxed account must be 32-byte key + 8-byte id, has 32 bytes)
+- mishandled: operations_accounts.account_id holds a value that does not read back as a valid address: stored 6062fc1d0bd091b2b61c0dd656346b2a68d7d347c6f2c2c8ee6d04470256fc05f7 reads as MBRPYHIL2CI3FNQ4BXLFMNDLFJUNPU2HY3ZMFSHONUCEOASW7QC7PFTY (muxed account must be 32-byte key + 8-byte id, has 32 bytes)
+- expectations: 1, source: manifest
+- indexer process: stopped by the adapter after the ledger was ingested (exit code 0)
+- evidence: `out/79ea2acd1dc6/datalake/localcore-muxed-source-p22-3/` (job.json, ingest.log, observation.json, result.json, feeder-requests.jsonl)
+
+### `localcore-muxed-source-p22-3` at `79ea2acd1dc6`, input rpc: mishandled
+
+- mishandled: transactions_accounts.account_id holds a value that does not read back as a valid address: stored 6062fc1d0bd091b2b61c0dd656346b2a68d7d347c6f2c2c8ee6d04470256fc05f7 reads as MBRPYHIL2CI3FNQ4BXLFMNDLFJUNPU2HY3ZMFSHONUCEOASW7QC7PFTY (muxed account must be 32-byte key + 8-byte id, has 32 bytes)
+- mishandled: operations_accounts.account_id holds a value that does not read back as a valid address: stored 6062fc1d0bd091b2b61c0dd656346b2a68d7d347c6f2c2c8ee6d04470256fc05f7 reads as MBRPYHIL2CI3FNQ4BXLFMNDLFJUNPU2HY3ZMFSHONUCEOASW7QC7PFTY (muxed account must be 32-byte key + 8-byte id, has 32 bytes)
+- expectations: 1, source: manifest
+- indexer process: stopped by the adapter after the ledger was ingested (exit code 0)
+- evidence: `out/79ea2acd1dc6/rpc/localcore-muxed-source-p22-3/` (job.json, ingest.log, observation.json, result.json, feeder-requests.jsonl)
+
+### `localcore-muxed-source-p22-3` at `6e5a59101158`, input datalake: mishandled
+
+- mishandled: the indexer raised an error on this ledger and did not ingest it: panic: executing root command: running ingest: running 'ingest' from 0 to 0: processing ledger 3: ingesting processed data for ledger 3 failed with a permanent error: persisting ledger data for ledger 3: running atomic function in RunInTransaction: inserting processed data into db for ledger 3: batch inserting transactions: pgx CopyFrom transactions_accounts: ERROR: duplicate key value violates unique constraint "2_transactions_accounts_pkey" (SQLSTATE 23505)
+- expectations: 1, source: manifest
+- indexer process: exited by itself before the ledger was ingested (exit code 2)
+- evidence: `out/6e5a59101158/datalake/localcore-muxed-source-p22-3/` (job.json, ingest.log, observation.json, result.json, feeder-requests.jsonl)
+
+### `localcore-muxed-source-p22-3` at `6e5a59101158`, input rpc: mishandled
+
+- mishandled: the indexer raised an error on this ledger and did not ingest it: panic: executing root command: running ingest: running 'ingest' from 0 to 0: processing ledger 3: ingesting processed data for ledger 3 failed with a permanent error: persisting ledger data for ledger 3: running atomic function in RunInTransaction: inserting processed data into db for ledger 3: batch inserting transactions: pgx CopyFrom transactions_accounts: ERROR: duplicate key value violates unique constraint "2_transactions_accounts_pkey" (SQLSTATE 23505)
+- expectations: 1, source: manifest
+- indexer process: exited by itself before the ledger was ingested (exit code 2)
+- evidence: `out/6e5a59101158/rpc/localcore-muxed-source-p22-3/` (job.json, ingest.log, observation.json, result.json, feeder-requests.jsonl)
+
+### `localcore-muxed-source-p22-3` at `f8e5786d22c0`, input datalake: mishandled
+
+- mishandled: the indexer raised an error on this ledger and did not ingest it: panic: executing root command: running ingest: running 'ingest' from 0 to 0: processing ledger 3: ingesting processed data for ledger 3 failed with a permanent error: persisting ledger data for ledger 3: running atomic function in RunInTransaction: inserting processed data into db for ledger 3: batch inserting transactions: pgx CopyFrom transactions_accounts: ERROR: duplicate key value violates unique constraint "2_transactions_accounts_pkey" (SQLSTATE 23505)
+- expectations: 1, source: manifest
+- indexer process: exited by itself before the ledger was ingested (exit code 2)
+- evidence: `out/f8e5786d22c0/datalake/localcore-muxed-source-p22-3/` (job.json, ingest.log, observation.json, result.json, feeder-requests.jsonl)
+
+### `localcore-muxed-source-p22-3` at `f8e5786d22c0`, input rpc: mishandled
+
+- mishandled: the indexer raised an error on this ledger and did not ingest it: panic: executing root command: running ingest: running 'ingest' from 0 to 0: processing ledger 3: ingesting processed data for ledger 3 failed with a permanent error: persisting ledger data for ledger 3: running atomic function in RunInTransaction: inserting processed data into db for ledger 3: batch inserting transactions: pgx CopyFrom transactions_accounts: ERROR: duplicate key value violates unique constraint "2_transactions_accounts_pkey" (SQLSTATE 23505)
+- expectations: 1, source: manifest
+- indexer process: exited by itself before the ledger was ingested (exit code 2)
+- evidence: `out/f8e5786d22c0/rpc/localcore-muxed-source-p22-3/` (job.json, ingest.log, observation.json, result.json, feeder-requests.jsonl)
 
 ### `localcore-sac-trust-p28-5` at `764a4f5bcbff`, input datalake: dropped
 
@@ -220,3 +272,5 @@ Only the implicit checks apply: the ledger is ingested without an error and ever
 | 2026-11-15T10:12:11+00:00 | `3e22515a` | rpc, datalake | 48 | 258.6 | 36464 | 48 | 96 |
 | 2026-11-15T10:17:07+00:00 | `2a0a84ea`, `2c873353` | rpc, datalake | 1 | 45.1 | 35964 | 2 | 4 |
 | 2026-11-15T13:16:56+00:00 | `764a4f5b`, `c152783c`, `3e22515a` | rpc, datalake | 1 | 42.0 | 35488 | 3 | 6 |
+| 2026-11-15T13:20:19+00:00 | `79ea2acd`, `6e5a5910`, `3e22515a` | rpc, datalake | 1 | 27.0 | 36164 | 3 | 6 |
+| 2026-11-15T13:21:13+00:00 | `f8e5786d`, `bb0b162b` | rpc, datalake | 1 | 20.9 | 36404 | 2 | 4 |

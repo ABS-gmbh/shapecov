@@ -44,7 +44,7 @@ Bracketed numbers point to the [sources](#sources) at the end of this section.
 | Memo text | At most 28 bytes (XDR). From protocol 25, a contract-invocation transaction may not carry a memo. [1] | The bytes: no UTF-8, NUL or printable check. For a payment to a plain account, the bytes are also copied as an `SCV_STRING` into the `to_muxed_id` field of the transfer event. [2] | `memo-text-not-utf8` | none | 1 |
 | Memo ID, hash, return | XDR shape only. | Any value. | — | — | — |
 | Muxed account (source, destination, fee source) | Allowed from protocol 13. [3] | The 64-bit ID: any value, never checked. Ledger state belongs to the base account; the ID survives only in the envelope and in events. [3] | `muxed-account`, `muxed-id-zero`, `muxed-id-beyond-f64`, `muxed-id-max` | CAP-0027 | 4, 2, 3, 1 |
-| Muxed source of a contract invocation | Invalid from protocol 25 (`txSOROBAN_INVALID`). [1] Before that, only the transaction queue refuses it: from stellar-core 23.0.0 always, in 22.x only when the call carries non-source-account authorization. [18] | Consensus accepts it before protocol 25, so ledgers closed while validators ran stellar-core 22.x or older can contain it. | `soroban-op-muxed-source` | CAP-0027, CAP-0046 | 1 |
+| Muxed source of a contract invocation | Invalid from protocol 25 (`txSOROBAN_INVALID`). [1] Before that, only the transaction queue refuses it: from stellar-core 23.0.0 always, in 22.x only when the call carries non-source-account authorization. [18] | Consensus accepts it before protocol 25, so ledgers closed while validators ran stellar-core 22.x or older can contain it. The rule covers `InvokeHostFunction` only: `ExtendFootprintTtl` and `RestoreFootprint` may run as a muxed account at any protocol. [1] | `soroban-op-muxed-source` | CAP-0027, CAP-0046 | 1 |
 | Signed-payload signer (`SetOptions` signer, `extraSigners`) | Payload not empty, at most 64 bytes, from protocol 19. At most two `extraSigners`, not the same key twice. [4] | The payload's content. | `signed-payload-signer`, `signed-payload-max-length`, `signed-payload-needs-padding` | CAP-0040 | 3, 1, 1 |
 | `ManageData` name | 1 to 64 bytes, each printable ASCII (0x20 to 0x7E). [5] | — | — | — | — |
 | `ManageData` value | At most 64 bytes (XDR). | Any bytes. [5] | — | — | — |
@@ -191,8 +191,18 @@ ledger (`testnet-4437357-signed-payload-signer`, a `SetOptions` that adds a `P..
 | `6e5a5910`, `2a0a84ea` | A length guard turned that into an insert error. The ledger never committed, the cursor never advanced, and ingestion stopped (stellar/wallet-backend#729). |
 | `2c873353` and later | Stores the full key in a variable-length column. |
 
-The same loss happened for muxed addresses: storing an `M...` as "version byte + 32 bytes" drops
-the ID, and the stored value no longer decodes.
+The same happened with muxed addresses. The harness replays a contract call that runs as a muxed
+account (`localcore-muxed-source-p22-3`):
+
+| wallet-backend commit | What the indexer did with the muxed source |
+|---|---|
+| `79ea2acd` | Recorded the account twice as a participant: as `G...`, and as an `M...` truncated to 33 of its 41 bytes that no longer decodes (#716). |
+| `6e5a5910` (#693) to `f8e5786d` | Encoded both strings to the same base-account key. The insert failed on a duplicate primary key and ingestion stopped at the ledger. |
+| `bb0b162b` and later | Records the base account once. |
+
+The second row is the lesson: normalising addresses at the storage layer, after the set of
+participants is built, turns one silent bug into a stopped indexer. Normalise when you derive the
+participant, not when you write it.
 
 ### How to handle them
 

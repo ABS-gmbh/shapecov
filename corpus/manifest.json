@@ -10002,7 +10002,7 @@
   },
   {
    "id": "localcore-muxed-source-p22-3",
-   "title": "Local stellar-core, scenario muxed-source-p22: A contract invocation whose operation source is a muxed account",
+   "title": "Local stellar-core 22.2.1, scenario muxed-source-p22: a contract call that runs as the transaction's muxed source",
    "xdr_type": "LedgerCloseMeta",
    "file": "entries/localcore-muxed-source-p22-3.LedgerCloseMeta.xdr.b64",
    "sha256": "b0ec1f6063db64149f664330681bcba43711f7fa5ce89aeb340b73ae591e64d9",
@@ -10133,6 +10133,14 @@
       "value": "KEY_TYPE_MUXED_ED25519",
       "note": "pattern soroban-op-muxed-source"
      }
+    ],
+    "indexer": [
+     {
+      "expect": "participant",
+      "account": "GBRPYHIL2CI3FNQ4BXLFMNDLFJUNPU2HY3ZMFSHONUCEOASW7QC7OX2H",
+      "tx_hash": "863d5491949c106f30d20b732e13d9c6ec6d857f0d64130ee86ed97db409d45f",
+      "note": "base account of the muxed source (tx 0, operation 0)"
+     }
     ]
    },
    "validation": {
@@ -10153,7 +10161,13 @@
      "network.lightsail:stellar-sdk 6.0.0": "agree"
     }
    },
-   "sightings": []
+   "sightings": [
+    {
+     "ref": "stellar/wallet-backend#716",
+     "relation": "reproduces",
+     "evidence": "../harness/replay/RESULTS.md"
+    }
+   ]
   },
   {
    "id": "localcore-sac-trust-p28-5",

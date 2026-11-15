@@ -80,6 +80,14 @@ process, saves its log and reads back `transactions`, `transactions_accounts`, `
 | fix | `2c873353` (#729) and current `main` | The `SIGNER/ADD` row stores the full key and reads back as `PBCK2RYY…AANMS`. | pass |
 | wallet-backend#731 | `764a4f5b` (parent of the fix) | Entry `localcore-sac-trust-p28-5`: a Stellar Asset Contract `trust()` call creates a trustline with no `ChangeTrust` operation and no event. Ingestion succeeds and stores only the fee's `BALANCE/DEBIT` row; there is no `TRUSTLINE/ADD` and no `BALANCE_AUTHORIZATION` row. No error is logged. | dropped |
 | fix | `c152783c` (#734) and current `main` | `TRUSTLINE/ADD` and `BALANCE_AUTHORIZATION/SET` rows for the trustor, with the asset's contract ID as token. | pass |
+| wallet-backend#716, muxed half | `79ea2acd` | Entry `localcore-muxed-source-p22-3`: a contract call that runs as a muxed account. The source is recorded as a participant twice, as `GBRPYHIL…OX2H` and as a truncated `MBRPYHIL…PFTY` that does not read back as a valid address (33 of its 41 bytes). | mishandled |
+| (#693's side effect) | `6e5a5910` (#693) to `f8e5786d` | #693 encodes every `M…` as its base `G…`, so the two participant strings become one key and the insert fails with a duplicate primary key on `transactions_accounts`; ingestion stops at the ledger. `bb0b162b` describes and fixes this. | mishandled |
+| fix | `bb0b162b` and current `main` | The participant is the base account only. | pass |
+
+The #716 muxed-half entry is a protocol 22 ledger from a local stellar-core 22.2.1 (scenario
+`muxed-source-p22`); its expectation (the base account is a participant of that transaction) is
+derived the same way. The harness's own check that every stored address reads back as a valid
+address is what catches the truncation.
 
 The #731 entry is a protocol 28 ledger from a local stellar-core 30.0.0 (`tools/localcore.py`,
 scenario `sac-trust-p28`), because the corpus's network ledgers with this shape are protocol 30 and
@@ -96,7 +104,8 @@ feeder request logs for every cell are under `out/<commit>/<input>/<entry>/`.
 - **Older commits can only decode up to protocol 28.** They pin go-stellar-sdk v0.7.3, so protocol 29
   and 30 entries are run at current `main` only. `--max-protocol 28` selects the older-compatible
   entries. Dependencies are never upgraded to work around this.
-- **Only two entries have `expected.indexer` so far** (#729/#716 and #731). For those, `pass` only means "ingested without an
+- **Only three entries have `expected.indexer` so far** (#729 and #716's signed-payload half, #731,
+  #716's muxed half). For those, `pass` only means "ingested without an
   error and every stored address is valid", not "every row is right". RESULTS.md lists them
   separately.
 - **No ledger state.** `getLedgerEntries` always returns nothing, so code paths that look up ledger
@@ -109,6 +118,6 @@ feeder request logs for every cell are under `out/<commit>/<input>/<entry>/`.
 - **Expectations for more entries.** `tools/indexer_expect.py` has one rule so far
   (`soroban-created-trustline`). Running it on the protocol 30 entries with that shape
   (`testnet-5709224`, `golden-invokehostfunction-4c437318-42`) would check them at `main` too.
-- **#716, muxed half**: entries with `scaddress-muxed-account` (e.g. `testnet-5711641`) need
-  `participant` and `no_participant` expectations for the base `G…` account and the `M…`
-  address.
+- **#716's second muxed producer** (a SEP-41 event naming a muxed `ScAddress`) is not reproduced.
+  The corpus entries with `scaddress-muxed-account` are protocol 29 and 30, which the commits before
+  #693 cannot decode; it needs a protocol 23 to 28 ledger with such an event.

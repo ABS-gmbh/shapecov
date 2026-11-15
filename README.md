@@ -8,8 +8,8 @@ and stellar-core, and reports where they disagree. Nothing is hand-captured.
 Status on 15 November 2026: the SDK conformance half works end to end. For the indexer half there
 is a corpus of 51 entries (48 real ledgers from testnet, pubnet and stellar-core's golden test data),
 and a replay harness that runs wallet-backend's own `ingest` command against TimescaleDB, fed
-through a mock stellar-rpc or a Galexie data lake. It reproduces wallet-backend #716 and #729 at
-their commits; see `harness/replay/RESULTS.md`. A Go linter (`linter/`) checks indexer source for the
+through a mock stellar-rpc or a Galexie data lake. It reproduces wallet-backend #729, #731 and both
+halves of #716 before their fixes and passes on the fixes; see `harness/replay/RESULTS.md`. A Go linter (`linter/`) checks indexer source for the
 three ingestion mistakes the RFP names. A draft indexer-hardening guide (`guide/`) is checked against
 the corpus manifest by `guide/check_guide.py`. See
 "Not built" below.

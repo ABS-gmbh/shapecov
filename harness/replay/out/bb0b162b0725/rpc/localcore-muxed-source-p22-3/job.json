@@ -1,0 +1,28 @@
+{
+ "job_version": 1,
+ "entry_id": "localcore-muxed-source-p22-3",
+ "ref": "bb0b162b072583c7dabffbdee664d1c117e5ba56",
+ "commit": "bb0b162b072583c7dabffbdee664d1c117e5ba56",
+ "input": "rpc",
+ "network_passphrase": "Test SDF Network ; September 2015",
+ "ledger": {
+  "seq": 3,
+  "hash": "eaac425a0adb592eac85fa14850d05781d90d754c0df2abe212bfd1e3e251d52",
+  "close_time": 1600179017,
+  "protocol": 22
+ },
+ "rpc": {
+  "url": "http://shapecov-replay-feeder:8000/rpc/localcore-muxed-source-p22-3"
+ },
+ "datalake": {
+  "s3_endpoint": "http://shapecov-replay-feeder:9000",
+  "bucket_path": "shapecov-lake/localcore-muxed-source-p22-3",
+  "region": "us-east-1"
+ },
+ "history_archive": {
+  "url": "http://shapecov-replay-feeder:8000/archive/localcore-muxed-source-p22-3"
+ },
+ "docker_network": "shapecov-replay-net",
+ "timeout_seconds": 120,
+ "work_dir": "$REPLAY_WORK"
+}
