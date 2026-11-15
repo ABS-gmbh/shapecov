@@ -224,7 +224,8 @@ def cmd_report(a):
     for run in runs:
         for info in run["refs"]:
             commits[info["commit"]] = info
-    order = sorted(commits, key=lambda c: commits[c]["commit_date"])
+    # Parse the dates: ISO strings with different UTC offsets do not sort by time as text.
+    order = sorted(commits, key=lambda c: datetime.datetime.fromisoformat(commits[c]["commit_date"]))
     order += sorted({k[1] for k in results} - set(order))
     inputs = sorted({k[2] for k in results}, reverse=True)
     entries = []

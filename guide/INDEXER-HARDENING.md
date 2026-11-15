@@ -66,10 +66,10 @@ Bracketed numbers point to the [sources](#sources) at the end of this section.
 | Contract strings (`ScString`) | Length only. [13] | UTF-8 and NUL, in arguments, storage and events alike. | — | — | — |
 | Symbols (`ScSymbol`) | At most 32 bytes from `[_0-9A-Za-z]`, for every value the host converts. [13] | — | — | — | — |
 | Maps (`ScMap`) | Keys strictly ascending, so sorted and unique, in the host's order: by value type first, then value. Mixed key types are allowed. [14] | Text order. Keys are not sorted as text, and distinct keys can render as the same text. | `scmap-keys-collide-as-text`, `scmap-mixed-key-types` | CAP-0046-01 | 1, 2 |
-| Integers | XDR shape. | Size relative to your language: 64-bit values above 2^53 and 128- or 256-bit values are common. | `scval-int64-beyond-f64`, `scval-wide-integer` | CAP-0046-01 | 8, 26 |
+| Integers | XDR shape. | Size relative to your language: 64-bit values above 2^53 and 128- or 256-bit values are common. | `scval-int64-beyond-f64`, `scval-wide-integer` | CAP-0046-01 | 8, 27 |
 | Authorization entries | Every entry is decoded. An entry a `require_auth` call matches has its signature checked and its nonce consumed, which creates a temporary contract-data entry keyed `LedgerKeyNonce`. [15] | Entries no `require_auth` call matches: they are not verified, and we found no code that rejects them. There is no limit on the number or depth of sub-invocations beyond XDR depth and transaction size. [15] | `auth-nested-invocations`, `auth-tree-4-deep` | CAP-0046-11 | 21, 3 |
 | Addresses in contract values | A muxed account (CAP-67) or a muxed contract (protocol 30) may appear as a value but not in a storage key. [16] | — | `scaddress-muxed-account`, `scaddress-muxed-id-beyond-f64`, `scaddress-muxed-contract` | CAP-0067, CAP-0084 | 3, 2, 2 |
-| Accounts and trustlines created by a contract | The Stellar Asset Contract's `trust()` creates a trustline and **emits no event**. [17] | No operation names the new entry; only the ledger changes show it. | `soroban-created-trustline`, `soroban-created-account` | CAP-0073 | 2, 3 |
+| Accounts and trustlines created by a contract | The Stellar Asset Contract's `trust()` creates a trustline and **emits no event**. [17] | No operation names the new entry; only the ledger changes show it. | `soroban-created-trustline`, `soroban-created-account` | CAP-0073 | 3, 3 |
 | Failed contract invocation | The fee is charged; no ledger change is applied; transaction-level events and diagnostics are still written. [11] | — | `failed-soroban-transaction` | CAP-0046 | 8 |
 
 ### Sources
@@ -128,7 +128,9 @@ did this transaction affect?":
   (Corpus: `failed-transaction`, `failed-soroban-transaction`.)
 - **Contract calls change accounts that no operation names.** A Stellar Asset Contract call can
   create a trustline or an account with no `ChangeTrust` or `CreateAccount` operation (CAP-73).
-  Only the meta shows it. (Corpus: `soroban-created-trustline`, `soroban-created-account`.)
+  Only the meta shows it. Before its fix (#734), stellar/wallet-backend recorded no trustline
+  history for such a trustline (#731; reproduced by the replay harness with
+  `localcore-sac-trust-p28-5`). (Corpus: `soroban-created-trustline`, `soroban-created-account`.)
 - **The Soroban authorization tree is a claim.** The host checks the signature and consumes the
   nonce only for entries a `require_auth` call matched. We found no code that rejects the rest
   (section 1, [15]). An address in an authorization entry proves nothing on its own. A consumed

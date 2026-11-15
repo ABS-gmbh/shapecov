@@ -10154,6 +10154,156 @@
     }
    },
    "sightings": []
+  },
+  {
+   "id": "localcore-sac-trust-p28-5",
+   "title": "Local stellar-core, scenario sac-trust-p28: a trustline created by the Stellar Asset Contract's trust(), with no ChangeTrust and no event",
+   "xdr_type": "LedgerCloseMeta",
+   "file": "entries/localcore-sac-trust-p28-5.LedgerCloseMeta.xdr.b64",
+   "sha256": "6a7670d7f26668ab75c8a99c33222bfdb9dfecd20eb5b168e64fed09fdaa7a73",
+   "size_bytes": 4600,
+   "protocol_version": 28,
+   "caps": [],
+   "synthetic": false,
+   "source": {
+    "kind": "local_stellar_core",
+    "stellar_core_version": "stellar-core 30.0.0 (0e49751aa9ddf892302cca02cea7f3f5d97df9f1)",
+    "image": "stellar/stellar-core:30.0.0-3642.0e49751aa.noble",
+    "network_passphrase": "Test SDF Network ; September 2015",
+    "ledger_seq": 5,
+    "ledger_hash": "a37ccdb643f320480a1bef8dbe7319e7f236cb3b263a0de29de79ba9b30c9449",
+    "scenario": "sac-trust-p28",
+    "generator": "tools/localcore.py",
+    "notes": "Standalone network, manual close, fixed keys and close times; see the scenario in tools/localcore.py."
+   },
+   "shape": "Selected because it exercises 0 schema cell(s) that no other entry reaches.",
+   "patterns": {
+    "scval-wide-integer": "v2.txProcessing[0].txApplyProcessing.v4.events[0].event.body.v0.data",
+    "soroban-created-trustline": "v2.txProcessing[0].txApplyProcessing.v4.operations[0].changes[0].created.data"
+   },
+   "designated": {
+    "patterns": [],
+    "cells": []
+   },
+   "cells": [
+    "arm:AccountEntryExt.0",
+    "arm:AccountEntryExt.1",
+    "arm:AccountEntryExtensionV1Ext.2",
+    "arm:AccountEntryExtensionV2Ext.3",
+    "arm:ContractEventBody.0",
+    "arm:ExtensionPoint.0",
+    "arm:GeneralizedTransactionSet.1",
+    "arm:HostFunction.HOST_FUNCTION_TYPE_INVOKE_CONTRACT",
+    "arm:InvokeHostFunctionResult.INVOKE_HOST_FUNCTION_SUCCESS",
+    "arm:LedgerCloseMeta.2",
+    "arm:LedgerCloseMetaExt.0",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_CREATED",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_STATE",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_UPDATED",
+    "arm:LedgerEntryData.ACCOUNT",
+    "arm:LedgerEntryData.TRUSTLINE",
+    "arm:LedgerEntryData.TTL",
+    "arm:LedgerEntryExt.0",
+    "arm:LedgerHeaderExt.0",
+    "arm:LedgerHeaderHistoryEntryExt.0",
+    "arm:LedgerKey.ACCOUNT",
+    "arm:LedgerKey.CONTRACT_DATA",
+    "arm:LedgerKey.TRUSTLINE",
+    "arm:Memo.MEMO_NONE",
+    "arm:MuxedAccount.KEY_TYPE_ED25519",
+    "arm:OperationBody.INVOKE_HOST_FUNCTION",
+    "arm:OperationResult.opINNER",
+    "arm:OperationResultTr.INVOKE_HOST_FUNCTION",
+    "arm:Preconditions.PRECOND_NONE",
+    "arm:PublicKey.PUBLIC_KEY_TYPE_ED25519",
+    "arm:SCAddress.SC_ADDRESS_TYPE_ACCOUNT",
+    "arm:SCAddress.SC_ADDRESS_TYPE_CONTRACT",
+    "arm:SCVal.SCV_ADDRESS",
+    "arm:SCVal.SCV_BYTES",
+    "arm:SCVal.SCV_I128",
+    "arm:SCVal.SCV_LEDGER_KEY_CONTRACT_INSTANCE",
+    "arm:SCVal.SCV_SYMBOL",
+    "arm:SCVal.SCV_U64",
+    "arm:SCVal.SCV_VOID",
+    "arm:SorobanAuthorizedFunction.SOROBAN_AUTHORIZED_FUNCTION_TYPE_CONTRACT_FN",
+    "arm:SorobanCredentials.SOROBAN_CREDENTIALS_SOURCE_ACCOUNT",
+    "arm:SorobanTransactionDataExt.0",
+    "arm:SorobanTransactionMetaExt.0",
+    "arm:StellarValueExt.STELLAR_VALUE_SIGNED",
+    "arm:TransactionEnvelope.ENVELOPE_TYPE_TX",
+    "arm:TransactionExt.1",
+    "arm:TransactionMeta.4",
+    "arm:TransactionPhase.0",
+    "arm:TransactionPhase.1",
+    "arm:TransactionResultExt.0",
+    "arm:TransactionResultResult.txSUCCESS",
+    "arm:TrustLineAsset.ASSET_TYPE_CREDIT_ALPHANUM4",
+    "arm:TrustLineEntryExt.0",
+    "enum:ContractDataDurability.PERSISTENT",
+    "enum:ContractEventType.CONTRACT",
+    "enum:ContractEventType.DIAGNOSTIC",
+    "enum:TransactionEventStage.TRANSACTION_EVENT_STAGE_AFTER_ALL_TXS",
+    "enum:TransactionEventStage.TRANSACTION_EVENT_STAGE_BEFORE_ALL_TXS"
+   ],
+   "cells_new_in_protocol": [],
+   "expected": {
+    "decoded": [
+     {
+      "path": "v",
+      "value": 2
+     },
+     {
+      "path": "v2.ledgerHeader.header.ledgerSeq",
+      "value": 5
+     },
+     {
+      "path": "v2.ledgerHeader.header.ledgerVersion",
+      "value": 28
+     },
+     {
+      "path": "v2.ledgerHeader.hash",
+      "value": "a37ccdb643f320480a1bef8dbe7319e7f236cb3b263a0de29de79ba9b30c9449"
+     },
+     {
+      "path": "v2.ledgerHeader.header.scpValue.closeTime",
+      "value": 1600543824
+     }
+    ],
+    "indexer": [
+     {
+      "expect": "state_change",
+      "category": "TRUSTLINE",
+      "account": "GAKLOY2E7ZEJMCPGH74PVRHMRIDZGSKVOWJEDLWCOJUYS7ME5GXPOSFS",
+      "token": "CBVGR4WEKIDDTOYOWYGY2FWP7BMRSNLKUZAJAOPJGHLSTPGD2JYXTWKV",
+      "derived_from": "v2.txProcessing[0].txApplyProcessing.v4.operations[0].changes[0].created.data",
+      "reason": "ADD"
+     },
+     {
+      "expect": "state_change",
+      "category": "BALANCE_AUTHORIZATION",
+      "account": "GAKLOY2E7ZEJMCPGH74PVRHMRIDZGSKVOWJEDLWCOJUYS7ME5GXPOSFS",
+      "token": "CBVGR4WEKIDDTOYOWYGY2FWP7BMRSNLKUZAJAOPJGHLSTPGD2JYXTWKV",
+      "derived_from": "v2.txProcessing[0].txApplyProcessing.v4.operations[0].changes[0].created.data"
+     }
+    ]
+   },
+   "validation": {
+    "independent_decoder": "not_run",
+    "rs_stellar_xdr_roundtrip": "not_run",
+    "stellar_core": {
+     "version": "30.0.0",
+     "command": "",
+     "result": "not_run"
+    },
+    "core_golden": "not_applicable"
+   },
+   "sightings": [
+    {
+     "ref": "stellar/wallet-backend#731",
+     "relation": "reproduces",
+     "evidence": "../harness/replay/RESULTS.md"
+    }
+   ]
   }
  ]
 }

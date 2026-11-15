@@ -1,0 +1,28 @@
+{
+ "job_version": 1,
+ "entry_id": "localcore-sac-trust-p28-5",
+ "ref": "764a4f5bcbff5abb0949d93da37f769063013ea0",
+ "commit": "764a4f5bcbff5abb0949d93da37f769063013ea0",
+ "input": "datalake",
+ "network_passphrase": "Test SDF Network ; September 2015",
+ "ledger": {
+  "seq": 5,
+  "hash": "a37ccdb643f320480a1bef8dbe7319e7f236cb3b263a0de29de79ba9b30c9449",
+  "close_time": 1600543824,
+  "protocol": 28
+ },
+ "rpc": {
+  "url": "http://shapecov-replay-feeder:8000/rpc/localcore-sac-trust-p28-5"
+ },
+ "datalake": {
+  "s3_endpoint": "http://shapecov-replay-feeder:9000",
+  "bucket_path": "shapecov-lake/localcore-sac-trust-p28-5",
+  "region": "us-east-1"
+ },
+ "history_archive": {
+  "url": "http://shapecov-replay-feeder:8000/archive/localcore-sac-trust-p28-5"
+ },
+ "docker_network": "shapecov-replay-net",
+ "timeout_seconds": 120,
+ "work_dir": "$REPLAY_WORK"
+}

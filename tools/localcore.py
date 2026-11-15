@@ -23,6 +23,12 @@ Scenarios (one per run):
                      from 23.0.0 refuse to queue it at any protocol, and 22.x refuse it only when
                      it carries non-source-account authorization, so 22.2.1 is the newest release
                      that can produce this ledger.
+  sac-trust-p28      Protocol 28, stellar-core 30.0.0. Create a trustor account, deploy the Stellar
+                     Asset Contract for USD issued by the root account, then have the trustor call
+                     the contract's trust(trustor) (CAP-73) in a ledger of its own. That creates a
+                     trustline with no ChangeTrust operation and no contract event
+                     (stellar/wallet-backend#731). Protocol 28 so that wallet-backend commits that
+                     pin go-stellar-sdk v0.7.3 can read the ledger.
   muxed-source-refused-p24
                      Protocol 24, stellar-core 30.0.0. The same transaction must be refused by the
                      queue with txSOROBAN_INVALID. Recorded as evidence, not a ledger.
@@ -54,7 +60,8 @@ from encode import Encoder  # noqa: E402
 ROOT = Path(__file__).resolve().parent.parent
 IMAGE = "stellar/stellar-core:30.0.0-3642.0e49751aa.noble"
 IMAGE_V22 = "stellar/stellar-core:22.2.1-2429.e70f0aed8.focal"
-SCENARIOS = {"muxed-source-p22": IMAGE_V22, "muxed-source-refused-p24": IMAGE, "memo-and-offer-p30": IMAGE}
+SCENARIOS = {"muxed-source-p22": IMAGE_V22, "muxed-source-refused-p24": IMAGE, "memo-and-offer-p30": IMAGE,
+             "sac-trust-p28": IMAGE}
 NAME = "shapecov-localcore-gen"
 PASSPHRASES = {"testnet": "Test SDF Network ; September 2015",
                "pubnet": "Public Global Stellar Network ; September 2015"}
@@ -251,6 +258,8 @@ def main():
         run["stellar_core_version"] = info["build"]
         if a.scenario == "muxed-source-p22":
             muxed_source(core, enc, root, step, run, 22, accepted=True)
+        elif a.scenario == "sac-trust-p28":
+            sac_trust_p28(core, enc, dec, root, step, run)
         elif a.scenario == "muxed-source-refused-p24":
             muxed_source(core, enc, root, step, run, 24, accepted=False)
         else:
@@ -327,6 +336,60 @@ def memo_and_offer_p30(core, enc, root, payee, step, run):
     blob, h = envelope(enc, core, t, payee)
     step("memo-and-offer-p30: offer 2^53+1", 30, blob, h, "PENDING, fails at apply")
     run["ledger_memo_and_offer_p30"] = core.close()
+
+
+def sac_trust_p28(core, enc, dec, root, step, run):
+    core.upgrade(28)
+    trustor = Keys("sac trustor")
+    run["trustor"] = strkey.account(trustor.pub)
+    usd = {"type": "ASSET_TYPE_CREDIT_ALPHANUM4", "alphaNum4": {"assetCode": b"USD\0".hex(), "issuer": root.account()}}
+    preimage = {"type": "CONTRACT_ID_PREIMAGE_FROM_ASSET", "fromAsset": usd}
+    sac = hashlib.sha256(enc.encode("HashIDPreimage", {
+        "type": "ENVELOPE_TYPE_CONTRACT_ID",
+        "contractID": {"networkID": core.network_id.hex(), "contractIDPreimage": preimage}})).hexdigest()
+    run["sac"] = strkey.contract(sac)
+    instance = {"type": "CONTRACT_DATA", "contractData": {
+        "contract": {"type": "SC_ADDRESS_TYPE_CONTRACT", "contractId": sac},
+        "key": {"type": "SCV_LEDGER_KEY_CONTRACT_INSTANCE"}, "durability": "PERSISTENT"}}
+
+    def soroban(read_only, read_write):
+        return {"ext": {"v": 0}, "resources": {"footprint": {"readOnly": read_only, "readWrite": read_write},
+                "instructions": 5_000_000, "diskReadBytes": 20_000, "writeBytes": 5_000},
+                "resourceFee": 50_000_000}
+
+    # 1. the trustor account
+    t = tx(root.muxed(), 1, [{"sourceAccount": None, "body": {"type": "CREATE_ACCOUNT", "createAccountOp": {
+        "destination": trustor.account(), "startingBalance": 1000_0000000}}}])
+    blob, h = envelope(enc, core, t, root)
+    step("sac-trust-p28: create trustor", 28, blob, h, "PENDING, applied")
+    created = core.close()
+    # 2. the asset contract for USD:root
+    op = {"sourceAccount": None, "body": {"type": "INVOKE_HOST_FUNCTION", "invokeHostFunctionOp": {
+        "hostFunction": {"type": "HOST_FUNCTION_TYPE_CREATE_CONTRACT", "createContract": {
+            "contractIDPreimage": preimage, "executable": {"type": "CONTRACT_EXECUTABLE_STELLAR_ASSET"}}},
+        "auth": []}}}
+    t = tx(root.muxed(), 2, [op], fee=50_010_000, soroban=soroban([], [instance]))
+    blob, h = envelope(enc, core, t, root)
+    if step("sac-trust-p28: deploy USD asset contract", 28, blob, h, "PENDING, applied")["status"] != "PENDING":
+        raise SystemExit("the asset contract deploy was refused; see the diagnostics above")
+    core.close()
+    # 3. trust(trustor), alone in its ledger
+    me = {"type": "SCV_ADDRESS", "address": {"type": "SC_ADDRESS_TYPE_ACCOUNT", "accountId": trustor.account()}}
+    call = {"contractAddress": {"type": "SC_ADDRESS_TYPE_CONTRACT", "contractId": sac},
+            "functionName": "trust", "args": [me]}
+    op = {"sourceAccount": None, "body": {"type": "INVOKE_HOST_FUNCTION", "invokeHostFunctionOp": {
+        "hostFunction": {"type": "HOST_FUNCTION_TYPE_INVOKE_CONTRACT", "invokeContract": call},
+        "auth": [{"credentials": {"type": "SOROBAN_CREDENTIALS_SOURCE_ACCOUNT"},
+                  "rootInvocation": {"function": {"type": "SOROBAN_AUTHORIZED_FUNCTION_TYPE_CONTRACT_FN",
+                                                  "contractFn": call}, "subInvocations": []}}]}}}
+    footprint_ro = [instance, {"type": "ACCOUNT", "account": {"accountID": root.account()}}]
+    footprint_rw = [{"type": "ACCOUNT", "account": {"accountID": trustor.account()}},
+                    {"type": "TRUSTLINE", "trustLine": {"accountID": trustor.account(), "asset": usd}}]
+    t = tx(trustor.muxed(), (created << 32) + 1, [op], fee=50_010_000, soroban=soroban(footprint_ro, footprint_rw))
+    blob, h = envelope(enc, core, t, trustor)
+    if step("sac-trust-p28: trust(trustor)", 28, blob, h, "PENDING, applied")["status"] != "PENDING":
+        raise SystemExit("trust() was refused; see the diagnostics above")
+    run["ledger_sac_trust_p28"] = core.close()
 
 
 if __name__ == "__main__":

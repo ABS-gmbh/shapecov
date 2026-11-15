@@ -1,0 +1,63 @@
+{
+ "entry_id": "localcore-sac-trust-p28-5",
+ "adapter": "wallet-backend",
+ "ref": "c152783c054c765c8b51fd26ed313fd1ebc1c50c",
+ "commit": "c152783c054c765c8b51fd26ed313fd1ebc1c50c",
+ "input": "rpc",
+ "protocol_version": 28,
+ "sdk_pin": "v0.7.3",
+ "mode": "unmodified",
+ "result": "pass",
+ "mishandled": [],
+ "dropped": [],
+ "checks": [
+  {
+   "expect": {
+    "expect": "state_change",
+    "category": "TRUSTLINE",
+    "account": "GAKLOY2E7ZEJMCPGH74PVRHMRIDZGSKVOWJEDLWCOJUYS7ME5GXPOSFS",
+    "token": "CBVGR4WEKIDDTOYOWYGY2FWP7BMRSNLKUZAJAOPJGHLSTPGD2JYXTWKV",
+    "derived_from": "v2.txProcessing[0].txApplyProcessing.v4.operations[0].changes[0].created.data",
+    "reason": "ADD"
+   },
+   "outcome": "met",
+   "detail": "TRUSTLINE/ADD state change account=GAKLOY2E7ZEJMCPGH74PVRHMRIDZGSKVOWJEDLWCOJUYS7ME5GXPOSFS, token=CBVGR4WEKIDDTOYOWYGY2FWP7BMRSNLKUZAJAOPJGHLSTPGD2JYXTWKV: 1 row(s) stored"
+  },
+  {
+   "expect": {
+    "expect": "state_change",
+    "category": "BALANCE_AUTHORIZATION",
+    "account": "GAKLOY2E7ZEJMCPGH74PVRHMRIDZGSKVOWJEDLWCOJUYS7ME5GXPOSFS",
+    "token": "CBVGR4WEKIDDTOYOWYGY2FWP7BMRSNLKUZAJAOPJGHLSTPGD2JYXTWKV",
+    "derived_from": "v2.txProcessing[0].txApplyProcessing.v4.operations[0].changes[0].created.data"
+   },
+   "outcome": "met",
+   "detail": "BALANCE_AUTHORIZATION state change account=GAKLOY2E7ZEJMCPGH74PVRHMRIDZGSKVOWJEDLWCOJUYS7ME5GXPOSFS, token=CBVGR4WEKIDDTOYOWYGY2FWP7BMRSNLKUZAJAOPJGHLSTPGD2JYXTWKV: 1 row(s) stored"
+  }
+ ],
+ "expectations": 2,
+ "expectations_source": "manifest",
+ "ledger": {
+  "seq": 5,
+  "hash": "a37ccdb643f320480a1bef8dbe7319e7f236cb3b263a0de29de79ba9b30c9449",
+  "close_time": 1600543824,
+  "protocol": 28
+ },
+ "ingested": true,
+ "row_counts": {
+  "transactions": 1,
+  "transactions_accounts": 2,
+  "operations": 1,
+  "operations_accounts": 2,
+  "state_changes": 3
+ },
+ "process": {
+  "outcome": "stopped by the adapter after the ledger was ingested",
+  "exit_code": 0,
+  "oom_killed": false,
+  "started_finished": "2026-11-15T13:17:22.933174722Z 2026-11-15T13:17:24.042454708Z"
+ },
+ "seconds": 2.4,
+ "feeder_requests": 3,
+ "evidence": "out/c152783c054c/rpc/localcore-sac-trust-p28-5"
+}
