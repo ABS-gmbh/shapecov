@@ -36,6 +36,15 @@ def account(ed25519_hex: str) -> str:
     return encode("account", bytes.fromhex(ed25519_hex))
 
 
+def muxed(ed25519_hex: str, mux_id: int) -> str:
+    """M... address: 32-byte key followed by the 8-byte ID."""
+    return encode("muxed", bytes.fromhex(ed25519_hex) + struct.pack(">Q", mux_id))
+
+
+def contract(hash_hex: str) -> str:
+    return encode("contract", bytes.fromhex(hash_hex))
+
+
 if __name__ == "__main__":
     # SEP-23 test vectors
     assert account("3f0c34bf93ad0d9971d04ccc90f705511c838aad9734a4a2fb0d7a03fc7fe89a") == \
@@ -43,4 +52,6 @@ if __name__ == "__main__":
     assert signed_payload("3f0c34bf93ad0d9971d04ccc90f705511c838aad9734a4a2fb0d7a03fc7fe89a",
                           "0102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d") == \
         "PA7QYNF7SOWQ3GLR2BGMZEHXAVIRZA4KVWLTJJFC7MGXUA74P7UJUAAAAAOQCAQDAQCQMBYIBEFAWDANBYHRAEISCMKBKFQXDAMRUGY4DUAAAAFGBU"
+    assert muxed("3f0c34bf93ad0d9971d04ccc90f705511c838aad9734a4a2fb0d7a03fc7fe89a", 9223372036854775808) == \
+        "MA7QYNF7SOWQ3GLR2BGMZEHXAVIRZA4KVWLTJJFC7MGXUA74P7UJVAAAAAAAAAAAAAJLK"
     print("strkey vectors ok")

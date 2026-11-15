@@ -1,0 +1,75 @@
+{
+ "type": "ENVELOPE_TYPE_TX",
+ "v1": {
+  "tx": {
+   "sourceAccount": {
+    "type": "KEY_TYPE_MUXED_ED25519",
+    "med25519": {
+     "id": 9007199254740993,
+     "ed25519": "03a107bff3ce10be1d70dd18e74bc09967e4d6309ba50d5f1ddc8664125531b8"
+    }
+   },
+   "fee": 200,
+   "seqNum": 1,
+   "cond": {
+    "type": "PRECOND_NONE"
+   },
+   "memo": {
+    "type": "MEMO_ID",
+    "id": 18446744073709551615
+   },
+   "operations": [
+    {
+     "sourceAccount": null,
+     "body": {
+      "type": "MANAGE_SELL_OFFER",
+      "manageSellOfferOp": {
+       "selling": {
+        "type": "ASSET_TYPE_NATIVE"
+       },
+       "buying": {
+        "type": "ASSET_TYPE_CREDIT_ALPHANUM4",
+        "alphaNum4": {
+         "assetCode": "55534400",
+         "issuer": {
+          "type": "PUBLIC_KEY_TYPE_ED25519",
+          "ed25519": "3f0c34bf93ad0d9971d04ccc90f705511c838aad9734a4a2fb0d7a03fc7fe89a"
+         }
+        }
+       },
+       "amount": 10000000,
+       "price": {
+        "n": 1,
+        "d": 1
+       },
+       "offerID": 9007199254740993
+      }
+     }
+    },
+    {
+     "sourceAccount": null,
+     "body": {
+      "type": "PAYMENT",
+      "paymentOp": {
+       "destination": {
+        "type": "KEY_TYPE_MUXED_ED25519",
+        "med25519": {
+         "id": 18446744073709551615,
+         "ed25519": "3f0c34bf93ad0d9971d04ccc90f705511c838aad9734a4a2fb0d7a03fc7fe89a"
+        }
+       },
+       "asset": {
+        "type": "ASSET_TYPE_NATIVE"
+       },
+       "amount": 9223372036854775807
+      }
+     }
+    }
+   ],
+   "ext": {
+    "v": 0
+   }
+  },
+  "signatures": []
+ }
+}

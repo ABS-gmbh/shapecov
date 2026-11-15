@@ -1,0 +1,190 @@
+{
+ "note": "Named shapes the XDR schema cannot express as one union case. Detected by tools/mine.py from the decoded ledger.",
+ "patterns": {
+  "signed-payload-signer": {
+   "title": "A signer whose key is an ed25519 signed payload (P... strkey)",
+   "caps": [
+    "CAP-0040"
+   ],
+   "why": "The key is 40 to 100 bytes, not 32. Code that assumes every signer is an account key truncates or rejects it."
+  },
+  "signed-payload-max-length": {
+   "title": "Signed-payload signer with the maximum 64-byte payload",
+   "caps": [
+    "CAP-0040"
+   ],
+   "why": "The longest legal signer key; exposes fixed-size buffers and column widths."
+  },
+  "signed-payload-needs-padding": {
+   "title": "Signed-payload signer whose payload length is not a multiple of 4",
+   "caps": [
+    "CAP-0040"
+   ],
+   "why": "The strkey form carries zero padding after the payload; encoders that skip or mis-size it produce a different key."
+  },
+  "muxed-account": {
+   "title": "A muxed account (M... address) as source or destination",
+   "caps": [
+    "CAP-0027"
+   ],
+   "why": "The address carries a 64-bit ID on top of the account key. Storing it in an account-key column loses the ID or corrupts the row."
+  },
+  "muxed-id-zero": {
+   "title": "Muxed account with ID 0",
+   "caps": [
+    "CAP-0027"
+   ],
+   "why": "Zero is a valid ID and is distinct from a plain G... account; truthiness checks treat it as absent."
+  },
+  "muxed-id-beyond-f64": {
+   "title": "Muxed account ID above 2^53",
+   "caps": [
+    "CAP-0027"
+   ],
+   "why": "Held in a floating-point number, the ID rounds to a different ID."
+  },
+  "muxed-id-max": {
+   "title": "Muxed account ID 2^64-1",
+   "caps": [
+    "CAP-0027"
+   ],
+   "why": "Overflows a signed 64-bit column and any float."
+  },
+  "scaddress-muxed-account": {
+   "title": "A muxed account inside a contract address value (ScAddress)",
+   "caps": [
+    "CAP-0067"
+   ],
+   "why": "Token events can name a muxed destination; code that expects only G... and C... addresses fails or drops the ID."
+  },
+  "scaddress-muxed-id-beyond-f64": {
+   "title": "Muxed ScAddress with an ID above 2^53",
+   "caps": [
+    "CAP-0067"
+   ],
+   "why": "Same rounding hazard as a muxed account, one layer down in contract data."
+  },
+  "scaddress-muxed-contract": {
+   "title": "A muxed contract address (ScAddress of the muxed-contract type)",
+   "caps": [
+    "CAP-0084"
+   ],
+   "why": "New in protocol 30. Decoders on older XDR cannot read the address type at all."
+  },
+  "soroban-created-trustline": {
+   "title": "A trustline created by a contract call, with no ChangeTrust operation",
+   "caps": [
+    "CAP-0073"
+   ],
+   "why": "Indexers that derive trustline history from operation types never see it; only the ledger meta shows the new entry."
+  },
+  "soroban-created-account": {
+   "title": "An account created by a contract call, with no CreateAccount operation",
+   "caps": [
+    "CAP-0073"
+   ],
+   "why": "Indexers that derive account creation from operation types never see it."
+  },
+  "scmap-keys-collide-as-text": {
+   "title": "A contract map whose distinct keys convert to the same text",
+   "caps": [
+    "CAP-0046-01"
+   ],
+   "why": "Converting the map to a string-keyed object keeps one entry and silently drops the others."
+  },
+  "scmap-mixed-key-types": {
+   "title": "A contract map with keys of more than one type",
+   "caps": [
+    "CAP-0046-01"
+   ],
+   "why": "Key order follows the host's type order, not text order; code that re-sorts or assumes one key type misreads it."
+  },
+  "scval-nested-5-deep": {
+   "title": "A contract value nested five or more levels deep",
+   "caps": [
+    "CAP-0046-01"
+   ],
+   "why": "Recursive walkers without a depth cap can be driven to exhaust the stack."
+  },
+  "scval-int64-beyond-f64": {
+   "title": "A 64-bit contract integer above 2^53",
+   "caps": [
+    "CAP-0046-01"
+   ],
+   "why": "Loses precision in any language that holds it in a float."
+  },
+  "scval-wide-integer": {
+   "title": "A 128-bit or 256-bit contract integer",
+   "caps": [
+    "CAP-0046-01"
+   ],
+   "why": "Needs big-integer handling; hi/lo parts are easy to combine wrongly."
+  },
+  "auth-nested-invocations": {
+   "title": "A Soroban authorization entry with sub-invocations",
+   "caps": [
+    "CAP-0046-11"
+   ],
+   "why": "The authorization tree is not validated for size by stellar-core beyond resource limits; walkers must handle nesting."
+  },
+  "auth-tree-4-deep": {
+   "title": "A Soroban authorization tree four or more levels deep",
+   "caps": [
+    "CAP-0046-11"
+   ],
+   "why": "Unbounded recursion over the tree is one of the three mistakes the RFP's linter targets."
+  },
+  "offer-id-beyond-f64": {
+   "title": "An offer ID above 2^53",
+   "caps": [],
+   "why": "Held in a float, it names a different offer."
+  },
+  "pool-issuers-order-differs-strkey-vs-bytes": {
+   "title": "A liquidity-pool asset pair whose issuers sort differently as strkey text and as key bytes",
+   "caps": [
+    "CAP-0038"
+   ],
+   "why": "The network orders by key bytes. Code that compares G... strings rejects the valid pair or derives the wrong pool ID."
+  },
+  "operations-at-max-100": {
+   "title": "A transaction with the maximum 100 operations",
+   "caps": [],
+   "why": "A vector at its declared maximum; exposes off-by-one limits and per-operation cost blow-ups."
+  },
+  "operations-50-or-more": {
+   "title": "A transaction with 50 or more operations",
+   "caps": [],
+   "why": "Large but legal; exercises batching and operation-index arithmetic."
+  },
+  "signatures-at-max-20": {
+   "title": "A transaction with the maximum 20 signatures",
+   "caps": [],
+   "why": "A vector at its declared maximum."
+  },
+  "memo-text-not-utf8": {
+   "title": "A text memo whose bytes are not valid UTF-8",
+   "caps": [],
+   "why": "stellar-core does not validate memo text. Treating it as a string corrupts it or crashes."
+  },
+  "soroban-op-muxed-source": {
+   "title": "A contract invocation whose operation source is a muxed account",
+   "caps": [
+    "CAP-0027",
+    "CAP-0046"
+   ],
+   "why": "Participant extraction that renders the source as M... writes a 40-byte key where 32 are expected."
+  },
+  "failed-transaction": {
+   "title": "A transaction that failed but is recorded in the ledger",
+   "caps": [],
+   "why": "Fees are charged and the envelope is present, but its operations had no effect; envelope-derived state is wrong."
+  },
+  "failed-soroban-transaction": {
+   "title": "A failed contract invocation",
+   "caps": [
+    "CAP-0046"
+   ],
+   "why": "The envelope claims effects that the meta shows did not happen."
+  }
+ }
+}

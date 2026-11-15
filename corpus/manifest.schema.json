@@ -134,9 +134,9 @@
           "minimum": 1
         },
         "protocol_version": {
-          "description": "For a network ledger, the ledger's protocol version. For a synthetic entry, the lowest protocol whose XDR can decode it.",
+          "description": "For a network ledger, the ledger's protocol version. For a synthetic entry, the lowest protocol whose XDR can decode it. 0 is the genesis ledger of a stellar-core test network.",
           "type": "integer",
-          "minimum": 1
+          "minimum": 0
         },
         "caps": {
           "description": "The CAPs this entry exercises, each tied to the schema cells that show it.",
@@ -144,10 +144,31 @@
           "items": {
             "type": "object",
             "required": [
-              "cap",
-              "cells"
+              "cap"
             ],
             "additionalProperties": false,
+            "anyOf": [
+              {
+                "required": [
+                  "cells"
+                ],
+                "properties": {
+                  "cells": {
+                    "minItems": 1
+                  }
+                }
+              },
+              {
+                "required": [
+                  "patterns"
+                ],
+                "properties": {
+                  "patterns": {
+                    "minItems": 1
+                  }
+                }
+              }
+            ],
             "properties": {
               "cap": {
                 "type": "string",
@@ -157,8 +178,14 @@
                 "type": "array",
                 "items": {
                   "$ref": "#/$defs/cell"
-                },
-                "minItems": 1
+                }
+              },
+              "patterns": {
+                "description": "Named patterns from patterns.json that tie the entry to this CAP.",
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
               },
               "note": {
                 "type": "string"
@@ -167,7 +194,7 @@
           }
         },
         "synthetic": {
-          "description": "false only if the bytes were produced by a Stellar network or by stellar-core. true for anything generated or hand-made.",
+          "description": "false only if stellar-core produced the bytes: a network ledger, a stellar-core golden, or a ledger from a local stellar-core. true for anything encoded by hand or by a tool.",
           "type": "boolean"
         },
         "source": {
@@ -251,7 +278,9 @@
               "required": [
                 "kind",
                 "stellar_core_commit",
-                "golden_file"
+                "golden_file",
+                "record",
+                "network_passphrase"
               ],
               "additionalProperties": false,
               "properties": {
@@ -262,7 +291,64 @@
                   "type": "string"
                 },
                 "golden_file": {
-                  "description": "Path of the golden LedgerCloseMeta in stellar-core's src/testdata.",
+                  "description": "Path of the golden file in the stellar-core repository (test-lcm-current/...). The file is a record-marked stream of LedgerCloseMeta.",
+                  "type": "string"
+                },
+                "record": {
+                  "description": "Zero-based index of the ledger within the golden file.",
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "test": {
+                  "description": "The stellar-core test that emitted the ledger, from the golden index.",
+                  "type": "string"
+                },
+                "network_passphrase": {
+                  "type": "string"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "required": [
+                "kind",
+                "stellar_core_version",
+                "network_passphrase",
+                "ledger_seq",
+                "ledger_hash",
+                "scenario",
+                "generator"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "kind": {
+                  "const": "local_stellar_core"
+                },
+                "stellar_core_version": {
+                  "type": "string"
+                },
+                "image": {
+                  "type": "string"
+                },
+                "network_passphrase": {
+                  "type": "string"
+                },
+                "ledger_seq": {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                "ledger_hash": {
+                  "type": "string",
+                  "pattern": "^[0-9a-f]{64}$"
+                },
+                "scenario": {
+                  "description": "The generator scenario that produced the ledger.",
+                  "type": "string"
+                },
+                "generator": {
+                  "type": "string"
+                },
+                "notes": {
                   "type": "string"
                 }
               }
@@ -354,7 +440,9 @@
                 "properties": {
                   "check": {
                     "enum": [
-                      "map_entries_preserved"
+                      "map_entries_preserved",
+                      "ids_exact",
+                      "transactions_decode"
                     ]
                   },
                   "path": {
@@ -363,6 +451,17 @@
                   "entries": {
                     "type": "integer",
                     "minimum": 0
+                  },
+                  "ids": {
+                    "description": "For ids_exact: the exact decimal or strkey text the SDK must report after decoding.",
+                    "type": "object",
+                    "additionalProperties": {
+                      "type": "string"
+                    }
+                  },
+                  "must_reject": {
+                    "description": "For ids_exact: inputs an SDK's builders must refuse, because each would encode a different ID than the caller wrote.",
+                    "type": "object"
                   }
                 }
               }
@@ -429,7 +528,9 @@
                   "agree",
                   "disagree",
                   "unsupported",
-                  "not_run"
+                  "not_run",
+                  "crash",
+                  "hang"
                 ]
               }
             }
@@ -461,6 +562,36 @@
               "evidence": {
                 "description": "Path to the recorded reproduction.",
                 "type": "string"
+              }
+            }
+          }
+        },
+        "patterns": {
+          "description": "Named rare shapes (see patterns.json) found in the entry, each with the path of its first occurrence. Computed by tools/mine.py.",
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "designated": {
+          "description": "What this entry is the corpus's designated example of: the patterns and cells it was selected for.",
+          "type": "object",
+          "required": [
+            "patterns",
+            "cells"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "patterns": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "cells": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/cell"
               }
             }
           }

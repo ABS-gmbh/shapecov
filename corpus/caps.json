@@ -1,0 +1,369 @@
+{
+ "source": {
+  "repo": "stellar/stellar-protocol",
+  "file": "core/README.md",
+  "commit": "ced008c3727005ca4a775f430fe6fe346c30f58f"
+ },
+ "caps": {
+  "CAP-0001": {
+   "protocol": "10",
+   "title": "Bump Sequence",
+   "status": "Final"
+  },
+  "CAP-0002": {
+   "protocol": "10",
+   "title": "Transaction level signature verification",
+   "status": "Final"
+  },
+  "CAP-0003": {
+   "protocol": "10",
+   "title": "Asset-backed offers",
+   "status": "Final"
+  },
+  "CAP-0004": {
+   "protocol": "10",
+   "title": "Improved Rounding for Cross Offer",
+   "status": "Final"
+  },
+  "CAP-0005": {
+   "protocol": "11",
+   "title": "Throttling and transaction pricing improvements",
+   "status": "Final"
+  },
+  "CAP-0006": {
+   "protocol": "11",
+   "title": "Add ManageBuyOffer Operation",
+   "status": "Final"
+  },
+  "CAP-0015": {
+   "protocol": "13",
+   "title": "Fee Bump Transactions",
+   "status": "Final"
+  },
+  "CAP-0017": {
+   "protocol": "-",
+   "title": "Update LastModifiedLedgerSeq If and Only If LedgerEntry is Modified",
+   "status": "Accepted"
+  },
+  "CAP-0018": {
+   "protocol": "13",
+   "title": "Fine-Grained Control of Authorization",
+   "status": "Final"
+  },
+  "CAP-0019": {
+   "protocol": "13",
+   "title": "Future-upgradable TransactionEnvelope type",
+   "status": "Final"
+  },
+  "CAP-0020": {
+   "protocol": "11",
+   "title": "Bucket Initial Entries",
+   "status": "Final"
+  },
+  "CAP-0021": {
+   "protocol": "19",
+   "title": "Generalized transaction preconditions",
+   "status": "Final"
+  },
+  "CAP-0023": {
+   "protocol": "14",
+   "title": "Two-Part Payments with ClaimableBalanceEntry",
+   "status": "Final"
+  },
+  "CAP-0024": {
+   "protocol": "12",
+   "title": "Make PathPayment Symmetrical",
+   "status": "Final"
+  },
+  "CAP-0025": {
+   "protocol": "12",
+   "title": "Remove Bucket Shadowing",
+   "status": "Final"
+  },
+  "CAP-0026": {
+   "protocol": "12",
+   "title": "Disable Inflation Mechanism",
+   "status": "Final"
+  },
+  "CAP-0027": {
+   "protocol": "13",
+   "title": "First-class multiplexed accounts",
+   "status": "Final"
+  },
+  "CAP-0028": {
+   "protocol": "13",
+   "title": "Clear pre-auth transaction signer on failed transactions",
+   "status": "Final"
+  },
+  "CAP-0029": {
+   "protocol": "16",
+   "title": "AllowTrust when not AUTH_REQUIRED",
+   "status": "Final"
+  },
+  "CAP-0030": {
+   "protocol": "13",
+   "title": "Remove NO_ISSUER Operation Results",
+   "status": "Final"
+  },
+  "CAP-0033": {
+   "protocol": "14/15",
+   "title": "Sponsored Reserve with EphemeralSponsorshipEntry",
+   "status": "Final"
+  },
+  "CAP-0034": {
+   "protocol": "14",
+   "title": "Preserve Transaction-Set/Close-Time Affinity During Nomination",
+   "status": "Final"
+  },
+  "CAP-0035": {
+   "protocol": "17",
+   "title": "Asset Clawback",
+   "status": "Final"
+  },
+  "CAP-0038": {
+   "protocol": "18",
+   "title": "Automated Market Makers",
+   "status": "Final"
+  },
+  "CAP-0040": {
+   "protocol": "19",
+   "title": "Ed25519 Signed Payload Signer for Transaction Signature Disclosure",
+   "status": "Final"
+  },
+  "CAP-0042": {
+   "protocol": "-",
+   "title": "Multi-Part Transaction Sets",
+   "status": "Final"
+  },
+  "CAP-0046": {
+   "protocol": "20",
+   "title": "Soroban smart contract system overview",
+   "status": "Final"
+  },
+  "CAP-0046-01": {
+   "protocol": "20",
+   "title": "WebAssembly Smart Contract Runtime Environment",
+   "status": "Final"
+  },
+  "CAP-0046-02": {
+   "protocol": "20",
+   "title": "Smart Contract Lifecycle",
+   "status": "Final"
+  },
+  "CAP-0046-03": {
+   "protocol": "20",
+   "title": "Smart Contract Host Functions",
+   "status": "Final"
+  },
+  "CAP-0046-05": {
+   "protocol": "20",
+   "title": "Smart Contract Data",
+   "status": "Final"
+  },
+  "CAP-0046-06": {
+   "protocol": "20",
+   "title": "Smart Contract Standardized Asset",
+   "status": "Final"
+  },
+  "CAP-0046-07": {
+   "protocol": "20",
+   "title": "Fee model in smart contracts",
+   "status": "Final"
+  },
+  "CAP-0046-08": {
+   "protocol": "20",
+   "title": "Smart Contract Logging",
+   "status": "Final"
+  },
+  "CAP-0046-09": {
+   "protocol": "20",
+   "title": "Network Configuration Ledger Entries",
+   "status": "Final"
+  },
+  "CAP-0046-10": {
+   "protocol": "20",
+   "title": "Smart Contract Budget Metering",
+   "status": "Final"
+  },
+  "CAP-0046-11": {
+   "protocol": "20",
+   "title": "Soroban Authorization Framework",
+   "status": "Final"
+  },
+  "CAP-0046-12": {
+   "protocol": "20",
+   "title": "Soroban State Archival Interface",
+   "status": "Final"
+  },
+  "CAP-0051": {
+   "protocol": "21",
+   "title": "Smart Contract Host Functionality: Secp256r1 Verification",
+   "status": "Final"
+  },
+  "CAP-0053": {
+   "protocol": "21",
+   "title": "Separate host functions to extend the TTL for contract instance and contract code",
+   "status": "Final"
+  },
+  "CAP-0054": {
+   "protocol": "21",
+   "title": "Soroban refined VM instantiation cost model",
+   "status": "Final"
+  },
+  "CAP-0055": {
+   "protocol": "21",
+   "title": "Soroban streamlined linking",
+   "status": "Final"
+  },
+  "CAP-0056": {
+   "protocol": "21",
+   "title": "Soroban intra-transaction module caching",
+   "status": "Final"
+  },
+  "CAP-0058": {
+   "protocol": "22",
+   "title": "Constructors for Soroban Contracts",
+   "status": "Final"
+  },
+  "CAP-0059": {
+   "protocol": "22",
+   "title": "Host functions for BLS12-381",
+   "status": "Final"
+  },
+  "CAP-0062": {
+   "protocol": "23",
+   "title": "Soroban Live State Prioritization",
+   "status": "Final"
+  },
+  "CAP-0063": {
+   "protocol": "23",
+   "title": "Parallelism-friendly Transaction Scheduling",
+   "status": "Final"
+  },
+  "CAP-0065": {
+   "protocol": "23",
+   "title": "Reusable Module Cache",
+   "status": "Final"
+  },
+  "CAP-0066": {
+   "protocol": "23",
+   "title": "Soroban In-memory Read Resource",
+   "status": "Final"
+  },
+  "CAP-0067": {
+   "protocol": "23",
+   "title": "Unified Asset Events",
+   "status": "Final"
+  },
+  "CAP-0068": {
+   "protocol": "23",
+   "title": "Host function for getting executable for `Address`",
+   "status": "Final"
+  },
+  "CAP-0069": {
+   "protocol": "23",
+   "title": "String/Bytes conversion host functions",
+   "status": "Final"
+  },
+  "CAP-0070": {
+   "protocol": "23",
+   "title": "Configurable SCP Timing Parameters",
+   "status": "Final"
+  },
+  "CAP-0071": {
+   "protocol": "27",
+   "title": "Authentication delegation and address-bound Soroban credentials",
+   "status": "Final"
+  },
+  "CAP-0071-01": {
+   "protocol": "27",
+   "title": "Authentication delegation for custom accounts",
+   "status": "Final"
+  },
+  "CAP-0071-02": {
+   "protocol": "27",
+   "title": "Address-bound Soroban address credentials",
+   "status": "Final"
+  },
+  "CAP-0073": {
+   "protocol": "26",
+   "title": "Allow SAC to create G-account balances",
+   "status": "Final"
+  },
+  "CAP-0074": {
+   "protocol": "25",
+   "title": "Host functions for BN254",
+   "status": "Final"
+  },
+  "CAP-0075": {
+   "protocol": "25",
+   "title": "Cryptographic Primitives for Poseidon/Poseidon2 Hash Functions",
+   "status": "Final"
+  },
+  "CAP-0076": {
+   "protocol": "24",
+   "title": "P23 State Archival bug remediation",
+   "status": "Final"
+  },
+  "CAP-0077": {
+   "protocol": "26",
+   "title": "Freeze Ledger Entries via Network Configuration",
+   "status": "Final"
+  },
+  "CAP-0078": {
+   "protocol": "26",
+   "title": "Host functions for performing limited TTL extensions",
+   "status": "Final"
+  },
+  "CAP-0079": {
+   "protocol": "26",
+   "title": "Host functions for muxed address strkey conversions",
+   "status": "Final"
+  },
+  "CAP-0080": {
+   "protocol": "26",
+   "title": "Host functions for efficient ZK BN254 use cases",
+   "status": "Final"
+  },
+  "CAP-0081": {
+   "protocol": "TBD",
+   "title": "TTL-Ordered Eviction",
+   "status": "Accepted"
+  },
+  "CAP-0082": {
+   "protocol": "26",
+   "title": "Checked 256-bit integer arithmetic host functions",
+   "status": "Final"
+  },
+  "CAP-0083": {
+   "protocol": "28",
+   "title": "Allow validators to vote to drop the transaction set from the current ledger",
+   "status": "Final"
+  },
+  "CAP-0085": {
+   "protocol": "28",
+   "title": "Externally managed contract executables",
+   "status": "Final"
+  },
+  "CAP-0084": {
+   "protocol": "30",
+   "title": "Muxed Contract Addresses",
+   "status": "Implemented"
+  },
+  "CAP-0086": {
+   "protocol": "28",
+   "title": "Host functions for sparse Symbol-keyed map creation and unpacking",
+   "status": "Final"
+  },
+  "CAP-0087": {
+   "protocol": "30",
+   "title": "Host functions for ML-DSA signature verification",
+   "status": "Implemented"
+  },
+  "CAP-0088": {
+   "protocol": "30",
+   "title": "Millisecond-Resolution Close Times",
+   "status": "Implemented"
+  }
+ }
+}

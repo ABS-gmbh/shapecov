@@ -38,6 +38,9 @@ That search can miss things; check again before filing.
 - Cause: `xdrlib3.Unpacker.unpack_fstring` skips the padding bytes without checking them.
 - Effect: non-canonical bytes decode, and re-encoding yields different bytes than were read.
 - Repro: `repro/python_noncanonical.py`.
+- Status, 14 November: the maintainer is replacing `stellar_sdk.xdr` with a new package,
+  `stellar-xdr` (py-stellar-base #1264). Version 0.2.0 rejects this input. The finding holds for
+  the released SDK 17.0.1 only, and our reply on the issue says so.
 
 ### P2. Python SDK treats any non-zero optional flag as "present"
 
@@ -46,6 +49,9 @@ That search can miss things; check again before filing.
   ("xdr::pointer size must be 0 or 1"). JS, Go, Java and Rust reject all.
 - Cause: generated code reads `X.unpack(...) if unpacker.unpack_uint() else None`.
 - Repro: `repro/python_noncanonical.py`. Flag value 2 decodes as present and re-encodes as 1.
+- Status, 14 November: the maintainer is replacing `stellar_sdk.xdr` with a new package,
+  `stellar-xdr` (py-stellar-base #1264). Version 0.2.0 rejects this input. The finding holds for
+  the released SDK 17.0.1 only, and our reply on the issue says so.
 
 ## Reproduced sightings from the RFP
 

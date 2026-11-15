@@ -36,6 +36,7 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
+import mine  # noqa: E402
 import strkey  # noqa: E402
 from decode import Decoder, XdrError, get  # noqa: E402
 from encode import Encoder  # noqa: E402
@@ -61,7 +62,8 @@ class Report:
         return ok
 
 
-def static_checks(e, raw, dec, enc, new_cells, schema_protocol, rep):
+def static_checks(e, raw, dec, enc, new_cells, schema_protocol, rep, ctx=None):
+    ctx = ctx or {}
     eid = e["id"]
     rep.check(eid, "sha256 and size", hashlib.sha256(raw).hexdigest() == e["sha256"] and len(raw) == e["size_bytes"])
     try:
@@ -91,13 +93,33 @@ def static_checks(e, raw, dec, enc, new_cells, schema_protocol, rep):
               and hdr["header"]["scpValue"]["closeTime"] == src["close_time"]
               and hdr["header"]["ledgerVersion"] == e["protocol_version"])
         rep.check(eid, "source record matches the ledger header", ok and not e["synthetic"])
+    elif src["kind"] in ("stellar_core_golden", "local_stellar_core"):
+        hdr = v[f"v{v['v']}"]["ledgerHeader"]
+        ok = hdr["header"]["ledgerVersion"] == e["protocol_version"] and not e["synthetic"]
+        if src["kind"] == "local_stellar_core":
+            ok = ok and hdr["header"]["ledgerSeq"] == src["ledger_seq"] and hdr["hash"] == src["ledger_hash"]
+        rep.check(eid, "source record matches the ledger header", ok)
+        if src["kind"] == "stellar_core_golden" and ctx.get("goldens"):
+            f = Path(ctx["goldens"]) / src["golden_file"]
+            same = f.exists() and mine.golden_records(f)[src["record"]] == raw
+            rep.check(eid, "byte-identical to the stellar-core golden record", same, src["golden_file"])
+            e["validation"]["core_golden"] = "pass" if same else "fail"
     elif src["kind"] == "generated":
         value = json.load(open(CORPUS / src["value_file"]))
         rep.check(eid, "value file encodes to the entry bytes",
                   enc.encode(e["xdr_type"], value) == raw and e["synthetic"])
 
-    cap_cells = {c for cap in e["caps"] for c in cap["cells"]}
-    rep.check(eid, "CAP cells are exercised by the entry", cap_cells <= set(e["cells"]))
+    cap_cells = {c for cap in e["caps"] for c in cap.get("cells", [])}
+    cap_pats = {p for cap in e["caps"] for p in cap.get("patterns", [])}
+    known = all(cap["cap"] in ctx.get("caps", {cap["cap"]: 1}) for cap in e["caps"])
+    rep.check(eid, "CAP tags are official CAPs and are exercised by the entry",
+              known and cap_cells <= set(e["cells"]) and cap_pats <= set(e.get("patterns", {})))
+    if e["xdr_type"] == "LedgerCloseMeta" and "patterns" in e:
+        rep.check(eid, "patterns", mine.patterns(v, with_paths=True) == e["patterns"], f"{len(e['patterns'])} pattern(s)")
+    if "designated" in e:
+        d = e["designated"]
+        rep.check(eid, "designated patterns and cells are in the entry",
+                  set(d["patterns"]) <= set(e.get("patterns", {})) and set(d["cells"]) <= set(e["cells"]))
     new_here = sorted(set(e["cells"]) & new_cells)
     ok = new_here == e.get("cells_new_in_protocol", [])
     if new_here:
@@ -122,12 +144,18 @@ def sdk_roundtrips(entries, raws, sdks, rep):
         for e in entries:
             r = res.get(e["id"], [e["id"], "crash", ""])
             same = r[1] == "ok" and r[2].strip() == base64.b64encode(raws[e["id"]]).decode()
-            out[e["id"]][s] = "agree" if same else ("unsupported" if r[1] == "notype" else "disagree")
+            out[e["id"]][s] = "agree" if same else ("unsupported" if r[1] == "notype" else
+                                                    r[1] if r[1] in ("crash", "hang") else "disagree")
     for e in entries:
         print(f"{e['id']}")
         for s in sdks:
-            rep.check(e["id"], f"{RUNNERS[s]['version']} decodes and re-encodes identically", out[e["id"]][s] == "agree",
-                      "" if out[e["id"]][s] == "agree" else out[e["id"]][s])
+            if s == "rust":      # the round trip the RFP requires of every entry
+                rep.check(e["id"], f"{RUNNERS[s]['version']} decodes and re-encodes identically",
+                          out[e["id"]][s] == "agree", "" if out[e["id"]][s] == "agree" else out[e["id"]][s])
+            elif out[e["id"]][s] == "agree":
+                print(f"  ok   {RUNNERS[s]['version']} decodes and re-encodes identically")
+            else:                # an SDK failing on a valid entry is a finding about the SDK
+                print(f"  FINDING {RUNNERS[s]['version']}: {out[e['id']][s]}")
     return out
 
 
@@ -159,11 +187,12 @@ def core_decode(entries, raws, rep):
             out[e["id"]] = {"version": "30.0.0", "command": "", "result": "not_applicable"}
             print("  --   stellar-core has no command that decodes this type on its own")
             continue
-        text = (tmp / "o" / f"{e['id']}.json").read_text()
+        # stellar-core prints string bytes as they are, so its JSON is not always valid UTF-8
+        text = (tmp / "o" / f"{e['id']}.json").read_bytes().decode("utf-8", "replace")
         try:
-            j = json.loads(text)
+            j = json.loads(text, strict=False)
         except json.JSONDecodeError:
-            err = (tmp / "o" / f"{e['id']}.err").read_text().strip().split("\n")[-1]
+            err = (tmp / "o" / f"{e['id']}.err").read_bytes().decode("utf-8", "replace").strip().split("\n")[-1]
             rep.check(e["id"], f"stellar-core 30.0.0 {how[e['id']]}", False, (text.strip() or err)[:200])
             out[e["id"]] = {"version": "30.0.0", "command": how[e["id"]], "result": "fail"}
             continue
@@ -214,6 +243,8 @@ def main():
     ap.add_argument("--core", action="store_true")
     ap.add_argument("--sdk-checks", action="store_true")
     ap.add_argument("--record", action="store_true")
+    ap.add_argument("--goldens", help="a stellar-core checkout; golden entries are compared byte for byte with it")
+    ap.add_argument("--quiet", action="store_true", help="print only failures, findings and totals")
     a = ap.parse_args()
 
     import jsonschema
@@ -230,12 +261,14 @@ def main():
     schema = json.load(open(ROOT / "schema/schema.json"))
     new_cells = all_cells(schema) - all_cells(json.load(open(ROOT / "schema/schema-v28.0.json")))
     dec, enc = Decoder(schema), Encoder(schema)
+    caps = json.load(open(CORPUS / "caps.json"))["caps"]
     raws = {}
     for e in manifest["entries"]:
         print(e["id"])
         raws[e["id"]] = base64.b64decode((CORPUS / e["file"]).read_text().strip(), validate=True)
         before = rep.failures
-        static_checks(e, raws[e["id"]], dec, enc, new_cells, manifest["xdr_schema"]["protocol_version"], rep)
+        static_checks(e, raws[e["id"]], dec, enc, new_cells, manifest["xdr_schema"]["protocol_version"], rep,
+                      {"goldens": a.goldens, "caps": caps})
         e["validation"]["independent_decoder"] = "pass" if rep.failures == before else "fail"
 
     if a.sdks:
