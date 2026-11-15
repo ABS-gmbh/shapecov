@@ -161,8 +161,9 @@ harness keeps the whole directory as evidence.
 
 `tools/oracle.py` reads a ledger's meta and lists what changed in ledger state, independently of any
 indexer: accounts created or removed; signers added, removed or reweighted; thresholds, flags and
-home domain; data entries; trustlines added, removed or re-limited; trustline authorization; and
-contract instances created. `oracle.balances()` adds the net change of every account's XLM and
+home domain; data entries; trustlines added, removed or re-limited; trustline authorization;
+contract instances created; offers and the trades that cross them; claimable balances; liquidity
+pools; and sponsorship of entries and signers. `oracle.balances()` adds the net change of every account's XLM and
 credit-asset trustline balance per operation, plus each transaction's net fee.
 
 An adapter can opt in to having every such change checked, not only the manifest's expectations,

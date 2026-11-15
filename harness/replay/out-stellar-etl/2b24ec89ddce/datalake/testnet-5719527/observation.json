@@ -1027,12 +1027,13 @@
    "reason": "claimable_balance_created",
    "account": "GBJC5ITYDCVRO53D6MOAJPWUC7F7TTEGZ7F2EUJZLAMABOWU2SQ24OOY",
    "signer_key": null,
-   "token": null,
+   "token": "native",
    "spender": null,
    "creator": null,
    "destination": null,
    "fields": {
-    "op_order": 1
+    "op_order": 1,
+    "balance_id": "00000000dc847bd8525d04fa55ad2583f791c9b96f2520a55b42cf47c479c75c07ad3650"
    }
   },
   {
@@ -1043,12 +1044,13 @@
    "reason": "claimable_balance_claimant_created",
    "account": "GAI3IJFIRC7IQCKLBYGM5OYFWWWRDVX4NGGRKRIAS2YDE3TI3JSWVT2A",
    "signer_key": null,
-   "token": null,
+   "token": "native",
    "spender": null,
    "creator": null,
    "destination": null,
    "fields": {
-    "op_order": 1
+    "op_order": 1,
+    "balance_id": "00000000dc847bd8525d04fa55ad2583f791c9b96f2520a55b42cf47c479c75c07ad3650"
    }
   },
   {
@@ -1059,12 +1061,13 @@
    "reason": "claimable_balance_claimant_created",
    "account": "GAJF2IJVNFDBFUYYJGYTUDP32ODC3VMAHZ3MC55RDTK22XJHOYCMV6MX",
    "signer_key": null,
-   "token": null,
+   "token": "native",
    "spender": null,
    "creator": null,
    "destination": null,
    "fields": {
-    "op_order": 1
+    "op_order": 1,
+    "balance_id": "00000000dc847bd8525d04fa55ad2583f791c9b96f2520a55b42cf47c479c75c07ad3650"
    }
   },
   {
@@ -1096,7 +1099,8 @@
    "creator": null,
    "destination": null,
    "fields": {
-    "op_order": 1
+    "op_order": 1,
+    "balance_id": "00000000dc847bd8525d04fa55ad2583f791c9b96f2520a55b42cf47c479c75c07ad3650"
    }
   },
   {
@@ -2087,7 +2091,7 @@
   "effects": 53,
   "token_transfer": 50
  },
- "seconds": 1.0,
+ "seconds": 0.8,
  "process": {
   "outcome": "exited",
   "exit_code": 0

@@ -3,17 +3,47 @@
   {
    "issue": "stellar/stellar-etl#460",
    "note": "CAP-73: an account created by XLM sent through the native Stellar Asset Contract gets no account_created effect; the effects transform handles only SAC events for contract calls.",
-   "match": {"reason": "account_created", "op_type": "INVOKE_HOST_FUNCTION"}
+   "match": {
+    "reason": "account_created",
+    "op_type": "INVOKE_HOST_FUNCTION"
+   }
   },
   {
    "issue": "stellar/stellar-etl#460",
    "note": "CAP-73: a trustline created by the Stellar Asset Contract's trust() gets no trustline_created effect.",
-   "match": {"reason": "trustline_created", "op_type": "INVOKE_HOST_FUNCTION"}
+   "match": {
+    "reason": "trustline_created",
+    "op_type": "INVOKE_HOST_FUNCTION"
+   }
   },
   {
    "issue": "stellar/stellar-etl#512",
    "note": "export_token_transfer builds the processor for protocol-23 unified events only, which rejects any transaction whose meta is not v4: every ledger before protocol 23 that holds a transaction.",
-   "match": {"error_contains": "error reading from unified events stream, expected version 4 got 3"}
+   "match": {
+    "error_contains": "error reading from unified events stream, expected version 4 got 3"
+   }
+  },
+  {
+   "issue": "FINDINGS.md E2 (stellar-etl, not filed upstream yet)",
+   "note": "A revocation that redeems pool shares in several pools gets one liquidity_pool_revoked effect: getLiquidityPoolAndProductDelta(nil) returns the first pool change only. Horizon's effects processor has the same call.",
+   "match": {
+    "reason": "liquidity_pool_revoked",
+    "op_type": [
+     "ALLOW_TRUST",
+     "SET_TRUST_LINE_FLAGS"
+    ]
+   }
+  },
+  {
+   "issue": "FINDINGS.md E3 (stellar-etl, not filed upstream yet)",
+   "note": "A pool-share trustline removed by an authorization revocation gets no trustline_removed effect; only ChangeTrust emits it, in stellar-etl and in Horizon. The effects-model counterpart of stellar/wallet-backend#817.",
+   "match": {
+    "reason": "trustline_removed",
+    "op_type": [
+     "ALLOW_TRUST",
+     "SET_TRUST_LINE_FLAGS"
+    ]
+   }
   }
  ]
 }

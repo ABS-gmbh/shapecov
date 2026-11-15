@@ -88,7 +88,7 @@ every field; `corpus/evidence/` records the two reproduced sightings.
   hand-written expectations.
 - `harness/replay/adapters/stellar-etl/` runs the same ledgers through stellar-etl's own export
   commands, reading the data lake through its GCS client, and checks its effects and token
-  transfers against the same oracle. It found E1 in `FINDINGS.md`.
+  transfers against the same oracle. It found E1 to E3 in `FINDINGS.md`.
 - `harness/wallet-backend/` is the earlier, database-free version: it calls wallet-backend's
   `indexer.ProcessLedger` from a Go test.
 - `harness/sdk-semantic/` runs the manifest's SDK checks against pinned SDK versions.

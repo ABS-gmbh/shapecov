@@ -6,7 +6,7 @@
  "entry_id": "localcore-classic-p22-3",
  "ledger_seq": 3,
  "ingested": false,
- "error": "token_transfer exited 1: time=\"2026-11-15T22:17:17.493Z\" level=fatal msg=\"could not transform token transfers for ledger 3: error reading from unified events stream, expected version 4 got 3\" pid=37",
+ "error": "token_transfer exited 1: time=\"2026-11-15T22:53:07.122Z\" level=fatal msg=\"could not transform token transfers for ledger 3: error reading from unified events stream, expected version 4 got 3\" pid=35",
  "adapter_failure": false,
  "transactions": [
   {
@@ -85,7 +85,7 @@
   "effects": 3,
   "token_transfer": 0
  },
- "seconds": 1.0,
+ "seconds": 1.1,
  "process": {
   "outcome": "exited",
   "exit_code": 1

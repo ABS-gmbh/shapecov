@@ -26,6 +26,18 @@ Scenarios (one per run):
   classic-p22        Protocol 22, stellar-core 22.2.1. One CreateAccount from the root account: a
                      ledger before protocol 23 with only a classic transaction, so TransactionMeta
                      v3 and no unified events. Tools that need protocol-23 meta reject it.
+  pools-sponsorship-p30
+                     Protocol 30, stellar-core 30.0.0. An issuer with AUTH_REVOCABLE and three assets
+                     (AAA, BBB, CCC); a trustor holding shares in two pools that share AAA (AAA/BBB and
+                     AAA/CCC). Three recorded ledgers:
+                     pool-revoke-two-pools: the issuer clears AAA's authorization on the trustor, so
+                       core redeems both pools' shares into claimable balances and removes both
+                       pool-share trustlines in one operation (CAP-38).
+                     claim-and-sponsor: the trustor claims the BBB balance from that revocation; in
+                       another transaction a sponsor pays the reserves of a claimant's new data
+                       entry and new signer (CAP-33).
+                     sponsorship-transfer: a second sponsor takes over both sponsorships through
+                       RevokeSponsorship inside a sponsorship sandwich.
   sac-trust-p28      Protocol 28, stellar-core 30.0.0. Create a trustor account, deploy the Stellar
                      Asset Contract for USD issued by the root account, then have the trustor call
                      the contract's trust(trustor) (CAP-73) in a ledger of its own. That creates a
@@ -63,7 +75,7 @@ from encode import Encoder  # noqa: E402
 ROOT = Path(__file__).resolve().parent.parent
 IMAGE = "stellar/stellar-core:30.0.0-3642.0e49751aa.noble"
 IMAGE_V22 = "stellar/stellar-core:22.2.1-2429.e70f0aed8.focal"
-SCENARIOS = {"muxed-source-p22": IMAGE_V22, "classic-p22": IMAGE_V22, "muxed-source-refused-p24": IMAGE, "memo-and-offer-p30": IMAGE,
+SCENARIOS = {"muxed-source-p22": IMAGE_V22, "classic-p22": IMAGE_V22, "pools-sponsorship-p30": IMAGE, "muxed-source-refused-p24": IMAGE, "memo-and-offer-p30": IMAGE,
              "sac-trust-p28": IMAGE}
 NAME = "shapecov-localcore-gen"
 PASSPHRASES = {"testnet": "Test SDF Network ; September 2015",
@@ -195,6 +207,17 @@ def envelope(enc, core, tx, signer):
     return enc.encode("TransactionEnvelope", env), hashlib.sha256(payload).hexdigest()
 
 
+def envelope_multi(enc, core, tx, signers):
+    """A v1 envelope signed by every key in `signers`."""
+    payload = enc.encode("TransactionSignaturePayload", {
+        "networkId": core.network_id.hex(),
+        "taggedTransaction": {"type": "ENVELOPE_TYPE_TX", "tx": tx}})
+    digest = hashlib.sha256(payload).digest()
+    sigs = [{"hint": k.pub[-8:], "signature": ed25519.sign(k.secret, digest).hex()} for k in signers]
+    env = {"type": "ENVELOPE_TYPE_TX", "v1": {"tx": tx, "signatures": sigs}}
+    return enc.encode("TransactionEnvelope", env), digest.hex()
+
+
 def tx(source, seq, ops, fee=1000, memo=None, soroban=None):
     return {"sourceAccount": source, "fee": fee, "seqNum": seq, "cond": {"type": "PRECOND_NONE"},
             "memo": memo or {"type": "MEMO_NONE"}, "operations": ops,
@@ -263,6 +286,8 @@ def main():
             muxed_source(core, enc, root, step, run, 22, accepted=True)
         elif a.scenario == "classic-p22":
             classic_p22(core, enc, root, payee, step, run)
+        elif a.scenario == "pools-sponsorship-p30":
+            pools_sponsorship_p30(core, enc, dec, root, step, run)
         elif a.scenario == "sac-trust-p28":
             sac_trust_p28(core, enc, dec, root, step, run)
         elif a.scenario == "muxed-source-refused-p24":
@@ -351,6 +376,117 @@ def memo_and_offer_p30(core, enc, root, payee, step, run):
     blob, h = envelope(enc, core, t, payee)
     step("memo-and-offer-p30: offer 2^53+1", 30, blob, h, "PENDING, fails at apply")
     run["ledger_memo_and_offer_p30"] = core.close()
+
+
+def op(body_type, field, value, source=None):
+    body = {"type": body_type}
+    if field:
+        body[field] = value
+    return {"sourceAccount": source.muxed() if source else None, "body": body}
+
+
+def last_ledger(core, dec):
+    """The newest LedgerCloseMeta core has written, decoded."""
+    raws = list(mine.golden_records(core.work / "meta.xdr"))
+    return dec.decode("LedgerCloseMeta", raws[-1])
+
+
+def pools_sponsorship_p30(core, enc, dec, root, step, run):
+    core.upgrade(30)
+    issuer, trustor, claimant, s1, s2 = (Keys("pools issuer"), Keys("pools trustor"), Keys("pools claimant"),
+                                         Keys("sponsor one"), Keys("sponsor two"))
+    for name, k in (("issuer", issuer), ("trustor", trustor), ("claimant", claimant), ("sponsor_one", s1),
+                    ("sponsor_two", s2)):
+        run[name] = strkey.account(k.pub)
+    no_opts = {"inflationDest": None, "clearFlags": None, "setFlags": None, "masterWeight": None,
+               "lowThreshold": None, "medThreshold": None, "highThreshold": None, "homeDomain": None, "signer": None}
+    big = 2 ** 63 - 1
+
+    def asset(code):
+        return {"type": "ASSET_TYPE_CREDIT_ALPHANUM4", "alphaNum4": {"assetCode": (code.encode() + b"\0").hex(),
+                                                                       "issuer": issuer.account()}}
+    aaa, bbb, ccc = asset("AAA"), asset("BBB"), asset("CCC")
+
+    def params(a, b):
+        return {"type": "LIQUIDITY_POOL_CONSTANT_PRODUCT", "constantProduct": {"assetA": a, "assetB": b, "fee": 30}}
+
+    def pool_id(a, b):
+        return hashlib.sha256(enc.encode("LiquidityPoolParameters", params(a, b))).hexdigest()
+
+    def send(name, t, signers, expect="PENDING, applied"):
+        blob, h = envelope_multi(enc, core, t, signers)
+        if step("pools-sponsorship-p30: " + name, 30, blob, h, expect)["status"] != "PENDING":
+            raise SystemExit("%s was refused; see the diagnostics above" % name)
+
+    # 1. accounts
+    send("create accounts", tx(root.muxed(), 1, [
+        op("CREATE_ACCOUNT", "createAccountOp", {"destination": k.account(), "startingBalance": 1000_0000000})
+        for k in (issuer, trustor, claimant, s1, s2)], fee=5000), [root])
+    born = core.close() << 32
+    seq = {k.pub: born for k in (issuer, trustor, claimant, s1, s2)}
+
+    def nxt(k):
+        seq[k.pub] += 1
+        return seq[k.pub]
+
+    # 2. issuer is AUTH_REVOCABLE; trustor trusts AAA, BBB, CCC
+    send("issuer sets AUTH_REVOCABLE", tx(issuer.muxed(), nxt(issuer), [
+        op("SET_OPTIONS", "setOptionsOp", dict(no_opts, setFlags=2))]), [issuer])
+    send("trustor trusts AAA, BBB, CCC", tx(trustor.muxed(), nxt(trustor), [
+        op("CHANGE_TRUST", "changeTrustOp", {"line": a, "limit": big}) for a in (aaa, bbb, ccc)], fee=3000), [trustor])
+    core.close()
+    # 3. issuer pays the trustor
+    send("issuer pays the trustor", tx(issuer.muxed(), nxt(issuer), [
+        op("PAYMENT", "paymentOp", {"destination": trustor.muxed(), "asset": a, "amount": 1000_0000000})
+        for a in (aaa, bbb, ccc)], fee=3000), [issuer])
+    core.close()
+    # 4. two pools sharing AAA, one deposit each
+    price = {"minPrice": {"n": 1, "d": 2}, "maxPrice": {"n": 2, "d": 1}}
+    ops = []
+    for b in (bbb, ccc):
+        ops.append(op("CHANGE_TRUST", "changeTrustOp", {"line": {"type": "ASSET_TYPE_POOL_SHARE",
+                                                                 "liquidityPool": params(aaa, b)}, "limit": big}))
+        ops.append(op("LIQUIDITY_POOL_DEPOSIT", "liquidityPoolDepositOp", dict(
+            {"liquidityPoolID": pool_id(aaa, b), "maxAmountA": 100_0000000, "maxAmountB": 100_0000000}, **price)))
+    send("trustor deposits into AAA/BBB and AAA/CCC", tx(trustor.muxed(), nxt(trustor), ops, fee=4000), [trustor])
+    core.close()
+    run["pools"] = {"AAA/BBB": pool_id(aaa, bbb), "AAA/CCC": pool_id(aaa, ccc)}
+    # 5. revoke AAA: both pools redeemed in one operation
+    send("issuer revokes AAA on the trustor", tx(issuer.muxed(), nxt(issuer), [
+        op("SET_TRUST_LINE_FLAGS", "setTrustLineFlagsOp", {"trustor": trustor.account(), "asset": aaa,
+                                                           "clearFlags": 1, "setFlags": 0})]), [issuer])
+    run["ledger_pool_revoke_two_pools"] = core.close()
+    created = []
+    meta = last_ledger(core, dec)
+    body = meta["v%d" % meta["v"]]
+    for tp in body["txProcessing"]:
+        m = tp["txApplyProcessing"]
+        for o in (m["v%d" % m["v"]].get("operations") or []):
+            for ch in o["changes"]:
+                if ch["type"] == "LEDGER_ENTRY_CREATED" and ch["created"]["data"]["type"] == "CLAIMABLE_BALANCE":
+                    created.append(ch["created"]["data"]["claimableBalance"])
+    run["revocation_claimable_balances"] = len(created)
+    bbb_balance = next(cb for cb in created if cb["asset"] == bbb)
+    # 6. claim the BBB balance; sponsor a data entry and a signer for the claimant
+    send("trustor claims the BBB balance", tx(trustor.muxed(), nxt(trustor), [
+        op("CLAIM_CLAIMABLE_BALANCE", "claimClaimableBalanceOp", {"balanceID": bbb_balance["balanceID"]})]), [trustor])
+    signer_key = {"type": "SIGNER_KEY_TYPE_ED25519", "ed25519": s2.pub}
+    send("sponsor one pays for the claimant's data entry and signer", tx(s1.muxed(), nxt(s1), [
+        op("BEGIN_SPONSORING_FUTURE_RESERVES", "beginSponsoringFutureReservesOp", {"sponsoredID": claimant.account()}),
+        op("MANAGE_DATA", "manageDataOp", {"dataName": "shapecov", "dataValue": b"1".hex()}, source=claimant),
+        op("SET_OPTIONS", "setOptionsOp", dict(no_opts, signer={"key": signer_key, "weight": 1}), source=claimant),
+        op("END_SPONSORING_FUTURE_RESERVES", None, None, source=claimant)], fee=4000), [s1, claimant])
+    run["ledger_claim_and_sponsor"] = core.close()
+    # 7. sponsor two takes both sponsorships over
+    data_key = {"type": "DATA", "data": {"accountID": claimant.account(), "dataName": "shapecov"}}
+    send("sponsor two takes over both sponsorships", tx(s2.muxed(), nxt(s2), [
+        op("BEGIN_SPONSORING_FUTURE_RESERVES", "beginSponsoringFutureReservesOp", {"sponsoredID": s1.account()}),
+        op("REVOKE_SPONSORSHIP", "revokeSponsorshipOp", {"type": "REVOKE_SPONSORSHIP_LEDGER_ENTRY",
+                                                         "ledgerKey": data_key}, source=s1),
+        op("REVOKE_SPONSORSHIP", "revokeSponsorshipOp", {"type": "REVOKE_SPONSORSHIP_SIGNER", "signer": {
+            "accountID": claimant.account(), "signerKey": signer_key}}, source=s1),
+        op("END_SPONSORING_FUTURE_RESERVES", None, None, source=s1)], fee=4000), [s2, s1])
+    run["ledger_sponsorship_transfer"] = core.close()
 
 
 def sac_trust_p28(core, enc, dec, root, step, run):

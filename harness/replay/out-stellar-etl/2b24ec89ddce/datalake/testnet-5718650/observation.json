@@ -1024,7 +1024,8 @@
    "creator": null,
    "destination": null,
    "fields": {
-    "op_order": 1
+    "op_order": 1,
+    "liquidity_pool_id": "ce5afa71f37132f40f5c5b0d750d03e2499e80ff9657f6e29e385e2ee0ad6ccb"
    }
   },
   {
@@ -6443,7 +6444,7 @@
   "effects": 210,
   "token_transfer": 132
  },
- "seconds": 1.1,
+ "seconds": 0.9,
  "process": {
   "outcome": "exited",
   "exit_code": 0

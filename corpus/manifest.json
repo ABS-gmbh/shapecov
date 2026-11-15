@@ -10450,6 +10450,410 @@
     "core_golden": "not_applicable"
    },
    "sightings": []
+  },
+  {
+   "id": "localcore-claim-and-sponsor-8",
+   "title": "Claimable balance claimed; data entry and signer created under sponsorship (CAP-23, CAP-33)",
+   "xdr_type": "LedgerCloseMeta",
+   "file": "entries/localcore-claim-and-sponsor-8.LedgerCloseMeta.xdr.b64",
+   "sha256": "ce229ae4ff83c4fbb015a4ec77d2b8554dfa15cd74d4eeecf9c4e780fae13e57",
+   "size_bytes": 5232,
+   "protocol_version": 30,
+   "caps": [],
+   "synthetic": false,
+   "source": {
+    "kind": "local_stellar_core",
+    "stellar_core_version": "stellar-core 30.0.0 (0e49751aa9ddf892302cca02cea7f3f5d97df9f1)",
+    "image": "stellar/stellar-core:30.0.0-3642.0e49751aa.noble",
+    "network_passphrase": "Test SDF Network ; September 2015",
+    "ledger_seq": 8,
+    "ledger_hash": "e051e1f9d1a9e1f0b594ada4f9e896a7370c454b127f9a5054447d42015a8527",
+    "scenario": "claim-and-sponsor",
+    "generator": "tools/localcore.py",
+    "notes": "Standalone network, manual close, fixed keys and close times; see the scenario in tools/localcore.py."
+   },
+   "shape": "The trustor claims the BBB claimable balance a pool revocation created; in another transaction a sponsor pays the reserves for a new data entry and a new signer on another account, inside a sponsorship sandwich.",
+   "patterns": {
+    "scval-wide-integer": "v2.txProcessing[0].txApplyProcessing.v4.events[0].event.body.v0.data"
+   },
+   "designated": {
+    "patterns": [],
+    "cells": []
+   },
+   "cells": [
+    "arm:AccountEntryExt.0",
+    "arm:AccountEntryExt.1",
+    "arm:AccountEntryExtensionV1Ext.2",
+    "arm:AccountEntryExtensionV2Ext.0",
+    "arm:AccountEntryExtensionV2Ext.3",
+    "arm:Asset.ASSET_TYPE_CREDIT_ALPHANUM4",
+    "arm:BeginSponsoringFutureReservesResult.BEGIN_SPONSORING_FUTURE_RESERVES_SUCCESS",
+    "arm:ClaimClaimableBalanceResult.CLAIM_CLAIMABLE_BALANCE_SUCCESS",
+    "arm:ClaimPredicate.CLAIM_PREDICATE_UNCONDITIONAL",
+    "arm:ClaimableBalanceEntryExt.0",
+    "arm:ClaimableBalanceID.CLAIMABLE_BALANCE_ID_TYPE_V0",
+    "arm:Claimant.CLAIMANT_TYPE_V0",
+    "arm:ContractEventBody.0",
+    "arm:DataEntryExt.0",
+    "arm:EndSponsoringFutureReservesResult.END_SPONSORING_FUTURE_RESERVES_SUCCESS",
+    "arm:ExtensionPoint.0",
+    "arm:GeneralizedTransactionSet.1",
+    "arm:LedgerCloseMeta.2",
+    "arm:LedgerCloseMetaExt.0",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_CREATED",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_REMOVED",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_STATE",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_UPDATED",
+    "arm:LedgerEntryData.ACCOUNT",
+    "arm:LedgerEntryData.CLAIMABLE_BALANCE",
+    "arm:LedgerEntryData.DATA",
+    "arm:LedgerEntryData.TRUSTLINE",
+    "arm:LedgerEntryExt.0",
+    "arm:LedgerEntryExt.1",
+    "arm:LedgerEntryExtensionV1Ext.0",
+    "arm:LedgerHeaderExt.0",
+    "arm:LedgerHeaderHistoryEntryExt.0",
+    "arm:LedgerKey.CLAIMABLE_BALANCE",
+    "arm:ManageDataResult.MANAGE_DATA_SUCCESS",
+    "arm:Memo.MEMO_NONE",
+    "arm:MuxedAccount.KEY_TYPE_ED25519",
+    "arm:OperationBody.BEGIN_SPONSORING_FUTURE_RESERVES",
+    "arm:OperationBody.CLAIM_CLAIMABLE_BALANCE",
+    "arm:OperationBody.END_SPONSORING_FUTURE_RESERVES",
+    "arm:OperationBody.MANAGE_DATA",
+    "arm:OperationBody.SET_OPTIONS",
+    "arm:OperationResult.opINNER",
+    "arm:OperationResultTr.BEGIN_SPONSORING_FUTURE_RESERVES",
+    "arm:OperationResultTr.CLAIM_CLAIMABLE_BALANCE",
+    "arm:OperationResultTr.END_SPONSORING_FUTURE_RESERVES",
+    "arm:OperationResultTr.MANAGE_DATA",
+    "arm:OperationResultTr.SET_OPTIONS",
+    "arm:Preconditions.PRECOND_NONE",
+    "arm:PublicKey.PUBLIC_KEY_TYPE_ED25519",
+    "arm:SCAddress.SC_ADDRESS_TYPE_ACCOUNT",
+    "arm:SCAddress.SC_ADDRESS_TYPE_CLAIMABLE_BALANCE",
+    "arm:SCVal.SCV_ADDRESS",
+    "arm:SCVal.SCV_I128",
+    "arm:SCVal.SCV_STRING",
+    "arm:SCVal.SCV_SYMBOL",
+    "arm:SetOptionsResult.SET_OPTIONS_SUCCESS",
+    "arm:SignerKey.SIGNER_KEY_TYPE_ED25519",
+    "arm:StellarValueExt.STELLAR_VALUE_SIGNED_MS",
+    "arm:TransactionEnvelope.ENVELOPE_TYPE_TX",
+    "arm:TransactionExt.0",
+    "arm:TransactionMeta.4",
+    "arm:TransactionPhase.0",
+    "arm:TransactionPhase.1",
+    "arm:TransactionResultExt.0",
+    "arm:TransactionResultResult.txSUCCESS",
+    "arm:TrustLineAsset.ASSET_TYPE_CREDIT_ALPHANUM4",
+    "arm:TrustLineEntryExt.1",
+    "arm:TrustLineEntryExtensionV2Ext.0",
+    "arm:TrustLineEntryV1Ext.2",
+    "arm:TxSetComponent.TXSET_COMP_TXS_MAYBE_DISCOUNTED_FEE",
+    "enum:ContractEventType.CONTRACT",
+    "enum:TransactionEventStage.TRANSACTION_EVENT_STAGE_BEFORE_ALL_TXS"
+   ],
+   "cells_new_in_protocol": [
+    "arm:StellarValueExt.STELLAR_VALUE_SIGNED_MS"
+   ],
+   "expected": {
+    "decoded": [
+     {
+      "path": "v",
+      "value": 2
+     },
+     {
+      "path": "v2.ledgerHeader.header.ledgerSeq",
+      "value": 8
+     },
+     {
+      "path": "v2.ledgerHeader.header.ledgerVersion",
+      "value": 30
+     },
+     {
+      "path": "v2.ledgerHeader.hash",
+      "value": "e051e1f9d1a9e1f0b594ada4f9e896a7370c454b127f9a5054447d42015a8527"
+     },
+     {
+      "path": "v2.ledgerHeader.header.scpValue.closeTime",
+      "value": 1601075496
+     }
+    ]
+   },
+   "validation": {
+    "independent_decoder": "not_run",
+    "rs_stellar_xdr_roundtrip": "not_run",
+    "stellar_core": {
+     "version": "30.0.0",
+     "command": "",
+     "result": "not_run"
+    },
+    "core_golden": "not_applicable"
+   },
+   "sightings": []
+  },
+  {
+   "id": "localcore-pool-revoke-two-pools-7",
+   "title": "Authorization revocation that redeems pool shares in two pools at once (CAP-38)",
+   "xdr_type": "LedgerCloseMeta",
+   "file": "entries/localcore-pool-revoke-two-pools-7.LedgerCloseMeta.xdr.b64",
+   "sha256": "c5b4eba5b27f201f0be5bceff6aaeba853ae081e17360435bd0f50dac8a1844f",
+   "size_bytes": 5624,
+   "protocol_version": 30,
+   "caps": [],
+   "synthetic": false,
+   "source": {
+    "kind": "local_stellar_core",
+    "stellar_core_version": "stellar-core 30.0.0 (0e49751aa9ddf892302cca02cea7f3f5d97df9f1)",
+    "image": "stellar/stellar-core:30.0.0-3642.0e49751aa.noble",
+    "network_passphrase": "Test SDF Network ; September 2015",
+    "ledger_seq": 7,
+    "ledger_hash": "1160f561364a004bc50bada51f91fe049141787aa2720843f646ee8d2bb4316c",
+    "scenario": "pool-revoke-two-pools",
+    "generator": "tools/localcore.py",
+    "notes": "Standalone network, manual close, fixed keys and close times; see the scenario in tools/localcore.py."
+   },
+   "shape": "One SetTrustLineFlags clears AAA authorization on a trustor that holds the only shares of two pools sharing AAA (AAA/BBB, AAA/CCC). Core redeems both pools in that one operation: two pools removed, two pool-share trustlines removed, four claimable balances created and sponsored. Effect models that look for a single pool change per revocation report one pool.",
+   "patterns": {
+    "scval-wide-integer": "v2.txProcessing[0].txApplyProcessing.v4.operations[0].events[0].body.v0.data"
+   },
+   "designated": {
+    "patterns": [],
+    "cells": [
+     "arm:LedgerKey.LIQUIDITY_POOL"
+    ]
+   },
+   "cells": [
+    "arm:AccountEntryExt.1",
+    "arm:AccountEntryExtensionV1Ext.2",
+    "arm:AccountEntryExtensionV2Ext.3",
+    "arm:Asset.ASSET_TYPE_CREDIT_ALPHANUM4",
+    "arm:ClaimPredicate.CLAIM_PREDICATE_UNCONDITIONAL",
+    "arm:ClaimableBalanceEntryExt.0",
+    "arm:ClaimableBalanceID.CLAIMABLE_BALANCE_ID_TYPE_V0",
+    "arm:Claimant.CLAIMANT_TYPE_V0",
+    "arm:ContractEventBody.0",
+    "arm:ExtensionPoint.0",
+    "arm:GeneralizedTransactionSet.1",
+    "arm:LedgerCloseMeta.2",
+    "arm:LedgerCloseMetaExt.0",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_CREATED",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_REMOVED",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_STATE",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_UPDATED",
+    "arm:LedgerEntryData.ACCOUNT",
+    "arm:LedgerEntryData.CLAIMABLE_BALANCE",
+    "arm:LedgerEntryData.LIQUIDITY_POOL",
+    "arm:LedgerEntryData.TRUSTLINE",
+    "arm:LedgerEntryExt.0",
+    "arm:LedgerEntryExt.1",
+    "arm:LedgerEntryExtensionV1Ext.0",
+    "arm:LedgerHeaderExt.0",
+    "arm:LedgerHeaderHistoryEntryExt.0",
+    "arm:LedgerKey.LIQUIDITY_POOL",
+    "arm:LedgerKey.TRUSTLINE",
+    "arm:LiquidityPoolEntryBody.LIQUIDITY_POOL_CONSTANT_PRODUCT",
+    "arm:Memo.MEMO_NONE",
+    "arm:MuxedAccount.KEY_TYPE_ED25519",
+    "arm:OperationBody.SET_TRUST_LINE_FLAGS",
+    "arm:OperationResult.opINNER",
+    "arm:OperationResultTr.SET_TRUST_LINE_FLAGS",
+    "arm:Preconditions.PRECOND_NONE",
+    "arm:PublicKey.PUBLIC_KEY_TYPE_ED25519",
+    "arm:SCAddress.SC_ADDRESS_TYPE_ACCOUNT",
+    "arm:SCAddress.SC_ADDRESS_TYPE_CLAIMABLE_BALANCE",
+    "arm:SCAddress.SC_ADDRESS_TYPE_LIQUIDITY_POOL",
+    "arm:SCVal.SCV_ADDRESS",
+    "arm:SCVal.SCV_BOOL",
+    "arm:SCVal.SCV_I128",
+    "arm:SCVal.SCV_STRING",
+    "arm:SCVal.SCV_SYMBOL",
+    "arm:SetTrustLineFlagsResult.SET_TRUST_LINE_FLAGS_SUCCESS",
+    "arm:StellarValueExt.STELLAR_VALUE_SIGNED_MS",
+    "arm:TransactionEnvelope.ENVELOPE_TYPE_TX",
+    "arm:TransactionExt.0",
+    "arm:TransactionMeta.4",
+    "arm:TransactionPhase.0",
+    "arm:TransactionPhase.1",
+    "arm:TransactionResultExt.0",
+    "arm:TransactionResultResult.txSUCCESS",
+    "arm:TrustLineAsset.ASSET_TYPE_CREDIT_ALPHANUM4",
+    "arm:TrustLineAsset.ASSET_TYPE_POOL_SHARE",
+    "arm:TrustLineEntryExt.0",
+    "arm:TrustLineEntryExt.1",
+    "arm:TrustLineEntryExtensionV2Ext.0",
+    "arm:TrustLineEntryV1Ext.2",
+    "arm:TxSetComponent.TXSET_COMP_TXS_MAYBE_DISCOUNTED_FEE",
+    "enum:ContractEventType.CONTRACT",
+    "enum:TransactionEventStage.TRANSACTION_EVENT_STAGE_BEFORE_ALL_TXS"
+   ],
+   "cells_new_in_protocol": [
+    "arm:StellarValueExt.STELLAR_VALUE_SIGNED_MS"
+   ],
+   "expected": {
+    "decoded": [
+     {
+      "path": "v",
+      "value": 2
+     },
+     {
+      "path": "v2.ledgerHeader.header.ledgerSeq",
+      "value": 7
+     },
+     {
+      "path": "v2.ledgerHeader.header.ledgerVersion",
+      "value": 30
+     },
+     {
+      "path": "v2.ledgerHeader.hash",
+      "value": "1160f561364a004bc50bada51f91fe049141787aa2720843f646ee8d2bb4316c"
+     },
+     {
+      "path": "v2.ledgerHeader.header.scpValue.closeTime",
+      "value": 1600886156
+     },
+     {
+      "path": "v2.txProcessing[0].txApplyProcessing.v4.operations[0].changes[5].removed.type",
+      "value": "LIQUIDITY_POOL",
+      "note": "cell arm:LedgerKey.LIQUIDITY_POOL"
+     }
+    ]
+   },
+   "validation": {
+    "independent_decoder": "not_run",
+    "rs_stellar_xdr_roundtrip": "not_run",
+    "stellar_core": {
+     "version": "30.0.0",
+     "command": "",
+     "result": "not_run"
+    },
+    "core_golden": "not_applicable"
+   },
+   "sightings": []
+  },
+  {
+   "id": "localcore-sponsorship-transfer-9",
+   "title": "Sponsorship of a data entry and a signer transferred to a new sponsor (CAP-33)",
+   "xdr_type": "LedgerCloseMeta",
+   "file": "entries/localcore-sponsorship-transfer-9.LedgerCloseMeta.xdr.b64",
+   "sha256": "3bfa27fef32ffa2908655a178bdb98dcd6d2101175c8bf7ed64426d83dbc7f04",
+   "size_bytes": 3716,
+   "protocol_version": 30,
+   "caps": [],
+   "synthetic": false,
+   "source": {
+    "kind": "local_stellar_core",
+    "stellar_core_version": "stellar-core 30.0.0 (0e49751aa9ddf892302cca02cea7f3f5d97df9f1)",
+    "image": "stellar/stellar-core:30.0.0-3642.0e49751aa.noble",
+    "network_passphrase": "Test SDF Network ; September 2015",
+    "ledger_seq": 9,
+    "ledger_hash": "8b304cd4a2d464ce2e2c8b19bd7215ac735c5d9c9df1b0c611fe68e68428741d",
+    "scenario": "sponsorship-transfer",
+    "generator": "tools/localcore.py",
+    "notes": "Standalone network, manual close, fixed keys and close times; see the scenario in tools/localcore.py."
+   },
+   "shape": "RevokeSponsorship by the current sponsor inside a sandwich opened by a second sponsor: both the data entry and the signer change sponsor without being removed.",
+   "patterns": {
+    "scval-wide-integer": "v2.txProcessing[0].txApplyProcessing.v4.events[0].event.body.v0.data"
+   },
+   "designated": {
+    "patterns": [],
+    "cells": []
+   },
+   "cells": [
+    "arm:AccountEntryExt.0",
+    "arm:AccountEntryExt.1",
+    "arm:AccountEntryExtensionV1Ext.2",
+    "arm:AccountEntryExtensionV2Ext.0",
+    "arm:AccountEntryExtensionV2Ext.3",
+    "arm:BeginSponsoringFutureReservesResult.BEGIN_SPONSORING_FUTURE_RESERVES_SUCCESS",
+    "arm:ContractEventBody.0",
+    "arm:DataEntryExt.0",
+    "arm:EndSponsoringFutureReservesResult.END_SPONSORING_FUTURE_RESERVES_SUCCESS",
+    "arm:ExtensionPoint.0",
+    "arm:GeneralizedTransactionSet.1",
+    "arm:LedgerCloseMeta.2",
+    "arm:LedgerCloseMetaExt.0",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_STATE",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_UPDATED",
+    "arm:LedgerEntryData.ACCOUNT",
+    "arm:LedgerEntryData.DATA",
+    "arm:LedgerEntryExt.0",
+    "arm:LedgerEntryExt.1",
+    "arm:LedgerEntryExtensionV1Ext.0",
+    "arm:LedgerHeaderExt.0",
+    "arm:LedgerHeaderHistoryEntryExt.0",
+    "arm:LedgerKey.DATA",
+    "arm:Memo.MEMO_NONE",
+    "arm:MuxedAccount.KEY_TYPE_ED25519",
+    "arm:OperationBody.BEGIN_SPONSORING_FUTURE_RESERVES",
+    "arm:OperationBody.END_SPONSORING_FUTURE_RESERVES",
+    "arm:OperationBody.REVOKE_SPONSORSHIP",
+    "arm:OperationResult.opINNER",
+    "arm:OperationResultTr.BEGIN_SPONSORING_FUTURE_RESERVES",
+    "arm:OperationResultTr.END_SPONSORING_FUTURE_RESERVES",
+    "arm:OperationResultTr.REVOKE_SPONSORSHIP",
+    "arm:Preconditions.PRECOND_NONE",
+    "arm:PublicKey.PUBLIC_KEY_TYPE_ED25519",
+    "arm:RevokeSponsorshipOp.REVOKE_SPONSORSHIP_LEDGER_ENTRY",
+    "arm:RevokeSponsorshipOp.REVOKE_SPONSORSHIP_SIGNER",
+    "arm:RevokeSponsorshipResult.REVOKE_SPONSORSHIP_SUCCESS",
+    "arm:SCAddress.SC_ADDRESS_TYPE_ACCOUNT",
+    "arm:SCVal.SCV_ADDRESS",
+    "arm:SCVal.SCV_I128",
+    "arm:SCVal.SCV_SYMBOL",
+    "arm:SignerKey.SIGNER_KEY_TYPE_ED25519",
+    "arm:StellarValueExt.STELLAR_VALUE_SIGNED_MS",
+    "arm:TransactionEnvelope.ENVELOPE_TYPE_TX",
+    "arm:TransactionExt.0",
+    "arm:TransactionMeta.4",
+    "arm:TransactionPhase.0",
+    "arm:TransactionPhase.1",
+    "arm:TransactionResultExt.0",
+    "arm:TransactionResultResult.txSUCCESS",
+    "arm:TxSetComponent.TXSET_COMP_TXS_MAYBE_DISCOUNTED_FEE",
+    "enum:ContractEventType.CONTRACT",
+    "enum:TransactionEventStage.TRANSACTION_EVENT_STAGE_BEFORE_ALL_TXS"
+   ],
+   "cells_new_in_protocol": [
+    "arm:StellarValueExt.STELLAR_VALUE_SIGNED_MS"
+   ],
+   "expected": {
+    "decoded": [
+     {
+      "path": "v",
+      "value": 2
+     },
+     {
+      "path": "v2.ledgerHeader.header.ledgerSeq",
+      "value": 9
+     },
+     {
+      "path": "v2.ledgerHeader.header.ledgerVersion",
+      "value": 30
+     },
+     {
+      "path": "v2.ledgerHeader.hash",
+      "value": "8b304cd4a2d464ce2e2c8b19bd7215ac735c5d9c9df1b0c611fe68e68428741d"
+     },
+     {
+      "path": "v2.ledgerHeader.header.scpValue.closeTime",
+      "value": 1601248996
+     }
+    ]
+   },
+   "validation": {
+    "independent_decoder": "not_run",
+    "rs_stellar_xdr_roundtrip": "not_run",
+    "stellar_core": {
+     "version": "30.0.0",
+     "command": "",
+     "result": "not_run"
+    },
+    "core_golden": "not_applicable"
+   },
+   "sightings": []
   }
  ]
 }

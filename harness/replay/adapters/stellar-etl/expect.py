@@ -9,6 +9,11 @@ change should produce. Whether one is expected always comes from the ledger.
 Effects belong to operations: a change the oracle sees outside any operation (fee processing,
 txChangesBefore/After) has no effect by design and is not checked here; its balance part is
 checked through the fee events.
+
+Offers: Horizon's model has no effect for an offer being placed, changed or cancelled by its owner
+(the offer_* types exist but Horizon never emits them; stellar-etl emits them only alongside trades,
+see stellar-etl#456). So offers are checked through trades: a resting offer crossed in an
+operation must give its seller a `trade` effect naming that offer.
 """
 import hashlib
 import json
@@ -55,6 +60,15 @@ EFFECT = {
     ("trustauth", "set"): "trustline_flags_updated",
     ("trustauth", "cleared"): "trustline_flags_updated",
 }
+POOL_CHANGE = {"LIQUIDITY_POOL_DEPOSIT": "liquidity_pool_deposited", "LIQUIDITY_POOL_WITHDRAW": "liquidity_pool_withdrew",
+               "ALLOW_TRUST": "liquidity_pool_revoked", "SET_TRUST_LINE_FLAGS": "liquidity_pool_revoked",
+               "PATH_PAYMENT_STRICT_RECEIVE": "liquidity_pool_trade", "PATH_PAYMENT_STRICT_SEND": "liquidity_pool_trade",
+               "MANAGE_SELL_OFFER": "liquidity_pool_trade", "MANAGE_BUY_OFFER": "liquidity_pool_trade",
+               "CREATE_PASSIVE_SELL_OFFER": "liquidity_pool_trade"}
+CLAIMABLE_REMOVED = {"CLAIM_CLAIMABLE_BALANCE": "claimable_balance_claimed",
+                     "CLAWBACK_CLAIMABLE_BALANCE": "claimable_balance_clawed_back"}
+# Horizon's model has sponsorship effects for these entry kinds; offers have none.
+SPONSORED = {"account", "trustline", "data", "claimable_balance"}
 PER_OPERATION = {"account_thresholds_updated", "account_flags_updated", "account_home_domain_updated",
                  "trustline_flags_updated"}
 
@@ -94,6 +108,51 @@ def manifest_expectations(exps):
     return [e for e in exps if e.get("expect") == "transaction"]
 
 
+def effects_for(c):
+    """The effect rows (without context) one oracle change should produce, as (reason, selectors)."""
+    what, how = c["what"], c["how"]
+    if (what, how) in EFFECT:
+        return [(EFFECT[(what, how)], {"account": c["account"]})]
+    if what == "trade":
+        return [("trade", {"account": c["account"], "fields": {"offer_id": c["offer_id"]}})]
+    if what == "claimable":
+        f = {"fields": {"balance_id": c["balance_id"]}}
+        if how == "created":
+            return [("claimable_balance_created", f)] + [
+                ("claimable_balance_claimant_created", {"account": a, "fields": {"balance_id": c["balance_id"]}})
+                for a in c["claimants"]]
+        reason = CLAIMABLE_REMOVED.get(c["op_type"])
+        return [(reason, f)] if reason else []
+    if what == "pool":
+        f = {"fields": {"liquidity_pool_id": c["pool_id"]}}
+        if how == "created":
+            return [("liquidity_pool_created", f)]
+        if how == "removed":
+            # A revocation that empties a pool removes it; it is still a revocation of that pool.
+            extra = [("liquidity_pool_revoked", f)] if POOL_CHANGE.get(c["op_type"]) == "liquidity_pool_revoked" else []
+            return [("liquidity_pool_removed", f)] + extra
+        reason = POOL_CHANGE.get(c["op_type"])
+        return [(reason, f)] if reason else []
+    if what == "sponsorship" and c["entry"] in SPONSORED:
+        reason = "%s_sponsorship_%s" % (c["entry"], how)
+        if c["entry"] in ("account", "trustline"):
+            sel = {"account": c["account"]}
+            if c["entry"] == "trustline":
+                kind, value = c["holding"]
+                if kind == "asset":
+                    sel["token"] = asset_text(value)
+                else:
+                    sel["fields"] = {"liquidity_pool_id": value}
+            return [(reason, sel)]
+        # Data and claimable balance sponsorship effects belong to the operation's source; match the entry.
+        if c["entry"] == "data":
+            return [(reason, {"fields": {"data_name": c["name"]}})]
+        return [(reason, {"fields": {"balance_id": c["balance_id"]}})]
+    if what == "signer-sponsorship":
+        return [("signer_sponsorship_%s" % how, {"account": c["account"], "signer_key": c["signer"]})]
+    return []
+
+
 def expectations(changes, passphrase):
     # Trustline authorization that comes with a trustline being created or removed in the same
     # operation is part of trustline_created / trustline_removed, not a separate flags effect.
@@ -105,6 +164,16 @@ def expectations(changes, passphrase):
             continue
         effect = EFFECT.get((c["what"], c["how"]))
         if effect is None:
+            for reason, sel in effects_for(c):
+                e = {"expect": "state_change", "category": "EFFECT", "reason": reason, "tx_hash": c["tx_hash"]}
+                e.update({k: v for k, v in sel.items() if k != "fields"})
+                e["fields"] = dict(sel.get("fields") or {}, op_order=c["where"] + 1)
+                key = json.dumps(e, sort_keys=True)
+                if key in merged:
+                    merged[key]["count"] = merged[key].get("count", 1) + 1
+                else:
+                    merged[key] = dict(e, derived_from="oracle: %s %s (op %d %s)" % (c["what"], c["how"], c["where"], c["op_type"]),
+                                       via={"where": c["where"], "op_type": c["op_type"], "what": c["what"], "how": c["how"]})
             continue
         if c["what"] == "trustauth" and (c["tx_hash"], c["where"], c["account"],
                                          json.dumps(c["holding"], sort_keys=True)) in born:

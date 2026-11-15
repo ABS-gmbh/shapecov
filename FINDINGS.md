@@ -76,6 +76,33 @@ That search can miss things; check again before filing.
 - Filed: stellar/stellar-etl#512. Details: `corpus/evidence/stellar-etl-token-transfer-pre23.md`.
   Issue text: `issues/E1-stellar-etl-token-transfer-pre23.md`.
 
+## Confirmed, not filed yet
+
+### E2. stellar-etl: a revocation that redeems pool shares in several pools gets one `liquidity_pool_revoked`, citing another pool's balance
+
+- Affects: stellar-etl `master` (`2b24ec89`). stellar-horizon `main` has the same code (not run).
+- Evidence: `localcore-pool-revoke-two-pools-7`, from stellar-core 30.0.0 (scenario
+  `pools-sponsorship-p30`). One `SetTrustLineFlags` redeems a trustor's shares in AAA/BBB and
+  AAA/CCC: both pools removed, four claimable balances created. `export_effects` writes one
+  `liquidity_pool_revoked`, for AAA/CCC, and its `reserves_revoked` gives AAA/BBB's AAA balance
+  (`00000000e4bbf033…`, computed from the `ENVELOPE_TYPE_POOL_REVOKE_OP_ID` preimage) as AAA/CCC's.
+  AAA/BBB gets no revoked effect.
+- Found by: the oracle, with no hand-written expectation; predicted from the code first.
+- Cause: `addLiquidityPoolRevokedEffect` reads only the first pool change
+  (`getLiquidityPoolAndProductDelta(nil)`) and maps the new claimable balances by asset alone.
+- Details: `corpus/evidence/stellar-etl-pool-revocation.md`. Draft:
+  `issues/E2-stellar-etl-multi-pool-revocation.md`.
+
+### E3. stellar-etl: pool-share trustlines removed by a revocation get no `trustline_removed`
+
+- Same ledger: the two pool-share trustlines the revocation removes get no effect; only ChangeTrust
+  emits `trustline_removed`, in stellar-etl and in Horizon. The effects-model counterpart of
+  stellar/wallet-backend#817, which the same ledger also shows in wallet-backend.
+- Draft: `issues/E3-stellar-etl-revoked-pool-trustlines.md`.
+
+Searched on 15 November: no report in stellar-etl, stellar-horizon or go-stellar-sdk. stellar-etl
+#458 concerns only the order of a revocation's claimable balance effects.
+
 ## Reproduced sightings from the RFP
 
 Each is reproduced from an entry in `corpus/`. The SDK sightings have their commands and output in
@@ -130,7 +157,11 @@ stellar-etl issue at `master` (`2b24ec89`):
 No other effect is missing and every net balance matches for the 25 ledgers stellar-etl can read.
 See `harness/replay/RESULTS-stellar-etl.md`.
 
-For wallet-backend, no other row is missing for any of the 51 ledgers. That now includes balances: all 4057 net balance
+stellar/wallet-backend#817 (filed by the shapekit project) is also confirmed on a ledger of our
+own, `localcore-pool-revoke-two-pools-7`: the two pool-share trustlines one revocation removes get
+no `TRUSTLINE REMOVE`.
+
+For wallet-backend, no other row is missing for any of the 54 ledgers. That now includes balances: all 4057 net balance
 checks per input (every account's XLM and trustline balance per operation, and every net fee) match,
 and no balance row is stored where the ledger shows no change. See `harness/replay/RESULTS.md`,
 "Oracle checks".

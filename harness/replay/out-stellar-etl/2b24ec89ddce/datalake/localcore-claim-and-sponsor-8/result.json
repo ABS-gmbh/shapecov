@@ -1,0 +1,43 @@
+{
+ "adapter": "stellar-etl",
+ "checks": [],
+ "commit": "2b24ec89ddce7fc0beb7795de982c93e6895eaf3",
+ "dropped": [],
+ "entry_id": "localcore-claim-and-sponsor-8",
+ "evidence": "out-stellar-etl/2b24ec89ddce/datalake/localcore-claim-and-sponsor-8",
+ "expectations": 0,
+ "expectations_source": "none (implicit checks only)",
+ "feeder_requests": 16,
+ "ingested": true,
+ "input": "datalake",
+ "ledger": {
+  "close_time": 1601075496,
+  "hash": "e051e1f9d1a9e1f0b594ada4f9e896a7370c454b127f9a5054447d42015a8527",
+  "protocol": 30,
+  "seq": 8
+ },
+ "mishandled": [],
+ "mode": "unmodified",
+ "oracle": {
+  "verdict": "pass",
+  "rows_expected": 9,
+  "rows_met": 9,
+  "known": {},
+  "unexplained": []
+ },
+ "process": {
+  "exit_code": 0,
+  "outcome": "exited"
+ },
+ "protocol_version": 30,
+ "ref": "master",
+ "result": "pass",
+ "row_counts": {
+  "effects": 7,
+  "operations": 5,
+  "token_transfer": 3,
+  "transactions": 2
+ },
+ "sdk_pin": "v0.8.1-0.20261106081502-e31e3b146d00",
+ "seconds": 1.0
+}

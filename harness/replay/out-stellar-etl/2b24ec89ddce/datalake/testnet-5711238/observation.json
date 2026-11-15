@@ -587,7 +587,8 @@
    "creator": null,
    "destination": null,
    "fields": {
-    "op_order": 3
+    "op_order": 3,
+    "data_name": "soneso"
    }
   },
   {
@@ -614,7 +615,7 @@
    "reason": "trustline_sponsorship_created",
    "account": "GB6IU6JIQOMODVQOCQDMS4VWFN2YG2FB6BKJ76DU7AKY4TE3BTSJZGYH",
    "signer_key": null,
-   "token": null,
+   "token": "RICH:GD5LRFTTVL3VXBYLJTL5G32YQMHVJQ4HAYZERBBLUPVATGDHKJNJGVNJ",
    "spender": null,
    "creator": null,
    "destination": null,
@@ -662,12 +663,13 @@
    "reason": "claimable_balance_created",
    "account": "GD5LRFTTVL3VXBYLJTL5G32YQMHVJQ4HAYZERBBLUPVATGDHKJNJGVNJ",
    "signer_key": null,
-   "token": null,
+   "token": "RICH:GD5LRFTTVL3VXBYLJTL5G32YQMHVJQ4HAYZERBBLUPVATGDHKJNJGVNJ",
    "spender": null,
    "creator": null,
    "destination": null,
    "fields": {
-    "op_order": 7
+    "op_order": 7,
+    "balance_id": "00000000156d4e4d3ffac56e0465ad8be4c4039c0b61b3ce5d2955cac2af529cbab86eb2"
    }
   },
   {
@@ -678,12 +680,13 @@
    "reason": "claimable_balance_claimant_created",
    "account": "GD5LRFTTVL3VXBYLJTL5G32YQMHVJQ4HAYZERBBLUPVATGDHKJNJGVNJ",
    "signer_key": null,
-   "token": null,
+   "token": "RICH:GD5LRFTTVL3VXBYLJTL5G32YQMHVJQ4HAYZERBBLUPVATGDHKJNJGVNJ",
    "spender": null,
    "creator": null,
    "destination": null,
    "fields": {
-    "op_order": 7
+    "op_order": 7,
+    "balance_id": "00000000156d4e4d3ffac56e0465ad8be4c4039c0b61b3ce5d2955cac2af529cbab86eb2"
    }
   },
   {
@@ -715,7 +718,8 @@
    "creator": null,
    "destination": null,
    "fields": {
-    "op_order": 7
+    "op_order": 7,
+    "balance_id": "00000000156d4e4d3ffac56e0465ad8be4c4039c0b61b3ce5d2955cac2af529cbab86eb2"
    }
   },
   {
@@ -742,7 +746,7 @@
    "category": "EFFECT",
    "reason": "signer_sponsorship_created",
    "account": "GB6IU6JIQOMODVQOCQDMS4VWFN2YG2FB6BKJ76DU7AKY4TE3BTSJZGYH",
-   "signer_key": null,
+   "signer_key": "GD5LRFTTVL3VXBYLJTL5G32YQMHVJQ4HAYZERBBLUPVATGDHKJNJGVNJ",
    "token": null,
    "spender": null,
    "creator": null,
@@ -780,7 +784,8 @@
    "creator": null,
    "destination": null,
    "fields": {
-    "op_order": 11
+    "op_order": 11,
+    "data_name": "soneso"
    }
   },
   {
@@ -791,7 +796,7 @@
    "reason": "trustline_sponsorship_removed",
    "account": "GB6IU6JIQOMODVQOCQDMS4VWFN2YG2FB6BKJ76DU7AKY4TE3BTSJZGYH",
    "signer_key": null,
-   "token": null,
+   "token": "RICH:GD5LRFTTVL3VXBYLJTL5G32YQMHVJQ4HAYZERBBLUPVATGDHKJNJGVNJ",
    "spender": null,
    "creator": null,
    "destination": null,
@@ -806,7 +811,7 @@
    "category": "EFFECT",
    "reason": "signer_sponsorship_removed",
    "account": "GB6IU6JIQOMODVQOCQDMS4VWFN2YG2FB6BKJ76DU7AKY4TE3BTSJZGYH",
-   "signer_key": null,
+   "signer_key": "GD5LRFTTVL3VXBYLJTL5G32YQMHVJQ4HAYZERBBLUPVATGDHKJNJGVNJ",
    "token": null,
    "spender": null,
    "creator": null,

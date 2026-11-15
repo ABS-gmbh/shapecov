@@ -17,7 +17,7 @@
   "seq": 3
  },
  "mishandled": [
-  "the indexer raised an error on this ledger and did not ingest it: token_transfer exited 1: time=\"2026-11-15T22:17:15.209Z\" level=fatal msg=\"could not transform token transfers for ledger 3: error reading from unified events stream, expected version 4 got 3\" pid=36"
+  "the indexer raised an error on this ledger and did not ingest it: token_transfer exited 1: time=\"2026-11-15T22:53:04.811Z\" level=fatal msg=\"could not transform token transfers for ledger 3: error reading from unified events stream, expected version 4 got 3\" pid=36"
  ],
  "mode": "unmodified",
  "oracle": {
@@ -43,5 +43,5 @@
   "transactions": 1
  },
  "sdk_pin": "v0.8.1-0.20261106081502-e31e3b146d00",
- "seconds": 1.1
+ "seconds": 1.0
 }

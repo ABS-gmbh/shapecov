@@ -254,16 +254,21 @@ def run(a):
         d = e.get("details") or {}
         fields = {"op_order": op}
         token = None
-        if d.get("asset_type"):
+        if d.get("asset_type") and d["asset_type"] != "liquidity_pool":
             token = "native" if d["asset_type"] == "native" else "%s:%s" % (d.get("asset_code"), d.get("asset_issuer"))
+        elif isinstance(d.get("asset"), str):
+            token = d["asset"]  # canonical CODE:ISSUER or "native" (sponsorship and claimable balance effects)
         if d.get("liquidity_pool_id"):
             fields["liquidity_pool_id"] = d["liquidity_pool_id"]
-        for k in ("weight", "name", "trustor", "home_domain", "low_threshold", "med_threshold", "high_threshold"):
+        elif isinstance(d.get("liquidity_pool"), dict) and d["liquidity_pool"].get("id"):
+            fields["liquidity_pool_id"] = d["liquidity_pool"]["id"]
+        for k in ("weight", "name", "data_name", "trustor", "offer_id", "balance_id", "home_domain",
+                  "low_threshold", "med_threshold", "high_threshold"):
             if k in d:
                 fields[k] = d[k]
         obs["state_changes"].append({"tx_hash": tx_by_id.get(order), "tx_order": order, "op_order": op,
                                      "category": "EFFECT", "reason": e.get("type_string"),
-                                     "account": e.get("address"), "signer_key": d.get("public_key"),
+                                     "account": e.get("address"), "signer_key": d.get("public_key") or d.get("signer"),
                                      "token": token, "spender": None, "creator": None, "destination": None,
                                      "fields": fields})
     # Token transfer events -> signed balance movements. transfer: from -amount, to +amount; mint: to

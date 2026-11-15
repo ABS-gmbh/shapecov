@@ -1,0 +1,398 @@
+{
+ "observation_version": 1,
+ "adapter": "stellar-etl",
+ "commit": "2b24ec89ddce7fc0beb7795de982c93e6895eaf3",
+ "input": "datalake",
+ "entry_id": "localcore-pool-revoke-two-pools-7",
+ "ledger_seq": 7,
+ "ingested": true,
+ "error": null,
+ "adapter_failure": false,
+ "transactions": [
+  {
+   "hash": "bf42f546abf271d32c8a7dd8e06a26aa5ab305a5426431f13d3e136f961885a5",
+   "tx_order": 1,
+   "result_code": "TransactionResultCodeTxSuccess",
+   "successful": true,
+   "participants": []
+  }
+ ],
+ "operations": [
+  {
+   "tx_hash": "bf42f546abf271d32c8a7dd8e06a26aa5ab305a5426431f13d3e136f961885a5",
+   "tx_order": 1,
+   "op_order": 1,
+   "type": "set_trust_line_flags",
+   "participants": []
+  }
+ ],
+ "state_changes": [
+  {
+   "tx_hash": "bf42f546abf271d32c8a7dd8e06a26aa5ab305a5426431f13d3e136f961885a5",
+   "tx_order": 1,
+   "op_order": 1,
+   "category": "EFFECT",
+   "reason": "trustline_flags_updated",
+   "account": "GABRX6PWKY2PY7RRVPZC4QGCCATGRBV2F2YIIN5R6S7ETFPTBEQCRALU",
+   "signer_key": null,
+   "token": "AAA:GABRX6PWKY2PY7RRVPZC4QGCCATGRBV2F2YIIN5R6S7ETFPTBEQCRALU",
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "op_order": 1,
+    "trustor": "GDDPY7RVTJM7BKT7UVOEALJH43XJIEO4ACVGLWXFFT2AQUGM27CBZMTU"
+   }
+  },
+  {
+   "tx_hash": "bf42f546abf271d32c8a7dd8e06a26aa5ab305a5426431f13d3e136f961885a5",
+   "tx_order": 1,
+   "op_order": 1,
+   "category": "EFFECT",
+   "reason": "claimable_balance_created",
+   "account": "GABRX6PWKY2PY7RRVPZC4QGCCATGRBV2F2YIIN5R6S7ETFPTBEQCRALU",
+   "signer_key": null,
+   "token": "AAA:GABRX6PWKY2PY7RRVPZC4QGCCATGRBV2F2YIIN5R6S7ETFPTBEQCRALU",
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "op_order": 1,
+    "balance_id": "000000008827dfb22d8716cb1b819db50028e39962f51a932fb8762bf544e24774c20836"
+   }
+  },
+  {
+   "tx_hash": "bf42f546abf271d32c8a7dd8e06a26aa5ab305a5426431f13d3e136f961885a5",
+   "tx_order": 1,
+   "op_order": 1,
+   "category": "EFFECT",
+   "reason": "claimable_balance_claimant_created",
+   "account": "GDDPY7RVTJM7BKT7UVOEALJH43XJIEO4ACVGLWXFFT2AQUGM27CBZMTU",
+   "signer_key": null,
+   "token": "AAA:GABRX6PWKY2PY7RRVPZC4QGCCATGRBV2F2YIIN5R6S7ETFPTBEQCRALU",
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "op_order": 1,
+    "balance_id": "000000008827dfb22d8716cb1b819db50028e39962f51a932fb8762bf544e24774c20836"
+   }
+  },
+  {
+   "tx_hash": "bf42f546abf271d32c8a7dd8e06a26aa5ab305a5426431f13d3e136f961885a5",
+   "tx_order": 1,
+   "op_order": 1,
+   "category": "EFFECT",
+   "reason": "claimable_balance_created",
+   "account": "GABRX6PWKY2PY7RRVPZC4QGCCATGRBV2F2YIIN5R6S7ETFPTBEQCRALU",
+   "signer_key": null,
+   "token": "AAA:GABRX6PWKY2PY7RRVPZC4QGCCATGRBV2F2YIIN5R6S7ETFPTBEQCRALU",
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "op_order": 1,
+    "balance_id": "00000000e4bbf033f497f8b89364b001b5dee111bfc9c3ed4010352c4254a288c8052141"
+   }
+  },
+  {
+   "tx_hash": "bf42f546abf271d32c8a7dd8e06a26aa5ab305a5426431f13d3e136f961885a5",
+   "tx_order": 1,
+   "op_order": 1,
+   "category": "EFFECT",
+   "reason": "claimable_balance_claimant_created",
+   "account": "GDDPY7RVTJM7BKT7UVOEALJH43XJIEO4ACVGLWXFFT2AQUGM27CBZMTU",
+   "signer_key": null,
+   "token": "AAA:GABRX6PWKY2PY7RRVPZC4QGCCATGRBV2F2YIIN5R6S7ETFPTBEQCRALU",
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "op_order": 1,
+    "balance_id": "00000000e4bbf033f497f8b89364b001b5dee111bfc9c3ed4010352c4254a288c8052141"
+   }
+  },
+  {
+   "tx_hash": "bf42f546abf271d32c8a7dd8e06a26aa5ab305a5426431f13d3e136f961885a5",
+   "tx_order": 1,
+   "op_order": 1,
+   "category": "EFFECT",
+   "reason": "claimable_balance_created",
+   "account": "GABRX6PWKY2PY7RRVPZC4QGCCATGRBV2F2YIIN5R6S7ETFPTBEQCRALU",
+   "signer_key": null,
+   "token": "BBB:GABRX6PWKY2PY7RRVPZC4QGCCATGRBV2F2YIIN5R6S7ETFPTBEQCRALU",
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "op_order": 1,
+    "balance_id": "0000000023ce43e904bf2f5d4b8e53e9f300acdad3279dd03f98cf10439129baa90663ae"
+   }
+  },
+  {
+   "tx_hash": "bf42f546abf271d32c8a7dd8e06a26aa5ab305a5426431f13d3e136f961885a5",
+   "tx_order": 1,
+   "op_order": 1,
+   "category": "EFFECT",
+   "reason": "claimable_balance_claimant_created",
+   "account": "GDDPY7RVTJM7BKT7UVOEALJH43XJIEO4ACVGLWXFFT2AQUGM27CBZMTU",
+   "signer_key": null,
+   "token": "BBB:GABRX6PWKY2PY7RRVPZC4QGCCATGRBV2F2YIIN5R6S7ETFPTBEQCRALU",
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "op_order": 1,
+    "balance_id": "0000000023ce43e904bf2f5d4b8e53e9f300acdad3279dd03f98cf10439129baa90663ae"
+   }
+  },
+  {
+   "tx_hash": "bf42f546abf271d32c8a7dd8e06a26aa5ab305a5426431f13d3e136f961885a5",
+   "tx_order": 1,
+   "op_order": 1,
+   "category": "EFFECT",
+   "reason": "claimable_balance_created",
+   "account": "GABRX6PWKY2PY7RRVPZC4QGCCATGRBV2F2YIIN5R6S7ETFPTBEQCRALU",
+   "signer_key": null,
+   "token": "CCC:GABRX6PWKY2PY7RRVPZC4QGCCATGRBV2F2YIIN5R6S7ETFPTBEQCRALU",
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "op_order": 1,
+    "balance_id": "00000000b9b4d0b5a755310988a73ccdd7723067a2f71258c6958a0e58e856a72fb6b0d6"
+   }
+  },
+  {
+   "tx_hash": "bf42f546abf271d32c8a7dd8e06a26aa5ab305a5426431f13d3e136f961885a5",
+   "tx_order": 1,
+   "op_order": 1,
+   "category": "EFFECT",
+   "reason": "claimable_balance_claimant_created",
+   "account": "GDDPY7RVTJM7BKT7UVOEALJH43XJIEO4ACVGLWXFFT2AQUGM27CBZMTU",
+   "signer_key": null,
+   "token": "CCC:GABRX6PWKY2PY7RRVPZC4QGCCATGRBV2F2YIIN5R6S7ETFPTBEQCRALU",
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "op_order": 1,
+    "balance_id": "00000000b9b4d0b5a755310988a73ccdd7723067a2f71258c6958a0e58e856a72fb6b0d6"
+   }
+  },
+  {
+   "tx_hash": "bf42f546abf271d32c8a7dd8e06a26aa5ab305a5426431f13d3e136f961885a5",
+   "tx_order": 1,
+   "op_order": 1,
+   "category": "EFFECT",
+   "reason": "liquidity_pool_revoked",
+   "account": "GABRX6PWKY2PY7RRVPZC4QGCCATGRBV2F2YIIN5R6S7ETFPTBEQCRALU",
+   "signer_key": null,
+   "token": null,
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "op_order": 1,
+    "liquidity_pool_id": "aaef7e292ee44bb91766e10c9d5a2c63261a95ffc2a295e397c16f0449d918e8"
+   }
+  },
+  {
+   "tx_hash": "bf42f546abf271d32c8a7dd8e06a26aa5ab305a5426431f13d3e136f961885a5",
+   "tx_order": 1,
+   "op_order": 1,
+   "category": "EFFECT",
+   "reason": "claimable_balance_sponsorship_created",
+   "account": "GABRX6PWKY2PY7RRVPZC4QGCCATGRBV2F2YIIN5R6S7ETFPTBEQCRALU",
+   "signer_key": null,
+   "token": null,
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "op_order": 1,
+    "balance_id": "0000000023ce43e904bf2f5d4b8e53e9f300acdad3279dd03f98cf10439129baa90663ae"
+   }
+  },
+  {
+   "tx_hash": "bf42f546abf271d32c8a7dd8e06a26aa5ab305a5426431f13d3e136f961885a5",
+   "tx_order": 1,
+   "op_order": 1,
+   "category": "EFFECT",
+   "reason": "claimable_balance_sponsorship_created",
+   "account": "GABRX6PWKY2PY7RRVPZC4QGCCATGRBV2F2YIIN5R6S7ETFPTBEQCRALU",
+   "signer_key": null,
+   "token": null,
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "op_order": 1,
+    "balance_id": "000000008827dfb22d8716cb1b819db50028e39962f51a932fb8762bf544e24774c20836"
+   }
+  },
+  {
+   "tx_hash": "bf42f546abf271d32c8a7dd8e06a26aa5ab305a5426431f13d3e136f961885a5",
+   "tx_order": 1,
+   "op_order": 1,
+   "category": "EFFECT",
+   "reason": "claimable_balance_sponsorship_created",
+   "account": "GABRX6PWKY2PY7RRVPZC4QGCCATGRBV2F2YIIN5R6S7ETFPTBEQCRALU",
+   "signer_key": null,
+   "token": null,
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "op_order": 1,
+    "balance_id": "00000000b9b4d0b5a755310988a73ccdd7723067a2f71258c6958a0e58e856a72fb6b0d6"
+   }
+  },
+  {
+   "tx_hash": "bf42f546abf271d32c8a7dd8e06a26aa5ab305a5426431f13d3e136f961885a5",
+   "tx_order": 1,
+   "op_order": 1,
+   "category": "EFFECT",
+   "reason": "claimable_balance_sponsorship_created",
+   "account": "GABRX6PWKY2PY7RRVPZC4QGCCATGRBV2F2YIIN5R6S7ETFPTBEQCRALU",
+   "signer_key": null,
+   "token": null,
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "op_order": 1,
+    "balance_id": "00000000e4bbf033f497f8b89364b001b5dee111bfc9c3ed4010352c4254a288c8052141"
+   }
+  },
+  {
+   "tx_hash": "bf42f546abf271d32c8a7dd8e06a26aa5ab305a5426431f13d3e136f961885a5",
+   "tx_order": 1,
+   "op_order": 1,
+   "category": "EFFECT",
+   "reason": "liquidity_pool_removed",
+   "account": "GABRX6PWKY2PY7RRVPZC4QGCCATGRBV2F2YIIN5R6S7ETFPTBEQCRALU",
+   "signer_key": null,
+   "token": null,
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "op_order": 1,
+    "liquidity_pool_id": "aaef7e292ee44bb91766e10c9d5a2c63261a95ffc2a295e397c16f0449d918e8"
+   }
+  },
+  {
+   "tx_hash": "bf42f546abf271d32c8a7dd8e06a26aa5ab305a5426431f13d3e136f961885a5",
+   "tx_order": 1,
+   "op_order": 1,
+   "category": "EFFECT",
+   "reason": "liquidity_pool_removed",
+   "account": "GABRX6PWKY2PY7RRVPZC4QGCCATGRBV2F2YIIN5R6S7ETFPTBEQCRALU",
+   "signer_key": null,
+   "token": null,
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "op_order": 1,
+    "liquidity_pool_id": "ca2932b765a72504591568d7e1638279fc83774e65c0408800488b19e8a1334f"
+   }
+  }
+ ],
+ "balance_movements": [
+  {
+   "tx_hash": "bf42f546abf271d32c8a7dd8e06a26aa5ab305a5426431f13d3e136f961885a5",
+   "op_order": 0,
+   "account": "GABRX6PWKY2PY7RRVPZC4QGCCATGRBV2F2YIIN5R6S7ETFPTBEQCRALU",
+   "token": "CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC",
+   "delta": -100,
+   "token_kind": "asset",
+   "event": "fee"
+  },
+  {
+   "tx_hash": "bf42f546abf271d32c8a7dd8e06a26aa5ab305a5426431f13d3e136f961885a5",
+   "op_order": 1,
+   "account": "LCVO67RJF3SEXOIXM3QQZHK2FRRSMGUV77BKFFPDS7AW6BCJ3EMOQAJ5",
+   "token": "CDXX5JKDBLMZBZQ5ALSC74IKH233DDM22V25DV55YUZZHZW7R6NJEEOE",
+   "delta": -1000000000,
+   "token_kind": "asset",
+   "event": "transfer"
+  },
+  {
+   "tx_hash": "bf42f546abf271d32c8a7dd8e06a26aa5ab305a5426431f13d3e136f961885a5",
+   "op_order": 1,
+   "account": "BAAIQJ67WIWYOFWLDOAZ3NIAFDRZSYXVDKJS7ODWFP2UJYSHOTBAQNVGK4",
+   "token": "CDXX5JKDBLMZBZQ5ALSC74IKH233DDM22V25DV55YUZZHZW7R6NJEEOE",
+   "delta": 1000000000,
+   "token_kind": "asset",
+   "event": "transfer"
+  },
+  {
+   "tx_hash": "bf42f546abf271d32c8a7dd8e06a26aa5ab305a5426431f13d3e136f961885a5",
+   "op_order": 1,
+   "account": "LCVO67RJF3SEXOIXM3QQZHK2FRRSMGUV77BKFFPDS7AW6BCJ3EMOQAJ5",
+   "token": "CBQXHRZQFCWCS757C2QHTJXQFIJ4YZMJEE5VKMBNAJANXQMD4TZLHWZM",
+   "delta": -1000000000,
+   "token_kind": "asset",
+   "event": "transfer"
+  },
+  {
+   "tx_hash": "bf42f546abf271d32c8a7dd8e06a26aa5ab305a5426431f13d3e136f961885a5",
+   "op_order": 1,
+   "account": "BAALTNGQWWTVKMIJRCTTZTOXOIYGPIXXCJMMNFMKBZMOQVVHF63LBVR2JY",
+   "token": "CBQXHRZQFCWCS757C2QHTJXQFIJ4YZMJEE5VKMBNAJANXQMD4TZLHWZM",
+   "delta": 1000000000,
+   "token_kind": "asset",
+   "event": "transfer"
+  },
+  {
+   "tx_hash": "bf42f546abf271d32c8a7dd8e06a26aa5ab305a5426431f13d3e136f961885a5",
+   "op_order": 1,
+   "account": "LDFCSMVXMWTSKBCZCVUNPYLDQJ47ZA3XJZS4AQEIABEIWGPIUEZU7DRI",
+   "token": "CDXX5JKDBLMZBZQ5ALSC74IKH233DDM22V25DV55YUZZHZW7R6NJEEOE",
+   "delta": -1000000000,
+   "token_kind": "asset",
+   "event": "transfer"
+  },
+  {
+   "tx_hash": "bf42f546abf271d32c8a7dd8e06a26aa5ab305a5426431f13d3e136f961885a5",
+   "op_order": 1,
+   "account": "BAAOJO7QGP2JP6FYSNSLAANV33QRDP6JYPWUAEBVFRBFJIUIZACSCQL7MU",
+   "token": "CDXX5JKDBLMZBZQ5ALSC74IKH233DDM22V25DV55YUZZHZW7R6NJEEOE",
+   "delta": 1000000000,
+   "token_kind": "asset",
+   "event": "transfer"
+  },
+  {
+   "tx_hash": "bf42f546abf271d32c8a7dd8e06a26aa5ab305a5426431f13d3e136f961885a5",
+   "op_order": 1,
+   "account": "LDFCSMVXMWTSKBCZCVUNPYLDQJ47ZA3XJZS4AQEIABEIWGPIUEZU7DRI",
+   "token": "CDBSWBZWYZFQMPLYWU43K4PGNAFV55R7NA6H3LJHA6KDJQ4YR37MZV5J",
+   "delta": -1000000000,
+   "token_kind": "asset",
+   "event": "transfer"
+  },
+  {
+   "tx_hash": "bf42f546abf271d32c8a7dd8e06a26aa5ab305a5426431f13d3e136f961885a5",
+   "op_order": 1,
+   "account": "BAACHTSD5ECL6L25JOHFH2PTACWNVUZHTXID7GGPCBBZCKN2VEDGHLTI3M",
+   "token": "CDBSWBZWYZFQMPLYWU43K4PGNAFV55R7NA6H3LJHA6KDJQ4YR37MZV5J",
+   "delta": 1000000000,
+   "token_kind": "asset",
+   "event": "transfer"
+  }
+ ],
+ "unreadable": [],
+ "row_counts": {
+  "transactions": 1,
+  "operations": 1,
+  "effects": 16,
+  "token_transfer": 5
+ },
+ "seconds": 1.1,
+ "process": {
+  "outcome": "exited",
+  "exit_code": 0
+ }
+}

@@ -16,6 +16,19 @@ indexer can be checked against:
   trustline added | removed | limit changed                (account, asset or pool)
   trustauth set | cleared                                  (account, asset or pool, flag names)
   contract  created                                        (contract)
+  offer     created | updated | removed                    (seller, offer ID)
+  trade     maker                                          (seller, offer ID): a resting offer was
+                                                           crossed: it shrank or went in this
+                                                           operation, and the operation's result
+                                                           lists it as claimed with a nonzero amount
+                                                           (which tells it from the source's own
+                                                           offer changing)
+  claimable created | removed                              (balance ID, asset, claimants)
+  pool      created | removed | reserves changed           (pool ID, reserve and share deltas)
+  sponsorship created | updated | removed                  (entry kind and identity, sponsor):
+                                                           for accounts, trustlines, data entries,
+                                                           claimable balances and offers
+  signer-sponsorship created | updated | removed           (account, signer key, sponsor)
 
 Each change carries where it happened: the transaction hash, the operation index and type (or
 "before" / "after" for the transaction-level changes), so an adapter can tell an operation's own
@@ -27,8 +40,8 @@ bucket per transaction (fee processing, the changes before and after the operati
 protocol 23's post-apply fee refunds). Pool-share trustlines and balances held by contracts are not
 covered.
 
-Deliberately not covered yet: the master key's weight, offers, claimable balances, liquidity pool
-reserves, contract balances and contract storage other than instances.
+Deliberately not covered yet: the master key's weight, the taking side of a trade, contract balances
+and contract storage other than instances.
 
 Everything comes from the bytes through tools/decode.py; no SDK and no indexer is involved.
 """
@@ -83,7 +96,19 @@ def entry_key(data):
         cd = data["contractData"]
         if cd["key"]["type"] == "SCV_LEDGER_KEY_CONTRACT_INSTANCE" and cd["contract"]["type"] == "SC_ADDRESS_TYPE_CONTRACT":
             return ("instance", cd["contract"]["contractId"])
+    if t == "OFFER":
+        o = data["offer"]
+        return ("offer", o["sellerID"]["ed25519"], o["offerID"])
+    if t == "CLAIMABLE_BALANCE":
+        return ("claimable", balance_id_hex(data["claimableBalance"]["balanceID"]))
+    if t == "LIQUIDITY_POOL":
+        return ("pool", data["liquidityPool"]["liquidityPoolID"])
     return None
+
+
+def balance_id_hex(bid):
+    """A ClaimableBalanceID as the hex of its XDR: the 4-byte type, then the hash."""
+    return "00000000" + bid["v0"]
 
 
 def ledger_key_identity(key):
@@ -102,32 +127,39 @@ def ledger_key_identity(key):
         cd = key["contractData"]
         if cd["key"]["type"] == "SCV_LEDGER_KEY_CONTRACT_INSTANCE" and cd["contract"]["type"] == "SC_ADDRESS_TYPE_CONTRACT":
             return ("instance", cd["contract"]["contractId"])
+    if t == "OFFER":
+        return ("offer", key["offer"]["sellerID"]["ed25519"], key["offer"]["offerID"])
+    if t == "CLAIMABLE_BALANCE":
+        return ("claimable", balance_id_hex(key["claimableBalance"]["balanceID"]))
+    if t == "LIQUIDITY_POOL":
+        return ("pool", key["liquidityPool"]["liquidityPoolID"])
     return None
 
 
 def pairs(changes):
-    """Turn a LedgerEntryChanges list into (identity, pre data or None, post data or None)."""
+    """Turn a LedgerEntryChanges list into (identity, pre entry or None, post entry or None), with
+    whole LedgerEntry values (data plus the extension that names a sponsor)."""
     state, out = {}, []
     for ch in changes:
         t = ch["type"]
         if t == "LEDGER_ENTRY_STATE":
             k = entry_key(ch["state"]["data"])
             if k:
-                state[k] = ch["state"]["data"]
+                state[k] = ch["state"]
         elif t == "LEDGER_ENTRY_CREATED":
             k = entry_key(ch["created"]["data"])
             if k:
-                out.append((k, None, ch["created"]["data"]))
+                out.append((k, None, ch["created"]))
         elif t == "LEDGER_ENTRY_UPDATED":
             k = entry_key(ch["updated"]["data"])
             if k:
-                out.append((k, state.get(k), ch["updated"]["data"]))
+                out.append((k, state.get(k), ch["updated"]))
         elif t == "LEDGER_ENTRY_RESTORED":
             # An archived entry made live again (protocol 23+). It existed before, so a restore is
             # never a creation: it counts as the pre-image for any later change in the same list.
             k = entry_key(ch["restored"]["data"])
             if k:
-                state.setdefault(k, ch["restored"]["data"])
+                state.setdefault(k, ch["restored"])
         elif t == "LEDGER_ENTRY_REMOVED":
             k = ledger_key_identity(ch["removed"])
             if k:
@@ -213,6 +245,91 @@ def diff(k, pre, post):
         return
     if kind == "instance" and pre is None and post is not None:
         yield {"what": "contract", "how": "created", "contract": strkey.contract(k[1])}
+        return
+    if kind == "offer":
+        acct = strkey.account(k[1])
+        o = (post or pre)["offer"]
+        base = {"what": "offer", "account": acct, "offer_id": k[2], "selling": o["selling"], "buying": o["buying"]}
+        if pre is None:
+            yield dict(base, how="created", amount=o["amount"])
+        elif post is None:
+            yield dict(base, how="removed", amount_before=pre["offer"]["amount"])
+        elif pre["offer"]["amount"] != post["offer"]["amount"] or pre["offer"]["price"] != post["offer"]["price"]:
+            yield dict(base, how="updated", amount_before=pre["offer"]["amount"], amount=post["offer"]["amount"])
+        return
+    if kind == "claimable":
+        cb = (post or pre)["claimableBalance"]
+        base = {"what": "claimable", "balance_id": k[1], "asset": cb["asset"], "amount": cb["amount"],
+                "claimants": [account_of(c["v0"]["destination"]) for c in cb["claimants"]]}
+        if pre is None and post is not None:
+            yield dict(base, how="created")
+        elif post is None:
+            yield dict(base, how="removed")
+        return
+    if kind == "pool":
+        lp = (post or pre)["liquidityPool"]["body"]["constantProduct"]
+        base = {"what": "pool", "pool_id": k[1], "assets": [lp["params"]["assetA"], lp["params"]["assetB"]]}
+        if pre is None and post is not None:
+            yield dict(base, how="created")
+        elif post is None:
+            yield dict(base, how="removed")
+        else:
+            a, b = pre["liquidityPool"]["body"]["constantProduct"], lp
+            d = {"reserve_a": b["reserveA"] - a["reserveA"], "reserve_b": b["reserveB"] - a["reserveB"],
+                 "shares": b["totalPoolShares"] - a["totalPoolShares"]}
+            if any(d.values()):
+                yield dict(base, how="reserves changed", **d)
+        return
+
+
+SPONSORED_KINDS = {"account": "account", "trustline": "trustline", "data": "data", "claimable": "claimable_balance",
+                   "offer": "offer"}
+
+
+def sponsor_of(entry):
+    ext = (entry or {}).get("ext") or {}
+    sid = (ext.get("v1") or {}).get("sponsoringID") if ext.get("v") == 1 else None
+    return account_of(sid) if sid else None
+
+
+def signer_sponsors(entry):
+    """signer strkey -> sponsor G..., for the signers that have one."""
+    if not entry:
+        return {}
+    acct = entry["data"]["account"]
+    v1 = (acct.get("ext") or {}).get("v1") or {}
+    v2 = ((v1.get("ext") or {}).get("v2") or {}) if (v1.get("ext") or {}).get("v") == 2 else {}
+    ids = v2.get("signerSponsoringIDs") or []
+    return {signer_strkey(s["key"]): account_of(sp) for s, sp in zip(acct["signers"], ids) if sp}
+
+
+def sponsorship(k, pre, post):
+    """Sponsorship changes for one entry's pre/post pair (whole LedgerEntry values)."""
+    kind = k[0]
+    if kind not in SPONSORED_KINDS:
+        return
+    before, after = sponsor_of(pre), sponsor_of(post)
+    if before != after:
+        how = "created" if before is None else "removed" if after is None else "updated"
+        c = {"what": "sponsorship", "how": how, "entry": SPONSORED_KINDS[kind], "sponsor": after, "former_sponsor": before}
+        if kind in ("account", "trustline", "data", "offer"):
+            c["account"] = strkey.account(k[1])
+        if kind == "trustline":
+            c["holding"] = asset_of(json.loads(k[2]))
+        if kind == "data":
+            c["name"] = k[2]
+        if kind == "claimable":
+            c["balance_id"] = k[1]
+        if kind == "offer":
+            c["offer_id"] = k[2]
+        yield c
+    if kind == "account":
+        sa, sb = signer_sponsors(pre), signer_sponsors(post)
+        for key in sorted(set(sa) | set(sb)):
+            if sa.get(key) != sb.get(key):
+                how = "created" if key not in sa else "removed" if key not in sb else "updated"
+                yield {"what": "signer-sponsorship", "how": how, "account": strkey.account(k[1]), "signer": key,
+                       "sponsor": sb.get(key), "former_sponsor": sa.get(key)}
 
 
 def _balance_holdings(changes):
@@ -322,13 +439,58 @@ def changes(value):
         if "txChanges" in mv:  # TransactionMeta v1
             groups.insert(0, ("before", mv["txChanges"]))
         for where, chs in groups:
+            found = []
             for k, pre, post in pairs(chs):
-                for c in diff(k, pre, post):
-                    c = dict(c, **ctx_base)
-                    c["where"] = where
-                    c["op_type"] = op_types[where] if isinstance(where, int) and where < len(op_types) else None
-                    out.append(c)
+                found += list(diff(k, pre and pre["data"], post and post["data"]))
+                found += list(sponsorship(k, pre, post))
+            if isinstance(where, int):
+                found += list(trades(found, chs, claimed_offers(op_results[where] if where < len(op_results) else {})))
+            for c in found:
+                c = dict(c, **ctx_base)
+                c["where"] = where
+                c["op_type"] = op_types[where] if isinstance(where, int) and where < len(op_types) else None
+                out.append(c)
     return out
+
+
+def claimed_offers(op_result):
+    """(seller ed25519 hex, offer ID) for every order-book offer an operation's result lists as claimed."""
+    out = set()
+
+    def walk(x):
+        if isinstance(x, dict):
+            for k, v in x.items():
+                if k in ("offersClaimed", "offers") and isinstance(v, list):
+                    for atom in v:
+                        ob = atom.get("orderBook") or atom.get("v0") or {}
+                        seller = ob.get("sellerID", {}).get("ed25519") if "sellerID" in ob else ob.get("sellerEd25519")
+                        if seller and "offerID" in ob and (ob.get("amountSold") or ob.get("amountBought")):
+                            out.add((seller, ob["offerID"]))
+                else:
+                    walk(v)
+        elif isinstance(x, list):
+            for v in x:
+                walk(v)
+    walk(op_result)
+    return out
+
+
+def trades(found, chs, claimed):
+    """A resting offer crossed in this operation: the ledger shows it shrink or go, and the result
+    lists it as claimed with a nonzero amount. (The seller's net balance is no test: a maker with
+    offers on both sides of one path can end flat. An offer its owner changes is never claimed.)"""
+    for c in found:
+        if c["what"] != "offer" or c["how"] == "created":
+            continue
+        if c["how"] == "updated" and c["amount"] >= c["amount_before"]:
+            continue
+        if (bytes_of(c["account"]), c["offer_id"]) in claimed:
+            yield {"what": "trade", "how": "maker", "account": c["account"], "offer_id": c["offer_id"]}
+
+
+def bytes_of(account):
+    """G... -> the ed25519 hex the ledger stores."""
+    return base64.b32decode(account + "=" * (-len(account) % 8))[1:33].hex()
 
 
 def load_entry(entry_id):

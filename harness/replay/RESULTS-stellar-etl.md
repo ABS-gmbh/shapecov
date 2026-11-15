@@ -48,10 +48,13 @@ Only the implicit checks apply: the ledger is ingested without an error and ever
 | `golden-invokehostfunction-f5fa0a4b-12` | 30 | datalake | n/a |
 | `golden-offer-9a363b75-30` | 30 | datalake | n/a |
 | `golden-pathpayment-34519f44-22` | 30 | datalake | n/a |
+| `localcore-claim-and-sponsor-8` | 30 | datalake | pass |
 | `localcore-classic-p22-3` | 22 | datalake | mishandled |
 | `localcore-memo-and-offer-p30-4` | 30 | datalake | pass |
 | `localcore-muxed-source-p22-3` | 22 | datalake | mishandled |
+| `localcore-pool-revoke-two-pools-7` | 30 | datalake | pass |
 | `localcore-sac-trust-p28-5` | 28 | datalake | pass |
+| `localcore-sponsorship-transfer-9` | 30 | datalake | pass |
 | `pubnet-65479774` | 29 | datalake | pass |
 | `pubnet-65480264` | 29 | datalake | pass |
 | `pubnet-65480300` | 29 | datalake | pass |
@@ -78,7 +81,7 @@ Only the implicit checks apply: the ledger is ingested without an error and ever
 
 | Commit | Input | pass | mishandled | dropped | error | not applicable |
 |---|---|---|---|---|---|---|
-| `2b24ec89` | datalake | 23 | 2 | 0 | 0 | 27 |
+| `2b24ec89` | datalake | 26 | 2 | 0 | 0 | 27 |
 
 ## Oracle checks
 
@@ -89,7 +92,7 @@ checked. A failure is labelled with the open upstream issue that explains it
 
 | Commit | Input | Replays | Rows expected | Rows met | Known issues | Unexplained |
 |---|---|---|---|---|---|---|
-| `2b24ec89` | datalake | 25 | 4095 | 4086 | stellar-etl#460 (4), stellar-etl#512 (2) | 0 |
+| `2b24ec89` | datalake | 28 | 5000 | 4988 | FINDINGS.md E2 (stellar-etl, not filed upstream yet) (1), FINDINGS.md E3 (stellar-etl, not filed upstream yet) (2), stellar-etl#460 (4), stellar-etl#512 (2) | 0 |
 
 
 
@@ -103,14 +106,14 @@ checked. A failure is labelled with the open upstream issue that explains it
 
 ### `localcore-classic-p22-3` at `2b24ec89ddce`, input datalake: mishandled
 
-- mishandled: the indexer raised an error on this ledger and did not ingest it: token_transfer exited 1: time="2026-11-15T22:17:17.493Z" level=fatal msg="could not transform token transfers for ledger 3: error reading from unified events stream, expected version 4 got 3" pid=37
+- mishandled: the indexer raised an error on this ledger and did not ingest it: token_transfer exited 1: time="2026-11-15T22:53:07.122Z" level=fatal msg="could not transform token transfers for ledger 3: error reading from unified events stream, expected version 4 got 3" pid=35
 - expectations: 0, source: none (implicit checks only)
 - indexer process: exited (exit code 1)
 - evidence: `out-stellar-etl/2b24ec89ddce/datalake/localcore-classic-p22-3/` (job.json, observation.json, result.json, feeder-requests.jsonl, and exports/: each command's JSON lines (gzipped), log and exit code)
 
 ### `localcore-muxed-source-p22-3` at `2b24ec89ddce`, input datalake: mishandled
 
-- mishandled: the indexer raised an error on this ledger and did not ingest it: token_transfer exited 1: time="2026-11-15T22:17:15.209Z" level=fatal msg="could not transform token transfers for ledger 3: error reading from unified events stream, expected version 4 got 3" pid=36
+- mishandled: the indexer raised an error on this ledger and did not ingest it: token_transfer exited 1: time="2026-11-15T22:53:04.811Z" level=fatal msg="could not transform token transfers for ledger 3: error reading from unified events stream, expected version 4 got 3" pid=36
 - expectations: 0, source: none (implicit checks only)
 - indexer process: exited (exit code 1)
 - evidence: `out-stellar-etl/2b24ec89ddce/datalake/localcore-muxed-source-p22-3/` (job.json, observation.json, result.json, feeder-requests.jsonl, and exports/: each command's JSON lines (gzipped), log and exit code)
@@ -120,3 +123,5 @@ checked. A failure is labelled with the open upstream issue that explains it
 | Started (UTC) | Refs | Inputs | Entries | Seconds | Feeder peak RSS (kB) | Ledgers served by RPC | Objects served by S3 |
 |---|---|---|---|---|---|---|---|
 | 2026-11-15T22:16:44+00:00 | `2b24ec89` | datalake | 52 | 34.6 | 36396 | 0 | 0 |
+| 2026-11-15T22:52:33+00:00 | `2b24ec89` | datalake | 52 | 35.1 | 36468 | 0 | 0 |
+| 2026-11-15T22:57:21+00:00 | `2b24ec89` | datalake | 3 | 4.3 | 36320 | 0 | 0 |

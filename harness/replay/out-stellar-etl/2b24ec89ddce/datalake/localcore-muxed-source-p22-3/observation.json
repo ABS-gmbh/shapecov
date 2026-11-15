@@ -6,7 +6,7 @@
  "entry_id": "localcore-muxed-source-p22-3",
  "ledger_seq": 3,
  "ingested": false,
- "error": "token_transfer exited 1: time=\"2026-11-15T22:17:15.209Z\" level=fatal msg=\"could not transform token transfers for ledger 3: error reading from unified events stream, expected version 4 got 3\" pid=36",
+ "error": "token_transfer exited 1: time=\"2026-11-15T22:53:04.811Z\" level=fatal msg=\"could not transform token transfers for ledger 3: error reading from unified events stream, expected version 4 got 3\" pid=36",
  "adapter_failure": false,
  "transactions": [
   {
@@ -35,7 +35,7 @@
   "effects": 0,
   "token_transfer": 0
  },
- "seconds": 1.1,
+ "seconds": 1.0,
  "process": {
   "outcome": "exited",
   "exit_code": 1

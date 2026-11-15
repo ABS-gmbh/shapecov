@@ -1,0 +1,28 @@
+{
+ "job_version": 1,
+ "entry_id": "localcore-claim-and-sponsor-8",
+ "ref": "3e22515a44979fdc3a558fda3991ca2b48e38cef",
+ "commit": "3e22515a44979fdc3a558fda3991ca2b48e38cef",
+ "input": "datalake",
+ "network_passphrase": "Test SDF Network ; September 2015",
+ "ledger": {
+  "seq": 8,
+  "hash": "e051e1f9d1a9e1f0b594ada4f9e896a7370c454b127f9a5054447d42015a8527",
+  "close_time": 1601075496,
+  "protocol": 30
+ },
+ "rpc": {
+  "url": "http://shapecov-replay-feeder:8000/rpc/localcore-claim-and-sponsor-8"
+ },
+ "datalake": {
+  "s3_endpoint": "http://shapecov-replay-feeder:9000",
+  "bucket_path": "shapecov-lake/localcore-claim-and-sponsor-8",
+  "region": "us-east-1"
+ },
+ "history_archive": {
+  "url": "http://shapecov-replay-feeder:8000/archive/localcore-claim-and-sponsor-8"
+ },
+ "docker_network": "shapecov-replay-net",
+ "timeout_seconds": 60,
+ "work_dir": "$REPLAY_WORK"
+}

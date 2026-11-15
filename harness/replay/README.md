@@ -91,6 +91,12 @@ any indexer and any SDK:
 - thresholds, flags, home domain and data entries;
 - trustlines added, removed or re-limited, and trustline authorization;
 - contract instances created;
+- offers placed, changed or removed, and **trades**: a resting offer crossed in an operation (it
+  shrank or went, and the operation's result lists it as claimed with a nonzero amount);
+- claimable balances created (with their claimants) and removed;
+- liquidity pools created, removed, or with reserves changed;
+- sponsorship created, transferred or ended, for accounts, trustlines, data entries, claimable
+  balances, offers and individual signers (CAP-33);
 - balances: the net change of every account's XLM and credit-asset trustline balance per operation,
   and each transaction's net fee (fee charged, minus any refund).
 
@@ -108,13 +114,17 @@ Each replay then gets a second verdict, `oracle`. A row the indexer did not stor
 with an open upstream issue that explains it (`adapters/wallet-backend/known.json`) or reported as
 **unexplained**, a candidate new finding. RESULTS.md lists both.
 
-At wallet-backend `main` (`3e22515a`), for all 51 ledgers through both inputs:
+At wallet-backend `main` (`3e22515a`), for all 54 ledgers through both inputs:
 
 | Check | Rows expected per input | Met | Known open issues | Unexplained |
 |---|---|---|---|---|
-| State changes | 129 | 120 | 9: wallet-backend#815 (6 contract deploys with no `ACCOUNT CREATE`), #816 (3 accounts created by XLM sent through the native asset contract) | 0 |
-| Net balances | 4057 | 4057 | none | 0 |
-| Total | 4186 | 4177 | 9 | 0 |
+| State changes | 134 | 123 | 11: wallet-backend#815 (6 contract deploys with no `ACCOUNT CREATE`), #816 (3 accounts created by XLM sent through the native asset contract), #817 (2 pool-share trustlines removed by one revocation) | 0 |
+| Net balances | 4062 | 4062 | none | 0 |
+| Total | 4196 | 4185 | 11 | 0 |
+
+wallet-backend has no state-change categories for offers, claimable balances, pools or
+sponsorship, so those facts are checked for stellar-etl, whose effects model has them. They still
+reach wallet-backend through the balance check.
 
 No stored balance movement appears for an account whose balance the ledger leaves unchanged.
 
@@ -126,8 +136,8 @@ The oracle also re-finds the claimed sightings on their own: at `764a4f5b` it re
 the manifest's expectations.
 
 **Not covered yet:** contract (`C...`) balances, which live in contract storage, and liquidity pool
-share balances; the master key's weight, offers, claimable balances, liquidity pool reserves
-and contract storage other than instances. A row the indexer writes that the oracle does not predict
+share balances; the master key's weight, the taking side of a trade, and contract storage other
+than instances. A row the indexer writes that the oracle does not predict
 is not reported.
 
 ## Reproduced sightings
@@ -168,20 +178,27 @@ standard setting. No flag, source line or dependency is changed.
 
 The oracle maps onto stellar-etl's own vocabulary (`adapters/stellar-etl/expect.py`): each change
 in ledger state should produce the matching Horizon-model effect (`account_created`,
-`signer_created`, `trustline_flags_updated` naming the trustor, …), and each account's net balance
+`signer_created`, `trustline_flags_updated` naming the trustor, `trade` for each crossed offer's
+seller, `claimable_balance_created` and one `claimable_balance_claimant_created` per claimant,
+`liquidity_pool_deposited`/`withdrew`/`trade`/`revoked` by operation, the `*_sponsorship_*` family,
+…), and each account's net balance
 change should equal the net of its CAP-67 token transfer events (fees at position 0, refunds as
 negative fee events). The manifest's hand-written expectations name wallet-backend rows, so only
 their `transaction` checks apply here.
 
-At stellar-etl `master` (`2b24ec89`), all 52 ledgers (results in
-[`RESULTS-stellar-etl.md`](RESULTS-stellar-etl.md)):
+At stellar-etl `master` (`2b24ec89`), all 55 ledgers (results in
+[`RESULTS-stellar-etl.md`](RESULTS-stellar-etl.md)); rows checked on the 26 it exports:
 
-| | Ledgers | Rows checked | Met | Known | Unexplained |
-|---|---|---|---|---|---|
-| Effects (state changes) | 25 | 97 | 93 | 4: stellar-etl#460 | 0 |
-| Net balances (token transfers) | 25 | 3993 | 3993 | none | 0 |
-| Ledger not exported | 2 of 25 | | | 2: stellar-etl#512 (our finding E1) | 0 |
-| Not applicable (stellar-core test network) | 27 | | | | |
+| | Rows checked | Met | Known | Unexplained |
+|---|---|---|---|---|
+| Accounts, signers, thresholds, flags, data, trustlines | 102 | 96 | 4: stellar-etl#460; 2: E3 | 0 |
+| Trades (crossed offers) | 151 | 151 | none | 0 |
+| Liquidity pools | 705 | 704 | 1: E2 | 0 |
+| Claimable balances | 18 | 18 | none | 0 |
+| Sponsorship (entries and signers) | 21 | 21 | none | 0 |
+| Net balances (token transfers) | 3998 | 3998 | none | 0 |
+| Ledgers not exported | 2 of 28 | | 2: stellar-etl#512 (E1) | 0 |
+| Not applicable (stellar-core test network) | 27 ledgers | | | |
 
 - **stellar-etl#460** (open, filed by a maintainer in July): an account created by XLM sent through
   the native asset contract gets no `account_created` effect, and a trustline created by the asset
@@ -191,6 +208,14 @@ At stellar-etl `master` (`2b24ec89`), all 52 ledgers (results in
   transaction (`localcore-classic-p22-3`, `localcore-muxed-source-p22-3`): stellar-etl builds the
   token transfer processor in unified-events mode, which requires `TransactionMeta` v4. The SDK's
   other constructor handles both ledgers. Evidence: `corpus/evidence/stellar-etl-token-transfer-pre23.md`.
+
+- **E2, new, not filed:** a revocation that redeems pool shares in two pools at once gets one
+  `liquidity_pool_revoked`, for one pool, and that effect's `reserves_revoked` names the other
+  pool's AAA claimable balance. Shown on `localcore-pool-revoke-two-pools-7` (stellar-core 30.0.0);
+  Horizon has the same code. Evidence: `corpus/evidence/stellar-etl-pool-revocation.md`.
+- **E3, new, not filed:** the pool-share trustlines that revocation removes get no
+  `trustline_removed` effect; only ChangeTrust emits one. The effects-model counterpart of
+  wallet-backend#817.
 
 Custom token contracts (SEP-41 tokens other than asset contracts) keep balances in contract
 storage, which the oracle does not read, so their token transfer events are not compared.
