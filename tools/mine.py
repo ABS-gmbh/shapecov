@@ -182,6 +182,12 @@ def patterns(lcm, with_paths=False):
                 if o.get("sourceAccount") and "med25519" in o["sourceAccount"] \
                         and o["body"].get("type") == "INVOKE_HOST_FUNCTION":
                     hit("soroban-op-muxed-source", f"{path}.operations[{k}].sourceAccount")
+            # An operation with no source of its own runs as the transaction's source.
+            src = v.get("sourceAccount")
+            if isinstance(src, dict) and "med25519" in src and any(
+                    not o.get("sourceAccount") or "med25519" not in o["sourceAccount"]
+                    for o in v["operations"] if o["body"].get("type") == "INVOKE_HOST_FUNCTION"):
+                hit("soroban-op-muxed-source", f"{path}.sourceAccount")
         if "signatures" in v and isinstance(v["signatures"], list) and len(v["signatures"]) == 20:
             hit("signatures-at-max-20", f"{path}.signatures")
         for name, x in v.items():

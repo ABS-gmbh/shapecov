@@ -22,8 +22,10 @@ tables in step with the corpus manifest (see [Appendix](#appendix-how-this-guide
 The one rule behind everything below: **valid is not the same as well-formed for your
 database.** stellar-core accepts a transaction if it follows the protocol. The protocol allows
 memo text that is not UTF-8, 64-bit IDs that no float can hold, signer keys 100 bytes long, and
-contract values nested deeper than most recursive code expects. The corpus holds real ledgers
-with all of these except the memo text, which is still to be added.
+contract values nested deeper than most recursive code expects. The corpus holds ledgers with all
+of these: network ledgers for most, and a ledger closed by a local stellar-core 30.0.0 for the
+memo text (`localcore-memo-and-offer-p30-4`). In that ledger the memo's bytes also appear,
+unchanged, in the payment's transfer event.
 
 ## 1. What stellar-core validates, field by field
 
@@ -39,10 +41,10 @@ Bracketed numbers point to the [sources](#sources) at the end of this section.
 
 | Field | Checked | Not checked | Corpus shape | CAP | Entries |
 |---|---|---|---|---|---|
-| Memo text | At most 28 bytes (XDR). From protocol 25, a contract-invocation transaction may not carry a memo. [1] | The bytes: no UTF-8, NUL or printable check. For a payment to a plain account, the bytes are also copied as an `SCV_STRING` into the `to_muxed_id` field of the transfer event. [2] | `memo-text-not-utf8` | none | none yet |
+| Memo text | At most 28 bytes (XDR). From protocol 25, a contract-invocation transaction may not carry a memo. [1] | The bytes: no UTF-8, NUL or printable check. For a payment to a plain account, the bytes are also copied as an `SCV_STRING` into the `to_muxed_id` field of the transfer event. [2] | `memo-text-not-utf8` | none | 1 |
 | Memo ID, hash, return | XDR shape only. | Any value. | — | — | — |
 | Muxed account (source, destination, fee source) | Allowed from protocol 13. [3] | The 64-bit ID: any value, never checked. Ledger state belongs to the base account; the ID survives only in the envelope and in events. [3] | `muxed-account`, `muxed-id-zero`, `muxed-id-beyond-f64`, `muxed-id-max` | CAP-0027 | 3, 2, 2, 1 |
-| Muxed source of a contract invocation | Rejected from protocol 25 (`txSOROBAN_INVALID`). [1] | Accepted before protocol 25, so older ledgers can contain it. | `soroban-op-muxed-source` | CAP-0027, CAP-0046 | none yet |
+| Muxed source of a contract invocation | Invalid from protocol 25 (`txSOROBAN_INVALID`). [1] Before that, only the transaction queue refuses it: from stellar-core 23.0.0 always, in 22.x only when the call carries non-source-account authorization. [18] | Consensus accepts it before protocol 25, so ledgers closed while validators ran stellar-core 22.x or older can contain it. | `soroban-op-muxed-source` | CAP-0027, CAP-0046 | none yet |
 | Signed-payload signer (`SetOptions` signer, `extraSigners`) | Payload not empty, at most 64 bytes, from protocol 19. At most two `extraSigners`, not the same key twice. [4] | The payload's content. | `signed-payload-signer`, `signed-payload-max-length`, `signed-payload-needs-padding` | CAP-0040 | 3, 1, 1 |
 | `ManageData` name | 1 to 64 bytes, each printable ASCII (0x20 to 0x7E). [5] | — | — | — | — |
 | `ManageData` value | At most 64 bytes (XDR). | Any bytes. [5] | — | — | — |
@@ -53,8 +55,8 @@ Bracketed numbers point to the [sources](#sources) at the end of this section.
 | Path payment path | At most 5 hops (XDR), each a valid asset. [8] | Repeated hops. | — | — | — |
 | Operations per transaction | 1 to 100 (the maximum is the XDR limit). [9] | — | `operations-at-max-100`, `operations-50-or-more` | none | 6, 5 |
 | Signatures per envelope | At most 20 (XDR). [9] | — | `signatures-at-max-20` | none | 2 |
-| Offer ID | Not negative, from protocol 15. [10] | No upper bound: any value up to 2^63-1. | `offer-id-beyond-f64` | none | none yet |
-| Destination and operation-source accounts | Checked when the transaction is applied, not when it is accepted. [9] | A transaction that fails then is still in the ledger, with its fee charged. [11] | `failed-transaction` | none | 30 |
+| Offer ID | Not negative, from protocol 15. [10] | No upper bound: any value up to 2^63-1. | `offer-id-beyond-f64` | none | 1 |
+| Destination and operation-source accounts | Checked when the transaction is applied, not when it is accepted. [9] | A transaction that fails then is still in the ledger, with its fee charged. [11] | `failed-transaction` | none | 31 |
 
 ### Contract data (Soroban)
 
@@ -64,7 +66,7 @@ Bracketed numbers point to the [sources](#sources) at the end of this section.
 | Contract strings (`ScString`) | Length only. [13] | UTF-8 and NUL, in arguments, storage and events alike. | — | — | — |
 | Symbols (`ScSymbol`) | At most 32 bytes from `[_0-9A-Za-z]`, for every value the host converts. [13] | — | — | — | — |
 | Maps (`ScMap`) | Keys strictly ascending, so sorted and unique, in the host's order: by value type first, then value. Mixed key types are allowed. [14] | Text order. Keys are not sorted as text, and distinct keys can render as the same text. | `scmap-keys-collide-as-text`, `scmap-mixed-key-types` | CAP-0046-01 | 1, 2 |
-| Integers | XDR shape. | Size relative to your language: 64-bit values above 2^53 and 128- or 256-bit values are common. | `scval-int64-beyond-f64`, `scval-wide-integer` | CAP-0046-01 | 8, 25 |
+| Integers | XDR shape. | Size relative to your language: 64-bit values above 2^53 and 128- or 256-bit values are common. | `scval-int64-beyond-f64`, `scval-wide-integer` | CAP-0046-01 | 8, 26 |
 | Authorization entries | Every entry is decoded. An entry a `require_auth` call matches has its signature checked and its nonce consumed, which creates a temporary contract-data entry keyed `LedgerKeyNonce`. [15] | Entries no `require_auth` call matches: they are not verified, and we found no code that rejects them. There is no limit on the number or depth of sub-invocations beyond XDR depth and transaction size. [15] | `auth-nested-invocations`, `auth-tree-4-deep` | CAP-0046-11 | 21, 3 |
 | Addresses in contract values | A muxed account (CAP-67) or a muxed contract (protocol 30) may appear as a value but not in a storage key. [16] | — | `scaddress-muxed-account`, `scaddress-muxed-id-beyond-f64`, `scaddress-muxed-contract` | CAP-0067, CAP-0084 | 3, 2, 2 |
 | Accounts and trustlines created by a contract | The Stellar Asset Contract's `trust()` creates a trustline and **emits no event**. [17] | No operation names the new entry; only the ledger changes show it. | `soroban-created-trustline`, `soroban-created-account` | CAP-0073 | 2, 3 |
@@ -92,6 +94,7 @@ host stellar-core 30.0.0 builds. Paths are relative to those repositories.
 15. rs-soroban-env `soroban-env-host/src/auth.rs` 945-957 (all entries decoded), 2478-2520 (authenticate and consume the nonce only after a match), 2958-3013 (`consume_nonce`).
 16. rs-soroban-env `soroban-env-host/src/host/conversion.rs` 523-531, 629-634.
 17. rs-soroban-env `soroban-env-host/src/builtin_contracts/stellar_asset_contract/balance.rs` 951-1086, `contract.rs` 403-412.
+18. `src/herder/TransactionQueue.cpp` 498-506 (30.0.0: refused before protocol 25). The same file at tag `v22.0.0` (`validateSorobanMemo`, which returns early when every authorization entry uses source-account credentials) and at `v23.0.0` (no such early return); no check at `v21.0.0`. A local stellar-core 30.0.0 and 29.0.0 at protocol 24 both refused the transaction with this check's message (`tools/localcore.py`).
 
 ## 2. Depth and size caps
 
@@ -252,9 +255,15 @@ It fails if:
   pattern's CAPs in `corpus/patterns.json`, or the Entries column differs from the number of
   manifest entries that carry each pattern.
 
-Three shapes the guide describes have **no corpus entry yet**: `memo-text-not-utf8`,
-`offer-id-beyond-f64` and `soroban-op-muxed-source`. The last can only come from a ledger
-before protocol 25. Until they are added, those rows rest on the stellar-core source alone.
+One shape the guide describes has **no corpus entry yet**: `soroban-op-muxed-source`. Only a
+ledger closed before protocol 25 by validators running stellar-core 22.x or older can hold it.
+`tools/localcore.py` has a scenario for it (`muxed-source-p22`, on stellar-core 22.2.1), not yet
+run; until its ledger is added, that row rests on the source alone.
+
+`memo-text-not-utf8` and `offer-id-beyond-f64` come from a local stellar-core 30.0.0
+(`tools/localcore.py`, scenario `memo-and-offer-p30`), not from network history. Offer IDs come
+from a sequential counter, so a value above 2^53 appears on the network only in the envelope of a
+failed transaction, as it does here.
 
 The claims in section 1 were read from the source cited there. Where the guide says "we found
 no code that…", the absence was established by reading and searching that code, not by a

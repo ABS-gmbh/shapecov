@@ -8,7 +8,7 @@ import base64
 import struct
 
 VERSION = {"account": 6 << 3, "muxed": 12 << 3, "pre_auth_tx": 19 << 3, "hash_x": 23 << 3,
-           "signed_payload": 15 << 3, "contract": 2 << 3}
+           "signed_payload": 15 << 3, "contract": 2 << 3, "seed": 18 << 3}
 
 
 def crc16_xmodem(data: bytes) -> int:
@@ -30,6 +30,11 @@ def signed_payload(ed25519_hex: str, payload_hex: str) -> str:
     p = bytes.fromhex(payload_hex)
     return encode("signed_payload",
                   bytes.fromhex(ed25519_hex) + struct.pack(">I", len(p)) + p + b"\0" * ((4 - len(p) % 4) % 4))
+
+
+def encode_secret(seed: bytes) -> str:
+    """S... secret seed for a 32-byte ed25519 seed (used only for local test nodes)."""
+    return encode("seed", seed)
 
 
 def account(ed25519_hex: str) -> str:

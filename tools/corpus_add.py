@@ -2,6 +2,10 @@
 
   corpus_add.py --goldens-index F --goldens-checkout DIR \\
                 --network-index F [--network-index F ...] --cache DIR [--min-cells N] [--dry-run]
+  corpus_add.py --local-run DIR [--local-run DIR ...] [--dry-run]
+
+--local-run adds the scenario ledgers of a tools/localcore.py run (every `ledger_<scenario>` key in
+its run.json). Each is designated for the patterns and cells it brings that no entry has yet.
 
 Selection, in this order (see tools/mine.py for how the indexes are made):
   1. stellar-core goldens: the fewest ledgers that cover every named pattern found in the goldens,
@@ -112,6 +116,7 @@ def main():
     ap.add_argument("--network-index", action="append", default=[])
     ap.add_argument("--cache", default="lake-cache")
     ap.add_argument("--min-cells", type=int, default=3)
+    ap.add_argument("--local-run", action="append", default=[])
     ap.add_argument("--dry-run", action="store_true")
     a = ap.parse_args()
 
@@ -135,6 +140,20 @@ def main():
         for r, pats, cells in cover(rows, set(), covered_cells, a.min_cells):
             plan.append(("network", r, pats, cells))
 
+    have_patterns = {p for e in manifest["entries"] for p in (e.get("patterns") or {})}
+    for d in a.local_run:
+        run = json.load(open(Path(d) / "run.json"))
+        for key, seq in sorted(run.items()):
+            if not key.startswith("ledger_") or not isinstance(seq, int):
+                continue
+            raw = (Path(d) / "ledgers" / f"{seq}.xdr").read_bytes()
+            found = mine.patterns(dec.decode("LedgerCloseMeta", raw))
+            fresh = sorted(set(dec.cells) - covered_cells)
+            r = {"raw": raw, "run": run, "seq": seq, "scenario": key[len("ledger_"):].replace("_", "-")}
+            plan.append(("local", r, sorted(set(found) - have_patterns), fresh))
+            have_patterns |= set(found)
+            covered_cells |= set(fresh)
+
     core_commit = None
     if a.goldens_checkout:
         core_commit = subprocess.run(["git", "-C", a.goldens_checkout, "rev-parse", "HEAD"],
@@ -151,6 +170,11 @@ def main():
             fname = f"entries/{eid}.LedgerCloseMeta.xdr.b64"
             source = {"kind": "stellar_core_golden", "stellar_core_commit": core_commit, "golden_file": rel,
                       "record": int(k), "test": test_name, "network_passphrase": GOLDEN_PASSPHRASE}
+        elif kind == "local":
+            raw = r["raw"]
+            eid = f"localcore-{r['scenario']}-{r['seq']}"
+            fname = f"entries/{eid}.LedgerCloseMeta.xdr.b64"
+            source = None
         else:
             raw = mine.fetch(r["net"], r["seq"], a.cache)
             eid = f"{r['net']}-{r['seq']}"
@@ -161,6 +185,13 @@ def main():
         value = dec.decode("LedgerCloseMeta", raw)
         ppaths = mine.patterns(value, with_paths=True)
         hdr = value[f"v{value['v']}"]["ledgerHeader"]
+        if source is None and kind == "local":
+            source = {"kind": "local_stellar_core", "stellar_core_version": r["run"]["stellar_core_version"],
+                      "image": r["run"]["stellar_core_image"], "network_passphrase": r["run"]["network_passphrase"],
+                      "ledger_seq": hdr["header"]["ledgerSeq"], "ledger_hash": hdr["hash"],
+                      "scenario": r["scenario"], "generator": "tools/localcore.py",
+                      "notes": "Standalone network, manual close, fixed keys and close times; "
+                               "see the scenario in tools/localcore.py."}
         if source is None:
             source = {"kind": "network_ledger", "network": r["net"],
                       "network_passphrase": mine.PASSPHRASE[r["net"]], "ledger_seq": hdr["header"]["ledgerSeq"],
@@ -169,6 +200,10 @@ def main():
         what = [catalog[p]["title"] for p in pats]
         if kind == "golden":
             title = f"stellar-core golden: {source['test'] or source['golden_file']}"
+        elif kind == "local":
+            title = f"Local stellar-core, scenario {r['scenario']}" + (f": {what[0]}" if what else "")
+            if len(what) > 1:
+                title += f" and {len(what) - 1} more pattern(s)"
         else:
             title = f"{r['net'].capitalize()} ledger {r['seq']}" + (f": {what[0]}" if what else "")
             if len(what) > 1:

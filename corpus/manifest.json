@@ -9856,6 +9856,141 @@
     }
    },
    "sightings": []
+  },
+  {
+   "id": "localcore-memo-and-offer-p30-4",
+   "title": "Local stellar-core, scenario memo-and-offer-p30: A text memo whose bytes are not valid UTF-8 and 1 more pattern(s)",
+   "xdr_type": "LedgerCloseMeta",
+   "file": "entries/localcore-memo-and-offer-p30-4.LedgerCloseMeta.xdr.b64",
+   "sha256": "43255298dc0c7567bef08e56ca140c03adcc59c12ab5f9495969f901392b73db",
+   "size_bytes": 3316,
+   "protocol_version": 30,
+   "caps": [],
+   "synthetic": false,
+   "source": {
+    "kind": "local_stellar_core",
+    "stellar_core_version": "stellar-core 30.0.0 (0e49751aa9ddf892302cca02cea7f3f5d97df9f1)",
+    "image": "stellar/stellar-core:30.0.0-3642.0e49751aa.noble",
+    "network_passphrase": "Test SDF Network ; September 2015",
+    "ledger_seq": 4,
+    "ledger_hash": "8c05d21ccf2b44566dfb920c2e8b8939f52d29780ffe582d6afae52cfc295701",
+    "scenario": "memo-and-offer-p30",
+    "generator": "tools/localcore.py",
+    "notes": "Standalone network, manual close, fixed keys and close times; see the scenario in tools/localcore.py."
+   },
+   "shape": "A text memo whose bytes are not valid UTF-8. stellar-core does not validate memo text. Treating it as a string corrupts it or crashes. An offer ID above 2^53. Held in a float, it names a different offer.",
+   "patterns": {
+    "failed-transaction": "v2.txProcessing[1].result.result.result",
+    "memo-text-not-utf8": "v2.txSet.v1TxSet.phases[0].v0Components[0].txsMaybeDiscountedFee.txs[0].v1.tx.memo.text",
+    "offer-id-beyond-f64": "v2.txSet.v1TxSet.phases[0].v0Components[0].txsMaybeDiscountedFee.txs[1].v1.tx.operations[0].body.manageSellOfferOp.offerID",
+    "scval-wide-integer": "v2.txProcessing[0].txApplyProcessing.v4.operations[0].events[0].body.v0.data.map[0].val"
+   },
+   "designated": {
+    "patterns": [
+     "memo-text-not-utf8",
+     "offer-id-beyond-f64"
+    ],
+    "cells": [
+     "arm:ManageSellOfferResult.MANAGE_SELL_OFFER_BUY_NO_TRUST"
+    ]
+   },
+   "cells": [
+    "arm:AccountEntryExt.0",
+    "arm:AccountEntryExt.1",
+    "arm:AccountEntryExtensionV1Ext.2",
+    "arm:AccountEntryExtensionV2Ext.3",
+    "arm:Asset.ASSET_TYPE_CREDIT_ALPHANUM4",
+    "arm:Asset.ASSET_TYPE_NATIVE",
+    "arm:ContractEventBody.0",
+    "arm:ExtensionPoint.0",
+    "arm:GeneralizedTransactionSet.1",
+    "arm:LedgerCloseMeta.2",
+    "arm:LedgerCloseMetaExt.0",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_STATE",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_UPDATED",
+    "arm:LedgerEntryData.ACCOUNT",
+    "arm:LedgerEntryExt.0",
+    "arm:LedgerHeaderExt.0",
+    "arm:LedgerHeaderHistoryEntryExt.0",
+    "arm:ManageSellOfferResult.MANAGE_SELL_OFFER_BUY_NO_TRUST",
+    "arm:Memo.MEMO_NONE",
+    "arm:Memo.MEMO_TEXT",
+    "arm:MuxedAccount.KEY_TYPE_ED25519",
+    "arm:OperationBody.MANAGE_SELL_OFFER",
+    "arm:OperationBody.PAYMENT",
+    "arm:OperationResult.opINNER",
+    "arm:OperationResultTr.MANAGE_SELL_OFFER",
+    "arm:OperationResultTr.PAYMENT",
+    "arm:PaymentResult.PAYMENT_SUCCESS",
+    "arm:Preconditions.PRECOND_NONE",
+    "arm:PublicKey.PUBLIC_KEY_TYPE_ED25519",
+    "arm:SCAddress.SC_ADDRESS_TYPE_ACCOUNT",
+    "arm:SCVal.SCV_ADDRESS",
+    "arm:SCVal.SCV_I128",
+    "arm:SCVal.SCV_MAP",
+    "arm:SCVal.SCV_STRING",
+    "arm:SCVal.SCV_SYMBOL",
+    "arm:StellarValueExt.STELLAR_VALUE_SIGNED_MS",
+    "arm:TransactionEnvelope.ENVELOPE_TYPE_TX",
+    "arm:TransactionExt.0",
+    "arm:TransactionMeta.4",
+    "arm:TransactionPhase.0",
+    "arm:TransactionPhase.1",
+    "arm:TransactionResultExt.0",
+    "arm:TransactionResultResult.txFAILED",
+    "arm:TransactionResultResult.txSUCCESS",
+    "arm:TxSetComponent.TXSET_COMP_TXS_MAYBE_DISCOUNTED_FEE",
+    "enum:ContractEventType.CONTRACT",
+    "enum:TransactionEventStage.TRANSACTION_EVENT_STAGE_BEFORE_ALL_TXS"
+   ],
+   "cells_new_in_protocol": [
+    "arm:StellarValueExt.STELLAR_VALUE_SIGNED_MS"
+   ],
+   "expected": {
+    "decoded": [
+     {
+      "path": "v",
+      "value": 2
+     },
+     {
+      "path": "v2.ledgerHeader.header.ledgerSeq",
+      "value": 4
+     },
+     {
+      "path": "v2.ledgerHeader.header.ledgerVersion",
+      "value": 30
+     },
+     {
+      "path": "v2.ledgerHeader.hash",
+      "value": "8c05d21ccf2b44566dfb920c2e8b8939f52d29780ffe582d6afae52cfc295701"
+     },
+     {
+      "path": "v2.ledgerHeader.header.scpValue.closeTime",
+      "value": 1600392989
+     },
+     {
+      "path": "v2.txSet.v1TxSet.phases[0].v0Components[0].txsMaybeDiscountedFee.txs[1].v1.tx.operations[0].body.manageSellOfferOp.offerID",
+      "value": 9007199254740993,
+      "note": "pattern offer-id-beyond-f64"
+     },
+     {
+      "path": "v2.txProcessing[1].result.result.result.results[0].tr.manageSellOfferResult.code",
+      "value": "MANAGE_SELL_OFFER_BUY_NO_TRUST",
+      "note": "cell arm:ManageSellOfferResult.MANAGE_SELL_OFFER_BUY_NO_TRUST"
+     }
+    ]
+   },
+   "validation": {
+    "independent_decoder": "not_run",
+    "rs_stellar_xdr_roundtrip": "not_run",
+    "stellar_core": {
+     "version": "30.0.0",
+     "command": "",
+     "result": "not_run"
+    },
+    "core_golden": "not_applicable"
+   },
+   "sightings": []
   }
  ]
 }

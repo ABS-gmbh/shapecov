@@ -24,7 +24,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.dirname(HERE)
 GUIDE = os.path.join(HERE, "INDEXER-HARDENING.md")
 
-ENTRY_RE = re.compile(r"`((?:testnet|pubnet|golden|synthetic)-[a-z0-9-]+)`")
+ENTRY_RE = re.compile(r"`((?:testnet|pubnet|golden|synthetic|localcore)-[a-z0-9-]+)`")
 TICK_RE = re.compile(r"`([a-z0-9]+(?:-[a-z0-9]+)+)`")
 CAP_RE = re.compile(r"CAP-\d{2,4}(?:-\d{2})?")
 
