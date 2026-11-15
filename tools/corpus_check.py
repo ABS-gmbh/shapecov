@@ -110,6 +110,12 @@ def static_checks(e, raw, dec, enc, new_cells, schema_protocol, rep, ctx=None):
         rep.check(eid, "value file encodes to the entry bytes",
                   enc.encode(e["xdr_type"], value) == raw and e["synthetic"])
 
+    evidence = [x["evidence"] for x in e.get("sightings", []) if x.get("evidence")]
+    if evidence:
+        gone = [x for x in evidence if not (CORPUS / x).resolve().is_file()]
+        rep.check(eid, "sighting evidence files exist", not gone,
+                  ("missing: " + ", ".join(gone)) if gone else ", ".join(evidence))
+
     cap_cells = {c for cap in e["caps"] for c in cap.get("cells", [])}
     cap_pats = {p for cap in e["caps"] for p in cap.get("patterns", [])}
     known = all(cap["cap"] in ctx.get("caps", {cap["cap"]: 1}) for cap in e["caps"])

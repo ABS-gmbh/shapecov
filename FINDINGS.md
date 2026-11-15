@@ -1,6 +1,6 @@
 # Findings
 
-Run date: 14 November 2026. Versions are in `README.md`.
+Run date: 14 November 2026, updated 15 November 2026. Versions are in `README.md`.
 
 Filed upstream on 14 November 2026:
 
@@ -55,13 +55,27 @@ That search can miss things; check again before filing.
 
 ## Reproduced sightings from the RFP
 
-Both are reproduced from entries in `corpus/`, with the commands and output in `corpus/evidence/`.
+Each is reproduced from an entry in `corpus/`. The SDK sightings have their commands and output in
+`corpus/evidence/`; the wallet-backend sightings are replayed by `harness/replay/` and checked in
+CI against `harness/replay/sightings.json` (see `harness/replay/RESULTS.md`).
 
 - stellar/wallet-backend#729: testnet ledger 4437357, replayed through wallet-backend's own
   indexer, is `mishandled` at the commit before the fix (the signed-payload signer row does not
   encode) and `pass` at the fix.
 - stellar/js-stellar-sdk#1789: a map with keys u32 `1` and symbol `"1"` loses one entry in
   `scValToNative` on v17.2.1 and is refused with an error on v17.4.0. Python 17.0.1 keeps both.
+- stellar/js-stellar-sdk#1785: entry `synthetic-ids-beyond-f64`. On 16.3.0, 16.4.1, 17.2.0 and
+  17.2.1 (the versions tested), `manageSellOffer` and `MuxedAccount` accept IDs that encode a different value: a number
+  above 2^53, `"0x10"`, `" 16 "`, `""` (an offer ID of 0, "create a new offer") and a negative
+  offer ID. 17.3.0 and 17.4.0 refuse all of them. Evidence: `corpus/evidence/js-stellar-sdk-1785.md`.
+- stellar/wallet-backend#731: entry `localcore-sac-trust-p28-5`, a trustline created by the Stellar
+  Asset Contract's `trust()`. `dropped` at the commit before the fix (no `TRUSTLINE/ADD` or
+  `BALANCE_AUTHORIZATION` row, no error) and `pass` at the fix and at `main`.
+- stellar/wallet-backend#716: the signed-payload half from the #729 entry (`mishandled` at
+  `79ea2acd`: the signer stored as 33 of 41 bytes) and the muxed half from
+  `localcore-muxed-source-p22-3` (`mishandled` at `79ea2acd`: a contract call's muxed source stored
+  as a truncated `M...`). Between #693 and `bb0b162b` the same muxed entry stops ingestion on a
+  duplicate key instead; `bb0b162b` documents and fixes that.
 
 ## Rediscovered (already reported by others)
 
@@ -71,6 +85,13 @@ These validate the method: the generator found each within its first run, with n
   In this run JS, Go and Java reject such a bool, Python and stellar-core accept it.
 - Go SDK accepts 1 or 2 trailing bytes in `SafeUnmarshalBase64`: go-stellar-sdk #6039, fix in
   PR #6041. Seen here as 222 of 952 trailing cases accepted.
+- Python SDK serializes out-of-range 64-bit IDs modulo 2^64: py-stellar-base #1251, filed
+  13 November, the Python counterpart of js-stellar-sdk #1785. The `ids_exact` check on
+  `synthetic-ids-beyond-f64` finds it in stellar-sdk 17.0.1: an offer ID of 2^64 encodes as **0**
+  ("create a new offer"), a muxed ID of 2^64 encodes as **0** (a different sub-account), and an
+  offer ID of -1 is accepted. Fixed on `main` by PR #1253 (commit `134c0e11`, 14 November); the
+  same check passes there. **Not released:** 17.0.1, the latest on PyPI, still has it, five weeks
+  after JavaScript fixed the same defect. Evidence: `corpus/evidence/js-stellar-sdk-1785.md`.
 
 ## Issue texts
 
