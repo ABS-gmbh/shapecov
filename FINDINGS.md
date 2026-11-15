@@ -2,13 +2,14 @@
 
 Run date: 14 November 2026, updated 15 November 2026. Versions are in `README.md`.
 
-Filed upstream on 14 November 2026:
+Filed upstream:
 
-| Finding | Issue |
-|---|---|
-| J1 | https://github.com/lightsail-network/java-stellar-sdk/issues/833 |
-| P1 | https://github.com/StellarCN/py-stellar-base/issues/1262 |
-| P2 | https://github.com/StellarCN/py-stellar-base/issues/1263 |
+| Finding | Issue | Filed |
+|---|---|---|
+| J1 | https://github.com/lightsail-network/java-stellar-sdk/issues/833 | 14 November 2026 |
+| P1 | https://github.com/StellarCN/py-stellar-base/issues/1262 | 14 November 2026 |
+| P2 | https://github.com/StellarCN/py-stellar-base/issues/1263 | 14 November 2026 |
+| E1 | https://github.com/stellar/stellar-etl/issues/512 | 15 November 2026 |
 
 "Confirmed" means: reproduced outside the harness with a short script in `repro/`, root cause
 located in the SDK source, and stellar-core 30.0.0 checked on the same class of bytes.
@@ -53,7 +54,7 @@ That search can miss things; check again before filing.
   `stellar-xdr` (py-stellar-base #1264). Version 0.2.0 rejects this input. The finding holds for
   the released SDK 17.0.1 only, and our reply on the issue says so.
 
-## Confirmed, not filed yet
+## Confirmed, filed 15 November
 
 ### E1. stellar-etl `export_token_transfer` fails on every ledger before protocol 23
 
@@ -72,8 +73,8 @@ That search can miss things; check again before filing.
   first ledger with a transaction, for example a backfill after a fix to the token transfer path.
 - Searched on 15 November: no report in stellar-etl or go-stellar-sdk. The July 2026 audit (#448)
   lists token transfer classification as consistent without covering older ledgers.
-- Details: `corpus/evidence/stellar-etl-token-transfer-pre23.md`. Draft issue:
-  `issues/E1-stellar-etl-token-transfer-pre23.md`.
+- Filed: stellar/stellar-etl#512. Details: `corpus/evidence/stellar-etl-token-transfer-pre23.md`.
+  Issue text: `issues/E1-stellar-etl-token-transfer-pre23.md`.
 
 ## Reproduced sightings from the RFP
 

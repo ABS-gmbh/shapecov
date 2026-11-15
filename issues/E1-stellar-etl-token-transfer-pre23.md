@@ -1,4 +1,6 @@
-# Draft, not filed: stellar/stellar-etl
+# Filed 15 November 2026: https://github.com/stellar/stellar-etl/issues/512
+
+The filed text links the two ledger files and the evidence note directly; otherwise it is this.
 
 **Title:** export_token_transfer fails on every ledger before protocol 23 (unified-events processor requires TransactionMeta v4)
 

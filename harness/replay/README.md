@@ -180,14 +180,14 @@ At stellar-etl `master` (`2b24ec89`), all 52 ledgers (results in
 |---|---|---|---|---|---|
 | Effects (state changes) | 25 | 97 | 93 | 4: stellar-etl#460 | 0 |
 | Net balances (token transfers) | 25 | 3993 | 3993 | none | 0 |
-| Ledger not exported | 2 of 25 | | | 2: our finding E1 (not filed) | 0 |
+| Ledger not exported | 2 of 25 | | | 2: stellar-etl#512 (our finding E1) | 0 |
 | Not applicable (stellar-core test network) | 27 | | | | |
 
 - **stellar-etl#460** (open, filed by a maintainer in July): an account created by XLM sent through
   the native asset contract gets no `account_created` effect, and a trustline created by the asset
   contract's `trust()` (CAP-73) gets no `trustline_created`. The oracle found all four rows from
   ledger data alone: `testnet-5709224` (both shapes), `pubnet-65480300`, `localcore-sac-trust-p28-5`.
-- **E1, new:** `export_token_transfer` fails on every ledger before protocol 23 that holds a
+- **E1, new, filed as stellar-etl#512:** `export_token_transfer` fails on every ledger before protocol 23 that holds a
   transaction (`localcore-classic-p22-3`, `localcore-muxed-source-p22-3`): stellar-etl builds the
   token transfer processor in unified-events mode, which requires `TransactionMeta` v4. The SDK's
   other constructor handles both ledgers. Evidence: `corpus/evidence/stellar-etl-token-transfer-pre23.md`.

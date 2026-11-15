@@ -11,7 +11,7 @@
    "match": {"reason": "trustline_created", "op_type": "INVOKE_HOST_FUNCTION"}
   },
   {
-   "issue": "FINDINGS.md (stellar-etl, not filed upstream yet)",
+   "issue": "stellar/stellar-etl#512",
    "note": "export_token_transfer builds the processor for protocol-23 unified events only, which rejects any transaction whose meta is not v4: every ledger before protocol 23 that holds a transaction.",
    "match": {"error_contains": "error reading from unified events stream, expected version 4 got 3"}
   }

@@ -89,7 +89,7 @@ checked. A failure is labelled with the open upstream issue that explains it
 
 | Commit | Input | Replays | Rows expected | Rows met | Known issues | Unexplained |
 |---|---|---|---|---|---|---|
-| `2b24ec89` | datalake | 25 | 4095 | 4086 | FINDINGS.md (stellar-etl, not filed upstream yet) (2), stellar-etl#460 (4) | 0 |
+| `2b24ec89` | datalake | 25 | 4095 | 4086 | stellar-etl#460 (4), stellar-etl#512 (2) | 0 |
 
 
 

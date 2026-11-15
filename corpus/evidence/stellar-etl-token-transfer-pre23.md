@@ -1,8 +1,8 @@
 # Evidence: stellar-etl `export_token_transfer` rejects every ledger before protocol 23
 
 Found by the replay harness's stellar-etl adapter on 15 November 2026, at stellar-etl `master`
-`2b24ec89` (go-stellar-sdk `v0.8.1-0.20261106081502-e31e3b146d00`). Not filed upstream yet. The
-draft issue text is `issues/E1-stellar-etl-token-transfer-pre23.md`.
+`2b24ec89` (go-stellar-sdk `v0.8.1-0.20261106081502-e31e3b146d00`). Filed as
+stellar/stellar-etl#512 the same day; the text is `issues/E1-stellar-etl-token-transfer-pre23.md`.
 
 ## What happens
 
