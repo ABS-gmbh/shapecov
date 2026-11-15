@@ -85,8 +85,10 @@ These validate the method: the generator found each within its first run, with n
   In this run JS, Go and Java reject such a bool, Python and stellar-core accept it.
 - Go SDK accepts 1 or 2 trailing bytes in `SafeUnmarshalBase64`: go-stellar-sdk #6039, fix in
   PR #6041. Seen here as 222 of 952 trailing cases accepted.
-- Python SDK serializes out-of-range 64-bit IDs modulo 2^64: py-stellar-base #1251, filed
-  13 November, the Python counterpart of js-stellar-sdk #1785. The `ids_exact` check on
+- (Confirmed, not found blind.) Python SDK serializes out-of-range 64-bit IDs modulo 2^64:
+  py-stellar-base #1251, filed 13 November by another reporter, the Python counterpart of
+  js-stellar-sdk #1785. The corpus entry was built after both issues were known, so this confirms
+  #1251 rather than rediscovering it. The `ids_exact` check on
   `synthetic-ids-beyond-f64` finds it in stellar-sdk 17.0.1: an offer ID of 2^64 encodes as **0**
   ("create a new offer"), a muxed ID of 2^64 encodes as **0** (a different sub-account), and an
   offer ID of -1 is accepted. Fixed on `main` by PR #1253 (commit `134c0e11`, 14 November); the

@@ -93,6 +93,8 @@ Only the implicit checks apply: the ledger is ingested without an error and ever
 | `golden-offer-9a363b75-30` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `golden-pathpayment-34519f44-22` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `golden-pathpayment-34519f44-22` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `localcore-memo-and-offer-p30-4` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `localcore-memo-and-offer-p30-4` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `pubnet-65479774` | 29 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `pubnet-65479774` | 29 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `pubnet-65480264` | 29 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
@@ -154,8 +156,8 @@ Only the implicit checks apply: the ledger is ingested without an error and ever
 | `f8e5786d` | datalake | 0 | 1 | 0 | 0 |
 | `bb0b162b` | rpc | 1 | 0 | 0 | 0 |
 | `bb0b162b` | datalake | 1 | 0 | 0 | 0 |
-| `3e22515a` | rpc | 50 | 0 | 0 | 0 |
-| `3e22515a` | datalake | 50 | 0 | 0 | 0 |
+| `3e22515a` | rpc | 51 | 0 | 0 | 0 |
+| `3e22515a` | datalake | 51 | 0 | 0 | 0 |
 
 ## Details of every result that is not `pass`
 
@@ -277,3 +279,4 @@ Only the implicit checks apply: the ledger is ingested without an error and ever
 | 2026-11-15T13:25:55+00:00 | `79ea2acd`, `6e5a5910`, `2a0a84ea`, `2c873353` | rpc, datalake | 1 | 93.8 | 36064 | 4 | 8 |
 | 2026-11-15T13:27:29+00:00 | `764a4f5b`, `c152783c` | rpc, datalake | 1 | 16.2 | 35936 | 2 | 4 |
 | 2026-11-15T13:27:46+00:00 | `79ea2acd`, `6e5a5910`, `f8e5786d`, `bb0b162b` | rpc, datalake | 1 | 28.9 | 35956 | 4 | 8 |
+| 2026-11-15T13:50:12+00:00 | `3e22515a` | rpc, datalake | 1 | 8.8 | 35832 | 1 | 2 |
