@@ -1,0 +1,28 @@
+{
+ "job_version": 1,
+ "entry_id": "golden-frozenledgerkeys-a0fb94c3-10",
+ "ref": "3e22515a44979fdc3a558fda3991ca2b48e38cef",
+ "commit": "3e22515a44979fdc3a558fda3991ca2b48e38cef",
+ "input": "rpc",
+ "network_passphrase": "(V) (;,,;) (V)",
+ "ledger": {
+  "seq": 12,
+  "hash": "bec5d521fee706c20571bc054b645c4a7c38a113ca057effee93aabc27fd2642",
+  "close_time": 0,
+  "protocol": 30
+ },
+ "rpc": {
+  "url": "http://shapecov-replay-feeder:8000/rpc/golden-frozenledgerkeys-a0fb94c3-10"
+ },
+ "datalake": {
+  "s3_endpoint": "http://shapecov-replay-feeder:9000",
+  "bucket_path": "shapecov-lake/golden-frozenledgerkeys-a0fb94c3-10",
+  "region": "us-east-1"
+ },
+ "history_archive": {
+  "url": "http://shapecov-replay-feeder:8000/archive/golden-frozenledgerkeys-a0fb94c3-10"
+ },
+ "docker_network": "shapecov-replay-net",
+ "timeout_seconds": 60,
+ "work_dir": "$REPLAY_WORK"
+}

@@ -1,0 +1,51 @@
+{
+ "entry_id": "testnet-4437357-signed-payload-signer",
+ "adapter": "wallet-backend",
+ "ref": "2a0a84ea12523b6c92e278c0c84b443041240095",
+ "commit": "2a0a84ea12523b6c92e278c0c84b443041240095",
+ "input": "rpc",
+ "protocol_version": 28,
+ "sdk_pin": "v0.7.3",
+ "mode": "unmodified",
+ "result": "mishandled",
+ "mishandled": [
+  "the indexer raised an error on this ledger and did not ingest it: panic: executing root command: running ingest: running 'ingest' from 0 to 0: processing ledger 4437357: ingesting processed data failed after 5 attempts: persisting ledger data for ledger 4437357: running atomic function in RunInTransaction: inserting processed data into db for ledger 4437357: batch inserting state changes: pgx CopyFrom state_changes: ERROR: COPY from stdin failed: converting signer_account_id: converting address to bytes: stellar address PBCK2RYYLIYOSHBEL2FQLAVRSHRH3GP3ID476SGKBV7BEZHMQ6NSAAAAAAB55LN6AANMS has a 40-byte key payload; the account_id column stores only 32-byte account/contract keys (SQLSTATE 57014)"
+ ],
+ "dropped": [],
+ "checks": [
+  {
+   "expect": {
+    "expect": "signer_state_change",
+    "signer_key": "PBCK2RYYLIYOSHBEL2FQLAVRSHRH3GP3ID476SGKBV7BEZHMQ6NSAAAAAAB55LN6AANMS",
+    "derived_from": "v2.txSet.v1TxSet.phases[0].v0Components[0].txsMaybeDiscountedFee.txs[0].v1.tx.operations[0].body.setOptionsOp.signer.key"
+   },
+   "outcome": "not_checked",
+   "detail": "ledger was not ingested"
+  }
+ ],
+ "expectations": 1,
+ "expectations_source": "manifest",
+ "ledger": {
+  "seq": 4437357,
+  "hash": "0984e28878f8b074c3710f52630f5b6bc5a369bf61a15e7364b6123edf1881b6",
+  "close_time": 1788210372,
+  "protocol": 28
+ },
+ "ingested": false,
+ "row_counts": {
+  "transactions": 0,
+  "transactions_accounts": 0,
+  "operations": 0,
+  "operations_accounts": 0,
+  "state_changes": 0
+ },
+ "process": {
+  "outcome": "exited by itself before the ledger was ingested",
+  "exit_code": 2,
+  "oom_killed": false,
+  "started_finished": "2026-11-15T10:17:10.922005007Z 2026-11-15T10:17:26.276205209Z"
+ },
+ "seconds": 16.9,
+ "feeder_requests": 2,
+ "evidence": "out/2a0a84ea1252/rpc/testnet-4437357-signed-payload-signer"
+}

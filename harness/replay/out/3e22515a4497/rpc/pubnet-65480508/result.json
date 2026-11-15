@@ -1,0 +1,39 @@
+{
+ "entry_id": "pubnet-65480508",
+ "adapter": "wallet-backend",
+ "ref": "3e22515a44979fdc3a558fda3991ca2b48e38cef",
+ "commit": "3e22515a44979fdc3a558fda3991ca2b48e38cef",
+ "input": "rpc",
+ "protocol_version": 29,
+ "sdk_pin": "v0.8.0",
+ "mode": "unmodified",
+ "result": "pass",
+ "mishandled": [],
+ "dropped": [],
+ "checks": [],
+ "expectations": 0,
+ "expectations_source": "none (implicit checks only)",
+ "ledger": {
+  "seq": 65480508,
+  "hash": "0cb9913f8e0eec07e5dad11b0459f274a74a6f71e3edf59fd6bac5096d5d69bc",
+  "close_time": 1794688582,
+  "protocol": 29
+ },
+ "ingested": true,
+ "row_counts": {
+  "transactions": 161,
+  "transactions_accounts": 653,
+  "operations": 587,
+  "operations_accounts": 1048,
+  "state_changes": 1354
+ },
+ "process": {
+  "outcome": "stopped by the adapter after the ledger was ingested",
+  "exit_code": 0,
+  "oom_killed": false,
+  "started_finished": "2026-11-15T10:14:27.919919126Z 2026-11-15T10:14:29.069281418Z"
+ },
+ "seconds": 2.7,
+ "feeder_requests": 4,
+ "evidence": "out/3e22515a4497/rpc/pubnet-65480508"
+}

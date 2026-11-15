@@ -1,0 +1,172 @@
+{
+ "observation_version": 1,
+ "adapter": "wallet-backend",
+ "commit": "3e22515a44979fdc3a558fda3991ca2b48e38cef",
+ "input": "datalake",
+ "entry_id": "golden-invokehostfunction-f5fa0a4b-12",
+ "ledger_seq": 14,
+ "ingested": true,
+ "error": null,
+ "command": "wallet-backend ingest  (configured by environment: ARCHIVE_URL=http://shapecov-replay-feeder:8000/archive/golden-invokehostfunction-f5fa0a4b-12, DATABASE_URL=postgres://postgres@shapecov-replay-db:5432/replay?sslmode=disable, DATASTORE_BUCKET_PATH=shapecov-lake/golden-invokehostfunction-f5fa0a4b-12, DATASTORE_BUFFER_SIZE=4, DATASTORE_ENDPOINT_URL=http://shapecov-replay-feeder:9000, DATASTORE_NUM_WORKERS=2, DATASTORE_REGION=us-east-1, GET_LEDGERS_LIMIT=10, INGESTION_MODE=live, LEDGER_BACKEND_TYPE=datastore, LOG_LEVEL=INFO, NETWORK=standalone, NETWORK_PASSPHRASE=(V) (;,,;) (V), RPC_URL=http://shapecov-replay-feeder:8000/rpc/golden-invokehostfunction-f5fa0a4b-12, STELLAR_ENVIRONMENT=development)",
+ "seconds_to_outcome": 1.2,
+ "cursor": 14,
+ "process": {
+  "outcome": "stopped by the adapter after the ledger was ingested",
+  "exit_code": 0,
+  "oom_killed": false,
+  "started_finished": "2026-11-15T10:14:55.649025875Z 2026-11-15T10:14:56.765313459Z"
+ },
+ "log_errors": [],
+ "log_warnings": 0,
+ "transactions": [
+  {
+   "hash": "26a20d50145df86d856808d825cbb2a56df236ce19610b219d28365322fcb1e5",
+   "tx_order": 1,
+   "result_code": "TransactionResultCodeTxFeeBumpInnerSuccess",
+   "participants": [
+    "GA4UIPYPWIOKSKTXTFGNICYVUEGNM4NG3YF323HPSROHUPXV4FK7QWLE",
+    "GC5XVI7LSDS4ISIDFMY6BCOXP4QWWHNJXCQXFXB7B5DMDNGRMDA357PX",
+    "GDCIJUICLYOMBXWFH6TYMVWNKUGQJVXAWPL2SJM3ABJALDNQ4ZB23MMF"
+   ]
+  },
+  {
+   "hash": "1d1018a817e5a581d170c2d531c828aabf7ae2ef8278bc0d452c5e5b380cf40a",
+   "tx_order": 2,
+   "result_code": "TransactionResultCodeTxFeeBumpInnerFailed",
+   "participants": [
+    "GBPPIXIXE2FQGUK73BB2ZXF4IZ6JDXKAP452N6KR6OLHGARB5KEN7UIE",
+    "GC5XVI7LSDS4ISIDFMY6BCOXP4QWWHNJXCQXFXB7B5DMDNGRMDA357PX"
+   ]
+  }
+ ],
+ "operations": [
+  {
+   "tx_hash": "26a20d50145df86d856808d825cbb2a56df236ce19610b219d28365322fcb1e5",
+   "tx_order": 1,
+   "op_order": 1,
+   "type": "ACCOUNT_MERGE",
+   "participants": [
+    "GC5XVI7LSDS4ISIDFMY6BCOXP4QWWHNJXCQXFXB7B5DMDNGRMDA357PX",
+    "GDCIJUICLYOMBXWFH6TYMVWNKUGQJVXAWPL2SJM3ABJALDNQ4ZB23MMF"
+   ]
+  },
+  {
+   "tx_hash": "1d1018a817e5a581d170c2d531c828aabf7ae2ef8278bc0d452c5e5b380cf40a",
+   "tx_order": 2,
+   "op_order": 1,
+   "type": "INVOKE_HOST_FUNCTION",
+   "participants": [
+    "GBPPIXIXE2FQGUK73BB2ZXF4IZ6JDXKAP452N6KR6OLHGARB5KEN7UIE",
+    "GC5XVI7LSDS4ISIDFMY6BCOXP4QWWHNJXCQXFXB7B5DMDNGRMDA357PX"
+   ]
+  }
+ ],
+ "state_changes": [
+  {
+   "tx_hash": "26a20d50145df86d856808d825cbb2a56df236ce19610b219d28365322fcb1e5",
+   "tx_order": 1,
+   "op_order": 0,
+   "category": "BALANCE",
+   "reason": "DEBIT",
+   "stored": {
+    "account": "3039443f0fb21ca92a77994cd40b15a10cd671a6de0bbd6cef945c7a3ef5e155f8",
+    "token": "10baa393105df75969301ed9ce82ecc9fe38d4063f97ac0a41d07a7b505d8e9d43"
+   },
+   "account": "GA4UIPYPWIOKSKTXTFGNICYVUEGNM4NG3YF323HPSROHUPXV4FK7QWLE",
+   "token": "CC5KHEYQLX3VS2JQD3M45AXMZH7DRVAGH6L2YCSB2B5HWUC5R2OUHQDP",
+   "signer_key": null,
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "amount": "200"
+   }
+  },
+  {
+   "tx_hash": "26a20d50145df86d856808d825cbb2a56df236ce19610b219d28365322fcb1e5",
+   "tx_order": 1,
+   "op_order": 1,
+   "category": "ACCOUNT",
+   "reason": "MERGE",
+   "stored": {
+    "account": "30bb7aa3eb90e5c449032b31e089d77f216b1da9b8a172dc3f0f46c1b4d160c1be",
+    "destination": "30c484d1025e1cc0dec53fa78656cd550d04d6e0b3d7a9259b0052058db0e643ad"
+   },
+   "account": "GC5XVI7LSDS4ISIDFMY6BCOXP4QWWHNJXCQXFXB7B5DMDNGRMDA357PX",
+   "token": null,
+   "signer_key": null,
+   "spender": null,
+   "creator": null,
+   "destination": "GDCIJUICLYOMBXWFH6TYMVWNKUGQJVXAWPL2SJM3ABJALDNQ4ZB23MMF"
+  },
+  {
+   "tx_hash": "26a20d50145df86d856808d825cbb2a56df236ce19610b219d28365322fcb1e5",
+   "tx_order": 1,
+   "op_order": 1,
+   "category": "BALANCE",
+   "reason": "DEBIT",
+   "stored": {
+    "account": "30bb7aa3eb90e5c449032b31e089d77f216b1da9b8a172dc3f0f46c1b4d160c1be",
+    "token": "10baa393105df75969301ed9ce82ecc9fe38d4063f97ac0a41d07a7b505d8e9d43"
+   },
+   "account": "GC5XVI7LSDS4ISIDFMY6BCOXP4QWWHNJXCQXFXB7B5DMDNGRMDA357PX",
+   "token": "CC5KHEYQLX3VS2JQD3M45AXMZH7DRVAGH6L2YCSB2B5HWUC5R2OUHQDP",
+   "signer_key": null,
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "amount": "5200000000"
+   }
+  },
+  {
+   "tx_hash": "26a20d50145df86d856808d825cbb2a56df236ce19610b219d28365322fcb1e5",
+   "tx_order": 1,
+   "op_order": 1,
+   "category": "BALANCE",
+   "reason": "CREDIT",
+   "stored": {
+    "account": "30c484d1025e1cc0dec53fa78656cd550d04d6e0b3d7a9259b0052058db0e643ad",
+    "token": "10baa393105df75969301ed9ce82ecc9fe38d4063f97ac0a41d07a7b505d8e9d43"
+   },
+   "account": "GDCIJUICLYOMBXWFH6TYMVWNKUGQJVXAWPL2SJM3ABJALDNQ4ZB23MMF",
+   "token": "CC5KHEYQLX3VS2JQD3M45AXMZH7DRVAGH6L2YCSB2B5HWUC5R2OUHQDP",
+   "signer_key": null,
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "amount": "5200000000"
+   }
+  },
+  {
+   "tx_hash": "1d1018a817e5a581d170c2d531c828aabf7ae2ef8278bc0d452c5e5b380cf40a",
+   "tx_order": 2,
+   "op_order": 0,
+   "category": "BALANCE",
+   "reason": "DEBIT",
+   "stored": {
+    "account": "305ef45d17268b03515fd843acdcbc467c91dd407f3ba6f951f396730221ea88df",
+    "token": "10baa393105df75969301ed9ce82ecc9fe38d4063f97ac0a41d07a7b505d8e9d43"
+   },
+   "account": "GBPPIXIXE2FQGUK73BB2ZXF4IZ6JDXKAP452N6KR6OLHGARB5KEN7UIE",
+   "token": "CC5KHEYQLX3VS2JQD3M45AXMZH7DRVAGH6L2YCSB2B5HWUC5R2OUHQDP",
+   "signer_key": null,
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "amount": "59589"
+   }
+  }
+ ],
+ "unreadable": [],
+ "row_counts": {
+  "transactions": 2,
+  "transactions_accounts": 5,
+  "operations": 2,
+  "operations_accounts": 4,
+  "state_changes": 5
+ },
+ "seconds": 2.3
+}

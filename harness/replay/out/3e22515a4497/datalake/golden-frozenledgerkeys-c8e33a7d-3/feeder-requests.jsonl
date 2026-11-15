@@ -1,0 +1,6 @@
+{"http": "GET", "keys": 1, "path": "/shapecov-lake?list-type=2&max-keys=1&prefix=golden-frozenledgerkeys-c8e33a7d-3%2F", "port": "s3", "status": 200, "t": 1794737698.232}
+{"http": "GET", "keys": 2, "path": "/shapecov-lake?fetch-owner=false&list-type=2&max-keys=1000&prefix=golden-frozenledgerkeys-c8e33a7d-3%2F&start-after=", "port": "s3", "status": 200, "t": 1794737698.245}
+{"http": "GET", "path": "/shapecov-lake/golden-frozenledgerkeys-c8e33a7d-3/.config.json?x-id=GetObject", "port": "s3", "size": 123, "status": 200, "t": 1794737698.287}
+{"http": "GET", "path": "/shapecov-lake/golden-frozenledgerkeys-c8e33a7d-3/FFFFFFFF--0-63999/FFFFFFF9--6.xdr.zst?x-id=GetObject", "port": "s3", "status": 404, "t": 1794737698.337}
+{"http": "GET", "path": "/shapecov-lake/golden-frozenledgerkeys-c8e33a7d-3/FFFFFFFF--0-63999/FFFFFFFA--5.xdr.zst?x-id=GetObject", "port": "s3", "size": 830, "status": 200, "t": 1794737698.338}
+{"http": "GET", "path": "/shapecov-lake/golden-frozenledgerkeys-c8e33a7d-3/FFFFFFFF--0-63999/FFFFFFF8--7.xdr.zst?x-id=GetObject", "port": "s3", "status": 404, "t": 1794737698.382}

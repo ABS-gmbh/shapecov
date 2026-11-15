@@ -1,0 +1,73 @@
+{
+ "observation_version": 1,
+ "adapter": "wallet-backend",
+ "commit": "3e22515a44979fdc3a558fda3991ca2b48e38cef",
+ "input": "datalake",
+ "entry_id": "golden-invokehostfunction-7f92354d-11",
+ "ledger_seq": 13,
+ "ingested": true,
+ "error": null,
+ "command": "wallet-backend ingest  (configured by environment: ARCHIVE_URL=http://shapecov-replay-feeder:8000/archive/golden-invokehostfunction-7f92354d-11, DATABASE_URL=postgres://postgres@shapecov-replay-db:5432/replay?sslmode=disable, DATASTORE_BUCKET_PATH=shapecov-lake/golden-invokehostfunction-7f92354d-11, DATASTORE_BUFFER_SIZE=4, DATASTORE_ENDPOINT_URL=http://shapecov-replay-feeder:9000, DATASTORE_NUM_WORKERS=2, DATASTORE_REGION=us-east-1, GET_LEDGERS_LIMIT=10, INGESTION_MODE=live, LEDGER_BACKEND_TYPE=datastore, LOG_LEVEL=INFO, NETWORK=standalone, NETWORK_PASSPHRASE=(V) (;,,;) (V), RPC_URL=http://shapecov-replay-feeder:8000/rpc/golden-invokehostfunction-7f92354d-11, STELLAR_ENVIRONMENT=development)",
+ "seconds_to_outcome": 1.2,
+ "cursor": 13,
+ "process": {
+  "outcome": "stopped by the adapter after the ledger was ingested",
+  "exit_code": 0,
+  "oom_killed": false,
+  "started_finished": "2026-11-15T10:14:43.999218134Z 2026-11-15T10:14:45.098478676Z"
+ },
+ "log_errors": [],
+ "log_warnings": 0,
+ "transactions": [
+  {
+   "hash": "f8ef05004101238ecaa0ef1ecc0173048349622c7f3c4a705497598274b15559",
+   "tx_order": 1,
+   "result_code": "TransactionResultCodeTxFailed",
+   "participants": [
+    "GC4EFXBN6BEENDAX7PBW5PGIIIVH3INMD3OEPQASXOLGOHVVP7ZEMG7X"
+   ]
+  }
+ ],
+ "operations": [
+  {
+   "tx_hash": "f8ef05004101238ecaa0ef1ecc0173048349622c7f3c4a705497598274b15559",
+   "tx_order": 1,
+   "op_order": 1,
+   "type": "INVOKE_HOST_FUNCTION",
+   "participants": [
+    "GC4EFXBN6BEENDAX7PBW5PGIIIVH3INMD3OEPQASXOLGOHVVP7ZEMG7X"
+   ]
+  }
+ ],
+ "state_changes": [
+  {
+   "tx_hash": "f8ef05004101238ecaa0ef1ecc0173048349622c7f3c4a705497598274b15559",
+   "tx_order": 1,
+   "op_order": 0,
+   "category": "BALANCE",
+   "reason": "DEBIT",
+   "stored": {
+    "account": "30b842dc2df048468c17fbc36ebcc8422a7da1ac1edc47c012bb96671eb57ff246",
+    "token": "10baa393105df75969301ed9ce82ecc9fe38d4063f97ac0a41d07a7b505d8e9d43"
+   },
+   "account": "GC4EFXBN6BEENDAX7PBW5PGIIIVH3INMD3OEPQASXOLGOHVVP7ZEMG7X",
+   "token": "CC5KHEYQLX3VS2JQD3M45AXMZH7DRVAGH6L2YCSB2B5HWUC5R2OUHQDP",
+   "signer_key": null,
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "amount": "55225"
+   }
+  }
+ ],
+ "unreadable": [],
+ "row_counts": {
+  "transactions": 1,
+  "transactions_accounts": 1,
+  "operations": 1,
+  "operations_accounts": 1,
+  "state_changes": 1
+ },
+ "seconds": 2.2
+}

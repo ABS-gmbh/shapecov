@@ -1,0 +1,133 @@
+"""Compare an adapter's observation with the manifest's expectations and classify the entry.
+
+Indexer-neutral: this file knows nothing about any particular indexer. It
+reads the observation JSON described in ADAPTER.md and `expected.indexer`
+from corpus/manifest.json.
+
+Result, exactly one of:
+  pass        the ledger was ingested, every stored address reads back, and every expectation is met
+  mishandled  the indexer raised an error on this (valid) ledger, or stored a wrong value
+  dropped     the ledger, or a row the manifest expects, is missing and no error was raised
+If both apply, `mishandled` wins and the dropped expectations are still listed.
+
+Expectation kinds (`expect`):
+  signer_state_change  {signer_key}                       = state_change with category SIGNER
+  state_change         {category, reason?, account?, token?, signer_key?, spender?, creator?,
+                        destination?, tx_hash?, fields?: {name: value}, count?: n}
+  no_state_change      same selectors; no stored row may match
+  participant          {account, tx_hash?}                the account is recorded on the transaction
+  no_participant       {account, tx_hash?}                the address must not be recorded
+  transaction          {hash}                             the transaction is stored
+Every entry also carries the implicit expectation that the ledger is ingested without error
+and that every stored address is a valid SEP-23 address.
+"""
+import strkeyx
+
+ADDRESS_FIELDS = ("account", "token", "signer_key", "spender", "creator", "destination")
+SELECTORS = ("category", "reason", "tx_hash") + ADDRESS_FIELDS
+
+
+def _raw(strkey):
+    try:
+        return strkeyx.to_raw(strkey)
+    except ValueError:
+        return None
+
+
+def _state_change(exp, obs):
+    """-> (outcome, detail). outcome: met | wrong_value | missing"""
+    want = {k: exp[k] for k in SELECTORS if exp.get(k) is not None}
+    fields = exp.get("fields") or {}
+    need = int(exp.get("count", 1))
+    rows = obs.get("state_changes") or []
+    full, near = [], []
+    for r in rows:
+        if any(r.get(k) != want[k] for k in ("category", "reason", "tx_hash") if k in want):
+            continue
+        addr_diff = [k for k in ADDRESS_FIELDS if k in want and r.get(k) != want[k]]
+        field_diff = [k for k, v in fields.items() if str((r.get("fields") or {}).get(k)) != str(v)]
+        if not addr_diff and not field_diff:
+            full.append(r)
+            continue
+        # A row is a damaged version of the expected one when every differing address is a
+        # truncation of the expected bytes (or an invalid address), and nothing else differs
+        # except, possibly, the value fields the expectation lists.
+        damaged = []
+        for k in addr_diff:
+            stored = bytes.fromhex((r.get("stored") or {}).get(k, ""))
+            expected = _raw(want[k])
+            if expected and stored and len(stored) < len(expected) and expected.startswith(stored):
+                damaged.append("%s is stored truncated: %d of %d bytes (%s); it reads back as %s, expected %s"
+                               % (k, len(stored), len(expected), stored.hex(), r.get(k), want[k]))
+        if addr_diff and len(damaged) == len(addr_diff):
+            near.append("; ".join(damaged))
+        elif not addr_diff and field_diff:
+            near.append("; ".join("%s is %r, expected %r" % (k, (r.get("fields") or {}).get(k), fields[k])
+                                  for k in field_diff))
+    label = "%s%s state change %s" % (want.get("category", "?"), "/" + want["reason"] if "reason" in want else "",
+                                      ", ".join("%s=%s" % (k, want[k]) for k in ADDRESS_FIELDS + ("tx_hash",) if k in want))
+    if len(full) >= need:
+        return "met", "%s: %d row(s) stored" % (label, len(full))
+    if near:
+        return "wrong_value", "%s: %s" % (label, " | ".join(near))
+    return "missing", "%s: %d row(s) stored, %d expected" % (label, len(full), need)
+
+
+def _check(exp, obs):
+    kind = exp.get("expect")
+    if kind == "signer_state_change":
+        e = dict(exp, category="SIGNER")
+        return _state_change(e, obs)
+    if kind == "state_change":
+        return _state_change(exp, obs)
+    if kind == "no_state_change":
+        outcome, detail = _state_change(dict(exp, count=1), obs)
+        if outcome == "met":
+            return "wrong_value", "a row that must not exist is stored: " + detail
+        return "met", "no such row stored"
+    if kind in ("participant", "no_participant"):
+        txs = [t for t in obs.get("transactions") or [] if exp.get("tx_hash") in (None, t.get("hash"))]
+        found = any(exp["account"] in (t.get("participants") or []) for t in txs)
+        where = "transaction %s" % exp["tx_hash"] if exp.get("tx_hash") else "any transaction of the ledger"
+        if kind == "participant":
+            if found:
+                return "met", "%s is a participant of %s" % (exp["account"], where)
+            return "missing", "%s is not recorded as a participant of %s" % (exp["account"], where)
+        if found:
+            return "wrong_value", "%s is recorded as a participant of %s and must not be" % (exp["account"], where)
+        return "met", "%s is not recorded as a participant" % exp["account"]
+    if kind == "transaction":
+        if any(t.get("hash") == exp["hash"] for t in obs.get("transactions") or []):
+            return "met", "transaction %s stored" % exp["hash"]
+        return "missing", "transaction %s is not stored" % exp["hash"]
+    return "unknown", "expectation kind %r is not known to this harness version" % kind
+
+
+def classify(expectations, obs):
+    """-> dict(result, mishandled[], dropped[], checks[], unknown_expectations)"""
+    mishandled, dropped, checks = [], [], []
+    if obs.get("adapter_failure"):
+        return {"result": "error", "mishandled": [], "dropped": [], "checks": [],
+                "note": "the adapter could not run the indexer: %s" % obs.get("error")}
+    if not obs.get("ingested"):
+        if obs.get("error"):
+            mishandled.append("the indexer raised an error on this ledger and did not ingest it: " + obs["error"])
+        else:
+            dropped.append("ledger %s is missing: the indexer did not ingest it and raised no error"
+                           % obs.get("ledger_seq"))
+    for u in obs.get("unreadable") or []:
+        mishandled.append("%s.%s holds a value that does not read back as a valid address: stored %s reads as %s (%s)"
+                          % (u["table"], u["column"], u["stored_hex"], u["reads_back_as"], u["problem"]))
+    unknown = 0
+    for exp in expectations or []:
+        outcome, detail = _check(exp, obs) if obs.get("ingested") else ("not_checked", "ledger was not ingested")
+        checks.append({"expect": exp, "outcome": outcome, "detail": detail})
+        if outcome == "wrong_value":
+            mishandled.append(detail)
+        elif outcome == "missing":
+            dropped.append(detail)
+        elif outcome == "unknown":
+            unknown += 1
+    result = "mishandled" if mishandled else "dropped" if dropped else "pass"
+    return {"result": result, "mishandled": mishandled, "dropped": dropped, "checks": checks,
+            "unknown_expectations": unknown}

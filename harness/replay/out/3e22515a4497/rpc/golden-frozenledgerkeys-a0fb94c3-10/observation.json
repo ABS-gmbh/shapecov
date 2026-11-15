@@ -1,0 +1,95 @@
+{
+ "observation_version": 1,
+ "adapter": "wallet-backend",
+ "commit": "3e22515a44979fdc3a558fda3991ca2b48e38cef",
+ "input": "rpc",
+ "entry_id": "golden-frozenledgerkeys-a0fb94c3-10",
+ "ledger_seq": 12,
+ "ingested": true,
+ "error": null,
+ "command": "wallet-backend ingest  (configured by environment: ARCHIVE_URL=http://shapecov-replay-feeder:8000/archive/golden-frozenledgerkeys-a0fb94c3-10, DATABASE_URL=postgres://postgres@shapecov-replay-db:5432/replay?sslmode=disable, DATASTORE_BUCKET_PATH=shapecov-lake/golden-frozenledgerkeys-a0fb94c3-10, DATASTORE_BUFFER_SIZE=4, DATASTORE_ENDPOINT_URL=http://shapecov-replay-feeder:9000, DATASTORE_NUM_WORKERS=2, DATASTORE_REGION=us-east-1, GET_LEDGERS_LIMIT=10, INGESTION_MODE=live, LEDGER_BACKEND_TYPE=rpc, LOG_LEVEL=INFO, NETWORK=standalone, NETWORK_PASSPHRASE=(V) (;,,;) (V), RPC_URL=http://shapecov-replay-feeder:8000/rpc/golden-frozenledgerkeys-a0fb94c3-10, STELLAR_ENVIRONMENT=development)",
+ "seconds_to_outcome": 1.4,
+ "cursor": 12,
+ "process": {
+  "outcome": "stopped by the adapter after the ledger was ingested",
+  "exit_code": 0,
+  "oom_killed": false,
+  "started_finished": "2026-11-15T10:13:02.014331045Z 2026-11-15T10:13:03.113426962Z"
+ },
+ "log_errors": [],
+ "log_warnings": 0,
+ "transactions": [
+  {
+   "hash": "58acd92a9c9e0fb0e78b4a3c1caa6d1a48520004a7cd2c53c58ac25ffb1ee179",
+   "tx_order": 1,
+   "result_code": "TransactionResultCodeTxSuccess",
+   "participants": [
+    "GBIFX2QKGC6J4VRBEQDJZJSFZA43IQK2CYR3BF473UFC7VMSOOM2Z7SX",
+    "GCLO7ZAKQZIK2VS3DRVWFGCYLILXF7Q3SJEUV5WHTTZ7KHFDFXHJMOVJ"
+   ]
+  }
+ ],
+ "operations": [
+  {
+   "tx_hash": "58acd92a9c9e0fb0e78b4a3c1caa6d1a48520004a7cd2c53c58ac25ffb1ee179",
+   "tx_order": 1,
+   "op_order": 1,
+   "type": "CREATE_CLAIMABLE_BALANCE",
+   "participants": [
+    "GBIFX2QKGC6J4VRBEQDJZJSFZA43IQK2CYR3BF473UFC7VMSOOM2Z7SX",
+    "GCLO7ZAKQZIK2VS3DRVWFGCYLILXF7Q3SJEUV5WHTTZ7KHFDFXHJMOVJ"
+   ]
+  }
+ ],
+ "state_changes": [
+  {
+   "tx_hash": "58acd92a9c9e0fb0e78b4a3c1caa6d1a48520004a7cd2c53c58ac25ffb1ee179",
+   "tx_order": 1,
+   "op_order": 0,
+   "category": "BALANCE",
+   "reason": "DEBIT",
+   "stored": {
+    "account": "30505bea0a30bc9e562124069ca645c839b4415a1623b0979fdd0a2fd5927399ac",
+    "token": "10baa393105df75969301ed9ce82ecc9fe38d4063f97ac0a41d07a7b505d8e9d43"
+   },
+   "account": "GBIFX2QKGC6J4VRBEQDJZJSFZA43IQK2CYR3BF473UFC7VMSOOM2Z7SX",
+   "token": "CC5KHEYQLX3VS2JQD3M45AXMZH7DRVAGH6L2YCSB2B5HWUC5R2OUHQDP",
+   "signer_key": null,
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "amount": "100"
+   }
+  },
+  {
+   "tx_hash": "58acd92a9c9e0fb0e78b4a3c1caa6d1a48520004a7cd2c53c58ac25ffb1ee179",
+   "tx_order": 1,
+   "op_order": 1,
+   "category": "BALANCE",
+   "reason": "DEBIT",
+   "stored": {
+    "account": "30505bea0a30bc9e562124069ca645c839b4415a1623b0979fdd0a2fd5927399ac",
+    "token": "1020e3bafb702e5c0b574c2c8d8d65870d72e2602c00cbf4e922325ebe62ed6b8f"
+   },
+   "account": "GBIFX2QKGC6J4VRBEQDJZJSFZA43IQK2CYR3BF473UFC7VMSOOM2Z7SX",
+   "token": "CAQOHOX3OAXFYC2XJQWI3DLFQ4GXFYTAFQAMX5HJEIZF5PTC5VVY742H",
+   "signer_key": null,
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "amount": "100"
+   }
+  }
+ ],
+ "unreadable": [],
+ "row_counts": {
+  "transactions": 1,
+  "transactions_accounts": 2,
+  "operations": 1,
+  "operations_accounts": 2,
+  "state_changes": 2
+ },
+ "seconds": 2.5
+}

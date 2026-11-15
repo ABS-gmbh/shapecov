@@ -1,0 +1,28 @@
+{
+ "job_version": 1,
+ "entry_id": "testnet-4437357-signed-payload-signer",
+ "ref": "2a0a84ea12523b6c92e278c0c84b443041240095",
+ "commit": "2a0a84ea12523b6c92e278c0c84b443041240095",
+ "input": "rpc",
+ "network_passphrase": "Test SDF Network ; September 2015",
+ "ledger": {
+  "seq": 4437357,
+  "hash": "0984e28878f8b074c3710f52630f5b6bc5a369bf61a15e7364b6123edf1881b6",
+  "close_time": 1788210372,
+  "protocol": 28
+ },
+ "rpc": {
+  "url": "http://shapecov-replay-feeder:8000/rpc/testnet-4437357-signed-payload-signer"
+ },
+ "datalake": {
+  "s3_endpoint": "http://shapecov-replay-feeder:9000",
+  "bucket_path": "shapecov-lake/testnet-4437357-signed-payload-signer",
+  "region": "us-east-1"
+ },
+ "history_archive": {
+  "url": "http://shapecov-replay-feeder:8000/archive/testnet-4437357-signed-payload-signer"
+ },
+ "docker_network": "shapecov-replay-net",
+ "timeout_seconds": 120,
+ "work_dir": "$REPLAY_WORK"
+}

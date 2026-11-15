@@ -5,10 +5,12 @@ Prototype for the SCF RFP "XDR/CAP-Coverage Audit Tool and Indexer-Hardening Gui
 It generates XDR test cases from the Protocol 30 schema itself, runs each one through five decoders
 and stellar-core, and reports where they disagree. Nothing is hand-captured.
 
-Status on 14 November 2026: the SDK conformance half works end to end. For the indexer half there
-is a draft manifest schema, three sample corpus entries, and a replay adapter that reproduces one
-wallet-backend sighting from a real ledger (see "Corpus" below). The linter, the guide and the
-mock RPC endpoint are not started. See "Not built" below.
+Status on 15 November 2026: the SDK conformance half works end to end. For the indexer half there
+is a corpus of 51 entries (48 real ledgers from testnet, pubnet and stellar-core's golden test data),
+and a replay harness that runs wallet-backend's own `ingest` command against TimescaleDB, fed
+through a mock stellar-rpc or a Galexie data lake. It reproduces wallet-backend #716 and #729 at
+their commits; see `harness/replay/RESULTS.md`. The linter and the guide are not finished. See
+"Not built" below.
 
 ## What it does
 
@@ -76,8 +78,11 @@ every field; `corpus/evidence/` records the two reproduced sightings.
   faulty ones, and re-encodes every valid case and the real ledger byte for byte.
 - `tools/corpus_check.py` re-verifies the manifest and every entry: schema, hashes, expected
   decoded values, source record, CAP and protocol tags, then the five SDKs and stellar-core.
-- `harness/wallet-backend/` replays a LedgerCloseMeta entry through wallet-backend's own indexer at
-  any commit and reports pass, mishandled or dropped.
+- `harness/replay/` replays LedgerCloseMeta entries through a real indexer and its database, over
+  a mock stellar-rpc `getLedgers` or the Galexie data-lake layout, and reports pass, mishandled or
+  dropped per entry and commit. The adapter contract is in `harness/replay/ADAPTER.md`.
+- `harness/wallet-backend/` is the earlier, database-free version: it calls wallet-backend's
+  `indexer.ProcessLedger` from a Go test.
 - `harness/sdk-semantic/` runs the manifest's SDK checks against pinned SDK versions.
 
 ```bash
@@ -115,11 +120,8 @@ inside `golang:1.26`, and `mvn dependency:copy-dependencies -DoutputDirectory=li
 - Semantic checks above the codec beyond the one in the corpus (map key collisions): issuer
   ordering, ID wrap-around and others.
 - Coverage of the 351 schema cells no valid case reaches yet.
-- The replay harness knows one kind of expectation (a signer state change) and one indexer. It
-  has no mock RPC `getLedgers` endpoint and no Galexie-layout output yet, and it checks the
-  indexer's row encoding, not a write to a real database.
-- No entry is checked against stellar-core's golden LedgerCloseMeta files. Entries are checked by
-  having stellar-core 30.0.0 decode them.
+- The replay harness has one adapter (wallet-backend). Only one corpus entry has `expected.indexer`
+  rows so far; the others get the implicit checks only. See `harness/replay/README.md`, "Limits".
 - CAP tags are assigned by hand. Only "new in protocol 30" is computed, from the difference
   between the v28.0 and v30.0 XDR.
 - Go linter and hardening guide.

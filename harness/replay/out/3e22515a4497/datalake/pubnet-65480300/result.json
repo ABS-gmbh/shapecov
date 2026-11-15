@@ -1,0 +1,39 @@
+{
+ "entry_id": "pubnet-65480300",
+ "adapter": "wallet-backend",
+ "ref": "3e22515a44979fdc3a558fda3991ca2b48e38cef",
+ "commit": "3e22515a44979fdc3a558fda3991ca2b48e38cef",
+ "input": "datalake",
+ "protocol_version": 29,
+ "sdk_pin": "v0.8.0",
+ "mode": "unmodified",
+ "result": "pass",
+ "mishandled": [],
+ "dropped": [],
+ "checks": [],
+ "expectations": 0,
+ "expectations_source": "none (implicit checks only)",
+ "ledger": {
+  "seq": 65480300,
+  "hash": "b30a37ac127564557cca21a256c9fe78ddf9ba4add6092080c97f36be5f2720a",
+  "close_time": 1794687542,
+  "protocol": 29
+ },
+ "ingested": true,
+ "row_counts": {
+  "transactions": 419,
+  "transactions_accounts": 733,
+  "operations": 707,
+  "operations_accounts": 896,
+  "state_changes": 1742
+ },
+ "process": {
+  "outcome": "stopped by the adapter after the ledger was ingested",
+  "exit_code": 0,
+  "oom_killed": false,
+  "started_finished": "2026-11-15T10:16:26.943667251Z 2026-11-15T10:16:28.468181835Z"
+ },
+ "seconds": 2.9,
+ "feeder_requests": 7,
+ "evidence": "out/3e22515a4497/datalake/pubnet-65480300"
+}

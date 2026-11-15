@@ -1,0 +1,113 @@
+{
+ "observation_version": 1,
+ "adapter": "wallet-backend",
+ "commit": "3e22515a44979fdc3a558fda3991ca2b48e38cef",
+ "input": "datalake",
+ "entry_id": "golden-frozenledgerkeys-0d70bfa2-11",
+ "ledger_seq": 13,
+ "ingested": true,
+ "error": null,
+ "command": "wallet-backend ingest  (configured by environment: ARCHIVE_URL=http://shapecov-replay-feeder:8000/archive/golden-frozenledgerkeys-0d70bfa2-11, DATABASE_URL=postgres://postgres@shapecov-replay-db:5432/replay?sslmode=disable, DATASTORE_BUCKET_PATH=shapecov-lake/golden-frozenledgerkeys-0d70bfa2-11, DATASTORE_BUFFER_SIZE=4, DATASTORE_ENDPOINT_URL=http://shapecov-replay-feeder:9000, DATASTORE_NUM_WORKERS=2, DATASTORE_REGION=us-east-1, GET_LEDGERS_LIMIT=10, INGESTION_MODE=live, LEDGER_BACKEND_TYPE=datastore, LOG_LEVEL=INFO, NETWORK=standalone, NETWORK_PASSPHRASE=(V) (;,,;) (V), RPC_URL=http://shapecov-replay-feeder:8000/rpc/golden-frozenledgerkeys-0d70bfa2-11, STELLAR_ENVIRONMENT=development)",
+ "seconds_to_outcome": 1.2,
+ "cursor": 13,
+ "process": {
+  "outcome": "stopped by the adapter after the ledger was ingested",
+  "exit_code": 0,
+  "oom_killed": false,
+  "started_finished": "2026-11-15T10:15:07.200802381Z 2026-11-15T10:15:08.304265881Z"
+ },
+ "log_errors": [],
+ "log_warnings": 0,
+ "transactions": [
+  {
+   "hash": "9bab2b1450bff041ddf537598dae6ffb4f03734de33cb91f352cb332ca920519",
+   "tx_order": 1,
+   "result_code": "TransactionResultCodeTxSuccess",
+   "participants": [
+    "GBIFX2QKGC6J4VRBEQDJZJSFZA43IQK2CYR3BF473UFC7VMSOOM2Z7SX"
+   ]
+  }
+ ],
+ "operations": [
+  {
+   "tx_hash": "9bab2b1450bff041ddf537598dae6ffb4f03734de33cb91f352cb332ca920519",
+   "tx_order": 1,
+   "op_order": 1,
+   "type": "LIQUIDITY_POOL_DEPOSIT",
+   "participants": [
+    "GBIFX2QKGC6J4VRBEQDJZJSFZA43IQK2CYR3BF473UFC7VMSOOM2Z7SX"
+   ]
+  }
+ ],
+ "state_changes": [
+  {
+   "tx_hash": "9bab2b1450bff041ddf537598dae6ffb4f03734de33cb91f352cb332ca920519",
+   "tx_order": 1,
+   "op_order": 0,
+   "category": "BALANCE",
+   "reason": "DEBIT",
+   "stored": {
+    "account": "30505bea0a30bc9e562124069ca645c839b4415a1623b0979fdd0a2fd5927399ac",
+    "token": "10baa393105df75969301ed9ce82ecc9fe38d4063f97ac0a41d07a7b505d8e9d43"
+   },
+   "account": "GBIFX2QKGC6J4VRBEQDJZJSFZA43IQK2CYR3BF473UFC7VMSOOM2Z7SX",
+   "token": "CC5KHEYQLX3VS2JQD3M45AXMZH7DRVAGH6L2YCSB2B5HWUC5R2OUHQDP",
+   "signer_key": null,
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "amount": "100"
+   }
+  },
+  {
+   "tx_hash": "9bab2b1450bff041ddf537598dae6ffb4f03734de33cb91f352cb332ca920519",
+   "tx_order": 1,
+   "op_order": 1,
+   "category": "BALANCE",
+   "reason": "DEBIT",
+   "stored": {
+    "account": "30505bea0a30bc9e562124069ca645c839b4415a1623b0979fdd0a2fd5927399ac",
+    "token": "107cec43a53f5741f77082a2947b34669c068c2c3305f497d779ee8e4bc6229198"
+   },
+   "account": "GBIFX2QKGC6J4VRBEQDJZJSFZA43IQK2CYR3BF473UFC7VMSOOM2Z7SX",
+   "token": "CB6OYQ5FH5LUD53QQKRJI6ZUM2OANDBMGMC7JF6XPHXI4S6GEKIZQGBU",
+   "signer_key": null,
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "amount": "1000"
+   }
+  },
+  {
+   "tx_hash": "9bab2b1450bff041ddf537598dae6ffb4f03734de33cb91f352cb332ca920519",
+   "tx_order": 1,
+   "op_order": 1,
+   "category": "BALANCE",
+   "reason": "DEBIT",
+   "stored": {
+    "account": "30505bea0a30bc9e562124069ca645c839b4415a1623b0979fdd0a2fd5927399ac",
+    "token": "1020e3bafb702e5c0b574c2c8d8d65870d72e2602c00cbf4e922325ebe62ed6b8f"
+   },
+   "account": "GBIFX2QKGC6J4VRBEQDJZJSFZA43IQK2CYR3BF473UFC7VMSOOM2Z7SX",
+   "token": "CAQOHOX3OAXFYC2XJQWI3DLFQ4GXFYTAFQAMX5HJEIZF5PTC5VVY742H",
+   "signer_key": null,
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "amount": "1000"
+   }
+  }
+ ],
+ "unreadable": [],
+ "row_counts": {
+  "transactions": 1,
+  "transactions_accounts": 1,
+  "operations": 1,
+  "operations_accounts": 1,
+  "state_changes": 3
+ },
+ "seconds": 2.3
+}
