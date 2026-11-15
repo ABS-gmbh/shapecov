@@ -9981,14 +9981,177 @@
     ]
    },
    "validation": {
-    "independent_decoder": "not_run",
-    "rs_stellar_xdr_roundtrip": "not_run",
+    "independent_decoder": "pass",
+    "rs_stellar_xdr_roundtrip": "pass",
     "stellar_core": {
      "version": "30.0.0",
-     "command": "",
-     "result": "not_run"
+     "command": "dump-xdr (meta-debug stream)",
+     "result": "pass",
+     "expected_values_agree": 7,
+     "expected_values_rendered_differently": 0
     },
-    "core_golden": "not_applicable"
+    "core_golden": "not_applicable",
+    "sdk_decoders": {
+     "@stellar/stellar-sdk 17.4.0": "agree",
+     "stellar-sdk 17.0.1": "agree",
+     "go-stellar-sdk v0.9.0": "agree",
+     "network.lightsail:stellar-sdk 6.0.0": "agree"
+    }
+   },
+   "sightings": []
+  },
+  {
+   "id": "localcore-muxed-source-p22-3",
+   "title": "Local stellar-core, scenario muxed-source-p22: A contract invocation whose operation source is a muxed account",
+   "xdr_type": "LedgerCloseMeta",
+   "file": "entries/localcore-muxed-source-p22-3.LedgerCloseMeta.xdr.b64",
+   "sha256": "b0ec1f6063db64149f664330681bcba43711f7fa5ce89aeb340b73ae591e64d9",
+   "size_bytes": 3768,
+   "protocol_version": 22,
+   "caps": [
+    {
+     "cap": "CAP-0027",
+     "cells": [],
+     "patterns": [
+      "soroban-op-muxed-source"
+     ]
+    },
+    {
+     "cap": "CAP-0046",
+     "cells": [],
+     "patterns": [
+      "soroban-op-muxed-source"
+     ]
+    }
+   ],
+   "synthetic": false,
+   "source": {
+    "kind": "local_stellar_core",
+    "stellar_core_version": "stellar-core 22.2.1 (e70f0aed87b41679dce63b98e5cce48fa8c56dc0)",
+    "image": "stellar/stellar-core:22.2.1-2429.e70f0aed8.focal",
+    "network_passphrase": "Test SDF Network ; September 2015",
+    "ledger_seq": 3,
+    "ledger_hash": "eaac425a0adb592eac85fa14850d05781d90d754c0df2abe212bfd1e3e251d52",
+    "scenario": "muxed-source-p22",
+    "generator": "tools/localcore.py",
+    "notes": "Standalone network, manual close, fixed keys and close times; see the scenario in tools/localcore.py."
+   },
+   "shape": "A contract invocation whose operation source is a muxed account. Participant extraction that renders the source as M... writes a 40-byte key where 32 are expected.",
+   "patterns": {
+    "muxed-account": "v1.txSet.v1TxSet.phases[1].v0Components[0].txsMaybeDiscountedFee.txs[0].v1.tx.sourceAccount",
+    "muxed-id-beyond-f64": "v1.txSet.v1TxSet.phases[1].v0Components[0].txsMaybeDiscountedFee.txs[0].v1.tx.sourceAccount.med25519.id",
+    "soroban-op-muxed-source": "v1.txSet.v1TxSet.phases[1].v0Components[0].txsMaybeDiscountedFee.txs[0].v1.tx.sourceAccount"
+   },
+   "designated": {
+    "patterns": [
+     "soroban-op-muxed-source"
+    ],
+    "cells": []
+   },
+   "cells": [
+    "arm:AccountEntryExt.0",
+    "arm:AccountEntryExt.1",
+    "arm:AccountEntryExtensionV1Ext.2",
+    "arm:AccountEntryExtensionV2Ext.3",
+    "arm:Asset.ASSET_TYPE_NATIVE",
+    "arm:ContractEventBody.0",
+    "arm:ContractExecutable.CONTRACT_EXECUTABLE_STELLAR_ASSET",
+    "arm:ContractIDPreimage.CONTRACT_ID_PREIMAGE_FROM_ASSET",
+    "arm:ExtensionPoint.0",
+    "arm:GeneralizedTransactionSet.1",
+    "arm:HostFunction.HOST_FUNCTION_TYPE_CREATE_CONTRACT",
+    "arm:InvokeHostFunctionResult.INVOKE_HOST_FUNCTION_SUCCESS",
+    "arm:LedgerCloseMeta.1",
+    "arm:LedgerCloseMetaExt.0",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_CREATED",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_STATE",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_UPDATED",
+    "arm:LedgerEntryData.ACCOUNT",
+    "arm:LedgerEntryData.CONTRACT_DATA",
+    "arm:LedgerEntryData.TTL",
+    "arm:LedgerEntryExt.0",
+    "arm:LedgerHeaderExt.0",
+    "arm:LedgerHeaderHistoryEntryExt.0",
+    "arm:LedgerKey.CONTRACT_DATA",
+    "arm:Memo.MEMO_NONE",
+    "arm:MuxedAccount.KEY_TYPE_MUXED_ED25519",
+    "arm:OperationBody.INVOKE_HOST_FUNCTION",
+    "arm:OperationResult.opINNER",
+    "arm:OperationResultTr.INVOKE_HOST_FUNCTION",
+    "arm:Preconditions.PRECOND_NONE",
+    "arm:PublicKey.PUBLIC_KEY_TYPE_ED25519",
+    "arm:SCAddress.SC_ADDRESS_TYPE_CONTRACT",
+    "arm:SCVal.SCV_ADDRESS",
+    "arm:SCVal.SCV_BYTES",
+    "arm:SCVal.SCV_CONTRACT_INSTANCE",
+    "arm:SCVal.SCV_LEDGER_KEY_CONTRACT_INSTANCE",
+    "arm:SCVal.SCV_MAP",
+    "arm:SCVal.SCV_STRING",
+    "arm:SCVal.SCV_SYMBOL",
+    "arm:SCVal.SCV_U32",
+    "arm:SCVal.SCV_U64",
+    "arm:SCVal.SCV_VEC",
+    "arm:SCVal.SCV_VOID",
+    "arm:SorobanTransactionDataExt.0",
+    "arm:SorobanTransactionMetaExt.0",
+    "arm:StellarValueExt.STELLAR_VALUE_SIGNED",
+    "arm:TransactionEnvelope.ENVELOPE_TYPE_TX",
+    "arm:TransactionExt.1",
+    "arm:TransactionMeta.3",
+    "arm:TransactionPhase.0",
+    "arm:TransactionResultExt.0",
+    "arm:TransactionResultResult.txSUCCESS",
+    "arm:TxSetComponent.TXSET_COMP_TXS_MAYBE_DISCOUNTED_FEE",
+    "enum:ContractDataDurability.PERSISTENT",
+    "enum:ContractEventType.DIAGNOSTIC"
+   ],
+   "cells_new_in_protocol": [],
+   "expected": {
+    "decoded": [
+     {
+      "path": "v",
+      "value": 1
+     },
+     {
+      "path": "v1.ledgerHeader.header.ledgerSeq",
+      "value": 3
+     },
+     {
+      "path": "v1.ledgerHeader.header.ledgerVersion",
+      "value": 22
+     },
+     {
+      "path": "v1.ledgerHeader.hash",
+      "value": "eaac425a0adb592eac85fa14850d05781d90d754c0df2abe212bfd1e3e251d52"
+     },
+     {
+      "path": "v1.ledgerHeader.header.scpValue.closeTime",
+      "value": 1600179017
+     },
+     {
+      "path": "v1.txSet.v1TxSet.phases[1].v0Components[0].txsMaybeDiscountedFee.txs[0].v1.tx.sourceAccount.type",
+      "value": "KEY_TYPE_MUXED_ED25519",
+      "note": "pattern soroban-op-muxed-source"
+     }
+    ]
+   },
+   "validation": {
+    "independent_decoder": "pass",
+    "rs_stellar_xdr_roundtrip": "pass",
+    "stellar_core": {
+     "version": "30.0.0",
+     "command": "dump-xdr (meta-debug stream)",
+     "result": "pass",
+     "expected_values_agree": 5,
+     "expected_values_rendered_differently": 1
+    },
+    "core_golden": "not_applicable",
+    "sdk_decoders": {
+     "@stellar/stellar-sdk 17.4.0": "agree",
+     "stellar-sdk 17.0.1": "agree",
+     "go-stellar-sdk v0.9.0": "agree",
+     "network.lightsail:stellar-sdk 6.0.0": "agree"
+    }
    },
    "sightings": []
   }
