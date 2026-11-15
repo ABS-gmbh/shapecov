@@ -96,7 +96,9 @@ CI against `harness/replay/sightings.json` (see `harness/replay/RESULTS.md`).
 - stellar/wallet-backend#816: 3 accounts created by XLM sent through the native asset contract (once
   directly, twice from inside another contract) get no `ACCOUNT CREATE` row.
 
-No other non-balance row is missing for any of the 51 ledgers. See `harness/replay/RESULTS.md`,
+No other row is missing for any of the 51 ledgers. That now includes balances: all 4057 net balance
+checks per input (every account's XLM and trustline balance per operation, and every net fee) match,
+and no balance row is stored where the ledger shows no change. See `harness/replay/RESULTS.md`,
 "Oracle checks".
 
 ## Rediscovered (already reported by others)

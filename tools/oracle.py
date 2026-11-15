@@ -21,9 +21,14 @@ Each change carries where it happened: the transaction hash, the operation index
 "before" / "after" for the transaction-level changes), so an adapter can tell an operation's own
 effect from one stellar-core made around it.
 
-Deliberately not covered yet: balances (they move through fees, payments and contract events, and
-need their own model), the master key's weight, offers, claimable balances, liquidity pool
-reserves and contract storage other than instances.
+Balances come separately, from balances(): for every transaction, the net change of each
+account's XLM balance and each credit-asset trustline balance, per operation, plus one "fee"
+bucket per transaction (fee processing, the changes before and after the operations, and
+protocol 23's post-apply fee refunds). Pool-share trustlines and balances held by contracts are not
+covered.
+
+Deliberately not covered yet: the master key's weight, offers, claimable balances, liquidity pool
+reserves, contract balances and contract storage other than instances.
 
 Everything comes from the bytes through tools/decode.py; no SDK and no indexer is involved.
 """
@@ -208,6 +213,85 @@ def diff(k, pre, post):
         return
     if kind == "instance" and pre is None and post is not None:
         yield {"what": "contract", "how": "created", "contract": strkey.contract(k[1])}
+
+
+def _balance_holdings(changes):
+    """(account ed25519 hex, holding) -> net balance change in stroops, for one change list.
+    holding is "native" or the credit asset dict as JSON; pool shares are left out."""
+    state, delta = {}, {}
+
+    def key_and_balance(data):
+        if data["type"] == "ACCOUNT":
+            return (data["account"]["accountID"]["ed25519"], "native"), data["account"]["balance"]
+        if data["type"] == "TRUSTLINE":
+            tl = data["trustLine"]
+            if tl["asset"]["type"] == "ASSET_TYPE_POOL_SHARE":
+                return None, 0
+            return (tl["accountID"]["ed25519"], json.dumps(tl["asset"], sort_keys=True)), tl["balance"]
+        return None, 0
+
+    for ch in changes:
+        t = ch["type"]
+        if t in ("LEDGER_ENTRY_STATE", "LEDGER_ENTRY_RESTORED"):
+            d = ch["state"] if t == "LEDGER_ENTRY_STATE" else ch["restored"]
+            k, bal = key_and_balance(d["data"])
+            if k:
+                state[k] = bal
+        elif t in ("LEDGER_ENTRY_CREATED", "LEDGER_ENTRY_UPDATED"):
+            d = ch["created"] if t == "LEDGER_ENTRY_CREATED" else ch["updated"]
+            k, bal = key_and_balance(d["data"])
+            if k:
+                before = state.get(k, 0) if t == "LEDGER_ENTRY_UPDATED" else 0
+                delta[k] = delta.get(k, 0) + bal - before
+                state[k] = bal
+        elif t == "LEDGER_ENTRY_REMOVED":
+            r = ch["removed"]
+            if r["type"] == "ACCOUNT":
+                k = (r["account"]["accountID"]["ed25519"], "native")
+            elif r["type"] == "TRUSTLINE" and r["trustLine"]["asset"]["type"] != "ASSET_TYPE_POOL_SHARE":
+                k = (r["trustLine"]["accountID"]["ed25519"], json.dumps(r["trustLine"]["asset"], sort_keys=True))
+            else:
+                continue
+            delta[k] = delta.get(k, 0) - state.get(k, 0)
+            state[k] = 0
+    return delta
+
+
+def balances(value):
+    """Net balance changes in a decoded LedgerCloseMeta: one record per (transaction, bucket,
+    account, holding) with a nonzero change. bucket is the operation index or "fee"."""
+    body = value["v%d" % value["v"]]
+    out = []
+    for i, tp in enumerate(body["txProcessing"]):
+        res = tp["result"]
+        r = res["result"]["result"]
+        code = r["code"]
+        inner = r.get("innerResultPair", {}).get("result", {}).get("result") if code.startswith("txFEE_BUMP") else None
+        op_types = [(o.get("tr") or {}).get("type") for o in ((inner or r).get("results") or [])]
+        meta = tp["txApplyProcessing"]
+        mv = meta["v%d" % meta["v"]] if "v%d" % meta["v"] in meta else meta
+        fee_changes = list(tp.get("feeProcessing") or []) + list(mv.get("txChanges") or []) + \
+            list(mv.get("txChangesBefore") or []) + list(mv.get("txChangesAfter") or []) + \
+            list(tp.get("postTxApplyFeeProcessing") or [])
+        buckets = [("fee", fee_changes)] + [(k, op.get("changes") or []) for k, op in enumerate(mv.get("operations") or [])]
+        for where, chs in buckets:
+            # Fee buckets mix separate change lists; each list is netted on its own, then summed.
+            if where == "fee":
+                parts = [tp.get("feeProcessing") or [], mv.get("txChanges") or [], mv.get("txChangesBefore") or [],
+                         mv.get("txChangesAfter") or [], tp.get("postTxApplyFeeProcessing") or []]
+                total = {}
+                for part in parts:
+                    for k, d in _balance_holdings(part).items():
+                        total[k] = total.get(k, 0) + d
+            else:
+                total = _balance_holdings(chs)
+            for (acct, holding), d in sorted(total.items()):
+                if d:
+                    out.append({"tx": i, "tx_hash": res["transactionHash"], "success": code in SUCCESS,
+                                "where": where, "op_type": op_types[where] if isinstance(where, int) and where < len(op_types) else None,
+                                "account": strkey.account(acct),
+                                "holding": "native" if holding == "native" else json.loads(holding), "delta": d})
+    return out
 
 
 def tx_envelopes(body):

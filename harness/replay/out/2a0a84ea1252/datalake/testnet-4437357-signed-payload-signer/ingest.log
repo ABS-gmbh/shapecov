@@ -1,23 +1,23 @@
-time="2026-11-15T21:18:36.506Z" level=info msg="📦 Git Commit: 2a0a84ea12523b6c92e278c0c84b443041240095" pid=1
-time="2026-11-15T21:18:36.506Z" level=info msg="📦 Version: 0.2.0" pid=1
-time="2026-11-15T21:18:36.506Z" level=debug msg="Setting log level to: info" pid=1
-time="2026-11-15T21:18:36.519Z" level=info msg="Set chunk interval \"1 day\" on transactions" pid=1
-time="2026-11-15T21:18:36.520Z" level=info msg="Set chunk interval \"1 day\" on transactions_accounts" pid=1
-time="2026-11-15T21:18:36.520Z" level=info msg="Set chunk interval \"1 day\" on operations" pid=1
-time="2026-11-15T21:18:36.520Z" level=info msg="Set chunk interval \"1 day\" on operations_accounts" pid=1
-time="2026-11-15T21:18:36.520Z" level=info msg="Set chunk interval \"1 day\" on state_changes" pid=1
-SDK 2026/11/15 21:18:36 WARN Response has no supported checksum. Not validating response payload.
-time="2026-11-15T21:18:36.649Z" level=info msg="Using datastore backend with buffer size 4, 2 workers" pid=1
-time="2026-11-15T21:18:36.653Z" level=info msg="protocol SEP41 history production disabled; cursor not initialized" pid=1
-time="2026-11-15T21:18:36.653Z" level=info msg="protocol SEP41 current-state production disabled; cursor not initialized" pid=1
-time="2026-11-15T21:18:36.654Z" level=info msg="Starting ingestion from ledger: 4437357" pid=1
-SDK 2026/11/15 21:18:36 WARN Response has no supported checksum. Not validating response payload.
-time="2026-11-15T21:18:36.684Z" level=warning msg="Error ingesting data for ledger 4437357 (attempt 1/5): persisting ledger data for ledger 4437357: running atomic function in RunInTransaction: inserting processed data into db for ledger 4437357: batch inserting state changes: pgx CopyFrom state_changes: ERROR: COPY from stdin failed: converting signer_account_id: converting address to bytes: stellar address PBCK2RYYLIYOSHBEL2FQLAVRSHRH3GP3ID476SGKBV7BEZHMQ6NSAAAAAAB55LN6AANMS has a 40-byte key payload; the account_id column stores only 32-byte account/contract keys (SQLSTATE 57014), retrying in 1s..." pid=1
-time="2026-11-15T21:18:37.704Z" level=warning msg="Error ingesting data for ledger 4437357 (attempt 2/5): persisting ledger data for ledger 4437357: running atomic function in RunInTransaction: inserting processed data into db for ledger 4437357: batch inserting state changes: pgx CopyFrom state_changes: ERROR: COPY from stdin failed: converting signer_account_id: converting address to bytes: stellar address PBCK2RYYLIYOSHBEL2FQLAVRSHRH3GP3ID476SGKBV7BEZHMQ6NSAAAAAAB55LN6AANMS has a 40-byte key payload; the account_id column stores only 32-byte account/contract keys (SQLSTATE 57014), retrying in 2s..." pid=1
-time="2026-11-15T21:18:39.742Z" level=warning msg="Error ingesting data for ledger 4437357 (attempt 3/5): persisting ledger data for ledger 4437357: running atomic function in RunInTransaction: inserting processed data into db for ledger 4437357: batch inserting state changes: pgx CopyFrom state_changes: ERROR: COPY from stdin failed: converting signer_account_id: converting address to bytes: stellar address PBCK2RYYLIYOSHBEL2FQLAVRSHRH3GP3ID476SGKBV7BEZHMQ6NSAAAAAAB55LN6AANMS has a 40-byte key payload; the account_id column stores only 32-byte account/contract keys (SQLSTATE 57014), retrying in 4s..." pid=1
-time="2026-11-15T21:18:43.774Z" level=warning msg="Error ingesting data for ledger 4437357 (attempt 4/5): persisting ledger data for ledger 4437357: running atomic function in RunInTransaction: inserting processed data into db for ledger 4437357: batch inserting state changes: pgx CopyFrom state_changes: ERROR: COPY from stdin failed: converting signer_account_id: converting address to bytes: stellar address PBCK2RYYLIYOSHBEL2FQLAVRSHRH3GP3ID476SGKBV7BEZHMQ6NSAAAAAAB55LN6AANMS has a 40-byte key payload; the account_id column stores only 32-byte account/contract keys (SQLSTATE 57014), retrying in 8s..." pid=1
-time="2026-11-15T21:18:51.796Z" level=info msg="Shutting down servers..." pid=1
-time="2026-11-15T21:18:51.796Z" level=info msg="Servers gracefully stopped" pid=1
+time="2026-11-15T21:43:12.254Z" level=info msg="📦 Git Commit: 2a0a84ea12523b6c92e278c0c84b443041240095" pid=1
+time="2026-11-15T21:43:12.254Z" level=info msg="📦 Version: 0.2.0" pid=1
+time="2026-11-15T21:43:12.255Z" level=debug msg="Setting log level to: info" pid=1
+time="2026-11-15T21:43:12.278Z" level=info msg="Set chunk interval \"1 day\" on transactions" pid=1
+time="2026-11-15T21:43:12.278Z" level=info msg="Set chunk interval \"1 day\" on transactions_accounts" pid=1
+time="2026-11-15T21:43:12.278Z" level=info msg="Set chunk interval \"1 day\" on operations" pid=1
+time="2026-11-15T21:43:12.278Z" level=info msg="Set chunk interval \"1 day\" on operations_accounts" pid=1
+time="2026-11-15T21:43:12.278Z" level=info msg="Set chunk interval \"1 day\" on state_changes" pid=1
+SDK 2026/11/15 21:43:12 WARN Response has no supported checksum. Not validating response payload.
+time="2026-11-15T21:43:12.410Z" level=info msg="Using datastore backend with buffer size 4, 2 workers" pid=1
+time="2026-11-15T21:43:12.416Z" level=info msg="protocol SEP41 history production disabled; cursor not initialized" pid=1
+time="2026-11-15T21:43:12.416Z" level=info msg="protocol SEP41 current-state production disabled; cursor not initialized" pid=1
+time="2026-11-15T21:43:12.417Z" level=info msg="Starting ingestion from ledger: 4437357" pid=1
+SDK 2026/11/15 21:43:12 WARN Response has no supported checksum. Not validating response payload.
+time="2026-11-15T21:43:12.439Z" level=warning msg="Error ingesting data for ledger 4437357 (attempt 1/5): persisting ledger data for ledger 4437357: running atomic function in RunInTransaction: inserting processed data into db for ledger 4437357: batch inserting state changes: pgx CopyFrom state_changes: ERROR: COPY from stdin failed: converting signer_account_id: converting address to bytes: stellar address PBCK2RYYLIYOSHBEL2FQLAVRSHRH3GP3ID476SGKBV7BEZHMQ6NSAAAAAAB55LN6AANMS has a 40-byte key payload; the account_id column stores only 32-byte account/contract keys (SQLSTATE 57014), retrying in 1s..." pid=1
+time="2026-11-15T21:43:13.450Z" level=warning msg="Error ingesting data for ledger 4437357 (attempt 2/5): persisting ledger data for ledger 4437357: running atomic function in RunInTransaction: inserting processed data into db for ledger 4437357: batch inserting state changes: pgx CopyFrom state_changes: ERROR: COPY from stdin failed: converting signer_account_id: converting address to bytes: stellar address PBCK2RYYLIYOSHBEL2FQLAVRSHRH3GP3ID476SGKBV7BEZHMQ6NSAAAAAAB55LN6AANMS has a 40-byte key payload; the account_id column stores only 32-byte account/contract keys (SQLSTATE 57014), retrying in 2s..." pid=1
+time="2026-11-15T21:43:15.484Z" level=warning msg="Error ingesting data for ledger 4437357 (attempt 3/5): persisting ledger data for ledger 4437357: running atomic function in RunInTransaction: inserting processed data into db for ledger 4437357: batch inserting state changes: pgx CopyFrom state_changes: ERROR: COPY from stdin failed: converting signer_account_id: converting address to bytes: stellar address PBCK2RYYLIYOSHBEL2FQLAVRSHRH3GP3ID476SGKBV7BEZHMQ6NSAAAAAAB55LN6AANMS has a 40-byte key payload; the account_id column stores only 32-byte account/contract keys (SQLSTATE 57014), retrying in 4s..." pid=1
+time="2026-11-15T21:43:19.513Z" level=warning msg="Error ingesting data for ledger 4437357 (attempt 4/5): persisting ledger data for ledger 4437357: running atomic function in RunInTransaction: inserting processed data into db for ledger 4437357: batch inserting state changes: pgx CopyFrom state_changes: ERROR: COPY from stdin failed: converting signer_account_id: converting address to bytes: stellar address PBCK2RYYLIYOSHBEL2FQLAVRSHRH3GP3ID476SGKBV7BEZHMQ6NSAAAAAAB55LN6AANMS has a 40-byte key payload; the account_id column stores only 32-byte account/contract keys (SQLSTATE 57014), retrying in 8s..." pid=1
+time="2026-11-15T21:43:27.545Z" level=info msg="Shutting down servers..." pid=1
+time="2026-11-15T21:43:27.545Z" level=info msg="Servers gracefully stopped" pid=1
 Usage:
   wallet-backend ingest [flags]
 
@@ -66,7 +66,7 @@ Flags:
 panic: executing root command: running ingest: running 'ingest' from 0 to 0: processing ledger 4437357: ingesting processed data failed after 5 attempts: persisting ledger data for ledger 4437357: running atomic function in RunInTransaction: inserting processed data into db for ledger 4437357: batch inserting state changes: pgx CopyFrom state_changes: ERROR: COPY from stdin failed: converting signer_account_id: converting address to bytes: stellar address PBCK2RYYLIYOSHBEL2FQLAVRSHRH3GP3ID476SGKBV7BEZHMQ6NSAAAAAAB55LN6AANMS has a 40-byte key payload; the account_id column stores only 32-byte account/contract keys (SQLSTATE 57014)
 
 goroutine 1 [running]:
-github.com/stellar/wallet-backend/cmd.Execute({{0x2312d20?, 0x61688?}, {0x21bb3d4?, 0x3c05eb4ca1e0?}})
+github.com/stellar/wallet-backend/cmd.Execute({{0x2312d20?, 0x61688?}, {0x21bb3d4?, 0x38b6ca9cc1e0?}})
 	/src/cmd/root.go:35 +0x7c
 main.main()
 	/src/main.go:15 +0x34

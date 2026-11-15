@@ -31,15 +31,15 @@
   "outcome": "stopped by the adapter after the ledger was ingested",
   "exit_code": 0,
   "oom_killed": false,
-  "started_finished": "2026-11-15T21:21:12.160489671Z 2026-11-15T21:21:13.288279005Z"
+  "started_finished": "2026-11-15T21:45:48.283990174Z 2026-11-15T21:45:49.395681383Z"
  },
  "seconds": 2.2,
  "feeder_requests": 4,
  "evidence": "out/3e22515a4497/rpc/testnet-5711238",
  "oracle": {
   "verdict": "pass",
-  "rows_expected": 9,
-  "rows_met": 9,
+  "rows_expected": 36,
+  "rows_met": 36,
   "known": {},
   "unexplained": []
  }

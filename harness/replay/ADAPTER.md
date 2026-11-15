@@ -150,7 +150,8 @@ harness keeps the whole directory as evidence.
 `tools/oracle.py` reads a ledger's meta and lists what changed in ledger state, independently of any
 indexer: accounts created or removed; signers added, removed or reweighted; thresholds, flags and
 home domain; data entries; trustlines added, removed or re-limited; trustline authorization; and
-contract instances created. Balances are not modelled yet.
+contract instances created. `oracle.balances()` adds the net change of every account's XLM and
+credit-asset trustline balance per operation, plus each transaction's net fee.
 
 An adapter can opt in to having every such change checked, not only the manifest's expectations,
 by providing two files next to `adapter.py`:
@@ -159,6 +160,7 @@ by providing two files next to `adapter.py`:
 |---|---|
 | `expect.py` | `expectations(changes, network_passphrase)`: the row the indexer should store for each oracle change, as expectations in the format below (`state_change`, `participant`, …), each with a `via` field saying where the oracle saw the change. Also `known_issue(expectation)`. |
 | `known.json` | Open upstream issues that explain a failing oracle expectation, as match rules on the row and on where the change happened. |
+| `expect.py` (optional) | `balance_expectations(records, network_passphrase)`: one `balance_net` expectation per balance record, naming the indexer's token and operation position. The harness then also reports stored balance movements for an account where the ledger shows none. |
 
 `expect.py` only names rows in the indexer's own vocabulary; whether a row is expected always comes
 from the ledger. The harness then gives every replay a second verdict, `oracle`, beside the
@@ -188,6 +190,7 @@ Expectation kinds the classifier understands (`expected.indexer[].expect` in the
 | `participant` | `account`, optional `tx_hash` | the account is recorded on the transaction, or on any transaction of the ledger |
 | `no_participant` | `account`, optional `tx_hash` | it is not |
 | `transaction` | `hash` | the transaction is stored |
+| `balance_net` | `account`, `token`, `tx_hash`, `op_order`, `delta` | the account's stored BALANCE rows for that token, transaction and operation (`op_order` 0: the fee row) add up to `delta`: CREDIT +amount, DEBIT −amount; MINT and BURN rows mark the issuer's side and do not count |
 
 A stored address that is a byte prefix of the expected one is reported as truncated, with both
 values. That is how the #716 truncation shows up.

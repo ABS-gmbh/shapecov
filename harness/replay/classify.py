@@ -18,6 +18,11 @@ Expectation kinds (`expect`):
   participant          {account, tx_hash?}                the account is recorded on the transaction
   no_participant       {account, tx_hash?}                the address must not be recorded
   transaction          {hash}                             the transaction is stored
+  balance_net          {account, token, tx_hash, op_order, delta}
+                       the account's BALANCE rows for that token in that transaction and
+                       operation (op_order 0: the transaction's fee row) add up to delta:
+                       CREDIT counts +amount, DEBIT -amount. MINT and BURN rows mark the
+                       issuer's side and are not balance movements.
 Every entry also carries the implicit expectation that the ledger is ingested without error
 and that every stored address is a valid SEP-23 address.
 """
@@ -73,7 +78,32 @@ def _state_change(exp, obs):
     return "missing", "%s: %d row(s) stored, %d expected" % (label, len(full), need)
 
 
+def balance_sums(obs):
+    """(tx_hash, op_order, account, token) -> CREDIT minus DEBIT, over the stored BALANCE rows."""
+    sums = {}
+    for r in obs.get("state_changes") or []:
+        if r.get("category") != "BALANCE" or r.get("reason") not in ("CREDIT", "DEBIT"):
+            continue
+        try:
+            amount = int(str((r.get("fields") or {}).get("amount")))
+        except ValueError:
+            continue
+        k = (r.get("tx_hash"), r.get("op_order"), r.get("account"), r.get("token"))
+        sums[k] = sums.get(k, 0) + (amount if r["reason"] == "CREDIT" else -amount)
+    return sums
+
+
 def _check(exp, obs):
+    if exp.get("expect") == "balance_net":
+        sums = obs.setdefault("_balance_sums", balance_sums(obs))
+        k = (exp["tx_hash"], exp["op_order"], exp["account"], exp["token"])
+        where = "the fee" if exp["op_order"] == 0 else "operation %d" % exp["op_order"]
+        label = "balance of %s in token %s, tx %s, %s" % (exp["account"], exp["token"], exp["tx_hash"][:12], where)
+        if k not in sums:
+            return "missing", "%s: the ledger changes it by %+d, no BALANCE row is stored" % (label, exp["delta"])
+        if sums[k] != exp["delta"]:
+            return "wrong_value", "%s: the stored rows add up to %+d, the ledger changes it by %+d" % (label, sums[k], exp["delta"])
+        return "met", "%s: %+d" % (label, exp["delta"])
     kind = exp.get("expect")
     if kind == "signer_state_change":
         e = dict(exp, category="SIGNER")

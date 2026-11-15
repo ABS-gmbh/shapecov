@@ -41,15 +41,15 @@
   "outcome": "stopped by the adapter after the ledger was ingested",
   "exit_code": 0,
   "oom_killed": false,
-  "started_finished": "2026-11-15T21:18:58.10187372Z 2026-11-15T21:18:59.179722596Z"
+  "started_finished": "2026-11-15T21:43:33.881371375Z 2026-11-15T21:43:34.988167668Z"
  },
- "seconds": 2.1,
+ "seconds": 2.2,
  "feeder_requests": 6,
  "evidence": "out/2c873353c1f0/datalake/testnet-4437357-signed-payload-signer",
  "oracle": {
   "verdict": "pass",
-  "rows_expected": 1,
-  "rows_met": 1,
+  "rows_expected": 17,
+  "rows_met": 17,
   "known": {},
   "unexplained": []
  }

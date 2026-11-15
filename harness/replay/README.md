@@ -82,11 +82,19 @@ any indexer and any SDK:
 - signers added, removed or reweighted;
 - thresholds, flags, home domain and data entries;
 - trustlines added, removed or re-limited, and trustline authorization;
-- contract instances created.
+- contract instances created;
+- balances: the net change of every account's XLM and credit-asset trustline balance per operation,
+  and each transaction's net fee (fee charged, minus any refund).
 
 `adapters/wallet-backend/expect.py` names the state-change row wallet-backend stores for each change,
 in wallet-backend's own vocabulary (categories and reasons from its `types.go`, producers from its
 `processors/`). Whether a row is expected always comes from the ledger.
+
+For balances, the check is `balance_net`: an account's stored `BALANCE` rows for one token,
+transaction and operation must add up to the ledger's net change (CREDIT counts +amount, DEBIT
+−amount; the issuer's MINT and BURN rows do not count). The token is the asset's contract ID, the
+native one for XLM. The fee goes at operation position 0. The harness also reports stored balance
+movements for an account where the ledger shows none.
 
 Each replay then gets a second verdict, `oracle`. A row the indexer did not store is either labelled
 with an open upstream issue that explains it (`adapters/wallet-backend/known.json`) or reported as
@@ -94,16 +102,23 @@ with an open upstream issue that explains it (`adapters/wallet-backend/known.jso
 
 At wallet-backend `main` (`3e22515a`), for all 51 ledgers through both inputs:
 
-| Rows expected | Met | Known open issues | Unexplained |
-|---|---|---|---|
-| 129 per input | 120 | 9: wallet-backend#815 (6 contract deploys with no `ACCOUNT CREATE`), #816 (3 accounts created by XLM sent through the native asset contract) | 0 |
+| Check | Rows expected per input | Met | Known open issues | Unexplained |
+|---|---|---|---|---|
+| State changes | 129 | 120 | 9: wallet-backend#815 (6 contract deploys with no `ACCOUNT CREATE`), #816 (3 accounts created by XLM sent through the native asset contract) | 0 |
+| Net balances | 4057 | 4057 | none | 0 |
+| Total | 4186 | 4177 | 9 | 0 |
+
+No stored balance movement appears for an account whose balance the ledger leaves unchanged.
+
+The balance check was tested by corrupting observations: an amount off by one stroop, a deleted
+`BALANCE` row and an added one each fail it as unexplained.
 
 The oracle also re-finds the claimed sightings on their own: at `764a4f5b` it reports #731's missing
 `TRUSTLINE/ADD` and `BALANCE_AUTHORIZATION` rows, and at `79ea2acd` #716's truncated signer, without
 the manifest's expectations.
 
-**Not covered yet:** balances (debits and credits move through fees, payments and contract events and
-need their own model), the master key's weight, offers, claimable balances, liquidity pool reserves
+**Not covered yet:** contract (`C...`) balances, which live in contract storage, and liquidity pool
+share balances; the master key's weight, offers, claimable balances, liquidity pool reserves
 and contract storage other than instances. A row the indexer writes that the oracle does not predict
 is not reported.
 

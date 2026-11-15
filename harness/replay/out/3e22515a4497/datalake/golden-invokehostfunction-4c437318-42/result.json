@@ -31,15 +31,15 @@
   "outcome": "stopped by the adapter after the ledger was ingested",
   "exit_code": 0,
   "oom_killed": false,
-  "started_finished": "2026-11-15T21:21:59.822583513Z 2026-11-15T21:22:00.936550513Z"
+  "started_finished": "2026-11-15T21:46:37.615458294Z 2026-11-15T21:46:38.725409836Z"
  },
  "seconds": 2.2,
  "feeder_requests": 6,
  "evidence": "out/3e22515a4497/datalake/golden-invokehostfunction-4c437318-42",
  "oracle": {
   "verdict": "pass",
-  "rows_expected": 2,
-  "rows_met": 2,
+  "rows_expected": 3,
+  "rows_met": 3,
   "known": {},
   "unexplained": []
  }

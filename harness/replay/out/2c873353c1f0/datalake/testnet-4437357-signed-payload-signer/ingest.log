@@ -1,19 +1,19 @@
-time="2026-11-15T21:18:58.269Z" level=info msg="📦 Git Commit: 2c873353c1f0f3c9b145e25a7d009023ad104a1c" pid=1
-time="2026-11-15T21:18:58.269Z" level=info msg="📦 Version: 0.2.0" pid=1
-time="2026-11-15T21:18:58.269Z" level=debug msg="Setting log level to: info" pid=1
-time="2026-11-15T21:18:58.282Z" level=info msg="Set chunk interval \"1 day\" on transactions" pid=1
-time="2026-11-15T21:18:58.282Z" level=info msg="Set chunk interval \"1 day\" on transactions_accounts" pid=1
-time="2026-11-15T21:18:58.283Z" level=info msg="Set chunk interval \"1 day\" on operations" pid=1
-time="2026-11-15T21:18:58.283Z" level=info msg="Set chunk interval \"1 day\" on operations_accounts" pid=1
-time="2026-11-15T21:18:58.283Z" level=info msg="Set chunk interval \"1 day\" on state_changes" pid=1
-SDK 2026/11/15 21:18:58 WARN Response has no supported checksum. Not validating response payload.
-time="2026-11-15T21:18:58.408Z" level=info msg="Using datastore backend with buffer size 4, 2 workers" pid=1
-time="2026-11-15T21:18:58.413Z" level=info msg="protocol SEP41 history production disabled; cursor not initialized" pid=1
-time="2026-11-15T21:18:58.413Z" level=info msg="protocol SEP41 current-state production disabled; cursor not initialized" pid=1
-time="2026-11-15T21:18:58.413Z" level=info msg="Starting ingestion from ledger: 4437357" pid=1
-SDK 2026/11/15 21:18:58 WARN Response has no supported checksum. Not validating response payload.
-time="2026-11-15T21:18:58.439Z" level=info msg="Ingested ledger 4437357 in 0.0175s" pid=1
-time="2026-11-15T21:18:59.172Z" level=warning msg="Error fetching ledger 4437358 (attempt 1/10): getting next batch: caller context cancelled: context canceled, retrying in 1s..." pid=1
-time="2026-11-15T21:18:59.173Z" level=info msg="shutdown requested; exiting cleanly: fetching ledger 4437358: context cancelled during backoff: context canceled" pid=1
-time="2026-11-15T21:18:59.173Z" level=info msg="Shutting down servers..." pid=1
-time="2026-11-15T21:18:59.174Z" level=info msg="Servers gracefully stopped" pid=1
+time="2026-11-15T21:43:34.091Z" level=info msg="📦 Git Commit: 2c873353c1f0f3c9b145e25a7d009023ad104a1c" pid=1
+time="2026-11-15T21:43:34.091Z" level=info msg="📦 Version: 0.2.0" pid=1
+time="2026-11-15T21:43:34.091Z" level=debug msg="Setting log level to: info" pid=1
+time="2026-11-15T21:43:34.102Z" level=info msg="Set chunk interval \"1 day\" on transactions" pid=1
+time="2026-11-15T21:43:34.102Z" level=info msg="Set chunk interval \"1 day\" on transactions_accounts" pid=1
+time="2026-11-15T21:43:34.102Z" level=info msg="Set chunk interval \"1 day\" on operations" pid=1
+time="2026-11-15T21:43:34.103Z" level=info msg="Set chunk interval \"1 day\" on operations_accounts" pid=1
+time="2026-11-15T21:43:34.103Z" level=info msg="Set chunk interval \"1 day\" on state_changes" pid=1
+SDK 2026/11/15 21:43:34 WARN Response has no supported checksum. Not validating response payload.
+time="2026-11-15T21:43:34.233Z" level=info msg="Using datastore backend with buffer size 4, 2 workers" pid=1
+time="2026-11-15T21:43:34.238Z" level=info msg="protocol SEP41 history production disabled; cursor not initialized" pid=1
+time="2026-11-15T21:43:34.238Z" level=info msg="protocol SEP41 current-state production disabled; cursor not initialized" pid=1
+time="2026-11-15T21:43:34.240Z" level=info msg="Starting ingestion from ledger: 4437357" pid=1
+SDK 2026/11/15 21:43:34 WARN Response has no supported checksum. Not validating response payload.
+time="2026-11-15T21:43:34.264Z" level=info msg="Ingested ledger 4437357 in 0.0183s" pid=1
+time="2026-11-15T21:43:34.980Z" level=warning msg="Error fetching ledger 4437358 (attempt 1/10): getting next batch: caller context cancelled: context canceled, retrying in 1s..." pid=1
+time="2026-11-15T21:43:34.981Z" level=info msg="shutdown requested; exiting cleanly: fetching ledger 4437358: context cancelled during backoff: context canceled" pid=1
+time="2026-11-15T21:43:34.981Z" level=info msg="Shutting down servers..." pid=1
+time="2026-11-15T21:43:34.981Z" level=info msg="Servers gracefully stopped" pid=1

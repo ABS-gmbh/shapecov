@@ -92,6 +92,21 @@ def expectations(changes, passphrase):
     return list(merged.values())
 
 
+def balance_expectations(records, passphrase):
+    """One balance_net expectation per oracle balance record. wallet-backend writes a transaction's
+    net fee at operation position 0 and an operation's movements at its 1-based position, with the
+    asset's contract ID (the native one for XLM) as token."""
+    out = []
+    for b in records:
+        token = asset_contract({"type": "ASSET_TYPE_NATIVE"} if b["holding"] == "native" else b["holding"], passphrase)
+        op_order = 0 if b["where"] == "fee" else b["where"] + 1
+        out.append({"expect": "balance_net", "account": b["account"], "token": token, "tx_hash": b["tx_hash"],
+                    "op_order": op_order, "delta": b["delta"],
+                    "derived_from": "oracle: balance %+d (%s)" % (b["delta"], "fee" if b["where"] == "fee" else "op %d %s" % (b["where"], b["op_type"])),
+                    "via": {"where": b["where"], "op_type": b["op_type"], "what": "balance", "how": "changed"}})
+    return out
+
+
 _KNOWN = {}
 
 

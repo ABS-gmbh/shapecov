@@ -118,9 +118,21 @@ def oracle_verdict(entry, obs, mapping, value):
     """Check every row the oracle derives from the ledger; label each failure as a known upstream
     issue (adapters/<name>/known.json) or unexplained."""
     import oracle
-    exps = mapping.expectations(oracle.changes(value), entry["source"]["network_passphrase"])
+    passphrase = entry["source"]["network_passphrase"]
+    exps = mapping.expectations(oracle.changes(value), passphrase)
+    if hasattr(mapping, "balance_expectations"):
+        exps += mapping.balance_expectations(oracle.balances(value), passphrase)
     c = classify.classify(exps, obs)
     known, unexplained = {}, []
+    if hasattr(mapping, "balance_expectations") and obs.get("ingested"):
+        # The other direction: a stored balance movement for an account where the ledger shows none.
+        # Only accounts (G...) are compared; the oracle does not see balances held by contracts.
+        expected_keys = {(x["tx_hash"], x["op_order"], x["account"], x["token"]) for x in exps if x["expect"] == "balance_net"}
+        for k, total in sorted(classify.balance_sums(obs).items(), key=str):
+            if k not in expected_keys and total and (k[2] or "").startswith("G"):
+                unexplained.append("balance of %s in token %s, tx %s, %s: the stored rows add up to %+d, the "
+                                   "ledger shows no change" % (k[2], k[3], (k[0] or "?")[:12],
+                                                               "the fee" if k[1] == 0 else "operation %s" % k[1], total))
     for ch in c["checks"]:
         if ch["outcome"] in ("met", "not_checked"):
             continue

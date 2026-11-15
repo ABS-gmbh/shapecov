@@ -14,7 +14,7 @@
   "outcome": "exited by itself before the ledger was ingested",
   "exit_code": 2,
   "oom_killed": false,
-  "started_finished": "2026-11-15T21:19:27.675308595Z 2026-11-15T21:19:27.966475304Z"
+  "started_finished": "2026-11-15T21:44:03.587108792Z 2026-11-15T21:44:03.849216625Z"
  },
  "log_errors": [
   "panic: executing root command: running ingest: running 'ingest' from 0 to 0: processing ledger 3: ingesting processed data for ledger 3 failed with a permanent error: persisting ledger data for ledger 3: running atomic function in RunInTransaction: inserting processed data into db for ledger 3: batch inserting transactions: pgx CopyFrom transactions_accounts: ERROR: duplicate key value violates unique constraint \"2_transactions_accounts_pkey\" (SQLSTATE 23505)"

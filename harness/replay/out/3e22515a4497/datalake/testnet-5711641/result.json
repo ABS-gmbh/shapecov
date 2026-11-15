@@ -31,15 +31,15 @@
   "outcome": "stopped by the adapter after the ledger was ingested",
   "exit_code": 0,
   "oom_killed": false,
-  "started_finished": "2026-11-15T21:22:53.925961093Z 2026-11-15T21:22:55.036286011Z"
+  "started_finished": "2026-11-15T21:47:31.628732597Z 2026-11-15T21:47:32.776022458Z"
  },
- "seconds": 2.2,
+ "seconds": 2.3,
  "feeder_requests": 7,
  "evidence": "out/3e22515a4497/datalake/testnet-5711641",
  "oracle": {
   "verdict": "known issues only",
-  "rows_expected": 5,
-  "rows_met": 4,
+  "rows_expected": 37,
+  "rows_met": 36,
   "known": {
    "stellar/wallet-backend#815": 1
   },
