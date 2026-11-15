@@ -208,7 +208,9 @@ def run(a):
     sh(["docker", "rm", "-f", RUN], check=False)
     timed_out = False
     try:
+        # Run as the calling user, so the exported files can be read, compressed and removed on the host.
         p = sh(["docker", "run", "--rm", "--name", RUN, "--network", job["docker_network"], "--memory", "2g",
+                "--user", "%d:%d" % (os.getuid(), os.getgid()), "-e", "HOME=/tmp",
                 "-e", "STORAGE_EMULATOR_HOST=" + GCS_HOST, "-v", os.path.join(work, "bin") + ":/etl:ro",
                 "-v", exports + ":/exports", info["go_image"], "sh", "-c", script], check=False,
                timeout=job.get("timeout_seconds", 120) * len(EXPORTS))
