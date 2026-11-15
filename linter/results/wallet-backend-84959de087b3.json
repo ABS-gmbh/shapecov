@@ -1,0 +1,199 @@
+{
+  "tool": "shapecov-lint",
+  "version": "0.1.0",
+  "rules": [
+    "SC001",
+    "SC002",
+    "SC003"
+  ],
+  "options": null,
+  "packages_analyzed": 40,
+  "load_errors": [],
+  "suppressed_by_ignore_comment": 0,
+  "findings": [
+    {
+      "rule": "SC002",
+      "file": "internal/indexer/processors/contract_deploy.go",
+      "line": 68,
+      "column": 19,
+      "message": "recursive closure walkInvocation walks xdr.SorobanAuthorizedInvocation with no depth cap; nesting is chosen by the transaction submitter or a contract, so pass a depth counter and stop at a fixed limit",
+      "package": "github.com/stellar/wallet-backend/internal/indexer/processors"
+    },
+    {
+      "rule": "SC002",
+      "file": "internal/indexer/processors/contract_operations.go",
+      "line": 53,
+      "column": 6,
+      "message": "recursive function participantsFromInvocationAndSubInvocations walks xdr.SorobanAuthorizedInvocation with no depth cap; nesting is chosen by the transaction submitter or a contract, so pass a depth counter and stop at a fixed limit",
+      "package": "github.com/stellar/wallet-backend/internal/indexer/processors"
+    },
+    {
+      "rule": "SC003",
+      "file": "internal/indexer/processors/contract_operations.go",
+      "line": 70,
+      "column": 3,
+      "message": "participants is filled from the declared Soroban authorization tree; the submitter writes that tree and the host checks only the entries a require_auth call matched, so take authorisers from the ledger meta instead",
+      "package": "github.com/stellar/wallet-backend/internal/indexer/processors"
+    },
+    {
+      "rule": "SC003",
+      "file": "internal/indexer/processors/contract_operations.go",
+      "line": 82,
+      "column": 3,
+      "message": "participants is filled from the declared Soroban authorization tree; the submitter writes that tree and the host checks only the entries a require_auth call matched, so take authorisers from the ledger meta instead",
+      "package": "github.com/stellar/wallet-backend/internal/indexer/processors"
+    },
+    {
+      "rule": "SC003",
+      "file": "internal/indexer/processors/contract_operations.go",
+      "line": 94,
+      "column": 3,
+      "message": "participants is filled from the declared Soroban authorization tree; the submitter writes that tree and the host checks only the entries a require_auth call matched, so take authorisers from the ledger meta instead",
+      "package": "github.com/stellar/wallet-backend/internal/indexer/processors"
+    },
+    {
+      "rule": "SC003",
+      "file": "internal/indexer/processors/contract_operations.go",
+      "line": 98,
+      "column": 3,
+      "message": "subParticipants is filled from the declared Soroban authorization tree; the submitter writes that tree and the host checks only the entries a require_auth call matched, so take authorisers from the ledger meta instead",
+      "package": "github.com/stellar/wallet-backend/internal/indexer/processors"
+    },
+    {
+      "rule": "SC001",
+      "file": "internal/indexer/processors/contract_operations.go",
+      "line": 113,
+      "column": 24,
+      "message": "the address in a declared Soroban authorization entry is read as fact; the host never checks entries that no require_auth call matched, so confirm it against the ledger meta (the nonce entry the host creates) before trusting it",
+      "package": "github.com/stellar/wallet-backend/internal/indexer/processors"
+    },
+    {
+      "rule": "SC003",
+      "file": "internal/indexer/processors/contract_operations.go",
+      "line": 113,
+      "column": 4,
+      "message": "participant is filled from the declared Soroban authorization tree; the submitter writes that tree and the host checks only the entries a require_auth call matched, so take authorisers from the ledger meta instead",
+      "package": "github.com/stellar/wallet-backend/internal/indexer/processors"
+    },
+    {
+      "rule": "SC003",
+      "file": "internal/indexer/processors/contract_operations.go",
+      "line": 120,
+      "column": 3,
+      "message": "invocationParticipants is filled from the declared Soroban authorization tree; the submitter writes that tree and the host checks only the entries a require_auth call matched, so take authorisers from the ledger meta instead",
+      "package": "github.com/stellar/wallet-backend/internal/indexer/processors"
+    },
+    {
+      "rule": "SC001",
+      "file": "internal/indexer/processors/contract_operations.go",
+      "line": 151,
+      "column": 29,
+      "message": "MuxedAccount.Address() returns the M... form for a muxed account, whose 64-bit ID stellar-core does not validate; call ToAccountId() first or branch on the account Type before using it as an account key",
+      "package": "github.com/stellar/wallet-backend/internal/indexer/processors"
+    },
+    {
+      "rule": "SC001",
+      "file": "internal/indexer/processors/contract_operations.go",
+      "line": 251,
+      "column": 29,
+      "message": "MuxedAccount.Address() returns the M... form for a muxed account, whose 64-bit ID stellar-core does not validate; call ToAccountId() first or branch on the account Type before using it as an account key",
+      "package": "github.com/stellar/wallet-backend/internal/indexer/processors"
+    },
+    {
+      "rule": "SC003",
+      "file": "internal/indexer/processors/contract_operations.go",
+      "line": 262,
+      "column": 2,
+      "message": "authParticipants is filled from the declared Soroban authorization tree; the submitter writes that tree and the host checks only the entries a require_auth call matched, so take authorisers from the ledger meta instead",
+      "package": "github.com/stellar/wallet-backend/internal/indexer/processors"
+    },
+    {
+      "rule": "SC001",
+      "file": "internal/indexer/processors/contract_operations.go",
+      "line": 295,
+      "column": 29,
+      "message": "MuxedAccount.Address() returns the M... form for a muxed account, whose 64-bit ID stellar-core does not validate; call ToAccountId() first or branch on the account Type before using it as an account key",
+      "package": "github.com/stellar/wallet-backend/internal/indexer/processors"
+    },
+    {
+      "rule": "SC003",
+      "file": "internal/indexer/processors/contract_operations.go",
+      "line": 306,
+      "column": 2,
+      "message": "authParticipants is filled from the declared Soroban authorization tree; the submitter writes that tree and the host checks only the entries a require_auth call matched, so take authorisers from the ledger meta instead",
+      "package": "github.com/stellar/wallet-backend/internal/indexer/processors"
+    },
+    {
+      "rule": "SC001",
+      "file": "internal/indexer/processors/contract_operations.go",
+      "line": 339,
+      "column": 29,
+      "message": "MuxedAccount.Address() returns the M... form for a muxed account, whose 64-bit ID stellar-core does not validate; call ToAccountId() first or branch on the account Type before using it as an account key",
+      "package": "github.com/stellar/wallet-backend/internal/indexer/processors"
+    },
+    {
+      "rule": "SC003",
+      "file": "internal/indexer/processors/contract_operations.go",
+      "line": 352,
+      "column": 2,
+      "message": "authParticipants is filled from the declared Soroban authorization tree; the submitter writes that tree and the host checks only the entries a require_auth call matched, so take authorisers from the ledger meta instead",
+      "package": "github.com/stellar/wallet-backend/internal/indexer/processors"
+    },
+    {
+      "rule": "SC001",
+      "file": "internal/indexer/processors/contracts/utils.go",
+      "line": 28,
+      "column": 33,
+      "message": "a contract-supplied string (xdr.ScString) is converted to string and used without a UTF-8 check; its bytes are arbitrary, so validate with utf8.ValidString (and cap its length) first",
+      "package": "github.com/stellar/wallet-backend/internal/indexer/processors/contracts"
+    },
+    {
+      "rule": "SC001",
+      "file": "internal/services/contract_metadata.go",
+      "line": 194,
+      "column": 10,
+      "message": "a contract-supplied string (xdr.ScString) is converted to string and used without a UTF-8 check; its bytes are arbitrary, so validate with utf8.ValidString (and cap its length) first",
+      "package": "github.com/stellar/wallet-backend/internal/services"
+    },
+    {
+      "rule": "SC001",
+      "file": "internal/services/contract_metadata.go",
+      "line": 255,
+      "column": 10,
+      "message": "a contract-supplied string (xdr.ScString) is converted to string and used without a UTF-8 check; its bytes are arbitrary, so validate with utf8.ValidString (and cap its length) first",
+      "package": "github.com/stellar/wallet-backend/internal/services"
+    },
+    {
+      "rule": "SC001",
+      "file": "internal/services/contract_metadata.go",
+      "line": 272,
+      "column": 12,
+      "message": "a contract-supplied string (xdr.ScString) is converted to string and used without a UTF-8 check; its bytes are arbitrary, so validate with utf8.ValidString (and cap its length) first",
+      "package": "github.com/stellar/wallet-backend/internal/services"
+    },
+    {
+      "rule": "SC001",
+      "file": "internal/utils/ingestion_utils.go",
+      "line": 16,
+      "column": 18,
+      "message": "memo text is read with GetText() and used without a UTF-8 check; stellar-core accepts any 28 bytes, so validate with utf8.ValidString or store it as bytes",
+      "package": "github.com/stellar/wallet-backend/internal/utils"
+    },
+    {
+      "rule": "SC001",
+      "file": "pkg/sorobanauth/sorobanauth.go",
+      "line": 44,
+      "column": 32,
+      "message": "the address in a declared Soroban authorization entry is read as fact; the host never checks entries that no require_auth call matched, so confirm it against the ledger meta (the nonce entry the host creates) before trusting it",
+      "package": "github.com/stellar/wallet-backend/pkg/sorobanauth"
+    },
+    {
+      "rule": "SC001",
+      "file": "pkg/sorobanauth/sorobanauth.go",
+      "line": 151,
+      "column": 39,
+      "message": "the address in a declared Soroban authorization entry is read as fact; the host never checks entries that no require_auth call matched, so confirm it against the ledger meta (the nonce entry the host creates) before trusting it",
+      "package": "github.com/stellar/wallet-backend/pkg/sorobanauth"
+    }
+  ]
+}

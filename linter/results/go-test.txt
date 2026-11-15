@@ -1,0 +1,20 @@
+go version go1.26.11 linux/arm64
++ gofmt -l .
++ go vet ./...
++ go test -count=1 -v ./...
+?   	shapecov/linter/cmd/shapecov-lint	[no test files]
+?   	shapecov/linter/internal/sx	[no test files]
+=== RUN   TestFixtures
+--- PASS: TestFixtures (0.46s)
+PASS
+ok  	shapecov/linter/sc001	0.471s
+=== RUN   TestFixtures
+--- PASS: TestFixtures (0.35s)
+PASS
+ok  	shapecov/linter/sc002	0.359s
+=== RUN   TestFixtures
+--- PASS: TestFixtures (0.10s)
+=== RUN   TestStrict
+--- PASS: TestStrict (0.01s)
+PASS
+ok  	shapecov/linter/sc003	0.118s

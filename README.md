@@ -9,7 +9,8 @@ Status on 15 November 2026: the SDK conformance half works end to end. For the i
 is a corpus of 51 entries (48 real ledgers from testnet, pubnet and stellar-core's golden test data),
 and a replay harness that runs wallet-backend's own `ingest` command against TimescaleDB, fed
 through a mock stellar-rpc or a Galexie data lake. It reproduces wallet-backend #716 and #729 at
-their commits; see `harness/replay/RESULTS.md`. The linter and the guide are not finished. See
+their commits; see `harness/replay/RESULTS.md`. A Go linter (`linter/`) checks indexer source for the
+three ingestion mistakes the RFP names. The hardening guide is not started. See
 "Not built" below.
 
 ## What it does
@@ -124,7 +125,8 @@ inside `golang:1.26`, and `mvn dependency:copy-dependencies -DoutputDirectory=li
   rows so far; the others get the implicit checks only. See `harness/replay/README.md`, "Limits".
 - CAP tags are assigned by hand. Only "new in protocol 30" is computed, from the difference
   between the v28.0 and v30.0 XDR.
-- Go linter and hardening guide.
+- The hardening guide. The linter does not yet run clean on wallet-backend `main`: 4 of its 10
+  findings are real, 6 are false positives (see `linter/README.md`).
 
 ## Licence
 
