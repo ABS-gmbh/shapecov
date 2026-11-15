@@ -5596,6 +5596,13 @@
       "value": "MANAGE_DATA",
       "note": "cell arm:OperationResultTr.MANAGE_DATA"
      }
+    ],
+    "sdk": [
+     {
+      "check": "map_keys_host_order",
+      "path": "v2.txProcessing[15].txApplyProcessing.v4.sorobanMeta.returnValue",
+      "xdr_type": "SCVal"
+     }
     ]
    },
    "validation": {
@@ -5616,7 +5623,13 @@
      "network.lightsail:stellar-sdk 6.0.0": "agree"
     }
    },
-   "sightings": []
+   "sightings": [
+    {
+     "ref": "stellar/js-stellar-sdk#1766",
+     "relation": "reproduces",
+     "evidence": "evidence/js-stellar-sdk-1766.md"
+    }
+   ]
   },
   {
    "id": "testnet-5711641",
@@ -6412,6 +6425,14 @@
       "value": "SCV_I256",
       "note": "cell arm:SCVal.SCV_I256"
      }
+    ],
+    "sdk": [
+     {
+      "check": "pool_pair_accepted",
+      "path": "v2.txSet.v1TxSet.phases[0].v0Components[0].txsMaybeDiscountedFee.txs[9].v1.tx.operations[5].body.changeTrustOp.line.liquidityPool.constantProduct",
+      "xdr_type": "LiquidityPoolConstantProductParameters",
+      "pool_id": "3923cd1db642f1dd75797dd3fb79112ab5704767d7dc084ced8cf2938f186daf"
+     }
     ]
    },
    "validation": {
@@ -6432,7 +6453,13 @@
      "network.lightsail:stellar-sdk 6.0.0": "agree"
     }
    },
-   "sightings": []
+   "sightings": [
+    {
+     "ref": "stellar/js-stellar-sdk#1766",
+     "relation": "reproduces",
+     "evidence": "evidence/js-stellar-sdk-1766.md"
+    }
+   ]
   },
   {
    "id": "testnet-5692653",

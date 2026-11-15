@@ -492,7 +492,9 @@
           "enum": [
            "map_entries_preserved",
            "ids_exact",
-           "transactions_decode"
+           "transactions_decode",
+           "pool_pair_accepted",
+           "map_keys_host_order"
           ]
          },
          "path": {
@@ -512,6 +514,15 @@
          "must_reject": {
           "description": "For ids_exact: inputs an SDK's builders must refuse, because each would encode a different ID than the caller wrote.",
           "type": "object"
+         },
+         "xdr_type": {
+          "description": "For pool_pair_accepted and map_keys_host_order: the XDR type of the value at `path`, which tools/corpus_check.py extracts with the independent decoder and hands to the SDK.",
+          "type": "string"
+         },
+         "pool_id": {
+          "description": "For pool_pair_accepted: the pool ID the ledger records for this asset pair (hex).",
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
          }
         }
        }

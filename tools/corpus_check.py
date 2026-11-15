@@ -248,6 +248,19 @@ def sdk_checks(entries):
                 targets = [["node", str(sem / "ids.mjs"), "sdk-17.2.1", entry, spec.name],
                            ["node", str(sem / "ids.mjs"), "sdk-17.4.0", entry, spec.name],
                            [py, str(sem / "ids.py"), entry, spec.name]]
+            elif x["check"] in ("pool_pair_accepted", "map_keys_host_order"):
+                # Extract the value with the independent decoder, so SDK releases that cannot decode
+                # the whole (newer) ledger are still tested on this behaviour (js-stellar-sdk#1766).
+                print(f"{e['id']}: {x['check']} at {x['path']}")
+                schema = json.load(open(ROOT / "schema/schema.json"))
+                whole = Decoder(schema).decode(e["xdr_type"], base64.b64decode((CORPUS / e["file"]).read_text()))
+                b64 = base64.b64encode(Encoder(schema).encode(x["xdr_type"], get(whole, x["path"]))).decode()
+                extra = [x["pool_id"]] if x["check"] == "pool_pair_accepted" else []
+                # 16.4.1: the maintained v16 line; 17.2.0: the last release before #1766; 17.2.1: the fix
+                targets = [["node", str(sem / "order.mjs"), v, x["check"], x["xdr_type"], b64] + extra
+                           for v in ("sdk-16.4.1", "sdk-17.2.0", "sdk-17.2.1")]
+                if x["check"] == "pool_pair_accepted":
+                    targets.append([py, str(sem / "order.py"), x["check"], x["xdr_type"], b64] + extra)
             else:
                 print(f"{e['id']}: {x['check']}: no runner for this check kind in corpus_check")
                 continue

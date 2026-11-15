@@ -64,6 +64,14 @@ CI against `harness/replay/sightings.json` (see `harness/replay/RESULTS.md`).
   encode) and `pass` at the fix.
 - stellar/js-stellar-sdk#1789: a map with keys u32 `1` and symbol `"1"` loses one entry in
   `scValToNative` on v17.2.1 and is refused with an error on v17.4.0. Python 17.0.1 keeps both.
+- stellar/js-stellar-sdk#1766: two real testnet ledgers. `testnet-5708889` holds a pool-share
+  `ChangeTrust` whose issuers sort one way as key bytes and the other way as `G...` text: 16.3.0
+  and 17.2.0 reject the pair ("Assets are not in lexicographic order"), and 17.2.1 onward accept it
+  and compute the pool ID the ledger records. `testnet-5712621` holds a host-written map with keys
+  u32 `1` and i64 `1`: `scvSortedMap` puts them in host order from 17.2.1 and reversed before.
+  16.4.1, the current v16 release, has the issuer half (backported in #1768) but not the map half;
+  js-stellar-sdk#1907, opened by another reporter on 15 November, already lists that gap, which
+  this run confirms. Evidence: `corpus/evidence/js-stellar-sdk-1766.md`.
 - stellar/js-stellar-sdk#1785: entry `synthetic-ids-beyond-f64`. On 16.3.0, 16.4.1, 17.2.0 and
   17.2.1 (the versions tested), `manageSellOffer` and `MuxedAccount` accept IDs that encode a different value: a number
   above 2^53, `"0x10"`, `" 16 "`, `""` (an offer ID of 0, "create a new offer") and a negative
