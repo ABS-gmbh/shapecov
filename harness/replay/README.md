@@ -73,6 +73,40 @@ The adapter decides "ingested" when the cursor reaches the entry's ledger. It th
 process, saves its log and reads back `transactions`, `transactions_accounts`, `operations`,
 `operations_accounts` and `state_changes` for that ledger.
 
+## The oracle: every ledger is a test
+
+The manifest's hand-written expectations cover only the entries tied to a sighting. To check every
+ledger, `tools/oracle.py` reads its meta and lists what changed in ledger state, independently of
+any indexer and any SDK:
+- accounts created or removed;
+- signers added, removed or reweighted;
+- thresholds, flags, home domain and data entries;
+- trustlines added, removed or re-limited, and trustline authorization;
+- contract instances created.
+
+`adapters/wallet-backend/expect.py` names the state-change row wallet-backend stores for each change,
+in wallet-backend's own vocabulary (categories and reasons from its `types.go`, producers from its
+`processors/`). Whether a row is expected always comes from the ledger.
+
+Each replay then gets a second verdict, `oracle`. A row the indexer did not store is either labelled
+with an open upstream issue that explains it (`adapters/wallet-backend/known.json`) or reported as
+**unexplained**, a candidate new finding. RESULTS.md lists both.
+
+At wallet-backend `main` (`3e22515a`), for all 51 ledgers through both inputs:
+
+| Rows expected | Met | Known open issues | Unexplained |
+|---|---|---|---|
+| 129 per input | 120 | 9: wallet-backend#815 (6 contract deploys with no `ACCOUNT CREATE`), #816 (3 accounts created by XLM sent through the native asset contract) | 0 |
+
+The oracle also re-finds the claimed sightings on their own: at `764a4f5b` it reports #731's missing
+`TRUSTLINE/ADD` and `BALANCE_AUTHORIZATION` rows, and at `79ea2acd` #716's truncated signer, without
+the manifest's expectations.
+
+**Not covered yet:** balances (debits and credits move through fees, payments and contract events and
+need their own model), the master key's weight, offers, claimable balances, liquidity pool reserves
+and contract storage other than instances. A row the indexer writes that the oracle does not predict
+is not reported.
+
 ## Reproduced sightings
 
 | Issue | Commit | What the database shows | Result |

@@ -8,13 +8,13 @@
  "ingested": true,
  "error": null,
  "command": "wallet-backend ingest  (configured by environment: ARCHIVE_URL=http://shapecov-replay-feeder:8000/archive/golden-invokehostfunction-e6b26f2a-1, DATABASE_URL=postgres://postgres@shapecov-replay-db:5432/replay?sslmode=disable, DATASTORE_BUCKET_PATH=shapecov-lake/golden-invokehostfunction-e6b26f2a-1, DATASTORE_BUFFER_SIZE=4, DATASTORE_ENDPOINT_URL=http://shapecov-replay-feeder:9000, DATASTORE_NUM_WORKERS=2, DATASTORE_REGION=us-east-1, GET_LEDGERS_LIMIT=10, INGESTION_MODE=live, LEDGER_BACKEND_TYPE=datastore, LOG_LEVEL=INFO, NETWORK=standalone, NETWORK_PASSPHRASE=(V) (;,,;) (V), RPC_URL=http://shapecov-replay-feeder:8000/rpc/golden-invokehostfunction-e6b26f2a-1, STELLAR_ENVIRONMENT=development)",
- "seconds_to_outcome": 1.3,
+ "seconds_to_outcome": 1.1,
  "cursor": 3,
  "process": {
   "outcome": "stopped by the adapter after the ledger was ingested",
   "exit_code": 0,
   "oom_killed": false,
-  "started_finished": "2026-11-15T10:14:53.302292055Z 2026-11-15T10:14:54.411043958Z"
+  "started_finished": "2026-11-15T21:22:04.271292167Z 2026-11-15T21:22:05.412009043Z"
  },
  "log_errors": [],
  "log_warnings": 0,
@@ -29,5 +29,5 @@
   "operations_accounts": 0,
   "state_changes": 0
  },
- "seconds": 2.4
+ "seconds": 2.2
 }

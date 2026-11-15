@@ -14,7 +14,7 @@
   "outcome": "exited by itself before the ledger was ingested",
   "exit_code": 2,
   "oom_killed": false,
-  "started_finished": "2026-11-15T13:26:23.809766375Z 2026-11-15T13:26:39.297732507Z"
+  "started_finished": "2026-11-15T21:17:59.69251668Z 2026-11-15T21:18:15.216725756Z"
  },
  "log_errors": [
   "panic: executing root command: running ingest: running 'ingest' from 0 to 0: processing ledger 4437357: ingesting processed data failed after 5 attempts: persisting ledger data for ledger 4437357: running atomic function in RunInTransaction: inserting processed data into db for ledger 4437357: batch inserting state changes: pgx CopyFrom state_changes: ERROR: COPY from stdin failed: converting signer_account_id: converting address to bytes: stellar address PBCK2RYYLIYOSHBEL2FQLAVRSHRH3GP3ID476SGKBV7BEZHMQ6NSAAAAAAB55LN6AANMS has a 40-byte key payload; the account_id column stores only 32-byte account/contract keys (SQLSTATE 57014)"

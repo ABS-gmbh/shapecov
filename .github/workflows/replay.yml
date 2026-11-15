@@ -32,7 +32,15 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - run: harness/replay/run.sh sightings
+      # Weekly and on demand: the whole corpus at wallet-backend's current main, failing on any
+      # unexplained oracle failure (a candidate new finding). Pushes and pull requests: sightings only.
+      - name: Replay
+        run: |
+          if [ "${{ github.event_name }}" = "schedule" ] || [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            harness/replay/run.sh full
+          else
+            harness/replay/run.sh sightings
+          fi
       - if: always()
         uses: actions/upload-artifact@v4
         with:

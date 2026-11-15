@@ -1,19 +1,19 @@
-time="2026-11-15T13:27:43.562Z" level=info msg="📦 Git Commit: c152783c054c765c8b51fd26ed313fd1ebc1c50c" pid=1
-time="2026-11-15T13:27:43.562Z" level=info msg="📦 Version: 0.2.0" pid=1
-time="2026-11-15T13:27:43.563Z" level=debug msg="Setting log level to: info" pid=1
-time="2026-11-15T13:27:43.577Z" level=info msg="Set chunk interval \"1 day\" on transactions" pid=1
-time="2026-11-15T13:27:43.577Z" level=info msg="Set chunk interval \"1 day\" on transactions_accounts" pid=1
-time="2026-11-15T13:27:43.578Z" level=info msg="Set chunk interval \"1 day\" on operations" pid=1
-time="2026-11-15T13:27:43.578Z" level=info msg="Set chunk interval \"1 day\" on operations_accounts" pid=1
-time="2026-11-15T13:27:43.578Z" level=info msg="Set chunk interval \"1 day\" on state_changes" pid=1
-SDK 2026/11/15 13:27:43 WARN Response has no supported checksum. Not validating response payload.
-time="2026-11-15T13:27:43.713Z" level=info msg="Using datastore backend with buffer size 4, 2 workers" pid=1
-time="2026-11-15T13:27:43.718Z" level=info msg="protocol SEP41 history production disabled; cursor not initialized" pid=1
-time="2026-11-15T13:27:43.719Z" level=info msg="protocol SEP41 current-state production disabled; cursor not initialized" pid=1
-time="2026-11-15T13:27:43.720Z" level=info msg="Starting ingestion from ledger: 5" pid=1
-SDK 2026/11/15 13:27:43 WARN Response has no supported checksum. Not validating response payload.
-time="2026-11-15T13:27:43.744Z" level=info msg="Ingested ledger 5 in 0.0179s" pid=1
-time="2026-11-15T13:27:44.484Z" level=warning msg="Error fetching ledger 6 (attempt 1/10): getting next batch: caller context cancelled: context canceled, retrying in 1s..." pid=1
-time="2026-11-15T13:27:44.485Z" level=info msg="shutdown requested; exiting cleanly: fetching ledger 6: context cancelled during backoff: context canceled" pid=1
-time="2026-11-15T13:27:44.485Z" level=info msg="Shutting down servers..." pid=1
-time="2026-11-15T13:27:44.485Z" level=info msg="Servers gracefully stopped" pid=1
+time="2026-11-15T21:19:14.224Z" level=info msg="📦 Git Commit: c152783c054c765c8b51fd26ed313fd1ebc1c50c" pid=1
+time="2026-11-15T21:19:14.224Z" level=info msg="📦 Version: 0.2.0" pid=1
+time="2026-11-15T21:19:14.224Z" level=debug msg="Setting log level to: info" pid=1
+time="2026-11-15T21:19:14.245Z" level=info msg="Set chunk interval \"1 day\" on transactions" pid=1
+time="2026-11-15T21:19:14.245Z" level=info msg="Set chunk interval \"1 day\" on transactions_accounts" pid=1
+time="2026-11-15T21:19:14.246Z" level=info msg="Set chunk interval \"1 day\" on operations" pid=1
+time="2026-11-15T21:19:14.246Z" level=info msg="Set chunk interval \"1 day\" on operations_accounts" pid=1
+time="2026-11-15T21:19:14.246Z" level=info msg="Set chunk interval \"1 day\" on state_changes" pid=1
+SDK 2026/11/15 21:19:14 WARN Response has no supported checksum. Not validating response payload.
+time="2026-11-15T21:19:14.368Z" level=info msg="Using datastore backend with buffer size 4, 2 workers" pid=1
+time="2026-11-15T21:19:14.376Z" level=info msg="protocol SEP41 history production disabled; cursor not initialized" pid=1
+time="2026-11-15T21:19:14.376Z" level=info msg="protocol SEP41 current-state production disabled; cursor not initialized" pid=1
+time="2026-11-15T21:19:14.377Z" level=info msg="Starting ingestion from ledger: 5" pid=1
+SDK 2026/11/15 21:19:14 WARN Response has no supported checksum. Not validating response payload.
+time="2026-11-15T21:19:14.438Z" level=info msg="Ingested ledger 5 in 0.0154s" pid=1
+time="2026-11-15T21:19:15.163Z" level=warning msg="Error fetching ledger 6 (attempt 1/10): getting next batch: caller context cancelled: context canceled, retrying in 1s..." pid=1
+time="2026-11-15T21:19:15.165Z" level=info msg="shutdown requested; exiting cleanly: fetching ledger 6: context cancelled during backoff: context canceled" pid=1
+time="2026-11-15T21:19:15.165Z" level=info msg="Shutting down servers..." pid=1
+time="2026-11-15T21:19:15.165Z" level=info msg="Servers gracefully stopped" pid=1

@@ -43,9 +43,16 @@
   "outcome": "exited by itself before the ledger was ingested",
   "exit_code": 2,
   "oom_killed": false,
-  "started_finished": "2026-11-15T13:26:06.834085214Z 2026-11-15T13:26:22.17830893Z"
+  "started_finished": "2026-11-15T21:17:42.818781172Z 2026-11-15T21:17:58.333649054Z"
  },
  "seconds": 16.8,
  "feeder_requests": 2,
- "evidence": "out/6e5a59101158/rpc/testnet-4437357-signed-payload-signer"
+ "evidence": "out/6e5a59101158/rpc/testnet-4437357-signed-payload-signer",
+ "oracle": {
+  "verdict": "mishandled",
+  "rows_expected": 1,
+  "rows_met": 0,
+  "known": {},
+  "unexplained": []
+ }
 }

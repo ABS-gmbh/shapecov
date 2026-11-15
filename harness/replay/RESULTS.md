@@ -159,6 +159,46 @@ Only the implicit checks apply: the ledger is ingested without an error and ever
 | `3e22515a` | rpc | 51 | 0 | 0 | 0 |
 | `3e22515a` | datalake | 51 | 0 | 0 | 0 |
 
+## Oracle checks
+
+`tools/oracle.py` derives from each ledger what changed in ledger state, and the adapter's
+`expect.py` names the row the indexer should store for each change. Every such row is
+checked. A failure is labelled with the open upstream issue that explains it
+(`adapters/<name>/known.json`) or listed as **unexplained**: a candidate new finding.
+
+| Commit | Input | Replays | Rows expected | Rows met | Known issues | Unexplained |
+|---|---|---|---|---|---|---|
+| `79ea2acd` | rpc | 2 | 2 | 0 | wallet-backend#815 (1) | 1 |
+| `79ea2acd` | datalake | 2 | 2 | 0 | wallet-backend#815 (1) | 1 |
+| `6e5a5910` | rpc | 2 | 2 | 0 | none | 0 |
+| `6e5a5910` | datalake | 2 | 2 | 0 | none | 0 |
+| `2a0a84ea` | rpc | 1 | 1 | 0 | none | 0 |
+| `2a0a84ea` | datalake | 1 | 1 | 0 | none | 0 |
+| `2c873353` | rpc | 1 | 1 | 1 | none | 0 |
+| `2c873353` | datalake | 1 | 1 | 1 | none | 0 |
+| `764a4f5b` | rpc | 1 | 2 | 0 | none | 2 |
+| `764a4f5b` | datalake | 1 | 2 | 0 | none | 2 |
+| `c152783c` | rpc | 1 | 2 | 2 | none | 0 |
+| `c152783c` | datalake | 1 | 2 | 2 | none | 0 |
+| `f8e5786d` | rpc | 1 | 1 | 0 | none | 0 |
+| `f8e5786d` | datalake | 1 | 1 | 0 | none | 0 |
+| `bb0b162b` | rpc | 1 | 1 | 0 | wallet-backend#815 (1) | 0 |
+| `bb0b162b` | datalake | 1 | 1 | 0 | wallet-backend#815 (1) | 0 |
+| `3e22515a` | rpc | 51 | 129 | 120 | wallet-backend#815 (6), wallet-backend#816 (3) | 0 |
+| `3e22515a` | datalake | 51 | 129 | 120 | wallet-backend#815 (6), wallet-backend#816 (3) | 0 |
+
+Failures that are a claimed sighting (found by the oracle alone, without the manifest's expectation):
+
+- stellar/wallet-backend#731: `localcore-sac-trust-p28-5` at `764a4f5bcbff`, datalake: TRUSTLINE/ADD state change account=GAKLOY2E7ZEJMCPGH74PVRHMRIDZGSKVOWJEDLWCOJUYS7ME5GXPOSFS, token=CBVGR4WEKIDDTOYOWYGY2FWP7BMRSNLKUZAJAOPJGHLSTPGD2JYXTWKV, tx_hash=3739928234a57a2e5899da59d1e0ac7128d3c681f53f7c5c23d2a96dbe7a57ba: 0 row(s) stored, 1 expected
+- stellar/wallet-backend#731: `localcore-sac-trust-p28-5` at `764a4f5bcbff`, datalake: BALANCE_AUTHORIZATION/SET state change account=GAKLOY2E7ZEJMCPGH74PVRHMRIDZGSKVOWJEDLWCOJUYS7ME5GXPOSFS, token=CBVGR4WEKIDDTOYOWYGY2FWP7BMRSNLKUZAJAOPJGHLSTPGD2JYXTWKV, tx_hash=3739928234a57a2e5899da59d1e0ac7128d3c681f53f7c5c23d2a96dbe7a57ba: 0 row(s) stored, 1 expected
+- stellar/wallet-backend#731: `localcore-sac-trust-p28-5` at `764a4f5bcbff`, rpc: TRUSTLINE/ADD state change account=GAKLOY2E7ZEJMCPGH74PVRHMRIDZGSKVOWJEDLWCOJUYS7ME5GXPOSFS, token=CBVGR4WEKIDDTOYOWYGY2FWP7BMRSNLKUZAJAOPJGHLSTPGD2JYXTWKV, tx_hash=3739928234a57a2e5899da59d1e0ac7128d3c681f53f7c5c23d2a96dbe7a57ba: 0 row(s) stored, 1 expected
+- stellar/wallet-backend#731: `localcore-sac-trust-p28-5` at `764a4f5bcbff`, rpc: BALANCE_AUTHORIZATION/SET state change account=GAKLOY2E7ZEJMCPGH74PVRHMRIDZGSKVOWJEDLWCOJUYS7ME5GXPOSFS, token=CBVGR4WEKIDDTOYOWYGY2FWP7BMRSNLKUZAJAOPJGHLSTPGD2JYXTWKV, tx_hash=3739928234a57a2e5899da59d1e0ac7128d3c681f53f7c5c23d2a96dbe7a57ba: 0 row(s) stored, 1 expected
+- stellar/wallet-backend#716 (signed payload): `testnet-4437357-signed-payload-signer` at `79ea2acd1dc6`, datalake: SIGNER/ADD state change account=GBCK2RYYLIYOSHBEL2FQLAVRSHRH3GP3ID476SGKBV7BEZHMQ6NSBB7B, signer_key=PBCK2RYYLIYOSHBEL2FQLAVRSHRH3GP3ID476SGKBV7BEZHMQ6NSAAAAAAB55LN6AANMS, tx_hash=d9f78749cd01297cd5f22c7f2c798c9eec93d56f399e1c4cc2f8977ca52b9fed: signer_key is stored truncated: 33 of 41 bytes (7844ad47185a30e91c245e8b0582b191e27d99fb40f9ff48ca0d7e1264ec879b20); it reads back as PBCK2RYYLIYOSHBEL2FQLAVRSHRH3GP3ID476SGKBV7BEZHMQ6NSBYVM, expected PBCK2RYYLIYOSHBEL2FQLAVRSHRH3GP3ID476SGKBV7BEZHMQ6NSAAAAAAB55LN6AANMS
+- stellar/wallet-backend#716 (signed payload): `testnet-4437357-signed-payload-signer` at `79ea2acd1dc6`, rpc: SIGNER/ADD state change account=GBCK2RYYLIYOSHBEL2FQLAVRSHRH3GP3ID476SGKBV7BEZHMQ6NSBB7B, signer_key=PBCK2RYYLIYOSHBEL2FQLAVRSHRH3GP3ID476SGKBV7BEZHMQ6NSAAAAAAB55LN6AANMS, tx_hash=d9f78749cd01297cd5f22c7f2c798c9eec93d56f399e1c4cc2f8977ca52b9fed: signer_key is stored truncated: 33 of 41 bytes (7844ad47185a30e91c245e8b0582b191e27d99fb40f9ff48ca0d7e1264ec879b20); it reads back as PBCK2RYYLIYOSHBEL2FQLAVRSHRH3GP3ID476SGKBV7BEZHMQ6NSBYVM, expected PBCK2RYYLIYOSHBEL2FQLAVRSHRH3GP3ID476SGKBV7BEZHMQ6NSAAAAAAB55LN6AANMS
+
+**No unexplained oracle failures.**
+
+
 ## Details of every result that is not `pass`
 
 ### `localcore-muxed-source-p22-3` at `79ea2acd1dc6`, input datalake: mishandled
@@ -280,3 +320,7 @@ Only the implicit checks apply: the ledger is ingested without an error and ever
 | 2026-11-15T13:27:29+00:00 | `764a4f5b`, `c152783c` | rpc, datalake | 1 | 16.2 | 35936 | 2 | 4 |
 | 2026-11-15T13:27:46+00:00 | `79ea2acd`, `6e5a5910`, `f8e5786d`, `bb0b162b` | rpc, datalake | 1 | 28.9 | 35956 | 4 | 8 |
 | 2026-11-15T13:50:12+00:00 | `3e22515a` | rpc, datalake | 1 | 8.8 | 35832 | 1 | 2 |
+| 2026-11-15T21:17:31+00:00 | `79ea2acd`, `6e5a5910`, `2a0a84ea`, `2c873353` | rpc, datalake | 1 | 88.9 | 36932 | 4 | 8 |
+| 2026-11-15T21:19:01+00:00 | `764a4f5b`, `c152783c` | rpc, datalake | 1 | 15.6 | 36504 | 2 | 4 |
+| 2026-11-15T21:19:17+00:00 | `79ea2acd`, `6e5a5910`, `f8e5786d`, `bb0b162b` | rpc, datalake | 1 | 27.7 | 36344 | 4 | 8 |
+| 2026-11-15T21:19:45+00:00 | `3e22515a` | rpc, datalake | 51 | 239.5 | 36344 | 51 | 102 |

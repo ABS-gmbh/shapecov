@@ -145,6 +145,26 @@ give the stored bytes as hex, so that a damaged value can be shown exactly.
 Write any logs you have (`ingest.log`, `migrate.log`, …) next to `observation.json`. The
 harness keeps the whole directory as evidence.
 
+## Optional: the oracle mapping (`expect.py`, `known.json`)
+
+`tools/oracle.py` reads a ledger's meta and lists what changed in ledger state, independently of any
+indexer: accounts created or removed; signers added, removed or reweighted; thresholds, flags and
+home domain; data entries; trustlines added, removed or re-limited; trustline authorization; and
+contract instances created. Balances are not modelled yet.
+
+An adapter can opt in to having every such change checked, not only the manifest's expectations,
+by providing two files next to `adapter.py`:
+
+| File | Contains |
+|---|---|
+| `expect.py` | `expectations(changes, network_passphrase)`: the row the indexer should store for each oracle change, as expectations in the format below (`state_change`, `participant`, …), each with a `via` field saying where the oracle saw the change. Also `known_issue(expectation)`. |
+| `known.json` | Open upstream issues that explain a failing oracle expectation, as match rules on the row and on where the change happened. |
+
+`expect.py` only names rows in the indexer's own vocabulary; whether a row is expected always comes
+from the ledger. The harness then gives every replay a second verdict, `oracle`, beside the
+`result` below. Each failing oracle check is either labelled with a known issue or listed as
+**unexplained**: a candidate new finding. The `result` used by `sightings.json` is unaffected.
+
 ## The verdict (harness side, `classify.py`)
 
 Each run gets exactly one result:

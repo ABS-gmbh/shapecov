@@ -1,17 +1,17 @@
-time="2026-11-15T13:28:03.958Z" level=info msg="📦 Git Commit: f8e5786d22c04adad16318f2e126728beec5aac9" pid=1
-time="2026-11-15T13:28:03.958Z" level=info msg="📦 Version: 0.2.0" pid=1
-time="2026-11-15T13:28:03.959Z" level=debug msg="Setting log level to: info" pid=1
-time="2026-11-15T13:28:03.981Z" level=info msg="Set chunk interval \"1 day\" on transactions" pid=1
-time="2026-11-15T13:28:03.981Z" level=info msg="Set chunk interval \"1 day\" on transactions_accounts" pid=1
-time="2026-11-15T13:28:03.981Z" level=info msg="Set chunk interval \"1 day\" on operations" pid=1
-time="2026-11-15T13:28:03.981Z" level=info msg="Set chunk interval \"1 day\" on operations_accounts" pid=1
-time="2026-11-15T13:28:03.981Z" level=info msg="Set chunk interval \"1 day\" on state_changes" pid=1
-time="2026-11-15T13:28:03.984Z" level=info msg="Using RPCLedgerBackend for ledger ingestion with buffer size 10" pid=1
-time="2026-11-15T13:28:03.990Z" level=info msg="protocol SEP41 history production disabled; cursor not initialized" pid=1
-time="2026-11-15T13:28:03.990Z" level=info msg="protocol SEP41 current-state production disabled; cursor not initialized" pid=1
-time="2026-11-15T13:28:04.037Z" level=info msg="Starting ingestion from ledger: 3" pid=1
-time="2026-11-15T13:28:04.061Z" level=info msg="Shutting down servers..." pid=1
-time="2026-11-15T13:28:04.061Z" level=info msg="Servers gracefully stopped" pid=1
+time="2026-11-15T21:19:34.054Z" level=info msg="📦 Git Commit: f8e5786d22c04adad16318f2e126728beec5aac9" pid=1
+time="2026-11-15T21:19:34.054Z" level=info msg="📦 Version: 0.2.0" pid=1
+time="2026-11-15T21:19:34.054Z" level=debug msg="Setting log level to: info" pid=1
+time="2026-11-15T21:19:34.064Z" level=info msg="Set chunk interval \"1 day\" on transactions" pid=1
+time="2026-11-15T21:19:34.064Z" level=info msg="Set chunk interval \"1 day\" on transactions_accounts" pid=1
+time="2026-11-15T21:19:34.064Z" level=info msg="Set chunk interval \"1 day\" on operations" pid=1
+time="2026-11-15T21:19:34.064Z" level=info msg="Set chunk interval \"1 day\" on operations_accounts" pid=1
+time="2026-11-15T21:19:34.064Z" level=info msg="Set chunk interval \"1 day\" on state_changes" pid=1
+time="2026-11-15T21:19:34.067Z" level=info msg="Using RPCLedgerBackend for ledger ingestion with buffer size 10" pid=1
+time="2026-11-15T21:19:34.071Z" level=info msg="protocol SEP41 history production disabled; cursor not initialized" pid=1
+time="2026-11-15T21:19:34.071Z" level=info msg="protocol SEP41 current-state production disabled; cursor not initialized" pid=1
+time="2026-11-15T21:19:34.117Z" level=info msg="Starting ingestion from ledger: 3" pid=1
+time="2026-11-15T21:19:34.128Z" level=info msg="Shutting down servers..." pid=1
+time="2026-11-15T21:19:34.128Z" level=info msg="Servers gracefully stopped" pid=1
 Usage:
   wallet-backend ingest [flags]
 
@@ -59,7 +59,7 @@ Flags:
 panic: executing root command: running ingest: running 'ingest' from 0 to 0: processing ledger 3: ingesting processed data for ledger 3 failed with a permanent error: persisting ledger data for ledger 3: running atomic function in RunInTransaction: inserting processed data into db for ledger 3: batch inserting transactions: pgx CopyFrom transactions_accounts: ERROR: duplicate key value violates unique constraint "2_transactions_accounts_pkey" (SQLSTATE 23505)
 
 goroutine 1 [running]:
-github.com/stellar/wallet-backend/cmd.Execute({{0x23157a0?, 0x61688?}, {0x21bba74?, 0x708f9be621e0?}})
+github.com/stellar/wallet-backend/cmd.Execute({{0x23157a0?, 0x61688?}, {0x21bba74?, 0x673eee5701e0?}})
 	/src/cmd/root.go:35 +0x7c
 main.main()
 	/src/main.go:15 +0x34

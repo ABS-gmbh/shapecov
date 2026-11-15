@@ -1,0 +1,13 @@
+{
+ "note": "Open upstream issues that explain an oracle expectation wallet-backend does not meet. A failing oracle check that matches a rule is labelled with the issue; one that matches none is reported as unexplained, which is a candidate new finding. Rules match on the expected row and on where the oracle saw the change; they never hide a failure.",
+ "rules": [
+  {"issue": "stellar/wallet-backend#816", "title": "An XLM transfer through the native asset contract that creates the destination account gets no ACCOUNT CREATE state change",
+   "match": {"category": "ACCOUNT", "reason": "CREATE", "account_kind": "G", "op_type": "INVOKE_HOST_FUNCTION"}},
+  {"issue": "stellar/wallet-backend#815", "title": "Contract deployments that no auth entry declares get no ACCOUNT CREATE state change (factory deploys, Stellar Asset Contracts)",
+   "match": {"category": "ACCOUNT", "reason": "CREATE", "account_kind": "C", "op_type": "INVOKE_HOST_FUNCTION"}},
+  {"issue": "stellar/wallet-backend#818", "title": "A pre-authorized transaction signer that core removes in txChangesBefore never gets a SIGNER REMOVE state change",
+   "match": {"category": "SIGNER", "reason": "REMOVE", "where": "before"}},
+  {"issue": "stellar/wallet-backend#817", "title": "A pool-share trustline removed by an authorization revocation gets no TRUSTLINE REMOVE state change",
+   "match": {"category": "TRUSTLINE", "reason": "REMOVE", "op_type": ["SET_TRUST_LINE_FLAGS", "ALLOW_TRUST"]}}
+ ]
+}

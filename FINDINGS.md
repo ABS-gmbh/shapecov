@@ -85,6 +85,20 @@ CI against `harness/replay/sightings.json` (see `harness/replay/RESULTS.md`).
   as a truncated `M...`). Between #693 and `bb0b162b` the same muxed entry stops ingestion on a
   duplicate key instead; `bb0b162b` documents and fixes that.
 
+## Confirmed by the oracle (reported by others)
+
+`tools/oracle.py` checks every row wallet-backend should store for each corpus ledger. At `main`
+(`3e22515a`) every missing row matches one of two issues filed by the shapekit project on
+15 November; the oracle derived them from ledger data alone:
+
+- stellar/wallet-backend#815: 6 contract deployments (2 Stellar Asset Contract deploys, 4 contracts
+  created by factory calls `create_pair` and `launch`) get no `ACCOUNT CREATE` row.
+- stellar/wallet-backend#816: 3 accounts created by XLM sent through the native asset contract (once
+  directly, twice from inside another contract) get no `ACCOUNT CREATE` row.
+
+No other non-balance row is missing for any of the 51 ledgers. See `harness/replay/RESULTS.md`,
+"Oracle checks".
+
 ## Rediscovered (already reported by others)
 
 These validate the method: the generator found each within its first run, with no hint.

@@ -26,6 +26,7 @@ import time
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.abspath(os.path.join(HERE, "..", ".."))
 sys.path.insert(0, HERE)
+sys.path.insert(0, os.path.join(REPO, "tools"))
 import classify  # noqa: E402
 
 NET = "shapecov-replay-net"
@@ -101,6 +102,45 @@ def save_results(out, res):
             f.write(json.dumps(res[k], sort_keys=True) + "\n")
 
 
+def adapter_mapping(name):
+    """The adapter's oracle mapping (adapters/<name>/expect.py), or None if it has none."""
+    path = os.path.join(HERE, "adapters", name, "expect.py")
+    if not os.path.isfile(path):
+        return None
+    import importlib.util
+    spec = importlib.util.spec_from_file_location("expect_" + name.replace("-", "_"), path)
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+def oracle_verdict(entry, obs, mapping, value):
+    """Check every row the oracle derives from the ledger; label each failure as a known upstream
+    issue (adapters/<name>/known.json) or unexplained."""
+    import oracle
+    exps = mapping.expectations(oracle.changes(value), entry["source"]["network_passphrase"])
+    c = classify.classify(exps, obs)
+    known, unexplained = {}, []
+    for ch in c["checks"]:
+        if ch["outcome"] in ("met", "not_checked"):
+            continue
+        issue = mapping.known_issue(ch["expect"])
+        if issue:
+            known.setdefault(issue, []).append(ch["detail"])
+        else:
+            unexplained.append(ch["detail"])
+    met = sum(1 for ch in c["checks"] if ch["outcome"] == "met")
+    if not obs.get("ingested"):
+        verdict = c["result"]
+    elif unexplained:
+        verdict = "mishandled" if any(ch["outcome"] == "wrong_value" and not mapping.known_issue(ch["expect"])
+                                      for ch in c["checks"]) else "dropped"
+    else:
+        verdict = "pass" if not known else "known issues only"
+    return {"verdict": verdict, "rows_expected": len(exps), "rows_met": met,
+            "known": {k: len(v) for k, v in known.items()}, "unexplained": unexplained}
+
+
 def cmd_run(a):
     work, out = os.path.abspath(a.work), os.path.abspath(a.out)
     os.makedirs(work, exist_ok=True)
@@ -113,6 +153,7 @@ def cmd_run(a):
         with open(a.proposed) as f:
             proposed = json.load(f).get("expected_indexer", {})
     index = start_feeder(work)
+    mapping = adapter_mapping(a.adapter)
     lcm = [e for e in manifest["entries"] if e.get("xdr_type") == "LedgerCloseMeta"]
     selected = []
     for e in lcm:
@@ -191,12 +232,24 @@ def cmd_run(a):
                              feeder_requests=len(reqs), evidence=os.path.relpath(jdir, HERE))
                     if c.get("note"):
                         r["note"] = c["note"]
+                    if mapping is not None and not obs.get("adapter_failure"):
+                        import base64
+                        import oracle
+                        from decode import Decoder
+                        dec = Decoder(json.load(open(os.path.join(REPO, "schema", "schema.json"))))
+                        value = dec.decode("LedgerCloseMeta", base64.b64decode(
+                            open(os.path.join(REPO, "corpus", e["file"])).read()))
+                        r["oracle"] = oracle_verdict(e, obs, mapping, value)
                     with open(os.path.join(jdir, "result.json"), "w") as f:
                         json.dump(r, f, indent=1)
                     results[(e["id"], commit, inp)] = r
                     save_results(out, results)
-                    print("%-10s %-8s %-45s %5.1fs  %s" % (r["result"], inp, e["id"][:45], obs.get("seconds") or 0,
-                                                          (c["mishandled"] + c["dropped"] + [""])[0][:150]), flush=True)
+                    orc = r.get("oracle")
+                    print("%-10s %-8s %-45s %5.1fs  %s%s" % (
+                        r["result"], inp, e["id"][:45], obs.get("seconds") or 0,
+                        ("oracle %s %d/%d%s  " % (orc["verdict"], orc["rows_met"], orc["rows_expected"],
+                                                 (" known " + ",".join(sorted(orc["known"]))) if orc["known"] else "")) if orc else "",
+                        (c["mishandled"] + c["dropped"] + [""])[0][:110]), flush=True)
             adapter(a.adapter, "down", "--work", work)
     finally:
         run_meta["feeder_stats"] = feeder_stats()
@@ -281,6 +334,41 @@ def cmd_report(a):
             if n:
                 L.append("| `%s` | %s | %d | %d | %d | %d |" % (c[:8], inp, n.get("pass", 0), n.get("mishandled", 0),
                                                               n.get("dropped", 0), n.get("error", 0)))
+    orc = {k: r["oracle"] for k, r in results.items() if r.get("oracle")}
+    if orc:
+        L.extend(["", "## Oracle checks", "",
+                  "`tools/oracle.py` derives from each ledger what changed in ledger state, and the adapter's",
+                  "`expect.py` names the row the indexer should store for each change. Every such row is",
+                  "checked. A failure is labelled with the open upstream issue that explains it",
+                  "(`adapters/<name>/known.json`) or listed as **unexplained**: a candidate new finding.", "",
+                  "| Commit | Input | Replays | Rows expected | Rows met | Known issues | Unexplained |",
+                  "|---|---|---|---|---|---|---|"])
+        for c in order:
+            for inp in inputs:
+                rs = [v for k, v in orc.items() if k[1] == c and k[2] == inp]
+                if not rs:
+                    continue
+                known = {}
+                for v in rs:
+                    for issue, n in v["known"].items():
+                        known[issue] = known.get(issue, 0) + n
+                L.append("| `%s` | %s | %d | %d | %d | %s | %d |" % (
+                    c[:8], inp, len(rs), sum(v["rows_expected"] for v in rs), sum(v["rows_met"] for v in rs),
+                    ", ".join("%s (%d)" % (i.split("/")[-1], n) for i, n in sorted(known.items())) or "none",
+                    sum(len(v["unexplained"]) for v in rs)))
+        # A failure at a commit that sightings.json claims fails for this entry is that sighting,
+        # found again by the oracle without the manifest's expectation; anything else is unexplained.
+        with open(os.path.join(HERE, "sightings.json")) as f:
+            claimed = {(x["entry"], x["commit"]): x["issue"] for x in json.load(f)["sightings"] if x["expect"] != "pass"}
+        rows = [(k, d) for k, v in sorted(orc.items()) for d in v["unexplained"]]
+        sighting = [(k, d) for k, d in rows if (k[0], k[1]) in claimed]
+        unexplained = [(k, d) for k, d in rows if (k[0], k[1]) not in claimed]
+        L.extend(["", "Failures that are a claimed sighting (found by the oracle alone, without the manifest's expectation):" if sighting else "", ""])
+        for k, d in sighting:
+            L.append("- %s: `%s` at `%s`, %s: %s" % (claimed[(k[0], k[1])], k[0], k[1][:12], k[2], d.replace("|", "\\|")))
+        L.extend(["", "**Unexplained oracle failures (candidate new findings):**" if unexplained else "**No unexplained oracle failures.**", ""])
+        for k, d in unexplained:
+            L.append("- `%s` at `%s`, %s: %s" % (k[0], k[1][:12], k[2], d.replace("|", "\\|")))
     L.extend(["", "## Details of every result that is not `pass`", ""])
     for k in sorted(results, key=lambda k: (k[0], order.index(k[1]) if k[1] in order else 99, k[2])):
         r = results[k]
@@ -333,6 +421,16 @@ def cmd_check(a):
             print("%-9s %-40s %s at %s, %s: %s (claimed %s)" % ("ok" if ok else "DIFFERS", c["issue"], c["entry"],
                                                               c["commit"][:12], inp, res, c["expect"]))
     print("SIGHTINGS OK" if not bad else "%d SIGHTING CHECK(S) FAILED" % bad)
+    if a.oracle:
+        # An oracle failure that is neither a known open issue nor a claimed sighting is a candidate
+        # new finding: fail, so CI raises it.
+        claimed = {(c["entry"], c["commit"]) for c in claims if c["expect"] != "pass"}
+        new = [(k, d) for k, r in sorted(results.items()) if r.get("oracle")
+               for d in r["oracle"]["unexplained"] if (k[0], k[1]) not in claimed]
+        for k, d in new:
+            print("UNEXPLAINED %s at %s, %s: %s" % (k[0], k[1][:12], k[2], d[:200]))
+        print("ORACLE OK: no unexplained failures" if not new else "%d UNEXPLAINED ORACLE FAILURE(S)" % len(new))
+        bad += len(new)
     sys.exit(1 if bad else 0)
 
 
@@ -355,6 +453,7 @@ def main():
     p.add_argument("--out", default=os.path.join(HERE, "out"))
     p = sub.add_parser("check")
     p.add_argument("--out", default=os.path.join(HERE, "out"))
+    p.add_argument("--oracle", action="store_true", help="also fail on unexplained oracle failures")
     a = ap.parse_args()
     {"run": cmd_run, "report": cmd_report, "check": cmd_check}[a.verb](a)
 

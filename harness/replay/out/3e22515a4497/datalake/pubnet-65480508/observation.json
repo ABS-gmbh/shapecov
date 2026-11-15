@@ -8,13 +8,13 @@
  "ingested": true,
  "error": null,
  "command": "wallet-backend ingest  (configured by environment: ARCHIVE_URL=http://shapecov-replay-feeder:8000/archive/pubnet-65480508, DATABASE_URL=postgres://postgres@shapecov-replay-db:5432/replay?sslmode=disable, DATASTORE_BUCKET_PATH=shapecov-lake/pubnet-65480508, DATASTORE_BUFFER_SIZE=4, DATASTORE_ENDPOINT_URL=http://shapecov-replay-feeder:9000, DATASTORE_NUM_WORKERS=2, DATASTORE_REGION=us-east-1, GET_LEDGERS_LIMIT=10, INGESTION_MODE=live, LEDGER_BACKEND_TYPE=datastore, LOG_LEVEL=INFO, NETWORK=mainnet, NETWORK_PASSPHRASE=Public Global Stellar Network ; September 2015, RPC_URL=http://shapecov-replay-feeder:8000/rpc/pubnet-65480508, STELLAR_ENVIRONMENT=development)",
- "seconds_to_outcome": 1.2,
+ "seconds_to_outcome": 1.1,
  "cursor": 65480508,
  "process": {
   "outcome": "stopped by the adapter after the ledger was ingested",
   "exit_code": 0,
   "oom_killed": false,
-  "started_finished": "2026-11-15T10:16:24.38661525Z 2026-11-15T10:16:25.526531333Z"
+  "started_finished": "2026-11-15T21:23:32.300175166Z 2026-11-15T21:23:33.416565667Z"
  },
  "log_errors": [],
  "log_warnings": 1,
@@ -34622,5 +34622,5 @@
   "operations_accounts": 1048,
   "state_changes": 1354
  },
- "seconds": 2.5
+ "seconds": 2.4
 }

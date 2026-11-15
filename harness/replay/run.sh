@@ -3,7 +3,8 @@
 #
 #   harness/replay/run.sh quick       the #729 pair only (pre-fix and fix), both inputs
 #   harness/replay/run.sh sightings   every pair in sightings.json, then `replay.py check`
-#   harness/replay/run.sh full        sightings, plus every LedgerCloseMeta entry at current main
+#   harness/replay/run.sh full        sightings, plus every LedgerCloseMeta entry at current main, then
+#                                     fail on any oracle failure that is neither a known issue nor a sighting
 #
 # Needs: Docker, git, python3 (standard library only). Network access is used only to clone
 # wallet-backend, pull the images and download the Go modules each commit pins; the indexer
@@ -40,6 +41,7 @@ case "${1:-full}" in
     # Current main, resolved to a commit now: every LedgerCloseMeta entry in the manifest.
     MAIN=$(git ls-remote https://github.com/stellar/wallet-backend refs/heads/main | cut -f1)
     python3 replay.py run --refs "$MAIN" --all-entries $both --timeout 60
+    python3 replay.py check --oracle
     ;;
   *)
     echo "usage: $0 [quick|sightings|full]" >&2
