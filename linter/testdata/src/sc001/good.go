@@ -4,6 +4,7 @@ package sc001
 import (
 	"encoding/hex"
 	"errors"
+	"fmt"
 	"math"
 	"strconv"
 	"strings"
@@ -146,4 +147,19 @@ func buildName(name string) []xdr.ScVal {
 	fixed := xdr.ScString("SEP41 Token")
 	given := xdr.ScString(name)
 	return []xdr.ScVal{{Str: &fixed}, {Str: &given}}
+}
+
+// Formatting with %q or %x escapes every byte, so the output is safe text.
+func describeTag(v xdr.ScVal, m xdr.Memo) (string, error) {
+	s := fmt.Sprintf("tag=%q", string(v.MustStr()))
+	return s, fmt.Errorf("memo %d bytes: %x", 28, m.MustText())
+}
+
+// A string handed straight to a parser that accepts only a fixed grammar.
+func assetFromScVal(v xdr.ScVal) (xdr.Asset, error) {
+	assets, err := xdr.BuildAssets(string(v.MustStr()))
+	if err != nil || len(assets) == 0 {
+		return xdr.Asset{}, errors.New("not an asset")
+	}
+	return assets[0], nil
 }

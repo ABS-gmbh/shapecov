@@ -123,3 +123,13 @@ func noReason(m xdr.Memo) string {
 	//shapecov:ignore SC001
 	return m.MustText() // want `memo text is read with MustText\(\)`
 }
+
+// --- Pattern 5: formatted, but with a verb that copies the bytes as they are.
+
+func describeName(v xdr.ScVal) string {
+	return fmt.Sprintf("name=%s", string(v.MustStr())) // want `a contract-supplied string \(xdr.ScString\) is converted to string`
+}
+
+func describeNameAfterQuoted(v, w xdr.ScVal) string {
+	return fmt.Sprintf("%q %v", string(w.MustStr()), string(v.MustStr())) // want `a contract-supplied string \(xdr.ScString\) is converted to string`
+}

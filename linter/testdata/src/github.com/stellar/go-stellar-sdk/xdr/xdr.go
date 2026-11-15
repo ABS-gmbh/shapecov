@@ -324,3 +324,6 @@ type LedgerEntryChange struct {
 type LedgerEntryChanges []LedgerEntryChange
 
 type TransactionMeta struct{}
+
+// BuildAssets parses "CODE:ISSUER" and "native" strings; it rejects anything else.
+func BuildAssets(s string) ([]Asset, error) { return nil, nil }

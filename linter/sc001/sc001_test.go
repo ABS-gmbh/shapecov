@@ -23,3 +23,15 @@ func testdata(t *testing.T) string {
 func TestFixtures(t *testing.T) {
 	analysistest.Run(t, testdata(t), sc001.Analyzer, "sc001")
 }
+
+// TestTestSupportSkipped checks that a test-support package (an import path
+// element such as "integrationtests") produces no finding by default.
+func TestTestSupportSkipped(t *testing.T) {
+	analysistest.Run(t, testdata(t), sc001.Analyzer, "sc001support/integrationtests")
+}
+
+// TestSignerPackage checks that declared credentials read in a package that
+// never reads ledger output (a signer) produce no finding.
+func TestSignerPackage(t *testing.T) {
+	analysistest.Run(t, testdata(t), sc001.Analyzer, "sc001signer")
+}

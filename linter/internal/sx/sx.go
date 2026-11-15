@@ -101,9 +101,63 @@ func IsIntegerish(t types.Type) bool {
 	return ok && b.Info()&types.IsInteger != 0
 }
 
+// testSupportSegments are import-path elements that mark a package as test
+// support (fixtures, integration-test harnesses), not code that runs in production.
+var testSupportSegments = map[string]bool{
+	"integrationtests": true, "integrationtest": true, "testutil": true, "testutils": true,
+	"testhelper": true, "testhelpers": true, "testsupport": true, "e2e": true,
+}
+
+// TestSupportPkg reports whether an import path has an element that marks it as test support.
+func TestSupportPkg(path string) bool {
+	for _, s := range strings.Split(path, "/") {
+		if testSupportSegments[s] {
+			return true
+		}
+	}
+	return false
+}
+
+// ledgerOutputTypes are xdr types that hold what the network did with a
+// transaction, as opposed to what its submitter asked for.
+var ledgerOutputTypes = map[string]bool{
+	"LedgerCloseMeta": true, "LedgerCloseMetaV0": true, "LedgerCloseMetaV1": true, "LedgerCloseMetaV2": true,
+	"TransactionMeta": true, "TransactionMetaV1": true, "TransactionMetaV2": true, "TransactionMetaV3": true,
+	"TransactionMetaV4": true, "TransactionResultMeta": true, "TransactionResultMetaV1": true,
+	"OperationMeta": true, "OperationMetaV2": true, "SorobanTransactionMeta": true, "SorobanTransactionMetaV2": true,
+	"LedgerEntryChange": true, "LedgerEntryChanges": true, "ContractEvent": true, "DiagnosticEvent": true,
+	"TransactionEvent": true, "TransactionResult": true, "TransactionResultPair": true, "OperationResult": true,
+}
+
+// ReadsLedgerOutput reports whether the package refers to ledger output: the
+// SDK's ingest package, or an xdr type that records what the network did
+// (meta, results, events, ledger entry changes). A package that never does is
+// building or vetting transactions, not indexing them.
+func ReadsLedgerOutput(pass *analysis.Pass) bool {
+	for _, obj := range pass.TypesInfo.Uses {
+		if obj == nil || obj.Pkg() == nil {
+			continue
+		}
+		if IsSDKPkg(obj.Pkg(), "ingest") {
+			return true
+		}
+		if tn, ok := obj.(*types.TypeName); ok && IsSDKPkg(tn.Pkg(), "xdr") && ledgerOutputTypes[tn.Name()] {
+			return true
+		}
+		if ledgerOutputTypes[XDRName(Strip(obj.Type()))] {
+			return true
+		}
+	}
+	return false
+}
+
 // Files returns the files of the pass that should be analysed: generated
-// files are skipped, and so are _test.go files unless IncludeTests is set.
+// files are skipped, and so are _test.go files and test-support packages
+// (see TestSupportPkg) unless IncludeTests is set.
 func Files(pass *analysis.Pass) []*ast.File {
+	if !IncludeTests && pass.Pkg != nil && TestSupportPkg(pass.Pkg.Path()) {
+		return nil
+	}
 	var out []*ast.File
 	for _, f := range pass.Files {
 		if ast.IsGenerated(f) {

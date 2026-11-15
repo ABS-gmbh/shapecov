@@ -125,8 +125,8 @@ inside `golang:1.26`, and `mvn dependency:copy-dependencies -DoutputDirectory=li
   rows so far; the others get the implicit checks only. See `harness/replay/README.md`, "Limits".
 - CAP tags are assigned by hand. Only "new in protocol 30" is computed, from the difference
   between the v28.0 and v30.0 XDR.
-- The hardening guide. The linter does not yet run clean on wallet-backend `main`: 4 of its 10
-  findings are real, 6 are false positives (see `linter/README.md`).
+- The hardening guide. The linter does not run clean on wallet-backend `main`: it reports 4
+  findings, all real and none of them a bug to file as is (see `linter/README.md`).
 
 ## Licence
 

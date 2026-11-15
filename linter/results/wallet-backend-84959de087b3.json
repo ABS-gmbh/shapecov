@@ -141,14 +141,6 @@
     },
     {
       "rule": "SC001",
-      "file": "internal/indexer/processors/contracts/utils.go",
-      "line": 28,
-      "column": 33,
-      "message": "a contract-supplied string (xdr.ScString) is converted to string and used without a UTF-8 check; its bytes are arbitrary, so validate with utf8.ValidString (and cap its length) first",
-      "package": "github.com/stellar/wallet-backend/internal/indexer/processors/contracts"
-    },
-    {
-      "rule": "SC001",
       "file": "internal/services/contract_metadata.go",
       "line": 194,
       "column": 10,
@@ -178,22 +170,6 @@
       "column": 18,
       "message": "memo text is read with GetText() and used without a UTF-8 check; stellar-core accepts any 28 bytes, so validate with utf8.ValidString or store it as bytes",
       "package": "github.com/stellar/wallet-backend/internal/utils"
-    },
-    {
-      "rule": "SC001",
-      "file": "pkg/sorobanauth/sorobanauth.go",
-      "line": 44,
-      "column": 32,
-      "message": "the address in a declared Soroban authorization entry is read as fact; the host never checks entries that no require_auth call matched, so confirm it against the ledger meta (the nonce entry the host creates) before trusting it",
-      "package": "github.com/stellar/wallet-backend/pkg/sorobanauth"
-    },
-    {
-      "rule": "SC001",
-      "file": "pkg/sorobanauth/sorobanauth.go",
-      "line": 151,
-      "column": 39,
-      "message": "the address in a declared Soroban authorization entry is read as fact; the host never checks entries that no require_auth call matched, so confirm it against the ledger meta (the nonce entry the host creates) before trusting it",
-      "package": "github.com/stellar/wallet-backend/pkg/sorobanauth"
     }
   ]
 }

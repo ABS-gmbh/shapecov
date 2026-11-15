@@ -7,9 +7,11 @@ package sc001
 
 import (
 	"go/ast"
+	"go/constant"
 	"go/token"
 	"go/types"
 	"regexp"
+	"strings"
 
 	"golang.org/x/tools/go/analysis"
 
@@ -18,7 +20,7 @@ import (
 
 const Rule = "SC001"
 
-var validators = `(?i)valid|sanitiz|utf8|quote|^EncodeToString$`
+var validators = `(?i)valid|sanitiz|utf8|quote|^EncodeToString$|^BuildAssets?$|^Parse(Int|Uint|Float|Bool)$`
 
 var Analyzer = &analysis.Analyzer{
 	Name: Rule,
@@ -36,10 +38,11 @@ func run(pass *analysis.Pass) (any, error) {
 	if err != nil {
 		return nil, err
 	}
+	readsLedger := sx.ReadsLedgerOutput(pass)
 	for _, f := range sx.Files(pass) {
 		for _, d := range f.Decls {
 			if fd, ok := d.(*ast.FuncDecl); ok && fd.Body != nil {
-				checkFunc(pass, fd, re)
+				checkFunc(pass, fd, re, readsLedger)
 			}
 		}
 	}
@@ -59,11 +62,12 @@ type fn struct {
 	idVars        map[types.Object]bool // variables holding a muxed or memo ID
 	muxedTypeSeen bool                  // the function reads MuxedAccount.Type or uses the two-result GetMed25519
 	nonceSeen     bool                  // the function refers to ScValTypeScvLedgerKeyNonce
+	readsLedger   bool                  // the package reads ledger output (see sx.ReadsLedgerOutput)
 }
 
-func checkFunc(pass *analysis.Pass, fd *ast.FuncDecl, validatorRE *regexp.Regexp) {
+func checkFunc(pass *analysis.Pass, fd *ast.FuncDecl, validatorRE *regexp.Regexp, readsLedger bool) {
 	f := &fn{
-		pass: pass, info: pass.TypesInfo,
+		pass: pass, info: pass.TypesInfo, readsLedger: readsLedger,
 		valExprs: map[string]bool{}, valObjs: map[types.Object]bool{},
 		cmpExprs: map[string]bool{}, idVars: map[types.Object]bool{},
 	}
@@ -150,6 +154,9 @@ func (f *fn) recordExprs(e ast.Expr, exprs map[string]bool, objs map[types.Objec
 // inside a validator call, the same expression is passed to one elsewhere in
 // the function, or the variable it is assigned to is.
 func (f *fn) validated(src ast.Expr, stack []ast.Node) bool {
+	if f.safelyFormatted(src, stack) {
+		return true
+	}
 	for _, r := range f.valRanges {
 		if src.Pos() >= r[0] && src.End() <= r[1] {
 			return true
@@ -320,7 +327,10 @@ func (f *fn) checkSelector(sel *ast.SelectorExpr, stack []ast.Node) {
 				"memo text is read from Memo.Text and used without a UTF-8 check; stellar-core accepts any 28 bytes, so validate with utf8.ValidString or store it as bytes")
 		}
 	case sel.Sel.Name == "Address" && sx.IsXDR(xt, "SorobanAddressCredentials"):
-		if f.isWriteOrNilCheck(sel, stack) || f.nonceSeen {
+		// Reading a declared credential is only a claim taken as fact where the
+		// package records ledger output; signers and pre-submission checks read
+		// it to build or vet a transaction.
+		if !f.readsLedger || f.isWriteOrNilCheck(sel, stack) || f.nonceSeen {
 			return
 		}
 		// Only a field read, not a method call on the credentials.
@@ -368,4 +378,97 @@ func (f *fn) isWriteOrNilCheck(sel *ast.SelectorExpr, stack []ast.Node) bool {
 		}
 	}
 	return false
+}
+
+// fmtFormatArg maps fmt's printf-style functions to the index of their format argument.
+var fmtFormatArg = map[string]int{"Sprintf": 0, "Printf": 0, "Errorf": 0, "Fprintf": 1, "Appendf": 1}
+
+// safelyFormatted reports whether the value at src (possibly converted to
+// string first) is only an argument of a fmt printf-style call whose verb for
+// it is %q, %x or %X. Those escape or hex-encode every byte, so the output is
+// valid UTF-8 with no NUL whatever the input was.
+func (f *fn) safelyFormatted(src ast.Expr, stack []ast.Node) bool {
+	i := len(stack) - 1
+	for i >= 0 && stack[i] != ast.Node(src) {
+		i--
+	}
+	if i < 0 {
+		return false
+	}
+	cur := ast.Node(src)
+	for j := i - 1; j >= 0; j-- {
+		switch p := stack[j].(type) {
+		case *ast.ParenExpr, *ast.StarExpr:
+			cur = p
+		case *ast.CallExpr:
+			if t, ok := sx.IsConversion(f.info, p); ok {
+				if b, ok := t.Underlying().(*types.Basic); ok && b.Kind() == types.String {
+					cur = p
+					continue
+				}
+				return false
+			}
+			return f.safeVerb(p, cur)
+		default:
+			return false
+		}
+	}
+	return false
+}
+
+func (f *fn) safeVerb(call *ast.CallExpr, arg ast.Node) bool {
+	sel, ok := ast.Unparen(call.Fun).(*ast.SelectorExpr)
+	if !ok {
+		return false
+	}
+	id, ok := sel.X.(*ast.Ident)
+	if !ok {
+		return false
+	}
+	pkg, ok := f.info.Uses[id].(*types.PkgName)
+	if !ok || pkg.Imported().Path() != "fmt" {
+		return false
+	}
+	fi, ok := fmtFormatArg[sel.Sel.Name]
+	if !ok || fi >= len(call.Args) {
+		return false
+	}
+	tv := f.info.Types[call.Args[fi]]
+	if tv.Value == nil || tv.Value.Kind() != constant.String {
+		return false
+	}
+	verbs := printfVerbs(constant.StringVal(tv.Value))
+	for k, a := range call.Args[fi+1:] {
+		if ast.Node(a) == arg {
+			return k < len(verbs) && strings.ContainsRune("qxX", verbs[k])
+		}
+	}
+	return false
+}
+
+// printfVerbs returns the verb of each argument a format string consumes, or
+// nil when the format uses * or explicit argument indexes, which this does not follow.
+func printfVerbs(format string) []rune {
+	var verbs []rune
+	rs := []rune(format)
+	for i := 0; i < len(rs); i++ {
+		if rs[i] != '%' {
+			continue
+		}
+		i++
+		for i < len(rs) && strings.ContainsRune("+-# 0123456789.", rs[i]) {
+			i++
+		}
+		if i >= len(rs) {
+			break
+		}
+		switch rs[i] {
+		case '%':
+			continue
+		case '*', '[':
+			return nil
+		}
+		verbs = append(verbs, rs[i])
+	}
+	return verbs
 }
