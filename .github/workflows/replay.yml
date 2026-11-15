@@ -1,5 +1,6 @@
 # The replay harness against stellar/wallet-backend: every sighting in harness/replay/sightings.json,
-# then `replay.py check`. It builds nine wallet-backend commits, so it does not run on every push.
+# then `replay.py check`. It builds nine wallet-backend commits (about 5 minutes), so it runs on
+# pushes and pull requests that change the harness or the corpus, weekly, and on demand.
 name: replay
 
 on:
@@ -8,6 +9,11 @@ on:
     - cron: "0 4 * * 1"
   push:
     branches: [main]
+    paths:
+      - "harness/replay/**"
+      - "corpus/manifest.json"
+      - "corpus/entries/**"
+  pull_request:
     paths:
       - "harness/replay/**"
       - "corpus/manifest.json"

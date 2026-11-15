@@ -113,7 +113,14 @@ Two GitHub Actions workflows in `.github/workflows/`:
 | Workflow | When | What |
 |---|---|---|
 | `ci.yml` | every push and pull request | **corpus**: strkey and ed25519 self-tests, `tools/corpus_check.py` on every entry, `guide/check_guide.py`. **linter**: gofmt, `go vet`, `go test`. **conformance**: builds the five SDK runners and runs every entry through them, through stellar-core 30.0.0 (`--core`) and through the pinned-SDK checks. |
-| `replay.yml` | weekly, on demand, and on pushes that touch the harness or the corpus | `harness/replay/run.sh sightings`: replays every sighting in `harness/replay/sightings.json` against real wallet-backend commits and fails unless each fails before its fix and passes after it. Results are uploaded as an artifact. |
+| `replay.yml` | weekly, on demand, and on pushes and pull requests that touch the harness or the corpus | `harness/replay/run.sh sightings`: replays every sighting in `harness/replay/sightings.json` against real wallet-backend commits and fails unless each fails before its fix and passes after it. Results are uploaded as an artifact. |
+
+## Infrastructure and maintenance
+
+- [`INFRASTRUCTURE.md`](INFRASTRUCTURE.md): what the tools run on, every network connection they
+  make, the Docker images and disk they need, and user tracking (there is none).
+- [`MAINTENANCE.md`](MAINTENANCE.md): who maintains shapecov and for how long, routine work, and the
+  step-by-step plan for each protocol upgrade.
 
 ## Known artefacts in the current numbers
 
