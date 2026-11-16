@@ -1,0 +1,7 @@
+{"http": "GET", "keys": 1, "path": "/shapecov-lake?list-type=2&max-keys=1&prefix=trustline-churn", "port": "s3", "status": 200, "t": 1794864654.836}
+{"http": "GET", "keys": 3, "path": "/shapecov-lake?fetch-owner=false&list-type=2&max-keys=1000&prefix=trustline-churn%2F&start-after=", "port": "s3", "status": 200, "t": 1794864654.913}
+{"http": "GET", "path": "/shapecov-lake/trustline-churn/.config.json?x-id=GetObject", "port": "s3", "size": 142, "status": 200, "t": 1794864654.968}
+{"http": "GET", "path": "/shapecov-lake/trustline-churn/FFFFFFFF--0-63999/FFFFFFFA--5.xdr.zst?x-id=GetObject", "port": "s3", "size": 815, "status": 200, "t": 1794864655.055}
+{"http": "GET", "path": "/shapecov-lake/trustline-churn/FFFFFFFF--0-63999/FFFFFFFB--4.xdr.zst?x-id=GetObject", "port": "s3", "size": 746, "status": 200, "t": 1794864655.055}
+{"http": "GET", "path": "/shapecov-lake/trustline-churn/FFFFFFFF--0-63999/FFFFFFF9--6.xdr.zst?x-id=GetObject", "port": "s3", "status": 404, "t": 1794864655.068}
+{"http": "GET", "path": "/shapecov-lake/trustline-churn/FFFFFFFF--0-63999/FFFFFFF8--7.xdr.zst?x-id=GetObject", "port": "s3", "status": 404, "t": 1794864655.095}

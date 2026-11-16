@@ -352,5 +352,31 @@ class Negative(unittest.TestCase):
         self.assertEqual(classify.classify([x], obs)["result"], "mishandled")
 
 
+class EndState(unittest.TestCase):
+    """A trustline one ledger adds and the next removes, adds again and removes again is gone at the
+    end of the two; an indexer that keeps the first ledger's row fails the end-state check."""
+    ADD, CHURN = "localcore-trustline-add-4", "localcore-trustline-churn-5"
+    HOLDER = strkey.account(Keys("trustline churn holder").pub)
+
+    def test_final_trustlines(self):
+        one = oracle.final_trustlines([ledger(self.ADD)[1]])
+        both = oracle.final_trustlines([ledger(self.ADD)[1], ledger(self.CHURN)[1]])
+        (key,) = one
+        self.assertEqual((key[0], key[1]), (self.HOLDER, "USD"))
+        self.assertEqual(one[key]["balance"], 0)
+        self.assertEqual(both, {key: None})
+
+    def test_a_stale_row_fails_and_no_row_passes(self):
+        (exp,) = WB.end_state_expectations([ledger(self.ADD)[1], ledger(self.CHURN)[1]], "Test SDF Network ; September 2015")
+        stale = {"account": exp["account"], "code": "USD", "issuer": exp["issuer"], "balance": 0, "limit": 2 ** 63 - 1}
+        self.assertEqual(classify.classify([exp], {"ingested": True, "end_state": {"trustlines": [stale]}})["result"],
+                         "mishandled")
+        self.assertEqual(classify.classify([exp], {"ingested": True, "end_state": {"trustlines": []}})["result"], "pass")
+        # Labelled #687 only before its fix; the ancestry needs the wallet-backend clone.
+        self.assertIsNone(WB.known_rule(exp, commit=None))
+        WB._ANCESTRY[("bdb934bc", "bd545417fc121d37e9dad59f260d3d37d722cfd1")] = True
+        self.assertEqual(WB.known_rule(exp, commit="bdb934bc")["issue"], "stellar/wallet-backend#687")
+
+
 if __name__ == "__main__":
     unittest.main()

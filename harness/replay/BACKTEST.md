@@ -62,7 +62,14 @@ verifies every row of `backtest.json` against the recorded results.
 - **Built after reading the fix.** `localcore-planted-auth-5` and `localcore-declared-deploy-6`
   (scenario `participants-p28` in `tools/localcore.py`) were built after reading 9538b3c and
   80121f3: an authorization entry no `require_auth` matches, and one declaring a deploy that never
-  runs.
+  runs. The sequence `trustline-churn` (scenario `trustline-churn-p28`) and its end-state check of
+  `trustline_balances` were both written after reading #687's fix (`bd545417`), so its detection
+  is not counted as blind.
+- **Sequences.** #687 needs a row an earlier ledger wrote: `replay.py run --sequence` ingests
+  consecutive corpus ledgers into one database in one run and then checks the current-state
+  tables against the oracle (results in `out-sequences/`, kept slim in `backtest/sequences.jsonl`).
+  At `bdb934bc` the trustline that ledger 5 removes, adds again and removes again keeps the row
+  ledger 4 wrote; at `bd545417` it is gone. Both inputs, RPC and data lake.
 
 ## Scope
 
@@ -79,18 +86,18 @@ per run).
 
 ## wallet-backend: 17 in-scope fixes
 
-**Detected 8 of 17 in-scope fixes; 5 with a blind ledger.** Each row: the fix, the replays at its parent (pass 1 corpus / pass 2 sweep ledgers), and either the ledgers with a failure at the parent that the fix removes, or what would catch it.
+**Detected 9 of 17 in-scope fixes; 5 with a blind ledger.** Each row: the fix, the replays at its parent (pass 1 corpus / pass 2 sweep ledgers), and either the ledgers with a failure at the parent that the fix removes, or what would catch it.
 
 | Fix | Issue | Subject | Replays at parent | Result | Ledgers, or what would catch it |
 |---|---|---|---|---|---|
 | `666717aa` | wallet-backend#641 | fold fee-phase changes into native balances | 18 / — | **detected, blind** | pass 1: `golden-invokehostfunction-41088f6e-29` (unexplained 2 → none), `golden-invokehostfunction-e0e11e1f-32` (unexplained 2 → none), `localcore-declared-deploy-6` (unexplained 1 → none), `localcore-planted-auth-5` (unexplained 1 → none), `pubnet-60280000` (unexplained 173 → none) |
-| `bd545417` | wallet-backend#687 | keep a same-ledger REMOVE so deletes are never lost | 12 / — | missed | Read the current-state tables (trustlines, pool shares, SAC balances), plus a ledger that creates and removes the same entry: a local-core scenario adding and removing one trustline in one ledger. |
+| `bd545417` | wallet-backend#687 | keep a same-ledger REMOVE so deletes are never lost | 12 / — | **detected, confirmed after reading the fix** | sequence: `trustline-churn` (#687 lost delete 1, mishandled 1 → none; built after reading the fix) |
 | `6e5a5910` | wallet-backend#693 | reduce muxed addresses to their base account | 12 / 59 | missed | Not a detection by the rule: on `localcore-muxed-source-p22-3` the failure changes form at the fix (a truncated muxed address becomes a duplicate-key halt) and passes only from `bb0b162b`. |
 | `22660cf4` | wallet-backend#695 | verify SAC before recording contract balances | 12 / 59 | **detected, blind** | pass 1: `pubnet-59220000` (mishandled 1, unexplained 1 → none), `pubnet-61240000` (mishandled 1, unexplained 1 → none); pass 2: 31 of 59 sweep ledgers (together mishandled 31, unexplained 31 → none) |
 | `2c873353` | wallet-backend#729 | handle CAP-40 signed-payload signers | 12 / 59 | **detected, confirmed after reading the fix** | pass 1: `testnet-4437357-signed-payload-signer` (mishandled 1, unexplained 1 → none; built after reading the fix) |
 | `c152783c` | wallet-backend#734 | record SAC-created trustline state changes (#731) | 12 / 59 | **detected, blind** | pass 1: `localcore-sac-trust-p28-5` (dropped 1, unexplained 2 → none; built after reading the fix), `pubnet-63920000` (unexplained 2 → none); pass 2: 1 of 59 sweep ledgers (together unexplained 2 → none) |
 | `ce0820d7` | wallet-backend#745 | skip contract deploys from unstorable ScAddress kinds | 12 / 59 | missed | A create-contract whose deployer address is a claimable balance or a liquidity pool (protocol 23 or later), as the root host function and inside an auth entry: a local-core scenario at protocol 23 to 28. |
-| `490aab41` | — | key the buffer's canonical transactions by ToID, not hash | 12 / 59 | missed | The same envelope at two positions of one ingest batch. The harness replays one ledger per run, so this needs multi-ledger replay. |
+| `490aab41` | — | key the buffer's canonical transactions by ToID, not hash | 12 / 59 | missed | The same envelope at two positions of one ingest batch. A sequence of ledgers does not give that: as the fix's own message says, a network never repeats a transaction hash within or across ledgers, so only a synthetic ledger reaches it. |
 | `bb0b162b` | wallet-backend#753 | reduce a Soroban operation's source to its base account | 12 / 59 | **detected, confirmed after reading the fix** | pass 1: `localcore-muxed-source-p22-3` (mishandled 1, unexplained 1 → none; built after reading the fix) |
 | `7b7ee5f0` | — | map the three frozen-trustline operation result codes | 12 / 59 | missed | A claim, deposit or withdraw failing on a frozen trustline at protocol 26 to 28. The corpus has them only at protocol 30 (`golden-frozenledgerkeys-a0fb94c3-15`, `-d637d647-16`), which the commits before the fix cannot decode: a local-core scenario that freezes a trustline at protocol 26 to 28. The codes exist from protocol 26, but freezing a ledger key takes a Soroban configuration upgrade (a ConfigUpgradeSet written by a contract, then armed); not built, as it would give one detection made after reading the fix. |
 | `ba821579` | — | drop pool-share balances whose pool row is missing | 12 / 59 | missed | A ledger that changes a pool-share balance whose pool entry the ledger does not touch, replayed into an empty database (no such pass-2 ledger halted the parent). |

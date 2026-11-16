@@ -112,6 +112,55 @@ def build_index(corpus_dir):
     return index, problems
 
 
+def build_sequences(corpus_dir, index):
+    """Named runs of consecutive ledgers (corpus/sequences.json), served as one window so an indexer
+    ingests them into one database in one run. Each member is an ordinary corpus entry."""
+    path = os.path.join(corpus_dir, "sequences.json")
+    seqs, problems = {}, []
+    if not os.path.isfile(path):
+        return seqs, problems
+    with open(path) as f:
+        listed = json.load(f)["sequences"]
+    for s in listed:
+        try:
+            missing = [m for m in s["entries"] if m not in index]
+            if missing:
+                raise ValueError("members not in the feeder index: %s" % ", ".join(missing))
+            ms = sorted((index[m] for m in s["entries"]), key=lambda x: x["seq"])
+            if len({m["passphrase"] for m in ms}) != 1:
+                raise ValueError("members are on different networks")
+            gaps = [(a["seq"], b["seq"]) for a, b in zip(ms, ms[1:]) if b["seq"] != a["seq"] + 1]
+            if gaps:
+                raise ValueError("ledgers are not consecutive: %s" % gaps)
+            if s["id"] in index:
+                raise ValueError("the name is also an entry id")
+        except (KeyError, ValueError) as err:
+            problems.append({"id": s.get("id"), "problem": str(err)})
+            continue
+        last = ms[-1]
+        seqs[s["id"]] = {"id": s["id"], "members": [m["id"] for m in ms], "passphrase": last["passphrase"],
+                         "network_id": last["network_id"], "seq": ms[0]["seq"], "last_seq": last["seq"],
+                         "hash": last["hash"], "close_time": last["close_time"], "protocol": last["protocol"],
+                         "header_b64": last["header_b64"]}
+    return seqs, problems
+
+
+def link_sequences(seqs, lake_dir):
+    """A sequence's bucket path holds hard links to its members' lake files."""
+    for s in seqs.values():
+        for tree in ("data", "meta"):
+            for m in s["members"]:
+                src_root = os.path.join(lake_dir, tree, m)
+                for d, _, files in os.walk(src_root):
+                    for name in files:
+                        src = os.path.join(d, name)
+                        dst = os.path.join(lake_dir, tree, s["id"], os.path.relpath(src, src_root))
+                        os.makedirs(os.path.dirname(dst), exist_ok=True)
+                        if os.path.exists(dst):
+                            os.remove(dst)
+                        os.link(src, dst)
+
+
 # ---------------------------------------------------------------- data lake
 
 def partition_name(seq):
@@ -242,27 +291,33 @@ class RPCHandler(BaseHTTPRequestHandler):
         else:
             self._send(200, json.dumps(self._small(entry, req)).encode())
 
+    def _window(self, e):
+        """The ledgers this name serves: one corpus entry, or the consecutive entries of a sequence."""
+        return [self.index[m] for m in e["members"]] if "members" in e else [e]
+
     def _small(self, e, req):
         method, rid = req.get("method"), req.get("id")
         rec = {"port": "rpc", "entry": e["id"], "method": method, "params": req.get("params")}
         try:
+            w = self._window(e)
+            first, last = w[0], w[-1]
             if method == "getHealth":
-                result = {"status": "healthy", "latestLedger": e["seq"],
-                          "latestLedgerCloseTime": str(e["close_time"]), "oldestLedger": e["seq"],
-                          "oldestLedgerCloseTime": str(e["close_time"]),
+                result = {"status": "healthy", "latestLedger": last["seq"],
+                          "latestLedgerCloseTime": str(last["close_time"]), "oldestLedger": first["seq"],
+                          "oldestLedgerCloseTime": str(first["close_time"]),
                           "ledgerRetentionWindow": RETENTION_WINDOW}
             elif method == "getNetwork":
-                result = {"passphrase": e["passphrase"], "protocolVersion": e["protocol"]}
+                result = {"passphrase": e["passphrase"], "protocolVersion": last["protocol"]}
             elif method == "getLatestLedger":
-                result = {"id": e["hash"], "protocolVersion": e["protocol"], "sequence": e["seq"],
-                          "closeTime": str(e["close_time"]), "headerXdr": e["header_b64"]}
+                result = {"id": last["hash"], "protocolVersion": last["protocol"], "sequence": last["seq"],
+                          "closeTime": str(last["close_time"]), "headerXdr": last["header_b64"]}
             elif method == "getVersionInfo":
                 result = {"version": "shapecov-replay-mock", "commitHash": "0" * 40,
                           "buildTimestamp": "1970-01-01T00:00:00", "captiveCoreVersion": "none (mock)",
-                          "protocolVersion": e["protocol"]}
+                          "protocolVersion": last["protocol"]}
             elif method == "getLedgerEntries":
                 # The mock holds no ledger state: every key is reported as not found.
-                result = {"entries": [], "latestLedger": e["seq"]}
+                result = {"entries": [], "latestLedger": last["seq"]}
             elif method == "getLedgers":
                 raise RPCError(-32600, "getLedgers is not served inside a batch by this mock")
             else:
@@ -293,9 +348,12 @@ class RPCHandler(BaseHTTPRequestHandler):
                 start = int(pag["cursor"]) + 1
             else:
                 start = int(params.get("startLedger") or 0)
-            if start != e["seq"]:  # the window this mock presents is exactly one ledger
+            w = self._window(e)
+            first, last = w[0], w[-1]
+            if not first["seq"] <= start <= last["seq"]:  # the window: one ledger, or a sequence's ledgers
                 raise RPCError(-32602, "start ledger (%d) must be between the oldest ledger: %d and the "
-                                       "latest ledger: %d for this rpc instance" % (start, e["seq"], e["seq"]))
+                                       "latest ledger: %d for this rpc instance" % (start, first["seq"], last["seq"]))
+            page = [x for x in w if x["seq"] >= start][:limit]
         except (RPCError, ValueError, TypeError) as err:
             code, msg = (err.code, err.message) if isinstance(err, RPCError) else (-32602, "invalid params")
             rec["status"] = "error %d %s" % (code, msg)
@@ -303,29 +361,32 @@ class RPCHandler(BaseHTTPRequestHandler):
             self._send(200, json.dumps({"jsonrpc": "2.0", "id": req.get("id"),
                                         "error": {"code": code, "message": msg}}).encode())
             return
-        pre = ('{"jsonrpc":"2.0","id":%s,"result":{"ledgers":[{"hash":"%s","sequence":%d,'
-               '"ledgerCloseTime":"%d","headerXdr":"%s","metadataXdr":"'
-               % (json.dumps(req.get("id")), e["hash"], e["seq"], e["close_time"], e["header_b64"])).encode()
-        post = ('"}],"latestLedger":%d,"latestLedgerCloseTime":%d,"oldestLedger":%d,'
+        heads = [('{"hash":"%s","sequence":%d,"ledgerCloseTime":"%d","headerXdr":"%s","metadataXdr":"'
+                  % (x["hash"], x["seq"], x["close_time"], x["header_b64"])).encode() for x in page]
+        pre = ('{"jsonrpc":"2.0","id":%s,"result":{"ledgers":[' % json.dumps(req.get("id"))).encode()
+        post = ('],"latestLedger":%d,"latestLedgerCloseTime":%d,"oldestLedger":%d,'
                 '"oldestLedgerCloseTime":%d,"cursor":"%d"}}'
-                % (e["seq"], e["close_time"], e["seq"], e["close_time"], e["seq"])).encode()
-        total = len(pre) + e["b64_len"] + len(post)
+                % (last["seq"], last["close_time"], first["seq"], first["close_time"], page[-1]["seq"])).encode()
+        total = len(pre) + sum(len(h) + x["b64_len"] + 3 for h, x in zip(heads, page)) - 1 + len(post)
         self.send_response(200)
         self.send_header("Content-Type", "application/json")
         self.send_header("Content-Length", str(total))
         self.end_headers()
         self.wfile.write(pre)
-        remaining = e["b64_len"]
-        with open(e["path"], "rb") as f:
-            while remaining > 0:
-                chunk = f.read(min(CHUNK, remaining))
-                if not chunk:
-                    break
-                remaining -= len(chunk)
-                self.wfile.write(chunk)
+        for n, (h, x) in enumerate(zip(heads, page)):
+            self.wfile.write(h)
+            remaining = x["b64_len"]
+            with open(x["path"], "rb") as f:
+                while remaining > 0:
+                    chunk = f.read(min(CHUNK, remaining))
+                    if not chunk:
+                        break
+                    remaining -= len(chunk)
+                    self.wfile.write(chunk)
+            self.wfile.write(b'"}' if n == len(page) - 1 else b'"},')
         self.wfile.write(post)
         bump("bytes_served", total)
-        bump("ledgers_served_rpc")
+        bump("ledgers_served_rpc", len(page))
         rec["status"] = "ok"
         rec["response_bytes"] = total
         log_request(rec)
@@ -611,14 +672,20 @@ def main():
     lake = os.path.join(a.work, "lake")
     index, problems = build_index(a.corpus)
     built = build_lake(index, lake)
+    seqs, seq_problems = build_sequences(a.corpus, index)
+    link_sequences(seqs, lake)
+    problems += seq_problems
     with open(os.path.join(a.work, "feeder-index.json"), "w") as f:
         json.dump({"entries": {k: {x: v[x] for x in v if x not in ("path", "header_b64")} for k, v in index.items()},
+                   "sequences": {k: {x: v[x] for x in v if x != "header_b64"} for k, v in seqs.items()},
                    "problems": problems, "lake": built,
                    "maxrss_kb_after_build": resource.getrusage(resource.RUSAGE_SELF).ru_maxrss}, f, indent=1)
-    print("feeder: %d LedgerCloseMeta entries, %d problems, lake at %s" % (len(index), len(problems), lake), flush=True)
+    print("feeder: %d LedgerCloseMeta entries, %d sequences, %d problems, lake at %s"
+          % (len(index), len(seqs), len(problems), lake), flush=True)
     if a.build_only:
         return
     LOG = open(os.path.join(a.work, "feeder-requests.jsonl"), "a")
+    index.update(seqs)  # served by name like an entry; build_lake has already run over the entries
     RPCHandler.index = index
     S3Handler.lake = lake
     rpc = ThreadingHTTPServer(("0.0.0.0", a.rpc_port), RPCHandler)

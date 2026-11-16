@@ -217,3 +217,20 @@ def known_rule(expectation, commit=None):
             return rule
     return None
 
+
+def end_state_expectations(values, passphrase):
+    """After a sequence of ledgers: every credit trustline they touched, as its trustline_balances row
+    must stand when the last one closes (present with its balance and limit, or absent)."""
+    import oracle
+    out = []
+    for (account, code, issuer), st in sorted(oracle.final_trustlines(values).items()):
+        e = {"expect": "current_trustline", "account": account, "code": code, "issuer": issuer,
+             "present": st is not None,
+             "via": {"where": "end", "op_type": None, "what": "end state",
+                     "how": "held" if st is not None else "removed"}}
+        if st is not None:
+            e["balance"], e["limit"] = st["balance"], st["limit"]
+        e["derived_from"] = "oracle: final_trustlines over the sequence (%s)" % e["via"]["how"]
+        out.append(e)
+    return out
+

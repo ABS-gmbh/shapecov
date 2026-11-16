@@ -256,6 +256,25 @@ def _check(exp, obs):
         if found:
             return "wrong_value", "%s is recorded as a participant of %s and must not be" % (exp["account"], where)
         return "met", "%s is not recorded as a participant" % exp["account"]
+    if kind == "current_trustline":
+        # The indexer's current state after a sequence of ledgers (replay.py run --sequence).
+        rows = (obs.get("end_state") or {}).get("trustlines")
+        label = "trustline %s:%s of %s" % (exp["code"], exp["issuer"], exp["account"])
+        if rows is None:
+            return "not_checked", "%s: the indexer has no current-state table of trustlines" % label
+        got = [r for r in rows if (r.get("account"), r.get("code"), r.get("issuer")) ==
+               (exp["account"], exp["code"], exp["issuer"])]
+        if not exp["present"]:
+            if got:
+                return "wrong_value", "%s: the ledgers end with it removed, a row is still stored" % label
+            return "met", "%s: removed, no row stored" % label
+        if not got:
+            return "missing", "%s: the ledgers end with it held, no row is stored" % label
+        diff = ["%s is %s, expected %s" % (k, got[0].get(k), exp[k]) for k in ("balance", "limit")
+                if k in exp and str(got[0].get(k)) != str(exp[k])]
+        if diff:
+            return "wrong_value", "%s: %s" % (label, "; ".join(diff))
+        return "met", "%s: stored with balance %s" % (label, exp.get("balance"))
     if kind == "transaction":
         if any(t.get("hash") == exp["hash"] for t in obs.get("transactions") or []):
             return "met", "transaction %s stored" % exp["hash"]

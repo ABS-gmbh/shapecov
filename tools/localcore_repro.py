@@ -35,7 +35,8 @@ ROOT = Path(__file__).resolve().parent.parent
 RECORD = ROOT / "corpus" / "localcore-reproducible.json"
 # Scenarios that record corpus ledgers (muxed-source-refused-p24 records only a refusal).
 SCENARIOS = ["classic-p22", "muxed-source-p22", "memo-and-offer-p30", "sac-trust-p28", "pools-sponsorship-p30",
-             "flags-preauth-p30", "participants-p28", "failures-p30", "big-merge-p30"]
+             "flags-preauth-p30", "participants-p28", "failures-p30", "big-merge-p30",
+             "trustline-churn-p28"]
 NETWORKS = {"testnet": "Test SDF Network ; September 2015", "pubnet": "Public Global Stellar Network ; September 2015"}
 
 _CODEC = {}

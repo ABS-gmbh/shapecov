@@ -156,6 +156,30 @@
     "seq": 9
    }
   },
+  "trustline-add": {
+   "pubnet": {
+    "normalized_sha256": "f23eedff6fa6cec946c77cd2cf8f2f6c7446cb3727b82508140d4a3f2720008e",
+    "raw_sha256": "f23eedff6fa6cec946c77cd2cf8f2f6c7446cb3727b82508140d4a3f2720008e",
+    "seq": 4
+   },
+   "testnet": {
+    "normalized_sha256": "a402f828dbac94dcf888f5a1ce0d6fe8a53b0b9064ec0de59d20499491cad161",
+    "raw_sha256": "a402f828dbac94dcf888f5a1ce0d6fe8a53b0b9064ec0de59d20499491cad161",
+    "seq": 4
+   }
+  },
+  "trustline-churn": {
+   "pubnet": {
+    "normalized_sha256": "ade2eb5152d13cea48861cd56ffe3b5e71bf05a31aec4802a626b3be34247cfd",
+    "raw_sha256": "44cfa0619f289309257cb1e586bacde0eb005eda8a2310a9f6a953600e0d0b8a",
+    "seq": 5
+   },
+   "testnet": {
+    "normalized_sha256": "25e7f55ba7f48d52c9cf9a47754d1a0679b54de4dcfc3c8cbeaa26d0e4122390",
+    "raw_sha256": "6db910b4ad7adf340f4ca853564e6ed9ba044a8e09973572eab624a5a360427e",
+    "seq": 5
+   }
+  },
   "tx-failures-bumped": {
    "pubnet": {
     "normalized_sha256": "b719bdba47da6cc7daddefff33d4ef9eef83ea496a5f5b229d24c255af54a2f3",

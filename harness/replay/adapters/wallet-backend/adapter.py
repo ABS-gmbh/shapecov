@@ -30,10 +30,11 @@ import strkeyx  # noqa: E402
 REPO_URL = "https://github.com/stellar/wallet-backend"
 GO_IMAGE = os.environ.get("REPLAY_GO_IMAGE", "golang:1.26")
 DEFAULT_DB_IMAGE = "timescale/timescaledb:2.28.2-pg17"
-DB = "shapecov-replay-db"
-INGEST = "shapecov-replay-ingest"
-MIGRATE = "shapecov-replay-migrate"
-BUILD = "shapecov-replay-build"
+PREFIX = os.environ.get("REPLAY_PREFIX", "shapecov-replay")  # set by replay.py's environment
+DB = PREFIX + "-db"
+INGEST = PREFIX + "-ingest"
+MIGRATE = PREFIX + "-migrate"
+BUILD = PREFIX + "-build"
 DB_URL = "postgres://postgres@%s:5432/replay?sslmode=disable" % DB
 ADDRESS_COLUMNS = ("account_id", "token_id", "signer_account_id", "spender_account_id",
                    "creator_account_id", "destination_account_id")
@@ -227,6 +228,18 @@ def read_back(seq):
     return obs
 
 
+def read_end_state():
+    """The current-state tables after a sequence of ledgers. None for a table the commit lacks."""
+    unreadable = []
+    tl = rows("trustline_balances b join trustline_assets a on a.id = b.asset_id", "true")
+    out = {"trustlines": None if tl is None else [
+        {"account": (address(r["account_id"], "trustline_balances", "account_id", unreadable) or {}).get("strkey"),
+         "code": r["code"], "issuer": r["issuer"], "balance": int(r["balance"]), "limit": int(r["trust_limit"])}
+        for r in tl]}
+    out["unreadable"] = unreadable
+    return out
+
+
 def cursor():
     r = psql("select value from ingest_store where key = 'latest_ingest_ledger'", check=False)
     try:
@@ -242,6 +255,10 @@ def run(a):
     os.makedirs(out, exist_ok=True)
     work = os.path.abspath(job["work_dir"])
     commit, seq = job["commit"], job["ledger"]["seq"]
+    # A sequence (replay.py run --sequence) is ingested in one run: from before its first ledger
+    # to its last, which job["ledger"] names.
+    members = (job.get("sequence") or {}).get("ledgers") or [{"entry_id": job["entry_id"], "seq": seq}]
+    first = members[0]["seq"]
     binary = "/wb/" + binary_name(commit)
     obs = {"observation_version": 1, "adapter": "wallet-backend", "commit": commit, "input": job["input"],
            "entry_id": job["entry_id"], "ledger_seq": seq, "ingested": False, "error": None}
@@ -258,9 +275,9 @@ def run(a):
         obs["error"] = "adapter: the commit's own `migrate up` failed, see migrate.log"
         obs["adapter_failure"] = True
         return finish(obs, out, t0)
-    # Position the indexer directly before the entry's ledger.
+    # Position the indexer directly before the entry's ledger (a sequence's first).
     psql("insert into ingest_store (key, value) values ('latest_ingest_ledger', '%d'), ('oldest_ingest_ledger', '%d')"
-         % (seq - 1, seq - 1))
+         % (first - 1, first - 1))
     env = {"DATABASE_URL": DB_URL, "NETWORK_PASSPHRASE": job["network_passphrase"],
            "NETWORK": KNOWN_NETWORKS.get(job["network_passphrase"], "standalone"),
            "INGESTION_MODE": "live", "LOG_LEVEL": "INFO", "STELLAR_ENVIRONMENT": "development", "GET_LEDGERS_LIMIT": "10",
@@ -322,7 +339,12 @@ def run(a):
         elif warns:
             obs["error"] = "not ingested within %ds; the indexer kept retrying: %s" % (
                 job.get("timeout_seconds", 120), warns[-1][:1000])
-    obs.update(read_back(seq))
+    if job.get("sequence"):
+        obs["ledgers"] = {m["entry_id"]: dict(read_back(m["seq"]), ingested=cur is not None and cur >= m["seq"])
+                          for m in members}
+        obs["end_state"] = read_end_state()
+    else:
+        obs.update(read_back(seq))
     return finish(obs, out, t0)
 
 

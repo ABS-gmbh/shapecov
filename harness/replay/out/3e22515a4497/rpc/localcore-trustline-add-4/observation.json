@@ -1,0 +1,120 @@
+{
+ "observation_version": 1,
+ "adapter": "wallet-backend",
+ "commit": "3e22515a44979fdc3a558fda3991ca2b48e38cef",
+ "input": "rpc",
+ "entry_id": "localcore-trustline-add-4",
+ "ledger_seq": 4,
+ "ingested": true,
+ "error": null,
+ "command": "wallet-backend ingest  (configured by environment: ARCHIVE_URL=http://shapecov-seq-feeder:8000/archive/localcore-trustline-add-4, DATABASE_URL=postgres://postgres@shapecov-seq-db:5432/replay?sslmode=disable, DATASTORE_BUCKET_PATH=shapecov-lake/localcore-trustline-add-4, DATASTORE_BUFFER_SIZE=4, DATASTORE_ENDPOINT_URL=http://shapecov-seq-feeder:9000, DATASTORE_NUM_WORKERS=2, DATASTORE_REGION=us-east-1, GET_LEDGERS_LIMIT=10, INGESTION_MODE=live, LEDGER_BACKEND_TYPE=rpc, LOG_LEVEL=INFO, NETWORK=testnet, NETWORK_PASSPHRASE=Test SDF Network ; September 2015, RPC_URL=http://shapecov-seq-feeder:8000/rpc/localcore-trustline-add-4, STELLAR_ENVIRONMENT=development)",
+ "seconds_to_outcome": 1.4,
+ "cursor": 4,
+ "process": {
+  "outcome": "stopped by the adapter after the ledger was ingested",
+  "exit_code": 0,
+  "oom_killed": false,
+  "started_finished": "2026-11-16T21:39:49.861483424Z 2026-11-16T21:39:51.027300341Z"
+ },
+ "log_errors": [],
+ "log_warnings": 1,
+ "transactions": [
+  {
+   "hash": "f05ca527641f5986a88d9ca148f40382f5c4ce3e022ad0c1a3d3e20ea4368369",
+   "tx_order": 1,
+   "result_code": "TransactionResultCodeTxSuccess",
+   "participants": [
+    "GBPPIB5KFOJ3AX3JZPXWGY5FUYAQHWFRJ34WR3MWNPTRCF5UCT4JRHPE"
+   ]
+  }
+ ],
+ "operations": [
+  {
+   "tx_hash": "f05ca527641f5986a88d9ca148f40382f5c4ce3e022ad0c1a3d3e20ea4368369",
+   "tx_order": 1,
+   "op_order": 1,
+   "type": "CHANGE_TRUST",
+   "participants": [
+    "GBPPIB5KFOJ3AX3JZPXWGY5FUYAQHWFRJ34WR3MWNPTRCF5UCT4JRHPE"
+   ]
+  }
+ ],
+ "state_changes": [
+  {
+   "tx_hash": "f05ca527641f5986a88d9ca148f40382f5c4ce3e022ad0c1a3d3e20ea4368369",
+   "tx_order": 1,
+   "op_order": 0,
+   "category": "BALANCE",
+   "reason": "DEBIT",
+   "stored": {
+    "account": "305ef407aa2b93b05f69cbef6363a5a60103d8b14ef968ed966be71117b414f898",
+    "token": "10d7928b72c2703ccfeaf7eb9ff4ef4d504a55a8b979fc9b450ea2c842b4d1ce61"
+   },
+   "account": "GBPPIB5KFOJ3AX3JZPXWGY5FUYAQHWFRJ34WR3MWNPTRCF5UCT4JRHPE",
+   "token": "CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC",
+   "signer_key": null,
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "amount": "100"
+   }
+  },
+  {
+   "tx_hash": "f05ca527641f5986a88d9ca148f40382f5c4ce3e022ad0c1a3d3e20ea4368369",
+   "tx_order": 1,
+   "op_order": 1,
+   "category": "TRUSTLINE",
+   "reason": "ADD",
+   "stored": {
+    "account": "305ef407aa2b93b05f69cbef6363a5a60103d8b14ef968ed966be71117b414f898",
+    "token": "106a68f2c4520639bb0eb60d8d16cff85919356aa6409039e931d729bcc3d27179"
+   },
+   "account": "GBPPIB5KFOJ3AX3JZPXWGY5FUYAQHWFRJ34WR3MWNPTRCF5UCT4JRHPE",
+   "token": "CBVGR4WEKIDDTOYOWYGY2FWP7BMRSNLKUZAJAOPJGHLSTPGD2JYXTWKV",
+   "signer_key": null,
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "trustline_limit_new": "922337203685.4775807"
+   }
+  },
+  {
+   "tx_hash": "f05ca527641f5986a88d9ca148f40382f5c4ce3e022ad0c1a3d3e20ea4368369",
+   "tx_order": 1,
+   "op_order": 1,
+   "category": "BALANCE_AUTHORIZATION",
+   "reason": "SET",
+   "stored": {
+    "account": "305ef407aa2b93b05f69cbef6363a5a60103d8b14ef968ed966be71117b414f898",
+    "token": "106a68f2c4520639bb0eb60d8d16cff85919356aa6409039e931d729bcc3d27179"
+   },
+   "account": "GBPPIB5KFOJ3AX3JZPXWGY5FUYAQHWFRJ34WR3MWNPTRCF5UCT4JRHPE",
+   "token": "CBVGR4WEKIDDTOYOWYGY2FWP7BMRSNLKUZAJAOPJGHLSTPGD2JYXTWKV",
+   "signer_key": null,
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "flags": 1,
+    "trustline_limit_new": "922337203685.4775807"
+   }
+  }
+ ],
+ "native_balances": [
+  {
+   "account": "GBPPIB5KFOJ3AX3JZPXWGY5FUYAQHWFRJ34WR3MWNPTRCF5UCT4JRHPE",
+   "balance": 999999900
+  }
+ ],
+ "unreadable": [],
+ "row_counts": {
+  "transactions": 1,
+  "transactions_accounts": 1,
+  "operations": 1,
+  "operations_accounts": 1,
+  "state_changes": 3
+ },
+ "seconds": 2.8
+}

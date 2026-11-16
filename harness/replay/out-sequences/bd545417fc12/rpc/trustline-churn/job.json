@@ -1,0 +1,43 @@
+{
+ "job_version": 1,
+ "entry_id": "trustline-churn",
+ "ref": "bd545417fc121d37e9dad59f260d3d37d722cfd1",
+ "commit": "bd545417fc121d37e9dad59f260d3d37d722cfd1",
+ "input": "rpc",
+ "network_passphrase": "Test SDF Network ; September 2015",
+ "ledger": {
+  "seq": 5,
+  "hash": "f15bd16367e77eb6313be168832fef9ba33bb1bc48e8ed20d70d7339a6fed194",
+  "close_time": 4040000000,
+  "protocol": 28
+ },
+ "sequence": {
+  "id": "trustline-churn",
+  "ledgers": [
+   {
+    "entry_id": "localcore-trustline-add-4",
+    "seq": 4,
+    "hash": "1e0483f78864e66e0e4d835fa67724dad3492f50bd4386854e3907153e77d030"
+   },
+   {
+    "entry_id": "localcore-trustline-churn-5",
+    "seq": 5,
+    "hash": "f15bd16367e77eb6313be168832fef9ba33bb1bc48e8ed20d70d7339a6fed194"
+   }
+  ]
+ },
+ "rpc": {
+  "url": "http://shapecov-seq-feeder:8000/rpc/trustline-churn"
+ },
+ "datalake": {
+  "s3_endpoint": "http://shapecov-seq-feeder:9000",
+  "bucket_path": "shapecov-lake/trustline-churn",
+  "region": "us-east-1"
+ },
+ "history_archive": {
+  "url": "http://shapecov-seq-feeder:8000/archive/trustline-churn"
+ },
+ "docker_network": "shapecov-seq-net",
+ "timeout_seconds": 240,
+ "work_dir": "$REPLAY_WORK"
+}

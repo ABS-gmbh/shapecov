@@ -102,6 +102,16 @@
     "how": "outside meta",
     "kind": "state change"
    }
+  },
+  {
+   "issue": "stellar/wallet-backend#687",
+   "kind": "#687 lost delete",
+   "fixed_by": "bd545417fc121d37e9dad59f260d3d37d722cfd1",
+   "title": "A trustline removed, added again and removed again in one ledger keeps the row an earlier ledger wrote: the buffer netted the add and the last remove to nothing (fixed in bd545417)",
+   "match": {
+    "what": "end state",
+    "how": "removed"
+   }
   }
  ]
 }

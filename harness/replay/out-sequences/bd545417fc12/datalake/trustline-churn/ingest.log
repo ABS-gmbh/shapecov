@@ -1,0 +1,21 @@
+time="2026-11-16T21:30:54.440Z" level=info msg="📦 Git Commit: bd545417fc121d37e9dad59f260d3d37d722cfd1" pid=1
+time="2026-11-16T21:30:54.440Z" level=info msg="📦 Version: 0.2.0" pid=1
+time="2026-11-16T21:30:54.441Z" level=debug msg="Setting log level to: info" pid=1
+time="2026-11-16T21:30:54.502Z" level=info msg="Set chunk interval \"1 day\" on transactions" pid=1
+time="2026-11-16T21:30:54.504Z" level=info msg="Set chunk interval \"1 day\" on transactions_accounts" pid=1
+time="2026-11-16T21:30:54.505Z" level=info msg="Set chunk interval \"1 day\" on operations" pid=1
+time="2026-11-16T21:30:54.510Z" level=info msg="Set chunk interval \"1 day\" on operations_accounts" pid=1
+time="2026-11-16T21:30:54.511Z" level=info msg="Set chunk interval \"1 day\" on state_changes" pid=1
+SDK 2026/11/16 21:30:54 WARN Response has no supported checksum. Not validating response payload.
+time="2026-11-16T21:30:55.009Z" level=info msg="Using datastore backend with buffer size 4, 2 workers" pid=1
+time="2026-11-16T21:30:55.034Z" level=info msg="protocol SEP41 history production disabled; cursor not initialized" pid=1
+time="2026-11-16T21:30:55.035Z" level=info msg="protocol SEP41 current-state production disabled; cursor not initialized" pid=1
+time="2026-11-16T21:30:55.039Z" level=info msg="Starting ingestion from ledger: 4" pid=1
+SDK 2026/11/16 21:30:55 WARN Response has no supported checksum. Not validating response payload.
+SDK 2026/11/16 21:30:55 WARN Response has no supported checksum. Not validating response payload.
+time="2026-11-16T21:30:55.127Z" level=info msg="Ingested ledger 4 in 0.0610s" pid=1
+time="2026-11-16T21:30:55.142Z" level=info msg="Ingested ledger 5 in 0.0141s" pid=1
+time="2026-11-16T21:30:55.830Z" level=warning msg="Error fetching ledger 6 (attempt 1/10): getting next batch: caller context cancelled: context canceled, retrying in 1s..." pid=1
+time="2026-11-16T21:30:55.831Z" level=info msg="shutdown requested; exiting cleanly: fetching ledger 6: context cancelled during backoff: context canceled" pid=1
+time="2026-11-16T21:30:55.831Z" level=info msg="Shutting down servers..." pid=1
+time="2026-11-16T21:30:55.831Z" level=info msg="Servers gracefully stopped" pid=1

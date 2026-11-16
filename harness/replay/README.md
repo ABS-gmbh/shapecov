@@ -30,7 +30,7 @@ and download the Go modules each commit pins. Builds are cached per commit in
 Lower level:
 
 ```sh
-python3 harness/replay/replay.py run --refs <ref>[,<ref>…] [--entries ID,…| --all-entries] \
+python3 harness/replay/replay.py run --refs <ref>[,<ref>…] [--entries ID,…| --all-entries | --sequence NAME,…] \
         [--inputs rpc,datalake] [--max-protocol N] [--timeout 120] [--keep]
 python3 harness/replay/replay.py report      # rebuild RESULTS.md from out/results.jsonl
 python3 harness/replay/replay.py rejudge     # recompute the oracle verdicts from the stored observations
@@ -38,7 +38,24 @@ python3 harness/replay/replay.py check       # fail unless out/results.jsonl mat
 ```
 
 Every verb takes `--adapter` (`run`) or `--out` (all): stellar-etl's results live in
-`out-stellar-etl/`, one output directory per adapter.
+`out-stellar-etl/`, one output directory per adapter. `REPLAY_PREFIX=name` gives a run its own
+container names, network and feeder folder, so two replays can run at once.
+
+### Sequences: several ledgers into one database
+
+Some defects need state an earlier ledger wrote: a delete is lost only if a row exists to be
+deleted. `corpus/sequences.json` names runs of consecutive corpus ledgers, and
+`run --sequence NAME` serves one as a single window (the mock RPC's oldest and latest ledgers, and
+one data-lake prefix holding all of them). The adapter positions the cursor before the first
+ledger and waits for the last, so the indexer ingests them in one process into one database. Each
+ledger is then judged as an entry (its result carries `mode: sequence NAME`), and the
+sequence gets a result of its own: the current-state tables at the end against the oracle's
+`final_trustlines`, the state of every credit trustline the ledgers touched when the last one
+closes. Sequences are recorded in `out-sequences/`.
+
+| Sequence | Ledgers | Built for | Blind |
+|---|---|---|---|
+| `trustline-churn` | `localcore-trustline-add-4`, `localcore-trustline-churn-5` (scenario `trustline-churn-p28`) | wallet-backend#687 | no: built after reading the fix |
 
 ## How it works
 
@@ -304,8 +321,10 @@ storage, which the oracle does not read, so their token transfer events are not 
   separately.
 - **No ledger state.** `getLedgerEntries` always returns nothing, so code paths that look up ledger
   state through RPC see none.
-- **One ledger per run.** The mock RPC window and the data-lake prefix each hold exactly one ledger.
-  Cross-ledger behaviour, such as a delete in the next ledger, is not covered yet.
+- **Sequences are few and checked at the end for trustlines only.** Every corpus entry is still
+  replayed alone; the one sequence (`trustline-churn`) was built for #687. The end-state check reads
+  `trustline_balances`; accounts, pool shares and contract balances at the end of a sequence are not
+  compared yet. A run of consecutive archive ledgers taken without looking would be a blind test.
 - **Current balances from protocol 23 only.** The `native_balance` check skips ledgers before
   protocol 23: wallet-backend's documented contract (`docs/architecture/state-changes.md`, and
   `internal/indexer/processors/accounts.go` lines 30–37 at `3e22515a`) folds the Soroban fee refund

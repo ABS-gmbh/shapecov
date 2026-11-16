@@ -651,12 +651,9 @@ def participants(value, passphrase=None):
     return out
 
 
-def final_native_balances(value):
-    """{account: (balance before the ledger or None if it created the account, balance after it or
-    None if it removed the account)} for every account whose entry the ledger created, changed or
-    removed. stellar-core charges every transaction's fee
-    first, then applies the transactions in order, then the post-apply fee refunds, then the upgrades,
-    so the last change in that order is the account's state when the ledger closes."""
+def close_order(value):
+    """A ledger's change lists in the order stellar-core applies them: every transaction's fee first,
+    then the transactions in order, then the post-apply fee refunds, then the upgrades."""
     body = value["v%d" % value["v"]]
     txs = body["txProcessing"]
     order = [tp.get("feeProcessing") for tp in txs]
@@ -669,8 +666,55 @@ def final_native_balances(value):
                  [mv.get("txChangesAfter")]
     order += [tp.get("postTxApplyFeeProcessing") for tp in txs]
     order += [u.get("changes") for u in body.get("upgradesProcessing") or []]
+    return order
+
+
+def _credit_line(tl_asset):
+    """(code, issuer G...) of a credit trustline asset, or None for a pool share."""
+    t = tl_asset["type"]
+    if t == "ASSET_TYPE_CREDIT_ALPHANUM4":
+        a = tl_asset["alphaNum4"]
+    elif t == "ASSET_TYPE_CREDIT_ALPHANUM12":
+        a = tl_asset["alphaNum12"]
+    else:
+        return None
+    return bytes.fromhex(a["assetCode"]).rstrip(b"\0").decode("latin-1"), account_of(a["issuer"])
+
+
+def final_trustlines(values):
+    """{(account, code, issuer): {"balance", "limit", "flags"} or None if removed} for every credit
+    trustline the ledgers (decoded LedgerCloseMeta, consecutive, oldest first) created, changed or
+    removed: its state when the last of them closes."""
+    out = {}
+    for value in values:
+        for changes in close_order(value):
+            for ch in changes or []:
+                t = ch["type"]
+                if t in ("LEDGER_ENTRY_CREATED", "LEDGER_ENTRY_UPDATED", "LEDGER_ENTRY_RESTORED"):
+                    d = ch[t.split("_")[-1].lower()]["data"]
+                    if d["type"] != "TRUSTLINE":
+                        continue
+                    tl = d["trustLine"]
+                    line = _credit_line(tl["asset"])
+                    if line:
+                        out[(account_of(tl["accountID"]),) + line] = {"balance": tl["balance"], "limit": tl["limit"],
+                                                                     "flags": tl["flags"]}
+                elif t == "LEDGER_ENTRY_REMOVED" and ch["removed"]["type"] == "TRUSTLINE":
+                    k = ch["removed"]["trustLine"]
+                    line = _credit_line(k["asset"])
+                    if line:
+                        out[(account_of(k["accountID"]),) + line] = None
+    return out
+
+
+def final_native_balances(value):
+    """{account: (balance before the ledger or None if it created the account, balance after it or
+    None if it removed the account)} for every account whose entry the ledger created, changed or
+    removed. stellar-core charges every transaction's fee
+    first, then applies the transactions in order, then the post-apply fee refunds, then the upgrades,
+    so the last change in that order is the account's state when the ledger closes."""
     before, after = {}, {}
-    for changes in order:
+    for changes in close_order(value):
         for ch in changes or []:
             t = ch["type"]
             if t == "LEDGER_ENTRY_STATE" and ch["state"]["data"]["type"] == "ACCOUNT":

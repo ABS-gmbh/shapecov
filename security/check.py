@@ -42,7 +42,7 @@ ALLOWED_WRITES = {
     ("upstream-drift.yml", "issues"),
 }
 ACTION_OWNERS = {"actions"}
-EVIDENCE = ("harness/replay/out", "harness/replay/out-stellar-etl", "harness/replay/out-horizon", "harness/replay/backtest", "linter/results", "out/",
+EVIDENCE = ("harness/replay/out", "harness/replay/out-stellar-etl", "harness/replay/out-horizon", "harness/replay/out-sequences", "harness/replay/backtest", "linter/results", "out/",
             "protocol-drill/", "sdk-matrix/", "guide/probes.json", "corpus/")
 HOME = re.compile(r"/(Users|home)/[a-z][a-z0-9._-]+/")
 UNTRUSTED = re.compile(r"\$\{\{[^}]*\b(github\.event\.|github\.head_ref)")

@@ -1,0 +1,12 @@
+{
+ "note": "Named runs of consecutive corpus ledgers. harness/replay/replay.py run --sequence NAME serves one as a single window, so an indexer ingests every ledger into one database in one run; the harness judges each ledger and then the indexer's current state at the end. blind: false means the sequence was built after reading the fix it tests; a run of consecutive archive ledgers taken without looking would be blind.",
+ "sequences": [
+  {
+   "id": "trustline-churn",
+   "entries": ["localcore-trustline-add-4", "localcore-trustline-churn-5"],
+   "built_for": "stellar/wallet-backend#687 (fix bd545417)",
+   "blind": false,
+   "end_state": "The holder's USD trustline does not exist."
+  }
+ ]
+}

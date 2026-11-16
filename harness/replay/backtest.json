@@ -3,6 +3,7 @@
  "results": {
   "pass1": "backtest/pass1.jsonl",
   "pass2": "backtest/pass2.jsonl",
+  "sequences": "backtest/sequences.jsonl",
   "etl": "out-stellar-etl/results.jsonl"
  },
  "items": [
@@ -68,9 +69,20 @@
    "fix": "bd545417",
    "parent": "bdb934bc",
    "title": "keep a same-ledger REMOVE so deletes are never lost",
-   "verdict": "missed",
-   "entries": [],
-   "what_would_catch_it": "Read the current-state tables (trustlines, pool shares, SAC balances), plus a ledger that creates and removes the same entry: a local-core scenario adding and removing one trustline in one ledger."
+   "verdict": "detected",
+   "entries": [
+    {
+     "entry": "trustline-churn",
+     "results": "sequences",
+     "blind": false,
+     "parent": {
+      "indexer: mishandled": 1,
+      "#687 lost delete": 1
+     },
+     "fix": {}
+    }
+   ],
+   "what_would_catch_it": null
   },
   {
    "id": "wallet-backend#693",
@@ -501,7 +513,7 @@
    "title": "key the buffer's canonical transactions by ToID, not hash",
    "verdict": "missed",
    "entries": [],
-   "what_would_catch_it": "The same envelope at two positions of one ingest batch. The harness replays one ledger per run, so this needs multi-ledger replay."
+   "what_would_catch_it": "The same envelope at two positions of one ingest batch. A sequence of ledgers does not give that: as the fix's own message says, a network never repeats a transaction hash within or across ledgers, so only a synthetic ledger reaches it."
   },
   {
    "id": "wallet-backend#753",

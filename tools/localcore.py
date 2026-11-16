@@ -62,6 +62,12 @@ Scenarios (one per run):
                      account 2^53 + 1 stroops, then that account (as its operation's source, signing
                      too) merges into a third, which receives a balance above 2^53. Amounts a reader
                      that keeps stroops in a float64 rounds, and a successful merge.
+  trustline-churn-p28
+                     Protocol 28, stellar-core 30.0.0 (so commits pinning go-stellar-sdk v0.7.3 read
+                     it). Two consecutive ledgers: in the first an account
+                     trusts USD; in the next one transaction removes that trustline, adds it again and
+                     removes it again. Replayed as the sequence trustline-churn (corpus/sequences.json),
+                     the trustline must be gone from an indexer's current state at the end.
   failures-p30       Protocol 30, stellar-core 30.0.0. Operations and transactions that fail when they
                      apply, many in one ledger: see tools/localcore_failures.py. Recorded ledgers
                      op-failures, tx-failures-plain, tx-failures-bumped and upgrades.
@@ -98,7 +104,8 @@ IMAGE = "stellar/stellar-core:30.0.0-3642.0e49751aa.noble"
 IMAGE_V22 = "stellar/stellar-core:22.2.1-2429.e70f0aed8.focal"
 SCENARIOS = {"muxed-source-p22": IMAGE_V22, "classic-p22": IMAGE_V22, "pools-sponsorship-p30": IMAGE,
              "flags-preauth-p30": IMAGE, "muxed-source-refused-p24": IMAGE, "memo-and-offer-p30": IMAGE,
-             "sac-trust-p28": IMAGE, "participants-p28": IMAGE, "failures-p30": IMAGE, "big-merge-p30": IMAGE}
+             "sac-trust-p28": IMAGE, "participants-p28": IMAGE, "failures-p30": IMAGE, "big-merge-p30": IMAGE,
+             "trustline-churn-p28": IMAGE}
 NAME = "shapecov-localcore-gen"
 PASSPHRASES = {"testnet": "Test SDF Network ; September 2015",
                "pubnet": "Public Global Stellar Network ; September 2015"}
@@ -314,6 +321,8 @@ def main():
             sac_trust_p28(core, enc, dec, root, step, run)
         elif a.scenario == "big-merge-p30":
             big_merge_p30(core, enc, root, step, run)
+        elif a.scenario == "trustline-churn-p28":
+            trustline_churn_p28(core, enc, root, step, run)
         elif a.scenario == "failures-p30":
             import localcore_failures
             localcore_failures.failures(sys.modules[__name__], core, enc, dec, root, step, run, 30)
@@ -723,6 +732,30 @@ def big_merge_p30(core, enc, root, step, run):
     if step("big-merge-p30: pay 2^53+1, then merge", 30, blob, h, "PENDING, applied")["status"] != "PENDING":
         raise SystemExit("the payment and merge were refused; see the diagnostics above")
     run["ledger_big_merge"] = core.close()
+
+
+
+def trustline_churn_p28(core, enc, root, step, run):
+    core.upgrade(28)
+    holder = Keys("trustline churn holder")
+    run["holder"] = strkey.account(holder.pub)
+    usd = {"type": "ASSET_TYPE_CREDIT_ALPHANUM4", "alphaNum4": {"assetCode": b"USD\0".hex(), "issuer": root.account()}}
+    t = tx(root.muxed(), 1, [op("CREATE_ACCOUNT", "createAccountOp", {"destination": holder.account(),
+                                                                      "startingBalance": 100_0000000})], fee=100)
+    blob, h = envelope(enc, core, t, root)
+    step("trustline-churn-p28: create account", 28, blob, h, "PENDING, applied")
+    born = core.close() << 32
+    trust = lambda limit: op("CHANGE_TRUST", "changeTrustOp", {"line": usd, "limit": limit})
+    blob, h = envelope(enc, core, tx(holder.muxed(), born + 1, [trust(2 ** 63 - 1)], fee=100), holder)
+    if step("trustline-churn-p28: trust USD", 28, blob, h, "PENDING, applied")["status"] != "PENDING":
+        raise SystemExit("the trustline was refused; see the diagnostics above")
+    run["ledger_trustline_add"] = core.close()
+    blob, h = envelope(enc, core, tx(holder.muxed(), born + 2, [trust(0), trust(1000_0000000), trust(0)], fee=300), holder)
+    if step("trustline-churn-p28: remove, add, remove", 28, blob, h, "PENDING, applied")["status"] != "PENDING":
+        raise SystemExit("the churn transaction was refused; see the diagnostics above")
+    run["ledger_trustline_churn"] = core.close()
+    if run["ledger_trustline_churn"] != run["ledger_trustline_add"] + 1:
+        raise SystemExit("the two ledgers are not consecutive")
 
 
 if __name__ == "__main__":
