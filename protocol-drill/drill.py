@@ -180,9 +180,14 @@ def report(d):
                               "it" if len(x["cells_added"]) == 1 else "them",
                               "it" if len(x["cells_added"]) == 1 else "them",
                               "it" if len(x["cells_added"]) == 1 else "them"))
-    summary.append("%d cells that stellar-core's golden files exercise are not in any corpus entry yet (listed at "
-                   "the end). They are the next entries to mine from the goldens (`tools/mine.py goldens`), whatever "
-                   "the next protocol brings." % len(d["cells_in_next_goldens_not_in_corpus"]))
+    missing = len(d["cells_in_next_goldens_not_in_corpus"])
+    if missing:
+        summary.append("%d cells that stellar-core's golden files exercise are not in any corpus entry yet (listed at "
+                       "the end). They are the next entries to mine from the goldens (`tools/mine.py goldens`), "
+                       "whatever the next protocol brings." % missing)
+    else:
+        summary.append("Every cell that stellar-core's golden files exercise is carried by at least one corpus entry "
+                       "(%d corpus cells)." % d["corpus_cells"])
     L += ["", "## What this means", ""] + ["- " + x for x in summary]
     L += ["", "## What stellar-core's golden files exercise", "",
           "Every LedgerCloseMeta in the golden files was decoded strictly with the kit's protocol 30 schema.", "",

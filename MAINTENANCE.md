@@ -64,7 +64,8 @@ It reports:
 - the new types and cells;
 - that all 15,306 next-protocol golden ledgers, 13,893 of them at protocol 31, decode with today's
   schema;
-- the 19 cells those goldens exercise that the corpus does not carry yet.
+- the cells those goldens exercise that the corpus does not carry. The first run found 19; the
+  corpus has since taken entries from the goldens for all of them, and the report now shows none.
 
 1. **Schema.**
    - Keep the current definitions as the previous protocol: move `schema/x` to `schema/x-v<old>`

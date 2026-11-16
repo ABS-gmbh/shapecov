@@ -110,26 +110,6 @@
  },
  "new_cells_exercised_by_next_goldens": [],
  "cells_in_next_goldens_not_in_current_goldens": [],
- "cells_in_next_goldens_not_in_corpus": [
-  "arm:BeginSponsoringFutureReservesResult.BEGIN_SPONSORING_FUTURE_RESERVES_ALREADY_SPONSORED",
-  "arm:BeginSponsoringFutureReservesResult.BEGIN_SPONSORING_FUTURE_RESERVES_RECURSIVE",
-  "arm:ContractCodeEntryExt.0",
-  "arm:EndSponsoringFutureReservesResult.END_SPONSORING_FUTURE_RESERVES_NOT_SPONSORED",
-  "arm:ExtendFootprintTTLResult.EXTEND_FOOTPRINT_TTL_INSUFFICIENT_REFUNDABLE_FEE",
-  "arm:ExtendFootprintTTLResult.EXTEND_FOOTPRINT_TTL_RESOURCE_LIMIT_EXCEEDED",
-  "arm:InvokeHostFunctionResult.INVOKE_HOST_FUNCTION_ENTRY_ARCHIVED",
-  "arm:LedgerUpgrade.LEDGER_UPGRADE_CONFIG",
-  "arm:LedgerUpgrade.LEDGER_UPGRADE_MAX_SOROBAN_TX_SET_SIZE",
-  "arm:OperationBody.CREATE_PASSIVE_SELL_OFFER",
-  "arm:RestoreFootprintResult.RESTORE_FOOTPRINT_RESOURCE_LIMIT_EXCEEDED",
-  "arm:SCError.SCE_CRYPTO",
-  "arm:SCError.SCE_WASM_VM",
-  "arm:SorobanAuthorizedFunction.SOROBAN_AUTHORIZED_FUNCTION_TYPE_CREATE_CONTRACT_HOST_FN",
-  "arm:TransactionResultResult.txBAD_AUTH",
-  "arm:TransactionResultResult.txBAD_SPONSORSHIP",
-  "arm:TransactionResultResult.txINTERNAL_ERROR",
-  "arm:TransactionResultResult.txNO_ACCOUNT",
-  "enum:SCErrorCode.SCEC_UNEXPECTED_SIZE"
- ],
- "corpus_cells": 333
+ "cells_in_next_goldens_not_in_corpus": [],
+ "corpus_cells": 352
 }

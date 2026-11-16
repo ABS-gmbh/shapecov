@@ -25,7 +25,7 @@ Cells are union arms and enum members: the unit the generator and the corpus cou
 
 - **The next protocol, as stellar-xdr's `next` branch defines it today, needs no schema change for the kit.** It adds `TestNextType` and no union arm or enum member. All 15306 ledgers in stellar-core's `test-lcm-next` golden files, 13893 of them at protocol 31, decode with the protocol 30 schema (0 do not).
 - The pending change `lcm_v3` adds `arm:LedgerCloseMeta.3`. No golden ledger uses it yet; when the change lands, step 2 of the runbook reports it as uncovered until a corpus entry carries it.
-- 19 cells that stellar-core's golden files exercise are not in any corpus entry yet (listed at the end). They are the next entries to mine from the goldens (`tools/mine.py goldens`), whatever the next protocol brings.
+- Every cell that stellar-core's golden files exercise is carried by at least one corpus entry (352 corpus cells).
 
 ## What stellar-core's golden files exercise
 
@@ -38,5 +38,5 @@ Every LedgerCloseMeta in the golden files was decoded strictly with the kit's pr
 
 - New cells (any diff above, apart from the retrospective one) that `test-lcm-next` exercises: none.
 - Cells `test-lcm-next` exercises and `test-lcm-current` does not: none.
-- Cells `test-lcm-next` exercises and no corpus entry carries (333 corpus cells): `arm:BeginSponsoringFutureReservesResult.BEGIN_SPONSORING_FUTURE_RESERVES_ALREADY_SPONSORED`, `arm:BeginSponsoringFutureReservesResult.BEGIN_SPONSORING_FUTURE_RESERVES_RECURSIVE`, `arm:ContractCodeEntryExt.0`, `arm:EndSponsoringFutureReservesResult.END_SPONSORING_FUTURE_RESERVES_NOT_SPONSORED`, `arm:ExtendFootprintTTLResult.EXTEND_FOOTPRINT_TTL_INSUFFICIENT_REFUNDABLE_FEE`, `arm:ExtendFootprintTTLResult.EXTEND_FOOTPRINT_TTL_RESOURCE_LIMIT_EXCEEDED`, `arm:InvokeHostFunctionResult.INVOKE_HOST_FUNCTION_ENTRY_ARCHIVED`, `arm:LedgerUpgrade.LEDGER_UPGRADE_CONFIG`, `arm:LedgerUpgrade.LEDGER_UPGRADE_MAX_SOROBAN_TX_SET_SIZE`, `arm:OperationBody.CREATE_PASSIVE_SELL_OFFER`, `arm:RestoreFootprintResult.RESTORE_FOOTPRINT_RESOURCE_LIMIT_EXCEEDED`, `arm:SCError.SCE_CRYPTO`, `arm:SCError.SCE_WASM_VM`, `arm:SorobanAuthorizedFunction.SOROBAN_AUTHORIZED_FUNCTION_TYPE_CREATE_CONTRACT_HOST_FN`, `arm:TransactionResultResult.txBAD_AUTH`, `arm:TransactionResultResult.txBAD_SPONSORSHIP`, `arm:TransactionResultResult.txINTERNAL_ERROR`, `arm:TransactionResultResult.txNO_ACCOUNT`, `enum:SCErrorCode.SCEC_UNEXPECTED_SIZE`.
+- Cells `test-lcm-next` exercises and no corpus entry carries (352 corpus cells): none.
 
