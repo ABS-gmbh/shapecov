@@ -1,0 +1,60 @@
+name: ShapeCov linter
+description: >
+  Check a Go indexer for the three ingestion mistakes (SC001 unvalidated fields, SC002 uncapped
+  recursion, SC003 participants from the envelope). Fails on any finding, or, with an accepted-findings
+  file, on any finding the file does not list.
+inputs:
+  working-directory:
+    description: the Go module to check, relative to the workspace
+    default: "."
+  packages:
+    description: package patterns to analyse
+    default: "./..."
+  accepted:
+    description: path, relative to the workspace, of an accepted-findings file (see linter/accepted/); empty for none
+    default: ""
+  go-version:
+    description: Go version used to build and run the linter
+    default: "1.26"
+outputs:
+  report:
+    description: path of the JSON report
+    value: ${{ steps.lint.outputs.report }}
+runs:
+  using: composite
+  steps:
+    - uses: actions/setup-go@v5
+      with:
+        go-version: ${{ inputs.go-version }}
+        cache: false
+    - name: Build the linter
+      shell: bash
+      working-directory: ${{ github.action_path }}
+      run: go build -o "$RUNNER_TEMP/shapecov-lint" ./cmd/shapecov-lint
+    - id: lint
+      name: Run it
+      shell: bash
+      working-directory: ${{ inputs.working-directory }}
+      env:
+        PACKAGES: ${{ inputs.packages }}
+      run: |
+        go mod download
+        set +e
+        "$RUNNER_TEMP/shapecov-lint" -o "$RUNNER_TEMP/shapecov-lint.json" $PACKAGES
+        code=$?
+        set -e
+        echo "report=$RUNNER_TEMP/shapecov-lint.json" >> "$GITHUB_OUTPUT"
+        if [ "$code" -gt 1 ]; then echo "linter error (exit $code)"; exit 1; fi
+    - name: Findings against the accepted list
+      shell: bash
+      env:
+        ACCEPTED: ${{ inputs.accepted }}
+        CHECKER: ${{ github.action_path }}/scripts/check_accepted.py
+      run: |
+        report="$RUNNER_TEMP/shapecov-lint.json"
+        if [ -n "$ACCEPTED" ]; then
+          case "$ACCEPTED" in /*) file="$ACCEPTED" ;; *) file="$GITHUB_WORKSPACE/$ACCEPTED" ;; esac
+          python3 "$CHECKER" "$report" "$file"
+        else
+          python3 -c 'import json,sys; f=json.load(open(sys.argv[1]))["findings"]; [print("%s %s:%d: %s" % (x["rule"], x["file"], x["line"], x["message"])) for x in f]; print("%d findings" % len(f)); sys.exit(1 if f else 0)' "$report"
+        fi

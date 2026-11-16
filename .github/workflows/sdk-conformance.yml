@@ -1,0 +1,74 @@
+# Reusable: run ShapeCov's conformance corpus through one SDK, from that SDK's own CI.
+# How to call it: ADOPT.md. ShapeCov's own CI calls it in ci.yml.
+name: sdk-conformance
+
+on:
+  workflow_call:
+    inputs:
+      sdk:
+        description: "rust, js, python, python-xdr, go or java"
+        required: true
+        type: string
+      version:
+        description: "the SDK to test: a release, or a git reference the package manager accepts; empty for ShapeCov's pin"
+        required: false
+        type: string
+        default: ""
+      corpus-ref:
+        description: "the ShapeCov release tag or commit whose corpus to run"
+        required: false
+        type: string
+        default: "main"
+      known-failures:
+        description: "path, in the calling repository, of a known-failures file; empty for none"
+        required: false
+        type: string
+        default: ""
+
+permissions:
+  contents: read
+
+jobs:
+  conformance:
+    name: "ShapeCov conformance: ${{ inputs.sdk }} ${{ inputs.version }}"
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - name: ShapeCov at the chosen corpus
+        uses: actions/checkout@v4
+        with:
+          repository: ABS-gmbh/shapecov
+          ref: ${{ inputs.corpus-ref }}
+          path: shapecov
+      - name: The calling repository, for its known-failures file
+        if: inputs.known-failures != ''
+        uses: actions/checkout@v4
+        with:
+          path: caller
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/setup-node@v4
+        if: inputs.sdk == 'js'
+        with:
+          node-version: "22"
+      - name: Build the runner for ${{ inputs.sdk }}
+        env:
+          SDK: ${{ inputs.sdk }}
+          SDK_VERSION: ${{ inputs.version }}
+        run: python shapecov/.github/scripts/sdk_conformance.py build --sdk "$SDK" --version "$SDK_VERSION"
+      - name: Every corpus entry and every generated case through the SDK
+        env:
+          SDK: ${{ inputs.sdk }}
+          KNOWN: ${{ inputs.known-failures }}
+        run: |
+          args=""
+          if [ -n "$KNOWN" ]; then args="--known-failures caller/$KNOWN"; fi
+          python shapecov/.github/scripts/sdk_conformance.py run --sdk "$SDK" $args --report "$RUNNER_TEMP/conformance.json"
+      - name: Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: shapecov-conformance-${{ inputs.sdk }}
+          path: ${{ runner.temp }}/conformance.json
+          if-no-files-found: ignore

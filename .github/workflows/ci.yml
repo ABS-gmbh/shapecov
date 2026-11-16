@@ -155,3 +155,38 @@ jobs:
           python-version: "3.12"
       - name: Oracle failures in the committed wallet-backend and stellar-etl replay results
         run: python .github/scripts/check_findings.py
+
+  # The packaged forms other repositories use (ADOPT.md), exercised here on every push.
+  reusable-conformance-js:
+    name: "Reusable sdk-conformance workflow: js-stellar-sdk 17.4.0"
+    uses: ./.github/workflows/sdk-conformance.yml
+    with:
+      sdk: js
+      version: "17.4.0"
+      corpus-ref: ${{ github.sha }}
+
+  reusable-conformance-go:
+    name: "Reusable sdk-conformance workflow: go-stellar-sdk v0.9.0, with a known-failures file"
+    uses: ./.github/workflows/sdk-conformance.yml
+    with:
+      sdk: go
+      version: "v0.9.0"
+      corpus-ref: ${{ github.sha }}
+      known-failures: .github/known-failures/go.txt
+
+  linter-action:
+    name: "Linter action: wallet-backend at the pinned commit, with the accepted list"
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: wallet-backend at the commit pinned in linter/accepted/wallet-backend.json
+        run: |
+          ref=$(python3 -c 'import json; print(json.load(open("linter/accepted/wallet-backend.json"))["pinned_commit"])')
+          git init -q wallet-backend && cd wallet-backend
+          git fetch -q --depth 1 https://github.com/stellar/wallet-backend.git "$ref"
+          git checkout -q FETCH_HEAD
+      - uses: ./linter
+        with:
+          working-directory: wallet-backend
+          accepted: linter/accepted/wallet-backend.json
