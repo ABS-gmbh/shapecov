@@ -58,7 +58,6 @@ def changes_of(chs):
 
 
 class Holes(unittest.TestCase):
-    @unittest.expectedFailure
     def test_master_key_weight_change_is_reported(self):
         """SetOptions masterWeight changes thresholds[0]. Horizon reports it as a signer change for the
         account's own key; the oracle compares thresholds 1 to 3 only, so the change is invisible and
@@ -67,7 +66,6 @@ class Holes(unittest.TestCase):
         self.assertIn({"what": "signer", "how": "removed", "account": strkey.account(A), "signer": strkey.account(A)},
                       found)
 
-    @unittest.expectedFailure
     def test_wallet_backend_expects_the_one_time_signer_removed_by_a_failed_transaction(self):
         """stellar-core removes a pre-authorized-transaction signer when its transaction is applied,
         even when it fails (CAP-28; TransactionFrame::processSignatures), in txChangesBefore. The

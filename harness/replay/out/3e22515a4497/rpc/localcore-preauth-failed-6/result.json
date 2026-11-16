@@ -19,11 +19,16 @@
  "mishandled": [],
  "mode": "unmodified",
  "oracle": {
-  "verdict": "pass",
-  "rows_expected": 4,
+  "verdict": "known issues only",
+  "rows_expected": 5,
   "rows_met": 4,
-  "known": {},
-  "unexplained": []
+  "known": {
+   "stellar/wallet-backend#818": 1
+  },
+  "unexplained": [],
+  "known_outcome": {
+   "stellar/wallet-backend#818": "dropped"
+  }
  },
  "process": {
   "exit_code": 0,

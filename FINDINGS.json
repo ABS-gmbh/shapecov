@@ -423,6 +423,29 @@
    ]
   },
   {
+   "id": "C13",
+   "kind": "confirmed",
+   "title": "A pre-authorized transaction signer that core removes from a failed transaction gets no SIGNER REMOVE state change",
+   "component": "wallet-backend: state changes (signers)",
+   "severity": "S2",
+   "caps": [
+    "CAP-0028"
+   ],
+   "reproduction": {
+    "corpus_entry": "localcore-preauth-failed-6"
+   },
+   "upstream": [
+    "https://github.com/stellar/wallet-backend/issues/805",
+    "https://github.com/stellar/wallet-backend/issues/818"
+   ],
+   "first_reported_by": "tolgayayci (#805, 2026-11-13); then ErenTopaal (shapekit project, #818)",
+   "reported": "2026-11-13",
+   "status": "open; the oracle flags it at main on localcore-preauth-failed-6, both inputs",
+   "labels": [
+    "stellar/wallet-backend#818"
+   ]
+  },
+  {
    "id": "J2",
    "kind": "confirmed",
    "title": "A liquidity-pool asset pair the network accepted is refused: issuers compared as strkey text",

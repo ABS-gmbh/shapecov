@@ -40,7 +40,7 @@ bucket per transaction (fee processing, the changes before and after the operati
 protocol 23's post-apply fee refunds). Pool-share trustlines and balances held by contracts are not
 covered.
 
-Deliberately not covered yet: the master key's weight, the taking side of a trade, contract balances
+Deliberately not covered yet: the taking side of a trade, contract balances
 and contract storage other than instances.
 
 Everything comes from the bytes through tools/decode.py; no SDK and no indexer is involved.
@@ -201,6 +201,15 @@ def diff(k, pre, post):
             elif sa[key] != sb[key]:
                 yield {"what": "signer", "how": "reweighted", "account": acct, "signer": key, "weight": sb[key]}
         ta, tb = bytes.fromhex(a["thresholds"]), bytes.fromhex(b["thresholds"])
+        if ta[0] != tb[0]:
+            # thresholds[0] is the master key's weight: Horizon's model reports it as a signer change
+            # for the account's own key
+            if tb[0] == 0:
+                yield {"what": "signer", "how": "removed", "account": acct, "signer": acct}
+            elif ta[0] == 0:
+                yield {"what": "signer", "how": "added", "account": acct, "signer": acct, "weight": tb[0]}
+            else:
+                yield {"what": "signer", "how": "reweighted", "account": acct, "signer": acct, "weight": tb[0]}
         for i, level in ((1, "low"), (2, "medium"), (3, "high")):
             if ta[i] != tb[i]:
                 yield {"what": "threshold", "how": "changed", "account": acct, "level": level, "old": ta[i], "new": tb[i]}

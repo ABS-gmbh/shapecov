@@ -64,8 +64,9 @@ def asset_contract(asset, passphrase):
 def expectations(changes, passphrase):
     merged = {}
     for c in changes:
-        if not c["success"]:
-            continue  # a failed transaction applies no operation; its fee is a balance change
+        if not c["success"] and isinstance(c["where"], int):
+            continue  # a failed transaction applies no operation; what core does around them (its
+            #           sequence number, a one-time signer it removes) still happens
         row = ROW.get((c["what"], c["how"]))
         if row is None:
             continue

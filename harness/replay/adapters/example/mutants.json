@@ -120,8 +120,8 @@
    "what": "no SIGNER rows",
    "check": "state_change",
    "status": "killed",
-   "ledgers_changed": 2,
-   "ledgers_failing": 2
+   "ledgers_changed": 4,
+   "ledgers_failing": 4
   },
   {
    "mutant": "drop account creation",
@@ -184,7 +184,7 @@
    "what": "every state change stored twice",
    "check": "none: state changes are checked for presence, not for extra copies",
    "status": "survived",
-   "ledgers_changed": 9,
+   "ledgers_changed": 11,
    "ledgers_failing": 0
   },
   {

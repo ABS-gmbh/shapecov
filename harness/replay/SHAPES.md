@@ -6,14 +6,14 @@ An entry passes when the harness's result is `pass` and the ledger-state oracle 
 
 ## wallet-backend at `3e22515a4497`
 
-19 of the 34 shapes replayed pass on every entry that carries them. 12 of the 91 entries replayed fail somewhere; by issue: stellar/wallet-backend#677 on 4, stellar/wallet-backend#815 on 4, stellar/wallet-backend#816 on 3, stellar/wallet-backend#817 on 1.
+19 of the 34 shapes replayed pass on every entry that carries them. 13 of the 91 entries replayed fail somewhere; by issue: stellar/wallet-backend#677 on 4, stellar/wallet-backend#815 on 4, stellar/wallet-backend#816 on 3, stellar/wallet-backend#817 on 1, stellar/wallet-backend#818 on 1.
 
 | Shape | Entries | Replayed | Pass | Verdict and issue where not a pass |
 |---|---|---|---|---|
 | `auth-nested-invocations` | 28 | 28 | 23 | oracle: stellar/wallet-backend#815 (3): `testnet-5707122`, `testnet-5711641`, `testnet-5726002`; oracle: stellar/wallet-backend#816 (2): `pubnet-65480300`, `testnet-5709224` |
 | `auth-tree-4-deep` | 4 | 4 | 4 | pass |
 | `failed-soroban-transaction` | 10 | 10 | 9 | oracle: stellar/wallet-backend#816 (1): `pubnet-65480300` |
-| `failed-transaction` | 57 | 57 | 51 | oracle: stellar/wallet-backend#677 (1): `pubnet-60280000`; oracle: stellar/wallet-backend#815 (3): `testnet-5707122`, `testnet-5711641`, `testnet-5726002`; oracle: stellar/wallet-backend#816 (2): `pubnet-65480300`, `testnet-5709224` |
+| `failed-transaction` | 57 | 57 | 50 | oracle: stellar/wallet-backend#677 (1): `pubnet-60280000`; oracle: stellar/wallet-backend#815 (3): `testnet-5707122`, `testnet-5711641`, `testnet-5726002`; oracle: stellar/wallet-backend#816 (2): `pubnet-65480300`, `testnet-5709224`; oracle: stellar/wallet-backend#818 (1): `localcore-preauth-failed-6` |
 | `memo-text-not-utf8` | 1 | 1 | 1 | pass |
 | `muxed-account` | 6 | 6 | 5 | oracle: stellar/wallet-backend#815 (1): `localcore-muxed-source-p22-3` |
 | `muxed-id-beyond-f64` | 3 | 3 | 2 | oracle: stellar/wallet-backend#815 (1): `localcore-muxed-source-p22-3` |
@@ -31,7 +31,7 @@ An entry passes when the harness's result is `pass` and the ledger-state oracle 
 | `scmap-mixed-key-types` | 2 | 2 | 2 | pass |
 | `scval-int64-beyond-f64` | 11 | 11 | 9 | oracle: stellar/wallet-backend#815 (2): `testnet-5707122`, `testnet-5711641` |
 | `scval-nested-5-deep` | 21 | 21 | 16 | oracle: stellar/wallet-backend#677 (1): `pubnet-60280000`; oracle: stellar/wallet-backend#815 (3): `testnet-5707122`, `testnet-5711641`, `testnet-5726002`; oracle: stellar/wallet-backend#816 (1): `pubnet-65480300` |
-| `scval-wide-integer` | 48 | 48 | 40 | oracle: stellar/wallet-backend#677 (1): `pubnet-60280000`; oracle: stellar/wallet-backend#815 (3): `testnet-5707122`, `testnet-5711641`, `testnet-5726002`; oracle: stellar/wallet-backend#816 (3): `golden-invokehostfunction-692fdd0e-17`, `pubnet-65480300`, `testnet-5709224`; oracle: stellar/wallet-backend#817 (1): `localcore-pool-revoke-two-pools-7` |
+| `scval-wide-integer` | 48 | 48 | 39 | oracle: stellar/wallet-backend#677 (1): `pubnet-60280000`; oracle: stellar/wallet-backend#815 (3): `testnet-5707122`, `testnet-5711641`, `testnet-5726002`; oracle: stellar/wallet-backend#816 (3): `golden-invokehostfunction-692fdd0e-17`, `pubnet-65480300`, `testnet-5709224`; oracle: stellar/wallet-backend#817 (1): `localcore-pool-revoke-two-pools-7`; oracle: stellar/wallet-backend#818 (1): `localcore-preauth-failed-6` |
 | `signatures-at-max-20` | 3 | 3 | 3 | pass |
 | `signed-payload-max-length` | 1 | 1 | 1 | pass |
 | `signed-payload-needs-padding` | 1 | 1 | 1 | pass |
