@@ -92,7 +92,7 @@
    "title": "reduce muxed addresses to their base account",
    "verdict": "missed",
    "entries": [],
-   "what_would_catch_it": "Not a detection by the rule: on `localcore-muxed-source-p22-3` the failure changes form at the fix (a truncated muxed address becomes a duplicate-key halt) and passes only from `bb0b162b`."
+   "what_would_catch_it": "Not a detection by the rule: on `localcore-muxed-source-p22-3` the failure changes form at the fix (a truncated muxed address becomes a duplicate-key halt) and passes only from `bb0b162b`. On 16 Nov 2026 a ledger whose Soroban operation source is another account's muxed address, named nowhere else in the transaction, was built and replayed: the parent stores it truncated in `transactions_accounts`, and the fix halts on a duplicate `transactions_accounts` key, so the halt is inherent to a muxed Soroban source until `bb0b162b`. The classic paths reduce muxed addresses before storage, so the one other route is a SEP-41 event address, which needs the protocol setup described for `ee82038d` below."
   },
   {
    "id": "wallet-backend#695",
