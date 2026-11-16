@@ -145,16 +145,23 @@ host stellar-core 30.0.0 builds. Paths are relative to those repositories.
 Recursive structures in the ledger are bounded by the network, but not always by numbers your code
 can rely on without thought. Use these bounds to pick caps that never reject valid data:
 
-| Structure | Bound the network enforces | Recommended cap |
-|---|---|---|
-| Contract values in storage, events and return values | At most 100 levels: the host refuses to convert anything deeper [12] | Walk with a depth counter and stop at 100. *(Inference: every such value passed through the host's conversion, so a cap of 100 should never reject one.)* |
-| Contract values in transaction arguments | Only the envelope's XDR depth of 1000 (from protocol 28) when the transaction failed before the host read them [12] | Walk with a depth counter. Past your cap, truncate and record that you did; do not reject the ledger. |
-| Soroban authorization trees | No limit of their own; only XDR depth and transaction size [15] | Iterate with an explicit stack and a depth counter, truncating as above. |
-| Whole envelopes and `LedgerCloseMeta` | stellar-core parses envelopes with rs-stellar-xdr at depth 1000 (from protocol 28) | Set your decoder's depth limit explicitly. Rust's `Limits::none()` is unbounded; Go's default is 1500. Depth is counted per XDR type, not per contract-value level, and libraries count differently, so test your limit on the corpus's deepest entries. |
-| Claim predicates | 4 levels [8] | 4 is safe. |
-| Path payment path, operations, signatures, `extraSigners`, claimants | 5, 100, 20, 2, 10 (XDR) | The XDR maxima are exact. Size buffers to them, and test at the maximum (`operations-at-max-100`, `signatures-at-max-20`). |
-| Event bytes per transaction, contract data entry size, key size, transaction size | Network configuration settings (`ConfigSettingContractEventsV0`, `CONTRACT_DATA_ENTRY_SIZE_BYTES`, `CONTRACT_DATA_KEY_SIZE_BYTES`, `ConfigSettingContractBandwidthV0.txMaxSizeBytes`), changed by network upgrades | Read them from the ledger's `ConfigSetting` entries; do not hard-code them. |
-| Number of contract events per transaction | No limit found other than the total event bytes | Do not assume a small count. |
+| Structure | Bound the network enforces | Recommended cap | Largest seen in the sample: pubnet / testnet |
+|---|---|---|---|
+| Contract values in storage, events and return values | At most 100 levels: the host refuses to convert anything deeper [12] | Walk with a depth counter and stop at 100. *(Inference: every such value passed through the host's conversion, so a cap of 100 should never reject one.)* | 7 / 11 levels (all contract values, nesting of vectors and maps) |
+| Contract values in transaction arguments | Only the envelope's XDR depth of 1000 (from protocol 28) when the transaction failed before the host read them [12] | Walk with a depth counter. Past your cap, truncate and record that you did; do not reject the ledger. | counted in the row above |
+| Soroban authorization trees | No limit of their own; only XDR depth and transaction size [15] | Iterate with an explicit stack and a depth counter, truncating as above. | 4 / 3 levels (root = 1) |
+| Whole envelopes and `LedgerCloseMeta` | stellar-core parses envelopes with rs-stellar-xdr at depth 1000 (from protocol 28) | Set your decoder's depth limit explicitly. Rust's `Limits::none()` is unbounded; Go's default is 1500. Depth is counted per XDR type, not per contract-value level, and libraries count differently, so test your limit on the corpus's deepest entries. | not measured |
+| Claim predicates | 4 levels [8] | 4 is safe. | not measured |
+| Path payment path, operations, signatures, `extraSigners`, claimants, memo text | 5, 100, 20, 2, 10, 28 bytes (XDR) | The XDR maxima are exact. Size buffers to them, and test at the maximum (`operations-at-max-100`, `signatures-at-max-20`). | operations 100 / 76; signatures 20 / 13; memo text 28 / 28 bytes; the others not measured |
+| Contract value lengths | Symbols: 32 bytes (XDR) [13]. Vectors, maps, strings and bytes have no XDR maximum, only the size settings in the next row | Size buffers from the network settings, not from what you have seen. | vector 100 / 255 elements; map 13 / 50 entries; string 258 / 84 bytes; symbol 32 / 32 bytes; bytes 1,568 / 26,889 |
+| Event bytes per transaction, contract data entry size, key size, transaction size | Network configuration settings (`ConfigSettingContractEventsV0`, `CONTRACT_DATA_ENTRY_SIZE_BYTES`, `CONTRACT_DATA_KEY_SIZE_BYTES`, `ConfigSettingContractBandwidthV0.txMaxSizeBytes`), changed by network upgrades | Read them from the ledger's `ConfigSetting` entries; do not hard-code them. | not measured |
+| Number of contract events per transaction | No limit found other than the total event bytes | Do not assume a small count. | not measured |
+
+"Largest seen in the sample" is the largest value in every 20,000th ledger of pubnet (from
+protocol 23) and of testnet: 611 ledgers holding 100,676 transactions. It is an observation of that
+sample, never a network-wide maximum, and the protocol allows more; where the seen value is far
+below the bound, a cap set from the sample would reject valid data the sample missed. Ledgers,
+transactions and the method are in [`corpus/CENSUS.md`](../corpus/CENSUS.md).
 
 A cap protects your process. When one is hit, the safe response is to store what you have, flag
 the record and keep ingesting. Rejecting the ledger stops your indexer on valid data. That is how
