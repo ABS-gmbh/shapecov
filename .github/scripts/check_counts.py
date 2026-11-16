@@ -36,12 +36,11 @@ def counts():
                 rows.append(cells[3])
     with open("out/cases.jsonl") as f:
         cases = sum(1 for _ in f)
-    cells = load("out/cases.jsonl.cells.json")
+    cov = load("corpus/coverage.json")
     spec = importlib.util.spec_from_file_location("quickcheck", "quickcheck.py")
     qc = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(qc)
     probes = load("guide/probes.json")["probes"]
-    total_cells, hit_cells = len(cells["total"]), len(cells["hit"])
     backtest = {}
     for it in load("harness/replay/backtest.json")["items"]:
         t = backtest.setdefault(it["pipeline"], {"detected": 0, "blind": 0, "in_scope": 0})
@@ -51,7 +50,6 @@ def counts():
             t["detected"] += 1
             t["blind"] += any(c.get("blind") for c in it["entries"])
     wb, etl = backtest.get("wallet-backend", {}), backtest.get("stellar-etl", {})
-    corpus_cells = set().union(*(e["cells"] for e in entries))
     return {
         "corpus entries": len(entries),
         "real ledgers (not synthetic)": sum(1 for e in entries if not e["synthetic"]),
@@ -62,18 +60,21 @@ def counts():
         "RFP sightings reproduced": rows.count("reproduced"),
         "generated cases": cases,
         "schema types": len(load("schema/schema.json")["types"]),
-        "schema cells": total_cells,
-        "schema cells reached by valid cases": hit_cells,
+        "schema cells": cov["schema_cells"],
+        "schema cells reached by valid cases": cov["generator_covers"],
+        "cells a ledger reader can meet": cov["reachable_cells"],
+        "reachable cells in a corpus entry": cov["corpus_covers_reachable"],
+        "reachable cells reached by valid cases": cov["generator_covers_reachable"],
+        "reachable cells in no corpus entry": cov["uncovered_reachable"],
         "quickcheck checks": len(qc.CHECKS),
         "guide probes (without the setup transaction)": sum(1 for p in probes if p["row"] != "(setup)"),
-        "schema cells no valid case reaches": total_cells - hit_cells,
+        "schema cells no valid case reaches": cov["schema_cells"] - cov["generator_covers"],
         "backtest: wallet-backend fixes detected": wb.get("detected", 0),
         "backtest: wallet-backend fixes in scope": wb.get("in_scope", 0),
         "backtest: wallet-backend detections on a blind ledger": wb.get("blind", 0),
         "backtest: stellar-etl issues flagged": etl.get("detected", 0),
         "backtest: stellar-etl issues in scope": etl.get("in_scope", 0),
         "backtest: stellar-etl flags on a blind ledger": etl.get("blind", 0),
-        "schema cells in no corpus entry": total_cells - len(corpus_cells & set(load("corpus/cell-protocols.json")["first_tag"])),
     }
 
 
@@ -91,6 +92,10 @@ PATTERNS = {
     "generated cases": [r"\b([\d,]+) (?:generated )?cases across"],
     "schema types": [r"\b([\d,]+) types\b"],
     "schema cells": [r"\b[\d,]+ of (?:the )?([\d,]+) schema cells"],
+    "cells a ledger reader can meet": [r"\b[\d,]+ of the ([\d,]+) (?:reachable cells|cells a ledger reader can meet|a ledger reader)"],
+    "reachable cells in a corpus entry": [r"\b([\d,]+) of the [\d,]+ (?:reachable cells|cells a ledger reader can meet)"],
+    "reachable cells reached by valid cases": [r"\band ([\d,]+) of the [\d,]+ a ledger reader can"],
+    "reachable cells in no corpus entry": [r"\bEach of the other ([\d,]+) is classified"],
     "schema cells no valid case reaches": [r"\bof the ([\d,]+) schema cells no valid case"],
     "backtest: wallet-backend fixes detected": [r"\bdetects ([\d,]+) of wallet-backend's [\d,]+ in-scope fixes"],
     "backtest: wallet-backend fixes in scope": [r"\bof wallet-backend's ([\d,]+) in-scope fixes"],
@@ -98,8 +103,7 @@ PATTERNS = {
     "backtest: stellar-etl issues flagged": [r"\bflags ([\d,]+) of stellar-etl's [\d,]+ in-scope issues"],
     "backtest: stellar-etl issues in scope": [r"\bof stellar-etl's ([\d,]+) in-scope issues"],
     "backtest: stellar-etl flags on a blind ledger": [r"\bstellar-etl's [\d,]+ in-scope issues \(([\d,]+) blind\)"],
-    "schema cells in no corpus entry": [r"\b([\d,]+) of the [\d,]+ schema cells appear in no corpus entry"],
-    "schema cells reached by valid cases": [r"\breach(?:es)? ([\d,]+) of [\d,]+ schema cells",
+    "schema cells reached by valid cases": [r"\breach(?:es)? ([\d,]+) of (?:the )?[\d,]+ schema cells",
                                             r"\bexercise ([\d,]+) of [\d,]+ schema cells"],
     "quickcheck checks": [r"\bfor all ([\d,]+) checks", r"\breruns the ([\d,]+) checks"],
     "guide probes (without the setup transaction)": [r"\b([\d,]+) probes, plus one setup"],

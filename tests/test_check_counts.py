@@ -13,10 +13,11 @@ README = """# Fixture
 Corpus: 3 entries, 2 of them real ledgers.
 **1 defects found and filed** in one SDK. All 2 findings, with severity, CAPs and a reproducing entry.
 **1 of the RFP's 2 sightings reproduced**.
-**4 generated cases across all 2 types**; valid cases reach 2 of 3 schema cells.
+**4 generated cases across all 2 types**; valid cases reach 2 of the 3 schema cells.
 It reruns the 1 checks that work from the repository alone.
 Coverage of the 1 schema cells no valid case reaches yet.
-So 2 of the 3 schema cells appear in no corpus entry.
+So 1 of the 2 cells a ledger reader can meet appear in a corpus entry. Each of the other 1 is classified.
+Valid cases exercise 2 of 3 schema cells, and 2 of the 2 a ledger reader can meet.
 The harness detects 1 of wallet-backend's 2 in-scope fixes (1 on ledgers not chosen for the bug)
 and flags 0 of stellar-etl's 1 in-scope issues (0 blind).
 """
@@ -44,9 +45,10 @@ class CheckCounts(unittest.TestCase):
         ]
         write_tree(self.dir, {
             "corpus/manifest.json": {"entries": entries},
-            "corpus/cell-protocols.json": {"first_tag": {"arm:U.A": "v19", "arm:U.B": "v19", "enum:E.X": "v20"}},
+            "corpus/coverage.json": {"schema_cells": 3, "generator_covers": 2, "reachable_cells": 2,
+                                     "corpus_covers_reachable": 1, "generator_covers_reachable": 2,
+                                     "uncovered_reachable": 1},
             "FINDINGS.json": {"findings": [{"kind": "found"}, {"kind": "sighting"}]},
-            "out/cases.jsonl.cells.json": {"total": ["arm:U.A", "arm:U.B", "enum:E.X"], "hit": ["arm:U.A", "arm:U.B"]},
             "schema/schema.json": {"types": {"U": {}, "E": {}}},
             "quickcheck.py": QUICKCHECK,
             "guide/probes.json": {"probes": [{"row": "Home domain"}, {"row": "(setup)"}]},

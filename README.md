@@ -52,7 +52,7 @@ laptop. CI reruns everything else.
   (1 blind). Every miss names the shape, oracle rule or export that would catch it
   ([`BACKTEST.md`](harness/replay/BACKTEST.md)).
 - **7,392 generated cases across all 477 types**, run through six decoders and stellar-core
-  30.0.0; valid cases reach 837 of 1,188 schema cells.
+  30.0.0; valid cases reach 549 of the 659 schema cells (83.3%).
 - **Usable from other repositories**: a reusable conformance workflow and a linter action
   ([`ADOPT.md`](ADOPT.md)), and release assets with build provenance.
 
@@ -63,8 +63,12 @@ laptop. CI reruns everything else.
 - Two replay adapters exist, wallet-backend and stellar-etl. Others, such as Horizon, are not
   built.
 - Whole ledgers are not generated. They come from network history, stellar-core's golden files and
-  fixed local stellar-core scenarios, so 836 of the 1,188 schema cells appear in no corpus entry
-  ([`CAP-COVERAGE.md`](corpus/CAP-COVERAGE.md), by protocol).
+  fixed local stellar-core scenarios, so 352 of the 538 cells a ledger reader can meet (65.4%)
+  appear in a corpus entry. Each of the other 186 is classified in
+  [`corpus/COVERAGE.md`](corpus/COVERAGE.md): 36 can never be in a closed ledger, 14 predate
+  protocol 20, 30 need a network or configuration upgrade, 79 are failures a local stellar-core
+  scenario can produce, 6 need a purpose-written contract, 5 appear only in recorded consensus
+  messages, 1 is impractical, and 15 are not yet classified.
 
 More: [`ARCHITECTURE.md`](ARCHITECTURE.md) (how the parts fit, the adapter interface, isolation),
 [`STATUS.md`](STATUS.md) (dated log), [`MAINTENANCE.md`](MAINTENANCE.md) and
@@ -105,7 +109,9 @@ More: [`ARCHITECTURE.md`](ARCHITECTURE.md) (how the parts fit, the adapter inter
 - 7,392 cases across all 477 types. The independent encoder and the reference decoder agree
   byte for byte on every valid case (3,808 of 3,808 that the reference has a type for).
 - 943 further cases for the seven core-decodable types. stellar-core accepts all 280 valid ones.
-- Valid cases exercise 837 of 1,188 schema cells (union arms plus enum members), 70.5%.
+- Valid cases exercise 549 of 659 schema cells (83.3%), and 448 of the 538 a ledger reader can
+  meet. A cell is a union arm, or a member of an enum used as a value; the members of the 73 enums
+  used only as union discriminants are covered exactly when their arm is (`corpus/coverage.json`).
 - Confirmed disagreements are in `FINDINGS.md`. Full clusters are in `out/REPORT.md`.
 - stellar-xdr 0.2.1, the package replacing `stellar_sdk.xdr`, agrees with the reference on every
   generated case and every corpus entry, and fixes P1 and P2; stellar-strkey 0.2.0 passes all of
@@ -211,7 +217,7 @@ Two GitHub Actions workflows in `.github/workflows/`. RFP check 2, the replay ha
   (`guide/probe_core.py`).
 - Semantic checks above the codec beyond those in `harness/sdk-semantic/`, which cover issuer
   ordering, out-of-range IDs, colliding map keys and transaction decoding.
-- Coverage of the 351 schema cells no valid case reaches yet.
+- Coverage of the 110 schema cells no valid case reaches yet.
 - Replay adapters beyond wallet-backend and stellar-etl. Three corpus entries have hand-written
   `expected.indexer` rows; the oracle checks every ledger. See `harness/replay/README.md`, "Limits".
 - CAP tags are assigned by hand from the CAP texts, then checked against the XDR history.
