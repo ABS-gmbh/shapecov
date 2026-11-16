@@ -20,8 +20,8 @@
  "mode": "unmodified",
  "oracle": {
   "verdict": "known issues only",
-  "rows_expected": 882,
-  "rows_met": 854,
+  "rows_expected": 902,
+  "rows_met": 874,
   "known": {
    "stellar/stellar-horizon#259": 28
   },
@@ -38,6 +38,7 @@
   "history_effects": 496,
   "history_operation_participants": 627,
   "history_operations": 448,
+  "history_trades": 51,
   "history_transaction_participants": 601,
   "history_transactions": 292
  },

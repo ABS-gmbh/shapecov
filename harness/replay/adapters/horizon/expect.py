@@ -30,7 +30,7 @@ REPORT_INTRO = [
 REPORT_NOTES = [
     "## Coverage",
     "",
-    "The recorded run covers 95 of the 95 corpus ledgers in the manifest at ShapeCov commit `d6e9559`, at",
+    "The recorded run covers 97 of the 97 corpus ledgers in the manifest at ShapeCov commit `1dfbcb5`, at",
     "stellar-horizon v30.0.1. Ledgers added to the corpus since are listed by `replay.py check` as having no",
     "result yet; the quick check counts them and does not fail. The replay workflow's Horizon job reruns three",
     "of them (`pubnet-60280000`, `localcore-pool-revoke-two-pools-7`, `golden-offer-9a363b75-30`) on every",
@@ -43,6 +43,13 @@ REPORT_NOTES = [
     "reproduction of an open issue on real ledgers (record H1), not a detection. stellar-etl #513 and #514",
     "(records E2 and E3) were filed saying Horizon has the same code; on `localcore-pool-revoke-two-pools-7`",
     "Horizon stores the same 16 effects as stellar-etl, so both reproduce in Horizon itself.",
+    "",
+    "## Trades: Horizon as the reference for rounding slippage",
+    "",
+    "Horizon's `history_trades` are read back too. The oracle's port of go-stellar-sdk's two pool formulas",
+    "(`CalculatePoolExpectation` for a strict receive, `CalculatePoolPayout` for a strict send) gives Horizon's",
+    "stored `rounding_slippage` for every liquidity-pool trade in the corpus, which is what lets the same",
+    "rule flag stellar-etl #451 (record C16).",
     "",
     "## A difference by design",
     "",
@@ -67,6 +74,12 @@ def manifest_expectations(exps):
     """The manifest's hand-written expectations name wallet-backend rows; only a stored transaction
     is meaningful for Horizon. The oracle covers the rest in Horizon's own vocabulary."""
     return [e for e in exps if e.get("expect") == "transaction"]
+
+
+def ledger_expectations(value, passphrase):
+    """The rounding slippage of every liquidity-pool trade, by Horizon's own definition (the stellar-etl
+    mapping states it for stellar-etl#451). Horizon is the reference here, so it should meet it."""
+    return _etl.ledger_expectations(value, passphrase)
 
 
 def expectations(changes, passphrase):

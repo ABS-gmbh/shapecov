@@ -25,19 +25,20 @@
   "operations": 674,
   "effects": 375,
   "token_transfer": 709,
-  "contract_events": 1617
+  "contract_events": 1617,
+  "trades": 47
  },
  "process": {
   "outcome": "exited",
   "exit_code": 0
  },
- "seconds": 1.3,
- "feeder_requests": 20,
+ "seconds": 3.7,
+ "feeder_requests": 24,
  "evidence": "out-stellar-etl/2b24ec89ddce/datalake/pubnet-65480598",
  "oracle": {
   "verdict": "known issues only",
-  "rows_expected": 2315,
-  "rows_met": 1836,
+  "rows_expected": 2352,
+  "rows_met": 1873,
   "known": {
    "stellar/stellar-etl#456": 8,
    "stellar/stellar-etl#450": 108,

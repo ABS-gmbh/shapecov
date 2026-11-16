@@ -1,0 +1,67 @@
+{
+ "observation_version": 1,
+ "adapter": "stellar-etl",
+ "commit": "2b24ec89ddce7fc0beb7795de982c93e6895eaf3",
+ "input": "datalake",
+ "entry_id": "localcore-frozen-claim-11",
+ "ledger_seq": 11,
+ "ingested": true,
+ "error": null,
+ "adapter_failure": false,
+ "transactions": [
+  {
+   "hash": "043dec8c0a07b52e8af15241937e762b01b97c5715966b58b99ca45bff2bdca8",
+   "tx_order": 1,
+   "result_code": "TransactionResultCodeTxFailed",
+   "successful": false,
+   "participants": []
+  }
+ ],
+ "operations": [
+  {
+   "tx_hash": "043dec8c0a07b52e8af15241937e762b01b97c5715966b58b99ca45bff2bdca8",
+   "tx_order": 1,
+   "op_order": 1,
+   "type": "claim_claimable_balance",
+   "participants": []
+  }
+ ],
+ "state_changes": [],
+ "balance_movements": [
+  {
+   "tx_hash": "043dec8c0a07b52e8af15241937e762b01b97c5715966b58b99ca45bff2bdca8",
+   "op_order": 0,
+   "account": "GC37QCKC3PYINHD2BJOV3PI5SZN5YP5HX4DZA4R3JWQ2IDXO4M6GZJYP",
+   "token": "CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC",
+   "delta": -100,
+   "token_kind": "asset",
+   "to_muxed": null,
+   "event": "fee"
+  }
+ ],
+ "unreadable": [],
+ "row_counts": {
+  "transactions": 1,
+  "operations": 1,
+  "effects": 0,
+  "token_transfer": 1,
+  "contract_events": 1,
+  "trades": 0
+ },
+ "seconds": 4.5,
+ "process": {
+  "outcome": "exited",
+  "exit_code": 0
+ },
+ "trades": [],
+ "contract_events": [
+  {
+   "tx_hash": "043dec8c0a07b52e8af15241937e762b01b97c5715966b58b99ca45bff2bdca8",
+   "op_order": null,
+   "type": "ContractEventTypeContract",
+   "successful": false,
+   "in_successful_contract_call": true,
+   "event_sha256": "604a4d8f70e6bddaa1234790a05bfe6a9472e645040698fd7ac6802c5ac829da"
+  }
+ ]
+}

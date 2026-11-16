@@ -25,29 +25,32 @@
   "operations": 1088,
   "effects": 1982,
   "token_transfer": 1167,
-  "contract_events": 3399
+  "contract_events": 3399,
+  "trades": 123
  },
  "process": {
   "outcome": "exited",
   "exit_code": 0
  },
- "seconds": 1.6,
- "feeder_requests": 20,
+ "seconds": 4.4,
+ "feeder_requests": 24,
  "evidence": "out-stellar-etl/2b24ec89ddce/datalake/pubnet-59220000",
  "oracle": {
   "verdict": "known issues only",
-  "rows_expected": 4544,
-  "rows_met": 4112,
+  "rows_expected": 4577,
+  "rows_met": 4143,
   "known": {
    "stellar/stellar-etl#456": 90,
    "stellar/stellar-etl#450": 261,
-   "stellar/stellar-etl#452": 81
+   "stellar/stellar-etl#452": 81,
+   "stellar/stellar-etl#451": 2
   },
   "unexplained": [],
   "known_outcome": {
    "stellar/stellar-etl#456": "mishandled",
    "stellar/stellar-etl#450": "mishandled",
-   "stellar/stellar-etl#452": "mishandled"
+   "stellar/stellar-etl#452": "mishandled",
+   "stellar/stellar-etl#451": "mishandled"
   }
  }
 }

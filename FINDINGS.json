@@ -395,7 +395,7 @@
    ],
    "first_reported_by": "tolgayayci (stellar-horizon#259); the Horizon counterpart of stellar/wallet-backend#677 (record C10)",
    "reported": "2026-11-14",
-   "status": "open; reproduced, not found blind (the participant rule was written for wallet-backend, and #259 was known when the adapter was written): 179 missed transaction participants on 15 of the 95 corpus ledgers at ShapeCov d6e9559; on pubnet-60280000, 4 in 4 transactions: makers of offers crossed by a path payment or a sell offer, and sponsors whose sponsorship ended",
+   "status": "open; reproduced, not found blind (the participant rule was written for wallet-backend, and #259 was known when the adapter was written): 179 missed transaction participants on 15 of the 97 corpus ledgers at ShapeCov 1dfbcb5; on pubnet-60280000, 4 in 4 transactions: makers of offers crossed by a path payment or a sell offer, and sponsors whose sponsorship ended",
    "labels": [
     "stellar/stellar-horizon#259"
    ]
@@ -513,6 +513,29 @@
    "status": "open; the oracle flags 1,684 contract events exported twice in 500 transactions on 31 corpus ledgers, and 1,692 events of 1,655 failed transactions with in_successful_contract_call true on 34 ledgers",
    "labels": [
     "stellar/stellar-etl#452"
+   ]
+  },
+  {
+   "id": "C16",
+   "kind": "confirmed",
+   "title": "rounding_slippage of a strict-receive liquidity-pool trade is computed with the payout formula, not the expectation formula Horizon uses",
+   "component": "stellar-etl: export_trades (roundingSlippage, internal/transform/trade.go)",
+   "severity": "S3",
+   "severity_note": "confirmed after reading the issue, not found blind; a derived column, the trade amounts themselves are right",
+   "caps": [
+    "CAP-0038"
+   ],
+   "reproduction": {
+    "corpus_entry": "pubnet-65280000"
+   },
+   "upstream": [
+    "https://github.com/stellar/stellar-etl/issues/451"
+   ],
+   "first_reported_by": "chowbao (stellar-etl maintainer)",
+   "reported": "2026-07-04",
+   "status": "open; the oracle flags 126 of the 356 strict-receive pool trades in 6 corpus ledgers (the 799 strict-send ones match); its port of go-stellar-sdk's pool formulas gives Horizon v30.0.1's stored value on all 1,155. The overflow sentinel the issue also names is not exercised: no corpus trade overflows",
+   "labels": [
+    "stellar/stellar-etl#451"
    ]
   },
   {

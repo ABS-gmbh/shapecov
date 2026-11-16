@@ -226,8 +226,11 @@ def read_back(obs, seq, info, out):
     oparts = query("select p.history_operation_id as op_id, a.address from history_operation_participants p "
                    "join history_accounts a on a.id = p.history_account_id "
                    "where p.history_operation_id >= %d and p.history_operation_id < %d" % (lo, hi))
+    trades = query("select history_operation_id as op_id, \"order\", rounding_slippage, base_liquidity_pool_id, "
+                   "counter_liquidity_pool_id from history_trades where history_operation_id >= %d and "
+                   "history_operation_id < %d order by history_operation_id, \"order\"" % (lo, hi))
     with open(os.path.join(out, "tables.json"), "w") as f:
-        json.dump({"history_transactions": txs, "history_operations": ops, "history_effects": effs,
+        json.dump({"history_trades": trades, "history_transactions": txs, "history_operations": ops, "history_effects": effs,
                    "history_transaction_participants": tparts, "history_operation_participants": oparts}, f, indent=1)
     names = {int(k): v for k, v in info.get("effect_types", {}).items()}
     tx_hash = {}
@@ -268,11 +271,17 @@ def read_back(obs, seq, info, out):
                                      "account": e["address"], "signer_key": d.get("public_key") or d.get("signer"),
                                      "token": token, "spender": None, "creator": None, "destination": None,
                                      "fields": fields})
+    obs["trades"] = []
+    for t in trades:
+        _, order, op = toid_parts(t["op_id"])
+        obs["trades"].append({"tx_hash": tx_hash.get(order), "op_order": op, "order": t["order"],
+                              "liquidity_pool_id": t["base_liquidity_pool_id"] or t["counter_liquidity_pool_id"],
+                              "rounding_slippage": t["rounding_slippage"]})
     obs["unreadable"] = (unreadable_strings("history_operations", ops) + unreadable_strings("history_effects", effs)
                          + unreadable_strings("history_transactions", txs))
     obs["row_counts"] = {"history_transactions": len(txs), "history_operations": len(ops),
                          "history_effects": len(effs), "history_transaction_participants": len(tparts),
-                         "history_operation_participants": len(oparts)}
+                         "history_operation_participants": len(oparts), "history_trades": len(trades)}
 
 
 def run(a):

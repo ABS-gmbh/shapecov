@@ -104,9 +104,11 @@
   "history_operations": 4,
   "history_effects": 2,
   "history_transaction_participants": 3,
-  "history_operation_participants": 8
+  "history_operation_participants": 8,
+  "history_trades": 0
  },
  "command": "horizon db reingest range 9 9 --ledgerbackend datastore --datastore-config /cfg/datastore.toml --parallel-workers 1 --retries 0",
  "exit_code": 0,
- "seconds_to_outcome": 2.7
+ "trades": [],
+ "seconds_to_outcome": 7.0
 }

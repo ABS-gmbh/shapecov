@@ -1,0 +1,44 @@
+{
+ "history_trades": [],
+ "history_transactions": [
+  {
+   "id": 47244644352,
+   "transaction_hash": "043dec8c0a07b52e8af15241937e762b01b97c5715966b58b99ca45bff2bdca8",
+   "application_order": 1,
+   "successful": false,
+   "account": "GC37QCKC3PYINHD2BJOV3PI5SZN5YP5HX4DZA4R3JWQ2IDXO4M6GZJYP",
+   "fee_account": null,
+   "account_muxed": null,
+   "fee_account_muxed": null,
+   "fee_charged": 100,
+   "operation_count": 1
+  }
+ ],
+ "history_operations": [
+  {
+   "id": 47244644353,
+   "transaction_id": 47244644352,
+   "application_order": 1,
+   "type": 15,
+   "source_account": "GC37QCKC3PYINHD2BJOV3PI5SZN5YP5HX4DZA4R3JWQ2IDXO4M6GZJYP",
+   "source_account_muxed": null,
+   "details": {
+    "claimant": "GC37QCKC3PYINHD2BJOV3PI5SZN5YP5HX4DZA4R3JWQ2IDXO4M6GZJYP",
+    "balance_id": "00000000e2497215286f4ad6a2fe4b3304eff741c17c2b1e1e66689870aa41f2ad66bd6c"
+   }
+  }
+ ],
+ "history_effects": [],
+ "history_transaction_participants": [
+  {
+   "tx_id": 47244644352,
+   "address": "GC37QCKC3PYINHD2BJOV3PI5SZN5YP5HX4DZA4R3JWQ2IDXO4M6GZJYP"
+  }
+ ],
+ "history_operation_participants": [
+  {
+   "op_id": 47244644353,
+   "address": "GC37QCKC3PYINHD2BJOV3PI5SZN5YP5HX4DZA4R3JWQ2IDXO4M6GZJYP"
+  }
+ ]
+}

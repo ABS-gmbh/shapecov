@@ -234,7 +234,25 @@ def _contract_event(exp, obs):
     return "met", "%s: exported %d time(s)" % (label, len(rows))
 
 
+def _trade_detail(exp, obs):
+    """A field of one stored trade, found by transaction, operation and claim order (stellar-etl#451:
+    the rounding slippage of a liquidity-pool trade)."""
+    if "trades" not in obs:
+        return "not_checked", "the observation does not report trades"
+    rows = [t for t in obs["trades"] if t.get("tx_hash") == exp["tx_hash"] and t.get("op_order") == exp["op_order"]
+            and t.get("order") == exp["order"]]
+    label = "%s of trade %d, operation %d in tx %s" % (exp["field"], exp["order"], exp["op_order"], exp["tx_hash"][:12])
+    if not rows:
+        return "missing", "%s: the trade is not stored" % label
+    got = rows[0].get(exp["field"])
+    if got != exp["value"]:
+        return "wrong_value", "%s: stored %s, the ledger gives %s" % (label, got, exp["value"])
+    return "met", "%s: %s" % (label, got)
+
+
 def _check(exp, obs):
+    if exp.get("expect") == "trade_detail":
+        return _trade_detail(exp, obs)
     if exp.get("expect") in ("contract_event", "contract_event_flag"):
         return _contract_event(exp, obs)
     if exp.get("expect") == "operation_detail":

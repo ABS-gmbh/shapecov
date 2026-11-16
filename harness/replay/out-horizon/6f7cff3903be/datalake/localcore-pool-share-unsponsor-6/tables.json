@@ -1,0 +1,65 @@
+{
+ "history_trades": [],
+ "history_transactions": [
+  {
+   "id": 25769807872,
+   "transaction_hash": "1589a418e20602c439286df154807982c5e17690ccf418203313fa027b4b1898",
+   "application_order": 1,
+   "successful": true,
+   "account": "GBLBPN6MY4DGYOJ7QFJEEU7E45BDCWXG2LIKCHZ524VBSQGXRSOB4N7F",
+   "fee_account": null,
+   "account_muxed": null,
+   "fee_account_muxed": null,
+   "fee_charged": 100,
+   "operation_count": 1
+  }
+ ],
+ "history_operations": [
+  {
+   "id": 25769807873,
+   "transaction_id": 25769807872,
+   "application_order": 1,
+   "type": 18,
+   "source_account": "GBLBPN6MY4DGYOJ7QFJEEU7E45BDCWXG2LIKCHZ524VBSQGXRSOB4N7F",
+   "source_account_muxed": null,
+   "details": {
+    "trustline_account_id": "GDG7IHDNYV6YDXDHUENW2XM6QYN4RADWGUXXB5LF6NRZSWVZXEBZN4YG",
+    "trustline_liquidity_pool_id": "088832dcc94b7b74e83291a81ca57ddd4243f420b7ba59242e47ec44fb6c44e9"
+   }
+  }
+ ],
+ "history_effects": [
+  {
+   "op_id": 25769807873,
+   "order": 1,
+   "type": 65,
+   "address": "GDG7IHDNYV6YDXDHUENW2XM6QYN4RADWGUXXB5LF6NRZSWVZXEBZN4YG",
+   "address_muxed": null,
+   "details": {
+    "asset_type": "liquidity_pool",
+    "former_sponsor": "GBLBPN6MY4DGYOJ7QFJEEU7E45BDCWXG2LIKCHZ524VBSQGXRSOB4N7F",
+    "liquidity_pool_id": "088832dcc94b7b74e83291a81ca57ddd4243f420b7ba59242e47ec44fb6c44e9"
+   }
+  }
+ ],
+ "history_transaction_participants": [
+  {
+   "tx_id": 25769807872,
+   "address": "GBLBPN6MY4DGYOJ7QFJEEU7E45BDCWXG2LIKCHZ524VBSQGXRSOB4N7F"
+  },
+  {
+   "tx_id": 25769807872,
+   "address": "GDG7IHDNYV6YDXDHUENW2XM6QYN4RADWGUXXB5LF6NRZSWVZXEBZN4YG"
+  }
+ ],
+ "history_operation_participants": [
+  {
+   "op_id": 25769807873,
+   "address": "GBLBPN6MY4DGYOJ7QFJEEU7E45BDCWXG2LIKCHZ524VBSQGXRSOB4N7F"
+  },
+  {
+   "op_id": 25769807873,
+   "address": "GDG7IHDNYV6YDXDHUENW2XM6QYN4RADWGUXXB5LF6NRZSWVZXEBZN4YG"
+  }
+ ]
+}

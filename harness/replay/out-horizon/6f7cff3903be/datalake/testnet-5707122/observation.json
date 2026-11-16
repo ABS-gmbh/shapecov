@@ -814,9 +814,47 @@
   "history_operations": 20,
   "history_effects": 27,
   "history_transaction_participants": 22,
-  "history_operation_participants": 23
+  "history_operation_participants": 23,
+  "history_trades": 5
  },
  "command": "horizon db reingest range 5707122 5707122 --ledgerbackend datastore --datastore-config /cfg/datastore.toml --parallel-workers 1 --retries 0",
  "exit_code": 0,
- "seconds_to_outcome": 2.9
+ "trades": [
+  {
+   "tx_hash": "9e3d287604738ab2bddf0c951859cbc7b9bb2db3e7eb324bcd1eb08057fcfc59",
+   "op_order": 1,
+   "order": 0,
+   "liquidity_pool_id": 4,
+   "rounding_slippage": 0
+  },
+  {
+   "tx_hash": "3e234005a596187a81284c4f9715166f89a4fb9e24ba71421363af85041be9a2",
+   "op_order": 1,
+   "order": 0,
+   "liquidity_pool_id": 2,
+   "rounding_slippage": 0
+  },
+  {
+   "tx_hash": "48364b37424e21b28421edcf1f41e36abccc38f835392f7ce896c3e4dd27fb14",
+   "op_order": 1,
+   "order": 0,
+   "liquidity_pool_id": 5,
+   "rounding_slippage": 0
+  },
+  {
+   "tx_hash": "db0082cf789c28e3621c2c47acfca161ef421fb4069a9187b653dabcda0b3685",
+   "op_order": 1,
+   "order": 0,
+   "liquidity_pool_id": 3,
+   "rounding_slippage": 0
+  },
+  {
+   "tx_hash": "db0082cf789c28e3621c2c47acfca161ef421fb4069a9187b653dabcda0b3685",
+   "op_order": 1,
+   "order": 1,
+   "liquidity_pool_id": 1,
+   "rounding_slippage": 0
+  }
+ ],
+ "seconds_to_outcome": 5.8
 }

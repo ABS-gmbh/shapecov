@@ -12452,9 +12452,180 @@
   "history_operations": 507,
   "history_effects": 283,
   "history_transaction_participants": 600,
-  "history_operation_participants": 620
+  "history_operation_participants": 620,
+  "history_trades": 24
  },
  "command": "horizon db reingest range 60280000 60280000 --ledgerbackend datastore --datastore-config /cfg/datastore.toml --parallel-workers 1 --retries 0",
  "exit_code": 0,
- "seconds_to_outcome": 2.7
+ "trades": [
+  {
+   "tx_hash": "f930903a43bb7592275a897c82dbabfbfac345152af74246c221ad2ca6593266",
+   "op_order": 1,
+   "order": 0,
+   "liquidity_pool_id": null,
+   "rounding_slippage": null
+  },
+  {
+   "tx_hash": "f930903a43bb7592275a897c82dbabfbfac345152af74246c221ad2ca6593266",
+   "op_order": 1,
+   "order": 1,
+   "liquidity_pool_id": null,
+   "rounding_slippage": null
+  },
+  {
+   "tx_hash": "f930903a43bb7592275a897c82dbabfbfac345152af74246c221ad2ca6593266",
+   "op_order": 1,
+   "order": 2,
+   "liquidity_pool_id": null,
+   "rounding_slippage": null
+  },
+  {
+   "tx_hash": "fca18b123ab65474b6644b374634fbe2b00d4b3119596139bdd79a0329bc4477",
+   "op_order": 1,
+   "order": 0,
+   "liquidity_pool_id": null,
+   "rounding_slippage": null
+  },
+  {
+   "tx_hash": "fca18b123ab65474b6644b374634fbe2b00d4b3119596139bdd79a0329bc4477",
+   "op_order": 1,
+   "order": 1,
+   "liquidity_pool_id": 2,
+   "rounding_slippage": 0
+  },
+  {
+   "tx_hash": "fca18b123ab65474b6644b374634fbe2b00d4b3119596139bdd79a0329bc4477",
+   "op_order": 1,
+   "order": 2,
+   "liquidity_pool_id": 4,
+   "rounding_slippage": 0
+  },
+  {
+   "tx_hash": "fca18b123ab65474b6644b374634fbe2b00d4b3119596139bdd79a0329bc4477",
+   "op_order": 1,
+   "order": 3,
+   "liquidity_pool_id": 6,
+   "rounding_slippage": 0
+  },
+  {
+   "tx_hash": "fca18b123ab65474b6644b374634fbe2b00d4b3119596139bdd79a0329bc4477",
+   "op_order": 1,
+   "order": 4,
+   "liquidity_pool_id": 3,
+   "rounding_slippage": 0
+  },
+  {
+   "tx_hash": "bbb7e9b8db5a6e986f0ec387e6109a5018aa393a28ccbc84e410d029ba6762c7",
+   "op_order": 1,
+   "order": 0,
+   "liquidity_pool_id": 1,
+   "rounding_slippage": 0
+  },
+  {
+   "tx_hash": "bbb7e9b8db5a6e986f0ec387e6109a5018aa393a28ccbc84e410d029ba6762c7",
+   "op_order": 1,
+   "order": 1,
+   "liquidity_pool_id": 8,
+   "rounding_slippage": 0
+  },
+  {
+   "tx_hash": "bbb7e9b8db5a6e986f0ec387e6109a5018aa393a28ccbc84e410d029ba6762c7",
+   "op_order": 1,
+   "order": 2,
+   "liquidity_pool_id": 9,
+   "rounding_slippage": 0
+  },
+  {
+   "tx_hash": "cc8e1212dea1ae8637731827998eada7dd8a1cbe0f858c689947ef65638e34d1",
+   "op_order": 1,
+   "order": 0,
+   "liquidity_pool_id": 1,
+   "rounding_slippage": 0
+  },
+  {
+   "tx_hash": "cc8e1212dea1ae8637731827998eada7dd8a1cbe0f858c689947ef65638e34d1",
+   "op_order": 1,
+   "order": 1,
+   "liquidity_pool_id": 10,
+   "rounding_slippage": 0
+  },
+  {
+   "tx_hash": "cc8e1212dea1ae8637731827998eada7dd8a1cbe0f858c689947ef65638e34d1",
+   "op_order": 1,
+   "order": 2,
+   "liquidity_pool_id": 7,
+   "rounding_slippage": 0
+  },
+  {
+   "tx_hash": "6e29647cce53593aeff482eab88c667c9ce0e756e6bf9f2ea60e8de8286708d6",
+   "op_order": 1,
+   "order": 0,
+   "liquidity_pool_id": 11,
+   "rounding_slippage": 0
+  },
+  {
+   "tx_hash": "6e29647cce53593aeff482eab88c667c9ce0e756e6bf9f2ea60e8de8286708d6",
+   "op_order": 1,
+   "order": 1,
+   "liquidity_pool_id": 5,
+   "rounding_slippage": 0
+  },
+  {
+   "tx_hash": "6e29647cce53593aeff482eab88c667c9ce0e756e6bf9f2ea60e8de8286708d6",
+   "op_order": 1,
+   "order": 2,
+   "liquidity_pool_id": 12,
+   "rounding_slippage": 0
+  },
+  {
+   "tx_hash": "5bbaf123729d4e5a7e6c2e2326f3609e8a92f469168cea6c7199ea8b0ab49c5c",
+   "op_order": 5,
+   "order": 0,
+   "liquidity_pool_id": null,
+   "rounding_slippage": null
+  },
+  {
+   "tx_hash": "5bbaf123729d4e5a7e6c2e2326f3609e8a92f469168cea6c7199ea8b0ab49c5c",
+   "op_order": 6,
+   "order": 0,
+   "liquidity_pool_id": null,
+   "rounding_slippage": null
+  },
+  {
+   "tx_hash": "5bbaf123729d4e5a7e6c2e2326f3609e8a92f469168cea6c7199ea8b0ab49c5c",
+   "op_order": 7,
+   "order": 0,
+   "liquidity_pool_id": null,
+   "rounding_slippage": null
+  },
+  {
+   "tx_hash": "5bbaf123729d4e5a7e6c2e2326f3609e8a92f469168cea6c7199ea8b0ab49c5c",
+   "op_order": 8,
+   "order": 0,
+   "liquidity_pool_id": null,
+   "rounding_slippage": null
+  },
+  {
+   "tx_hash": "1830a680fa872b16d1629f41837158fc13f4df1a0db601e0c48d78fc8d4e8923",
+   "op_order": 1,
+   "order": 0,
+   "liquidity_pool_id": 1,
+   "rounding_slippage": 0
+  },
+  {
+   "tx_hash": "1830a680fa872b16d1629f41837158fc13f4df1a0db601e0c48d78fc8d4e8923",
+   "op_order": 1,
+   "order": 1,
+   "liquidity_pool_id": 8,
+   "rounding_slippage": 0
+  },
+  {
+   "tx_hash": "1830a680fa872b16d1629f41837158fc13f4df1a0db601e0c48d78fc8d4e8923",
+   "op_order": 1,
+   "order": 2,
+   "liquidity_pool_id": 9,
+   "rounding_slippage": 0
+  }
+ ],
+ "seconds_to_outcome": 5.7
 }

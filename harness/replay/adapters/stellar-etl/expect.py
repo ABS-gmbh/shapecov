@@ -30,7 +30,7 @@ REPORT_INTRO = [
     "on Google Cloud Storage, so the one input is `datalake`: the Galexie layout served through the GCS JSON",
     "and XML APIs, with the exporter's own GCS client pointed at the feeder by `STORAGE_EMULATOR_HOST`. Every",
     "cell runs the commit's own `export_transactions`, `export_operations`, `export_effects`,",
-    "`export_token_transfer` and `export_contract_events` for the one ledger and reads the exported JSON",
+    "`export_token_transfer`, `export_contract_events` and `export_trades` for the one ledger and reads the exported JSON",
     "back. stellar-etl reads only",
     "pubnet, testnet and futurenet, so entries from stellar-core's test data are `n/a`.",
 ]
@@ -286,6 +286,115 @@ def event_expectations(value, passphrase):
                             derived_from="oracle: the transaction %s" % ("succeeded" if ok else "failed"),
                             via=dict(base["via"], how="in_successful_contract_call")))
     return out
+
+
+# Rounding slippage of a liquidity-pool trade (stellar-etl#451): Horizon's definition, which the
+# issue takes as the reference. go-stellar-sdk exp/orderbook/pools.go, ported exactly (integer
+# arithmetic; a result Go would flag as not ok is None).
+MAX_BIPS = 10_000
+INT64_MAX = 2 ** 63 - 1
+
+
+def _slippage_bips(numer, denom, result):
+    unrounded = numer * MAX_BIPS // denom
+    if unrounded == 0:
+        return 0  # uint256 division by zero is 0
+    return abs(unrounded - result * MAX_BIPS) * MAX_BIPS // unrounded // 100
+
+
+def pool_payout_slippage(reserve_a, reserve_b, received, fee):
+    """CalculatePoolPayout(reserveA, reserveB, received, fee, true): the slippage in bips, or None."""
+    if reserve_a < 0 or reserve_b < 0 or received < 0 or not 0 <= fee < MAX_BIPS:
+        return None
+    if received > INT64_MAX - reserve_a:
+        return None
+    f = MAX_BIPS - fee
+    denom = reserve_a * MAX_BIPS + received * f
+    if denom == 0:
+        return None
+    numer = reserve_b * received * f
+    result, slip = numer // denom, 0
+    if numer % denom:
+        slip = _slippage_bips(numer, denom, result)
+        if slip > INT64_MAX:
+            return None
+    return slip if 0 < result <= INT64_MAX else None
+
+
+def pool_expectation_slippage(reserve_a, reserve_b, disbursed, fee):
+    """CalculatePoolExpectation(reserveA, reserveB, disbursed, fee, true): the slippage in bips, or None."""
+    if reserve_a < 0 or reserve_b < 0 or disbursed < 0 or not 0 <= fee < MAX_BIPS:
+        return None
+    if disbursed >= reserve_b:
+        return None
+    f = MAX_BIPS - fee
+    denom = (reserve_b - disbursed) * f
+    if denom == 0:
+        return None
+    numer = reserve_a * disbursed * MAX_BIPS
+    result, slip = numer // denom, 0
+    if numer % denom:
+        result += 1
+        slip = _slippage_bips(numer, denom, result)
+        if slip > INT64_MAX:
+            return None
+    return slip if 0 <= result <= INT64_MAX - reserve_a else None
+
+
+def pool_trades(value):
+    """Every liquidity-pool trade of a successful path payment: (tx_hash, op_order, order, op type,
+    expected rounding slippage in bips). Reserves are the pool's state before the operation's last
+    change to it, as both indexers read them; deposited and disbursed are from the pool's side."""
+    import oracle
+    out = []
+    for tp in value["v%d" % value["v"]]["txProcessing"]:
+        res = tp["result"]
+        if res["result"]["result"]["code"] not in oracle.SUCCESS:
+            continue
+        inner = res["result"]["result"]
+        results = inner.get("results") or (inner.get("innerResultPair") or {}).get("result", {}).get("result", {}).get("results") or []
+        meta = tp["txApplyProcessing"]
+        mv = meta.get("v%d" % meta["v"]) or {}
+        ops_meta = mv.get("operations") or []
+        for i, r in enumerate(results):
+            tr = r.get("tr") or {}
+            kind = tr.get("type")
+            if kind not in ("PATH_PAYMENT_STRICT_RECEIVE", "PATH_PAYMENT_STRICT_SEND"):
+                continue
+            body = tr.get("pathPaymentStrictReceiveResult") or tr.get("pathPaymentStrictSendResult") or {}
+            offers = (body.get("success") or {}).get("offers") or []
+            pre = {}
+            for k, before, _after in oracle.pairs(ops_meta[i].get("changes") or [] if i < len(ops_meta) else []):
+                if before and before["data"]["type"] == "LIQUIDITY_POOL":
+                    pre[before["data"]["liquidityPool"]["liquidityPoolID"]] = before["data"]["liquidityPool"]
+            for order, claim in enumerate(offers):
+                if claim["type"] != "CLAIM_ATOM_TYPE_LIQUIDITY_POOL":
+                    continue
+                c = claim["liquidityPool"]
+                pool = pre.get(c["liquidityPoolID"])
+                if pool is None:
+                    continue
+                cp = pool["body"]["constantProduct"]
+                a, b = int(cp["reserveA"]), int(cp["reserveB"])
+                if json.dumps(c["assetSold"], sort_keys=True) != json.dumps(cp["params"]["assetA"], sort_keys=True):
+                    a, b = b, a
+                disbursed_reserve, deposited_reserve, fee = a, b, int(cp["params"]["fee"])
+                if kind == "PATH_PAYMENT_STRICT_RECEIVE":
+                    slip = pool_expectation_slippage(deposited_reserve, disbursed_reserve, int(c["amountSold"]), fee)
+                else:
+                    slip = pool_payout_slippage(deposited_reserve, disbursed_reserve, int(c["amountBought"]), fee)
+                out.append((res["transactionHash"], i + 1, order, kind, INT64_MAX if slip is None else slip))
+    return out
+
+
+def ledger_expectations(value, passphrase):
+    """stellar-etl#451: every liquidity-pool trade exported with the rounding slippage Horizon's
+    definition gives (CalculatePoolExpectation for a strict receive, CalculatePoolPayout for a strict
+    send, the maximum int64 when the calculation would overflow)."""
+    return [{"expect": "trade_detail", "tx_hash": tx, "op_order": op, "order": order, "field": "rounding_slippage",
+             "value": slip, "derived_from": "oracle: the pool's reserves before the operation, %s" % kind.lower(),
+             "via": {"where": op - 1, "op_type": kind, "what": "trade", "how": "rounding slippage"}}
+            for tx, op, order, kind, slip in pool_trades(value)]
 
 
 def allow_trust_types(changes):

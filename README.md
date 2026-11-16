@@ -40,7 +40,7 @@ testing, 16 checks in about 18 seconds there; CI runs it on every push, and reru
 
 - **8 defects found and filed** in java-stellar-sdk, py-stellar-base and stellar-etl. The Java
   maintainer fixed #833 two days after it was filed; py-stellar-base closed #1262 and #1263 as
-  fixed in its replacement XDR package. All 40 findings, with severity, CAPs and a reproducing
+  fixed in its replacement XDR package. All 41 findings, with severity, CAPs and a reproducing
   entry each: [`FINDINGS.md`](FINDINGS.md).
 - **12 of the RFP's 18 sightings reproduced**, all in CI, each failing before its fix and passing
   after ([`harness/sightings/README.md`](harness/sightings/README.md)).
@@ -48,7 +48,7 @@ testing, 16 checks in about 18 seconds there; CI runs it on every push, and reru
   every failure in wallet-backend, stellar-etl and Horizon maps to a filed issue. A sweep of 611 further
   network ledgers (100,676 transactions) found no new defect.
 - **Backtest on past fixes**, measured and incomplete: the harness detects 12 of wallet-backend's 17
-  in-scope fixes (5 on ledgers not chosen for the bug) and flags 6 of stellar-etl's 9 in-scope issues
+  in-scope fixes (5 on ledgers not chosen for the bug) and flags 7 of stellar-etl's 9 in-scope issues
   (1 blind). Every miss names the shape, oracle rule or export that would catch it
   ([`BACKTEST.md`](harness/replay/BACKTEST.md)).
 - **7,392 generated cases across all 477 types**, run through six decoders and stellar-core

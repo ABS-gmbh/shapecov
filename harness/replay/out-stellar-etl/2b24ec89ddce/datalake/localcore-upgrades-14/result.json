@@ -25,14 +25,15 @@
   "operations": 0,
   "effects": 0,
   "token_transfer": 0,
-  "contract_events": 0
+  "contract_events": 0,
+  "trades": 0
  },
  "process": {
   "outcome": "exited",
   "exit_code": 0
  },
- "seconds": 2.0,
- "feeder_requests": 20,
+ "seconds": 5.7,
+ "feeder_requests": 24,
  "evidence": "out-stellar-etl/2b24ec89ddce/datalake/localcore-upgrades-14",
  "oracle": {
   "verdict": "pass",

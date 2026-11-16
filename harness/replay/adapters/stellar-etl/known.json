@@ -89,6 +89,14 @@
    "match": {
     "what": "contract event"
    }
+  },
+  {
+   "issue": "stellar/stellar-etl#451",
+   "note": "rounding_slippage of a liquidity-pool trade: the strict-receive branch calls CalculatePoolPayout where Horizon calls CalculatePoolExpectation, and on overflow the strict-send branch sets math.MinInt64 where Horizon sets math.MaxInt64. Filed by chowbao (P1). The oracle's port of both formulas matches Horizon v30.0.1 on every pool trade in the corpus.",
+   "match": {
+    "what": "trade",
+    "how": "rounding slippage"
+   }
   }
  ]
 }

@@ -1400,13 +1400,51 @@
   "operations": 20,
   "effects": 25,
   "token_transfer": 52,
-  "contract_events": 381
+  "contract_events": 381,
+  "trades": 5
  },
- "seconds": 1.2,
+ "seconds": 2.5,
  "process": {
   "outcome": "exited",
   "exit_code": 0
  },
+ "trades": [
+  {
+   "tx_hash": "9e3d287604738ab2bddf0c951859cbc7b9bb2db3e7eb324bcd1eb08057fcfc59",
+   "op_order": 1,
+   "order": 0,
+   "liquidity_pool_id": "f929ee5a46cfb79443a49560d8784f00023a68c3d0f29c030e9127a3532701a4",
+   "rounding_slippage": 0
+  },
+  {
+   "tx_hash": "3e234005a596187a81284c4f9715166f89a4fb9e24ba71421363af85041be9a2",
+   "op_order": 1,
+   "order": 0,
+   "liquidity_pool_id": "f0949ed885110c356cec901872f323bc8b55d83390f7651785a84bcd80ed6bd2",
+   "rounding_slippage": 0
+  },
+  {
+   "tx_hash": "48364b37424e21b28421edcf1f41e36abccc38f835392f7ce896c3e4dd27fb14",
+   "op_order": 1,
+   "order": 0,
+   "liquidity_pool_id": "f9644fb5ed35866f288fc1b948c7f4c632c1e6db2bebf5cb25aee752f3f06df5",
+   "rounding_slippage": 0
+  },
+  {
+   "tx_hash": "db0082cf789c28e3621c2c47acfca161ef421fb4069a9187b653dabcda0b3685",
+   "op_order": 1,
+   "order": 0,
+   "liquidity_pool_id": "f74e181bed61523ee3c1b667b2d9d2df05ee7498ba374803d6e42247b2b23061",
+   "rounding_slippage": 0
+  },
+  {
+   "tx_hash": "db0082cf789c28e3621c2c47acfca161ef421fb4069a9187b653dabcda0b3685",
+   "op_order": 1,
+   "order": 1,
+   "liquidity_pool_id": "f005c2a2d7170874bb318ce4ee00337f90618a33ce754baba5874f5f69388453",
+   "rounding_slippage": 0
+  }
+ ],
  "contract_events": [
   {
    "tx_hash": "9e3d287604738ab2bddf0c951859cbc7b9bb2db3e7eb324bcd1eb08057fcfc59",

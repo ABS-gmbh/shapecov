@@ -9,7 +9,7 @@
  "mode": "unmodified",
  "result": "mishandled",
  "mishandled": [
-  "the indexer raised an error on this ledger and did not ingest it: token_transfer exited 1: time=\"2026-11-16T21:56:06.533Z\" level=fatal msg=\"could not transform token transfers for ledger 3: error reading from unified events stream, expected version 4 got 3\" pid=37"
+  "the indexer raised an error on this ledger and did not ingest it: token_transfer exited 1: time=\"2026-11-16T22:29:09.271Z\" level=fatal msg=\"could not transform token transfers for ledger 3: error reading from unified events stream, expected version 4 got 3\" pid=35"
  ],
  "dropped": [],
  "checks": [],
@@ -27,14 +27,15 @@
   "operations": 1,
   "effects": 0,
   "token_transfer": 0,
-  "contract_events": 21
+  "contract_events": 21,
+  "trades": 0
  },
  "process": {
   "outcome": "exited",
   "exit_code": 1
  },
- "seconds": 1.4,
- "feeder_requests": 20,
+ "seconds": 4.2,
+ "feeder_requests": 24,
  "evidence": "out-stellar-etl/2b24ec89ddce/datalake/localcore-muxed-source-p22-3",
  "oracle": {
   "verdict": "mishandled",

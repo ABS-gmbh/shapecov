@@ -63,13 +63,15 @@
   "operations": 1,
   "effects": 1,
   "token_transfer": 1,
-  "contract_events": 2
+  "contract_events": 2,
+  "trades": 0
  },
- "seconds": 1.5,
+ "seconds": 5.0,
  "process": {
   "outcome": "exited",
   "exit_code": 0
  },
+ "trades": [],
  "contract_events": [
   {
    "tx_hash": "9bde8161307c0d2908963dbefd80ae1889e79cc12d56fde1f46cd15d897d27e0",

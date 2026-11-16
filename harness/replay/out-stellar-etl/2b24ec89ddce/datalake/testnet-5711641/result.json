@@ -25,14 +25,15 @@
   "operations": 85,
   "effects": 23,
   "token_transfer": 36,
-  "contract_events": 227
+  "contract_events": 227,
+  "trades": 0
  },
  "process": {
   "outcome": "exited",
   "exit_code": 0
  },
- "seconds": 2.2,
- "feeder_requests": 20,
+ "seconds": 3.2,
+ "feeder_requests": 24,
  "evidence": "out-stellar-etl/2b24ec89ddce/datalake/testnet-5711641",
  "oracle": {
   "verdict": "known issues only",

@@ -1,0 +1,67 @@
+{
+ "observation_version": 1,
+ "adapter": "horizon",
+ "commit": "6f7cff3903be1df4fb980a12910a1313c5d7d8dd",
+ "input": "datalake",
+ "entry_id": "localcore-pool-share-unsponsor-6",
+ "ledger_seq": 6,
+ "ingested": true,
+ "error": null,
+ "adapter_failure": false,
+ "transactions": [
+  {
+   "hash": "1589a418e20602c439286df154807982c5e17690ccf418203313fa027b4b1898",
+   "tx_order": 1,
+   "successful": true,
+   "result_code": null,
+   "participants": [
+    "GBLBPN6MY4DGYOJ7QFJEEU7E45BDCWXG2LIKCHZ524VBSQGXRSOB4N7F",
+    "GDG7IHDNYV6YDXDHUENW2XM6QYN4RADWGUXXB5LF6NRZSWVZXEBZN4YG"
+   ]
+  }
+ ],
+ "operations": [
+  {
+   "tx_hash": "1589a418e20602c439286df154807982c5e17690ccf418203313fa027b4b1898",
+   "tx_order": 1,
+   "op_order": 1,
+   "type": "revoke_sponsorship",
+   "participants": [
+    "GBLBPN6MY4DGYOJ7QFJEEU7E45BDCWXG2LIKCHZ524VBSQGXRSOB4N7F",
+    "GDG7IHDNYV6YDXDHUENW2XM6QYN4RADWGUXXB5LF6NRZSWVZXEBZN4YG"
+   ]
+  }
+ ],
+ "state_changes": [
+  {
+   "tx_hash": "1589a418e20602c439286df154807982c5e17690ccf418203313fa027b4b1898",
+   "tx_order": 1,
+   "op_order": 1,
+   "category": "EFFECT",
+   "reason": "trustline_sponsorship_removed",
+   "account": "GDG7IHDNYV6YDXDHUENW2XM6QYN4RADWGUXXB5LF6NRZSWVZXEBZN4YG",
+   "signer_key": null,
+   "token": null,
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "op_order": 1,
+    "liquidity_pool_id": "088832dcc94b7b74e83291a81ca57ddd4243f420b7ba59242e47ec44fb6c44e9"
+   }
+  }
+ ],
+ "unreadable": [],
+ "row_counts": {
+  "history_transactions": 1,
+  "history_operations": 1,
+  "history_effects": 1,
+  "history_transaction_participants": 2,
+  "history_operation_participants": 2,
+  "history_trades": 0
+ },
+ "command": "horizon db reingest range 6 6 --ledgerbackend datastore --datastore-config /cfg/datastore.toml --parallel-workers 1 --retries 0",
+ "exit_code": 0,
+ "trades": [],
+ "seconds_to_outcome": 14.4
+}

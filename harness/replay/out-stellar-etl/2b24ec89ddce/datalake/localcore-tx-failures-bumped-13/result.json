@@ -25,14 +25,15 @@
   "operations": 50,
   "effects": 26,
   "token_transfer": 54,
-  "contract_events": 54
+  "contract_events": 54,
+  "trades": 0
  },
  "process": {
   "outcome": "exited",
   "exit_code": 0
  },
- "seconds": 1.8,
- "feeder_requests": 20,
+ "seconds": 5.7,
+ "feeder_requests": 24,
  "evidence": "out-stellar-etl/2b24ec89ddce/datalake/localcore-tx-failures-bumped-13",
  "oracle": {
   "verdict": "known issues only",

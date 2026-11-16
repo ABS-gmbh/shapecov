@@ -25,14 +25,15 @@
   "operations": 3,
   "effects": 3,
   "token_transfer": 1,
-  "contract_events": 1
+  "contract_events": 1,
+  "trades": 0
  },
  "process": {
   "outcome": "exited",
   "exit_code": 0
  },
- "seconds": 2.7,
- "feeder_requests": 20,
+ "seconds": 4.2,
+ "feeder_requests": 24,
  "evidence": "out-stellar-etl/2b24ec89ddce/datalake/localcore-trustline-churn-5",
  "oracle": {
   "verdict": "pass",

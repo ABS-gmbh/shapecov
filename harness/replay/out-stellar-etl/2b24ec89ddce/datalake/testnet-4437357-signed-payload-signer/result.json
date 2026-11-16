@@ -25,14 +25,15 @@
   "operations": 12,
   "effects": 5,
   "token_transfer": 22,
-  "contract_events": 230
+  "contract_events": 230,
+  "trades": 0
  },
  "process": {
   "outcome": "exited",
   "exit_code": 0
  },
- "seconds": 1.2,
- "feeder_requests": 20,
+ "seconds": 1.9,
+ "feeder_requests": 24,
  "evidence": "out-stellar-etl/2b24ec89ddce/datalake/testnet-4437357-signed-payload-signer",
  "oracle": {
   "verdict": "known issues only",

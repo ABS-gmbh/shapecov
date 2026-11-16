@@ -1,0 +1,47 @@
+{
+ "observation_version": 1,
+ "adapter": "horizon",
+ "commit": "6f7cff3903be1df4fb980a12910a1313c5d7d8dd",
+ "input": "datalake",
+ "entry_id": "localcore-frozen-claim-11",
+ "ledger_seq": 11,
+ "ingested": true,
+ "error": null,
+ "adapter_failure": false,
+ "transactions": [
+  {
+   "hash": "043dec8c0a07b52e8af15241937e762b01b97c5715966b58b99ca45bff2bdca8",
+   "tx_order": 1,
+   "successful": false,
+   "result_code": null,
+   "participants": [
+    "GC37QCKC3PYINHD2BJOV3PI5SZN5YP5HX4DZA4R3JWQ2IDXO4M6GZJYP"
+   ]
+  }
+ ],
+ "operations": [
+  {
+   "tx_hash": "043dec8c0a07b52e8af15241937e762b01b97c5715966b58b99ca45bff2bdca8",
+   "tx_order": 1,
+   "op_order": 1,
+   "type": "claim_claimable_balance",
+   "participants": [
+    "GC37QCKC3PYINHD2BJOV3PI5SZN5YP5HX4DZA4R3JWQ2IDXO4M6GZJYP"
+   ]
+  }
+ ],
+ "state_changes": [],
+ "unreadable": [],
+ "row_counts": {
+  "history_transactions": 1,
+  "history_operations": 1,
+  "history_effects": 0,
+  "history_transaction_participants": 1,
+  "history_operation_participants": 1,
+  "history_trades": 0
+ },
+ "command": "horizon db reingest range 11 11 --ledgerbackend datastore --datastore-config /cfg/datastore.toml --parallel-workers 1 --retries 0",
+ "exit_code": 0,
+ "trades": [],
+ "seconds_to_outcome": 7.8
+}

@@ -6,7 +6,7 @@ Runs the real, unmodified exporter at a given commit:
            own docker/Dockerfile names (Docker)
   up       nothing: stellar-etl keeps no state between runs
   run      the commit's own `export_transactions`, `export_operations`, `export_effects`,
-           `export_token_transfer` and `export_contract_events` commands for the one ledger, reading the data lake through the
+           `export_token_transfer`, `export_contract_events` and `export_trades` commands for the one ledger, reading the data lake through the
            Google Cloud Storage client pointed at the feeder with STORAGE_EMULATOR_HOST
            -> the exported JSON lines are read back
   down     remove the container
@@ -50,7 +50,7 @@ NETWORK_FLAGS = {"Public Global Stellar Network ; September 2015": [],
 # export command -> output name. Order matters only for the log.
 EXPORTS = [("export_transactions", "transactions"), ("export_operations", "operations"),
            ("export_effects", "effects"), ("export_token_transfer", "token_transfer"),
-           ("export_contract_events", "contract_events")]
+           ("export_contract_events", "contract_events"), ("export_trades", "trades")]
 STRKEY = re.compile(r"^[GMCPTXLB][A-Z2-7]{55,}$")
 
 
@@ -320,6 +320,14 @@ def run(a):
                                                  "event": t.get("event_topic")})
     # Contract events (history_contract_events): one row per exported event, with the event's own XDR,
     # hashed, so that each can be matched to the event in the meta it came from.
+    # Trades (history_trades), by transaction, operation and claim order, with the rounding slippage.
+    tx_by_order = {t["tx_order"]: t["hash"] for t in obs["transactions"]}
+    obs["trades"] = []
+    for t in rows["trades"]:
+        _l, order, op = toid_parts(t["history_operation_id"])
+        obs["trades"].append({"tx_hash": tx_by_order.get(order), "op_order": op, "order": t.get("order"),
+                              "liquidity_pool_id": t.get("selling_liquidity_pool_id"),
+                              "rounding_slippage": t.get("rounding_slippage")})
     # Rows of type Diagnostic are left out: no event in the operations' or transaction's lists has
     # that type, so none can match; they stay in exports/contract_events with the rest.
     obs["contract_events"] = []

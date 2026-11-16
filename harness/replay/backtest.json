@@ -1997,9 +1997,40 @@
    "issue": "stellar/stellar-etl#451",
    "pipeline": "stellar-etl",
    "at": "2b24ec89ddce",
-   "verdict": "missed",
-   "reason": "in an export the adapter does not run yet",
-   "entries": []
+   "verdict": "detected",
+   "entries": [
+    {
+     "entry": "pubnet-59220000",
+     "results": "etl",
+     "blind": false
+    },
+    {
+     "entry": "pubnet-61240000",
+     "results": "etl",
+     "blind": false
+    },
+    {
+     "entry": "pubnet-63920000",
+     "results": "etl",
+     "blind": false
+    },
+    {
+     "entry": "pubnet-65280000",
+     "results": "etl",
+     "blind": false
+    },
+    {
+     "entry": "pubnet-65479774",
+     "results": "etl",
+     "blind": false
+    },
+    {
+     "entry": "pubnet-65480264",
+     "results": "etl",
+     "blind": false
+    }
+   ],
+   "note": "Oracle rule written after reading the issue: not blind. The adapter runs export_trades since 16 November."
   },
   {
    "id": "stellar/stellar-etl#452",

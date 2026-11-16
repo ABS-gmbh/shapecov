@@ -28331,13 +28331,485 @@
   "operations": 818,
   "effects": 403,
   "token_transfer": 1082,
-  "contract_events": 5950
+  "contract_events": 5950,
+  "trades": 67
  },
- "seconds": 1.6,
+ "seconds": 5.4,
  "process": {
   "outcome": "exited",
   "exit_code": 0
  },
+ "trades": [
+  {
+   "tx_hash": "3d062dec4d8b37e0285abab6ddde6d65000f9f671720dbfbb84d3756f1392bbd",
+   "op_order": 1,
+   "order": 0,
+   "liquidity_pool_id": "1e99bc833b6b727619075b19416077d3d3879c83920f04a4a7778c45f6925b5e",
+   "rounding_slippage": 0
+  },
+  {
+   "tx_hash": "3d062dec4d8b37e0285abab6ddde6d65000f9f671720dbfbb84d3756f1392bbd",
+   "op_order": 1,
+   "order": 1,
+   "liquidity_pool_id": "59d89cac02d1deb400540a9f258f75fce6356a2234398bb52c3485f3f6f546e5",
+   "rounding_slippage": 0
+  },
+  {
+   "tx_hash": "3d062dec4d8b37e0285abab6ddde6d65000f9f671720dbfbb84d3756f1392bbd",
+   "op_order": 1,
+   "order": 2,
+   "liquidity_pool_id": "db2b325064b2bfb23a0107aa51da94ed066a772bbb0d216520aa8c40dc1de00e",
+   "rounding_slippage": 0
+  },
+  {
+   "tx_hash": "9b55d6e3439d65e175756e4d9d68bc65737b2e1a8f132fc86bfbf436c5491264",
+   "op_order": 1,
+   "order": 0,
+   "liquidity_pool_id": null,
+   "rounding_slippage": null
+  },
+  {
+   "tx_hash": "629da8f7c9454583bf74e53e74fd642d78f24750b80681db68270c819cb0effa",
+   "op_order": 1,
+   "order": 0,
+   "liquidity_pool_id": "4202279a0f593acf975f54df713269d809f4cd253f9e124069f323d6b3f8ef2e",
+   "rounding_slippage": 0
+  },
+  {
+   "tx_hash": "629da8f7c9454583bf74e53e74fd642d78f24750b80681db68270c819cb0effa",
+   "op_order": 1,
+   "order": 1,
+   "liquidity_pool_id": "4e9a038512b183d8d2b8a8a3c10a38d27f9d4475e364818f85625bfb8933bbad",
+   "rounding_slippage": 0
+  },
+  {
+   "tx_hash": "629da8f7c9454583bf74e53e74fd642d78f24750b80681db68270c819cb0effa",
+   "op_order": 1,
+   "order": 2,
+   "liquidity_pool_id": "b4c9b0c1c834d9616ca6111a22a3a65fd40f79dfb1183329d21386c31fa567f6",
+   "rounding_slippage": 0
+  },
+  {
+   "tx_hash": "629da8f7c9454583bf74e53e74fd642d78f24750b80681db68270c819cb0effa",
+   "op_order": 1,
+   "order": 3,
+   "liquidity_pool_id": "fd5413d446a515989dc6e6f72b3b8f8614c977baa4ef2642ad310a931676cae6",
+   "rounding_slippage": 0
+  },
+  {
+   "tx_hash": "a22c3a5b559e36b54660805a919d1032239dabebf0f0d67046b636cf4efab09f",
+   "op_order": 1,
+   "order": 0,
+   "liquidity_pool_id": null,
+   "rounding_slippage": null
+  },
+  {
+   "tx_hash": "a22c3a5b559e36b54660805a919d1032239dabebf0f0d67046b636cf4efab09f",
+   "op_order": 1,
+   "order": 1,
+   "liquidity_pool_id": "5deb71cd51a43784885645a7cf2337af9a0cbd1e0b97b4d73a02ed19c61d0192",
+   "rounding_slippage": 0
+  },
+  {
+   "tx_hash": "a22c3a5b559e36b54660805a919d1032239dabebf0f0d67046b636cf4efab09f",
+   "op_order": 1,
+   "order": 2,
+   "liquidity_pool_id": "db2b325064b2bfb23a0107aa51da94ed066a772bbb0d216520aa8c40dc1de00e",
+   "rounding_slippage": 0
+  },
+  {
+   "tx_hash": "87abf48b282fae5c6788732a58ec3afb3004a43281a3cfa48c3811f8df1c4155",
+   "op_order": 1,
+   "order": 0,
+   "liquidity_pool_id": "a01fce811bd543490b587164a4b5083383c93fd1b78955f455e60bda33512159",
+   "rounding_slippage": 0
+  },
+  {
+   "tx_hash": "87abf48b282fae5c6788732a58ec3afb3004a43281a3cfa48c3811f8df1c4155",
+   "op_order": 1,
+   "order": 1,
+   "liquidity_pool_id": "763d082e91d9cfa8d15e64878388619255dea1d0c5329614b731bc2992fc569a",
+   "rounding_slippage": 0
+  },
+  {
+   "tx_hash": "87abf48b282fae5c6788732a58ec3afb3004a43281a3cfa48c3811f8df1c4155",
+   "op_order": 1,
+   "order": 2,
+   "liquidity_pool_id": "0c7d9cd2dcfc66eee58b7d9f8eceace7d3a460e02d4d656e7286d89a971170ee",
+   "rounding_slippage": 0
+  },
+  {
+   "tx_hash": "db9d06f155193b424d93db7bc72ae5d98eaff0becd11d5de4c3a60bd93a1dee2",
+   "op_order": 1,
+   "order": 0,
+   "liquidity_pool_id": "0c7d9cd2dcfc66eee58b7d9f8eceace7d3a460e02d4d656e7286d89a971170ee",
+   "rounding_slippage": 0
+  },
+  {
+   "tx_hash": "db9d06f155193b424d93db7bc72ae5d98eaff0becd11d5de4c3a60bd93a1dee2",
+   "op_order": 1,
+   "order": 1,
+   "liquidity_pool_id": "2c25ed2c5f63d5e88aadfeadabb8e378faa4456f409d8720f96b77832b246304",
+   "rounding_slippage": 2
+  },
+  {
+   "tx_hash": "db9d06f155193b424d93db7bc72ae5d98eaff0becd11d5de4c3a60bd93a1dee2",
+   "op_order": 1,
+   "order": 2,
+   "liquidity_pool_id": "91c6cf5eb9916ba00de41870b26c88277b07cee4ac591faf1118cf2ab8f58c34",
+   "rounding_slippage": 0
+  },
+  {
+   "tx_hash": "db9d06f155193b424d93db7bc72ae5d98eaff0becd11d5de4c3a60bd93a1dee2",
+   "op_order": 1,
+   "order": 3,
+   "liquidity_pool_id": "f5ba1d066e7ba4985c13d1c2cd7a1b4669ea0b77cde763734919f153a711f984",
+   "rounding_slippage": 0
+  },
+  {
+   "tx_hash": "db9d06f155193b424d93db7bc72ae5d98eaff0becd11d5de4c3a60bd93a1dee2",
+   "op_order": 1,
+   "order": 4,
+   "liquidity_pool_id": "763d082e91d9cfa8d15e64878388619255dea1d0c5329614b731bc2992fc569a",
+   "rounding_slippage": 0
+  },
+  {
+   "tx_hash": "db9d06f155193b424d93db7bc72ae5d98eaff0becd11d5de4c3a60bd93a1dee2",
+   "op_order": 1,
+   "order": 5,
+   "liquidity_pool_id": "0c7d9cd2dcfc66eee58b7d9f8eceace7d3a460e02d4d656e7286d89a971170ee",
+   "rounding_slippage": 9223372036854775807
+  },
+  {
+   "tx_hash": "7309cd97024c741404ffbb36426d6d6b8d97b276eeb3fb3c6eb2f8aa032ea769",
+   "op_order": 1,
+   "order": 0,
+   "liquidity_pool_id": "e37f8bb25d9b1b321e8ba59e94ff517bbbbe5cea8b3a8c0167da1ae4262cc36c",
+   "rounding_slippage": 0
+  },
+  {
+   "tx_hash": "7309cd97024c741404ffbb36426d6d6b8d97b276eeb3fb3c6eb2f8aa032ea769",
+   "op_order": 1,
+   "order": 1,
+   "liquidity_pool_id": "a550d9ac6d3a4599e0b82f247c637988244a6b1de6d6c1eb566ef7d566317898",
+   "rounding_slippage": 0
+  },
+  {
+   "tx_hash": "7309cd97024c741404ffbb36426d6d6b8d97b276eeb3fb3c6eb2f8aa032ea769",
+   "op_order": 1,
+   "order": 2,
+   "liquidity_pool_id": "a05388d6a56643f28a315476154c449bd936679ac4239350dc0ee75f2a8a18b9",
+   "rounding_slippage": 0
+  },
+  {
+   "tx_hash": "7309cd97024c741404ffbb36426d6d6b8d97b276eeb3fb3c6eb2f8aa032ea769",
+   "op_order": 1,
+   "order": 3,
+   "liquidity_pool_id": "db2b325064b2bfb23a0107aa51da94ed066a772bbb0d216520aa8c40dc1de00e",
+   "rounding_slippage": 0
+  },
+  {
+   "tx_hash": "8b423a6ddf3c67de512595a266d53f9a0273f3ceb5de77020f6877c70de26b61",
+   "op_order": 1,
+   "order": 0,
+   "liquidity_pool_id": "7790d469a2895ac4314e49919fa0d11189ccaa9b20d64e2c2b794fb1c86f03d7",
+   "rounding_slippage": 0
+  },
+  {
+   "tx_hash": "8b423a6ddf3c67de512595a266d53f9a0273f3ceb5de77020f6877c70de26b61",
+   "op_order": 1,
+   "order": 1,
+   "liquidity_pool_id": "409e1a5ea0b239505449602505a225ae58e7d837b8dab85bc807f9bd3c9ab315",
+   "rounding_slippage": 0
+  },
+  {
+   "tx_hash": "8b423a6ddf3c67de512595a266d53f9a0273f3ceb5de77020f6877c70de26b61",
+   "op_order": 1,
+   "order": 2,
+   "liquidity_pool_id": "db2b325064b2bfb23a0107aa51da94ed066a772bbb0d216520aa8c40dc1de00e",
+   "rounding_slippage": 0
+  },
+  {
+   "tx_hash": "4a635e7507c9554da20aa52337a04d94aa8f9059758fde23f92a620d5a41b051",
+   "op_order": 1,
+   "order": 0,
+   "liquidity_pool_id": "18731a4eb7d389cc9c920d4c8ad5f1f1a29370e75775a851abae7d981982366b",
+   "rounding_slippage": 0
+  },
+  {
+   "tx_hash": "e63aa4f3bbcd0775068fe2bd05abf4934c5b2716614fdf574f3aa8a12fefd610",
+   "op_order": 1,
+   "order": 0,
+   "liquidity_pool_id": "dc7b644da20ae8750ce4604229c7b89a77b3cac22e69867760ab8fba2c3ff5c2",
+   "rounding_slippage": 0
+  },
+  {
+   "tx_hash": "e63aa4f3bbcd0775068fe2bd05abf4934c5b2716614fdf574f3aa8a12fefd610",
+   "op_order": 1,
+   "order": 1,
+   "liquidity_pool_id": "75d7521563e9427962e6050ebbce96c834fd0f601262ec28a0a4484a4fc01884",
+   "rounding_slippage": 0
+  },
+  {
+   "tx_hash": "e63aa4f3bbcd0775068fe2bd05abf4934c5b2716614fdf574f3aa8a12fefd610",
+   "op_order": 1,
+   "order": 2,
+   "liquidity_pool_id": "1d6f1bdd38d6b2c96524c0d22618e3c04188821513b0002af87cbb4afd55d7f5",
+   "rounding_slippage": 0
+  },
+  {
+   "tx_hash": "4fbc896436d69c4ae20371d0f72dc26daa4f5a2f80bc41168ed1894152cb1a29",
+   "op_order": 1,
+   "order": 0,
+   "liquidity_pool_id": "8ebc3ab0d387ccc9fe3cafffdfdb9814c740eaee0760f69f98d8ef03fb5b700e",
+   "rounding_slippage": 0
+  },
+  {
+   "tx_hash": "52b668ed44ea56b76135443f9a9ca844fecba405d5cfadf0d83398bb7042ac36",
+   "op_order": 1,
+   "order": 0,
+   "liquidity_pool_id": null,
+   "rounding_slippage": null
+  },
+  {
+   "tx_hash": "8c7c090d8e13c115cb5de100a47f4f7f3bfc8d1a33427d42cd0755a8d07f1e9c",
+   "op_order": 1,
+   "order": 0,
+   "liquidity_pool_id": "e58a4d7d8352f979d24b6ef886b1683fe6661c8cc438bc57b1392c1992105b6a",
+   "rounding_slippage": 0
+  },
+  {
+   "tx_hash": "8c7c090d8e13c115cb5de100a47f4f7f3bfc8d1a33427d42cd0755a8d07f1e9c",
+   "op_order": 1,
+   "order": 1,
+   "liquidity_pool_id": "a550d9ac6d3a4599e0b82f247c637988244a6b1de6d6c1eb566ef7d566317898",
+   "rounding_slippage": 0
+  },
+  {
+   "tx_hash": "8c7c090d8e13c115cb5de100a47f4f7f3bfc8d1a33427d42cd0755a8d07f1e9c",
+   "op_order": 2,
+   "order": 0,
+   "liquidity_pool_id": "3ff2810e506f4839a27d04995161cb65a05fa67f5b1be5d07a27c37fbbe383d4",
+   "rounding_slippage": 0
+  },
+  {
+   "tx_hash": "8c7c090d8e13c115cb5de100a47f4f7f3bfc8d1a33427d42cd0755a8d07f1e9c",
+   "op_order": 2,
+   "order": 1,
+   "liquidity_pool_id": "122079b5754b939dd60a27161f0f95b952496e761d039bb59f25d795e29368ff",
+   "rounding_slippage": 0
+  },
+  {
+   "tx_hash": "8c7c090d8e13c115cb5de100a47f4f7f3bfc8d1a33427d42cd0755a8d07f1e9c",
+   "op_order": 3,
+   "order": 0,
+   "liquidity_pool_id": "9babe6bb11f6464b090e8edc7633e60a016b35a3ad10463cf720697bfc284b6b",
+   "rounding_slippage": 0
+  },
+  {
+   "tx_hash": "8c7c090d8e13c115cb5de100a47f4f7f3bfc8d1a33427d42cd0755a8d07f1e9c",
+   "op_order": 3,
+   "order": 1,
+   "liquidity_pool_id": "81796106a02caab3f53412abae98c96710413a2451928a44531c930aef387e2c",
+   "rounding_slippage": 0
+  },
+  {
+   "tx_hash": "8c7c090d8e13c115cb5de100a47f4f7f3bfc8d1a33427d42cd0755a8d07f1e9c",
+   "op_order": 4,
+   "order": 0,
+   "liquidity_pool_id": "9babe6bb11f6464b090e8edc7633e60a016b35a3ad10463cf720697bfc284b6b",
+   "rounding_slippage": 0
+  },
+  {
+   "tx_hash": "8c7c090d8e13c115cb5de100a47f4f7f3bfc8d1a33427d42cd0755a8d07f1e9c",
+   "op_order": 4,
+   "order": 1,
+   "liquidity_pool_id": "7b7aa2c4c33b5bd11826b683d231a1ef10941bbc17ca5c1fba236e0bfec5e5e5",
+   "rounding_slippage": 0
+  },
+  {
+   "tx_hash": "8c7c090d8e13c115cb5de100a47f4f7f3bfc8d1a33427d42cd0755a8d07f1e9c",
+   "op_order": 5,
+   "order": 0,
+   "liquidity_pool_id": "9babe6bb11f6464b090e8edc7633e60a016b35a3ad10463cf720697bfc284b6b",
+   "rounding_slippage": 0
+  },
+  {
+   "tx_hash": "8c7c090d8e13c115cb5de100a47f4f7f3bfc8d1a33427d42cd0755a8d07f1e9c",
+   "op_order": 5,
+   "order": 1,
+   "liquidity_pool_id": "aaf7425fc40c4427560350b41d244951408a803383abd5e45a037ed3d832633c",
+   "rounding_slippage": 0
+  },
+  {
+   "tx_hash": "8c7c090d8e13c115cb5de100a47f4f7f3bfc8d1a33427d42cd0755a8d07f1e9c",
+   "op_order": 6,
+   "order": 0,
+   "liquidity_pool_id": "1d218531dbe07a381f3a715d8bebd9417a93415c4a6499b5812a4b72e0739bc6",
+   "rounding_slippage": 0
+  },
+  {
+   "tx_hash": "8c7c090d8e13c115cb5de100a47f4f7f3bfc8d1a33427d42cd0755a8d07f1e9c",
+   "op_order": 6,
+   "order": 1,
+   "liquidity_pool_id": "be877d0894b882da192e0e9ae3283d9ee6d237fc30ccc36e8dce9cc17436cd8c",
+   "rounding_slippage": 0
+  },
+  {
+   "tx_hash": "8c7c090d8e13c115cb5de100a47f4f7f3bfc8d1a33427d42cd0755a8d07f1e9c",
+   "op_order": 7,
+   "order": 0,
+   "liquidity_pool_id": "1d218531dbe07a381f3a715d8bebd9417a93415c4a6499b5812a4b72e0739bc6",
+   "rounding_slippage": 0
+  },
+  {
+   "tx_hash": "8c7c090d8e13c115cb5de100a47f4f7f3bfc8d1a33427d42cd0755a8d07f1e9c",
+   "op_order": 7,
+   "order": 1,
+   "liquidity_pool_id": "7e9f82b4aa2e29389c2f3eb764c7e9c2194c54222295dd7a9cecb2548b088edc",
+   "rounding_slippage": 0
+  },
+  {
+   "tx_hash": "8c7c090d8e13c115cb5de100a47f4f7f3bfc8d1a33427d42cd0755a8d07f1e9c",
+   "op_order": 8,
+   "order": 0,
+   "liquidity_pool_id": "3ff2810e506f4839a27d04995161cb65a05fa67f5b1be5d07a27c37fbbe383d4",
+   "rounding_slippage": 0
+  },
+  {
+   "tx_hash": "8c7c090d8e13c115cb5de100a47f4f7f3bfc8d1a33427d42cd0755a8d07f1e9c",
+   "op_order": 8,
+   "order": 1,
+   "liquidity_pool_id": "92b8b30b457138d6d2cc22a27fe2c5169a06757a8f89ca160a84626224740e18",
+   "rounding_slippage": 0
+  },
+  {
+   "tx_hash": "8c7c090d8e13c115cb5de100a47f4f7f3bfc8d1a33427d42cd0755a8d07f1e9c",
+   "op_order": 9,
+   "order": 0,
+   "liquidity_pool_id": "1d218531dbe07a381f3a715d8bebd9417a93415c4a6499b5812a4b72e0739bc6",
+   "rounding_slippage": 0
+  },
+  {
+   "tx_hash": "8c7c090d8e13c115cb5de100a47f4f7f3bfc8d1a33427d42cd0755a8d07f1e9c",
+   "op_order": 9,
+   "order": 1,
+   "liquidity_pool_id": "cdcd428ce2c9e74dffb83d96d12e6b0807d0ae412bce16ae26b147c7733b39b6",
+   "rounding_slippage": 0
+  },
+  {
+   "tx_hash": "8c7c090d8e13c115cb5de100a47f4f7f3bfc8d1a33427d42cd0755a8d07f1e9c",
+   "op_order": 10,
+   "order": 0,
+   "liquidity_pool_id": "1d218531dbe07a381f3a715d8bebd9417a93415c4a6499b5812a4b72e0739bc6",
+   "rounding_slippage": 0
+  },
+  {
+   "tx_hash": "8c7c090d8e13c115cb5de100a47f4f7f3bfc8d1a33427d42cd0755a8d07f1e9c",
+   "op_order": 10,
+   "order": 1,
+   "liquidity_pool_id": "6fb91b99048b80274290e615e159f94b7f1dcded81cfd13a180bfd2ac018649a",
+   "rounding_slippage": 0
+  },
+  {
+   "tx_hash": "d4c05fbfd3bc11acd5c80b2737d14b61ee7e0114e25c99d375e118f8081693df",
+   "op_order": 1,
+   "order": 0,
+   "liquidity_pool_id": "0c7d9cd2dcfc66eee58b7d9f8eceace7d3a460e02d4d656e7286d89a971170ee",
+   "rounding_slippage": 0
+  },
+  {
+   "tx_hash": "d4c05fbfd3bc11acd5c80b2737d14b61ee7e0114e25c99d375e118f8081693df",
+   "op_order": 1,
+   "order": 1,
+   "liquidity_pool_id": "2c25ed2c5f63d5e88aadfeadabb8e378faa4456f409d8720f96b77832b246304",
+   "rounding_slippage": 0
+  },
+  {
+   "tx_hash": "d4c05fbfd3bc11acd5c80b2737d14b61ee7e0114e25c99d375e118f8081693df",
+   "op_order": 1,
+   "order": 2,
+   "liquidity_pool_id": "4fc66392d7d04ef38605776f45d4bb73123413423ca1f80b091ee93f5595d00a",
+   "rounding_slippage": 0
+  },
+  {
+   "tx_hash": "acbb7ad0202d9f5337776d62dcb6b4907255caf28bcfe27f66e38df3532ec462",
+   "op_order": 1,
+   "order": 0,
+   "liquidity_pool_id": "fd5413d446a515989dc6e6f72b3b8f8614c977baa4ef2642ad310a931676cae6",
+   "rounding_slippage": 0
+  },
+  {
+   "tx_hash": "acbb7ad0202d9f5337776d62dcb6b4907255caf28bcfe27f66e38df3532ec462",
+   "op_order": 1,
+   "order": 1,
+   "liquidity_pool_id": null,
+   "rounding_slippage": null
+  },
+  {
+   "tx_hash": "b7a1a48374fd71b09cdc2030c82c4f172d520f82d1bccc774af4fcc43a739230",
+   "op_order": 1,
+   "order": 0,
+   "liquidity_pool_id": null,
+   "rounding_slippage": null
+  },
+  {
+   "tx_hash": "b7a1a48374fd71b09cdc2030c82c4f172d520f82d1bccc774af4fcc43a739230",
+   "op_order": 1,
+   "order": 1,
+   "liquidity_pool_id": null,
+   "rounding_slippage": null
+  },
+  {
+   "tx_hash": "29195567a4c5c14d231f5b43ffbb584448812ed676401893540f58fa767f6050",
+   "op_order": 1,
+   "order": 0,
+   "liquidity_pool_id": "a01fce811bd543490b587164a4b5083383c93fd1b78955f455e60bda33512159",
+   "rounding_slippage": 0
+  },
+  {
+   "tx_hash": "29195567a4c5c14d231f5b43ffbb584448812ed676401893540f58fa767f6050",
+   "op_order": 1,
+   "order": 1,
+   "liquidity_pool_id": "763d082e91d9cfa8d15e64878388619255dea1d0c5329614b731bc2992fc569a",
+   "rounding_slippage": 0
+  },
+  {
+   "tx_hash": "29195567a4c5c14d231f5b43ffbb584448812ed676401893540f58fa767f6050",
+   "op_order": 1,
+   "order": 2,
+   "liquidity_pool_id": "0c7d9cd2dcfc66eee58b7d9f8eceace7d3a460e02d4d656e7286d89a971170ee",
+   "rounding_slippage": 0
+  },
+  {
+   "tx_hash": "49b0955963e37c83fb9099d8387615faa0fec60a95a0da6aab347bf3d90a9fd7",
+   "op_order": 1,
+   "order": 0,
+   "liquidity_pool_id": "adc024afe52039e18fb8eee91ffde6d80e6268155e5445036a7f38c782886160",
+   "rounding_slippage": 0
+  },
+  {
+   "tx_hash": "49b0955963e37c83fb9099d8387615faa0fec60a95a0da6aab347bf3d90a9fd7",
+   "op_order": 1,
+   "order": 1,
+   "liquidity_pool_id": "d99d6bbb6447c2a4ab5ffaddd85ea50a83e4a1ee25bfd299c69a77f5f68f12ee",
+   "rounding_slippage": 0
+  },
+  {
+   "tx_hash": "49b0955963e37c83fb9099d8387615faa0fec60a95a0da6aab347bf3d90a9fd7",
+   "op_order": 1,
+   "order": 2,
+   "liquidity_pool_id": null,
+   "rounding_slippage": null
+  },
+  {
+   "tx_hash": "49b0955963e37c83fb9099d8387615faa0fec60a95a0da6aab347bf3d90a9fd7",
+   "op_order": 2,
+   "order": 0,
+   "liquidity_pool_id": "f82c4083862934876ec3c9f67fa60521da6a0d83789fa3123bd8dc1d268c03b6",
+   "rounding_slippage": 0
+  }
+ ],
  "contract_events": [
   {
    "tx_hash": "3d062dec4d8b37e0285abab6ddde6d65000f9f671720dbfbb84d3756f1392bbd",

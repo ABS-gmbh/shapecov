@@ -6,7 +6,7 @@ Each cell is the result for one entry at one commit. stellar-etl reads ledgers o
 on Google Cloud Storage, so the one input is `datalake`: the Galexie layout served through the GCS JSON
 and XML APIs, with the exporter's own GCS client pointed at the feeder by `STORAGE_EMULATOR_HOST`. Every
 cell runs the commit's own `export_transactions`, `export_operations`, `export_effects`,
-`export_token_transfer` and `export_contract_events` for the one ledger and reads the exported JSON
+`export_token_transfer`, `export_contract_events` and `export_trades` for the one ledger and reads the exported JSON
 back. stellar-etl reads only
 pubnet, testnet and futurenet, so entries from stellar-core's test data are `n/a`.
 
@@ -76,12 +76,15 @@ Only the implicit checks apply: the ledger is ingested without an error and ever
 | `localcore-claim-and-sponsor-8` | 30 | datalake | pass |
 | `localcore-classic-p22-3` | 22 | datalake | mishandled: stellar-etl#512 |
 | `localcore-declared-deploy-6` | 28 | datalake | mishandled: stellar-etl#452 |
+| `localcore-deployer-cb-5` | 28 | datalake | mishandled: stellar-etl#452 |
+| `localcore-frozen-claim-11` | 28 | datalake | mishandled: stellar-etl#452 |
 | `localcore-maintain-liabilities-5` | 30 | datalake | pass |
 | `localcore-memo-and-offer-p30-4` | 30 | datalake | mishandled: stellar-etl#450, stellar-etl#452 |
 | `localcore-muxed-source-p22-3` | 22 | datalake | mishandled: stellar-etl#512 |
 | `localcore-op-failures-8` | 30 | datalake | mishandled: stellar-etl#452 |
 | `localcore-planted-auth-5` | 28 | datalake | mishandled: stellar-etl#452 |
 | `localcore-pool-revoke-two-pools-7` | 30 | datalake | mishandled: stellar-etl#513, stellar-etl#514 |
+| `localcore-pool-share-unsponsor-6` | 28 | datalake | pass |
 | `localcore-preauth-failed-6` | 30 | datalake | mishandled: stellar-etl#452 |
 | `localcore-sac-trust-p28-5` | 28 | datalake | dropped: stellar-etl#460 |
 | `localcore-sponsorship-transfer-9` | 30 | datalake | pass |
@@ -90,14 +93,14 @@ Only the implicit checks apply: the ledger is ingested without an error and ever
 | `localcore-tx-failures-bumped-13` | 30 | datalake | mishandled: stellar-etl#452 |
 | `localcore-tx-failures-plain-12` | 30 | datalake | mishandled: stellar-etl#452 |
 | `localcore-upgrades-14` | 30 | datalake | pass |
-| `pubnet-59220000` | 23 | datalake | mishandled: stellar-etl#450, stellar-etl#452, stellar-etl#456 |
+| `pubnet-59220000` | 23 | datalake | mishandled: stellar-etl#450, stellar-etl#451, stellar-etl#452, stellar-etl#456 |
 | `pubnet-60280000` | 24 | datalake | mishandled: stellar-etl#450, stellar-etl#452, stellar-etl#456 |
-| `pubnet-61240000` | 25 | datalake | mishandled: stellar-etl#450, stellar-etl#452, stellar-etl#456 |
-| `pubnet-63920000` | 27 | datalake | mishandled: stellar-etl#450, stellar-etl#452, stellar-etl#456, stellar-etl#460 |
-| `pubnet-65280000` | 29 | datalake | mishandled: stellar-etl#450, stellar-etl#452, stellar-etl#456 |
+| `pubnet-61240000` | 25 | datalake | mishandled: stellar-etl#450, stellar-etl#451, stellar-etl#452, stellar-etl#456 |
+| `pubnet-63920000` | 27 | datalake | mishandled: stellar-etl#450, stellar-etl#451, stellar-etl#452, stellar-etl#456, stellar-etl#460 |
+| `pubnet-65280000` | 29 | datalake | mishandled: stellar-etl#450, stellar-etl#451, stellar-etl#452, stellar-etl#456 |
 | `pubnet-65460000` | 29 | datalake | mishandled: stellar-etl#450, stellar-etl#452, stellar-etl#456 |
-| `pubnet-65479774` | 29 | datalake | mishandled: stellar-etl#450, stellar-etl#452, stellar-etl#456 |
-| `pubnet-65480264` | 29 | datalake | mishandled: stellar-etl#450, stellar-etl#452, stellar-etl#456 |
+| `pubnet-65479774` | 29 | datalake | mishandled: stellar-etl#450, stellar-etl#451, stellar-etl#452, stellar-etl#456 |
+| `pubnet-65480264` | 29 | datalake | mishandled: stellar-etl#450, stellar-etl#451, stellar-etl#452, stellar-etl#456 |
 | `pubnet-65480300` | 29 | datalake | mishandled: stellar-etl#450, stellar-etl#452, stellar-etl#456, stellar-etl#460 |
 | `pubnet-65480508` | 29 | datalake | mishandled: stellar-etl#450, stellar-etl#452, stellar-etl#456 |
 | `pubnet-65480598` | 29 | datalake | mishandled: stellar-etl#450, stellar-etl#452, stellar-etl#456 |
@@ -125,7 +128,7 @@ Only the implicit checks apply: the ledger is ingested without an error and ever
 
 | Commit | Input | pass | mishandled | dropped | error | not applicable |
 |---|---|---|---|---|---|---|
-| `2b24ec89` | datalake | 8 | 39 | 1 | 0 | 46 |
+| `2b24ec89` | datalake | 9 | 41 | 1 | 0 | 46 |
 
 ## Oracle checks
 
@@ -136,7 +139,7 @@ checked. A failure is labelled with the open upstream issue that explains it
 
 | Commit | Input | Replays | Rows expected | Rows met | Known issues | Unexplained |
 |---|---|---|---|---|---|---|
-| `2b24ec89` | datalake | 48 | 36003 | 31456 | stellar-etl#450 (928), stellar-etl#452 (3376), stellar-etl#456 (225), stellar-etl#457 (1), stellar-etl#460 (5), stellar-etl#462 (3), stellar-etl#512 (2), stellar-etl#513 (1), stellar-etl#514 (2) | 0 |
+| `2b24ec89` | datalake | 51 | 37179 | 32502 | stellar-etl#450 (928), stellar-etl#451 (126), stellar-etl#452 (3380), stellar-etl#456 (225), stellar-etl#457 (1), stellar-etl#460 (5), stellar-etl#462 (3), stellar-etl#512 (2), stellar-etl#513 (1), stellar-etl#514 (2) | 0 |
 
 
 
@@ -150,14 +153,14 @@ checked. A failure is labelled with the open upstream issue that explains it
 
 ### `localcore-classic-p22-3` at `2b24ec89ddce`, input datalake: mishandled
 
-- mishandled: the indexer raised an error on this ledger and did not ingest it: token_transfer exited 1: time="2026-11-16T21:56:09.467Z" level=fatal msg="could not transform token transfers for ledger 3: error reading from unified events stream, expected version 4 got 3" pid=37
+- mishandled: the indexer raised an error on this ledger and did not ingest it: token_transfer exited 1: time="2026-11-16T22:29:16.880Z" level=fatal msg="could not transform token transfers for ledger 3: error reading from unified events stream, expected version 4 got 3" pid=36
 - expectations: 0, source: none (implicit checks only)
 - indexer process: exited (exit code 1)
 - evidence: `out-stellar-etl/2b24ec89ddce/datalake/localcore-classic-p22-3/` (job.json, observation.json, result.json, feeder-requests.jsonl, and exports/: each command's JSON lines (gzipped), log and exit code)
 
 ### `localcore-muxed-source-p22-3` at `2b24ec89ddce`, input datalake: mishandled
 
-- mishandled: the indexer raised an error on this ledger and did not ingest it: token_transfer exited 1: time="2026-11-16T21:56:06.533Z" level=fatal msg="could not transform token transfers for ledger 3: error reading from unified events stream, expected version 4 got 3" pid=37
+- mishandled: the indexer raised an error on this ledger and did not ingest it: token_transfer exited 1: time="2026-11-16T22:29:09.271Z" level=fatal msg="could not transform token transfers for ledger 3: error reading from unified events stream, expected version 4 got 3" pid=35
 - expectations: 0, source: none (implicit checks only)
 - indexer process: exited (exit code 1)
 - evidence: `out-stellar-etl/2b24ec89ddce/datalake/localcore-muxed-source-p22-3/` (job.json, observation.json, result.json, feeder-requests.jsonl, and exports/: each command's JSON lines (gzipped), log and exit code)
@@ -172,3 +175,4 @@ checked. A failure is labelled with the open upstream issue that explains it
 | 2026-11-16T08:25:31+00:00 | `2b24ec89` | datalake | 9 | 23.7 | 36684 | 0 | 0 |
 | 2026-11-16T17:25:00+00:00 | `2b24ec89` | datalake | 85 | 84.0 | 37004 | 0 | 0 |
 | 2026-11-16T21:55:21+00:00 | `2b24ec89` | datalake | 94 | 97.0 | 37404 | 0 | 0 |
+| 2026-11-16T22:27:38+00:00 | `2b24ec89` | datalake | 97 | 247.1 | 37352 | 0 | 0 |

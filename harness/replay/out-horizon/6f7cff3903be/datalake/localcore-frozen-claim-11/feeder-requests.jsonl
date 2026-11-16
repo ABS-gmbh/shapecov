@@ -1,0 +1,4 @@
+{"http": "GET", "keys": 1, "path": "/shapecov-lake?list-type=2&max-keys=1&prefix=localcore-frozen-claim-11%2F", "port": "s3", "status": 200, "t": 1794869123.053}
+{"http": "GET", "keys": 2, "path": "/shapecov-lake?fetch-owner=false&list-type=2&max-keys=1000&prefix=localcore-frozen-claim-11%2F&start-after=", "port": "s3", "status": 200, "t": 1794869123.389}
+{"http": "GET", "path": "/shapecov-lake/localcore-frozen-claim-11/.config.json?x-id=GetObject", "port": "s3", "size": 142, "status": 200, "t": 1794869123.439}
+{"http": "GET", "path": "/shapecov-lake/localcore-frozen-claim-11/FFFFFFFF--0-63999/FFFFFFF4--11.xdr.zst?x-id=GetObject", "port": "s3", "size": 721, "status": 200, "t": 1794869123.509}

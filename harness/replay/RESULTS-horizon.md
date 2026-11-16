@@ -15,7 +15,7 @@ explain the failures, or `unexplained` (a candidate new finding). The details be
 
 ## Coverage
 
-The recorded run covers 95 of the 95 corpus ledgers in the manifest at ShapeCov commit `d6e9559`, at
+The recorded run covers 97 of the 97 corpus ledgers in the manifest at ShapeCov commit `1dfbcb5`, at
 stellar-horizon v30.0.1. Ledgers added to the corpus since are listed by `replay.py check` as having no
 result yet; the quick check counts them and does not fail. The replay workflow's Horizon job reruns three
 of them (`pubnet-60280000`, `localcore-pool-revoke-two-pools-7`, `golden-offer-9a363b75-30`) on every
@@ -28,6 +28,13 @@ when this adapter was written, so its 179 missed transaction participants on 15 
 reproduction of an open issue on real ledgers (record H1), not a detection. stellar-etl #513 and #514
 (records E2 and E3) were filed saying Horizon has the same code; on `localcore-pool-revoke-two-pools-7`
 Horizon stores the same 16 effects as stellar-etl, so both reproduce in Horizon itself.
+
+## Trades: Horizon as the reference for rounding slippage
+
+Horizon's `history_trades` are read back too. The oracle's port of go-stellar-sdk's two pool formulas
+(`CalculatePoolExpectation` for a strict receive, `CalculatePoolPayout` for a strict send) gives Horizon's
+stored `rounding_slippage` for every liquidity-pool trade in the corpus, which is what lets the same
+rule flag stellar-etl #451 (record C16).
 
 ## A difference by design
 
@@ -106,12 +113,14 @@ Only the implicit checks apply: the ledger is ingested without an error and ever
 | `localcore-classic-p22-3` | 22 | datalake | pass |
 | `localcore-declared-deploy-6` | 28 | datalake | pass |
 | `localcore-deployer-cb-5` | 28 | datalake | pass |
+| `localcore-frozen-claim-11` | 28 | datalake | pass |
 | `localcore-maintain-liabilities-5` | 30 | datalake | pass |
 | `localcore-memo-and-offer-p30-4` | 30 | datalake | pass |
 | `localcore-muxed-source-p22-3` | 22 | datalake | pass |
 | `localcore-op-failures-8` | 30 | datalake | pass |
 | `localcore-planted-auth-5` | 28 | datalake | pass |
 | `localcore-pool-revoke-two-pools-7` | 30 | datalake | mishandled: stellar-etl#513, stellar-etl#514 |
+| `localcore-pool-share-unsponsor-6` | 28 | datalake | pass |
 | `localcore-preauth-failed-6` | 30 | datalake | pass |
 | `localcore-sac-trust-p28-5` | 28 | datalake | pass |
 | `localcore-sponsorship-transfer-9` | 30 | datalake | pass |
@@ -155,7 +164,7 @@ Only the implicit checks apply: the ledger is ingested without an error and ever
 
 | Commit | Input | pass | mishandled | dropped | error |
 |---|---|---|---|---|---|
-| `6f7cff39` | datalake | 79 | 1 | 15 | 0 |
+| `6f7cff39` | datalake | 81 | 1 | 15 | 0 |
 
 ## Oracle checks
 
@@ -166,7 +175,7 @@ checked. A failure is labelled with the open upstream issue that explains it
 
 | Commit | Input | Replays | Rows expected | Rows met | Known issues | Unexplained |
 |---|---|---|---|---|---|---|
-| `6f7cff39` | datalake | 95 | 12976 | 12794 | stellar-etl#513 (1), stellar-etl#514 (2), stellar-horizon#259 (179) | 0 |
+| `6f7cff39` | datalake | 97 | 14136 | 13954 | stellar-etl#513 (1), stellar-etl#514 (2), stellar-horizon#259 (179) | 0 |
 
 
 
@@ -181,3 +190,4 @@ checked. A failure is labelled with the open upstream issue that explains it
 | Started (UTC) | Refs | Inputs | Entries | Seconds | Feeder peak RSS (kB) | Ledgers served by RPC | Objects served by S3 |
 |---|---|---|---|---|---|---|---|
 | 2026-11-16T22:03:09+00:00 | `6f7cff39` | datalake | 95 | 319.1 | 38088 | 0 | 190 |
+| 2026-11-16T22:32:45+00:00 | `6f7cff39` | datalake | 97 | 779.9 | 37080 | 0 | 194 |

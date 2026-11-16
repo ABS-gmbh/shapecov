@@ -25,14 +25,15 @@
   "operations": 2,
   "effects": 2,
   "token_transfer": 3,
-  "contract_events": 3
+  "contract_events": 3,
+  "trades": 0
  },
  "process": {
   "outcome": "exited",
   "exit_code": 0
  },
- "seconds": 1.3,
- "feeder_requests": 20,
+ "seconds": 3.2,
+ "feeder_requests": 24,
  "evidence": "out-stellar-etl/2b24ec89ddce/datalake/localcore-memo-and-offer-p30-4",
  "oracle": {
   "verdict": "known issues only",
