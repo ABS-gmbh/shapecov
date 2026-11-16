@@ -24,6 +24,9 @@ class StatusLog(unittest.TestCase):
             subprocess.run(["git", *args], cwd=self.dir, env=e, check=True, capture_output=True)
 
         git("init", "-q", "-b", "main")
+        (self.dir / ".github").mkdir()
+        (self.dir / ".github/status-notes.md").write_text(
+            "# Notes\n\n## Next\n\n- Review the guide.\n\n## 15 November 2026\n\nThe harness arrived.\n")
         git("commit", "-q", "--allow-empty", "-m", "First commit", date="2026-11-14T10:00:00Z")
         git("commit", "-q", "--allow-empty", "-m", "Second commit", date="2026-11-15T23:30:00Z")
         git("tag", "-a", "v0.1.0", "-m", "release")
@@ -37,10 +40,22 @@ class StatusLog(unittest.TestCase):
         self.assertEqual(rc, 0, out)
         text = (self.dir / "STATUS.md").read_text()
         days = [line for line in text.splitlines() if line.startswith("## ")]
-        self.assertEqual(days, ["## 16 November 2026", "## 15 November 2026", "## 14 November 2026"])
+        self.assertEqual(days, ["## Next", "## 16 November 2026", "## 15 November 2026", "## 14 November 2026"])
         self.assertLess(text.index("Third commit"), text.index("Second commit"))
         self.assertLess(text.index("Release [v0.1.0]"), text.index("Second commit"))
         self.assertGreater(text.index("Release [v0.1.0]"), text.index("## 15 November 2026"))
+
+    def test_notes_go_above_their_day_and_next_on_top(self):
+        rc, out = run_script(SCRIPT, cwd=self.dir)
+        self.assertEqual(rc, 0, out)
+        text = (self.dir / "STATUS.md").read_text()
+        self.assertLess(text.index("## Next"), text.index("## 16 November 2026"))
+        self.assertIn("- Review the guide.", text)
+        day = text.index("## 15 November 2026")
+        self.assertLess(day, text.index("The harness arrived."))
+        self.assertLess(text.index("The harness arrived."), text.index("Second commit"))
+        # A day with no note has only its commits.
+        self.assertNotIn("Commits:", text[text.index("## 16 November 2026"):day])
 
     def test_shallow_clone_is_refused(self):
         clone = self.dir / "shallow"
