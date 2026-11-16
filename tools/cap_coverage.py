@@ -93,6 +93,8 @@ def main():
             status = "covered" if not missing else "gap" if not shown else "partly covered"
         counts[status] = counts.get(status, 0) + 1
         what = ("; ".join("%s (%d)" % s for s in shown) if shown else "") if status != "no shape" else c["no_shape_reason"]
+        if c.get("note"):
+            what = (what + ". " if what else "") + c["note"]
         gap = "; ".join(m for m, _ in missing)
         if gap:
             gap += (". Planned: " + c["planned"]) if c.get("planned") else ""

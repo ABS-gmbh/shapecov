@@ -13223,6 +13223,222 @@
     "core_golden": "not_applicable"
    },
    "sightings": []
+  },
+  {
+   "id": "golden-frozenledgerkeys-a0fb94c3-15",
+   "title": "stellar-core golden: frozen ledger keys apply time validation|claim claimable balance trustline frozen",
+   "xdr_type": "LedgerCloseMeta",
+   "file": "entries/golden-frozenledgerkeys-a0fb94c3-15.LedgerCloseMeta.xdr.b64",
+   "sha256": "897a993d6dc15f2445d29547425051c4d8369d0d979d4371cf3693aa8d2a222b",
+   "size_bytes": 1472,
+   "protocol_version": 30,
+   "caps": [],
+   "synthetic": false,
+   "source": {
+    "kind": "stellar_core_golden",
+    "stellar_core_commit": "f2b91947fb20fc8174cca38bf320eda7baa3edbb",
+    "golden_file": "test-lcm-current/FrozenLedgerKeysTests/a0fb94c314b8bb2f.xdr",
+    "record": 15,
+    "test": "frozen ledger keys apply time validation|claim claimable balance trustline frozen",
+    "network_passphrase": "(V) (;,,;) (V)"
+   },
+   "shape": "A transaction that failed but is recorded in the ledger. Fees are charged and the envelope is present, but its operations had no effect; envelope-derived state is wrong.",
+   "patterns": {
+    "failed-transaction": "v2.txProcessing[0].result.result.result"
+   },
+   "designated": {
+    "patterns": [
+     "failed-transaction"
+    ],
+    "cells": [
+     "arm:ClaimClaimableBalanceResult.CLAIM_CLAIMABLE_BALANCE_TRUSTLINE_FROZEN"
+    ]
+   },
+   "cells": [
+    "arm:AccountEntryExt.1",
+    "arm:AccountEntryExtensionV1Ext.2",
+    "arm:AccountEntryExtensionV2Ext.3",
+    "arm:ClaimClaimableBalanceResult.CLAIM_CLAIMABLE_BALANCE_TRUSTLINE_FROZEN",
+    "arm:ClaimableBalanceID.CLAIMABLE_BALANCE_ID_TYPE_V0",
+    "arm:ExtensionPoint.0",
+    "arm:GeneralizedTransactionSet.1",
+    "arm:LedgerCloseMeta.2",
+    "arm:LedgerCloseMetaExt.0",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_STATE",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_UPDATED",
+    "arm:LedgerEntryData.ACCOUNT",
+    "arm:LedgerEntryExt.0",
+    "arm:LedgerHeaderExt.0",
+    "arm:LedgerHeaderHistoryEntryExt.0",
+    "arm:Memo.MEMO_NONE",
+    "arm:MuxedAccount.KEY_TYPE_ED25519",
+    "arm:OperationBody.CLAIM_CLAIMABLE_BALANCE",
+    "arm:OperationResult.opINNER",
+    "arm:OperationResultTr.CLAIM_CLAIMABLE_BALANCE",
+    "arm:Preconditions.PRECOND_NONE",
+    "arm:PublicKey.PUBLIC_KEY_TYPE_ED25519",
+    "arm:StellarValueExt.STELLAR_VALUE_SIGNED_MS",
+    "arm:TransactionEnvelope.ENVELOPE_TYPE_TX",
+    "arm:TransactionExt.0",
+    "arm:TransactionMeta.4",
+    "arm:TransactionPhase.0",
+    "arm:TransactionPhase.1",
+    "arm:TransactionResultExt.0",
+    "arm:TransactionResultResult.txFAILED",
+    "arm:TxSetComponent.TXSET_COMP_TXS_MAYBE_DISCOUNTED_FEE"
+   ],
+   "cells_new_in_protocol": [
+    "arm:StellarValueExt.STELLAR_VALUE_SIGNED_MS"
+   ],
+   "expected": {
+    "decoded": [
+     {
+      "path": "v",
+      "value": 2
+     },
+     {
+      "path": "v2.ledgerHeader.header.ledgerSeq",
+      "value": 17
+     },
+     {
+      "path": "v2.ledgerHeader.header.ledgerVersion",
+      "value": 30
+     },
+     {
+      "path": "v2.ledgerHeader.hash",
+      "value": "0863bfc0481a31d23d13c36c38a70a22347c9bc96b27500eed1e09687ca7ec79"
+     },
+     {
+      "path": "v2.ledgerHeader.header.scpValue.closeTime",
+      "value": 1451692801
+     },
+     {
+      "path": "v2.txProcessing[0].result.result.result.code",
+      "value": "txFAILED",
+      "note": "pattern failed-transaction"
+     },
+     {
+      "path": "v2.txProcessing[0].result.result.result.results[0].tr.claimClaimableBalanceResult.code",
+      "value": "CLAIM_CLAIMABLE_BALANCE_TRUSTLINE_FROZEN",
+      "note": "cell arm:ClaimClaimableBalanceResult.CLAIM_CLAIMABLE_BALANCE_TRUSTLINE_FROZEN"
+     }
+    ]
+   },
+   "validation": {
+    "independent_decoder": "not_run",
+    "rs_stellar_xdr_roundtrip": "not_run",
+    "stellar_core": {
+     "version": "30.0.0",
+     "command": "",
+     "result": "not_run"
+    },
+    "core_golden": "pass"
+   },
+   "sightings": []
+  },
+  {
+   "id": "golden-frozenledgerkeys-d637d647-16",
+   "title": "stellar-core golden: frozen ledger keys apply time validation|liquidity pool deposit assetB trustline frozen",
+   "xdr_type": "LedgerCloseMeta",
+   "file": "entries/golden-frozenledgerkeys-d637d647-16.LedgerCloseMeta.xdr.b64",
+   "sha256": "34f929a3a27b74214da3185dc9ccab5100513d285c8c91b7f4a198e8f8a0a355",
+   "size_bytes": 1500,
+   "protocol_version": 30,
+   "caps": [],
+   "synthetic": false,
+   "source": {
+    "kind": "stellar_core_golden",
+    "stellar_core_commit": "f2b91947fb20fc8174cca38bf320eda7baa3edbb",
+    "golden_file": "test-lcm-current/FrozenLedgerKeysTests/d637d6474c6d185d.xdr",
+    "record": 16,
+    "test": "frozen ledger keys apply time validation|liquidity pool deposit assetB trustline frozen",
+    "network_passphrase": "(V) (;,,;) (V)"
+   },
+   "shape": "Selected because it exercises 1 schema cell(s) that no other entry reaches.",
+   "patterns": {
+    "failed-transaction": "v2.txProcessing[0].result.result.result"
+   },
+   "designated": {
+    "patterns": [],
+    "cells": [
+     "arm:LiquidityPoolDepositResult.LIQUIDITY_POOL_DEPOSIT_TRUSTLINE_FROZEN"
+    ]
+   },
+   "cells": [
+    "arm:AccountEntryExt.1",
+    "arm:AccountEntryExtensionV1Ext.2",
+    "arm:AccountEntryExtensionV2Ext.3",
+    "arm:ExtensionPoint.0",
+    "arm:GeneralizedTransactionSet.1",
+    "arm:LedgerCloseMeta.2",
+    "arm:LedgerCloseMetaExt.0",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_STATE",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_UPDATED",
+    "arm:LedgerEntryData.ACCOUNT",
+    "arm:LedgerEntryExt.0",
+    "arm:LedgerHeaderExt.0",
+    "arm:LedgerHeaderHistoryEntryExt.0",
+    "arm:LiquidityPoolDepositResult.LIQUIDITY_POOL_DEPOSIT_TRUSTLINE_FROZEN",
+    "arm:Memo.MEMO_NONE",
+    "arm:MuxedAccount.KEY_TYPE_ED25519",
+    "arm:OperationBody.LIQUIDITY_POOL_DEPOSIT",
+    "arm:OperationResult.opINNER",
+    "arm:OperationResultTr.LIQUIDITY_POOL_DEPOSIT",
+    "arm:Preconditions.PRECOND_NONE",
+    "arm:PublicKey.PUBLIC_KEY_TYPE_ED25519",
+    "arm:StellarValueExt.STELLAR_VALUE_SIGNED_MS",
+    "arm:TransactionEnvelope.ENVELOPE_TYPE_TX",
+    "arm:TransactionExt.0",
+    "arm:TransactionMeta.4",
+    "arm:TransactionPhase.0",
+    "arm:TransactionPhase.1",
+    "arm:TransactionResultExt.0",
+    "arm:TransactionResultResult.txFAILED",
+    "arm:TxSetComponent.TXSET_COMP_TXS_MAYBE_DISCOUNTED_FEE"
+   ],
+   "cells_new_in_protocol": [
+    "arm:StellarValueExt.STELLAR_VALUE_SIGNED_MS"
+   ],
+   "expected": {
+    "decoded": [
+     {
+      "path": "v",
+      "value": 2
+     },
+     {
+      "path": "v2.ledgerHeader.header.ledgerSeq",
+      "value": 18
+     },
+     {
+      "path": "v2.ledgerHeader.header.ledgerVersion",
+      "value": 30
+     },
+     {
+      "path": "v2.ledgerHeader.hash",
+      "value": "46a6908457d992fd880c56293d857e64b51dccc4f0335cf3e03e00348200c904"
+     },
+     {
+      "path": "v2.ledgerHeader.header.scpValue.closeTime",
+      "value": 1451692801
+     },
+     {
+      "path": "v2.txProcessing[0].result.result.result.results[0].tr.liquidityPoolDepositResult.code",
+      "value": "LIQUIDITY_POOL_DEPOSIT_TRUSTLINE_FROZEN",
+      "note": "cell arm:LiquidityPoolDepositResult.LIQUIDITY_POOL_DEPOSIT_TRUSTLINE_FROZEN"
+     }
+    ]
+   },
+   "validation": {
+    "independent_decoder": "not_run",
+    "rs_stellar_xdr_roundtrip": "not_run",
+    "stellar_core": {
+     "version": "30.0.0",
+     "command": "",
+     "result": "not_run"
+    },
+    "core_golden": "pass"
+   },
+   "sightings": []
   }
  ]
 }

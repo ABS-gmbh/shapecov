@@ -553,12 +553,10 @@
      "arm:ConfigSettingEntry.CONFIG_SETTING_FREEZE_BYPASS_TXS",
      "arm:LiquidityPoolWithdrawResult.LIQUIDITY_POOL_WITHDRAW_TRUSTLINE_FROZEN",
      "arm:ClaimClaimableBalanceResult.CLAIM_CLAIMABLE_BALANCE_TRUSTLINE_FROZEN",
-     "arm:LiquidityPoolDepositResult.LIQUIDITY_POOL_DEPOSIT_TRUSTLINE_FROZEN",
-     "arm:ConfigSettingEntry.CONFIG_SETTING_FROZEN_LEDGER_KEYS_DELTA",
-     "arm:ConfigSettingEntry.CONFIG_SETTING_FREEZE_BYPASS_TXS_DELTA"
+     "arm:LiquidityPoolDepositResult.LIQUIDITY_POOL_DEPOSIT_TRUSTLINE_FROZEN"
     ]
    },
-   "planned": "Ledgers in which a claim or a deposit fails on a frozen trustline, and a frozen-keys delta upgrade, mined from stellar-core's frozen-ledger-key golden tests."
+   "note": "The CONFIG_SETTING_*_DELTA arms appear only inside a ConfigUpgradeSet, which a ledger stores as opaque contract-data bytes, so readers never meet them as XDR."
   },
   {
    "cap": "CAP-0078",
@@ -593,7 +591,7 @@
      "arm:StellarValueExt.STELLAR_VALUE_EMPTY_TX_SET"
     ]
    },
-   "planned": "A ledger whose transaction set was dropped by vote; search stellar-core's goldens, else a local-core scenario if standalone mode can produce one."
+   "planned": "A ledger whose transaction set was dropped by vote. None of stellar-core's 15,306 golden ledgers (commit f2b91947) has one; it needs a validator set that votes to drop a transaction set."
   },
   {
    "cap": "CAP-0084",
@@ -640,7 +638,7 @@
      "arm:StellarValueExt.STELLAR_VALUE_EMPTY_TX_SET_MS"
     ]
    },
-   "planned": "A dropped-transaction-set ledger at protocol 30 (the _MS form of the CAP-0083 entry)."
+   "planned": "The _MS form of the CAP-0083 ledger, at protocol 30."
   }
  ]
 }
