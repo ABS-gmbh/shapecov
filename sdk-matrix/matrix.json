@@ -1,0 +1,222 @@
+{
+ "versions": {
+  "rust": "stellar-xdr 30.0.0 (reference)",
+  "js": "@stellar/stellar-sdk 17.4.0",
+  "python": "stellar-sdk 17.0.1",
+  "python-xdr": "stellar-xdr (Python) 0.2.1",
+  "go": "go-stellar-sdk v0.9.0",
+  "java": "network.lightsail:stellar-sdk 6.0.0"
+ },
+ "js_releases": [
+  "16.3.0",
+  "16.4.1",
+  "17.2.0",
+  "17.2.1",
+  "17.3.0",
+  "17.4.0"
+ ],
+ "codec": [
+  {
+   "class": "Trailing bytes after a value",
+   "kind": "trailing",
+   "core": "rejects all 140",
+   "cells": {
+    "rust": "rejects all 952",
+    "js": "rejects all 916",
+    "python": "rejects all 954",
+    "python-xdr": "rejects all 944",
+    "go": "**accepts 223 of 954**",
+    "java": "**accepts 954 of 954**"
+   },
+   "issues": "java-stellar-sdk #833 (14 Nov), fixed on `master` by #842 (16 Nov), not released; go-stellar-sdk #6039 (13 Nov), fix PR #6041 open"
+  },
+  {
+   "class": "Non-zero XDR padding",
+   "kind": "pad_nonzero",
+   "core": "rejects all 41",
+   "cells": {
+    "rust": "rejects all 160",
+    "js": "rejects all 152",
+    "python": "**accepts 161 of 161**",
+    "python-xdr": "rejects all 161",
+    "go": "rejects all 161",
+    "java": "rejects all 161"
+   },
+   "issues": "py-stellar-base #1262 (14 Nov), fixed in the new `stellar-xdr` package"
+  },
+  {
+   "class": "Optional flag other than 0 or 1",
+   "kind": "opt_flag_not_01",
+   "core": "rejects all 46",
+   "cells": {
+    "rust": "rejects all 145",
+    "js": "rejects all 136",
+    "python": "**accepts 145 of 145**",
+    "python-xdr": "rejects all 143",
+    "go": "rejects all 145",
+    "java": "rejects all 145"
+   },
+   "issues": "py-stellar-base #1263 (14 Nov), fixed in the new `stellar-xdr` package"
+  },
+  {
+   "class": "Bool word other than 0 or 1",
+   "kind": "bool_not_01",
+   "core": "accepts 4 of 4",
+   "cells": {
+    "rust": "**accepts 26 of 26**",
+    "js": "rejects all 26",
+    "python": "**accepts 26 of 26**",
+    "python-xdr": "rejects all 26",
+    "go": "rejects all 26",
+    "java": "rejects all 26"
+   },
+   "issues": "rs-stellar-xdr #622 (13 Nov, open); stellar-core #5509 (15 Nov, open). stellar-core itself accepts it"
+  }
+ ],
+ "semantic": [
+  {
+   "class": "Liquidity-pool issuers ordered by strkey text, not key bytes",
+   "check": "pool_pair_accepted",
+   "entry": "testnet-5708889",
+   "core": "\u2014",
+   "cells": {
+    "rust": "not tested",
+    "js": "17.x: fixed in 17.2.1; 16.x: fixed in 16.4.1",
+    "python": "passes in 17.0.1",
+    "python-xdr": "not tested",
+    "go": "not run here; js-stellar-sdk#1766 says the Go SDK had already fixed it",
+    "java": "not run here; fixed on `master` by #832 (5 Nov), listed as pending in the CHANGELOG, after 6.0.0"
+   },
+   "js_releases": {
+    "16.3.0": "mishandled",
+    "16.4.1": "pass",
+    "17.2.0": "mishandled",
+    "17.2.1": "pass",
+    "17.3.0": "pass",
+    "17.4.0": "pass"
+   },
+   "python_17_0_1": "pass",
+   "issues": "js-stellar-sdk #1766 (30 Sep); py-stellar-base #1246 (4 Nov), fixed by #1247 (5 Nov); java-stellar-sdk #832 (5 Nov)"
+  },
+  {
+   "class": "Map keys not sorted in the host's order",
+   "check": "map_keys_host_order",
+   "entry": "testnet-5712621",
+   "core": "\u2014",
+   "cells": {
+    "rust": "not tested",
+    "js": "17.x: fixed in 17.2.1; 16.x: **present in 16.4.1**",
+    "python": "not tested",
+    "python-xdr": "not tested",
+    "go": "not tested",
+    "java": "not tested"
+   },
+   "js_releases": {
+    "16.3.0": "mishandled",
+    "16.4.1": "mishandled",
+    "17.2.0": "mishandled",
+    "17.2.1": "pass",
+    "17.3.0": "pass",
+    "17.4.0": "pass"
+   },
+   "python_17_0_1": null,
+   "issues": "js-stellar-sdk #1766 (30 Sep)"
+  },
+  {
+   "class": "Map entries dropped when keys collide (u32 `1` and symbol `\"1\"`)",
+   "check": "map_entries_preserved",
+   "entry": "synthetic-scmap-colliding-keys",
+   "core": "\u2014",
+   "cells": {
+    "rust": "not tested",
+    "js": "17.x: fixed in 17.3.0; 16.x: **present in 16.4.1**",
+    "python": "passes in 17.0.1",
+    "python-xdr": "not tested",
+    "go": "not tested",
+    "java": "not tested"
+   },
+   "js_releases": {
+    "16.3.0": "mishandled",
+    "16.4.1": "mishandled",
+    "17.2.0": "mishandled",
+    "17.2.1": "mishandled",
+    "17.3.0": "pass",
+    "17.4.0": "pass"
+   },
+   "python_17_0_1": "pass",
+   "issues": "js-stellar-sdk #1789 (7 Oct)"
+  },
+  {
+   "class": "Map entries dropped when keys collide (u32 `1` and i64 `1`, a map the host wrote)",
+   "check": "map_entries_preserved:host",
+   "entry": "testnet-5712621",
+   "core": "\u2014",
+   "cells": {
+    "rust": "not tested",
+    "js": "17.x: passes in 17.3.0, 17.4.0 (could not run on 17.2.0, 17.2.1); 16.x: **present in 16.4.1** (could not run on 16.3.0)",
+    "python": "**present in 17.0.1**",
+    "python-xdr": "not tested",
+    "go": "not tested",
+    "java": "not tested"
+   },
+   "js_releases": {
+    "16.3.0": "error",
+    "16.4.1": "mishandled",
+    "17.2.0": "error",
+    "17.2.1": "error",
+    "17.3.0": "pass",
+    "17.4.0": "pass"
+   },
+   "python_17_0_1": "mishandled",
+   "issues": "js-stellar-sdk #1789 (7 Oct); py-stellar-base #1250 (13 Nov), fixed on `main` by #1252 (16 Nov)"
+  },
+  {
+   "class": "Offer and muxed IDs beyond 2^53 encode a different ID",
+   "check": "ids_exact",
+   "entry": "synthetic-ids-beyond-f64",
+   "core": "\u2014",
+   "cells": {
+    "rust": "not tested",
+    "js": "17.x: fixed in 17.3.0; 16.x: **present in 16.4.1**",
+    "python": "**present in 17.0.1**",
+    "python-xdr": "not tested",
+    "go": "not tested",
+    "java": "not tested"
+   },
+   "js_releases": {
+    "16.3.0": "mishandled",
+    "16.4.1": "mishandled",
+    "17.2.0": "mishandled",
+    "17.2.1": "mishandled",
+    "17.3.0": "pass",
+    "17.4.0": "pass"
+   },
+   "python_17_0_1": "mishandled",
+   "issues": "js-stellar-sdk #1785 (8 Oct); py-stellar-base #1251 (13 Nov), fixed on `main` by #1253 (14 Nov)"
+  },
+  {
+   "class": "Non-UTF-8 string bytes changed by the string arm's `.value`",
+   "check": "string_bytes_kept",
+   "entry": "localcore-memo-and-offer-p30-4",
+   "core": "\u2014",
+   "cells": {
+    "rust": "not tested",
+    "js": "17.x: **present in 17.4.0**; 16.x: check could not run (16.3.0, 16.4.1)",
+    "python": "not tested",
+    "python-xdr": "not tested",
+    "go": "not tested",
+    "java": "not tested"
+   },
+   "js_releases": {
+    "16.3.0": "error",
+    "16.4.1": "error",
+    "17.2.0": "mishandled",
+    "17.2.1": "mishandled",
+    "17.3.0": "mishandled",
+    "17.4.0": "mishandled"
+   },
+   "python_17_0_1": null,
+   "issues": "js-stellar-sdk #1823 (16 Oct), closed on 20 Oct by documenting the behaviour (#1824), not by a code change"
+  }
+ ]
+}

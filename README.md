@@ -17,7 +17,8 @@ the corpus manifest by `guide/check_guide.py`. See
 
 How the parts fit together, the adapter interface and the isolation design:
 [`ARCHITECTURE.md`](ARCHITECTURE.md). Each RFP acceptance check, with its CI job and command:
-[`VERIFY.md`](VERIFY.md).
+[`VERIFY.md`](VERIFY.md). Which SDK release has which defect, from runs:
+[`sdk-matrix/MATRIX.md`](sdk-matrix/MATRIX.md).
 
 ## What it does
 
