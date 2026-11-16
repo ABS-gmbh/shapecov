@@ -1,0 +1,38 @@
+{
+ "entry_id": "testnet-4437357-signed-payload-signer",
+ "adapter": "example",
+ "ref": "meta",
+ "commit": "7e2f71ccad49296670946559dbffadf94d4f41b5",
+ "input": "rpc",
+ "protocol_version": 28,
+ "sdk_pin": null,
+ "mode": "unmodified",
+ "result": "pass",
+ "mishandled": [],
+ "dropped": [],
+ "checks": [],
+ "expectations": 0,
+ "expectations_source": "none (implicit checks only)",
+ "ledger": {
+  "seq": 4437357,
+  "hash": "0984e28878f8b074c3710f52630f5b6bc5a369bf61a15e7364b6123edf1881b6",
+  "close_time": 1788210372,
+  "protocol": 28
+ },
+ "ingested": true,
+ "row_counts": {
+  "operations": 12,
+  "transactions": 12
+ },
+ "process": null,
+ "seconds": null,
+ "feeder_requests": 1,
+ "evidence": "out-example/7e2f71ccad49/rpc/testnet-4437357-signed-payload-signer",
+ "oracle": {
+  "verdict": "pass",
+  "rows_expected": 12,
+  "rows_met": 12,
+  "known": {},
+  "unexplained": []
+ }
+}

@@ -32,7 +32,7 @@ pip install jsonschema
 python3 quickcheck.py
 ```
 
-Python only, with no Docker and no network. It reruns the 12 checks that work from the repository
+Python only, with no Docker and no network. It reruns the 13 checks that work from the repository
 alone and checks the recorded results of the rest against their verdicts. It took 10 seconds on a
 laptop. CI reruns everything else.
 
@@ -61,7 +61,8 @@ laptop. CI reruns everything else.
 - The hardening guide is **unreviewed**. The RFP requires review by a stellar-core or platform
   engineer before publication, and that has not happened.
 - Two replay adapters exist, wallet-backend and stellar-etl. Others, such as Horizon, are not
-  built.
+  built. A toy one, [`adapters/example/`](harness/replay/adapters/example/), shows the interface in
+  about 100 lines and the participant rule on two variants of the same indexer.
 - Whole ledgers are not generated. They come from network history, stellar-core's golden files and
   fixed local stellar-core scenarios, so 352 of the 538 cells a ledger reader can meet (65.4%)
   appear in a corpus entry. Each of the other 186 is classified in

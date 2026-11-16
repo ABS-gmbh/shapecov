@@ -1,0 +1,39 @@
+{
+ "adapter": "example",
+ "adapter_failure": false,
+ "commit": "6fbf9d6a39b3b97d43f2e551574998f84e69736c",
+ "entry_id": "localcore-preauth-failed-6",
+ "error": null,
+ "ingested": true,
+ "input": "rpc",
+ "ledger_seq": 6,
+ "observation_version": 1,
+ "operations": [
+  {
+   "op_order": 1,
+   "participants": [
+    "GBRPYHIL2CI3FNQ4BXLFMNDLFJUNPU2HY3ZMFSHONUCEOASW7QC7OX2H"
+   ],
+   "tx_hash": "96bded6886e3b579178c1cf22b6fcfb7306753dea297da8d7c7dd213c7d1f277",
+   "tx_order": 1,
+   "type": null
+  }
+ ],
+ "row_counts": {
+  "operations": 1,
+  "transactions": 1
+ },
+ "state_changes": [],
+ "transactions": [
+  {
+   "hash": "96bded6886e3b579178c1cf22b6fcfb7306753dea297da8d7c7dd213c7d1f277",
+   "participants": [
+    "GACQOG6C5B3OSYFWESGZMU25YSNFAT5GSIKPACPMGOHSF2HYAHOYX3FU",
+    "GBRPYHIL2CI3FNQ4BXLFMNDLFJUNPU2HY3ZMFSHONUCEOASW7QC7OX2H"
+   ],
+   "result_code": "failed",
+   "tx_order": 1
+  }
+ ],
+ "unreadable": []
+}

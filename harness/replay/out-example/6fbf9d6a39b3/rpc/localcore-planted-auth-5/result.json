@@ -1,0 +1,40 @@
+{
+ "entry_id": "localcore-planted-auth-5",
+ "adapter": "example",
+ "ref": "envelope",
+ "commit": "6fbf9d6a39b3b97d43f2e551574998f84e69736c",
+ "input": "rpc",
+ "protocol_version": 28,
+ "sdk_pin": null,
+ "mode": "unmodified",
+ "result": "pass",
+ "mishandled": [],
+ "dropped": [],
+ "checks": [],
+ "expectations": 0,
+ "expectations_source": "none (implicit checks only)",
+ "ledger": {
+  "seq": 5,
+  "hash": "f3260547b9f2b859b4a62f58206a1d668600e7f6db7c9787bfd276a9304d42d3",
+  "close_time": 4040000000,
+  "protocol": 28
+ },
+ "ingested": true,
+ "row_counts": {
+  "operations": 1,
+  "transactions": 1
+ },
+ "process": null,
+ "seconds": null,
+ "feeder_requests": 1,
+ "evidence": "out-example/6fbf9d6a39b3/rpc/localcore-planted-auth-5",
+ "oracle": {
+  "verdict": "mishandled",
+  "rows_expected": 1,
+  "rows_met": 0,
+  "known": {},
+  "unexplained": [
+   "addresses recorded for tx 1aefdbd7032e: GDVRGM346LBTRHQKLOK7H6QFODTMZJOLXF7LCZMB5QMRQFT7UOTLXJDW (on the transaction) recorded, which the transaction's meta does not show it affected"
+  ]
+ }
+}

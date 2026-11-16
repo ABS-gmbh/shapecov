@@ -1,0 +1,40 @@
+{
+ "adapter": "example",
+ "adapter_failure": false,
+ "commit": "7e2f71ccad49296670946559dbffadf94d4f41b5",
+ "entry_id": "localcore-planted-auth-5",
+ "error": null,
+ "ingested": true,
+ "input": "rpc",
+ "ledger_seq": 5,
+ "observation_version": 1,
+ "operations": [
+  {
+   "op_order": 1,
+   "participants": [
+    "GBRPYHIL2CI3FNQ4BXLFMNDLFJUNPU2HY3ZMFSHONUCEOASW7QC7OX2H",
+    "GDFEUKR6QZGUILOMUICH5MXJBDV3EDYKTAD6XOZARQQJN25OOMNIM3AW"
+   ],
+   "tx_hash": "1aefdbd7032ef733aab72d4955d9f8f7e376b125cc55718c29b7464347345b7b",
+   "tx_order": 1,
+   "type": null
+  }
+ ],
+ "row_counts": {
+  "operations": 1,
+  "transactions": 1
+ },
+ "state_changes": [],
+ "transactions": [
+  {
+   "hash": "1aefdbd7032ef733aab72d4955d9f8f7e376b125cc55718c29b7464347345b7b",
+   "participants": [
+    "GBRPYHIL2CI3FNQ4BXLFMNDLFJUNPU2HY3ZMFSHONUCEOASW7QC7OX2H",
+    "GDFEUKR6QZGUILOMUICH5MXJBDV3EDYKTAD6XOZARQQJN25OOMNIM3AW"
+   ],
+   "result_code": "success",
+   "tx_order": 1
+  }
+ ],
+ "unreadable": []
+}

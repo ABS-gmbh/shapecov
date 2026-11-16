@@ -41,6 +41,9 @@ CHECKS = [
      [PY, "tools/cap_coverage.py", "--check"]),
     ("Shapes", "the per-shape roll-up of the recorded replays (harness/replay/SHAPES.md) is current",
      [PY, "harness/replay/shapes.py", "--check"]),
+    ("Example adapter", "the recorded runs of the toy indexer: participants from the envelope fail the oracle's "
+                        "participant rule, participants from the meta pass",
+     [PY, "harness/replay/adapters/example/check.py"]),
     ("Backtest", "every detection-backtest claim (a fix detected, or missed) holds against the recorded replays",
      [PY, "harness/replay/replay.py", "backtest"]),
     ("Docs", "the headline numbers in README, VERIFY and the other top-level documents match the repository",

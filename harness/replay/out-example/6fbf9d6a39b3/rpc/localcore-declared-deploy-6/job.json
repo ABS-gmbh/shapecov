@@ -1,0 +1,28 @@
+{
+ "job_version": 1,
+ "entry_id": "localcore-declared-deploy-6",
+ "ref": "envelope",
+ "commit": "6fbf9d6a39b3b97d43f2e551574998f84e69736c",
+ "input": "rpc",
+ "network_passphrase": "Test SDF Network ; September 2015",
+ "ledger": {
+  "seq": 6,
+  "hash": "3f5409bb5539bb87eb595a8affc1379128dce5391857126065f35bb1a68fd4bc",
+  "close_time": 4050000000,
+  "protocol": 28
+ },
+ "rpc": {
+  "url": "http://shapecov-replay-feeder:8000/rpc/localcore-declared-deploy-6"
+ },
+ "datalake": {
+  "s3_endpoint": "http://shapecov-replay-feeder:9000",
+  "bucket_path": "shapecov-lake/localcore-declared-deploy-6",
+  "region": "us-east-1"
+ },
+ "history_archive": {
+  "url": "http://shapecov-replay-feeder:8000/archive/localcore-declared-deploy-6"
+ },
+ "docker_network": "shapecov-replay-net",
+ "timeout_seconds": 120,
+ "work_dir": "$REPLAY_WORK"
+}

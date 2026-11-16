@@ -1,0 +1,40 @@
+{
+ "adapter": "example",
+ "adapter_failure": false,
+ "commit": "7e2f71ccad49296670946559dbffadf94d4f41b5",
+ "entry_id": "localcore-declared-deploy-6",
+ "error": null,
+ "ingested": true,
+ "input": "rpc",
+ "ledger_seq": 6,
+ "observation_version": 1,
+ "operations": [
+  {
+   "op_order": 1,
+   "participants": [
+    "GBRPYHIL2CI3FNQ4BXLFMNDLFJUNPU2HY3ZMFSHONUCEOASW7QC7OX2H",
+    "GDFEUKR6QZGUILOMUICH5MXJBDV3EDYKTAD6XOZARQQJN25OOMNIM3AW"
+   ],
+   "tx_hash": "3cc5eac22f7dfeacf591e0b89afa64b0bd0cf2d3bb7e20886ae139e628c27701",
+   "tx_order": 1,
+   "type": null
+  }
+ ],
+ "row_counts": {
+  "operations": 1,
+  "transactions": 1
+ },
+ "state_changes": [],
+ "transactions": [
+  {
+   "hash": "3cc5eac22f7dfeacf591e0b89afa64b0bd0cf2d3bb7e20886ae139e628c27701",
+   "participants": [
+    "GBRPYHIL2CI3FNQ4BXLFMNDLFJUNPU2HY3ZMFSHONUCEOASW7QC7OX2H",
+    "GDFEUKR6QZGUILOMUICH5MXJBDV3EDYKTAD6XOZARQQJN25OOMNIM3AW"
+   ],
+   "result_code": "success",
+   "tx_order": 1
+  }
+ ],
+ "unreadable": []
+}

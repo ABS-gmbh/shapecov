@@ -120,7 +120,9 @@ printing one JSON object:
 - `down`: remove everything it started.
 
 Expectations never come from the indexer. The full contract is in `harness/replay/ADAPTER.md`.
-Two adapters exist: wallet-backend (the reference) and stellar-etl. Others are planned.
+Two adapters exist: wallet-backend (the reference) and stellar-etl. Others are planned. A third,
+`adapters/example/`, wraps a toy indexer of about 100 lines in two variants, participants from the
+envelope and from the meta, to show the interface and the participant rule by example.
 
 ## Isolation
 

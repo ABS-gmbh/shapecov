@@ -1,0 +1,41 @@
+{
+ "entry_id": "testnet-4437357-signed-payload-signer",
+ "adapter": "example",
+ "ref": "envelope",
+ "commit": "6fbf9d6a39b3b97d43f2e551574998f84e69736c",
+ "input": "rpc",
+ "protocol_version": 28,
+ "sdk_pin": null,
+ "mode": "unmodified",
+ "result": "pass",
+ "mishandled": [],
+ "dropped": [],
+ "checks": [],
+ "expectations": 0,
+ "expectations_source": "none (implicit checks only)",
+ "ledger": {
+  "seq": 4437357,
+  "hash": "0984e28878f8b074c3710f52630f5b6bc5a369bf61a15e7364b6123edf1881b6",
+  "close_time": 1788210372,
+  "protocol": 28
+ },
+ "ingested": true,
+ "row_counts": {
+  "operations": 12,
+  "transactions": 12
+ },
+ "process": null,
+ "seconds": null,
+ "feeder_requests": 1,
+ "evidence": "out-example/6fbf9d6a39b3/rpc/testnet-4437357-signed-payload-signer",
+ "oracle": {
+  "verdict": "mishandled",
+  "rows_expected": 12,
+  "rows_met": 10,
+  "known": {},
+  "unexplained": [
+   "addresses recorded for tx cf901e9339e0: GCMNDHDRSBP6ZBVSSDXGAUR7JUJHZF3QA66UAZNFLOVTPJ7HAAUE4M5L (on the transaction), GDAUSYSMAFGUTWYGKO4KPS2A2HFDZ76W2NU3F7L62IFF5XBQZBIOJADA (on the transaction) recorded, which the transaction's meta does not show it affected (the transaction failed: only its fee and sequence number applied)",
+   "addresses recorded for tx 98ae9b462b18: CAE3U7JKESRWZHPEQ72DVNGOQ6WPA7HSPQZL5YV46NPCE4TMUPAGYMEC (on the transaction) recorded, which the transaction's meta does not show it affected"
+  ]
+ }
+}

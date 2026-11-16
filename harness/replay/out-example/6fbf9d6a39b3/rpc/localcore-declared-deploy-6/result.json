@@ -1,0 +1,40 @@
+{
+ "entry_id": "localcore-declared-deploy-6",
+ "adapter": "example",
+ "ref": "envelope",
+ "commit": "6fbf9d6a39b3b97d43f2e551574998f84e69736c",
+ "input": "rpc",
+ "protocol_version": 28,
+ "sdk_pin": null,
+ "mode": "unmodified",
+ "result": "pass",
+ "mishandled": [],
+ "dropped": [],
+ "checks": [],
+ "expectations": 0,
+ "expectations_source": "none (implicit checks only)",
+ "ledger": {
+  "seq": 6,
+  "hash": "3f5409bb5539bb87eb595a8affc1379128dce5391857126065f35bb1a68fd4bc",
+  "close_time": 4050000000,
+  "protocol": 28
+ },
+ "ingested": true,
+ "row_counts": {
+  "operations": 1,
+  "transactions": 1
+ },
+ "process": null,
+ "seconds": null,
+ "feeder_requests": 1,
+ "evidence": "out-example/6fbf9d6a39b3/rpc/localcore-declared-deploy-6",
+ "oracle": {
+  "verdict": "mishandled",
+  "rows_expected": 1,
+  "rows_met": 0,
+  "known": {},
+  "unexplained": [
+   "addresses recorded for tx 3cc5eac22f7d: GAMTT3L2X734OCLBDGVQZVAFROATLL4FQAWN44QT4FJHX5GE4Y35TQ4E (on the transaction) recorded, which the transaction's meta does not show it affected"
+  ]
+ }
+}

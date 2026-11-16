@@ -1,0 +1,44 @@
+{
+ "adapter": "example",
+ "adapter_failure": false,
+ "commit": "6fbf9d6a39b3b97d43f2e551574998f84e69736c",
+ "entry_id": "localcore-planted-auth-5",
+ "error": null,
+ "ingested": true,
+ "input": "rpc",
+ "ledger_seq": 5,
+ "observation_version": 1,
+ "operations": [
+  {
+   "op_order": 1,
+   "participants": [
+    "CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC",
+    "GBRPYHIL2CI3FNQ4BXLFMNDLFJUNPU2HY3ZMFSHONUCEOASW7QC7OX2H",
+    "GDFEUKR6QZGUILOMUICH5MXJBDV3EDYKTAD6XOZARQQJN25OOMNIM3AW",
+    "GDVRGM346LBTRHQKLOK7H6QFODTMZJOLXF7LCZMB5QMRQFT7UOTLXJDW"
+   ],
+   "tx_hash": "1aefdbd7032ef733aab72d4955d9f8f7e376b125cc55718c29b7464347345b7b",
+   "tx_order": 1,
+   "type": null
+  }
+ ],
+ "row_counts": {
+  "operations": 1,
+  "transactions": 1
+ },
+ "state_changes": [],
+ "transactions": [
+  {
+   "hash": "1aefdbd7032ef733aab72d4955d9f8f7e376b125cc55718c29b7464347345b7b",
+   "participants": [
+    "CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC",
+    "GBRPYHIL2CI3FNQ4BXLFMNDLFJUNPU2HY3ZMFSHONUCEOASW7QC7OX2H",
+    "GDFEUKR6QZGUILOMUICH5MXJBDV3EDYKTAD6XOZARQQJN25OOMNIM3AW",
+    "GDVRGM346LBTRHQKLOK7H6QFODTMZJOLXF7LCZMB5QMRQFT7UOTLXJDW"
+   ],
+   "result_code": "success",
+   "tx_order": 1
+  }
+ ],
+ "unreadable": []
+}
