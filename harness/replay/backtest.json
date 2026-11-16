@@ -524,7 +524,7 @@
    "title": "claim a contract under the binding each ledger of a batch saw",
    "verdict": "missed",
    "entries": [],
-   "what_would_catch_it": "One cause shared by four misses (`ee82038d`, `f5b67b07`, `ff73ff46`, `3e22515a`): wallet-backend reads SEP-41 and Blend contracts only after its protocol setup, which fetches each contract's wasm through RPC `getLedgerEntries` (`internal/services/protocol_setup.go`), and the mock RPC holds no ledger state. One remedy, about two days: the feeder serves `CONTRACT_CODE` and contract-instance entries built from the sequence's own meta; the adapter runs wallet-backend's protocol setup; a persist batch spans two ledgers; and a wasm wallet-backend classifies as SEP-41 that can be upgraded (the batch fixes) or a Blend deployment (the Blend fixes). Then, for this fix: a contract rebound from one wasm to another between two ledgers of one ingest batch, with SEP-41 events on the earlier ledger: a local-core scenario replayed as a sequence (`replay.py run --sequence`)."
+   "what_would_catch_it": "One cause shared by five misses (`666a64d4`, `ee82038d`, `f5b67b07`, `ff73ff46`, `3e22515a`): wallet-backend reads SEP-41 and Blend contracts only after its protocol setup, which fetches each contract's wasm through RPC `getLedgerEntries` (`internal/services/protocol_setup.go`), and the mock RPC holds no ledger state; until then the replays log \"protocol SEP41 history production disabled\". One remedy, about two days: the feeder serves `CONTRACT_CODE` and contract-instance entries built from the sequence's own meta; the adapter runs wallet-backend's protocol setup; a persist batch spans two ledgers; and a wasm wallet-backend classifies as SEP-41 that can be upgraded (the batch fixes) or a Blend deployment (the Blend fixes). Then, for this fix: a contract rebound from one wasm to another between two ledgers of one ingest batch, with SEP-41 events on the earlier ledger: a local-core scenario replayed as a sequence (`replay.py run --sequence`)."
   },
   {
    "id": "f5b67b07",
@@ -534,7 +534,7 @@
    "title": "keep a rebound contract classified for every ledger of its batch",
    "verdict": "missed",
    "entries": [],
-   "what_would_catch_it": "One cause shared by four misses (`ee82038d`, `f5b67b07`, `ff73ff46`, `3e22515a`): wallet-backend reads SEP-41 and Blend contracts only after its protocol setup, which fetches each contract's wasm through RPC `getLedgerEntries` (`internal/services/protocol_setup.go`), and the mock RPC holds no ledger state. One remedy, about two days: the feeder serves `CONTRACT_CODE` and contract-instance entries built from the sequence's own meta; the adapter runs wallet-backend's protocol setup; a persist batch spans two ledgers; and a wasm wallet-backend classifies as SEP-41 that can be upgraded (the batch fixes) or a Blend deployment (the Blend fixes). Then, for this fix: the same rebind as `ee82038d`, with the earlier ledger's protocol events and history checked."
+   "what_would_catch_it": "One cause shared by five misses (`666a64d4`, `ee82038d`, `f5b67b07`, `ff73ff46`, `3e22515a`): wallet-backend reads SEP-41 and Blend contracts only after its protocol setup, which fetches each contract's wasm through RPC `getLedgerEntries` (`internal/services/protocol_setup.go`), and the mock RPC holds no ledger state; until then the replays log \"protocol SEP41 history production disabled\". One remedy, about two days: the feeder serves `CONTRACT_CODE` and contract-instance entries built from the sequence's own meta; the adapter runs wallet-backend's protocol setup; a persist batch spans two ledgers; and a wasm wallet-backend classifies as SEP-41 that can be upgraded (the batch fixes) or a Blend deployment (the Blend fixes). Then, for this fix: the same rebind as `ee82038d`, with the earlier ledger's protocol events and history checked."
   },
   {
    "id": "wallet-backend#753",
@@ -607,7 +607,7 @@
    "title": "skip events whose address kind an account column cannot store",
    "verdict": "missed",
    "entries": [],
-   "what_would_catch_it": "A SEP-41 or SAC event whose address topic is a claimable balance or a liquidity pool (protocol 23 or later): a local-core scenario with a token contract that emits one."
+   "what_would_catch_it": "One cause shared by five misses (`666a64d4`, `ee82038d`, `f5b67b07`, `ff73ff46`, `3e22515a`): wallet-backend reads SEP-41 and Blend contracts only after its protocol setup, which fetches each contract's wasm through RPC `getLedgerEntries` (`internal/services/protocol_setup.go`), and the mock RPC holds no ledger state; until then the replays log \"protocol SEP41 history production disabled\". One remedy, about two days: the feeder serves `CONTRACT_CODE` and contract-instance entries built from the sequence's own meta; the adapter runs wallet-backend's protocol setup; a persist batch spans two ledgers; and a wasm wallet-backend classifies as SEP-41 that can be upgraded (the batch fixes) or a Blend deployment (the Blend fixes). Then, for this fix: a ledger with stellar-core's own CAP-67 events naming a claimable balance or a liquidity pool (creating or claiming a claimable balance, a pool deposit or withdrawal) at protocol 23 to 28; no custom token is needed. The SAC path this fix also guards reads only `set_authorized` events and balance keys, which the Soroban host never gives such an address, as the fix's message says."
   },
   {
    "id": "9538b3ca",
@@ -1733,7 +1733,7 @@
    "title": "validate Blend pool name bytes and length on decode",
    "verdict": "missed",
    "entries": [],
-   "what_would_catch_it": "One cause shared by four misses (`ee82038d`, `f5b67b07`, `ff73ff46`, `3e22515a`): wallet-backend reads SEP-41 and Blend contracts only after its protocol setup, which fetches each contract's wasm through RPC `getLedgerEntries` (`internal/services/protocol_setup.go`), and the mock RPC holds no ledger state. One remedy, about two days: the feeder serves `CONTRACT_CODE` and contract-instance entries built from the sequence's own meta; the adapter runs wallet-backend's protocol setup; a persist batch spans two ledgers; and a wasm wallet-backend classifies as SEP-41 that can be upgraded (the batch fixes) or a Blend deployment (the Blend fixes). Then, for this fix: a Blend pool whose name is not valid UTF-8 or longer than the cap."
+   "what_would_catch_it": "One cause shared by five misses (`666a64d4`, `ee82038d`, `f5b67b07`, `ff73ff46`, `3e22515a`): wallet-backend reads SEP-41 and Blend contracts only after its protocol setup, which fetches each contract's wasm through RPC `getLedgerEntries` (`internal/services/protocol_setup.go`), and the mock RPC holds no ledger state; until then the replays log \"protocol SEP41 history production disabled\". One remedy, about two days: the feeder serves `CONTRACT_CODE` and contract-instance entries built from the sequence's own meta; the adapter runs wallet-backend's protocol setup; a persist batch spans two ledgers; and a wasm wallet-backend classifies as SEP-41 that can be upgraded (the batch fixes) or a Blend deployment (the Blend fixes). Then, for this fix: a Blend pool whose name is not valid UTF-8 or longer than the cap."
   },
   {
    "id": "wallet-backend#802",
@@ -1743,7 +1743,7 @@
    "title": "cap Blend decimals at 70",
    "verdict": "missed",
    "entries": [],
-   "what_would_catch_it": "One cause shared by four misses (`ee82038d`, `f5b67b07`, `ff73ff46`, `3e22515a`): wallet-backend reads SEP-41 and Blend contracts only after its protocol setup, which fetches each contract's wasm through RPC `getLedgerEntries` (`internal/services/protocol_setup.go`), and the mock RPC holds no ledger state. One remedy, about two days: the feeder serves `CONTRACT_CODE` and contract-instance entries built from the sequence's own meta; the adapter runs wallet-backend's protocol setup; a persist batch spans two ledgers; and a wasm wallet-backend classifies as SEP-41 that can be upgraded (the batch fixes) or a Blend deployment (the Blend fixes). Then, for this fix: a Blend pool whose reserve config has decimals above 70."
+   "what_would_catch_it": "One cause shared by five misses (`666a64d4`, `ee82038d`, `f5b67b07`, `ff73ff46`, `3e22515a`): wallet-backend reads SEP-41 and Blend contracts only after its protocol setup, which fetches each contract's wasm through RPC `getLedgerEntries` (`internal/services/protocol_setup.go`), and the mock RPC holds no ledger state; until then the replays log \"protocol SEP41 history production disabled\". One remedy, about two days: the feeder serves `CONTRACT_CODE` and contract-instance entries built from the sequence's own meta; the adapter runs wallet-backend's protocol setup; a persist batch spans two ledgers; and a wasm wallet-backend classifies as SEP-41 that can be upgraded (the batch fixes) or a Blend deployment (the Blend fixes). Then, for this fix: a Blend pool whose reserve config has decimals above 70."
   },
   {
    "id": "490aab41",
