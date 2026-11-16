@@ -56,7 +56,7 @@ Bracketed numbers point to the [sources](#sources) at the end of this section.
 | Operations per transaction | 1 to 100 (the maximum is the XDR limit). [9] | — | `operations-at-max-100`, `operations-50-or-more` | none | 10, 9 |
 | Signatures per envelope | At most 20 (XDR). [9] | — | `signatures-at-max-20` | none | 3 |
 | Offer ID | Not negative, from protocol 15. [10] | No upper bound: any value up to 2^63-1. | `offer-id-beyond-f64` | none | 1 |
-| Destination and operation-source accounts | Checked when the transaction is applied, not when it is accepted. [9] | A transaction that fails then is still in the ledger, with its fee charged. [11] | `failed-transaction` | none | 39 |
+| Destination and operation-source accounts | Checked when the transaction is applied, not when it is accepted. [9] | A transaction that fails then is still in the ledger, with its fee charged. [11] | `failed-transaction` | none | 42 |
 
 ### Contract data (Soroban)
 
@@ -66,7 +66,7 @@ Bracketed numbers point to the [sources](#sources) at the end of this section.
 | Contract strings (`ScString`) | Length only. [13] | UTF-8 and NUL, in arguments, storage and events alike. | — | — | — |
 | Symbols (`ScSymbol`) | At most 32 bytes from `[_0-9A-Za-z]`, for every value the host converts. [13] | — | — | — | — |
 | Maps (`ScMap`) | Keys strictly ascending, so sorted and unique, in the host's order: by value type first, then value. Mixed key types are allowed. [14] | Text order. Keys are not sorted as text, and distinct keys can render as the same text. | `scmap-keys-collide-as-text`, `scmap-mixed-key-types` | CAP-0046-01 | 1, 2 |
-| Integers | XDR shape. | Size relative to your language: 64-bit values above 2^53 and 128- or 256-bit values are common. | `scval-int64-beyond-f64`, `scval-wide-integer` | CAP-0046-01 | 11, 39 |
+| Integers | XDR shape. | Size relative to your language: 64-bit values above 2^53 and 128- or 256-bit values are common. | `scval-int64-beyond-f64`, `scval-wide-integer` | CAP-0046-01 | 11, 41 |
 | Authorization entries | Every entry is decoded. An entry a `require_auth` call matches has its signature checked and its nonce consumed, which creates a temporary contract-data entry keyed `LedgerKeyNonce`. [15] | Entries no `require_auth` call matches: they are not verified, and we found no code that rejects them. There is no limit on the number or depth of sub-invocations beyond XDR depth and transaction size. [15] | `auth-nested-invocations`, `auth-tree-4-deep` | CAP-0046-11 | 28, 4 |
 | Addresses in contract values | A muxed account (CAP-67) or a muxed contract (protocol 30) may appear as a value but not in a storage key. [16] | — | `scaddress-muxed-account`, `scaddress-muxed-id-beyond-f64`, `scaddress-muxed-contract` | CAP-0067, CAP-0084 | 3, 2, 2 |
 | Accounts and trustlines created by a contract | The Stellar Asset Contract's `trust()` creates a trustline and **emits no event**. [17] | No operation names the new entry; only the ledger changes show it. | `soroban-created-trustline`, `soroban-created-account` | CAP-0073 | 4, 3 |
