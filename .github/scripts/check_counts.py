@@ -4,7 +4,8 @@
   python3 .github/scripts/check_counts.py
 
 Each count is computed from the files it describes (the corpus manifest, the generated cases, the
-schema, FINDINGS.json, the sightings table, quickcheck.py, the guide's probes), and every place a
+schema, FINDINGS.json, the sightings table, quickcheck.py, the guide's probes, the detection
+backtest's claims in harness/replay/backtest.json), and every place a
 document states it, found by a pattern, must give the same number. A count that no document states
 any more is reported too, so a reworded sentence cannot silently drop out of the check. Dated
 documents (STATUS.md, release notes) are not checked: they record what was true on their date.
@@ -15,7 +16,7 @@ import json
 import re
 import sys
 
-DOCS = ("README.md", "VERIFY.md", "ARCHITECTURE.md", "corpus/README.md", "harness/sightings/README.md")
+DOCS = ("README.md", "VERIFY.md", "ARCHITECTURE.md", "FINDINGS.md", "corpus/README.md", "harness/sightings/README.md")
 
 
 def load(path):
@@ -41,6 +42,15 @@ def counts():
     spec.loader.exec_module(qc)
     probes = load("guide/probes.json")["probes"]
     total_cells, hit_cells = len(cells["total"]), len(cells["hit"])
+    backtest = {}
+    for it in load("harness/replay/backtest.json")["items"]:
+        t = backtest.setdefault(it["pipeline"], {"detected": 0, "blind": 0, "in_scope": 0})
+        if it["verdict"] in ("detected", "missed"):
+            t["in_scope"] += 1
+        if it["verdict"] == "detected":
+            t["detected"] += 1
+            t["blind"] += any(c.get("blind") for c in it["entries"])
+    wb, etl = backtest.get("wallet-backend", {}), backtest.get("stellar-etl", {})
     corpus_cells = set().union(*(e["cells"] for e in entries))
     return {
         "corpus entries": len(entries),
@@ -57,6 +67,12 @@ def counts():
         "quickcheck checks": len(qc.CHECKS),
         "guide probes (without the setup transaction)": sum(1 for p in probes if p["row"] != "(setup)"),
         "schema cells no valid case reaches": total_cells - hit_cells,
+        "backtest: wallet-backend fixes detected": wb.get("detected", 0),
+        "backtest: wallet-backend fixes in scope": wb.get("in_scope", 0),
+        "backtest: wallet-backend detections on a blind ledger": wb.get("blind", 0),
+        "backtest: stellar-etl issues flagged": etl.get("detected", 0),
+        "backtest: stellar-etl issues in scope": etl.get("in_scope", 0),
+        "backtest: stellar-etl flags on a blind ledger": etl.get("blind", 0),
         "schema cells in no corpus entry": total_cells - len(corpus_cells & set(load("corpus/cell-protocols.json")["first_tag"])),
     }
 
@@ -76,6 +92,12 @@ PATTERNS = {
     "schema types": [r"\b([\d,]+) types\b"],
     "schema cells": [r"\b[\d,]+ of (?:the )?([\d,]+) schema cells"],
     "schema cells no valid case reaches": [r"\bof the ([\d,]+) schema cells no valid case"],
+    "backtest: wallet-backend fixes detected": [r"\bdetects ([\d,]+) of wallet-backend's [\d,]+ in-scope fixes"],
+    "backtest: wallet-backend fixes in scope": [r"\bof wallet-backend's ([\d,]+) in-scope fixes"],
+    "backtest: wallet-backend detections on a blind ledger": [r"\bin-scope fixes \(([\d,]+) on ledgers not chosen"],
+    "backtest: stellar-etl issues flagged": [r"\bflags ([\d,]+) of stellar-etl's [\d,]+ in-scope issues"],
+    "backtest: stellar-etl issues in scope": [r"\bof stellar-etl's ([\d,]+) in-scope issues"],
+    "backtest: stellar-etl flags on a blind ledger": [r"\bstellar-etl's [\d,]+ in-scope issues \(([\d,]+) blind\)"],
     "schema cells in no corpus entry": [r"\b([\d,]+) of the [\d,]+ schema cells appear in no corpus entry"],
     "schema cells reached by valid cases": [r"\breach(?:es)? ([\d,]+) of [\d,]+ schema cells",
                                             r"\bexercise ([\d,]+) of [\d,]+ schema cells"],
@@ -101,7 +123,7 @@ def main():
                     if n != facts[fact]:
                         bad.append("%s:%d: %r says %d, but %s is %d" % (doc, line, m.group(0), n, fact, facts[fact]))
     for fact, value in facts.items():
-        print("%-46s %6d   stated %d time(s)" % (fact, value, stated[fact]))
+        print("%-56s %6d   stated %d time(s)" % (fact, value, stated[fact]))
         if not stated[fact]:
             bad.append("%s (%d) is no longer stated in any of %s; update the pattern or drop the fact"
                        % (fact, value, ", ".join(DOCS)))

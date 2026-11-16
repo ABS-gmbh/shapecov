@@ -32,7 +32,7 @@ pip install jsonschema
 python3 quickcheck.py
 ```
 
-Python only, with no Docker and no network. It reruns the 9 checks that work from the repository
+Python only, with no Docker and no network. It reruns the 10 checks that work from the repository
 alone and checks the recorded results of the rest against their verdicts. It took 10 seconds on a
 laptop. CI reruns everything else.
 
@@ -47,8 +47,9 @@ laptop. CI reruns everything else.
 - **Every corpus ledger is an indexer test.** The oracle derives the expected rows from the ledger;
   every failure in wallet-backend and stellar-etl maps to a filed issue. A sweep of 611 further
   network ledgers (100,676 transactions) found no new defect.
-- **Backtest on past fixes**: the harness detects 4 of wallet-backend's 17 in-scope fixes (2 on
-  ledgers not chosen for the bug) and flags 2 of stellar-etl's 9 in-scope issues (1 blind)
+- **Backtest on past fixes**, measured and incomplete: the harness detects 4 of wallet-backend's 17
+  in-scope fixes (2 on ledgers not chosen for the bug) and flags 2 of stellar-etl's 9 in-scope issues
+  (1 blind). Every miss names the shape, oracle rule or export that would catch it
   ([`BACKTEST.md`](harness/replay/BACKTEST.md)).
 - **7,392 generated cases across all 477 types**, run through six decoders and stellar-core
   30.0.0; valid cases reach 837 of 1,188 schema cells.

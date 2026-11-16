@@ -9,7 +9,7 @@ python3 quickcheck.py
 ```
 
 No Docker, no SDK toolchain and no network after the clone. It prints one line per check, PASS or
-FAIL, and the time it took. On a clean clone on a laptop it took **10 seconds** for all 9 checks
+FAIL, and the time it took. On a clean clone on a laptop it took **10 seconds** for all 10 checks
 (measured 16 November 2026).
 
 What it reruns:
@@ -24,7 +24,8 @@ What it reruns:
 What it checks from recorded results, against their expected verdicts:
 - the wallet-backend and stellar-etl replays: each sighting fails before its fix and passes after,
   and every oracle failure maps to a filed issue;
-- the linter's report on wallet-backend.
+- the linter's report on wallet-backend;
+- the detection backtest's claims (below, "Beyond the RFP's checks").
 
 **What it does not rerun**, because it needs Docker, an SDK toolchain or the network:
 - the comparison with stellar-core's golden files and the SDK round trips (`ci` › RFP check 1,
@@ -64,6 +65,12 @@ the repository root. Build steps for the SDK runners are in `README.md`, "Run it
 | "A conformance runner executes the corpus through at least the JS, Go and Rust SDKs in CI" | `ci` › Reusable sdk-conformance workflow (js, go); `ci` › Linter action | `.github/workflows/sdk-conformance.yml` (`workflow_call`), `linter/action.yml`; how to adopt: [`ADOPT.md`](ADOPT.md) | **Packaged for each SDK's own CI.** Any SDK repository can call the reusable workflow at its own version or commit, with its own known-failures file. Any Go indexer can run the linter action with an accepted-findings file. ShapeCov's CI calls both on every push: for js-stellar-sdk 17.4.0 (no known failures), for go-stellar-sdk v0.9.0 (its known trailing-byte defect listed), and for the linter on wallet-backend. |
 | "The corpus covers rare patterns introduced or changed by each CAP" | — | `python3 tools/cap_coverage.py`; table: [`corpus/CAP-COVERAGE.md`](corpus/CAP-COVERAGE.md) | **Every live CAP accounted for:** of 70, 39 covered, 1 partly covered, 1 gap, and 29 with no shape a reader can see (on 16 November; the table is regenerated with the corpus). |
 | "Built against the most recent stable Stellar tech stack, with a plan to track protocol upgrades" | — | `python3 protocol-drill/drill.py --next-xdr <stellar-xdr next> --core <stellar-core checkout>`; report: [`protocol-drill/REPORT.md`](protocol-drill/REPORT.md) | **Rehearsed.** Protocol 30 throughout; the upgrade runbook is in `MAINTENANCE.md`. The drill runs it against the next protocol: stellar-xdr's `next` branch adds no new cell, all 15,306 of stellar-core's `test-lcm-next` golden ledgers (13,893 at protocol 31) decode with today's schema, and a pending change (`lcm_v3`) would add one cell. Not in CI: it needs the two upstream checkouts. |
+
+## Beyond the RFP's checks
+
+| Question | Job | Command | Status |
+|---|---|---|---|
+| Detection backtest: would the harness have caught defects already fixed or reported upstream? | `replay` › detection backtest claims hold against the recorded replays | `python3 harness/replay/replay.py backtest` | **Measured, incomplete.** The harness detects 4 of wallet-backend's 17 in-scope fixes (2 on ledgers not chosen for the bug) and flags 2 of stellar-etl's 9 in-scope issues (1 blind). A wallet-backend fix counts as detected when a ledger fails at the commit before it and passes at the fix; an open stellar-etl issue, when the oracle flags its rows at `master`. The job fails if any claim, detected or missed, does not hold against the recorded replays. [`harness/replay/BACKTEST.md`](harness/replay/BACKTEST.md) names, for every miss, the shape, oracle rule or export that would catch it. |
 
 ## What the checks do not cover
 

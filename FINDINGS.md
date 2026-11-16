@@ -256,14 +256,20 @@ The harness labels these rows #815 and #816, whose scope covers every case;
 `harness/replay/adapters/wallet-backend/known.json` records #804, #805 and #806 as the earlier
 reports.
 
-The same oracle, mapped to stellar-etl's effects and token transfer exports, confirms an open
-stellar-etl issue at `master` (`2b24ec89`):
+The same oracle, mapped to stellar-etl's effects and token transfer exports, confirms two open
+stellar-etl issues at `master` (`2b24ec89`):
 
 - stellar/stellar-etl#460 (filed by a maintainer in July): the effects export emits no
   `account_created` for an account created by XLM sent through the native asset contract, and no
   `trustline_created` for a trustline created by the asset contract's `trust()` (CAP-73). Five
   rows across four ledgers (`testnet-5709224`, `pubnet-65480300`, `pubnet-63920000`,
   `localcore-sac-trust-p28-5`).
+
+- stellar/stellar-etl#450 (filed by a maintainer in July, from the stellar-etl maintainers' own
+  audit): `export_token_transfer` exports a payment to a G address that carries a text or hash memo
+  with an M address whose muxed ID is 0. The oracle flags 928 rows in 17 ledgers at `master`
+  (`localcore-memo-and-offer-p30-4`, 11 pubnet and 5 testnet ledgers). The rule was written after
+  reading the issue, so this confirms #450 rather than finding it blind.
 
 Apart from our own findings E2 and E3 (#513, #514), no other effect is missing and every net
 balance matches for the 35 ledgers stellar-etl exports.
@@ -301,6 +307,15 @@ The py-stellar-base maintainer asks that XDR and strkey problems be tried agains
   stack, so a valid 240-level envelope argument fails when the caller is more than 501 frames deep
   (`issues/X1-py-stellar-xdr-depth.md`); `SponsorshipDescriptor` and the bare integer types have no
   codec (`issues/X2-py-stellar-xdr-typedef-codecs.md`).
+
+## Detection backtest
+
+Would the harness have caught defects that were already fixed or reported upstream? Replayed at the
+commit before and after each in-scope fix, it detects 4 of wallet-backend's 17 in-scope fixes (2 on
+ledgers not chosen for the bug) and flags 2 of stellar-etl's 9 in-scope issues (1 blind). The
+measurement is incomplete: `harness/replay/BACKTEST.md` lists every fix, and for each miss the
+shape, oracle rule or export that would catch it. `python3 harness/replay/replay.py backtest`
+checks every claim against the recorded replays.
 
 ## Rediscovered (already reported by others)
 

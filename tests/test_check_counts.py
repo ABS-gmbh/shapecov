@@ -17,6 +17,8 @@ Corpus: 3 entries, 2 of them real ledgers.
 It reruns the 1 checks that work from the repository alone.
 Coverage of the 1 schema cells no valid case reaches yet.
 So 2 of the 3 schema cells appear in no corpus entry.
+The harness detects 1 of wallet-backend's 2 in-scope fixes (1 on ledgers not chosen for the bug)
+and flags 0 of stellar-etl's 1 in-scope issues (0 blind).
 """
 VERIFY = "35 probes, plus one setup transaction.\n".replace("35", "1")
 SIGHTINGS = """**1 of 2 reproduced.**
@@ -48,7 +50,12 @@ class CheckCounts(unittest.TestCase):
             "schema/schema.json": {"types": {"U": {}, "E": {}}},
             "quickcheck.py": QUICKCHECK,
             "guide/probes.json": {"probes": [{"row": "Home domain"}, {"row": "(setup)"}]},
-            "README.md": README, "VERIFY.md": VERIFY, "ARCHITECTURE.md": "",
+            "harness/replay/backtest.json": {"items": [
+                {"pipeline": "wallet-backend", "verdict": "detected", "entries": [{"entry": "e", "blind": True}]},
+                {"pipeline": "wallet-backend", "verdict": "missed", "entries": []},
+                {"pipeline": "wallet-backend", "verdict": "out_of_scope", "entries": []},
+                {"pipeline": "stellar-etl", "verdict": "missed", "entries": []}]},
+            "README.md": README, "VERIFY.md": VERIFY, "ARCHITECTURE.md": "", "FINDINGS.md": "",
             "corpus/README.md": "", "harness/sightings/README.md": SIGHTINGS,
         })
         write_jsonl(self.dir, "out/cases.jsonl", [{"id": i} for i in range(4)])
@@ -75,6 +82,12 @@ class CheckCounts(unittest.TestCase):
         rc, out = self.run_check()
         self.assertEqual(rc, 1, out)
         self.assertIn("says 4000, but generated cases is 4", out)
+
+    def test_backtest_numbers_follow_backtest_json(self):
+        write_tree(self.dir, {"README.md": README.replace("detects 1 of wallet-backend's 2", "detects 4 of wallet-backend's 2")})
+        rc, out = self.run_check()
+        self.assertEqual(rc, 1, out)
+        self.assertIn("says 4, but backtest: wallet-backend fixes detected is 1", out)
 
     def test_a_fact_no_document_states_fails(self):
         write_tree(self.dir, {"VERIFY.md": ""})

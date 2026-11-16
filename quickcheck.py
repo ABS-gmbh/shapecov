@@ -39,6 +39,8 @@ CHECKS = [
      [PY, ".github/scripts/check_findings.py"]),
     ("CAP coverage", "every live CAP is accounted for, and the table matches the corpus",
      [PY, "tools/cap_coverage.py", "--check"]),
+    ("Backtest", "every detection-backtest claim (a fix detected, or missed) holds against the recorded replays",
+     [PY, "harness/replay/replay.py", "backtest"]),
     ("Docs", "the headline numbers in README, VERIFY and the other top-level documents match the repository",
      [PY, ".github/scripts/check_counts.py"]),
     ("Unit tests", "the tests of the checking scripts themselves (tests/); those needing Docker or the network "
