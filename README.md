@@ -15,6 +15,10 @@ three ingestion mistakes the RFP names. A draft indexer-hardening guide (`guide/
 the corpus manifest by `guide/check_guide.py`. See
 "Not built" below.
 
+How the parts fit together, the adapter interface and the isolation design:
+[`ARCHITECTURE.md`](ARCHITECTURE.md). Each RFP acceptance check, with its CI job and command:
+[`VERIFY.md`](VERIFY.md).
+
 ## What it does
 
 1. `tools/xdrschema.py` parses the `.x` files from `stellar/stellar-xdr` tag v30.0 into a plain
@@ -145,10 +149,12 @@ Two GitHub Actions workflows in `.github/workflows/`. RFP check 2, the replay ha
 
 ## Not built
 
-- Core in the loop for whole ledgers: submit generated transactions to a local stellar-core and
-  capture the `LedgerCloseMeta` it emits. Today core is used only as a decoder.
-- Semantic checks above the codec beyond the one in the corpus (map key collisions): issuer
-  ordering, ID wrap-around and others.
+- Whole ledgers from the generator's cases. Generated cases are checked by the decoders and by
+  stellar-core as a decoder. Whole ledgers come from fixed local stellar-core scenarios
+  (`tools/localcore.py`), and the guide's probes submit transactions to a local stellar-core
+  (`guide/probe_core.py`).
+- Semantic checks above the codec beyond those in `harness/sdk-semantic/`, which cover issuer
+  ordering, out-of-range IDs, colliding map keys and transaction decoding.
 - Coverage of the 351 schema cells no valid case reaches yet.
 - Replay adapters beyond wallet-backend and stellar-etl. Three corpus entries have hand-written
   `expected.indexer` rows; the oracle checks every ledger. See `harness/replay/README.md`, "Limits".
@@ -158,7 +164,8 @@ Two GitHub Actions workflows in `.github/workflows/`. RFP check 2, the replay ha
   before publication. Every shape it describes has a corpus entry; three come from a local
   stellar-core (see the guide's appendix).
 - The linter does not run clean on wallet-backend `main`: it reports 4 findings, all real and none
-  of them a bug to file as is (see `linter/README.md`).
+  of them a bug to file as is. CI fails on any finding outside `linter/accepted/wallet-backend.json`
+  (see `linter/README.md`).
 
 ## Licence
 

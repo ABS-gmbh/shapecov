@@ -84,7 +84,7 @@ on the citation alone, and why.
 
 **17 of 25 rows** have a verdict from stellar-core itself on every side they make a claim about, **6** on one side, and **2** rest on the source citations alone. Rows with a side that has only a citation: Memo ID, hash, return; Muxed account (source, destination, fee source); Asset code; Nesting of contract values (`ScVal`); Contract strings (`ScString`); Integers; Authorization entries; Addresses in contract values.
 
-A probe is a transaction built to break, or to sit just inside, the rule: 35 of them, submitted to a local stellar-core 30.0.0 at protocol 30 by `guide/probe_core.py`, which CI runs on every change. "Core closed ledgers with" names corpus patterns found in ledgers stellar-core closed, so core accepted that shape.
+A probe is a transaction built to break, or to sit just inside, the rule: 35 probes, plus 1 setup transaction that deploys the native asset contract they call (`guide/probes.json` holds all 36 records). `guide/probe_core.py` submits them to a local stellar-core 30.0.0 at protocol 30, and CI runs it on every change. "Core closed ledgers with" names corpus patterns found in ledgers stellar-core closed, so core accepted that shape.
 
 | Field | Checked: what stellar-core did | Not checked: where stellar-core accepted it |
 |---|---|---|

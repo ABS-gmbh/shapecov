@@ -103,11 +103,14 @@ def render(verdicts, probes_doc):
              "**%d** on one side, and **%d** rest on the source citations alone. Rows with a side that has only a "
              "citation: %s." % (both, len(rows), some, only, "; ".join(cited) or "none"),
              "",
-             "A probe is a transaction built to break, or to sit just inside, the rule: %d of them, submitted to a "
-             "local stellar-core %s at protocol %d by `guide/probe_core.py`, which CI runs on every change. "
-             "\"Core closed ledgers with\" names corpus patterns found in ledgers stellar-core closed, so core "
-             "accepted that shape." % (n_probes, probes_doc["stellar_core"].split(" (")[0].replace("stellar-core ", ""),
-                                       probes_doc["protocol"]),
+             "A probe is a transaction built to break, or to sit just inside, the rule: %d probes, plus %d setup "
+             "transaction%s that deploy%s the native asset contract they call (`guide/probes.json` holds all %d "
+             "records). `guide/probe_core.py` submits them to a local stellar-core %s at protocol %d, and CI runs it "
+             "on every change. \"Core closed ledgers with\" names corpus patterns found in ledgers stellar-core "
+             "closed, so core accepted that shape."
+             % (n_probes, len(probes_doc["probes"]) - n_probes, "" if len(probes_doc["probes"]) - n_probes == 1 else "s",
+                "s" if len(probes_doc["probes"]) - n_probes == 1 else "", len(probes_doc["probes"]),
+                probes_doc["stellar_core"].split(" (")[0].replace("stellar-core ", ""), probes_doc["protocol"]),
              "",
              "| Field | Checked: what stellar-core did | Not checked: where stellar-core accepted it |",
              "|---|---|---|"]
