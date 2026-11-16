@@ -6,7 +6,7 @@ It generates XDR test cases from the Protocol 30 schema itself, runs each one th
 and stellar-core, and reports where they disagree. Nothing is hand-captured.
 
 Status on 16 November 2026: the SDK conformance half works end to end. For the indexer half there
-is a corpus of 67 entries (64 real ledgers from testnet, pubnet, stellar-core's golden test data and
+is a corpus of 69 entries (66 real ledgers from testnet, pubnet, stellar-core's golden test data and
 a local stellar-core), and a replay harness that runs wallet-backend's own `ingest` command against
 TimescaleDB, fed through a mock stellar-rpc or a Galexie data lake, and stellar-etl's own export
 commands, with every ledger checked by a ledger-derived oracle. It reproduces wallet-backend #729, #731 and both
@@ -72,7 +72,7 @@ results are not in the repository):
 
 ## Corpus
 
-`corpus/` holds 67 entries and their manifest. `corpus/README.md` describes every field;
+`corpus/` holds 69 entries and their manifest. `corpus/README.md` describes every field;
 `corpus/evidence/` records the reproduced sightings and our findings. Three examples:
 
 | Entry | Type | Source | Shows |
