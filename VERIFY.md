@@ -9,7 +9,7 @@ python3 quickcheck.py
 ```
 
 No Docker, no SDK toolchain and no network after the clone. It prints one line per check, PASS or
-FAIL, and the time it took. On a clean clone on a laptop it took **10 seconds** for all 13 checks
+FAIL, and the time it took. On a clean clone on a laptop it took **10 seconds** for all 14 checks
 (measured 16 November 2026).
 
 What it reruns:
@@ -71,6 +71,7 @@ the repository root. Build steps for the SDK runners are in `README.md`, "Run it
 | Question | Job | Command | Status |
 |---|---|---|---|
 | Detection backtest: would the harness have caught defects already fixed or reported upstream? | `replay` › detection backtest claims hold against the recorded replays | `python3 harness/replay/replay.py backtest` | **Measured, incomplete.** The harness detects 7 of wallet-backend's 17 in-scope fixes (4 on ledgers not chosen for the bug) and flags 3 of stellar-etl's 9 in-scope issues (1 blind). A wallet-backend fix counts as detected when a ledger fails at the commit before it and passes at the fix; an open stellar-etl issue, when the oracle flags its rows at `master`. The job fails if any claim, detected or missed, does not hold against the recorded replays. [`harness/replay/BACKTEST.md`](harness/replay/BACKTEST.md) names, for every miss, the shape, oracle rule or export that would catch it. |
+| Mutation testing: does the oracle catch an indexer's mistakes, under control? | `ci` › Unit tests (mutation step) | `python3 harness/replay/adapters/example/mutants.py` | **20 of the 21 mutants the corpus exercises are killed** on 16 ledgers: a toy indexer storing what the oracle checks is changed one bug at a time (the fee ignored, payments swapped, amounts from the envelope, addresses truncated, participants from the envelope, and so on). The survivor, every state change stored twice, and the reason are in [`MUTANTS.md`](harness/replay/adapters/example/MUTANTS.md). |
 
 ## What the checks do not cover
 

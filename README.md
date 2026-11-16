@@ -32,7 +32,7 @@ pip install jsonschema
 python3 quickcheck.py
 ```
 
-Python only, with no Docker and no network. It reruns the 13 checks that work from the repository
+Python only, with no Docker and no network. It reruns the 14 checks that work from the repository
 alone and checks the recorded results of the rest against their verdicts. It took 10 seconds on a
 laptop. CI reruns everything else.
 

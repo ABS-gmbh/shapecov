@@ -44,6 +44,9 @@ CHECKS = [
     ("Example adapter", "the recorded runs of the toy indexer: participants from the envelope fail the oracle's "
                         "participant rule, participants from the meta pass",
      [PY, "harness/replay/adapters/example/check.py"]),
+    ("Mutants", "seeded indexer bugs on a toy indexer: each one the corpus exercises fails the oracle's checks, "
+                "except those MUTANTS.md lists as survivors",
+     [PY, "harness/replay/adapters/example/mutants.py", "--check"]),
     ("Backtest", "every detection-backtest claim (a fix detected, or missed) holds against the recorded replays",
      [PY, "harness/replay/replay.py", "backtest"]),
     ("Docs", "the headline numbers in README, VERIFY and the other top-level documents match the repository",

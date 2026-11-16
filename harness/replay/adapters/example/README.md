@@ -46,6 +46,14 @@ python3 harness/replay/adapters/example/check.py
 The "commit" of a variant is a digest of the variant's name and `toy.py`, so a change to the toy
 shows up as a new commit and `check.py` asks for a rerun.
 
+## Mutation testing
+
+[`mutants.py`](mutants.py) runs a third, "full" toy indexer in-process, with no Docker: it stores
+what the oracle checks (state changes, BALANCE rows and participants, in wallet-backend's
+vocabulary), first exactly as each ledger's meta shows, then with one seeded bug at a time. The
+harness's own verdict judges every mutant on 16 corpus ledgers; [`MUTANTS.md`](MUTANTS.md) lists
+which are killed, which survive and what would catch them. The quick check reruns it.
+
 ## Writing an adapter for a real indexer
 
 Start from this one and replace `toy.py` with the indexer:
