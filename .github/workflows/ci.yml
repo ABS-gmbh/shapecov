@@ -55,6 +55,13 @@ jobs:
         run: docker pull --platform linux/amd64 stellar/stellar-core:30.0.0-3642.0e49751aa.noble
       - name: Every probe submitted again to a local stellar-core; each must get the recorded answer
         run: python guide/probe_core.py check
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: The developers.stellar.org page is current, formatted with stellar-docs' own prettier config
+        run: |
+          npm install --prefix "$RUNNER_TEMP/prettier" --no-audit --no-fund prettier@3.9.10 @stellar/prettier-config@1.2.0
+          python guide/export_docs.py --prettier "$RUNNER_TEMP/prettier" --check
 
   linter:
     name: "RFP check 3: linter flags seeded violations; no wallet-backend finding outside the accepted list"
