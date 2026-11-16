@@ -10,7 +10,7 @@ SCRIPT = ".github/scripts/check_counts.py"
 # Every fact stated once, with the numbers the fixture below produces.
 README = """# Fixture
 
-Corpus: 3 entries, 2 of them real ledgers.
+Corpus: 4 entries, 3 of them real ledgers.
 **1 defects found and filed** in one SDK. All 2 findings, with severity, CAPs and a reproducing entry.
 **1 of the RFP's 2 sightings reproduced**.
 **4 generated cases across all 2 types**; valid cases reach 2 of the 3 schema cells.
@@ -40,7 +40,8 @@ class CheckCounts(unittest.TestCase):
         self.dir = Path(self.tmp.name)
         entries = [
             {"id": "g", "synthetic": False, "source": {"kind": "stellar_core_golden"}, "cells": ["arm:U.A"]},
-            {"id": "n", "synthetic": False, "source": {"kind": "network_ledger"}, "cells": []},
+            {"id": "n", "synthetic": False, "source": {"kind": "network_ledger", "network": "testnet"}, "cells": []},
+            {"id": "l", "synthetic": False, "source": {"kind": "local_stellar_core"}, "cells": []},
             {"id": "s", "synthetic": True, "source": {"kind": "generated"}, "cells": []},
         ]
         write_tree(self.dir, {
@@ -58,7 +59,9 @@ class CheckCounts(unittest.TestCase):
                 {"pipeline": "wallet-backend", "verdict": "out_of_scope", "entries": []},
                 {"pipeline": "stellar-etl", "verdict": "missed", "entries": []}]},
             "README.md": README, "VERIFY.md": VERIFY, "ARCHITECTURE.md": "", "FINDINGS.md": "",
-            "corpus/README.md": "", "harness/sightings/README.md": SIGHTINGS,
+            "corpus/README.md": "| a | 1 | `stellar_core_golden` |\n| testnet (1) and pubnet (0) history | 1 | "
+                                "`network_ledger` |\n| b | 1 | `local_stellar_core` |\n| c | 1 | `generated` |\n",
+            "harness/sightings/README.md": SIGHTINGS,
         })
         write_jsonl(self.dir, "out/cases.jsonl", [{"id": i} for i in range(4)])
 
@@ -74,10 +77,10 @@ class CheckCounts(unittest.TestCase):
         self.assertIn("mismatches: 0", out)
 
     def test_a_stale_number_fails(self):
-        write_tree(self.dir, {"README.md": README.replace("Corpus: 3 entries", "Corpus: 71 entries")})
+        write_tree(self.dir, {"README.md": README.replace("Corpus: 4 entries", "Corpus: 71 entries")})
         rc, out = self.run_check()
         self.assertEqual(rc, 1, out)
-        self.assertIn("'Corpus: 71 entries' says 71, but corpus entries is 3", out)
+        self.assertIn("'Corpus: 71 entries' says 71, but corpus entries is 4", out)
 
     def test_commas_in_numbers_are_read(self):
         write_tree(self.dir, {"README.md": README.replace("4 generated cases", "4,000 generated cases")})
