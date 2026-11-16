@@ -1,4 +1,4 @@
-# shapecov (working name)
+# ShapeCov
 
 Prototype for the SCF RFP "XDR/CAP-Coverage Audit Tool and Indexer-Hardening Guide".
 
