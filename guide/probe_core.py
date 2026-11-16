@@ -32,6 +32,7 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parent
 sys.path.insert(0, str(ROOT / "tools"))
+import ed25519  # noqa: E402
 import localcore as lc  # noqa: E402
 import strkey  # noqa: E402
 from decode import Decoder  # noqa: E402
@@ -110,6 +111,24 @@ class Probes:
         blob, _ = lc.envelope(self.enc, self.core, t, self.root)
         return blob
 
+    def payload_hash(self, tagged, network_id=None):
+        return hashlib.sha256(self.enc.encode("TransactionSignaturePayload", {
+            "networkId": (network_id or self.core.network_id).hex(), "taggedTransaction": tagged})).digest()
+
+    def signed_by(self, t, keys, network_id=None):
+        """A v1 envelope signed by `keys` (possibly none) over the hash for `network_id`."""
+        h = self.payload_hash({"type": "ENVELOPE_TYPE_TX", "tx": t}, network_id)
+        sigs = [{"hint": k.pub[-8:], "signature": ed25519.sign(k.secret, h).hex()} for k in keys]
+        return {"type": "ENVELOPE_TYPE_TX", "v1": {"tx": t, "signatures": sigs}}
+
+    def fee_bump(self, inner_env, fee):
+        """A fee-bump envelope around a signed v1 envelope, paid and signed by the root account."""
+        fb = {"feeSource": self.root.muxed(), "fee": fee, "innerTx": inner_env, "ext": {"v": 0}}
+        h = self.payload_hash({"type": "ENVELOPE_TYPE_TX_FEE_BUMP", "feeBump": fb})
+        sig = {"hint": self.root.pub[-8:], "signature": ed25519.sign(self.root.secret, h).hex()}
+        return self.enc.encode("TransactionEnvelope", {"type": "ENVELOPE_TYPE_TX_FEE_BUMP",
+                                                       "feeBump": {"tx": fb, "signatures": [sig]}})
+
     def submit(self, pid, row, rule, blob, expect, note="", host=None):
         answer = self.core.submit(blob)
         status = answer.get("status")
@@ -138,10 +157,11 @@ class Probes:
         lcm = lc.last_ledger(self.core, self.dec)
         body = lcm["v%d" % lcm["v"]]
         env = self.dec.decode("TransactionEnvelope", blob)
-        tx_bytes = self.enc.encode("TransactionSignaturePayload", {
-            "networkId": self.core.network_id.hex(),
-            "taggedTransaction": {"type": "ENVELOPE_TYPE_TX", "tx": env["v1"]["tx"]}})
-        h = hashlib.sha256(tx_bytes).hexdigest()
+        if env["type"] == "ENVELOPE_TYPE_TX_FEE_BUMP":
+            tagged = {"type": "ENVELOPE_TYPE_TX_FEE_BUMP", "feeBump": env["feeBump"]["tx"]}
+        else:
+            tagged = {"type": "ENVELOPE_TYPE_TX", "tx": env["v1"]["tx"]}
+        h = self.payload_hash(tagged).hex()
         for p in body["txProcessing"]:
             if p["result"]["transactionHash"] == h:
                 r = p["result"]["result"]
@@ -418,7 +438,84 @@ class Probes:
         sorted_map = {"type": "SCV_MAP", "map": list(reversed(unsorted["map"]))}
         invoke("map-keys-sorted", "Maps (`ScMap`)", "control: the same map with sorted keys", "balance",
                [sorted_map], "SCE_VALUE/SCEC_UNEXPECTED_TYPE", note="fails on the argument's type, not on key order")
+        self.transaction_checks(op)
         core.stop()
+
+    def transaction_checks(self, op):
+        """The fields the RFP's first rule names: signatures, sequence numbers, fees, time bounds."""
+        enc, core = self.enc, self.core
+        other = lc.Keys("guide probe other")
+        bump = op("BUMP_SEQUENCE", "bumpSequenceOp", {"bumpTo": 0})
+
+        def v2(**kw):
+            c = {"timeBounds": None, "ledgerBounds": None, "minSeqNum": None, "minSeqAge": 0,
+                 "minSeqLedgerGap": 0, "extraSigners": []}
+            c.update(kw)
+            return {"type": "PRECOND_V2", "v2": c}
+
+        # Signatures
+        sig = "Signatures"
+        t = self.tx([bump])
+        self.submit("signature-none", sig, "the source account's signers must sign", enc.encode(
+            "TransactionEnvelope", self.signed_by(t, [])), "rejected at submission: txBAD_AUTH")
+        self.submit("signature-not-a-signer", sig, "a key that is not a signer of the source does not count",
+                    enc.encode("TransactionEnvelope", self.signed_by(t, [other])), "rejected at submission: txBAD_AUTH")
+        self.submit("signature-extra-unused", sig, "every signature must be used",
+                    enc.encode("TransactionEnvelope", self.signed_by(t, [self.root, other])),
+                    "rejected at submission: txBAD_AUTH_EXTRA")
+        pubnet = hashlib.sha256(lc.PASSPHRASES["pubnet"].encode()).digest()
+        self.submit("signature-other-network", sig, "the signed hash covers the network passphrase",
+                    enc.encode("TransactionEnvelope", self.signed_by(t, [self.root], pubnet)),
+                    "rejected at submission: txBAD_AUTH", note="signed for the mainnet passphrase, sent to a testnet node")
+
+        # Sequence numbers
+        seq = "Sequence number"
+        t = lc.tx(self.root.muxed(), self.seq, [bump])
+        self.submit("seq-not-above-current", seq, "must be the account's sequence number plus one", self.sign(t),
+                    "rejected at submission: txBAD_SEQ", note="the account's current sequence number itself")
+        t = lc.tx(self.root.muxed(), self.seq + 2, [bump])
+        self.submit("seq-skips-one", seq, "must be the account's sequence number plus one", self.sign(t),
+                    "rejected at submission: txBAD_SEQ")
+        t = lc.tx(self.root.muxed(), self.seq + 3, [bump])
+        t["cond"] = v2(minSeqNum=self.seq)
+        rec = self.submit("seq-gap-with-min-seq-num", seq, "control: minSeqNum (CAP-21) allows a gap", self.sign(t),
+                          "accepted; when applied: txSUCCESS")
+        if rec["outcome"].startswith("accepted"):
+            self.seq += 2  # submit() counted one; the account is now at the probe's number
+
+        # Fees
+        fee = "Fee"
+        t = self.tx([bump], fee=99)
+        self.submit("fee-below-minimum", fee, "at least the base fee (100 stroops) per operation", self.sign(t),
+                    "rejected at submission: txINSUFFICIENT_FEE")
+        inner = self.signed_by(self.tx([bump], fee=100), [self.root])
+        self.submit("fee-bump-outer-below-minimum", fee,
+                    "a fee bump's fee covers the inner operations plus one at the base fee",
+                    self.fee_bump(inner, 199), "rejected at submission: txINSUFFICIENT_FEE",
+                    note="one inner operation: the outer fee must be at least 200")
+        inner = self.signed_by(self.tx([bump], fee=0), [self.root])
+        self.submit("fee-bump-inner-fee-zero", fee, "control: the inner transaction's own fee is not checked",
+                    self.fee_bump(inner, 200), "accepted; when applied: txFEE_BUMP_INNER_SUCCESS")
+
+        # Time bounds and the other preconditions
+        when = "Time bounds and other preconditions"
+        now = core.close_time
+        ledger = core.info()["ledger"]["num"]
+        t = self.tx([bump], cond={"type": "PRECOND_TIME", "timeBounds": {"minTime": 0, "maxTime": now - 1}})
+        self.submit("time-bounds-max-passed", when, "maxTime not before the close time", self.sign(t),
+                    "rejected at submission: txTOO_LATE")
+        t = self.tx([bump], cond={"type": "PRECOND_TIME", "timeBounds": {"minTime": now + 1_000_000_000, "maxTime": 0}})
+        self.submit("time-bounds-min-ahead", when, "minTime not after the close time", self.sign(t),
+                    "rejected at submission: txTOO_EARLY")
+        t = self.tx([bump], cond=v2(ledgerBounds={"minLedger": 0, "maxLedger": ledger}))
+        self.submit("ledger-bounds-max-passed", when, "the ledger is below maxLedger (exclusive)", self.sign(t),
+                    "rejected at submission: txTOO_LATE", note="maxLedger is the last closed ledger")
+        t = self.tx([bump], cond=v2(minSeqLedgerGap=1000))
+        self.submit("min-seq-ledger-gap-not-met", when, "minSeqLedgerGap ledgers since the sequence number changed",
+                    self.sign(t), "rejected at submission: txBAD_MIN_SEQ_AGE_OR_GAP")
+        t = self.tx([bump], cond=v2(minSeqAge=10 ** 12))
+        self.submit("min-seq-age-not-met", when, "minSeqAge seconds since the sequence number changed",
+                    self.sign(t), "rejected at submission: txBAD_MIN_SEQ_AGE_OR_GAP")
 
 
 def run_probes():

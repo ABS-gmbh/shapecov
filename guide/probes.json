@@ -327,6 +327,141 @@
    "note": "fails on the argument's type, not on key order",
    "outcome": "accepted; when applied: txFAILED / INVOKE_HOST_FUNCTION_TRAPPED (fee charged: 87442 stroops); host error: SCE_VALUE/SCEC_UNEXPECTED_TYPE",
    "agrees": true
+  },
+  {
+   "id": "signature-none",
+   "row": "Signatures",
+   "rule": "the source account's signers must sign",
+   "expect": "rejected at submission: txBAD_AUTH",
+   "note": "",
+   "outcome": "rejected at submission: txBAD_AUTH",
+   "agrees": true
+  },
+  {
+   "id": "signature-not-a-signer",
+   "row": "Signatures",
+   "rule": "a key that is not a signer of the source does not count",
+   "expect": "rejected at submission: txBAD_AUTH",
+   "note": "",
+   "outcome": "rejected at submission: txBAD_AUTH",
+   "agrees": true
+  },
+  {
+   "id": "signature-extra-unused",
+   "row": "Signatures",
+   "rule": "every signature must be used",
+   "expect": "rejected at submission: txBAD_AUTH_EXTRA",
+   "note": "",
+   "outcome": "rejected at submission: txBAD_AUTH_EXTRA",
+   "agrees": true
+  },
+  {
+   "id": "signature-other-network",
+   "row": "Signatures",
+   "rule": "the signed hash covers the network passphrase",
+   "expect": "rejected at submission: txBAD_AUTH",
+   "note": "signed for the mainnet passphrase, sent to a testnet node",
+   "outcome": "rejected at submission: txBAD_AUTH",
+   "agrees": true
+  },
+  {
+   "id": "seq-not-above-current",
+   "row": "Sequence number",
+   "rule": "must be the account's sequence number plus one",
+   "expect": "rejected at submission: txBAD_SEQ",
+   "note": "the account's current sequence number itself",
+   "outcome": "rejected at submission: txBAD_SEQ",
+   "agrees": true
+  },
+  {
+   "id": "seq-skips-one",
+   "row": "Sequence number",
+   "rule": "must be the account's sequence number plus one",
+   "expect": "rejected at submission: txBAD_SEQ",
+   "note": "",
+   "outcome": "rejected at submission: txBAD_SEQ",
+   "agrees": true
+  },
+  {
+   "id": "seq-gap-with-min-seq-num",
+   "row": "Sequence number",
+   "rule": "control: minSeqNum (CAP-21) allows a gap",
+   "expect": "accepted; when applied: txSUCCESS",
+   "note": "",
+   "outcome": "accepted; when applied: txSUCCESS / BUMP_SEQUENCE_SUCCESS (fee charged: 100 stroops)",
+   "agrees": true
+  },
+  {
+   "id": "fee-below-minimum",
+   "row": "Fee",
+   "rule": "at least the base fee (100 stroops) per operation",
+   "expect": "rejected at submission: txINSUFFICIENT_FEE",
+   "note": "",
+   "outcome": "rejected at submission: txINSUFFICIENT_FEE",
+   "agrees": true
+  },
+  {
+   "id": "fee-bump-outer-below-minimum",
+   "row": "Fee",
+   "rule": "a fee bump's fee covers the inner operations plus one at the base fee",
+   "expect": "rejected at submission: txINSUFFICIENT_FEE",
+   "note": "one inner operation: the outer fee must be at least 200",
+   "outcome": "rejected at submission: txINSUFFICIENT_FEE",
+   "agrees": true
+  },
+  {
+   "id": "fee-bump-inner-fee-zero",
+   "row": "Fee",
+   "rule": "control: the inner transaction's own fee is not checked",
+   "expect": "accepted; when applied: txFEE_BUMP_INNER_SUCCESS",
+   "note": "",
+   "outcome": "accepted; when applied: txFEE_BUMP_INNER_SUCCESS / txSUCCESS / BUMP_SEQUENCE_SUCCESS (fee charged: 200 stroops)",
+   "agrees": true
+  },
+  {
+   "id": "time-bounds-max-passed",
+   "row": "Time bounds and other preconditions",
+   "rule": "maxTime not before the close time",
+   "expect": "rejected at submission: txTOO_LATE",
+   "note": "",
+   "outcome": "rejected at submission: txTOO_LATE",
+   "agrees": true
+  },
+  {
+   "id": "time-bounds-min-ahead",
+   "row": "Time bounds and other preconditions",
+   "rule": "minTime not after the close time",
+   "expect": "rejected at submission: txTOO_EARLY",
+   "note": "",
+   "outcome": "rejected at submission: txTOO_EARLY",
+   "agrees": true
+  },
+  {
+   "id": "ledger-bounds-max-passed",
+   "row": "Time bounds and other preconditions",
+   "rule": "the ledger is below maxLedger (exclusive)",
+   "expect": "rejected at submission: txTOO_LATE",
+   "note": "maxLedger is the last closed ledger",
+   "outcome": "rejected at submission: txTOO_LATE",
+   "agrees": true
+  },
+  {
+   "id": "min-seq-ledger-gap-not-met",
+   "row": "Time bounds and other preconditions",
+   "rule": "minSeqLedgerGap ledgers since the sequence number changed",
+   "expect": "rejected at submission: txBAD_MIN_SEQ_AGE_OR_GAP",
+   "note": "",
+   "outcome": "rejected at submission: txBAD_MIN_SEQ_AGE_OR_GAP",
+   "agrees": true
+  },
+  {
+   "id": "min-seq-age-not-met",
+   "row": "Time bounds and other preconditions",
+   "rule": "minSeqAge seconds since the sequence number changed",
+   "expect": "rejected at submission: txBAD_MIN_SEQ_AGE_OR_GAP",
+   "note": "",
+   "outcome": "rejected at submission: txBAD_MIN_SEQ_AGE_OR_GAP",
+   "agrees": true
   }
  ]
 }

@@ -1,80 +1,419 @@
 {
  "note": "For every row of the guide's section 1 tables, the evidence from stellar-core itself for each side of the row. 'probes' are ids in guide/probes.json: a transaction submitted to a local stellar-core 30.0.0 at protocol 30 (guide/probe_core.py). 'corpus' are corpus patterns: ledgers that stellar-core closed (network history, core's golden files or a local core), so core accepted that shape. 'citation_only' gives the reason a side has only the source citation in the guide. 'nothing_claimed' marks a side whose cell is empty. guide/check_guide.py checks this file against the guide, the probes and the corpus, and renders the guide's verdict table from it.",
  "rows": [
-  {"field": "Memo text",
-   "checked": {"probes": ["memo-text-29-bytes", "memo-on-contract-invocation"]},
-   "not_checked": {"corpus": ["memo-text-not-utf8"]}},
-  {"field": "Memo ID, hash, return",
-   "checked": {"citation_only": "the XDR shape is the only check; there is no further rule to break"},
-   "not_checked": {"citation_only": "no corpus pattern for unusual memo IDs or hashes yet"}},
-  {"field": "Muxed account (source, destination, fee source)",
-   "checked": {"citation_only": "the rule concerns protocols before 13, which the probes do not run"},
-   "not_checked": {"corpus": ["muxed-id-zero", "muxed-id-beyond-f64", "muxed-id-max"]}},
-  {"field": "Muxed source of a contract invocation",
-   "checked": {"probes": ["muxed-source-contract-invocation"]},
-   "not_checked": {"corpus": ["soroban-op-muxed-source"]}},
-  {"field": "Signed-payload signer (`SetOptions` signer, `extraSigners`)",
-   "checked": {"probes": ["signed-payload-signer-empty", "signed-payload-signer-65-bytes", "extra-signers-repeated", "extra-signers-three"]},
-   "not_checked": {"corpus": ["signed-payload-signer", "signed-payload-max-length", "signed-payload-needs-padding"]}},
-  {"field": "`ManageData` name",
-   "checked": {"probes": ["manage-data-name-control-char", "manage-data-name-empty"]},
-   "not_checked": {"nothing_claimed": true}},
-  {"field": "`ManageData` value",
-   "checked": {"probes": ["manage-data-value-65-bytes"]},
-   "not_checked": {"probes": ["manage-data-value-any-bytes"]}},
-  {"field": "Home domain",
-   "checked": {"probes": ["home-domain-control-char", "home-domain-33-bytes"]},
-   "not_checked": {"probes": ["home-domain-not-a-domain"]}},
-  {"field": "Asset code",
-   "checked": {"probes": ["asset-code-punctuation", "asset-code-nul-inside"]},
-   "not_checked": {"citation_only": "whether the issuer exists is checked by some operations when they are applied and not by others; no single probe settles the claim"}},
-  {"field": "Liquidity-pool asset pair",
-   "checked": {"probes": ["pool-pair-in-strkey-order", "pool-pair-in-byte-order"]},
-   "not_checked": {"probes": ["pool-pair-in-strkey-order", "pool-pair-in-byte-order"], "corpus": ["pool-issuers-order-differs-strkey-vs-bytes"]}},
-  {"field": "Claim predicates and claimants",
-   "checked": {"probes": ["claim-predicate-4-levels", "claim-predicate-5-levels", "claimant-repeated"]},
-   "not_checked": {"probes": ["claim-predicate-4-levels"]}},
-  {"field": "Path payment path",
-   "checked": {"probes": ["path-6-hops"]},
-   "not_checked": {"probes": ["path-repeated-hops"]}},
-  {"field": "Operations per transaction",
-   "checked": {"probes": ["operations-none", "operations-101"], "corpus": ["operations-at-max-100"]},
-   "not_checked": {"nothing_claimed": true}},
-  {"field": "Signatures per envelope",
-   "checked": {"probes": ["signatures-21"], "corpus": ["signatures-at-max-20"]},
-   "not_checked": {"nothing_claimed": true}},
-  {"field": "Offer ID",
-   "checked": {"probes": ["offer-id-negative"]},
-   "not_checked": {"corpus": ["offer-id-beyond-f64"]}},
-  {"field": "Destination and operation-source accounts",
-   "checked": {"probes": ["payment-to-missing-account"]},
-   "not_checked": {"probes": ["payment-to-missing-account"], "corpus": ["failed-transaction"]}},
-  {"field": "Nesting of contract values (`ScVal`)",
-   "checked": {"probes": ["scval-arg-2-levels", "scval-arg-100-levels", "scval-arg-101-levels"]},
-   "not_checked": {"citation_only": "the limit for arguments of a transaction that fails before the host converts them is not probed"}},
-  {"field": "Contract strings (`ScString`)",
-   "checked": {"citation_only": "the length limit is the XDR maximum, not probed separately"},
-   "not_checked": {"probes": ["string-arg-not-utf8"]}},
-  {"field": "Symbols (`ScSymbol`)",
-   "checked": {"probes": ["symbol-invalid-char"]},
-   "not_checked": {"nothing_claimed": true}},
-  {"field": "Maps (`ScMap`)",
-   "checked": {"probes": ["map-keys-unsorted", "map-keys-sorted"], "corpus": ["scmap-mixed-key-types"]},
-   "not_checked": {"corpus": ["scmap-keys-collide-as-text"]}},
-  {"field": "Integers",
-   "checked": {"citation_only": "the XDR shape is the only check"},
-   "not_checked": {"corpus": ["scval-int64-beyond-f64", "scval-wide-integer"]}},
-  {"field": "Authorization entries",
-   "checked": {"citation_only": "signature checks and nonce consumption are not probed"},
-   "not_checked": {"corpus": ["auth-nested-invocations", "auth-tree-4-deep"]}},
-  {"field": "Addresses in contract values",
-   "checked": {"citation_only": "the storage-key restriction is not probed; the corpus shows only the permitted half, muxed addresses as values", "corpus": ["scaddress-muxed-account", "scaddress-muxed-id-beyond-f64", "scaddress-muxed-contract"]},
-   "not_checked": {"nothing_claimed": true}},
-  {"field": "Accounts and trustlines created by a contract",
-   "checked": {"corpus": ["soroban-created-trustline", "soroban-created-account"]},
-   "not_checked": {"corpus": ["soroban-created-trustline", "soroban-created-account"]}},
-  {"field": "Failed contract invocation",
-   "checked": {"probes": ["scval-arg-101-levels", "map-keys-unsorted"], "corpus": ["failed-soroban-transaction"]},
-   "not_checked": {"nothing_claimed": true}}
+  {
+   "field": "Signatures",
+   "checked": {
+    "probes": [
+     "signature-none",
+     "signature-not-a-signer",
+     "signature-extra-unused",
+     "signature-other-network"
+    ],
+    "corpus": [
+     "tx-bad-auth-at-apply",
+     "tx-bad-auth-extra-at-apply",
+     "op-bad-auth-at-apply"
+    ]
+   },
+   "not_checked": {
+    "citation_only": "a hash(x) signer is not probed: the preimage rule is a SHA-256 comparison of arbitrary bytes"
+   }
+  },
+  {
+   "field": "Sequence number",
+   "checked": {
+    "probes": [
+     "seq-not-above-current",
+     "seq-skips-one",
+     "seq-gap-with-min-seq-num"
+    ],
+    "corpus": [
+     "tx-bad-seq-at-apply"
+    ]
+   },
+   "not_checked": {
+    "probes": [
+     "seq-gap-with-min-seq-num"
+    ]
+   }
+  },
+  {
+   "field": "Fee",
+   "checked": {
+    "probes": [
+     "fee-below-minimum",
+     "fee-bump-outer-below-minimum"
+    ]
+   },
+   "not_checked": {
+    "probes": [
+     "fee-bump-inner-fee-zero"
+    ],
+    "corpus": [
+     "failed-transaction"
+    ]
+   }
+  },
+  {
+   "field": "Time bounds and other preconditions",
+   "checked": {
+    "probes": [
+     "time-bounds-max-passed",
+     "time-bounds-min-ahead",
+     "ledger-bounds-max-passed",
+     "min-seq-ledger-gap-not-met",
+     "min-seq-age-not-met"
+    ],
+    "corpus": [
+     "tx-bad-min-seq-age-or-gap-at-apply"
+    ]
+   },
+   "not_checked": {
+    "citation_only": "a transaction with no bounds is the ordinary case; every probe transaction without a precondition is one"
+   }
+  },
+  {
+   "field": "Memo text",
+   "checked": {
+    "probes": [
+     "memo-text-29-bytes",
+     "memo-on-contract-invocation"
+    ]
+   },
+   "not_checked": {
+    "corpus": [
+     "memo-text-not-utf8"
+    ]
+   }
+  },
+  {
+   "field": "Memo ID, hash, return",
+   "checked": {
+    "citation_only": "the XDR shape is the only check; there is no further rule to break"
+   },
+   "not_checked": {
+    "citation_only": "no corpus pattern for unusual memo IDs or hashes yet"
+   }
+  },
+  {
+   "field": "Muxed account (source, destination, fee source)",
+   "checked": {
+    "citation_only": "the rule concerns protocols before 13, which the probes do not run"
+   },
+   "not_checked": {
+    "corpus": [
+     "muxed-id-zero",
+     "muxed-id-beyond-f64",
+     "muxed-id-max"
+    ]
+   }
+  },
+  {
+   "field": "Muxed source of a contract invocation",
+   "checked": {
+    "probes": [
+     "muxed-source-contract-invocation"
+    ]
+   },
+   "not_checked": {
+    "corpus": [
+     "soroban-op-muxed-source"
+    ]
+   }
+  },
+  {
+   "field": "Signed-payload signer (`SetOptions` signer, `extraSigners`)",
+   "checked": {
+    "probes": [
+     "signed-payload-signer-empty",
+     "signed-payload-signer-65-bytes",
+     "extra-signers-repeated",
+     "extra-signers-three"
+    ]
+   },
+   "not_checked": {
+    "corpus": [
+     "signed-payload-signer",
+     "signed-payload-max-length",
+     "signed-payload-needs-padding"
+    ]
+   }
+  },
+  {
+   "field": "`ManageData` name",
+   "checked": {
+    "probes": [
+     "manage-data-name-control-char",
+     "manage-data-name-empty"
+    ]
+   },
+   "not_checked": {
+    "nothing_claimed": true
+   }
+  },
+  {
+   "field": "`ManageData` value",
+   "checked": {
+    "probes": [
+     "manage-data-value-65-bytes"
+    ]
+   },
+   "not_checked": {
+    "probes": [
+     "manage-data-value-any-bytes"
+    ]
+   }
+  },
+  {
+   "field": "Home domain",
+   "checked": {
+    "probes": [
+     "home-domain-control-char",
+     "home-domain-33-bytes"
+    ]
+   },
+   "not_checked": {
+    "probes": [
+     "home-domain-not-a-domain"
+    ]
+   }
+  },
+  {
+   "field": "Asset code",
+   "checked": {
+    "probes": [
+     "asset-code-punctuation",
+     "asset-code-nul-inside"
+    ]
+   },
+   "not_checked": {
+    "citation_only": "whether the issuer exists is checked by some operations when they are applied and not by others; no single probe settles the claim"
+   }
+  },
+  {
+   "field": "Liquidity-pool asset pair",
+   "checked": {
+    "probes": [
+     "pool-pair-in-strkey-order",
+     "pool-pair-in-byte-order"
+    ]
+   },
+   "not_checked": {
+    "probes": [
+     "pool-pair-in-strkey-order",
+     "pool-pair-in-byte-order"
+    ],
+    "corpus": [
+     "pool-issuers-order-differs-strkey-vs-bytes"
+    ]
+   }
+  },
+  {
+   "field": "Claim predicates and claimants",
+   "checked": {
+    "probes": [
+     "claim-predicate-4-levels",
+     "claim-predicate-5-levels",
+     "claimant-repeated"
+    ]
+   },
+   "not_checked": {
+    "probes": [
+     "claim-predicate-4-levels"
+    ]
+   }
+  },
+  {
+   "field": "Path payment path",
+   "checked": {
+    "probes": [
+     "path-6-hops"
+    ]
+   },
+   "not_checked": {
+    "probes": [
+     "path-repeated-hops"
+    ]
+   }
+  },
+  {
+   "field": "Operations per transaction",
+   "checked": {
+    "probes": [
+     "operations-none",
+     "operations-101"
+    ],
+    "corpus": [
+     "operations-at-max-100"
+    ]
+   },
+   "not_checked": {
+    "nothing_claimed": true
+   }
+  },
+  {
+   "field": "Signatures per envelope",
+   "checked": {
+    "probes": [
+     "signatures-21"
+    ],
+    "corpus": [
+     "signatures-at-max-20"
+    ]
+   },
+   "not_checked": {
+    "nothing_claimed": true
+   }
+  },
+  {
+   "field": "Offer ID",
+   "checked": {
+    "probes": [
+     "offer-id-negative"
+    ]
+   },
+   "not_checked": {
+    "corpus": [
+     "offer-id-beyond-f64"
+    ]
+   }
+  },
+  {
+   "field": "Destination and operation-source accounts",
+   "checked": {
+    "probes": [
+     "payment-to-missing-account"
+    ]
+   },
+   "not_checked": {
+    "probes": [
+     "payment-to-missing-account"
+    ],
+    "corpus": [
+     "failed-transaction"
+    ]
+   }
+  },
+  {
+   "field": "Nesting of contract values (`ScVal`)",
+   "checked": {
+    "probes": [
+     "scval-arg-2-levels",
+     "scval-arg-100-levels",
+     "scval-arg-101-levels"
+    ]
+   },
+   "not_checked": {
+    "citation_only": "the limit for arguments of a transaction that fails before the host converts them is not probed"
+   }
+  },
+  {
+   "field": "Contract strings (`ScString`)",
+   "checked": {
+    "citation_only": "the length limit is the XDR maximum, not probed separately"
+   },
+   "not_checked": {
+    "probes": [
+     "string-arg-not-utf8"
+    ]
+   }
+  },
+  {
+   "field": "Symbols (`ScSymbol`)",
+   "checked": {
+    "probes": [
+     "symbol-invalid-char"
+    ]
+   },
+   "not_checked": {
+    "nothing_claimed": true
+   }
+  },
+  {
+   "field": "Maps (`ScMap`)",
+   "checked": {
+    "probes": [
+     "map-keys-unsorted",
+     "map-keys-sorted"
+    ],
+    "corpus": [
+     "scmap-mixed-key-types"
+    ]
+   },
+   "not_checked": {
+    "corpus": [
+     "scmap-keys-collide-as-text"
+    ]
+   }
+  },
+  {
+   "field": "Integers",
+   "checked": {
+    "citation_only": "the XDR shape is the only check"
+   },
+   "not_checked": {
+    "corpus": [
+     "scval-int64-beyond-f64",
+     "scval-wide-integer"
+    ]
+   }
+  },
+  {
+   "field": "Authorization entries",
+   "checked": {
+    "citation_only": "signature checks and nonce consumption are not probed"
+   },
+   "not_checked": {
+    "corpus": [
+     "auth-nested-invocations",
+     "auth-tree-4-deep"
+    ]
+   }
+  },
+  {
+   "field": "Addresses in contract values",
+   "checked": {
+    "citation_only": "the storage-key restriction is not probed; the corpus shows only the permitted half, muxed addresses as values",
+    "corpus": [
+     "scaddress-muxed-account",
+     "scaddress-muxed-id-beyond-f64",
+     "scaddress-muxed-contract"
+    ]
+   },
+   "not_checked": {
+    "nothing_claimed": true
+   }
+  },
+  {
+   "field": "Accounts and trustlines created by a contract",
+   "checked": {
+    "corpus": [
+     "soroban-created-trustline",
+     "soroban-created-account"
+    ]
+   },
+   "not_checked": {
+    "corpus": [
+     "soroban-created-trustline",
+     "soroban-created-account"
+    ]
+   }
+  },
+  {
+   "field": "Failed contract invocation",
+   "checked": {
+    "probes": [
+     "scval-arg-101-levels",
+     "map-keys-unsorted"
+    ],
+    "corpus": [
+     "failed-soroban-transaction"
+    ]
+   },
+   "not_checked": {
+    "nothing_claimed": true
+   }
+  }
  ]
 }
