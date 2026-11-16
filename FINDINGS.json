@@ -1,0 +1,648 @@
+{
+ "note": "One record per finding, in the form the RFP asks for: issue link, minimal reproducing entry, severity, component affected and affected CAP. The table at the top of FINDINGS.md is generated from this file by .github/scripts/check_findings.py --write; the RFP check 6 job fails if a record lacks a field, a reproduction does not exist, or a failure in the recorded replays maps to no record. 'rfp_sighting' is the sighting's row in harness/sightings/README.md. 'labels' are the names the replay harness gives a failure (adapters/<name>/known.json, sightings.json).",
+ "severity_scale": [
+  {
+   "level": "S1",
+   "name": "halts or rejects valid data",
+   "meaning": "Valid ledger data stops an indexer, an export or an SDK, or a decoder rejects a valid value."
+  },
+  {
+   "level": "S2",
+   "name": "wrong or missing data",
+   "meaning": "Valid data is stored, exported or converted wrongly, or not at all, with no error."
+  },
+  {
+   "level": "S3",
+   "name": "accepts non-canonical input",
+   "meaning": "A decoder accepts bytes that stellar-core rejects, or reads them differently, so one value has several encodings."
+  },
+  {
+   "level": "S4",
+   "name": "hardening",
+   "meaning": "Nothing is wrong at today's limits; a bound or check depends on limits outside the component."
+  }
+ ],
+ "kinds": {
+  "found": "found by ShapeCov and filed by us",
+  "confirmed": "reported first by others; ShapeCov's tools reproduce it",
+  "sighting": "one of the RFP's sightings, reproduced before its fix and passing after",
+  "linter": "a finding of the linter on wallet-backend, accepted with a reason"
+ },
+ "findings": [
+  {
+   "id": "J1",
+   "kind": "found",
+   "title": "Decoding accepts trailing bytes after a value",
+   "component": "java-stellar-sdk: XDR decoding (fromXdrBase64, fromXdrByteArray)",
+   "severity": "S3",
+   "caps": [],
+   "caps_none_reason": "codec level, an RFC 4506 rule, not a CAP",
+   "reproduction": {
+    "generated_case": "Memo/trailing0",
+    "runner": "java"
+   },
+   "upstream": [
+    "https://github.com/lightsail-network/java-stellar-sdk/issues/833"
+   ],
+   "first_reported_by": "ShapeCov",
+   "reported": "2026-11-14",
+   "status": "fixed on master by the maintainer (#842, 2026-11-16), not released; 6.0.0 accepts all 954 trailing-byte cases",
+   "labels": []
+  },
+  {
+   "id": "P1",
+   "kind": "found",
+   "title": "Decoding accepts non-zero XDR padding",
+   "component": "py-stellar-base 17.0.1: stellar_sdk.xdr",
+   "severity": "S3",
+   "caps": [],
+   "caps_none_reason": "codec level, an RFC 4506 rule, not a CAP",
+   "reproduction": {
+    "generated_case": "string64/pad_nonzero1",
+    "runner": "python"
+   },
+   "upstream": [
+    "https://github.com/StellarCN/py-stellar-base/issues/1262"
+   ],
+   "first_reported_by": "ShapeCov",
+   "reported": "2026-11-14",
+   "status": "closed 2026-11-16: fixed in the replacement package stellar-xdr; the released SDK 17.0.1 still has it",
+   "labels": []
+  },
+  {
+   "id": "P2",
+   "kind": "found",
+   "title": "Decoding treats any non-zero optional flag as present",
+   "component": "py-stellar-base 17.0.1: stellar_sdk.xdr",
+   "severity": "S3",
+   "caps": [],
+   "caps_none_reason": "codec level, an RFC 4506 rule, not a CAP",
+   "reproduction": {
+    "generated_case": "ManageDataOp/opt_flag_not_011",
+    "runner": "python"
+   },
+   "upstream": [
+    "https://github.com/StellarCN/py-stellar-base/issues/1263"
+   ],
+   "first_reported_by": "ShapeCov",
+   "reported": "2026-11-14",
+   "status": "closed 2026-11-16: fixed in the replacement package stellar-xdr; the released SDK 17.0.1 still has it",
+   "labels": []
+  },
+  {
+   "id": "E1",
+   "kind": "found",
+   "title": "export_token_transfer fails on ledgers whose TransactionMeta is older than v4",
+   "component": "stellar-etl: export_token_transfer (internal/transform/token_transfer.go)",
+   "severity": "S1",
+   "severity_note": "narrow: only sources with v1 to v3 meta (old or never-regenerated data lakes, local networks, older captive core); SDF's datastore serves v4 meta for old ledgers and is not affected",
+   "caps": [
+    "CAP-0067"
+   ],
+   "reproduction": {
+    "corpus_entry": "localcore-classic-p22-3"
+   },
+   "upstream": [
+    "https://github.com/stellar/stellar-etl/issues/512"
+   ],
+   "first_reported_by": "ShapeCov",
+   "reported": "2026-11-15",
+   "status": "open; impact corrected on the issue 2026-11-16; a fix with a regression test is ready on a branch, awaiting issue acceptance",
+   "labels": [
+    "stellar/stellar-etl#512"
+   ]
+  },
+  {
+   "id": "E2",
+   "kind": "found",
+   "title": "A revocation that redeems pool shares in two pools gets one liquidity_pool_revoked, citing the other pool's balance",
+   "component": "stellar-etl: export_effects (addLiquidityPoolRevokedEffect); Horizon has the same code",
+   "severity": "S2",
+   "caps": [
+    "CAP-0038"
+   ],
+   "reproduction": {
+    "corpus_entry": "localcore-pool-revoke-two-pools-7"
+   },
+   "upstream": [
+    "https://github.com/stellar/stellar-etl/issues/513"
+   ],
+   "first_reported_by": "ShapeCov",
+   "reported": "2026-11-15",
+   "status": "open",
+   "labels": [
+    "stellar/stellar-etl#513"
+   ]
+  },
+  {
+   "id": "E3",
+   "kind": "found",
+   "title": "Pool-share trustlines removed by a revocation get no trustline_removed effect",
+   "component": "stellar-etl: export_effects; Horizon has the same code",
+   "severity": "S2",
+   "caps": [
+    "CAP-0038"
+   ],
+   "reproduction": {
+    "corpus_entry": "localcore-pool-revoke-two-pools-7"
+   },
+   "upstream": [
+    "https://github.com/stellar/stellar-etl/issues/514"
+   ],
+   "first_reported_by": "ShapeCov",
+   "reported": "2026-11-15",
+   "status": "open",
+   "labels": [
+    "stellar/stellar-etl#514"
+   ]
+  },
+  {
+   "id": "C1",
+   "kind": "confirmed",
+   "title": "An account created by XLM sent through the native asset contract gets no ACCOUNT CREATE state change",
+   "component": "wallet-backend: state changes (token_transfer processor)",
+   "severity": "S2",
+   "caps": [
+    "CAP-0073"
+   ],
+   "reproduction": {
+    "corpus_entry": "golden-invokehostfunction-692fdd0e-17"
+   },
+   "upstream": [
+    "https://github.com/stellar/wallet-backend/issues/804",
+    "https://github.com/stellar/wallet-backend/issues/816"
+   ],
+   "first_reported_by": "tolgayayci (#804, 2026-11-13); then ErenTopaal (shapekit project, #816)",
+   "reported": "2026-11-13",
+   "status": "open",
+   "labels": [
+    "stellar/wallet-backend#816"
+   ]
+  },
+  {
+   "id": "C2",
+   "kind": "confirmed",
+   "title": "Contract deployments that no auth entry declares get no ACCOUNT CREATE state change",
+   "component": "wallet-backend: state changes (ContractDeployProcessor)",
+   "severity": "S2",
+   "caps": [
+    "CAP-0046"
+   ],
+   "reproduction": {
+    "corpus_entry": "localcore-muxed-source-p22-3"
+   },
+   "upstream": [
+    "https://github.com/stellar/wallet-backend/issues/806",
+    "https://github.com/stellar/wallet-backend/issues/815"
+   ],
+   "first_reported_by": "tolgayayci (#806, factory deploys, 2026-11-13); ErenTopaal (shapekit project, #815, factory and asset-contract deploys)",
+   "reported": "2026-11-13",
+   "status": "open",
+   "labels": [
+    "stellar/wallet-backend#815"
+   ]
+  },
+  {
+   "id": "C3",
+   "kind": "confirmed",
+   "title": "A pool-share trustline removed by a revocation gets no TRUSTLINE REMOVE state change",
+   "component": "wallet-backend: state changes",
+   "severity": "S2",
+   "caps": [
+    "CAP-0038"
+   ],
+   "reproduction": {
+    "corpus_entry": "localcore-pool-revoke-two-pools-7"
+   },
+   "upstream": [
+    "https://github.com/stellar/wallet-backend/issues/817"
+   ],
+   "first_reported_by": "ErenTopaal (shapekit project)",
+   "reported": "2026-11-15",
+   "status": "open",
+   "labels": [
+    "stellar/wallet-backend#817"
+   ]
+  },
+  {
+   "id": "C4",
+   "kind": "confirmed",
+   "title": "Effects export misses account_created and trustline_created made by the asset contract",
+   "component": "stellar-etl: export_effects",
+   "severity": "S2",
+   "caps": [
+    "CAP-0073"
+   ],
+   "reproduction": {
+    "corpus_entry": "localcore-sac-trust-p28-5"
+   },
+   "upstream": [
+    "https://github.com/stellar/stellar-etl/issues/460"
+   ],
+   "first_reported_by": "chowbao (stellar-etl maintainer)",
+   "reported": "2026-07-04",
+   "status": "open",
+   "labels": [
+    "stellar/stellar-etl#460"
+   ],
+   "rfp_sighting": 9
+  },
+  {
+   "id": "C5",
+   "kind": "confirmed",
+   "title": "Token transfer export fabricates a muxed destination with ID 0 for memo payments",
+   "component": "stellar-etl: export_token_transfer (to_muxed)",
+   "severity": "S2",
+   "severity_note": "confirmed after reading the issue, not found blind",
+   "caps": [
+    "CAP-0067"
+   ],
+   "reproduction": {
+    "corpus_entry": "localcore-memo-and-offer-p30-4"
+   },
+   "upstream": [
+    "https://github.com/stellar/stellar-etl/issues/450"
+   ],
+   "first_reported_by": "chowbao (stellar-etl maintainer)",
+   "reported": "2026-07-04",
+   "status": "open",
+   "labels": [
+    "stellar/stellar-etl#450"
+   ]
+  },
+  {
+   "id": "C6",
+   "kind": "confirmed",
+   "title": "A bool word other than 0 or 1 decodes as false (stellar-core reads it as true)",
+   "component": "rs-stellar-xdr: bool decoding",
+   "severity": "S3",
+   "caps": [],
+   "caps_none_reason": "codec level, an RFC 4506 rule, not a CAP",
+   "reproduction": {
+    "generated_case": "EvictionIterator/bool_not_010",
+    "runner": "rust"
+   },
+   "upstream": [
+    "https://github.com/stellar/rs-stellar-xdr/issues/622"
+   ],
+   "first_reported_by": "tolgayayci",
+   "reported": "2026-11-13",
+   "status": "open",
+   "labels": []
+  },
+  {
+   "id": "C7",
+   "kind": "confirmed",
+   "title": "SafeUnmarshalBase64 accepts 1 or 2 trailing bytes",
+   "component": "go-stellar-sdk: xdr",
+   "severity": "S3",
+   "caps": [],
+   "caps_none_reason": "codec level, an RFC 4506 rule, not a CAP",
+   "reproduction": {
+    "generated_case": "Value/trailing1",
+    "runner": "go"
+   },
+   "upstream": [
+    "https://github.com/stellar/go-stellar-sdk/issues/6039"
+   ],
+   "first_reported_by": "kasbsquall",
+   "reported": "2026-11-13",
+   "status": "open; fix PR #6041 open",
+   "labels": []
+  },
+  {
+   "id": "C8",
+   "kind": "confirmed",
+   "title": "Out-of-range offer and muxed IDs are serialized modulo 2^64",
+   "component": "py-stellar-base 17.0.1: transaction building",
+   "severity": "S2",
+   "caps": [],
+   "caps_none_reason": "SDK input conversion, not a protocol shape",
+   "reproduction": {
+    "corpus_entry": "synthetic-ids-beyond-f64"
+   },
+   "upstream": [
+    "https://github.com/StellarCN/py-stellar-base/issues/1251"
+   ],
+   "first_reported_by": "kasbsquall",
+   "reported": "2026-11-13",
+   "status": "fixed on main by #1253 (2026-11-14), not released; 17.0.1 still has it",
+   "labels": []
+  },
+  {
+   "id": "C9",
+   "kind": "confirmed",
+   "title": "scval.to_native drops map entries whose keys collide (u32 1 and i64 1 in a host-written map)",
+   "component": "py-stellar-base 17.0.1: scval",
+   "severity": "S2",
+   "caps": [
+    "CAP-0046-01"
+   ],
+   "reproduction": {
+    "corpus_entry": "testnet-5712621"
+   },
+   "upstream": [
+    "https://github.com/StellarCN/py-stellar-base/issues/1250"
+   ],
+   "first_reported_by": "kasbsquall",
+   "reported": "2026-11-13",
+   "status": "fixed on main by #1252 (2026-11-16), not released; 17.0.1 still has it",
+   "labels": []
+  },
+  {
+   "id": "R1",
+   "kind": "sighting",
+   "title": "Signed-payload signers halt ingestion",
+   "component": "wallet-backend: ingestion",
+   "severity": "S1",
+   "caps": [
+    "CAP-0040"
+   ],
+   "reproduction": {
+    "corpus_entry": "testnet-4437357-signed-payload-signer"
+   },
+   "upstream": [
+    "https://github.com/stellar/wallet-backend/pull/729"
+   ],
+   "first_reported_by": "aditya1702 (wallet-backend maintainer)",
+   "reported": "2026-09-03",
+   "status": "fixed (2026-09-08)",
+   "labels": [
+    "stellar/wallet-backend#729"
+   ],
+   "rfp_sighting": 3
+  },
+  {
+   "id": "R2",
+   "kind": "sighting",
+   "title": "Trustlines created by the asset contract get no state change",
+   "component": "wallet-backend: state changes",
+   "severity": "S2",
+   "caps": [
+    "CAP-0073"
+   ],
+   "reproduction": {
+    "corpus_entry": "localcore-sac-trust-p28-5"
+   },
+   "upstream": [
+    "https://github.com/stellar/wallet-backend/issues/731"
+   ],
+   "first_reported_by": "aristidesstaffieri",
+   "reported": "2026-09-04",
+   "status": "fixed (2026-09-17)",
+   "labels": [
+    "stellar/wallet-backend#731"
+   ],
+   "rfp_sighting": 2
+  },
+  {
+   "id": "R3",
+   "kind": "sighting",
+   "title": "Muxed and signed-payload addresses stored truncated",
+   "component": "wallet-backend: AddressBytea",
+   "severity": "S2",
+   "caps": [
+    "CAP-0027",
+    "CAP-0040"
+   ],
+   "reproduction": {
+    "corpus_entry": "localcore-muxed-source-p22-3",
+    "also": [
+     "testnet-4437357-signed-payload-signer"
+    ]
+   },
+   "upstream": [
+    "https://github.com/stellar/wallet-backend/issues/716"
+   ],
+   "first_reported_by": "aditya1702 (wallet-backend maintainer)",
+   "reported": "2026-08-27",
+   "status": "fixed (2026-09-18)",
+   "labels": [
+    "stellar/wallet-backend#716 (muxed)",
+    "stellar/wallet-backend#716 (signed payload)"
+   ],
+   "rfp_sighting": 8
+  },
+  {
+   "id": "R4",
+   "kind": "sighting",
+   "title": "A contract call from a muxed source halts ingestion on a duplicate key",
+   "component": "wallet-backend: ingestion (participants)",
+   "severity": "S1",
+   "caps": [
+    "CAP-0027"
+   ],
+   "reproduction": {
+    "corpus_entry": "localcore-muxed-source-p22-3"
+   },
+   "upstream": [
+    "https://github.com/stellar/wallet-backend/pull/753"
+   ],
+   "first_reported_by": "aditya1702 (wallet-backend maintainer)",
+   "reported": "2026-09-25",
+   "status": "fixed (2026-09-25)",
+   "labels": [
+    "#693 side effect: duplicate key"
+   ],
+   "rfp_sighting": 10
+  },
+  {
+   "id": "R5",
+   "kind": "sighting",
+   "title": "A valid liquidity-pool pair rejected: issuers ordered as strkey text, not key bytes",
+   "component": "js-stellar-sdk: asset ordering and ScVal map keys",
+   "severity": "S1",
+   "caps": [
+    "CAP-0038",
+    "CAP-0046-01"
+   ],
+   "reproduction": {
+    "corpus_entry": "testnet-5708889",
+    "also": [
+     "testnet-5712621"
+    ]
+   },
+   "upstream": [
+    "https://github.com/stellar/js-stellar-sdk/pull/1766"
+   ],
+   "first_reported_by": "Ryang-21 (js-stellar-sdk maintainer)",
+   "reported": "2026-10-01",
+   "status": "fixed in 17.2.1; 16.4.1 has the pool half of the fix but still mishandles the map keys",
+   "labels": [],
+   "rfp_sighting": 13
+  },
+  {
+   "id": "R6",
+   "kind": "sighting",
+   "title": "Muxed account and offer IDs accept values that encode a different ID",
+   "component": "js-stellar-sdk: transaction building",
+   "severity": "S2",
+   "caps": [],
+   "caps_none_reason": "SDK input conversion, not a protocol shape",
+   "reproduction": {
+    "corpus_entry": "synthetic-ids-beyond-f64"
+   },
+   "upstream": [
+    "https://github.com/stellar/js-stellar-sdk/issues/1785"
+   ],
+   "first_reported_by": "quietbits (js-stellar-sdk maintainer)",
+   "reported": "2026-10-07",
+   "status": "fixed in 17.3.0; present in 16.4.1",
+   "labels": [],
+   "rfp_sighting": 16
+  },
+  {
+   "id": "R7",
+   "kind": "sighting",
+   "title": "scValToNative drops map entries whose keys collide",
+   "component": "js-stellar-sdk: scValToNative",
+   "severity": "S2",
+   "caps": [
+    "CAP-0046-01"
+   ],
+   "reproduction": {
+    "corpus_entry": "synthetic-scmap-colliding-keys"
+   },
+   "upstream": [
+    "https://github.com/stellar/js-stellar-sdk/issues/1789"
+   ],
+   "first_reported_by": "quietbits (js-stellar-sdk maintainer)",
+   "reported": "2026-10-07",
+   "status": "fixed: 17.4.0 refuses a map whose keys collide; 17.2.1 drops one entry with no error",
+   "labels": [],
+   "rfp_sighting": 15
+  },
+  {
+   "id": "R8",
+   "kind": "sighting",
+   "title": "XDR string arms change bytes that are not UTF-8",
+   "component": "js-stellar-sdk: XDR string .value",
+   "severity": "S2",
+   "caps": [],
+   "caps_none_reason": "a classic memo; SDK string conversion, not a protocol shape",
+   "reproduction": {
+    "corpus_entry": "localcore-memo-and-offer-p30-4"
+   },
+   "upstream": [
+    "https://github.com/stellar/js-stellar-sdk/issues/1823"
+   ],
+   "first_reported_by": "quietbits (js-stellar-sdk maintainer)",
+   "reported": "2026-10-16",
+   "status": "closed 2026-10-20 by documenting the behaviour (#1824); 17.4.0 still changes the bytes",
+   "labels": [],
+   "rfp_sighting": 18
+  },
+  {
+   "id": "R9",
+   "kind": "sighting",
+   "title": "Serde deserialization accepts a VecM over its maximum length",
+   "component": "rs-stellar-xdr: serde (JSON) support",
+   "severity": "S3",
+   "caps": [],
+   "caps_none_reason": "codec level, an XDR length limit, not a CAP",
+   "reproduction": {
+    "evidence_file": "harness/sightings/rs-stellar-xdr-598/acct21.json"
+   },
+   "upstream": [
+    "https://github.com/stellar/rs-stellar-xdr/pull/598"
+   ],
+   "first_reported_by": "leighmcculloch (SDF)",
+   "reported": "2026-09-29",
+   "status": "fixed in 28.0.1 and 30.0.0; 28.0.0 accepts 21 signers and emits XDR that 30.0.0 rejects",
+   "labels": [],
+   "rfp_sighting": 12
+  },
+  {
+   "id": "R10",
+   "kind": "sighting",
+   "title": "MuxedAddress panics on a non-address ScVal",
+   "component": "rs-soroban-sdk: MuxedAddress conversion",
+   "severity": "S1",
+   "caps": [
+    "CAP-0067"
+   ],
+   "reproduction": {
+    "evidence_file": "harness/sightings/rs-soroban-sdk-2099"
+   },
+   "upstream": [
+    "https://github.com/stellar/rs-soroban-sdk/pull/2099"
+   ],
+   "first_reported_by": "leighmcculloch (SDF)",
+   "reported": "2026-09-29",
+   "status": "fixed in 30.0.0-rc.1; the latest stable release, 29.0.1, does not have the fix",
+   "labels": [],
+   "rfp_sighting": 11
+  },
+  {
+   "id": "L1",
+   "kind": "linter",
+   "title": "The declared authorization tree is walked with no depth cap of its own",
+   "component": "wallet-backend: ContractDeployProcessor (walkInvocation)",
+   "severity": "S4",
+   "caps": [
+    "CAP-0046-11"
+   ],
+   "reproduction": {
+    "linter_report": "linter/results/wallet-backend-3e22515a4497.json",
+    "accepted": [
+     "recursive closure walkInvocation"
+    ]
+   },
+   "upstream": [
+    "https://github.com/stellar/wallet-backend/issues/820"
+   ],
+   "first_reported_by": "ErenTopaal (shapekit project)",
+   "reported": "2026-11-15",
+   "status": "open; a fix with a test is ready on a branch, awaiting issue acceptance",
+   "labels": []
+  },
+  {
+   "id": "L2",
+   "kind": "linter",
+   "title": "Participants taken from the envelope for failed transactions",
+   "component": "wallet-backend: participants (GetOperationsParticipants)",
+   "severity": "S2",
+   "severity_note": "a documented design choice: an account named only in a failed transaction's envelope is recorded as a participant",
+   "caps": [],
+   "caps_none_reason": "an indexer design rule (participants from the meta), not a protocol shape",
+   "reproduction": {
+    "linter_report": "linter/results/wallet-backend-3e22515a4497.json",
+    "accepted": [
+     "participants is filled from the transaction envelope",
+     "operationsParticipants is filled from the transaction envelope"
+    ]
+   },
+   "upstream": [],
+   "first_reported_by": "ShapeCov",
+   "reported": "2026-11-15",
+   "status": "accepted in linter/accepted/wallet-backend.json; not filed, because it is a design choice",
+   "labels": []
+  },
+  {
+   "id": "L3",
+   "kind": "linter",
+   "title": "Memo text used without a UTF-8 check in an uncalled helper",
+   "component": "wallet-backend: utils.Memo",
+   "severity": "S4",
+   "severity_note": "not reachable today; becomes live if a memo column is added (wallet-backend #800)",
+   "caps": [],
+   "caps_none_reason": "a classic memo; an indexer storage rule, not a protocol shape",
+   "reproduction": {
+    "linter_report": "linter/results/wallet-backend-3e22515a4497.json",
+    "accepted": [
+     "memo text is read with GetText()"
+    ]
+   },
+   "upstream": [
+    "https://github.com/stellar/wallet-backend/issues/800"
+   ],
+   "first_reported_by": "ShapeCov",
+   "reported": "2026-11-15",
+   "status": "accepted in linter/accepted/wallet-backend.json; not filed, because the code is uncalled",
+   "labels": []
+  }
+ ],
+ "sightings_without_record": {
+  "1": "stellar-core#5435 adds golden LedgerCloseMeta files to stellar-core's tests: a test resource, not a defect. The 27 golden ledgers are corpus entries."
+ }
+}

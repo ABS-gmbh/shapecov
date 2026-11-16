@@ -102,9 +102,12 @@ Publication waits on review by a stellar-core or platform engineer, which is pla
 **Protocol drill** (`protocol-drill/`). Runs the upgrade runbook in `MAINTENANCE.md` against the
 next protocol's XDR and stellar-core's `test-lcm-next` goldens before the upgrade ships.
 
-**Findings** (`FINDINGS.md`, `issues/`, `corpus/evidence/`). Every failure the tools find is triaged
-and filed upstream, or mapped to an issue someone else filed. `.github/scripts/check_findings.py`
-checks that mapping for the committed replay results.
+**Findings** (`FINDINGS.json`, `FINDINGS.md`, `issues/`, `corpus/evidence/`). Every failure the
+tools find is triaged and filed upstream, or mapped to an issue someone else filed.
+`FINDINGS.json` holds one record per finding (issue, component, severity, CAPs, reproduction,
+first reporter, status); the table in `FINDINGS.md` is generated from it.
+`.github/scripts/check_findings.py` checks the records and that every failure in the committed
+replay results maps to one.
 
 ## The adapter interface
 

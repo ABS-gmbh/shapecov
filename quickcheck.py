@@ -34,7 +34,8 @@ CHECKS = [
     ("RFP check 4", "the guide's tables agree with the corpus manifest; every row has a recorded stellar-core "
                     "verdict or a stated citation",
      [PY, "guide/check_guide.py"]),
-    ("RFP check 6", "every oracle failure in the recorded replays maps to a filed issue or a claimed sighting",
+    ("RFP check 6", "every oracle failure in the recorded replays maps to a complete record in FINDINGS.json "
+                    "(issue, severity, CAPs, reproduction); the FINDINGS.md table is current",
      [PY, ".github/scripts/check_findings.py"]),
     ("CAP coverage", "every live CAP is accounted for, and the table matches the corpus",
      [PY, "tools/cap_coverage.py", "--check"]),

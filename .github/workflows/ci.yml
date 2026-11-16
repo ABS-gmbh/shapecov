@@ -152,7 +152,7 @@ jobs:
         run: python tools/corpus_check.py --sdks rust,js,python,python-xdr,go,java --core --sdk-checks --quiet
 
   findings:
-    name: "RFP check 6: every replay failure maps to a filed issue or a claimed sighting"
+    name: "RFP check 6: every replay failure maps to a complete finding record"
     runs-on: ubuntu-24.04
     timeout-minutes: 5
     steps:
@@ -160,7 +160,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: Oracle failures in the committed wallet-backend and stellar-etl replay results
+      - name: FINDINGS.json records, and every failure in the committed replay results mapped to one
         run: python .github/scripts/check_findings.py
 
   # The packaged forms other repositories use (ADOPT.md), exercised here on every push.

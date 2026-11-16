@@ -2,16 +2,63 @@
 
 Run date: 14 November 2026, updated 16 November 2026. Versions are in `README.md`.
 
-Filed upstream:
+## All findings
 
-| Finding | Issue | Filed | Status, 16 November |
-|---|---|---|---|
-| J1 | https://github.com/lightsail-network/java-stellar-sdk/issues/833 | 14 November 2026 | closed 16 November: fixed by the maintainer in java-stellar-sdk#842 (`d093810`), which closes our issue; not yet released, so 6.0.0 still has it |
-| P1 | https://github.com/StellarCN/py-stellar-base/issues/1262 | 14 November 2026 | closed: fixed in the new `stellar-xdr` package; the released SDK 17.0.1 still has it |
-| P2 | https://github.com/StellarCN/py-stellar-base/issues/1263 | 14 November 2026 | closed: fixed in the new `stellar-xdr` package; the released SDK 17.0.1 still has it |
-| E1 | https://github.com/stellar/stellar-etl/issues/512 | 15 November 2026 | open; impact corrected on the issue on 16 November (v1 to v3 meta only; SDF's datastore not affected) |
-| E2 | https://github.com/stellar/stellar-etl/issues/513 | 16 November 2026 | open |
-| E3 | https://github.com/stellar/stellar-etl/issues/514 | 16 November 2026 | open |
+<!-- findings-table:begin (generated from FINDINGS.json by .github/scripts/check_findings.py --write; do not edit by hand) -->
+
+28 findings in `FINDINGS.json`, one record each. Severity: **S1** halts or rejects valid data; **S2** wrong or missing data; **S3** accepts non-canonical input; **S4** hardening. Dates are UTC.
+
+**Found by ShapeCov and filed by us** (6)
+
+| ID | Finding | Component | Severity | CAPs | Reproduction | Upstream | First reported | Status |
+|---|---|---|---|---|---|---|---|---|
+| J1 | Decoding accepts trailing bytes after a value | java-stellar-sdk: XDR decoding (fromXdrBase64, fromXdrByteArray) | S3 | none: codec level, an RFC 4506 rule, not a CAP | case `Memo/trailing0` | [lightsail-network/java-stellar-sdk#833](https://github.com/lightsail-network/java-stellar-sdk/issues/833) | ShapeCov, 2026-11-14 | fixed on master by the maintainer (#842, 2026-11-16), not released; 6.0.0 accepts all 954 trailing-byte cases |
+| P1 | Decoding accepts non-zero XDR padding | py-stellar-base 17.0.1: stellar_sdk.xdr | S3 | none: codec level, an RFC 4506 rule, not a CAP | case `string64/pad_nonzero1` | [StellarCN/py-stellar-base#1262](https://github.com/StellarCN/py-stellar-base/issues/1262) | ShapeCov, 2026-11-14 | closed 2026-11-16: fixed in the replacement package stellar-xdr; the released SDK 17.0.1 still has it |
+| P2 | Decoding treats any non-zero optional flag as present | py-stellar-base 17.0.1: stellar_sdk.xdr | S3 | none: codec level, an RFC 4506 rule, not a CAP | case `ManageDataOp/opt_flag_not_011` | [StellarCN/py-stellar-base#1263](https://github.com/StellarCN/py-stellar-base/issues/1263) | ShapeCov, 2026-11-14 | closed 2026-11-16: fixed in the replacement package stellar-xdr; the released SDK 17.0.1 still has it |
+| E1 | export_token_transfer fails on ledgers whose TransactionMeta is older than v4 | stellar-etl: export_token_transfer (internal/transform/token_transfer.go) | S1; narrow: only sources with v1 to v3 meta (old or never-regenerated data lakes, local networks, older captive core); SDF's datastore serves v4 meta for old ledgers and is not affected | CAP-0067 | entry `localcore-classic-p22-3` | [stellar/stellar-etl#512](https://github.com/stellar/stellar-etl/issues/512) | ShapeCov, 2026-11-15 | open; impact corrected on the issue 2026-11-16; a fix with a regression test is ready on a branch, awaiting issue acceptance |
+| E2 | A revocation that redeems pool shares in two pools gets one liquidity_pool_revoked, citing the other pool's balance | stellar-etl: export_effects (addLiquidityPoolRevokedEffect); Horizon has the same code | S2 | CAP-0038 | entry `localcore-pool-revoke-two-pools-7` | [stellar/stellar-etl#513](https://github.com/stellar/stellar-etl/issues/513) | ShapeCov, 2026-11-15 | open |
+| E3 | Pool-share trustlines removed by a revocation get no trustline_removed effect | stellar-etl: export_effects; Horizon has the same code | S2 | CAP-0038 | entry `localcore-pool-revoke-two-pools-7` | [stellar/stellar-etl#514](https://github.com/stellar/stellar-etl/issues/514) | ShapeCov, 2026-11-15 | open |
+
+**Reported first by others; ShapeCov's tools reproduce it** (9)
+
+| ID | Finding | Component | Severity | CAPs | Reproduction | Upstream | First reported | Status |
+|---|---|---|---|---|---|---|---|---|
+| C1 | An account created by XLM sent through the native asset contract gets no ACCOUNT CREATE state change | wallet-backend: state changes (token_transfer processor) | S2 | CAP-0073 | entry `golden-invokehostfunction-692fdd0e-17` | [stellar/wallet-backend#804](https://github.com/stellar/wallet-backend/issues/804), [stellar/wallet-backend#816](https://github.com/stellar/wallet-backend/issues/816) | tolgayayci (#804, 2026-11-13); then ErenTopaal (shapekit project, #816), 2026-11-13 | open |
+| C2 | Contract deployments that no auth entry declares get no ACCOUNT CREATE state change | wallet-backend: state changes (ContractDeployProcessor) | S2 | CAP-0046 | entry `localcore-muxed-source-p22-3` | [stellar/wallet-backend#806](https://github.com/stellar/wallet-backend/issues/806), [stellar/wallet-backend#815](https://github.com/stellar/wallet-backend/issues/815) | tolgayayci (#806, factory deploys, 2026-11-13); ErenTopaal (shapekit project, #815, factory and asset-contract deploys), 2026-11-13 | open |
+| C3 | A pool-share trustline removed by a revocation gets no TRUSTLINE REMOVE state change | wallet-backend: state changes | S2 | CAP-0038 | entry `localcore-pool-revoke-two-pools-7` | [stellar/wallet-backend#817](https://github.com/stellar/wallet-backend/issues/817) | ErenTopaal (shapekit project), 2026-11-15 | open |
+| C4 | Effects export misses account_created and trustline_created made by the asset contract | stellar-etl: export_effects | S2 | CAP-0073 | entry `localcore-sac-trust-p28-5` | [stellar/stellar-etl#460](https://github.com/stellar/stellar-etl/issues/460) | chowbao (stellar-etl maintainer), 2026-07-04 | open |
+| C5 | Token transfer export fabricates a muxed destination with ID 0 for memo payments | stellar-etl: export_token_transfer (to_muxed) | S2; confirmed after reading the issue, not found blind | CAP-0067 | entry `localcore-memo-and-offer-p30-4` | [stellar/stellar-etl#450](https://github.com/stellar/stellar-etl/issues/450) | chowbao (stellar-etl maintainer), 2026-07-04 | open |
+| C6 | A bool word other than 0 or 1 decodes as false (stellar-core reads it as true) | rs-stellar-xdr: bool decoding | S3 | none: codec level, an RFC 4506 rule, not a CAP | case `EvictionIterator/bool_not_010` | [stellar/rs-stellar-xdr#622](https://github.com/stellar/rs-stellar-xdr/issues/622) | tolgayayci, 2026-11-13 | open |
+| C7 | SafeUnmarshalBase64 accepts 1 or 2 trailing bytes | go-stellar-sdk: xdr | S3 | none: codec level, an RFC 4506 rule, not a CAP | case `Value/trailing1` | [stellar/go-stellar-sdk#6039](https://github.com/stellar/go-stellar-sdk/issues/6039) | kasbsquall, 2026-11-13 | open; fix PR #6041 open |
+| C8 | Out-of-range offer and muxed IDs are serialized modulo 2^64 | py-stellar-base 17.0.1: transaction building | S2 | none: SDK input conversion, not a protocol shape | entry `synthetic-ids-beyond-f64` | [StellarCN/py-stellar-base#1251](https://github.com/StellarCN/py-stellar-base/issues/1251) | kasbsquall, 2026-11-13 | fixed on main by #1253 (2026-11-14), not released; 17.0.1 still has it |
+| C9 | scval.to_native drops map entries whose keys collide (u32 1 and i64 1 in a host-written map) | py-stellar-base 17.0.1: scval | S2 | CAP-0046-01 | entry `testnet-5712621` | [StellarCN/py-stellar-base#1250](https://github.com/StellarCN/py-stellar-base/issues/1250) | kasbsquall, 2026-11-13 | fixed on main by #1252 (2026-11-16), not released; 17.0.1 still has it |
+
+**One of the RFP's sightings, reproduced before its fix and passing after** (10)
+
+| ID | Finding | Component | Severity | CAPs | Reproduction | Upstream | First reported | Status |
+|---|---|---|---|---|---|---|---|---|
+| R1 | Signed-payload signers halt ingestion | wallet-backend: ingestion | S1 | CAP-0040 | entry `testnet-4437357-signed-payload-signer` | [stellar/wallet-backend#729](https://github.com/stellar/wallet-backend/pull/729) | aditya1702 (wallet-backend maintainer), 2026-09-03 | fixed (2026-09-08) |
+| R2 | Trustlines created by the asset contract get no state change | wallet-backend: state changes | S2 | CAP-0073 | entry `localcore-sac-trust-p28-5` | [stellar/wallet-backend#731](https://github.com/stellar/wallet-backend/issues/731) | aristidesstaffieri, 2026-09-04 | fixed (2026-09-17) |
+| R3 | Muxed and signed-payload addresses stored truncated | wallet-backend: AddressBytea | S2 | CAP-0027, CAP-0040 | entry `localcore-muxed-source-p22-3` | [stellar/wallet-backend#716](https://github.com/stellar/wallet-backend/issues/716) | aditya1702 (wallet-backend maintainer), 2026-08-27 | fixed (2026-09-18) |
+| R4 | A contract call from a muxed source halts ingestion on a duplicate key | wallet-backend: ingestion (participants) | S1 | CAP-0027 | entry `localcore-muxed-source-p22-3` | [stellar/wallet-backend#753](https://github.com/stellar/wallet-backend/pull/753) | aditya1702 (wallet-backend maintainer), 2026-09-25 | fixed (2026-09-25) |
+| R5 | A valid liquidity-pool pair rejected: issuers ordered as strkey text, not key bytes | js-stellar-sdk: asset ordering and ScVal map keys | S1 | CAP-0038, CAP-0046-01 | entry `testnet-5708889` | [stellar/js-stellar-sdk#1766](https://github.com/stellar/js-stellar-sdk/pull/1766) | Ryang-21 (js-stellar-sdk maintainer), 2026-10-01 | fixed in 17.2.1; 16.4.1 has the pool half of the fix but still mishandles the map keys |
+| R6 | Muxed account and offer IDs accept values that encode a different ID | js-stellar-sdk: transaction building | S2 | none: SDK input conversion, not a protocol shape | entry `synthetic-ids-beyond-f64` | [stellar/js-stellar-sdk#1785](https://github.com/stellar/js-stellar-sdk/issues/1785) | quietbits (js-stellar-sdk maintainer), 2026-10-07 | fixed in 17.3.0; present in 16.4.1 |
+| R7 | scValToNative drops map entries whose keys collide | js-stellar-sdk: scValToNative | S2 | CAP-0046-01 | entry `synthetic-scmap-colliding-keys` | [stellar/js-stellar-sdk#1789](https://github.com/stellar/js-stellar-sdk/issues/1789) | quietbits (js-stellar-sdk maintainer), 2026-10-07 | fixed: 17.4.0 refuses a map whose keys collide; 17.2.1 drops one entry with no error |
+| R8 | XDR string arms change bytes that are not UTF-8 | js-stellar-sdk: XDR string .value | S2 | none: a classic memo; SDK string conversion, not a protocol shape | entry `localcore-memo-and-offer-p30-4` | [stellar/js-stellar-sdk#1823](https://github.com/stellar/js-stellar-sdk/issues/1823) | quietbits (js-stellar-sdk maintainer), 2026-10-16 | closed 2026-10-20 by documenting the behaviour (#1824); 17.4.0 still changes the bytes |
+| R9 | Serde deserialization accepts a VecM over its maximum length | rs-stellar-xdr: serde (JSON) support | S3 | none: codec level, an XDR length limit, not a CAP | `harness/sightings/rs-stellar-xdr-598/acct21.json` | [stellar/rs-stellar-xdr#598](https://github.com/stellar/rs-stellar-xdr/pull/598) | leighmcculloch (SDF), 2026-09-29 | fixed in 28.0.1 and 30.0.0; 28.0.0 accepts 21 signers and emits XDR that 30.0.0 rejects |
+| R10 | MuxedAddress panics on a non-address ScVal | rs-soroban-sdk: MuxedAddress conversion | S1 | CAP-0067 | `harness/sightings/rs-soroban-sdk-2099` | [stellar/rs-soroban-sdk#2099](https://github.com/stellar/rs-soroban-sdk/pull/2099) | leighmcculloch (SDF), 2026-09-29 | fixed in 30.0.0-rc.1; the latest stable release, 29.0.1, does not have the fix |
+
+**A finding of the linter on wallet-backend, accepted with a reason** (3)
+
+| ID | Finding | Component | Severity | CAPs | Reproduction | Upstream | First reported | Status |
+|---|---|---|---|---|---|---|---|---|
+| L1 | The declared authorization tree is walked with no depth cap of its own | wallet-backend: ContractDeployProcessor (walkInvocation) | S4 | CAP-0046-11 | `linter/results/wallet-backend-3e22515a4497.json` | [stellar/wallet-backend#820](https://github.com/stellar/wallet-backend/issues/820) | ErenTopaal (shapekit project), 2026-11-15 | open; a fix with a test is ready on a branch, awaiting issue acceptance |
+| L2 | Participants taken from the envelope for failed transactions | wallet-backend: participants (GetOperationsParticipants) | S2; a documented design choice: an account named only in a failed transaction's envelope is recorded as a participant | none: an indexer design rule (participants from the meta), not a protocol shape | `linter/results/wallet-backend-3e22515a4497.json` | not filed | ShapeCov, 2026-11-15 | accepted in linter/accepted/wallet-backend.json; not filed, because it is a design choice |
+| L3 | Memo text used without a UTF-8 check in an uncalled helper | wallet-backend: utils.Memo | S4; not reachable today; becomes live if a memo column is added (wallet-backend #800) | none: a classic memo; an indexer storage rule, not a protocol shape | `linter/results/wallet-backend-3e22515a4497.json` | [stellar/wallet-backend#800](https://github.com/stellar/wallet-backend/issues/800) | ShapeCov, 2026-11-15 | accepted in linter/accepted/wallet-backend.json; not filed, because the code is uncalled |
+
+<!-- findings-table:end -->
+
+The sections below give each finding's evidence in full.
 
 "Confirmed" means: reproduced outside the harness with a short script in `repro/`, root cause
 located in the SDK source, and stellar-core 30.0.0 checked on the same class of bytes.
