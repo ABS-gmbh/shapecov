@@ -1,0 +1,135 @@
+{
+ "kit_schema": "stellar-xdr v30.0 (schema/SOURCE)",
+ "sources": {
+  "next": {
+   "git": "f59c85720cb188e38bb7b673ecaabf93f7178bcf 2026-10-07T16:17:22Z Generate from main (4f524bb)"
+  },
+  "lcm_v3": {
+   "git": "8cf594cede587c0c0f57a96809868dcc932a5b6d 2026-10-14T15:52:46-04:00 LCM v3"
+  }
+ },
+ "stellar_core": "f2b91947fb20fc8174cca38bf320eda7baa3edbb 2026-11-12T19:48:59Z Fix flaky unauthenticated peer signature verification test (#5500)",
+ "diffs": {
+  "v28.0 -> v30.0 (retrospective)": {
+   "types_added": [
+    "MuxedContract",
+    "StellarValueProposedMsValue",
+    "StellarValueSignedMsValue",
+    "TimePointMs"
+   ],
+   "types_removed": [],
+   "types_changed": [
+    "ContractCostType",
+    "SCAddress",
+    "SCAddressType",
+    "SCSpecEventV0",
+    "SCSpecTypeUDT",
+    "SCSpecUDTEnumV0",
+    "SCSpecUDTErrorEnumV0",
+    "SCSpecUDTStructV0",
+    "SCSpecUDTUnionV0",
+    "StellarValueExt",
+    "StellarValueType"
+   ],
+   "cells_added": [
+    "arm:SCAddress.SC_ADDRESS_TYPE_MUXED_CONTRACT",
+    "arm:StellarValueExt.STELLAR_VALUE_EMPTY_TX_SET_MS",
+    "arm:StellarValueExt.STELLAR_VALUE_SIGNED_MS",
+    "enum:ContractCostType.MlDsa44DecodeSignature",
+    "enum:ContractCostType.MlDsa44DecodeVerifyingKey",
+    "enum:ContractCostType.MlDsa65DecodeSignature",
+    "enum:ContractCostType.MlDsa65DecodeVerifyingKey",
+    "enum:ContractCostType.MlDsa87DecodeSignature",
+    "enum:ContractCostType.MlDsa87DecodeVerifyingKey",
+    "enum:ContractCostType.VerifyMlDsa44Sig",
+    "enum:ContractCostType.VerifyMlDsa65Sig",
+    "enum:ContractCostType.VerifyMlDsa87Sig",
+    "enum:SCAddressType.SC_ADDRESS_TYPE_MUXED_CONTRACT",
+    "enum:StellarValueType.STELLAR_VALUE_EMPTY_TX_SET_MS",
+    "enum:StellarValueType.STELLAR_VALUE_SIGNED_MS"
+   ],
+   "cells_removed": []
+  },
+  "v30.0 -> next": {
+   "types_added": [
+    "TestNextType"
+   ],
+   "types_removed": [],
+   "types_changed": [],
+   "cells_added": [],
+   "cells_removed": []
+  },
+  "v30.0 -> lcm_v3": {
+   "types_added": [
+    "LedgerCloseMetaV3",
+    "TransactionResultMetaV2"
+   ],
+   "types_removed": [],
+   "types_changed": [
+    "LedgerCloseMeta"
+   ],
+   "cells_added": [
+    "arm:LedgerCloseMeta.3"
+   ],
+   "cells_removed": []
+  }
+ },
+ "goldens": {
+  "test-lcm-next": {
+   "files": 866,
+   "ledgers": 15306,
+   "protocols": {
+    "0": 1,
+    "20": 28,
+    "21": 9,
+    "22": 12,
+    "23": 1355,
+    "30": 8,
+    "31": 13893
+   },
+   "cells": 267,
+   "decode_errors": [],
+   "decode_error_count": 0
+  },
+  "test-lcm-current": {
+   "files": 866,
+   "ledgers": 15306,
+   "protocols": {
+    "0": 1,
+    "20": 28,
+    "21": 9,
+    "22": 12,
+    "23": 1355,
+    "29": 8,
+    "30": 13893
+   },
+   "cells": 267,
+   "decode_errors": [],
+   "decode_error_count": 0
+  }
+ },
+ "new_cells_exercised_by_next_goldens": [],
+ "cells_in_next_goldens_not_in_current_goldens": [],
+ "cells_in_next_goldens_not_in_corpus": [
+  "arm:BeginSponsoringFutureReservesResult.BEGIN_SPONSORING_FUTURE_RESERVES_ALREADY_SPONSORED",
+  "arm:BeginSponsoringFutureReservesResult.BEGIN_SPONSORING_FUTURE_RESERVES_RECURSIVE",
+  "arm:ContractCodeEntryExt.0",
+  "arm:EndSponsoringFutureReservesResult.END_SPONSORING_FUTURE_RESERVES_NOT_SPONSORED",
+  "arm:ExtendFootprintTTLResult.EXTEND_FOOTPRINT_TTL_INSUFFICIENT_REFUNDABLE_FEE",
+  "arm:ExtendFootprintTTLResult.EXTEND_FOOTPRINT_TTL_RESOURCE_LIMIT_EXCEEDED",
+  "arm:InvokeHostFunctionResult.INVOKE_HOST_FUNCTION_ENTRY_ARCHIVED",
+  "arm:LedgerUpgrade.LEDGER_UPGRADE_CONFIG",
+  "arm:LedgerUpgrade.LEDGER_UPGRADE_MAX_SOROBAN_TX_SET_SIZE",
+  "arm:OperationBody.CREATE_PASSIVE_SELL_OFFER",
+  "arm:RestoreFootprintResult.RESTORE_FOOTPRINT_RESOURCE_LIMIT_EXCEEDED",
+  "arm:SCError.SCE_CRYPTO",
+  "arm:SCError.SCE_WASM_VM",
+  "arm:SorobanAuthorizedFunction.SOROBAN_AUTHORIZED_FUNCTION_TYPE_CREATE_CONTRACT_HOST_FN",
+  "arm:TransactionResultResult.txBAD_AUTH",
+  "arm:TransactionResultResult.txBAD_SPONSORSHIP",
+  "arm:TransactionResultResult.txINTERNAL_ERROR",
+  "arm:TransactionResultResult.txNO_ACCOUNT",
+  "enum:SCErrorCode.SCEC_UNEXPECTED_SIZE"
+ ],
+ "corpus_cells": 333
+}

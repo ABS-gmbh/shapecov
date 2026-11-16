@@ -53,6 +53,19 @@ protocol first shows up as schema cells that nothing covers and as checks that f
 the following steps, done in order, with CI as the measure of done. Start when the stellar-xdr tag
 for the new protocol is published, and finish before the mainnet upgrade vote.
 
+**Worked example, before the next upgrade:** [`protocol-drill/REPORT.md`](protocol-drill/REPORT.md),
+produced by `protocol-drill/drill.py`, runs steps 1 to 3 and the golden-file part of step 6
+against the next protocol as defined on 16 November 2026:
+- stellar-xdr's `next` branch;
+- a pending XDR change (`lcm_v3`);
+- stellar-core's `test-lcm-next` golden files.
+
+It reports:
+- the new types and cells;
+- that all 15,306 next-protocol golden ledgers, 13,893 of them at protocol 31, decode with today's
+  schema;
+- the 19 cells those goldens exercise that the corpus does not carry yet.
+
 1. **Schema.**
    - Keep the current definitions as the previous protocol: move `schema/x` to `schema/x-v<old>`
      and `schema/schema.json` to `schema/schema-v<old>.json`.
