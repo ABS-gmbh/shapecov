@@ -1,0 +1,35 @@
+{
+ "note": "Upstream issues that explain failing oracle checks on Horizon, as match rules (format: ../../ADAPTER.md). An issue filed on stellar-etl is used only where its text says Horizon has the same code.",
+ "rules": [
+  {
+   "issue": "stellar/stellar-horizon#259",
+   "note": "participantsForMeta reads only TransactionMeta's v0 arm, so an account that only the operation meta shows changed (the maker of an offer a path payment or an offer crosses, a sponsor whose sponsorship ends) is not a transaction participant. The Horizon twin of stellar/wallet-backend#677.",
+   "match": {
+    "what": "participant",
+    "how": "account changed"
+   }
+  },
+  {
+   "issue": "stellar/stellar-etl#513",
+   "note": "Filed on stellar-etl; its text names stellar-horizon's effects_processor.go as having the same code, and the replay shows it in Horizon: a revocation that redeems pool shares in several pools gets one liquidity_pool_revoked effect, for one pool.",
+   "match": {
+    "reason": "liquidity_pool_revoked",
+    "op_type": [
+     "ALLOW_TRUST",
+     "SET_TRUST_LINE_FLAGS"
+    ]
+   }
+  },
+  {
+   "issue": "stellar/stellar-etl#514",
+   "note": "Filed on stellar-etl; its text says stellar-horizon's effects processor behaves the same way, and the replay shows it in Horizon: a pool-share trustline removed by an authorization revocation gets no trustline_removed effect.",
+   "match": {
+    "reason": "trustline_removed",
+    "op_type": [
+     "ALLOW_TRUST",
+     "SET_TRUST_LINE_FLAGS"
+    ]
+   }
+  }
+ ]
+}

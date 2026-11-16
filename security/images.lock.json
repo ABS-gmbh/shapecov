@@ -36,6 +36,15 @@
    "digest": "sha256:d215d9ed4a66c4fb0f55f46f0c06ffd1e87ecebd3d09421669c13249c2db71c4",
    "platform": "linux/amd64",
    "used_for": "the two protocol 22 local-ledger scenarios"
+  },
+  "golang:1.25-bookworm": {
+   "digest": "sha256:3b4a11519ad929d1e1d261a12cff056f0c85b735253d7d861346b9c6f8b36437",
+   "used_for": "Horizon builds and runs in the replay",
+   "named_by": "stellar-horizon's own docker/Dockerfile.dev at the pinned release; the adapter reads the image from it"
+  },
+  "postgres:16": {
+   "digest": "sha256:dd2bf3ce2dc83a81674cf7f217fcfd8a5009a4b325dda5b843bfee82a06cff6f",
+   "used_for": "Horizon's database in the replay (16 is the newer of the two versions Horizon's own CI tests against)"
   }
  }
 }
