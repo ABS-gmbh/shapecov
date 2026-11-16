@@ -1,18 +1,18 @@
-time="2026-11-16T17:32:44.656Z" level=info msg="wallet-backend dev (commit 3e22515a44979fdc3a558fda3991ca2b48e38cef)" pid=1
-time="2026-11-16T17:32:44.668Z" level=info msg="Set chunk interval \"1 day\" on transactions" pid=1
-time="2026-11-16T17:32:44.669Z" level=info msg="Set chunk interval \"1 day\" on transactions_accounts" pid=1
-time="2026-11-16T17:32:44.669Z" level=info msg="Set chunk interval \"1 day\" on operations" pid=1
-time="2026-11-16T17:32:44.669Z" level=info msg="Set chunk interval \"1 day\" on operations_accounts" pid=1
-time="2026-11-16T17:32:44.669Z" level=info msg="Set chunk interval \"1 day\" on state_changes" pid=1
-time="2026-11-16T17:32:44.673Z" level=info msg="Updated transaction_hashes maintenance job 1006 (worker 0 of 1, every \"1 day\")" pid=1
-time="2026-11-16T17:32:44.673Z" level=info msg="Using RPCLedgerBackend for ledger ingestion with buffer size 10" pid=1
-time="2026-11-16T17:32:44.682Z" level=info msg="protocol BLEND history production disabled; cursor not initialized" pid=1
-time="2026-11-16T17:32:44.682Z" level=info msg="protocol BLEND current-state production disabled; cursor not initialized" pid=1
-time="2026-11-16T17:32:44.682Z" level=info msg="protocol SEP41 history production disabled; cursor not initialized" pid=1
-time="2026-11-16T17:32:44.682Z" level=info msg="protocol SEP41 current-state production disabled; cursor not initialized" pid=1
-time="2026-11-16T17:32:44.687Z" level=info msg="startup reconciliation: cursor ledger 3 has no transactions row (expected after a checkpoint bootstrap or for an empty ledger), so the deletes above it run without a close-time bound" pid=1
-time="2026-11-16T17:32:44.741Z" level=info msg="Starting ingestion from ledger: 4" pid=1
-time="2026-11-16T17:32:44.769Z" level=info msg="Ingested ledger 4 in 0.0270s" pid=1
-time="2026-11-16T17:32:45.613Z" level=info msg="shutdown requested; exiting cleanly: live ingestion pipeline: pipeline cancelled: context canceled" pid=1
-time="2026-11-16T17:32:45.613Z" level=info msg="Shutting down servers..." pid=1
-time="2026-11-16T17:32:45.613Z" level=info msg="Servers gracefully stopped" pid=1
+time="2026-11-16T20:51:34.854Z" level=info msg="wallet-backend dev (commit 3e22515a44979fdc3a558fda3991ca2b48e38cef)" pid=1
+time="2026-11-16T20:51:34.881Z" level=info msg="Set chunk interval \"1 day\" on transactions" pid=1
+time="2026-11-16T20:51:34.881Z" level=info msg="Set chunk interval \"1 day\" on transactions_accounts" pid=1
+time="2026-11-16T20:51:34.882Z" level=info msg="Set chunk interval \"1 day\" on operations" pid=1
+time="2026-11-16T20:51:34.882Z" level=info msg="Set chunk interval \"1 day\" on operations_accounts" pid=1
+time="2026-11-16T20:51:34.883Z" level=info msg="Set chunk interval \"1 day\" on state_changes" pid=1
+time="2026-11-16T20:51:34.891Z" level=info msg="Updated transaction_hashes maintenance job 1006 (worker 0 of 1, every \"1 day\")" pid=1
+time="2026-11-16T20:51:34.891Z" level=info msg="Using RPCLedgerBackend for ledger ingestion with buffer size 10" pid=1
+time="2026-11-16T20:51:34.902Z" level=info msg="protocol BLEND history production disabled; cursor not initialized" pid=1
+time="2026-11-16T20:51:34.902Z" level=info msg="protocol BLEND current-state production disabled; cursor not initialized" pid=1
+time="2026-11-16T20:51:34.902Z" level=info msg="protocol SEP41 history production disabled; cursor not initialized" pid=1
+time="2026-11-16T20:51:34.902Z" level=info msg="protocol SEP41 current-state production disabled; cursor not initialized" pid=1
+time="2026-11-16T20:51:34.905Z" level=info msg="startup reconciliation: cursor ledger 3 has no transactions row (expected after a checkpoint bootstrap or for an empty ledger), so the deletes above it run without a close-time bound" pid=1
+time="2026-11-16T20:51:34.957Z" level=info msg="Starting ingestion from ledger: 4" pid=1
+time="2026-11-16T20:51:35.000Z" level=info msg="Ingested ledger 4 in 0.0380s" pid=1
+time="2026-11-16T20:51:35.773Z" level=info msg="shutdown requested; exiting cleanly: live ingestion pipeline: pipeline cancelled: context canceled" pid=1
+time="2026-11-16T20:51:35.773Z" level=info msg="Shutting down servers..." pid=1
+time="2026-11-16T20:51:35.774Z" level=info msg="Servers gracefully stopped" pid=1

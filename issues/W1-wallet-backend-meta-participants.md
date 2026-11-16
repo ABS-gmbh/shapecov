@@ -13,7 +13,8 @@ ledgers, with a Go test. The Horizon counterpart is
 [stellar/stellar-horizon#259](https://github.com/stellar/stellar-horizon/issues/259), filed by
 tolgayayci on 14 November, naming the maker of an offer crossed by a path payment. ShapeCov found it independently, from ledger data, with the replay
 oracle's participant rule (ShapeCov record C10). What this sheet adds is the measured extent on real
-traffic, below; a comment on #677 is the place for it, if the user decides to post one.
+traffic, below. The user posted it on #677 on 16 November:
+https://github.com/stellar/wallet-backend/issues/677#issuecomment-6928536393
 
 ### What
 

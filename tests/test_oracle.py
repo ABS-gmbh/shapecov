@@ -128,6 +128,22 @@ class FeeBump(unittest.TestCase):
         self.assertIsNone(balance(e, h, acct(inner["sourceAccount"]), "native", "fee"))
 
 
+class FinalBalances(unittest.TestCase):
+    def test_a_fee_bump_fee_source_ends_lower_by_the_fee(self):
+        """The case wallet-backend#641 fixed: the fee source's balance moves only in the fee phase."""
+        e = "golden-invokehostfunction-f5fa0a4b-12"
+        h, env, inner, res = tx_of(e, "26a20d50145d")
+        _, v = ledger(e)
+        before, after = oracle.final_native_balances(v)[acct(env["feeBump"]["tx"]["feeSource"])]
+        self.assertEqual(before - after, res["feeCharged"])
+
+    def test_created_and_merged_accounts(self):
+        """classic-p22: root creates the payee with 100 XLM."""
+        _, v = ledger("localcore-classic-p22-3")
+        payee = strkey.account(Keys("memo payee").pub)
+        self.assertEqual(oracle.final_native_balances(v)[payee], (None, 100_0000000))
+
+
 class ClaimableBalance(unittest.TestCase):
     def test_created_with_the_claimants_and_amount_of_the_operation(self):
         e = "golden-frozenledgerkeys-a0fb94c3-10"

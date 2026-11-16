@@ -20,13 +20,15 @@
  "mode": "unmodified",
  "oracle": {
   "verdict": "known issues only",
-  "rows_expected": 2051,
-  "rows_met": 1790,
+  "rows_expected": 2276,
+  "rows_met": 1925,
   "known": {
+   "stellar/stellar-etl#456": 90,
    "stellar/stellar-etl#450": 261
   },
   "unexplained": [],
   "known_outcome": {
+   "stellar/stellar-etl#456": "mishandled",
    "stellar/stellar-etl#450": "mishandled"
   }
  },

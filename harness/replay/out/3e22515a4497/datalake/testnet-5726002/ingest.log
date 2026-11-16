@@ -1,23 +1,23 @@
-time="2026-11-15T21:47:54.522Z" level=info msg="wallet-backend dev (commit 3e22515a44979fdc3a558fda3991ca2b48e38cef)" pid=1
-time="2026-11-15T21:47:54.531Z" level=info msg="Set chunk interval \"1 day\" on transactions" pid=1
-time="2026-11-15T21:47:54.531Z" level=info msg="Set chunk interval \"1 day\" on transactions_accounts" pid=1
-time="2026-11-15T21:47:54.532Z" level=info msg="Set chunk interval \"1 day\" on operations" pid=1
-time="2026-11-15T21:47:54.532Z" level=info msg="Set chunk interval \"1 day\" on operations_accounts" pid=1
-time="2026-11-15T21:47:54.532Z" level=info msg="Set chunk interval \"1 day\" on state_changes" pid=1
-time="2026-11-15T21:47:54.535Z" level=info msg="Updated transaction_hashes maintenance job 1006 (worker 0 of 1, every \"1 day\")" pid=1
-SDK 2026/11/15 21:47:54 WARN Response has no supported checksum. Not validating response payload.
-time="2026-11-15T21:47:54.662Z" level=info msg="Using datastore backend with buffer size 4, 2 workers" pid=1
-time="2026-11-15T21:47:54.666Z" level=info msg="protocol BLEND history production disabled; cursor not initialized" pid=1
-time="2026-11-15T21:47:54.666Z" level=info msg="protocol BLEND current-state production disabled; cursor not initialized" pid=1
-time="2026-11-15T21:47:54.666Z" level=info msg="protocol SEP41 history production disabled; cursor not initialized" pid=1
-time="2026-11-15T21:47:54.666Z" level=info msg="protocol SEP41 current-state production disabled; cursor not initialized" pid=1
-time="2026-11-15T21:47:54.667Z" level=info msg="startup reconciliation: cursor ledger 5726001 has no transactions row (expected after a checkpoint bootstrap or for an empty ledger), so the deletes above it run without a close-time bound" pid=1
-time="2026-11-15T21:47:54.669Z" level=warning msg="blend: price snapshot pass failed: blend: price snapshot: comet leg: discovering backstop LP tokens: blend: fetchBackstopLPTokens: backstop CBGSFY6NR5TSCQJH5EGVMCFTHLZBCAO7YPIW426WSD46V3TESPA3U6DI: instance entry not found on chain\nblend: fetchBackstopLPTokens: backstop CBDVWXT433PRVTUNM56C3JREF3HIZHRBA64NB2C3B2UNCKIS65ZYCLZA: instance entry not found on chain" pid=1
-time="2026-11-15T21:47:54.671Z" level=info msg="Starting ingestion from ledger: 5726002" pid=1
-SDK 2026/11/15 21:47:54 WARN Response has no supported checksum. Not validating response payload.
-time="2026-11-15T21:47:54.686Z" level=warning msg="contract 27eefed4d32f2e2f001a86951f237e85cd81812a9331a1811bbe53aa5921235e has an external-ref executable (owner=CDD3G6M2JSJLXBYLY4N6WLWVU2LB5UGPSKFO5ZV4M6BMYQY555Q6FA46 tag=\"amm.concentrated\"); leaving it unclassified" pid=1
-time="2026-11-15T21:47:54.686Z" level=warning msg="contract 7f459e232b011da4a8d6589978feca9f3e122958a58a91f49a7e40c0382fd6d2 has an external-ref executable (owner=CDD3G6M2JSJLXBYLY4N6WLWVU2LB5UGPSKFO5ZV4M6BMYQY555Q6FA46 tag=\"amm.vault\"); leaving it unclassified" pid=1
-time="2026-11-15T21:47:54.712Z" level=info msg="Ingested ledger 5726002 in 0.0269s" pid=1
-time="2026-11-15T21:47:55.410Z" level=info msg="shutdown requested; exiting cleanly: live ingestion pipeline: pipeline cancelled: context canceled" pid=1
-time="2026-11-15T21:47:55.410Z" level=info msg="Shutting down servers..." pid=1
-time="2026-11-15T21:47:55.410Z" level=info msg="Servers gracefully stopped" pid=1
+time="2026-11-16T20:55:10.274Z" level=info msg="wallet-backend dev (commit 3e22515a44979fdc3a558fda3991ca2b48e38cef)" pid=1
+time="2026-11-16T20:55:10.292Z" level=info msg="Set chunk interval \"1 day\" on transactions" pid=1
+time="2026-11-16T20:55:10.293Z" level=info msg="Set chunk interval \"1 day\" on transactions_accounts" pid=1
+time="2026-11-16T20:55:10.294Z" level=info msg="Set chunk interval \"1 day\" on operations" pid=1
+time="2026-11-16T20:55:10.294Z" level=info msg="Set chunk interval \"1 day\" on operations_accounts" pid=1
+time="2026-11-16T20:55:10.295Z" level=info msg="Set chunk interval \"1 day\" on state_changes" pid=1
+time="2026-11-16T20:55:10.305Z" level=info msg="Updated transaction_hashes maintenance job 1006 (worker 0 of 1, every \"1 day\")" pid=1
+SDK 2026/11/16 20:55:11 WARN Response has no supported checksum. Not validating response payload.
+time="2026-11-16T20:55:11.344Z" level=info msg="Using datastore backend with buffer size 4, 2 workers" pid=1
+time="2026-11-16T20:55:11.355Z" level=info msg="protocol SEP41 history production disabled; cursor not initialized" pid=1
+time="2026-11-16T20:55:11.355Z" level=info msg="protocol SEP41 current-state production disabled; cursor not initialized" pid=1
+time="2026-11-16T20:55:11.355Z" level=info msg="protocol BLEND history production disabled; cursor not initialized" pid=1
+time="2026-11-16T20:55:11.355Z" level=info msg="protocol BLEND current-state production disabled; cursor not initialized" pid=1
+time="2026-11-16T20:55:11.359Z" level=info msg="startup reconciliation: cursor ledger 5726001 has no transactions row (expected after a checkpoint bootstrap or for an empty ledger), so the deletes above it run without a close-time bound" pid=1
+time="2026-11-16T20:55:11.367Z" level=warning msg="blend: price snapshot pass failed: blend: price snapshot: comet leg: discovering backstop LP tokens: blend: fetchBackstopLPTokens: backstop CBGSFY6NR5TSCQJH5EGVMCFTHLZBCAO7YPIW426WSD46V3TESPA3U6DI: instance entry not found on chain\nblend: fetchBackstopLPTokens: backstop CBDVWXT433PRVTUNM56C3JREF3HIZHRBA64NB2C3B2UNCKIS65ZYCLZA: instance entry not found on chain" pid=1
+time="2026-11-16T20:55:11.370Z" level=info msg="Starting ingestion from ledger: 5726002" pid=1
+SDK 2026/11/16 20:55:11 WARN Response has no supported checksum. Not validating response payload.
+time="2026-11-16T20:55:11.386Z" level=warning msg="contract 27eefed4d32f2e2f001a86951f237e85cd81812a9331a1811bbe53aa5921235e has an external-ref executable (owner=CDD3G6M2JSJLXBYLY4N6WLWVU2LB5UGPSKFO5ZV4M6BMYQY555Q6FA46 tag=\"amm.concentrated\"); leaving it unclassified" pid=1
+time="2026-11-16T20:55:11.387Z" level=warning msg="contract 7f459e232b011da4a8d6589978feca9f3e122958a58a91f49a7e40c0382fd6d2 has an external-ref executable (owner=CDD3G6M2JSJLXBYLY4N6WLWVU2LB5UGPSKFO5ZV4M6BMYQY555Q6FA46 tag=\"amm.vault\"); leaving it unclassified" pid=1
+time="2026-11-16T20:55:11.461Z" level=info msg="Ingested ledger 5726002 in 0.0756s" pid=1
+time="2026-11-16T20:55:12.070Z" level=info msg="shutdown requested; exiting cleanly: live ingestion pipeline: pipeline cancelled: context canceled" pid=1
+time="2026-11-16T20:55:12.070Z" level=info msg="Shutting down servers..." pid=1
+time="2026-11-16T20:55:12.070Z" level=info msg="Servers gracefully stopped" pid=1

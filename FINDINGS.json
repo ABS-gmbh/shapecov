@@ -401,6 +401,28 @@
    ]
   },
   {
+   "id": "C12",
+   "kind": "confirmed",
+   "title": "Trade claims export offer_created, offer_updated and offer_removed effects the ledger does not show",
+   "component": "stellar-etl: export_effects (trade claims)",
+   "severity": "S2",
+   "severity_note": "confirmed after reading the issue, not found blind",
+   "caps": [],
+   "caps_none_reason": "an effect-model contract with Horizon's, not a protocol shape",
+   "reproduction": {
+    "corpus_entry": "pubnet-59220000"
+   },
+   "upstream": [
+    "https://github.com/stellar/stellar-etl/issues/456"
+   ],
+   "first_reported_by": "chowbao (stellar-etl maintainer)",
+   "reported": "2026-07-04",
+   "status": "open; the oracle flags 225 operations in 11 corpus ledgers",
+   "labels": [
+    "stellar/stellar-etl#456"
+   ]
+  },
+  {
    "id": "J2",
    "kind": "confirmed",
    "title": "A liquidity-pool asset pair the network accepted is refused: issuers compared as strkey text",

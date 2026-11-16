@@ -145,6 +145,8 @@ Only the implicit checks apply: the ledger is ingested without an error and ever
 | `localcore-maintain-liabilities-5` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `localcore-memo-and-offer-p30-4` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `localcore-memo-and-offer-p30-4` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `localcore-op-failures-8` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `localcore-op-failures-8` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `localcore-planted-auth-5` | 28 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `localcore-planted-auth-5` | 28 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `localcore-pool-revoke-two-pools-7` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | dropped: wallet-backend#817 |
@@ -153,6 +155,12 @@ Only the implicit checks apply: the ledger is ingested without an error and ever
 | `localcore-preauth-failed-6` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `localcore-sponsorship-transfer-9` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `localcore-sponsorship-transfer-9` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `localcore-tx-failures-bumped-13` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `localcore-tx-failures-bumped-13` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `localcore-tx-failures-plain-12` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `localcore-tx-failures-plain-12` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `localcore-upgrades-14` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `localcore-upgrades-14` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `pubnet-59220000` | 23 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `pubnet-59220000` | 23 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `pubnet-60280000` | 24 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | dropped: wallet-backend#677 |
@@ -232,8 +240,8 @@ Only the implicit checks apply: the ledger is ingested without an error and ever
 | `f8e5786d` | datalake | 0 | 1 | 0 | 0 |
 | `bb0b162b` | rpc | 0 | 0 | 1 | 0 |
 | `bb0b162b` | datalake | 0 | 0 | 1 | 0 |
-| `3e22515a` | rpc | 75 | 0 | 12 | 0 |
-| `3e22515a` | datalake | 75 | 0 | 12 | 0 |
+| `3e22515a` | rpc | 79 | 0 | 12 | 0 |
+| `3e22515a` | datalake | 79 | 0 | 12 | 0 |
 
 ## Oracle checks
 
@@ -244,24 +252,24 @@ checked. A failure is labelled with the open upstream issue that explains it
 
 | Commit | Input | Replays | Rows expected | Rows met | Known issues | Unexplained |
 |---|---|---|---|---|---|---|
-| `79ea2acd` | rpc | 2 | 71 | 67 | record:R11 (2), wallet-backend#815 (1) | 1 |
-| `79ea2acd` | datalake | 2 | 71 | 67 | record:R11 (2), wallet-backend#815 (1) | 1 |
-| `6e5a5910` | rpc | 2 | 71 | 0 | none | 2 |
-| `6e5a5910` | datalake | 2 | 71 | 0 | none | 2 |
-| `2a0a84ea` | rpc | 1 | 65 | 0 | none | 1 |
-| `2a0a84ea` | datalake | 1 | 65 | 0 | none | 1 |
-| `2c873353` | rpc | 1 | 65 | 63 | record:R11 (2) | 0 |
-| `2c873353` | datalake | 1 | 65 | 63 | record:R11 (2) | 0 |
-| `764a4f5b` | rpc | 1 | 7 | 4 | record:R11 (1) | 2 |
-| `764a4f5b` | datalake | 1 | 7 | 4 | record:R11 (1) | 2 |
-| `c152783c` | rpc | 1 | 7 | 6 | record:R11 (1) | 0 |
-| `c152783c` | datalake | 1 | 7 | 6 | record:R11 (1) | 0 |
+| `79ea2acd` | rpc | 2 | 85 | 67 | record:R11 (2), wallet-backend#815 (1) | 1 |
+| `79ea2acd` | datalake | 2 | 85 | 67 | record:R11 (2), wallet-backend#815 (1) | 1 |
+| `6e5a5910` | rpc | 2 | 85 | 0 | none | 2 |
+| `6e5a5910` | datalake | 2 | 85 | 0 | none | 2 |
+| `2a0a84ea` | rpc | 1 | 79 | 0 | none | 1 |
+| `2a0a84ea` | datalake | 1 | 79 | 0 | none | 1 |
+| `2c873353` | rpc | 1 | 79 | 63 | record:R11 (2) | 0 |
+| `2c873353` | datalake | 1 | 79 | 63 | record:R11 (2) | 0 |
+| `764a4f5b` | rpc | 1 | 8 | 4 | record:R11 (1) | 2 |
+| `764a4f5b` | datalake | 1 | 8 | 4 | record:R11 (1) | 2 |
+| `c152783c` | rpc | 1 | 8 | 6 | record:R11 (1) | 0 |
+| `c152783c` | datalake | 1 | 8 | 6 | record:R11 (1) | 0 |
 | `f8e5786d` | rpc | 1 | 6 | 0 | none | 1 |
 | `f8e5786d` | datalake | 1 | 6 | 0 | none | 1 |
 | `bb0b162b` | rpc | 1 | 6 | 5 | wallet-backend#815 (1) | 0 |
 | `bb0b162b` | datalake | 1 | 6 | 5 | wallet-backend#815 (1) | 0 |
-| `3e22515a` | rpc | 87 | 23793 | 23776 | wallet-backend#677 (6), wallet-backend#815 (6), wallet-backend#816 (3), wallet-backend#817 (2) | 0 |
-| `3e22515a` | datalake | 87 | 23793 | 23776 | wallet-backend#677 (6), wallet-backend#815 (6), wallet-backend#816 (3), wallet-backend#817 (2) | 0 |
+| `3e22515a` | rpc | 91 | 28261 | 28244 | wallet-backend#677 (6), wallet-backend#815 (6), wallet-backend#816 (3), wallet-backend#817 (2) | 0 |
+| `3e22515a` | datalake | 91 | 28261 | 28244 | wallet-backend#677 (6), wallet-backend#815 (6), wallet-backend#816 (3), wallet-backend#817 (2) | 0 |
 
 Failures that are a claimed sighting (found by the oracle alone, without the manifest's expectation):
 
@@ -419,3 +427,4 @@ Failures that are a claimed sighting (found by the oracle alone, without the man
 | 2026-11-16T17:31:44+00:00 | `79ea2acd`, `6e5a5910`, `f8e5786d`, `bb0b162b` | rpc, datalake | 1 | 30.7 | 36728 | 4 | 8 |
 | 2026-11-16T17:32:15+00:00 | `3e22515a` | rpc, datalake | 28 | 147.6 | 36864 | 28 | 56 |
 | 2026-11-16T17:44:48+00:00 | `3e22515a` | rpc, datalake | 2 | 18.7 | 36276 | 2 | 4 |
+| 2026-11-16T20:47:38+00:00 | `3e22515a` | rpc, datalake | 91 | 635.3 | 38164 | 91 | 182 |

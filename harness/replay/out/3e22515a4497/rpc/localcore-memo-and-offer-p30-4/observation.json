@@ -14,7 +14,7 @@
   "outcome": "stopped by the adapter after the ledger was ingested",
   "exit_code": 0,
   "oom_killed": false,
-  "started_finished": "2026-11-16T17:32:18.469752089Z 2026-11-16T17:32:19.624001589Z"
+  "started_finished": "2026-11-16T20:50:27.94995747Z 2026-11-16T20:50:29.237828012Z"
  },
  "log_errors": [],
  "log_warnings": 1,
@@ -140,6 +140,16 @@
    }
   }
  ],
+ "native_balances": [
+  {
+   "account": "GBRPYHIL2CI3FNQ4BXLFMNDLFJUNPU2HY3ZMFSHONUCEOASW7QC7OX2H",
+   "balance": 999999998989999800
+  },
+  {
+   "account": "GBYOSWSKNHG2N2WAPP44KG5XUAAQX2GJQPG2BB5N4LNG4PODTATCK2IX",
+   "balance": 1009999900
+  }
+ ],
  "unreadable": [],
  "row_counts": {
   "transactions": 2,
@@ -148,5 +158,5 @@
   "operations_accounts": 3,
   "state_changes": 4
  },
- "seconds": 2.5
+ "seconds": 3.0
 }

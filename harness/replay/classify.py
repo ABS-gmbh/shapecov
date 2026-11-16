@@ -155,7 +155,40 @@ def _within(exp, obs):
     return "met", "%s: %d stored, all shown by the meta" % (label, len(stored))
 
 
+def _native_balance(exp, obs):
+    """An account's XLM balance in the indexer's current-state rows after the ledger."""
+    if "native_balances" not in obs:
+        return "not_checked", "the observation does not report current balances"
+    got = {r["account"]: r["balance"] for r in obs["native_balances"]}
+    label = "current XLM balance of %s" % exp["account"]
+    if exp["balance"] is None:
+        if exp["account"] in got:
+            return "wrong_value", "%s: a row is stored, the ledger removed the account" % label
+        return "met", "%s: no row, the account was removed" % label
+    if exp["account"] not in got:
+        return "missing", "%s: no row stored, the ledger leaves it at %d" % (label, exp["balance"])
+    if got[exp["account"]] != exp["balance"]:
+        return "wrong_value", "%s: stored %d, the ledger leaves it at %d" % (label, got[exp["account"]], exp["balance"])
+    return "met", "%s: %d" % (label, exp["balance"])
+
+
+def _at_most(exp, obs):
+    """No more stored rows of these reasons for one operation than the ledger gives cause for."""
+    rows = [r for r in obs.get("state_changes") or [] if r.get("tx_hash") == exp["tx_hash"]
+            and r.get("category") == exp.get("category", "EFFECT") and r.get("reason") in exp["reasons"]
+            and (r.get("fields") or {}).get("op_order", r.get("op_order")) == exp["op_order"]]
+    label = "%s rows for tx %s, operation %d" % ("/".join(exp["reasons"]), exp["tx_hash"][:12], exp["op_order"])
+    if len(rows) > exp["max"]:
+        return "wrong_value", "%s: %d stored, the ledger changes %d offer entr%s in it" % (
+            label, len(rows), exp["max"], "y" if exp["max"] == 1 else "ies")
+    return "met", "%s: %d stored, at most %d" % (label, len(rows), exp["max"])
+
+
 def _check(exp, obs):
+    if exp.get("expect") == "effect_count_at_most":
+        return _at_most(exp, obs)
+    if exp.get("expect") == "native_balance":
+        return _native_balance(exp, obs)
     if exp.get("expect") == "participants_within":
         return _within(exp, obs)
     if exp.get("expect") == "muxed_destination":

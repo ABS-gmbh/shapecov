@@ -313,6 +313,11 @@ def main():
 
     if a.sdks:
         sdks = a.sdks.split(",")
+        missing = [s for s in sdks if s not in RUNNERS or not (shutil.which(RUNNERS[s]["cmd"][0]) or Path(RUNNERS[s]["cmd"][0]).exists())]
+        if missing:
+            print("runner(s) not built: %s. Build them once (README, 'Run it'), or leave them out of --sdks; "
+                  "without --sdks every other check still runs." % ", ".join(missing))
+            sys.exit(2)
         print("\nSDK round trips")
         res = sdk_roundtrips(manifest["entries"], raws, sdks, rep)
         for e in manifest["entries"]:

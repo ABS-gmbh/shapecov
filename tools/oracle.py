@@ -608,6 +608,41 @@ def participants(value, passphrase=None):
     return out
 
 
+def final_native_balances(value):
+    """{account: (balance before the ledger or None if it created the account, balance after it or
+    None if it removed the account)} for every account whose entry the ledger created, changed or
+    removed. stellar-core charges every transaction's fee
+    first, then applies the transactions in order, then the post-apply fee refunds, then the upgrades,
+    so the last change in that order is the account's state when the ledger closes."""
+    body = value["v%d" % value["v"]]
+    txs = body["txProcessing"]
+    order = [tp.get("feeProcessing") for tp in txs]
+    for tp in txs:
+        meta = tp["txApplyProcessing"]
+        mv = meta.get("v%d" % meta["v"]) or {}
+        if "v%d" % meta["v"] not in meta:
+            mv = {"operations": meta.get("operations") or []}
+        order += [mv.get("txChanges"), mv.get("txChangesBefore")] + [op.get("changes") for op in mv.get("operations") or []] + \
+                 [mv.get("txChangesAfter")]
+    order += [tp.get("postTxApplyFeeProcessing") for tp in txs]
+    order += [u.get("changes") for u in body.get("upgradesProcessing") or []]
+    before, after = {}, {}
+    for changes in order:
+        for ch in changes or []:
+            t = ch["type"]
+            if t == "LEDGER_ENTRY_STATE" and ch["state"]["data"]["type"] == "ACCOUNT":
+                before.setdefault(account_of(ch["state"]["data"]["account"]["accountID"]), ch["state"]["data"]["account"]["balance"])
+            elif t in ("LEDGER_ENTRY_CREATED", "LEDGER_ENTRY_UPDATED", "LEDGER_ENTRY_RESTORED"):
+                d = ch[t.split("_")[-1].lower()]["data"]
+                if d["type"] == "ACCOUNT":
+                    a = account_of(d["account"]["accountID"])
+                    before.setdefault(a, None if t == "LEDGER_ENTRY_CREATED" else d["account"]["balance"])
+                    after[a] = d["account"]["balance"]
+            elif t == "LEDGER_ENTRY_REMOVED" and ch["removed"]["type"] == "ACCOUNT":
+                after[account_of(ch["removed"]["account"]["accountID"])] = None
+    return {a: (before.get(a), b) for a, b in after.items()}
+
+
 def tx_envelopes(body):
     """Envelopes by transaction hash are not needed; operation types come from the results."""
     return None

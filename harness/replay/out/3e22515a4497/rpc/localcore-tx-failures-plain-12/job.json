@@ -1,0 +1,28 @@
+{
+ "job_version": 1,
+ "entry_id": "localcore-tx-failures-plain-12",
+ "ref": "3e22515a44979fdc3a558fda3991ca2b48e38cef",
+ "commit": "3e22515a44979fdc3a558fda3991ca2b48e38cef",
+ "input": "rpc",
+ "network_passphrase": "Test SDF Network ; September 2015",
+ "ledger": {
+  "seq": 12,
+  "hash": "60efdf343a51e2858f9dda85c970d17f836ac8d954def4c179eb04a22a6b4d4a",
+  "close_time": 4110000000,
+  "protocol": 30
+ },
+ "rpc": {
+  "url": "http://shapecov-replay-feeder:8000/rpc/localcore-tx-failures-plain-12"
+ },
+ "datalake": {
+  "s3_endpoint": "http://shapecov-replay-feeder:9000",
+  "bucket_path": "shapecov-lake/localcore-tx-failures-plain-12",
+  "region": "us-east-1"
+ },
+ "history_archive": {
+  "url": "http://shapecov-replay-feeder:8000/archive/localcore-tx-failures-plain-12"
+ },
+ "docker_network": "shapecov-replay-net",
+ "timeout_seconds": 120,
+ "work_dir": "$REPLAY_WORK"
+}

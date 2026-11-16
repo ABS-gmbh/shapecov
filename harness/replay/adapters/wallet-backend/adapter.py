@@ -217,6 +217,10 @@ def read_back(seq):
             if v is not None:
                 row.setdefault("fields", {})[col] = v
         obs["state_changes"].append(row)
+    nb = rows("native_balances", "true")
+    if nb is not None:  # the current-state table of XLM balances (since January 2026)
+        obs["native_balances"] = [{"account": (address(r["account_id"], "native_balances", "account_id", unreadable) or {}).get("strkey"),
+                                   "balance": int(r["balance"])} for r in nb]
     obs["unreadable"] = unreadable
     obs["row_counts"] = {"transactions": len(txs), "transactions_accounts": len(tx_acc), "operations": len(ops),
                          "operations_accounts": len(op_acc), "state_changes": len(scs)}

@@ -1,0 +1,46 @@
+{
+ "adapter": "wallet-backend",
+ "checks": [],
+ "commit": "3e22515a44979fdc3a558fda3991ca2b48e38cef",
+ "dropped": [],
+ "entry_id": "localcore-tx-failures-bumped-13",
+ "evidence": "out/3e22515a4497/rpc/localcore-tx-failures-bumped-13",
+ "expectations": 0,
+ "expectations_source": "none (implicit checks only)",
+ "feeder_requests": 4,
+ "ingested": true,
+ "input": "rpc",
+ "ledger": {
+  "close_time": 4120000000,
+  "hash": "034dd68f2fd5f1fdad3ae130985626a30b6b356b0d7d4807e3c65a99f29b159a",
+  "protocol": 30,
+  "seq": 13
+ },
+ "mishandled": [],
+ "mode": "unmodified",
+ "oracle": {
+  "verdict": "pass",
+  "rows_expected": 335,
+  "rows_met": 335,
+  "known": {},
+  "unexplained": []
+ },
+ "process": {
+  "exit_code": 0,
+  "oom_killed": false,
+  "outcome": "stopped by the adapter after the ledger was ingested",
+  "started_finished": "2026-11-16T20:52:33.963739792Z 2026-11-16T20:52:35.174141251Z"
+ },
+ "protocol_version": 30,
+ "ref": "3e22515a44979fdc3a558fda3991ca2b48e38cef",
+ "result": "pass",
+ "row_counts": {
+  "operations": 50,
+  "operations_accounts": 68,
+  "state_changes": 70,
+  "transactions": 50,
+  "transactions_accounts": 102
+ },
+ "sdk_pin": "v0.8.0",
+ "seconds": 3.2
+}

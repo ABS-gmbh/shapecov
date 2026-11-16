@@ -235,7 +235,7 @@ def main():
     if not a.dry_run:
         (CORPUS / "manifest.json").write_text(json.dumps(manifest, indent=1) + "\n")
     print(f"{added} entr{'y' if added == 1 else 'ies'} {'planned' if a.dry_run else 'added'}; "
-          f"corpus now {len(manifest['entries'])}")
+          f"corpus now {len(manifest['entries']) + (added if a.dry_run else 0)}")
 
 
 if __name__ == "__main__":

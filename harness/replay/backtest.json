@@ -12,9 +12,55 @@
    "fix": "666717aa",
    "parent": "2617c48b",
    "title": "fold fee-phase changes into native balances",
-   "verdict": "missed",
-   "entries": [],
-   "what_would_catch_it": "Read account balances (the accounts table), which the adapter does not, plus a ledger where an account's XLM moves only in the fee phase: a fee bump whose fee source does nothing else (1,005 fee bumps are in the corpus)."
+   "verdict": "detected",
+   "entries": [
+    {
+     "entry": "golden-invokehostfunction-41088f6e-29",
+     "results": "pass1",
+     "blind": true,
+     "parent": {
+      "unexplained": 2
+     },
+     "fix": {}
+    },
+    {
+     "entry": "golden-invokehostfunction-e0e11e1f-32",
+     "results": "pass1",
+     "blind": true,
+     "parent": {
+      "unexplained": 2
+     },
+     "fix": {}
+    },
+    {
+     "entry": "localcore-declared-deploy-6",
+     "results": "pass1",
+     "blind": true,
+     "parent": {
+      "unexplained": 1
+     },
+     "fix": {}
+    },
+    {
+     "entry": "localcore-planted-auth-5",
+     "results": "pass1",
+     "blind": true,
+     "parent": {
+      "unexplained": 1
+     },
+     "fix": {}
+    },
+    {
+     "entry": "pubnet-60280000",
+     "results": "pass1",
+     "blind": true,
+     "parent": {
+      "unexplained": 173
+     },
+     "fix": {}
+    }
+   ],
+   "what_would_catch_it": null
   },
   {
    "id": "wallet-backend#687",
@@ -486,7 +532,7 @@
    "title": "map the three frozen-trustline operation result codes",
    "verdict": "missed",
    "entries": [],
-   "what_would_catch_it": "A claim, deposit or withdraw failing on a frozen trustline at protocol 26 to 28. The corpus has them only at protocol 30 (`golden-frozenledgerkeys-a0fb94c3-15`, `-d637d647-16`), which the commits before the fix cannot decode: a local-core scenario that freezes a trustline at protocol 26 to 28."
+   "what_would_catch_it": "A claim, deposit or withdraw failing on a frozen trustline at protocol 26 to 28. The corpus has them only at protocol 30 (`golden-frozenledgerkeys-a0fb94c3-15`, `-d637d647-16`), which the commits before the fix cannot decode: a local-core scenario that freezes a trustline at protocol 26 to 28. The codes exist from protocol 26, but freezing a ledger key takes a Soroban configuration upgrade (a ConfigUpgradeSet written by a contract, then armed); not built, as it would give one detection made after reading the fix."
   },
   {
    "id": "ba821579",
@@ -1781,8 +1827,65 @@
    "issue": "stellar/stellar-etl#456",
    "pipeline": "stellar-etl",
    "at": "2b24ec89ddce",
-   "verdict": "missed",
-   "entries": []
+   "verdict": "detected",
+   "entries": [
+    {
+     "entry": "pubnet-59220000",
+     "results": "etl",
+     "blind": false
+    },
+    {
+     "entry": "pubnet-60280000",
+     "results": "etl",
+     "blind": false
+    },
+    {
+     "entry": "pubnet-61240000",
+     "results": "etl",
+     "blind": false
+    },
+    {
+     "entry": "pubnet-63920000",
+     "results": "etl",
+     "blind": false
+    },
+    {
+     "entry": "pubnet-65280000",
+     "results": "etl",
+     "blind": false
+    },
+    {
+     "entry": "pubnet-65460000",
+     "results": "etl",
+     "blind": false
+    },
+    {
+     "entry": "pubnet-65479774",
+     "results": "etl",
+     "blind": false
+    },
+    {
+     "entry": "pubnet-65480264",
+     "results": "etl",
+     "blind": false
+    },
+    {
+     "entry": "pubnet-65480300",
+     "results": "etl",
+     "blind": false
+    },
+    {
+     "entry": "pubnet-65480508",
+     "results": "etl",
+     "blind": false
+    },
+    {
+     "entry": "pubnet-65480598",
+     "results": "etl",
+     "blind": false
+    }
+   ],
+   "note": "Oracle rule written after reading the issue: not blind."
   },
   {
    "id": "stellar/stellar-etl#457",

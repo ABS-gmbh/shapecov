@@ -1,19 +1,19 @@
-time="2026-11-16T08:26:20.808Z" level=info msg="wallet-backend dev (commit 3e22515a44979fdc3a558fda3991ca2b48e38cef)" pid=1
-time="2026-11-16T08:26:20.816Z" level=info msg="Set chunk interval \"1 day\" on transactions" pid=1
-time="2026-11-16T08:26:20.816Z" level=info msg="Set chunk interval \"1 day\" on transactions_accounts" pid=1
-time="2026-11-16T08:26:20.817Z" level=info msg="Set chunk interval \"1 day\" on operations" pid=1
-time="2026-11-16T08:26:20.817Z" level=info msg="Set chunk interval \"1 day\" on operations_accounts" pid=1
-time="2026-11-16T08:26:20.817Z" level=info msg="Set chunk interval \"1 day\" on state_changes" pid=1
-time="2026-11-16T08:26:20.820Z" level=info msg="Updated transaction_hashes maintenance job 1006 (worker 0 of 1, every \"1 day\")" pid=1
-time="2026-11-16T08:26:20.821Z" level=info msg="Using RPCLedgerBackend for ledger ingestion with buffer size 10" pid=1
-time="2026-11-16T08:26:20.826Z" level=info msg="protocol BLEND history production disabled; cursor not initialized" pid=1
-time="2026-11-16T08:26:20.826Z" level=info msg="protocol BLEND current-state production disabled; cursor not initialized" pid=1
-time="2026-11-16T08:26:20.826Z" level=info msg="protocol SEP41 history production disabled; cursor not initialized" pid=1
-time="2026-11-16T08:26:20.826Z" level=info msg="protocol SEP41 current-state production disabled; cursor not initialized" pid=1
-time="2026-11-16T08:26:20.828Z" level=info msg="startup reconciliation: cursor ledger 5399999 has no transactions row (expected after a checkpoint bootstrap or for an empty ledger), so the deletes above it run without a close-time bound" pid=1
-time="2026-11-16T08:26:20.830Z" level=warning msg="blend: price snapshot pass failed: blend: price snapshot: comet leg: discovering backstop LP tokens: blend: fetchBackstopLPTokens: backstop CBGSFY6NR5TSCQJH5EGVMCFTHLZBCAO7YPIW426WSD46V3TESPA3U6DI: instance entry not found on chain\nblend: fetchBackstopLPTokens: backstop CBDVWXT433PRVTUNM56C3JREF3HIZHRBA64NB2C3B2UNCKIS65ZYCLZA: instance entry not found on chain" pid=1
-time="2026-11-16T08:26:20.883Z" level=info msg="Starting ingestion from ledger: 5400000" pid=1
-time="2026-11-16T08:26:20.930Z" level=info msg="Ingested ledger 5400000 in 0.0393s" pid=1
-time="2026-11-16T08:26:21.732Z" level=info msg="shutdown requested; exiting cleanly: live ingestion pipeline: pipeline cancelled: context canceled" pid=1
-time="2026-11-16T08:26:21.732Z" level=info msg="Shutting down servers..." pid=1
-time="2026-11-16T08:26:21.732Z" level=info msg="Servers gracefully stopped" pid=1
+time="2026-11-16T20:51:15.323Z" level=info msg="wallet-backend dev (commit 3e22515a44979fdc3a558fda3991ca2b48e38cef)" pid=1
+time="2026-11-16T20:51:15.340Z" level=info msg="Set chunk interval \"1 day\" on transactions" pid=1
+time="2026-11-16T20:51:15.340Z" level=info msg="Set chunk interval \"1 day\" on transactions_accounts" pid=1
+time="2026-11-16T20:51:15.341Z" level=info msg="Set chunk interval \"1 day\" on operations" pid=1
+time="2026-11-16T20:51:15.341Z" level=info msg="Set chunk interval \"1 day\" on operations_accounts" pid=1
+time="2026-11-16T20:51:15.341Z" level=info msg="Set chunk interval \"1 day\" on state_changes" pid=1
+time="2026-11-16T20:51:15.346Z" level=info msg="Updated transaction_hashes maintenance job 1006 (worker 0 of 1, every \"1 day\")" pid=1
+time="2026-11-16T20:51:15.347Z" level=info msg="Using RPCLedgerBackend for ledger ingestion with buffer size 10" pid=1
+time="2026-11-16T20:51:15.355Z" level=info msg="protocol BLEND history production disabled; cursor not initialized" pid=1
+time="2026-11-16T20:51:15.355Z" level=info msg="protocol BLEND current-state production disabled; cursor not initialized" pid=1
+time="2026-11-16T20:51:15.355Z" level=info msg="protocol SEP41 history production disabled; cursor not initialized" pid=1
+time="2026-11-16T20:51:15.355Z" level=info msg="protocol SEP41 current-state production disabled; cursor not initialized" pid=1
+time="2026-11-16T20:51:15.358Z" level=info msg="startup reconciliation: cursor ledger 5399999 has no transactions row (expected after a checkpoint bootstrap or for an empty ledger), so the deletes above it run without a close-time bound" pid=1
+time="2026-11-16T20:51:15.375Z" level=warning msg="blend: price snapshot pass failed: blend: price snapshot: comet leg: discovering backstop LP tokens: blend: fetchBackstopLPTokens: backstop CBGSFY6NR5TSCQJH5EGVMCFTHLZBCAO7YPIW426WSD46V3TESPA3U6DI: instance entry not found on chain\nblend: fetchBackstopLPTokens: backstop CBDVWXT433PRVTUNM56C3JREF3HIZHRBA64NB2C3B2UNCKIS65ZYCLZA: instance entry not found on chain" pid=1
+time="2026-11-16T20:51:15.386Z" level=info msg="Starting ingestion from ledger: 5400000" pid=1
+time="2026-11-16T20:51:15.478Z" level=info msg="Ingested ledger 5400000 in 0.0812s" pid=1
+time="2026-11-16T20:51:16.238Z" level=info msg="shutdown requested; exiting cleanly: live ingestion pipeline: pipeline cancelled: context canceled" pid=1
+time="2026-11-16T20:51:16.238Z" level=info msg="Shutting down servers..." pid=1
+time="2026-11-16T20:51:16.238Z" level=info msg="Servers gracefully stopped" pid=1

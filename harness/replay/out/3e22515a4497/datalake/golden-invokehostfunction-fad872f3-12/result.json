@@ -20,8 +20,8 @@
  "mode": "unmodified",
  "oracle": {
   "verdict": "pass",
-  "rows_expected": 13,
-  "rows_met": 13,
+  "rows_expected": 16,
+  "rows_met": 16,
   "known": {},
   "unexplained": []
  },
@@ -29,7 +29,7 @@
   "exit_code": 0,
   "oom_killed": false,
   "outcome": "stopped by the adapter after the ledger was ingested",
-  "started_finished": "2026-11-16T17:34:19.300374839Z 2026-11-16T17:34:20.514979381Z"
+  "started_finished": "2026-11-16T20:57:27.327929553Z 2026-11-16T20:57:28.913091179Z"
  },
  "protocol_version": 30,
  "ref": "3e22515a44979fdc3a558fda3991ca2b48e38cef",
@@ -42,5 +42,5 @@
   "transactions_accounts": 4
  },
  "sdk_pin": "v0.8.0",
- "seconds": 2.5
+ "seconds": 2.9
 }

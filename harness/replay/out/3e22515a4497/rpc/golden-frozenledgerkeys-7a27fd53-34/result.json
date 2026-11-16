@@ -20,8 +20,8 @@
  "mode": "unmodified",
  "oracle": {
   "verdict": "known issues only",
-  "rows_expected": 18,
-  "rows_met": 17,
+  "rows_expected": 23,
+  "rows_met": 22,
   "known": {
    "stellar/wallet-backend#677": 1
   },
@@ -34,7 +34,7 @@
   "exit_code": 0,
   "oom_killed": false,
   "outcome": "stopped by the adapter after the ledger was ingested",
-  "started_finished": "2026-11-15T21:45:23.272197343Z 2026-11-15T21:45:24.505522927Z"
+  "started_finished": "2026-11-16T20:49:06.61071421Z 2026-11-16T20:49:07.951275919Z"
  },
  "protocol_version": 30,
  "ref": "3e22515a44979fdc3a558fda3991ca2b48e38cef",
@@ -47,5 +47,5 @@
   "transactions_accounts": 6
  },
  "sdk_pin": "v0.8.0",
- "seconds": 2.4
+ "seconds": 3.9
 }

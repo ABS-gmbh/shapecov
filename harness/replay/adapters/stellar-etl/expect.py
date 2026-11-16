@@ -202,9 +202,31 @@ def expectations(changes, passphrase):
         else:
             merged[key] = dict(e, derived_from="oracle: %s %s (op %d %s)" % (c["what"], c["how"], c["where"], c["op_type"]),
                                via={"where": c["where"], "op_type": c["op_type"], "what": c["what"], "how": c["how"]})
-    for e in allow_trust_types(changes):
+    for e in allow_trust_types(changes) + offer_effect_bounds(changes):
         merged[json.dumps(e, sort_keys=True)] = e
     return list(merged.values())
+
+
+OFFER_EFFECTS = ["offer_created", "offer_updated", "offer_removed"]
+
+
+def offer_effect_bounds(changes):
+    """For every operation that changed an offer entry: no more offer_created/updated/removed effects
+    than offer entries the ledger changed in it (stellar-etl#456: a trade claim emits offer effects
+    for buyer and seller, several per claimed offer; Horizon emits none)."""
+    per, traded = {}, set()
+    for c in changes:
+        if c["success"] and isinstance(c["where"], int):
+            k = (c["tx_hash"], c["where"])
+            if c["what"] == "offer":
+                per[k] = per.get(k, 0) + 1
+            elif c["what"] == "trade":
+                traded.add(k)
+    return [{"expect": "effect_count_at_most", "tx_hash": tx, "op_order": where + 1, "reasons": OFFER_EFFECTS, "max": n,
+             "derived_from": "oracle: %d offer entr%s changed in op %d" % (n, "y" if n == 1 else "ies", where),
+             "via": {"where": where, "what": "offer effects",
+                     "how": "more than the ledger changed, in a trade" if (tx, where) in traded else "more than the ledger changed"}}
+            for (tx, where), n in sorted(per.items())]
 
 
 def allow_trust_types(changes):

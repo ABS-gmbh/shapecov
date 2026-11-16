@@ -137,6 +137,8 @@ def oracle_verdict(entry, obs, mapping, value):
             exps += mapping.muxed_expectations(oracle.muxed_destinations(value), passphrase)
         if hasattr(mapping, "participant_expectations"):
             exps += mapping.participant_expectations(oracle.participants(value, passphrase), passphrase)
+        if hasattr(mapping, "state_expectations"):
+            exps += mapping.state_expectations(value, passphrase)
         _EXPS.clear()
         _EXPS[key] = (value, exps)  # holding the value keeps id(value) from being reused
     exps = copy.deepcopy(_EXPS[key][1])

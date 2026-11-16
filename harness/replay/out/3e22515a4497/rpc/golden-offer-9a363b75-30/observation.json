@@ -8,13 +8,13 @@
  "ingested": true,
  "error": null,
  "command": "wallet-backend ingest  (configured by environment: ARCHIVE_URL=http://shapecov-replay-feeder:8000/archive/golden-offer-9a363b75-30, DATABASE_URL=postgres://postgres@shapecov-replay-db:5432/replay?sslmode=disable, DATASTORE_BUCKET_PATH=shapecov-lake/golden-offer-9a363b75-30, DATASTORE_BUFFER_SIZE=4, DATASTORE_ENDPOINT_URL=http://shapecov-replay-feeder:9000, DATASTORE_NUM_WORKERS=2, DATASTORE_REGION=us-east-1, GET_LEDGERS_LIMIT=10, INGESTION_MODE=live, LEDGER_BACKEND_TYPE=rpc, LOG_LEVEL=INFO, NETWORK=standalone, NETWORK_PASSPHRASE=(V) (;,,;) (V), RPC_URL=http://shapecov-replay-feeder:8000/rpc/golden-offer-9a363b75-30, STELLAR_ENVIRONMENT=development)",
- "seconds_to_outcome": 1.1,
+ "seconds_to_outcome": 2.5,
  "cursor": 32,
  "process": {
   "outcome": "stopped by the adapter after the ledger was ingested",
   "exit_code": 0,
   "oom_killed": false,
-  "started_finished": "2026-11-15T21:44:49.775199758Z 2026-11-15T21:44:50.8934853Z"
+  "started_finished": "2026-11-16T20:48:17.007336173Z 2026-11-16T20:48:18.576773549Z"
  },
  "log_errors": [],
  "log_warnings": 0,
@@ -143,6 +143,16 @@
    }
   }
  ],
+ "native_balances": [
+  {
+   "account": "GBUSVINSYSCZ2U3IVAEDO6HJ3U3T7XKJMP2XAGPALOWOGHEL7KZKIF5I",
+   "balance": 500099700
+  },
+  {
+   "account": "GCE4HENKZ3ZIHQY4VEYCVX5ZE5LNDIN3FH4MHZCWFKXQZGQIOGAO77CN",
+   "balance": 500099700
+  }
+ ],
  "unreadable": [],
  "row_counts": {
   "transactions": 1,
@@ -151,5 +161,5 @@
   "operations_accounts": 2,
   "state_changes": 5
  },
- "seconds": 2.2
+ "seconds": 4.1
 }

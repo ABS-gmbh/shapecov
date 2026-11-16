@@ -8,13 +8,13 @@
  "ingested": true,
  "error": null,
  "command": "wallet-backend ingest  (configured by environment: ARCHIVE_URL=http://shapecov-replay-feeder:8000/archive/golden-pathpayment-34519f44-22, DATABASE_URL=postgres://postgres@shapecov-replay-db:5432/replay?sslmode=disable, DATASTORE_BUCKET_PATH=shapecov-lake/golden-pathpayment-34519f44-22, DATASTORE_BUFFER_SIZE=4, DATASTORE_ENDPOINT_URL=http://shapecov-replay-feeder:9000, DATASTORE_NUM_WORKERS=2, DATASTORE_REGION=us-east-1, GET_LEDGERS_LIMIT=10, INGESTION_MODE=live, LEDGER_BACKEND_TYPE=datastore, LOG_LEVEL=INFO, NETWORK=standalone, NETWORK_PASSPHRASE=(V) (;,,;) (V), RPC_URL=http://shapecov-replay-feeder:8000/rpc/golden-pathpayment-34519f44-22, STELLAR_ENVIRONMENT=development)",
- "seconds_to_outcome": 1.2,
+ "seconds_to_outcome": 2.1,
  "cursor": 24,
  "process": {
   "outcome": "stopped by the adapter after the ledger was ingested",
   "exit_code": 0,
   "oom_killed": false,
-  "started_finished": "2026-11-15T21:47:20.148045133Z 2026-11-15T21:47:21.249714884Z"
+  "started_finished": "2026-11-16T20:54:09.228285169Z 2026-11-16T20:54:10.866341129Z"
  },
  "log_errors": [],
  "log_warnings": 0,
@@ -429,6 +429,12 @@
    }
   }
  ],
+ "native_balances": [
+  {
+   "account": "GAZSW4CCE7N5PZ37LHCKLCM3W7BGXHDIGPUMFT4PRYO7VO4HD7M77HSF",
+   "balance": 600000800
+  }
+ ],
  "unreadable": [],
  "row_counts": {
   "transactions": 1,
@@ -437,5 +443,5 @@
   "operations_accounts": 5,
   "state_changes": 19
  },
- "seconds": 2.2
+ "seconds": 3.3
 }

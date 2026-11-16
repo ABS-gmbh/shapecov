@@ -139,6 +139,25 @@ def participant_expectations(records, passphrase):
     return out
 
 
+def state_expectations(value, passphrase):
+    """wallet-backend's current-state table native_balances: after the ledger, every account whose
+    XLM balance the ledger changed (in any phase, the fee included) has a row with its final balance,
+    and a removed account has none. An account whose entry changed but whose balance did not is not
+    checked: a replay starts from an empty database, so its row would have come from an earlier
+    ledger."""
+    import oracle
+    header = value["v%d" % value["v"]]["ledgerHeader"]["header"]
+    if header["ledgerVersion"] < 23:
+        # wallet-backend's stated contract (docs/architecture/state-changes.md, processors/accounts.go):
+        # native balances take the fee and the post-apply refund that protocol 23 and later report.
+        # Before 23 a Soroban refund is in txChangesAfter, which it does not read for balances.
+        return []
+    return [{"expect": "native_balance", "account": a, "balance": after,
+             "derived_from": "oracle: the account's balance when the ledger closes (it was %s)" % before,
+             "via": {"what": "native balance", "how": "removed" if after is None else "changed"}}
+            for a, (before, after) in sorted(oracle.final_native_balances(value).items()) if before != after]
+
+
 _KNOWN = {}
 
 

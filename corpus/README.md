@@ -94,9 +94,12 @@ bytes. These are the steps used for `localcore-planted-auth-5` and `localcore-de
 
 1. **Get the ledger.**
    - A ledger on the network: index a range of Stellar's public archive with
-     `tools/mine.py scan <testnet|pubnet> <first> <last> --stride N --cache DIR --index F.jsonl`,
-     then `corpus_add.py --network-index F.jsonl --cache DIR --min-cells N` picks the fewest
-     ledgers that bring a named pattern or N schema cells no entry has yet.
+     `tools/mine.py scan <testnet|pubnet> <first> <last> --stride N --cache DIR --index F.jsonl`
+     (for example `tools/mine.py scan testnet 5726010 5726030 --stride 1 ...`; a few hundred
+     ledgers take seconds), then `corpus_add.py --network-index F.jsonl --cache DIR --min-cells N`.
+     Per source, it picks the fewest ledgers that together carry every named pattern found in that
+     index, then ledgers that add at least N schema cells no entry has yet; so a ledger can be
+     chosen for patterns other sources' entries already carry.
    - A shape the network does not have yet (a new protocol, a rare combination): write a scenario
      in `tools/localcore.py` (a function plus a line in `SCENARIOS` and in the docstring). Record each
      ledger that holds the shape as `run["ledger_<name>"] = core.close()`. Run it with
@@ -108,10 +111,13 @@ bytes. These are the steps used for `localcore-planted-auth-5` and `localcore-de
    manifest record: hash, size, protocol, source, cells, patterns with their paths, CAP tags from
    `cap-map.json` for the cells it is designated for, and expected decoded values. It never
    rewrites an existing entry.
-3. **Write the two hand fields.** `title` and `shape` say what the ledger shows and why an indexer
-   could get it wrong, naming the upstream issue or commit if there is one.
-4. **Validate and record.** `python3 tools/corpus_check.py --sdks rust,js,python,python-xdr,go,java --core --record`
-   (Docker): the independent decoder, the byte-identical re-encode, the expected values, the
+3. **Rewrite the two hand fields.** `corpus_add.py` fills `title` and `shape` with a default made
+   from the pattern descriptions; replace both with what the ledger shows and why an indexer could
+   get it wrong, naming the upstream issue or commit if there is one.
+4. **Validate and record.** Build the SDK runners once (README, "Run it"), then
+   `python3 tools/corpus_check.py --sdks rust,js,python,python-xdr,go,java --core --record`
+   (Docker; without `--sdks` every check but the SDK round trips runs, and a runner that is not
+   built is named and stops the run): the independent decoder, the byte-identical re-encode, the expected values, the
    source record, rs-stellar-xdr and five SDK decoders, and stellar-core's own decode. Every check
    must pass (`CORPUS OK`).
 5. **Local ledgers only: pin reproducibility.** Run the scenario on both passphrases
@@ -122,11 +128,16 @@ bytes. These are the steps used for `localcore-planted-auth-5` and `localcore-de
    - `python3 tools/cap_coverage.py` rewrites `CAP-COVERAGE.md`; `--check` must pass.
    - `python3 guide/check_guide.py` names any guide row whose Entries column changed.
    - `python3 .github/scripts/check_counts.py` names each sentence that states the entry count.
+   - `python3 tools/cell_coverage.py` rewrites `COVERAGE.md` and `coverage.json` when the entry
+     brings a new cell; `python3 harness/replay/shapes.py` rewrites the per-shape roll-up when it
+     carries a pattern; after editing the guide's Entries columns,
+     `python3 guide/export_docs.py --prettier DIR` rewrites the docs page.
    - Replay the new entries (`harness/replay/replay.py run --entries <ids> --refs <commit> ...`)
      and run `replay.py check --oracle`. A failure no known issue explains is a candidate finding.
 
-CI repeats the checks of steps 4 and 5, the guide and count checks, and the oracle check on the
-committed replay results, on every push.
+Finish with `python3 quickcheck.py`: every `FAIL` line names the file to update. CI repeats the
+checks of steps 4 and 5, the guide and count checks, and the oracle check on the committed replay
+results, on every push.
 
 ## Limits
 

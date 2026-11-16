@@ -63,6 +63,14 @@
     "what": "trustauth",
     "how": "allow_trust effect type"
    }
+  },
+  {
+   "issue": "stellar/stellar-etl#456",
+   "note": "A trade claim emits offer_created, offer_updated and offer_removed effects for buyer and seller per claimed offer (6 to 8 rows), more than the offer entries the operation changed; Horizon emits only trade effects. Rule written after reading the issue; it applies only to operations in which a trade happened.",
+   "match": {
+    "what": "offer effects",
+    "how": "more than the ledger changed, in a trade"
+   }
   }
  ]
 }

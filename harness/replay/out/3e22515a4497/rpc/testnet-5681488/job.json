@@ -23,6 +23,6 @@
   "url": "http://shapecov-replay-feeder:8000/archive/testnet-5681488"
  },
  "docker_network": "shapecov-replay-net",
- "timeout_seconds": 60,
+ "timeout_seconds": 120,
  "work_dir": "$REPLAY_WORK"
 }

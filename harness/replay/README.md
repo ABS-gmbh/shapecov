@@ -110,6 +110,17 @@ transaction and operation must add up to the ledger's net change (CREDIT counts 
 native one for XLM. The fee goes at operation position 0. The harness also reports stored balance
 movements for an account where the ledger shows none.
 
+For current state, the check is `native_balance`: after the ledger, every account whose XLM
+balance it changed, in any phase (the fee, the operations, a fee refund), has a row in
+wallet-backend's `native_balances` table with its balance when the ledger closes, and an account
+the ledger removed has none. An account whose entry changed but whose balance did not is not
+checked: the replay starts from an empty database, so its row would have come from an earlier
+ledger. Ledgers before protocol 23 are not checked either: wallet-backend's documented contract
+(`docs/architecture/state-changes.md`) takes the Soroban fee refund from the post-apply list that
+protocol 23 introduced, and before it the refund is in `txChangesAfter`. On the corpus at `main`
+the check is clean on every ledger from protocol 23 on, so it is also a standing check of every
+balance wallet-backend stores. The sweep observations predate it and are not judged by it.
+
 For participants, the check is the RFP's second rule: who a transaction affected comes from the
 meta, not the envelope. Every participant wallet-backend stores for a transaction or one of its
 operations, and the account of every state change it stores for it, must be an address the

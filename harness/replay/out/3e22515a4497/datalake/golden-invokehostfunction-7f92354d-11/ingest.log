@@ -1,20 +1,20 @@
-time="2026-11-15T21:46:33.217Z" level=info msg="wallet-backend dev (commit 3e22515a44979fdc3a558fda3991ca2b48e38cef)" pid=1
-time="2026-11-15T21:46:33.239Z" level=info msg="Set chunk interval \"1 day\" on transactions" pid=1
-time="2026-11-15T21:46:33.239Z" level=info msg="Set chunk interval \"1 day\" on transactions_accounts" pid=1
-time="2026-11-15T21:46:33.240Z" level=info msg="Set chunk interval \"1 day\" on operations" pid=1
-time="2026-11-15T21:46:33.240Z" level=info msg="Set chunk interval \"1 day\" on operations_accounts" pid=1
-time="2026-11-15T21:46:33.241Z" level=info msg="Set chunk interval \"1 day\" on state_changes" pid=1
-time="2026-11-15T21:46:33.246Z" level=info msg="Updated transaction_hashes maintenance job 1006 (worker 0 of 1, every \"1 day\")" pid=1
-SDK 2026/11/15 21:46:33 WARN Response has no supported checksum. Not validating response payload.
-time="2026-11-15T21:46:33.355Z" level=info msg="Using datastore backend with buffer size 4, 2 workers" pid=1
-time="2026-11-15T21:46:33.360Z" level=info msg="protocol BLEND history production disabled; cursor not initialized" pid=1
-time="2026-11-15T21:46:33.360Z" level=info msg="protocol BLEND current-state production disabled; cursor not initialized" pid=1
-time="2026-11-15T21:46:33.360Z" level=info msg="protocol SEP41 history production disabled; cursor not initialized" pid=1
-time="2026-11-15T21:46:33.360Z" level=info msg="protocol SEP41 current-state production disabled; cursor not initialized" pid=1
-time="2026-11-15T21:46:33.361Z" level=info msg="startup reconciliation: cursor ledger 12 has no transactions row (expected after a checkpoint bootstrap or for an empty ledger), so the deletes above it run without a close-time bound" pid=1
-time="2026-11-15T21:46:33.364Z" level=info msg="Starting ingestion from ledger: 13" pid=1
-SDK 2026/11/15 21:46:33 WARN Response has no supported checksum. Not validating response payload.
-time="2026-11-15T21:46:33.429Z" level=info msg="Ingested ledger 13 in 0.0197s" pid=1
-time="2026-11-15T21:46:34.178Z" level=info msg="shutdown requested; exiting cleanly: live ingestion pipeline: pipeline cancelled: context canceled" pid=1
-time="2026-11-15T21:46:34.178Z" level=info msg="Shutting down servers..." pid=1
-time="2026-11-15T21:46:34.178Z" level=info msg="Servers gracefully stopped" pid=1
+time="2026-11-16T20:52:59.278Z" level=info msg="wallet-backend dev (commit 3e22515a44979fdc3a558fda3991ca2b48e38cef)" pid=1
+time="2026-11-16T20:52:59.308Z" level=info msg="Set chunk interval \"1 day\" on transactions" pid=1
+time="2026-11-16T20:52:59.308Z" level=info msg="Set chunk interval \"1 day\" on transactions_accounts" pid=1
+time="2026-11-16T20:52:59.309Z" level=info msg="Set chunk interval \"1 day\" on operations" pid=1
+time="2026-11-16T20:52:59.309Z" level=info msg="Set chunk interval \"1 day\" on operations_accounts" pid=1
+time="2026-11-16T20:52:59.309Z" level=info msg="Set chunk interval \"1 day\" on state_changes" pid=1
+time="2026-11-16T20:52:59.320Z" level=info msg="Updated transaction_hashes maintenance job 1006 (worker 0 of 1, every \"1 day\")" pid=1
+SDK 2026/11/16 20:52:59 WARN Response has no supported checksum. Not validating response payload.
+time="2026-11-16T20:52:59.981Z" level=info msg="Using datastore backend with buffer size 4, 2 workers" pid=1
+time="2026-11-16T20:52:59.999Z" level=info msg="protocol SEP41 history production disabled; cursor not initialized" pid=1
+time="2026-11-16T20:52:59.999Z" level=info msg="protocol SEP41 current-state production disabled; cursor not initialized" pid=1
+time="2026-11-16T20:52:59.999Z" level=info msg="protocol BLEND history production disabled; cursor not initialized" pid=1
+time="2026-11-16T20:52:59.999Z" level=info msg="protocol BLEND current-state production disabled; cursor not initialized" pid=1
+time="2026-11-16T20:53:00.009Z" level=info msg="startup reconciliation: cursor ledger 12 has no transactions row (expected after a checkpoint bootstrap or for an empty ledger), so the deletes above it run without a close-time bound" pid=1
+time="2026-11-16T20:53:00.028Z" level=info msg="Starting ingestion from ledger: 13" pid=1
+SDK 2026/11/16 20:53:00 WARN Response has no supported checksum. Not validating response payload.
+time="2026-11-16T20:53:00.164Z" level=info msg="Ingested ledger 13 in 0.0738s" pid=1
+time="2026-11-16T20:53:01.092Z" level=info msg="shutdown requested; exiting cleanly: live ingestion pipeline: pipeline cancelled: context canceled" pid=1
+time="2026-11-16T20:53:01.092Z" level=info msg="Shutting down servers..." pid=1
+time="2026-11-16T20:53:01.093Z" level=info msg="Servers gracefully stopped" pid=1

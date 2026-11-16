@@ -8,13 +8,13 @@
  "ingested": true,
  "error": null,
  "command": "wallet-backend ingest  (configured by environment: ARCHIVE_URL=http://shapecov-replay-feeder:8000/archive/testnet-5709224, DATABASE_URL=postgres://postgres@shapecov-replay-db:5432/replay?sslmode=disable, DATASTORE_BUCKET_PATH=shapecov-lake/testnet-5709224, DATASTORE_BUFFER_SIZE=4, DATASTORE_ENDPOINT_URL=http://shapecov-replay-feeder:9000, DATASTORE_NUM_WORKERS=2, DATASTORE_REGION=us-east-1, GET_LEDGERS_LIMIT=10, INGESTION_MODE=live, LEDGER_BACKEND_TYPE=datastore, LOG_LEVEL=INFO, NETWORK=testnet, NETWORK_PASSPHRASE=Test SDF Network ; September 2015, RPC_URL=http://shapecov-replay-feeder:8000/rpc/testnet-5709224, STELLAR_ENVIRONMENT=development)",
- "seconds_to_outcome": 1.1,
+ "seconds_to_outcome": 2.6,
  "cursor": 5709224,
  "process": {
   "outcome": "stopped by the adapter after the ledger was ingested",
   "exit_code": 0,
   "oom_killed": false,
-  "started_finished": "2026-11-15T21:47:33.916518292Z 2026-11-15T21:47:35.048973959Z"
+  "started_finished": "2026-11-16T20:54:33.037789458Z 2026-11-16T20:54:35.198095626Z"
  },
  "log_errors": [],
  "log_warnings": 1,
@@ -622,6 +622,60 @@
    }
   }
  ],
+ "native_balances": [
+  {
+   "account": "GAGVZMODPYFTULIVSY3RGFADIC5LF4LLSN37N4MFWGNZ57TYBXL2LQQX",
+   "balance": 14418115020143
+  },
+  {
+   "account": "GAIH3ULLFQ4DGSECF2AR555KZ4KNDGEKN4AFI4SU2M7B43MGK3QJZNSR",
+   "balance": 39063074245037266
+  },
+  {
+   "account": "GATXNSF6EYWZ6S752V65MH35T5YP4HVKQ2JDCVCAIYM5FYNBTXFEYFJZ",
+   "balance": 99754838736
+  },
+  {
+   "account": "GAT2EJVXJVXXZ42MLBNNY2Q2UPX4I7OD5ZSR6WTR26BZZIH7DTTD2YYF",
+   "balance": 20000000
+  },
+  {
+   "account": "GA45X2ZEFGTCKMORBEGG3G4RC7AFQB4PGQ5UBH73IQF4MAPHBUQ6BBGO",
+   "balance": 99948904000
+  },
+  {
+   "account": "GA676RMWMHDUSU5YSU6LKQOYANT6GHDVRDEJQLZHCX3OHS3NAJP2PE2A",
+   "balance": 100000000000
+  },
+  {
+   "account": "GBF5XWE5SWHROB764GW6NWOVPBUTSM7ENTLO2ILBBBNYMKKILPIJQWJ3",
+   "balance": 95110650379
+  },
+  {
+   "account": "GBVQ5F3APBVNYMEGJHFU3ZAOFKA7OLGWZ5ECLRU62HZLTKBKYSE4XNLR",
+   "balance": 99999999900
+  },
+  {
+   "account": "GCQ2ABQOF5CAUWNXGRVLVTOZ2TOTT4UZFN2THIM64PCYE5TCWDONI3VE",
+   "balance": 192019921
+  },
+  {
+   "account": "GC3Q7U33GUNWMKWUJPGLZMRKNZLHVQOFBZPGBRZTQ3Y2ZICK3FAAXWSG",
+   "balance": 102905140248
+  },
+  {
+   "account": "GDD6SE5TQFQGCESB3ILEIY4ETWMHZKDXTSRZTJW2E6N5I34F4C27SJDJ",
+   "balance": 99971955800
+  },
+  {
+   "account": "GDVOPJEG5LZYV7NNNNXVTDFSYXXWG2B3DQPLW3OFVUNWQZ5XFSLUGXYP",
+   "balance": 1009992400
+  },
+  {
+   "account": "GDY6QWVCUPISKJ2T6ZB3N6HLD4ABBNQDL3Y63E7M5B4UJCZVHVPBXQSZ",
+   "balance": 859371750
+  }
+ ],
  "unreadable": [],
  "row_counts": {
   "transactions": 9,
@@ -630,5 +684,5 @@
   "operations_accounts": 13,
   "state_changes": 22
  },
- "seconds": 2.2
+ "seconds": 4.0
 }

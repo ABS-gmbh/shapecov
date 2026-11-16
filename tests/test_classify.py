@@ -160,6 +160,41 @@ class Muxed(unittest.TestCase):
         self.assertEqual(classify.classify([self.EXP], obs(balance_movements=[]))["result"], "dropped")
 
 
+class NativeBalance(unittest.TestCase):
+    def test_balance(self):
+        exp = {"expect": "native_balance", "account": A, "balance": 7}
+        self.assertEqual(classify.classify([exp], obs(native_balances=[{"account": A, "balance": 7}]))["result"], "pass")
+        self.assertEqual(classify.classify([exp], obs(native_balances=[{"account": A, "balance": 8}]))["result"], "mishandled")
+        self.assertEqual(classify.classify([exp], obs(native_balances=[]))["result"], "dropped")
+
+    def test_removed_account(self):
+        exp = {"expect": "native_balance", "account": A, "balance": None}
+        self.assertEqual(classify.classify([exp], obs(native_balances=[]))["result"], "pass")
+        self.assertEqual(classify.classify([exp], obs(native_balances=[{"account": A, "balance": 0}]))["result"], "mishandled")
+
+    def test_an_observation_without_current_state_is_not_judged(self):
+        exp = {"expect": "native_balance", "account": A, "balance": 7}
+        r = classify.classify([exp], obs())
+        self.assertEqual((r["result"], r["checks"][0]["outcome"]), ("pass", "not_checked"))
+
+
+class AtMost(unittest.TestCase):
+    """stellar-etl#456: no more offer effects for an operation than the offer entries it changed."""
+    EXP = {"expect": "effect_count_at_most", "tx_hash": TX, "op_order": 1,
+           "reasons": ["offer_created", "offer_updated", "offer_removed"], "max": 1}
+
+    def rows(self, *reasons):
+        return [sc("EFFECT", r, A, fields={"op_order": 1}) for r in reasons]
+
+    def test_within_the_bound(self):
+        self.assertEqual(classify.classify([self.EXP], obs(state_changes=self.rows("offer_updated", "trade")))["result"], "pass")
+
+    def test_spurious_offer_effects_are_mishandled(self):
+        r = classify.classify([self.EXP], obs(state_changes=self.rows("offer_updated", "offer_removed", "offer_created")))
+        self.assertEqual(r["result"], "mishandled")
+        self.assertIn("3 stored", r["mishandled"][0])
+
+
 class Unknown(unittest.TestCase):
     def test_unknown_kind_is_counted_not_judged(self):
         r = classify.classify([{"expect": "from_the_future"}], obs())

@@ -8,13 +8,13 @@
  "ingested": true,
  "error": null,
  "command": "wallet-backend ingest  (configured by environment: ARCHIVE_URL=http://shapecov-replay-feeder:8000/archive/golden-frozenledgerkeys-7a27fd53-34, DATABASE_URL=postgres://postgres@shapecov-replay-db:5432/replay?sslmode=disable, DATASTORE_BUCKET_PATH=shapecov-lake/golden-frozenledgerkeys-7a27fd53-34, DATASTORE_BUFFER_SIZE=4, DATASTORE_ENDPOINT_URL=http://shapecov-replay-feeder:9000, DATASTORE_NUM_WORKERS=2, DATASTORE_REGION=us-east-1, GET_LEDGERS_LIMIT=10, INGESTION_MODE=live, LEDGER_BACKEND_TYPE=rpc, LOG_LEVEL=INFO, NETWORK=standalone, NETWORK_PASSPHRASE=(V) (;,,;) (V), RPC_URL=http://shapecov-replay-feeder:8000/rpc/golden-frozenledgerkeys-7a27fd53-34, STELLAR_ENVIRONMENT=development)",
- "seconds_to_outcome": 1.4,
+ "seconds_to_outcome": 1.9,
  "cursor": 36,
  "process": {
   "outcome": "stopped by the adapter after the ledger was ingested",
   "exit_code": 0,
   "oom_killed": false,
-  "started_finished": "2026-11-15T21:45:23.272197343Z 2026-11-15T21:45:24.505522927Z"
+  "started_finished": "2026-11-16T20:49:06.61071421Z 2026-11-16T20:49:07.951275919Z"
  },
  "log_errors": [],
  "log_warnings": 0,
@@ -350,6 +350,32 @@
    }
   }
  ],
+ "native_balances": [
+  {
+   "account": "GAAYCVX3AHHC7R7SUUDWDLAFWEL4E6V7SGKKQU3GMXYGJS6PBM5A5SRS",
+   "balance": 2200010200
+  },
+  {
+   "account": "GB2WCOPKOJAPJM4CZ45YRWCEFAKM2XWUESO56BKWFTMTGQPC7TEBD3FO",
+   "balance": 2200019600
+  },
+  {
+   "account": "GCKIH3E6K3DT2MGAPATKDZ7SEM3T5LMUPAS33NEQDZMMFBLHVLCDRNC5",
+   "balance": 2200009600
+  },
+  {
+   "account": "GC4EFXBN6BEENDAX7PBW5PGIIIVH3INMD3OEPQASXOLGOHVVP7ZEMG7X",
+   "balance": 999999977991328794
+  },
+  {
+   "account": "GDCIJUICLYOMBXWFH6TYMVWNKUGQJVXAWPL2SJM3ABJALDNQ4ZB23MMF",
+   "balance": 2200010200
+  },
+  {
+   "account": "GD5JVYAAPWWMZMZTDCZWGK62EUHBWJLAXMSUZIZA4WFAXTTX6KLZVYIA",
+   "balance": 2200019800
+  }
+ ],
  "unreadable": [],
  "row_counts": {
   "transactions": 1,
@@ -358,5 +384,5 @@
   "operations_accounts": 5,
   "state_changes": 15
  },
- "seconds": 2.4
+ "seconds": 3.9
 }
