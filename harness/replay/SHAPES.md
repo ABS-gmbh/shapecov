@@ -6,20 +6,21 @@ An entry passes when the harness's result is `pass` and the ledger-state oracle 
 
 ## wallet-backend at `3e22515a4497`
 
-13 of the 28 shapes replayed pass on every entry that carries them. 12 of the 87 entries replayed fail somewhere; by issue: stellar/wallet-backend#677 on 4, stellar/wallet-backend#815 on 4, stellar/wallet-backend#816 on 3, stellar/wallet-backend#817 on 1.
+16 of the 31 shapes replayed pass on every entry that carries them. 12 of the 87 entries replayed fail somewhere; by issue: stellar/wallet-backend#677 on 4, stellar/wallet-backend#815 on 4, stellar/wallet-backend#816 on 3, stellar/wallet-backend#817 on 1.
 
 | Shape | Entries | Replayed | Pass | Verdict and issue where not a pass |
 |---|---|---|---|---|
 | `auth-nested-invocations` | 28 | 28 | 23 | oracle: stellar/wallet-backend#815 (3): `testnet-5707122`, `testnet-5711641`, `testnet-5726002`; oracle: stellar/wallet-backend#816 (2): `pubnet-65480300`, `testnet-5709224` |
 | `auth-tree-4-deep` | 4 | 4 | 4 | pass |
 | `failed-soroban-transaction` | 10 | 10 | 9 | oracle: stellar/wallet-backend#816 (1): `pubnet-65480300` |
-| `failed-transaction` | 54 | 54 | 48 | oracle: stellar/wallet-backend#677 (1): `pubnet-60280000`; oracle: stellar/wallet-backend#815 (3): `testnet-5707122`, `testnet-5711641`, `testnet-5726002`; oracle: stellar/wallet-backend#816 (2): `pubnet-65480300`, `testnet-5709224` |
+| `failed-transaction` | 57 | 54 | 48 | oracle: stellar/wallet-backend#677 (1): `pubnet-60280000`; oracle: stellar/wallet-backend#815 (3): `testnet-5707122`, `testnet-5711641`, `testnet-5726002`; oracle: stellar/wallet-backend#816 (2): `pubnet-65480300`, `testnet-5709224` |
 | `memo-text-not-utf8` | 1 | 1 | 1 | pass |
 | `muxed-account` | 6 | 6 | 5 | oracle: stellar/wallet-backend#815 (1): `localcore-muxed-source-p22-3` |
 | `muxed-id-beyond-f64` | 3 | 3 | 2 | oracle: stellar/wallet-backend#815 (1): `localcore-muxed-source-p22-3` |
 | `muxed-id-max` | 1 | 1 | 1 | pass |
 | `muxed-id-zero` | 2 | 2 | 2 | pass |
 | `offer-id-beyond-f64` | 1 | 1 | 1 | pass |
+| `op-bad-auth-at-apply` | 1 | 0 | 0 | not replayed (not in this indexer's run) |
 | `operations-50-or-more` | 9 | 9 | 7 | oracle: stellar/wallet-backend#677 (1): `pubnet-60280000`; oracle: stellar/wallet-backend#815 (1): `testnet-5711641` |
 | `operations-at-max-100` | 10 | 10 | 9 | oracle: stellar/wallet-backend#816 (1): `pubnet-65480300` |
 | `pool-issuers-order-differs-strkey-vs-bytes` | 1 | 1 | 1 | pass |
@@ -30,7 +31,7 @@ An entry passes when the harness's result is `pass` and the ledger-state oracle 
 | `scmap-mixed-key-types` | 2 | 2 | 2 | pass |
 | `scval-int64-beyond-f64` | 11 | 11 | 9 | oracle: stellar/wallet-backend#815 (2): `testnet-5707122`, `testnet-5711641` |
 | `scval-nested-5-deep` | 21 | 21 | 16 | oracle: stellar/wallet-backend#677 (1): `pubnet-60280000`; oracle: stellar/wallet-backend#815 (3): `testnet-5707122`, `testnet-5711641`, `testnet-5726002`; oracle: stellar/wallet-backend#816 (1): `pubnet-65480300` |
-| `scval-wide-integer` | 45 | 45 | 37 | oracle: stellar/wallet-backend#677 (1): `pubnet-60280000`; oracle: stellar/wallet-backend#815 (3): `testnet-5707122`, `testnet-5711641`, `testnet-5726002`; oracle: stellar/wallet-backend#816 (3): `golden-invokehostfunction-692fdd0e-17`, `pubnet-65480300`, `testnet-5709224`; oracle: stellar/wallet-backend#817 (1): `localcore-pool-revoke-two-pools-7` |
+| `scval-wide-integer` | 48 | 45 | 37 | oracle: stellar/wallet-backend#677 (1): `pubnet-60280000`; oracle: stellar/wallet-backend#815 (3): `testnet-5707122`, `testnet-5711641`, `testnet-5726002`; oracle: stellar/wallet-backend#816 (3): `golden-invokehostfunction-692fdd0e-17`, `pubnet-65480300`, `testnet-5709224`; oracle: stellar/wallet-backend#817 (1): `localcore-pool-revoke-two-pools-7` |
 | `signatures-at-max-20` | 3 | 3 | 3 | pass |
 | `signed-payload-max-length` | 1 | 1 | 1 | pass |
 | `signed-payload-needs-padding` | 1 | 1 | 1 | pass |
@@ -38,6 +39,11 @@ An entry passes when the harness's result is `pass` and the ledger-state oracle 
 | `soroban-created-account` | 3 | 3 | 0 | oracle: stellar/wallet-backend#816 (3): `golden-invokehostfunction-692fdd0e-17`, `pubnet-65480300`, `testnet-5709224` |
 | `soroban-created-trustline` | 4 | 4 | 3 | oracle: stellar/wallet-backend#816 (1): `testnet-5709224` |
 | `soroban-op-muxed-source` | 1 | 1 | 0 | oracle: stellar/wallet-backend#815 (1): `localcore-muxed-source-p22-3` |
+| `tx-bad-auth-at-apply` | 3 | 1 | 1 | pass |
+| `tx-bad-auth-extra-at-apply` | 1 | 0 | 0 | not replayed (not in this indexer's run) |
+| `tx-bad-min-seq-age-or-gap-at-apply` | 2 | 0 | 0 | not replayed (not in this indexer's run) |
+| `tx-bad-seq-at-apply` | 3 | 1 | 1 | pass |
+| `tx-bad-sponsorship-at-apply` | 3 | 1 | 1 | pass |
 
 ## stellar-etl at `2b24ec89ddce`
 
@@ -48,13 +54,14 @@ An entry passes when the harness's result is `pass` and the ledger-state oracle 
 | `auth-nested-invocations` | 28 | 27 | 11 | oracle: stellar/stellar-etl#450 (12): `pubnet-59220000`, `pubnet-61240000`, `pubnet-65280000`, `pubnet-65460000`, `pubnet-65479774`, `pubnet-65480264`, `pubnet-65480508`, `pubnet-65480598`, `testnet-5600000`, `testnet-5711238`, `testnet-5716828`, `testnet-5719527`; oracle: stellar/stellar-etl#450, stellar/stellar-etl#457 (1): `testnet-5710719`; oracle: stellar/stellar-etl#450, stellar/stellar-etl#460 (2): `pubnet-63920000`, `pubnet-65480300`; oracle: stellar/stellar-etl#460 (1): `testnet-5709224` |
 | `auth-tree-4-deep` | 4 | 3 | 0 | oracle: stellar/stellar-etl#450 (3): `pubnet-61240000`, `pubnet-65480264`, `testnet-5716828` |
 | `failed-soroban-transaction` | 10 | 9 | 2 | oracle: stellar/stellar-etl#450 (5): `pubnet-65460000`, `pubnet-65480264`, `pubnet-65480598`, `testnet-5716828`, `testnet-5719527`; oracle: stellar/stellar-etl#450, stellar/stellar-etl#457 (1): `testnet-5710719`; oracle: stellar/stellar-etl#450, stellar/stellar-etl#460 (1): `pubnet-65480300` |
-| `failed-transaction` | 54 | 30 | 12 | oracle: stellar/stellar-etl#450 (14): `localcore-memo-and-offer-p30-4`, `pubnet-59220000`, `pubnet-60280000`, `pubnet-61240000`, `pubnet-65280000`, `pubnet-65460000`, `pubnet-65479774`, `pubnet-65480264`, `pubnet-65480508`, `pubnet-65480598`, `testnet-5600000`, `testnet-5711238`, `testnet-5716828`, `testnet-5719527`; oracle: stellar/stellar-etl#450, stellar/stellar-etl#457 (1): `testnet-5710719`; oracle: stellar/stellar-etl#450, stellar/stellar-etl#460 (2): `pubnet-63920000`, `pubnet-65480300`; oracle: stellar/stellar-etl#460 (1): `testnet-5709224` |
+| `failed-transaction` | 57 | 30 | 12 | oracle: stellar/stellar-etl#450 (14): `localcore-memo-and-offer-p30-4`, `pubnet-59220000`, `pubnet-60280000`, `pubnet-61240000`, `pubnet-65280000`, `pubnet-65460000`, `pubnet-65479774`, `pubnet-65480264`, `pubnet-65480508`, `pubnet-65480598`, `testnet-5600000`, `testnet-5711238`, `testnet-5716828`, `testnet-5719527`; oracle: stellar/stellar-etl#450, stellar/stellar-etl#457 (1): `testnet-5710719`; oracle: stellar/stellar-etl#450, stellar/stellar-etl#460 (2): `pubnet-63920000`, `pubnet-65480300`; oracle: stellar/stellar-etl#460 (1): `testnet-5709224` |
 | `memo-text-not-utf8` | 1 | 1 | 0 | oracle: stellar/stellar-etl#450 (1): `localcore-memo-and-offer-p30-4` |
 | `muxed-account` | 6 | 6 | 1 | mishandled: stellar/stellar-etl#512 (1): `localcore-muxed-source-p22-3`; oracle: stellar/stellar-etl#450 (4): `pubnet-65280000`, `pubnet-65479774`, `pubnet-65480598`, `testnet-5600000` |
 | `muxed-id-beyond-f64` | 3 | 3 | 1 | mishandled: stellar/stellar-etl#512 (1): `localcore-muxed-source-p22-3`; oracle: stellar/stellar-etl#450 (1): `pubnet-65479774` |
 | `muxed-id-max` | 1 | 1 | 1 | pass |
 | `muxed-id-zero` | 2 | 2 | 1 | oracle: stellar/stellar-etl#450 (1): `pubnet-65480598` |
 | `offer-id-beyond-f64` | 1 | 1 | 0 | oracle: stellar/stellar-etl#450 (1): `localcore-memo-and-offer-p30-4` |
+| `op-bad-auth-at-apply` | 1 | 0 | 0 | not replayed (not in this indexer's run) |
 | `operations-50-or-more` | 9 | 9 | 2 | oracle: stellar/stellar-etl#450 (7): `pubnet-59220000`, `pubnet-60280000`, `pubnet-65280000`, `pubnet-65479774`, `pubnet-65480264`, `pubnet-65480508`, `pubnet-65480598` |
 | `operations-at-max-100` | 10 | 10 | 1 | oracle: stellar/stellar-etl#450 (7): `pubnet-59220000`, `pubnet-65280000`, `pubnet-65460000`, `pubnet-65479774`, `pubnet-65480264`, `pubnet-65480508`, `pubnet-65480598`; oracle: stellar/stellar-etl#450, stellar/stellar-etl#460 (2): `pubnet-63920000`, `pubnet-65480300` |
 | `pool-issuers-order-differs-strkey-vs-bytes` | 1 | 1 | 1 | pass |
@@ -65,7 +72,7 @@ An entry passes when the harness's result is `pass` and the ledger-state oracle 
 | `scmap-mixed-key-types` | 2 | 1 | 1 | pass |
 | `scval-int64-beyond-f64` | 11 | 10 | 6 | oracle: stellar/stellar-etl#450 (4): `pubnet-61240000`, `pubnet-65460000`, `pubnet-65479774`, `pubnet-65480264` |
 | `scval-nested-5-deep` | 21 | 20 | 9 | oracle: stellar/stellar-etl#450 (9): `pubnet-59220000`, `pubnet-60280000`, `pubnet-61240000`, `pubnet-65460000`, `pubnet-65479774`, `pubnet-65480264`, `testnet-5711238`, `testnet-5716828`, `testnet-5719527`; oracle: stellar/stellar-etl#450, stellar/stellar-etl#457 (1): `testnet-5710719`; oracle: stellar/stellar-etl#450, stellar/stellar-etl#460 (1): `pubnet-65480300` |
-| `scval-wide-integer` | 45 | 36 | 16 | oracle: stellar/stellar-etl#450 (14): `localcore-memo-and-offer-p30-4`, `pubnet-59220000`, `pubnet-60280000`, `pubnet-61240000`, `pubnet-65280000`, `pubnet-65460000`, `pubnet-65479774`, `pubnet-65480264`, `pubnet-65480508`, `pubnet-65480598`, `testnet-5600000`, `testnet-5711238`, `testnet-5716828`, `testnet-5719527`; oracle: stellar/stellar-etl#450, stellar/stellar-etl#457 (1): `testnet-5710719`; oracle: stellar/stellar-etl#450, stellar/stellar-etl#460 (2): `pubnet-63920000`, `pubnet-65480300`; oracle: stellar/stellar-etl#460 (2): `localcore-sac-trust-p28-5`, `testnet-5709224`; oracle: stellar/stellar-etl#513, stellar/stellar-etl#514 (1): `localcore-pool-revoke-two-pools-7` |
+| `scval-wide-integer` | 48 | 36 | 16 | oracle: stellar/stellar-etl#450 (14): `localcore-memo-and-offer-p30-4`, `pubnet-59220000`, `pubnet-60280000`, `pubnet-61240000`, `pubnet-65280000`, `pubnet-65460000`, `pubnet-65479774`, `pubnet-65480264`, `pubnet-65480508`, `pubnet-65480598`, `testnet-5600000`, `testnet-5711238`, `testnet-5716828`, `testnet-5719527`; oracle: stellar/stellar-etl#450, stellar/stellar-etl#457 (1): `testnet-5710719`; oracle: stellar/stellar-etl#450, stellar/stellar-etl#460 (2): `pubnet-63920000`, `pubnet-65480300`; oracle: stellar/stellar-etl#460 (2): `localcore-sac-trust-p28-5`, `testnet-5709224`; oracle: stellar/stellar-etl#513, stellar/stellar-etl#514 (1): `localcore-pool-revoke-two-pools-7` |
 | `signatures-at-max-20` | 3 | 3 | 0 | oracle: stellar/stellar-etl#450 (3): `pubnet-65460000`, `pubnet-65480264`, `pubnet-65480598` |
 | `signed-payload-max-length` | 1 | 1 | 1 | pass |
 | `signed-payload-needs-padding` | 1 | 1 | 1 | pass |
@@ -73,3 +80,8 @@ An entry passes when the harness's result is `pass` and the ledger-state oracle 
 | `soroban-created-account` | 3 | 2 | 0 | oracle: stellar/stellar-etl#450, stellar/stellar-etl#460 (1): `pubnet-65480300`; oracle: stellar/stellar-etl#460 (1): `testnet-5709224` |
 | `soroban-created-trustline` | 4 | 3 | 0 | oracle: stellar/stellar-etl#450, stellar/stellar-etl#460 (1): `pubnet-63920000`; oracle: stellar/stellar-etl#460 (2): `localcore-sac-trust-p28-5`, `testnet-5709224` |
 | `soroban-op-muxed-source` | 1 | 1 | 0 | mishandled: stellar/stellar-etl#512 (1): `localcore-muxed-source-p22-3` |
+| `tx-bad-auth-at-apply` | 3 | 0 | 0 | not replayed (not applicable: network) |
+| `tx-bad-auth-extra-at-apply` | 1 | 0 | 0 | not replayed (not in this indexer's run) |
+| `tx-bad-min-seq-age-or-gap-at-apply` | 2 | 0 | 0 | not replayed (not in this indexer's run) |
+| `tx-bad-seq-at-apply` | 3 | 0 | 0 | not replayed (not applicable: network) |
+| `tx-bad-sponsorship-at-apply` | 3 | 0 | 0 | not replayed (not applicable: network) |

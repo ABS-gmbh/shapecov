@@ -12,31 +12,34 @@ Coverage is measured over the cells a ledger reader can meet: those in the 358 o
 
 | | Cells | Covered |
 |---|---|---|
-| Reachable from `LedgerCloseMeta`, by the corpus | 538 | 352 (65.4%) |
-| Reachable and able to occur in a closed ledger (all but the 36 classed `never_in_ledger`; the unclassified stay in), by the corpus | 502 | 352 (70.1%) |
+| Reachable from `LedgerCloseMeta`, by the corpus | 538 | 422 (78.4%) |
+| Reachable and able to occur in a closed ledger (all but the 36 classed `never_in_ledger`; the unclassified stay in), by the corpus | 502 | 422 (84.1%) |
 | All cells, by the generator's valid cases (`out/cases.jsonl`) | 659 | 549 (83.3%) |
 | Reachable cells, by the generator | 538 | 448 (83.3%) |
 
-## The 186 reachable cells no corpus entry has
+## The 116 reachable cells no corpus entry has
 
 Each is classified from stellar-core `f2b91947fb20` (`src/transactions`: the function that sets each result code) in `corpus/cell-classes.json`.
 
 | Class | Cells | Meaning |
 |---|---|---|
-| `before_protocol` | 14 | Only in ledgers of an earlier protocol than the corpus samples (its network and local ledgers are protocol 20 to 30); addable by mining the public archive's early ledgers. |
+| `before_protocol` | 17 | Only in ledgers of an earlier protocol than the corpus samples (its network and local ledgers are protocol 20 to 30); addable by mining the public archive's early ledgers. |
 | `config_upgrade` | 24 | Only in a ledger that applies a Soroban configuration upgrade. |
 | `consensus` | 5 | Only in meta from a node that records consensus messages. |
 | `contract` | 6 | Only from a contract written to produce it. |
 | `impractical` | 1 | Possible in principle, only past a limit no real or local ledger reaches. |
-| `local_core` | 79 | Producible by a local stellar-core scenario: a failure or shape that depends on ledger state. |
+| `local_core` | 12 | Producible by a local stellar-core scenario: a failure or shape that depends on ledger state. |
 | `never_in_ledger` | 36 | Cannot be in a closed ledger: set only by a check that a transaction failing it never gets past, or only on a stellar-core bug. |
 | `unclassified` | 15 | Not classified yet. |
-| `upgrade` | 6 | Only in a ledger that applies a network upgrade; producible by a local scenario that arms it. |
+| `upgrade` | 0 | Only in a ledger that applies a network upgrade; producible by a local scenario that arms it. |
 
-### `before_protocol` (14)
+### `before_protocol` (17)
 
 | Cell | Why |
 |---|---|
+| `arm:AllowTrustResult.ALLOW_TRUST_SELF_NOT_ALLOWED` | Set in TrustFlagsOpFrameBase::doApply, but from protocol 16 AllowTrustOpFrame::doCheckValid rejects a trustor equal to the source as ALLOW_TRUST_MALFORMED first, so only protocols 3 to 15 have it. |
+| `arm:AllowTrustResult.ALLOW_TRUST_TRUST_NOT_REQUIRED` | AllowTrustOpFrame sets it only when the ledger version is before 16 and the issuer does not require authorization. |
+| `arm:ChangeTrustResult.CHANGE_TRUST_SELF_NOT_ALLOWED` | Set in ChangeTrustOpFrame::doApply, but from protocol 16 ChangeTrustOpFrame::doCheckValid rejects a line issued by the source as CHANGE_TRUST_MALFORMED first, so only protocols before 16 have it. |
 | `arm:ClaimAtom.CLAIM_ATOM_TYPE_V0` | Offers claimed before protocol 18 were reported as ClaimOfferAtomV0; from 18 they are ClaimOfferAtom (order book) or ClaimLiquidityAtom. |
 | `arm:InflationResult.INFLATION_NOT_TIME` | Inflation ran until protocol 12 (CAP-0026); since then the operation is not supported. |
 | `arm:InflationResult.INFLATION_SUCCESS` | Inflation ran until protocol 12 (CAP-0026); since then the operation is not supported. |
@@ -108,88 +111,21 @@ Each is classified from stellar-core `f2b91947fb20` (`src/transactions`: the fun
 |---|---|
 | `arm:OperationResult.opTOO_MANY_SPONSORING` | Set while an operation applies (ChangeTrust:doApply, CreateAccount:doApplyFromV14, CreateClaimableBalance:doApply, ManageData:doApply, ManageOfferOpFrameBase.cpp:doApply, RevokeSponsorship:processSponsorshipResult, SetOptions:addOrChangeSigner, TrustFlagsOpFrameBase.cpp:removeOffers), when the sponsor's numSponsoring (a uint32) would overflow: an account sponsoring about 2^32 entries. |
 
-### `local_core` (79)
+### `local_core` (12)
 
 | Cell | Why |
 |---|---|
-| `arm:AccountMergeResult.ACCOUNT_MERGE_DEST_FULL` | Set while the operation applies (Merge:doApplyBeforeV16, Merge:doApplyFromV16): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it. |
-| `arm:AccountMergeResult.ACCOUNT_MERGE_HAS_SUB_ENTRIES` | Set while the operation applies (Merge:doApplyBeforeV16, Merge:doApplyFromV16): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it. |
 | `arm:AccountMergeResult.ACCOUNT_MERGE_IMMUTABLE_SET` | Set while the operation applies (Merge:doApplyBeforeV16, Merge:doApplyFromV16): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it. |
-| `arm:AccountMergeResult.ACCOUNT_MERGE_IS_SPONSOR` | Set while the operation applies (Merge:doApplyBeforeV16, Merge:doApplyFromV16): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it. |
-| `arm:AccountMergeResult.ACCOUNT_MERGE_SEQNUM_TOO_FAR` | Set while the operation applies (Merge:doApplyBeforeV16, Merge:doApplyFromV16): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it. |
-| `arm:AllowTrustResult.ALLOW_TRUST_CANT_REVOKE` | Set while the operation applies (AllowTrust:isAuthRevocationValid, AllowTrust:isRevocationToMaintainLiabilitiesValid): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it. |
 | `arm:AllowTrustResult.ALLOW_TRUST_LOW_RESERVE` | Set while the operation applies (AllowTrust:setResultLowReserve): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it. |
-| `arm:AllowTrustResult.ALLOW_TRUST_NO_TRUST_LINE` | Set while the operation applies (AllowTrust:setResultNoTrustLine): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it. |
-| `arm:AllowTrustResult.ALLOW_TRUST_SELF_NOT_ALLOWED` | Set while the operation applies (AllowTrust:setResultSelfNotAllowed): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it. |
-| `arm:AllowTrustResult.ALLOW_TRUST_TRUST_NOT_REQUIRED` | Set while the operation applies (AllowTrust:isAuthRevocationValid): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it. |
-| `arm:ChangeTrustResult.CHANGE_TRUST_CANNOT_DELETE` | Set while the operation applies (ChangeTrust:doApply): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it. |
-| `arm:ChangeTrustResult.CHANGE_TRUST_LOW_RESERVE` | Set while the operation applies (ChangeTrust:doApply): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it. |
-| `arm:ChangeTrustResult.CHANGE_TRUST_NOT_AUTH_MAINTAIN_LIABILITIES` | Set while the operation applies (ChangeTrust:tryIncrementPoolUseCount): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it. |
-| `arm:ChangeTrustResult.CHANGE_TRUST_SELF_NOT_ALLOWED` | Set while the operation applies (ChangeTrust:doApply): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it. |
-| `arm:ChangeTrustResult.CHANGE_TRUST_TRUST_LINE_MISSING` | Set while the operation applies (ChangeTrust:tryIncrementPoolUseCount): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it. |
-| `arm:ClaimClaimableBalanceResult.CLAIM_CLAIMABLE_BALANCE_LINE_FULL` | Set while the operation applies (ClaimClaimableBalance:doApply): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it. |
-| `arm:ClaimClaimableBalanceResult.CLAIM_CLAIMABLE_BALANCE_NOT_AUTHORIZED` | Set while the operation applies (ClaimClaimableBalance:doApply): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it. |
-| `arm:ClawbackClaimableBalanceResult.CLAWBACK_CLAIMABLE_BALANCE_DOES_NOT_EXIST` | Set while the operation applies (ClawbackClaimableBalance:doApply): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it. |
-| `arm:ClawbackClaimableBalanceResult.CLAWBACK_CLAIMABLE_BALANCE_NOT_CLAWBACK_ENABLED` | Set while the operation applies (ClawbackClaimableBalance:doApply): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it. |
-| `arm:ClawbackClaimableBalanceResult.CLAWBACK_CLAIMABLE_BALANCE_NOT_ISSUER` | Set while the operation applies (ClawbackClaimableBalance:doApply): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it. |
-| `arm:ClawbackResult.CLAWBACK_NOT_CLAWBACK_ENABLED` | Set while the operation applies (Clawback:doApply): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it. |
-| `arm:ClawbackResult.CLAWBACK_NO_TRUST` | Set while the operation applies (Clawback:doApply): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it. |
-| `arm:ClawbackResult.CLAWBACK_UNDERFUNDED` | Set while the operation applies (Clawback:doApply): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it. |
-| `arm:CreateAccountResult.CREATE_ACCOUNT_ALREADY_EXIST` | Set while the operation applies (CreateAccount:doApply): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it. |
-| `arm:CreateClaimableBalanceResult.CREATE_CLAIMABLE_BALANCE_NOT_AUTHORIZED` | Set while the operation applies (CreateClaimableBalance:doApply): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it. |
-| `arm:CreateClaimableBalanceResult.CREATE_CLAIMABLE_BALANCE_UNDERFUNDED` | Set while the operation applies (CreateClaimableBalance:doApply): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it. |
-| `arm:InnerTransactionResultResult.txBAD_AUTH` | TransactionFrame::commonValid runs again when the transaction applies, against the ledger as earlier transactions in the same ledger left it; a transaction whose source's sequence number, signers or balance an earlier one changed fails with this code. |
-| `arm:InnerTransactionResultResult.txBAD_AUTH_EXTRA` | Set in TransactionFrame::applyOperations as well as at admission: a signature that no signer used once earlier transactions in the ledger changed the signers. |
-| `arm:InnerTransactionResultResult.txBAD_MIN_SEQ_AGE_OR_GAP` | TransactionFrame::commonValid runs again when the transaction applies, against the ledger as earlier transactions in the same ledger left it; a transaction whose source's sequence number, signers or balance an earlier one changed fails with this code. |
-| `arm:InnerTransactionResultResult.txBAD_SEQ` | TransactionFrame::commonValid runs again when the transaction applies, against the ledger as earlier transactions in the same ledger left it; a transaction whose source's sequence number, signers or balance an earlier one changed fails with this code. |
-| `arm:InnerTransactionResultResult.txBAD_SPONSORSHIP` | Set in TransactionFrame::applyOperations when a sponsorship sandwich is left open; a local stellar-core scenario can submit one. |
 | `arm:InnerTransactionResultResult.txINSUFFICIENT_BALANCE` | TransactionFrame::commonValid runs again when the transaction applies, against the ledger as earlier transactions in the same ledger left it; a transaction whose source's sequence number, signers or balance an earlier one changed fails with this code. |
-| `arm:LiquidityPoolDepositResult.LIQUIDITY_POOL_DEPOSIT_BAD_PRICE` | Set while the operation applies (LiquidityPoolDeposit:depositIntoEmptyPool, LiquidityPoolDeposit:depositIntoNonEmptyPool): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it. |
-| `arm:LiquidityPoolDepositResult.LIQUIDITY_POOL_DEPOSIT_LINE_FULL` | Set while the operation applies (LiquidityPoolDeposit:depositIntoEmptyPool, LiquidityPoolDeposit:depositIntoNonEmptyPool): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it. |
 | `arm:LiquidityPoolDepositResult.LIQUIDITY_POOL_DEPOSIT_NOT_AUTHORIZED` | Set while the operation applies (LiquidityPoolDeposit:doApply): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it. |
-| `arm:LiquidityPoolDepositResult.LIQUIDITY_POOL_DEPOSIT_NO_TRUST` | Set while the operation applies (LiquidityPoolDeposit:doApply): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it. |
 | `arm:LiquidityPoolDepositResult.LIQUIDITY_POOL_DEPOSIT_POOL_FULL` | Set while the operation applies (LiquidityPoolDeposit:doApply): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it. |
-| `arm:LiquidityPoolDepositResult.LIQUIDITY_POOL_DEPOSIT_UNDERFUNDED` | Set while the operation applies (LiquidityPoolDeposit:depositIntoEmptyPool, LiquidityPoolDeposit:depositIntoNonEmptyPool): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it. |
 | `arm:LiquidityPoolWithdrawResult.LIQUIDITY_POOL_WITHDRAW_LINE_FULL` | Set while the operation applies (LiquidityPoolWithdraw:tryAddAssetBalance): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it. |
-| `arm:LiquidityPoolWithdrawResult.LIQUIDITY_POOL_WITHDRAW_NO_TRUST` | Set while the operation applies (LiquidityPoolWithdraw:doApply): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it. |
-| `arm:LiquidityPoolWithdrawResult.LIQUIDITY_POOL_WITHDRAW_UNDERFUNDED` | Set while the operation applies (LiquidityPoolWithdraw:doApply): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it. |
-| `arm:LiquidityPoolWithdrawResult.LIQUIDITY_POOL_WITHDRAW_UNDER_MINIMUM` | Set while the operation applies (LiquidityPoolWithdraw:tryAddAssetBalance): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it. |
-| `arm:ManageBuyOfferResult.MANAGE_BUY_OFFER_BUY_NO_TRUST` | Set while the operation applies (ManageBuyOffer:setResultBuyNoTrust): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it. |
-| `arm:ManageBuyOfferResult.MANAGE_BUY_OFFER_CROSS_SELF` | Set while the operation applies (ManageBuyOffer:setResultCrossSelf): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it. |
-| `arm:ManageBuyOfferResult.MANAGE_BUY_OFFER_LINE_FULL` | Set while the operation applies (ManageBuyOffer:setResultLineFull): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it. |
-| `arm:ManageBuyOfferResult.MANAGE_BUY_OFFER_SELL_NOT_AUTHORIZED` | Set while the operation applies (ManageBuyOffer:setResultSellNotAuthorized): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it. |
-| `arm:ManageDataResult.MANAGE_DATA_LOW_RESERVE` | Set while the operation applies (ManageData:doApply): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it. |
-| `arm:ManageSellOfferResult.MANAGE_SELL_OFFER_BUY_NOT_AUTHORIZED` | Set while the operation applies (ManageSellOffer:setResultBuyNotAuthorized): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it. |
-| `arm:ManageSellOfferResult.MANAGE_SELL_OFFER_LINE_FULL` | Set while the operation applies (ManageSellOffer:setResultLineFull): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it. |
-| `arm:Memo.MEMO_RETURN` | A transaction memo of type RETURN: any transaction can carry it; none of the sampled ledgers does. |
-| `arm:OperationResult.opBAD_AUTH` | OperationFrame::checkSignature runs when the operation applies; an operation whose source's signers an earlier transaction in the ledger changed fails with it. |
 | `arm:OperationResult.opEXCEEDED_WORK_LIMIT` | Set while an offer or path payment crosses more offers than the work limit allows (ManageOfferOpFrameBase.cpp:doApply, PathPaymentOpFrameBase.cpp:convert); a local scenario with enough resting offers can produce it. |
 | `arm:OperationResultTr.CREATE_PASSIVE_SELL_OFFER` | The result arm of a CreatePassiveSellOffer operation: any such operation in a ledger has it; none of the sampled ledgers has one. |
-| `arm:PathPaymentStrictReceiveResult.PATH_PAYMENT_STRICT_RECEIVE_NOT_AUTHORIZED` | Set while the operation applies (PathPaymentStrictReceive:setResultDestNotAuthorized, Payment:doApply): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it. |
-| `arm:PathPaymentStrictReceiveResult.PATH_PAYMENT_STRICT_RECEIVE_NO_DESTINATION` | Set while the operation applies (PathPaymentStrictReceive:setResultNoDest, Payment:doApply): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it. |
-| `arm:PathPaymentStrictReceiveResult.PATH_PAYMENT_STRICT_RECEIVE_NO_TRUST` | Set while the operation applies (PathPaymentStrictReceive:setResultDestNoTrust, Payment:doApply): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it. |
-| `arm:PathPaymentStrictReceiveResult.PATH_PAYMENT_STRICT_RECEIVE_OFFER_CROSS_SELF` | Set while the operation applies (PathPaymentStrictReceive:setResultOfferCrossSelf): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it. |
-| `arm:PathPaymentStrictReceiveResult.PATH_PAYMENT_STRICT_RECEIVE_SRC_NOT_AUTHORIZED` | Set while the operation applies (PathPaymentStrictReceive:setResultSourceNotAuthorized, Payment:doApply): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it. |
-| `arm:PathPaymentStrictReceiveResult.PATH_PAYMENT_STRICT_RECEIVE_SRC_NO_TRUST` | Set while the operation applies (PathPaymentStrictReceive:setResultSourceNoTrust, Payment:doApply): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it. |
-| `arm:PathPaymentStrictSendResult.PATH_PAYMENT_STRICT_SEND_LINE_FULL` | Set while the operation applies (PathPaymentStrictSend:setResultLineFull): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it. |
-| `arm:PathPaymentStrictSendResult.PATH_PAYMENT_STRICT_SEND_NOT_AUTHORIZED` | Set while the operation applies (PathPaymentStrictSend:setResultDestNotAuthorized): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it. |
-| `arm:PathPaymentStrictSendResult.PATH_PAYMENT_STRICT_SEND_NO_DESTINATION` | Set while the operation applies (PathPaymentStrictSend:setResultNoDest): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it. |
-| `arm:PathPaymentStrictSendResult.PATH_PAYMENT_STRICT_SEND_OFFER_CROSS_SELF` | Set while the operation applies (PathPaymentStrictSend:setResultOfferCrossSelf): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it. |
-| `arm:PathPaymentStrictSendResult.PATH_PAYMENT_STRICT_SEND_SRC_NOT_AUTHORIZED` | Set while the operation applies (PathPaymentStrictSend:setResultSourceNotAuthorized): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it. |
-| `arm:RevokeSponsorshipResult.REVOKE_SPONSORSHIP_DOES_NOT_EXIST` | Set while the operation applies (RevokeSponsorship:updateLedgerEntrySponsorship, RevokeSponsorship:updateSignerSponsorship): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it. |
 | `arm:RevokeSponsorshipResult.REVOKE_SPONSORSHIP_LOW_RESERVE` | Set while the operation applies (RevokeSponsorship:processSponsorshipResult): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it. |
-| `arm:RevokeSponsorshipResult.REVOKE_SPONSORSHIP_ONLY_TRANSFERABLE` | Set while the operation applies (RevokeSponsorship:updateLedgerEntrySponsorship): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it. |
-| `arm:SetOptionsResult.SET_OPTIONS_AUTH_REVOCABLE_REQUIRED` | Set while the operation applies (SetOptions:doApply): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it. |
-| `arm:SetOptionsResult.SET_OPTIONS_CANT_CHANGE` | Set while the operation applies (SetOptions:doApply): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it. |
-| `arm:SetOptionsResult.SET_OPTIONS_INVALID_INFLATION` | Set while the operation applies (SetOptions:doApply): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it. |
-| `arm:SetOptionsResult.SET_OPTIONS_LOW_RESERVE` | Set while the operation applies (SetOptions:addOrChangeSigner): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it. |
-| `arm:SetOptionsResult.SET_OPTIONS_TOO_MANY_SIGNERS` | Set while the operation applies (SetOptions:addOrChangeSigner): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it. |
-| `arm:SetTrustLineFlagsResult.SET_TRUST_LINE_FLAGS_CANT_REVOKE` | Set while the operation applies (SetTrustLineFlags:isAuthRevocationValid): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it. |
-| `arm:SetTrustLineFlagsResult.SET_TRUST_LINE_FLAGS_INVALID_STATE` | Set while the operation applies (SetTrustLineFlags:calcExpectedFlagValue): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it. |
 | `arm:SetTrustLineFlagsResult.SET_TRUST_LINE_FLAGS_LOW_RESERVE` | Set while the operation applies (SetTrustLineFlags:setResultLowReserve): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it. |
-| `arm:SetTrustLineFlagsResult.SET_TRUST_LINE_FLAGS_NO_TRUST_LINE` | Set while the operation applies (SetTrustLineFlags:setResultNoTrustLine): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it. |
 | `arm:TransactionResultResult.txBAD_AUTH_EXTRA` | Set in TransactionFrame::applyOperations as well as at admission: a signature that no signer used once earlier transactions in the ledger changed the signers. |
-| `arm:TransactionResultResult.txBAD_MIN_SEQ_AGE_OR_GAP` | TransactionFrame::commonValid runs again when the transaction applies, against the ledger as earlier transactions in the same ledger left it; a transaction whose source's sequence number, signers or balance an earlier one changed fails with this code. |
 | `arm:TransactionResultResult.txINSUFFICIENT_BALANCE` | TransactionFrame::commonValid runs again when the transaction applies, against the ledger as earlier transactions in the same ledger left it; a transaction whose source's sequence number, signers or balance an earlier one changed fails with this code. |
 
 ### `never_in_ledger` (36)
@@ -252,17 +188,6 @@ Each is classified from stellar-core `f2b91947fb20` (`src/transactions`: the fun
 | `arm:TransactionResultResult.txTOO_EARLY` | Not yet classified: needs a reading of where stellar-core sets it (TransactionFrame.cpp:commonValidPreSeqNum). |
 | `arm:TransactionResultResult.txTOO_LATE` | Not yet classified: needs a reading of where stellar-core sets it (TransactionFrame.cpp:commonValidPreSeqNum). |
 | `enum:TransactionEventStage.TRANSACTION_EVENT_STAGE_AFTER_TX` | Not yet classified: needs a reading of where stellar-core sets it (TransactionFrame.cpp:processRefund). |
-
-### `upgrade` (6)
-
-| Cell | Why |
-|---|---|
-| `arm:LedgerHeaderExt.1` | The ledger header extension that carries ledger flags appears after a LEDGER_UPGRADE_FLAGS upgrade; a local scenario can arm one. |
-| `arm:LedgerHeaderExtensionV1Ext.0` | The ledger header extension that carries ledger flags appears after a LEDGER_UPGRADE_FLAGS upgrade; a local scenario can arm one. |
-| `arm:LedgerUpgrade.LEDGER_UPGRADE_BASE_FEE` | Only in a ledger that applies this network upgrade; stellar-core's standalone mode can arm it, so a local scenario can produce it. |
-| `arm:LedgerUpgrade.LEDGER_UPGRADE_BASE_RESERVE` | Only in a ledger that applies this network upgrade; stellar-core's standalone mode can arm it, so a local scenario can produce it. |
-| `arm:LedgerUpgrade.LEDGER_UPGRADE_FLAGS` | Only in a ledger that applies this network upgrade; stellar-core's standalone mode can arm it, so a local scenario can produce it. |
-| `arm:LedgerUpgrade.LEDGER_UPGRADE_MAX_TX_SET_SIZE` | Only in a ledger that applies this network upgrade; stellar-core's standalone mode can arm it, so a local scenario can produce it. |
 
 ## Types no ledger carries
 

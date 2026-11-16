@@ -95,6 +95,11 @@ def scval_depth(v):
     return 0
 
 
+AT_APPLY = {"txBAD_SEQ": "tx-bad-seq-at-apply", "txBAD_AUTH": "tx-bad-auth-at-apply",
+            "txBAD_AUTH_EXTRA": "tx-bad-auth-extra-at-apply", "txBAD_MIN_SEQ_AGE_OR_GAP": "tx-bad-min-seq-age-or-gap-at-apply",
+            "txBAD_SPONSORSHIP": "tx-bad-sponsorship-at-apply", "opBAD_AUTH": "op-bad-auth-at-apply"}
+
+
 def patterns(lcm, with_paths=False):
     """Named rare shapes present in one decoded LedgerCloseMeta.
 
@@ -113,6 +118,12 @@ def patterns(lcm, with_paths=False):
         if not isinstance(v, dict):
             return
         t = v.get("type")
+        code = v.get("code")
+        if code in AT_APPLY:
+            # A result in a closed ledger: the transaction was valid when it was queued and failed
+            # these checks when stellar-core applied it (TransactionFrame::apply calls commonValid
+            # again), because an earlier transaction of the ledger changed its source's state.
+            hit(AT_APPLY[code], path)
         if "med25519" in v:
             hit("muxed-account", path)
             mid = v["med25519"]["id"]

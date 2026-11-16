@@ -3615,7 +3615,8 @@
    "shape": "Selected because it exercises 4 schema cell(s) that no other entry reaches.",
    "patterns": {
     "failed-transaction": "v2.txProcessing[1].result.result.result",
-    "scval-wide-integer": "v2.txProcessing[0].txApplyProcessing.v4.events[0].event.body.v0.data"
+    "scval-wide-integer": "v2.txProcessing[0].txApplyProcessing.v4.events[0].event.body.v0.data",
+    "tx-bad-seq-at-apply": "v2.txProcessing[1].result.result.result"
    },
    "designated": {
     "patterns": [],
@@ -14024,7 +14025,8 @@
    },
    "shape": "Selected because it exercises 1 schema cell(s) that no other entry reaches.",
    "patterns": {
-    "failed-transaction": "v2.txProcessing[0].result.result.result"
+    "failed-transaction": "v2.txProcessing[0].result.result.result",
+    "tx-bad-sponsorship-at-apply": "v2.txProcessing[0].result.result.result"
    },
    "designated": {
     "patterns": [],
@@ -14982,7 +14984,8 @@
    "shape": "Selected because it exercises 1 schema cell(s) that no other entry reaches.",
    "patterns": {
     "failed-transaction": "v2.txProcessing[1].result.result.result",
-    "scval-wide-integer": "v2.txProcessing[0].txApplyProcessing.v4.events[0].event.body.v0.data"
+    "scval-wide-integer": "v2.txProcessing[0].txApplyProcessing.v4.events[0].event.body.v0.data",
+    "tx-bad-auth-at-apply": "v2.txProcessing[1].result.result.result"
    },
    "designated": {
     "patterns": [],
@@ -16001,6 +16004,958 @@
      "go-stellar-sdk v0.9.0": "agree",
      "network.lightsail:stellar-sdk 6.0.0": "agree",
      "stellar-xdr (Python) 0.2.1": "agree"
+    }
+   },
+   "sightings": []
+  },
+  {
+   "id": "localcore-op-failures-8",
+   "title": "Local stellar-core, scenario failures-p30: 56 result codes no other entry has, set when a transaction fails at apply, in one ledger",
+   "xdr_type": "LedgerCloseMeta",
+   "file": "entries/localcore-op-failures-8.LedgerCloseMeta.xdr.b64",
+   "sha256": "fb71d5ad6c65ed76057bc42c003ddaf8079f212efd58e0e03a50ace187a396a9",
+   "size_bytes": 65652,
+   "protocol_version": 30,
+   "caps": [
+    {
+     "cap": "CAP-0033",
+     "cells": [],
+     "patterns": [
+      "tx-bad-sponsorship-at-apply"
+     ]
+    }
+   ],
+   "synthetic": false,
+   "source": {
+    "kind": "local_stellar_core",
+    "stellar_core_version": "stellar-core 30.0.0 (0e49751aa9ddf892302cca02cea7f3f5d97df9f1)",
+    "image": "stellar/stellar-core:30.0.0-3642.0e49751aa.noble",
+    "network_passphrase": "Test SDF Network ; September 2015",
+    "ledger_seq": 8,
+    "ledger_hash": "ece964d7684708b970217437959a4258924030b8d6302bdb067ebda47e07a36b",
+    "scenario": "op-failures",
+    "generator": "tools/localcore.py",
+    "notes": "Standalone network, manual close, fixed keys and close times; see the scenario in tools/localcore.py."
+   },
+   "shape": "About 60 transactions, each from its own account, each built so that one operation fails when stellar-core applies it against ledger state: account merge (sub-entries, sponsor, sequence too far, destination full), AllowTrust and SetTrustLineFlags failures, ChangeTrust (cannot delete, line missing, not authorized to maintain liabilities, low reserve), claimable balances, clawback, pool deposit and withdrawal, offers crossing themselves or hitting full lines, path payments without destination, trust or authorization, sponsorship revocations, SetOptions failures, an open sponsorship sandwich and a RETURN memo. Each code is set in an operation's doApply, never in its doCheckValid, so each can be in a closed ledger; run.json lists the code every transaction was built to produce.",
+   "patterns": {
+    "failed-transaction": "v2.txProcessing[0].result.result.result",
+    "scval-wide-integer": "v2.txProcessing[0].txApplyProcessing.v4.events[0].event.body.v0.data",
+    "tx-bad-sponsorship-at-apply": "v2.txProcessing[45].result.result.result"
+   },
+   "designated": {
+    "patterns": [
+     "tx-bad-sponsorship-at-apply"
+    ],
+    "cells": [
+     "arm:AccountMergeResult.ACCOUNT_MERGE_DEST_FULL",
+     "arm:AccountMergeResult.ACCOUNT_MERGE_HAS_SUB_ENTRIES",
+     "arm:AccountMergeResult.ACCOUNT_MERGE_IS_SPONSOR",
+     "arm:AccountMergeResult.ACCOUNT_MERGE_SEQNUM_TOO_FAR",
+     "arm:AllowTrustResult.ALLOW_TRUST_CANT_REVOKE",
+     "arm:AllowTrustResult.ALLOW_TRUST_NO_TRUST_LINE",
+     "arm:ChangeTrustResult.CHANGE_TRUST_CANNOT_DELETE",
+     "arm:ChangeTrustResult.CHANGE_TRUST_LOW_RESERVE",
+     "arm:ChangeTrustResult.CHANGE_TRUST_NOT_AUTH_MAINTAIN_LIABILITIES",
+     "arm:ChangeTrustResult.CHANGE_TRUST_TRUST_LINE_MISSING",
+     "arm:ClaimClaimableBalanceResult.CLAIM_CLAIMABLE_BALANCE_LINE_FULL",
+     "arm:ClaimClaimableBalanceResult.CLAIM_CLAIMABLE_BALANCE_NOT_AUTHORIZED",
+     "arm:ClawbackClaimableBalanceResult.CLAWBACK_CLAIMABLE_BALANCE_DOES_NOT_EXIST",
+     "arm:ClawbackClaimableBalanceResult.CLAWBACK_CLAIMABLE_BALANCE_NOT_CLAWBACK_ENABLED",
+     "arm:ClawbackClaimableBalanceResult.CLAWBACK_CLAIMABLE_BALANCE_NOT_ISSUER",
+     "arm:ClawbackResult.CLAWBACK_NOT_CLAWBACK_ENABLED",
+     "arm:ClawbackResult.CLAWBACK_NO_TRUST",
+     "arm:ClawbackResult.CLAWBACK_UNDERFUNDED",
+     "arm:CreateAccountResult.CREATE_ACCOUNT_ALREADY_EXIST",
+     "arm:CreateClaimableBalanceResult.CREATE_CLAIMABLE_BALANCE_NOT_AUTHORIZED",
+     "arm:CreateClaimableBalanceResult.CREATE_CLAIMABLE_BALANCE_UNDERFUNDED",
+     "arm:LiquidityPoolDepositResult.LIQUIDITY_POOL_DEPOSIT_BAD_PRICE",
+     "arm:LiquidityPoolDepositResult.LIQUIDITY_POOL_DEPOSIT_LINE_FULL",
+     "arm:LiquidityPoolDepositResult.LIQUIDITY_POOL_DEPOSIT_NO_TRUST",
+     "arm:LiquidityPoolDepositResult.LIQUIDITY_POOL_DEPOSIT_UNDERFUNDED",
+     "arm:LiquidityPoolWithdrawResult.LIQUIDITY_POOL_WITHDRAW_NO_TRUST",
+     "arm:LiquidityPoolWithdrawResult.LIQUIDITY_POOL_WITHDRAW_UNDERFUNDED",
+     "arm:LiquidityPoolWithdrawResult.LIQUIDITY_POOL_WITHDRAW_UNDER_MINIMUM",
+     "arm:ManageBuyOfferResult.MANAGE_BUY_OFFER_BUY_NO_TRUST",
+     "arm:ManageBuyOfferResult.MANAGE_BUY_OFFER_CROSS_SELF",
+     "arm:ManageBuyOfferResult.MANAGE_BUY_OFFER_LINE_FULL",
+     "arm:ManageBuyOfferResult.MANAGE_BUY_OFFER_SELL_NOT_AUTHORIZED",
+     "arm:ManageDataResult.MANAGE_DATA_LOW_RESERVE",
+     "arm:ManageSellOfferResult.MANAGE_SELL_OFFER_BUY_NOT_AUTHORIZED",
+     "arm:ManageSellOfferResult.MANAGE_SELL_OFFER_LINE_FULL",
+     "arm:Memo.MEMO_RETURN",
+     "arm:PathPaymentStrictReceiveResult.PATH_PAYMENT_STRICT_RECEIVE_NOT_AUTHORIZED",
+     "arm:PathPaymentStrictReceiveResult.PATH_PAYMENT_STRICT_RECEIVE_NO_DESTINATION",
+     "arm:PathPaymentStrictReceiveResult.PATH_PAYMENT_STRICT_RECEIVE_NO_TRUST",
+     "arm:PathPaymentStrictReceiveResult.PATH_PAYMENT_STRICT_RECEIVE_OFFER_CROSS_SELF",
+     "arm:PathPaymentStrictReceiveResult.PATH_PAYMENT_STRICT_RECEIVE_SRC_NOT_AUTHORIZED",
+     "arm:PathPaymentStrictReceiveResult.PATH_PAYMENT_STRICT_RECEIVE_SRC_NO_TRUST",
+     "arm:PathPaymentStrictSendResult.PATH_PAYMENT_STRICT_SEND_LINE_FULL",
+     "arm:PathPaymentStrictSendResult.PATH_PAYMENT_STRICT_SEND_NOT_AUTHORIZED",
+     "arm:PathPaymentStrictSendResult.PATH_PAYMENT_STRICT_SEND_NO_DESTINATION",
+     "arm:PathPaymentStrictSendResult.PATH_PAYMENT_STRICT_SEND_OFFER_CROSS_SELF",
+     "arm:PathPaymentStrictSendResult.PATH_PAYMENT_STRICT_SEND_SRC_NOT_AUTHORIZED",
+     "arm:RevokeSponsorshipResult.REVOKE_SPONSORSHIP_DOES_NOT_EXIST",
+     "arm:RevokeSponsorshipResult.REVOKE_SPONSORSHIP_ONLY_TRANSFERABLE",
+     "arm:SetOptionsResult.SET_OPTIONS_AUTH_REVOCABLE_REQUIRED",
+     "arm:SetOptionsResult.SET_OPTIONS_CANT_CHANGE",
+     "arm:SetOptionsResult.SET_OPTIONS_INVALID_INFLATION",
+     "arm:SetOptionsResult.SET_OPTIONS_LOW_RESERVE",
+     "arm:SetOptionsResult.SET_OPTIONS_TOO_MANY_SIGNERS",
+     "arm:SetTrustLineFlagsResult.SET_TRUST_LINE_FLAGS_CANT_REVOKE",
+     "arm:SetTrustLineFlagsResult.SET_TRUST_LINE_FLAGS_INVALID_STATE",
+     "arm:SetTrustLineFlagsResult.SET_TRUST_LINE_FLAGS_NO_TRUST_LINE"
+    ]
+   },
+   "cells": [
+    "arm:AccountEntryExt.0",
+    "arm:AccountEntryExt.1",
+    "arm:AccountEntryExtensionV1Ext.2",
+    "arm:AccountEntryExtensionV2Ext.0",
+    "arm:AccountEntryExtensionV2Ext.3",
+    "arm:AccountMergeResult.ACCOUNT_MERGE_DEST_FULL",
+    "arm:AccountMergeResult.ACCOUNT_MERGE_HAS_SUB_ENTRIES",
+    "arm:AccountMergeResult.ACCOUNT_MERGE_IS_SPONSOR",
+    "arm:AccountMergeResult.ACCOUNT_MERGE_SEQNUM_TOO_FAR",
+    "arm:AllowTrustResult.ALLOW_TRUST_CANT_REVOKE",
+    "arm:AllowTrustResult.ALLOW_TRUST_NO_TRUST_LINE",
+    "arm:Asset.ASSET_TYPE_CREDIT_ALPHANUM4",
+    "arm:Asset.ASSET_TYPE_NATIVE",
+    "arm:AssetCode.ASSET_TYPE_CREDIT_ALPHANUM4",
+    "arm:BumpSequenceResult.BUMP_SEQUENCE_SUCCESS",
+    "arm:ChangeTrustAsset.ASSET_TYPE_CREDIT_ALPHANUM4",
+    "arm:ChangeTrustAsset.ASSET_TYPE_POOL_SHARE",
+    "arm:ChangeTrustResult.CHANGE_TRUST_CANNOT_DELETE",
+    "arm:ChangeTrustResult.CHANGE_TRUST_LOW_RESERVE",
+    "arm:ChangeTrustResult.CHANGE_TRUST_NOT_AUTH_MAINTAIN_LIABILITIES",
+    "arm:ChangeTrustResult.CHANGE_TRUST_TRUST_LINE_MISSING",
+    "arm:ClaimClaimableBalanceResult.CLAIM_CLAIMABLE_BALANCE_LINE_FULL",
+    "arm:ClaimClaimableBalanceResult.CLAIM_CLAIMABLE_BALANCE_NOT_AUTHORIZED",
+    "arm:ClaimPredicate.CLAIM_PREDICATE_UNCONDITIONAL",
+    "arm:ClaimableBalanceID.CLAIMABLE_BALANCE_ID_TYPE_V0",
+    "arm:Claimant.CLAIMANT_TYPE_V0",
+    "arm:ClawbackClaimableBalanceResult.CLAWBACK_CLAIMABLE_BALANCE_DOES_NOT_EXIST",
+    "arm:ClawbackClaimableBalanceResult.CLAWBACK_CLAIMABLE_BALANCE_NOT_CLAWBACK_ENABLED",
+    "arm:ClawbackClaimableBalanceResult.CLAWBACK_CLAIMABLE_BALANCE_NOT_ISSUER",
+    "arm:ClawbackResult.CLAWBACK_NOT_CLAWBACK_ENABLED",
+    "arm:ClawbackResult.CLAWBACK_NO_TRUST",
+    "arm:ClawbackResult.CLAWBACK_UNDERFUNDED",
+    "arm:ContractEventBody.0",
+    "arm:CreateAccountResult.CREATE_ACCOUNT_ALREADY_EXIST",
+    "arm:CreateClaimableBalanceResult.CREATE_CLAIMABLE_BALANCE_NOT_AUTHORIZED",
+    "arm:CreateClaimableBalanceResult.CREATE_CLAIMABLE_BALANCE_UNDERFUNDED",
+    "arm:ExtensionPoint.0",
+    "arm:GeneralizedTransactionSet.1",
+    "arm:LedgerCloseMeta.2",
+    "arm:LedgerCloseMetaExt.0",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_CREATED",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_STATE",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_UPDATED",
+    "arm:LedgerEntryData.ACCOUNT",
+    "arm:LedgerEntryData.OFFER",
+    "arm:LedgerEntryData.TRUSTLINE",
+    "arm:LedgerEntryExt.0",
+    "arm:LedgerHeaderExt.0",
+    "arm:LedgerHeaderHistoryEntryExt.0",
+    "arm:LedgerKey.CLAIMABLE_BALANCE",
+    "arm:LedgerKey.DATA",
+    "arm:LiquidityPoolDepositResult.LIQUIDITY_POOL_DEPOSIT_BAD_PRICE",
+    "arm:LiquidityPoolDepositResult.LIQUIDITY_POOL_DEPOSIT_LINE_FULL",
+    "arm:LiquidityPoolDepositResult.LIQUIDITY_POOL_DEPOSIT_NO_TRUST",
+    "arm:LiquidityPoolDepositResult.LIQUIDITY_POOL_DEPOSIT_UNDERFUNDED",
+    "arm:LiquidityPoolParameters.LIQUIDITY_POOL_CONSTANT_PRODUCT",
+    "arm:LiquidityPoolWithdrawResult.LIQUIDITY_POOL_WITHDRAW_NO_TRUST",
+    "arm:LiquidityPoolWithdrawResult.LIQUIDITY_POOL_WITHDRAW_UNDERFUNDED",
+    "arm:LiquidityPoolWithdrawResult.LIQUIDITY_POOL_WITHDRAW_UNDER_MINIMUM",
+    "arm:ManageBuyOfferResult.MANAGE_BUY_OFFER_BUY_NO_TRUST",
+    "arm:ManageBuyOfferResult.MANAGE_BUY_OFFER_CROSS_SELF",
+    "arm:ManageBuyOfferResult.MANAGE_BUY_OFFER_LINE_FULL",
+    "arm:ManageBuyOfferResult.MANAGE_BUY_OFFER_SELL_NOT_AUTHORIZED",
+    "arm:ManageDataResult.MANAGE_DATA_LOW_RESERVE",
+    "arm:ManageOfferSuccessResultOffer.MANAGE_OFFER_CREATED",
+    "arm:ManageSellOfferResult.MANAGE_SELL_OFFER_BUY_NOT_AUTHORIZED",
+    "arm:ManageSellOfferResult.MANAGE_SELL_OFFER_LINE_FULL",
+    "arm:ManageSellOfferResult.MANAGE_SELL_OFFER_SUCCESS",
+    "arm:Memo.MEMO_NONE",
+    "arm:Memo.MEMO_RETURN",
+    "arm:MuxedAccount.KEY_TYPE_ED25519",
+    "arm:OfferEntryExt.0",
+    "arm:OperationBody.ACCOUNT_MERGE",
+    "arm:OperationBody.ALLOW_TRUST",
+    "arm:OperationBody.BEGIN_SPONSORING_FUTURE_RESERVES",
+    "arm:OperationBody.BUMP_SEQUENCE",
+    "arm:OperationBody.CHANGE_TRUST",
+    "arm:OperationBody.CLAIM_CLAIMABLE_BALANCE",
+    "arm:OperationBody.CLAWBACK",
+    "arm:OperationBody.CLAWBACK_CLAIMABLE_BALANCE",
+    "arm:OperationBody.CREATE_ACCOUNT",
+    "arm:OperationBody.CREATE_CLAIMABLE_BALANCE",
+    "arm:OperationBody.CREATE_PASSIVE_SELL_OFFER",
+    "arm:OperationBody.LIQUIDITY_POOL_DEPOSIT",
+    "arm:OperationBody.LIQUIDITY_POOL_WITHDRAW",
+    "arm:OperationBody.MANAGE_BUY_OFFER",
+    "arm:OperationBody.MANAGE_DATA",
+    "arm:OperationBody.MANAGE_SELL_OFFER",
+    "arm:OperationBody.PATH_PAYMENT_STRICT_RECEIVE",
+    "arm:OperationBody.PATH_PAYMENT_STRICT_SEND",
+    "arm:OperationBody.REVOKE_SPONSORSHIP",
+    "arm:OperationBody.SET_OPTIONS",
+    "arm:OperationBody.SET_TRUST_LINE_FLAGS",
+    "arm:OperationResult.opINNER",
+    "arm:OperationResultTr.ACCOUNT_MERGE",
+    "arm:OperationResultTr.ALLOW_TRUST",
+    "arm:OperationResultTr.BUMP_SEQUENCE",
+    "arm:OperationResultTr.CHANGE_TRUST",
+    "arm:OperationResultTr.CLAIM_CLAIMABLE_BALANCE",
+    "arm:OperationResultTr.CLAWBACK",
+    "arm:OperationResultTr.CLAWBACK_CLAIMABLE_BALANCE",
+    "arm:OperationResultTr.CREATE_ACCOUNT",
+    "arm:OperationResultTr.CREATE_CLAIMABLE_BALANCE",
+    "arm:OperationResultTr.LIQUIDITY_POOL_DEPOSIT",
+    "arm:OperationResultTr.LIQUIDITY_POOL_WITHDRAW",
+    "arm:OperationResultTr.MANAGE_BUY_OFFER",
+    "arm:OperationResultTr.MANAGE_DATA",
+    "arm:OperationResultTr.MANAGE_SELL_OFFER",
+    "arm:OperationResultTr.PATH_PAYMENT_STRICT_RECEIVE",
+    "arm:OperationResultTr.PATH_PAYMENT_STRICT_SEND",
+    "arm:OperationResultTr.REVOKE_SPONSORSHIP",
+    "arm:OperationResultTr.SET_OPTIONS",
+    "arm:OperationResultTr.SET_TRUST_LINE_FLAGS",
+    "arm:PathPaymentStrictReceiveResult.PATH_PAYMENT_STRICT_RECEIVE_NOT_AUTHORIZED",
+    "arm:PathPaymentStrictReceiveResult.PATH_PAYMENT_STRICT_RECEIVE_NO_DESTINATION",
+    "arm:PathPaymentStrictReceiveResult.PATH_PAYMENT_STRICT_RECEIVE_NO_TRUST",
+    "arm:PathPaymentStrictReceiveResult.PATH_PAYMENT_STRICT_RECEIVE_OFFER_CROSS_SELF",
+    "arm:PathPaymentStrictReceiveResult.PATH_PAYMENT_STRICT_RECEIVE_SRC_NOT_AUTHORIZED",
+    "arm:PathPaymentStrictReceiveResult.PATH_PAYMENT_STRICT_RECEIVE_SRC_NO_TRUST",
+    "arm:PathPaymentStrictSendResult.PATH_PAYMENT_STRICT_SEND_LINE_FULL",
+    "arm:PathPaymentStrictSendResult.PATH_PAYMENT_STRICT_SEND_NOT_AUTHORIZED",
+    "arm:PathPaymentStrictSendResult.PATH_PAYMENT_STRICT_SEND_NO_DESTINATION",
+    "arm:PathPaymentStrictSendResult.PATH_PAYMENT_STRICT_SEND_OFFER_CROSS_SELF",
+    "arm:PathPaymentStrictSendResult.PATH_PAYMENT_STRICT_SEND_SRC_NOT_AUTHORIZED",
+    "arm:Preconditions.PRECOND_NONE",
+    "arm:PublicKey.PUBLIC_KEY_TYPE_ED25519",
+    "arm:RevokeSponsorshipOp.REVOKE_SPONSORSHIP_LEDGER_ENTRY",
+    "arm:RevokeSponsorshipResult.REVOKE_SPONSORSHIP_DOES_NOT_EXIST",
+    "arm:RevokeSponsorshipResult.REVOKE_SPONSORSHIP_ONLY_TRANSFERABLE",
+    "arm:SCAddress.SC_ADDRESS_TYPE_ACCOUNT",
+    "arm:SCVal.SCV_ADDRESS",
+    "arm:SCVal.SCV_I128",
+    "arm:SCVal.SCV_SYMBOL",
+    "arm:SetOptionsResult.SET_OPTIONS_AUTH_REVOCABLE_REQUIRED",
+    "arm:SetOptionsResult.SET_OPTIONS_CANT_CHANGE",
+    "arm:SetOptionsResult.SET_OPTIONS_INVALID_INFLATION",
+    "arm:SetOptionsResult.SET_OPTIONS_LOW_RESERVE",
+    "arm:SetOptionsResult.SET_OPTIONS_TOO_MANY_SIGNERS",
+    "arm:SetTrustLineFlagsResult.SET_TRUST_LINE_FLAGS_CANT_REVOKE",
+    "arm:SetTrustLineFlagsResult.SET_TRUST_LINE_FLAGS_INVALID_STATE",
+    "arm:SetTrustLineFlagsResult.SET_TRUST_LINE_FLAGS_NO_TRUST_LINE",
+    "arm:SignerKey.SIGNER_KEY_TYPE_ED25519",
+    "arm:StellarValueExt.STELLAR_VALUE_SIGNED_MS",
+    "arm:TransactionEnvelope.ENVELOPE_TYPE_TX",
+    "arm:TransactionExt.0",
+    "arm:TransactionMeta.4",
+    "arm:TransactionPhase.0",
+    "arm:TransactionPhase.1",
+    "arm:TransactionResultExt.0",
+    "arm:TransactionResultResult.txBAD_SPONSORSHIP",
+    "arm:TransactionResultResult.txFAILED",
+    "arm:TransactionResultResult.txSUCCESS",
+    "arm:TrustLineAsset.ASSET_TYPE_CREDIT_ALPHANUM4",
+    "arm:TrustLineEntryExt.0",
+    "arm:TrustLineEntryExt.1",
+    "arm:TrustLineEntryV1Ext.0",
+    "arm:TxSetComponent.TXSET_COMP_TXS_MAYBE_DISCOUNTED_FEE",
+    "enum:ContractEventType.CONTRACT",
+    "enum:TransactionEventStage.TRANSACTION_EVENT_STAGE_BEFORE_ALL_TXS"
+   ],
+   "cells_new_in_protocol": [
+    "arm:StellarValueExt.STELLAR_VALUE_SIGNED_MS"
+   ],
+   "expected": {
+    "decoded": [
+     {
+      "path": "v",
+      "value": 2
+     },
+     {
+      "path": "v2.ledgerHeader.header.ledgerSeq",
+      "value": 8
+     },
+     {
+      "path": "v2.ledgerHeader.header.ledgerVersion",
+      "value": 30
+     },
+     {
+      "path": "v2.ledgerHeader.hash",
+      "value": "ece964d7684708b970217437959a4258924030b8d6302bdb067ebda47e07a36b"
+     },
+     {
+      "path": "v2.ledgerHeader.header.scpValue.closeTime",
+      "value": 4070000000
+     },
+     {
+      "path": "v2.txProcessing[45].result.result.result.code",
+      "value": "txBAD_SPONSORSHIP",
+      "note": "pattern tx-bad-sponsorship-at-apply"
+     },
+     {
+      "path": "v2.txProcessing[43].result.result.result.results[0].tr.accountMergeResult.code",
+      "value": "ACCOUNT_MERGE_DEST_FULL",
+      "note": "cell arm:AccountMergeResult.ACCOUNT_MERGE_DEST_FULL"
+     },
+     {
+      "path": "v2.txProcessing[15].result.result.result.results[0].tr.accountMergeResult.code",
+      "value": "ACCOUNT_MERGE_HAS_SUB_ENTRIES",
+      "note": "cell arm:AccountMergeResult.ACCOUNT_MERGE_HAS_SUB_ENTRIES"
+     },
+     {
+      "path": "v2.txProcessing[33].result.result.result.results[0].tr.accountMergeResult.code",
+      "value": "ACCOUNT_MERGE_IS_SPONSOR",
+      "note": "cell arm:AccountMergeResult.ACCOUNT_MERGE_IS_SPONSOR"
+     },
+     {
+      "path": "v2.txProcessing[5].result.result.result.results[0].tr.accountMergeResult.code",
+      "value": "ACCOUNT_MERGE_SEQNUM_TOO_FAR",
+      "note": "cell arm:AccountMergeResult.ACCOUNT_MERGE_SEQNUM_TOO_FAR"
+     },
+     {
+      "path": "v2.txProcessing[9].result.result.result.results[0].tr.allowTrustResult.code",
+      "value": "ALLOW_TRUST_CANT_REVOKE",
+      "note": "cell arm:AllowTrustResult.ALLOW_TRUST_CANT_REVOKE"
+     },
+     {
+      "path": "v2.txProcessing[56].result.result.result.results[0].tr.allowTrustResult.code",
+      "value": "ALLOW_TRUST_NO_TRUST_LINE",
+      "note": "cell arm:AllowTrustResult.ALLOW_TRUST_NO_TRUST_LINE"
+     },
+     {
+      "path": "v2.txProcessing[1].result.result.result.results[0].tr.changeTrustResult.code",
+      "value": "CHANGE_TRUST_CANNOT_DELETE",
+      "note": "cell arm:ChangeTrustResult.CHANGE_TRUST_CANNOT_DELETE"
+     },
+     {
+      "path": "v2.txProcessing[17].result.result.result.results[0].tr.changeTrustResult.code",
+      "value": "CHANGE_TRUST_LOW_RESERVE",
+      "note": "cell arm:ChangeTrustResult.CHANGE_TRUST_LOW_RESERVE"
+     },
+     {
+      "path": "v2.txProcessing[58].result.result.result.results[0].tr.changeTrustResult.code",
+      "value": "CHANGE_TRUST_NOT_AUTH_MAINTAIN_LIABILITIES",
+      "note": "cell arm:ChangeTrustResult.CHANGE_TRUST_NOT_AUTH_MAINTAIN_LIABILITIES"
+     },
+     {
+      "path": "v2.txProcessing[27].result.result.result.results[0].tr.changeTrustResult.code",
+      "value": "CHANGE_TRUST_TRUST_LINE_MISSING",
+      "note": "cell arm:ChangeTrustResult.CHANGE_TRUST_TRUST_LINE_MISSING"
+     },
+     {
+      "path": "v2.txProcessing[55].result.result.result.results[0].tr.claimClaimableBalanceResult.code",
+      "value": "CLAIM_CLAIMABLE_BALANCE_LINE_FULL",
+      "note": "cell arm:ClaimClaimableBalanceResult.CLAIM_CLAIMABLE_BALANCE_LINE_FULL"
+     },
+     {
+      "path": "v2.txProcessing[7].result.result.result.results[0].tr.claimClaimableBalanceResult.code",
+      "value": "CLAIM_CLAIMABLE_BALANCE_NOT_AUTHORIZED",
+      "note": "cell arm:ClaimClaimableBalanceResult.CLAIM_CLAIMABLE_BALANCE_NOT_AUTHORIZED"
+     },
+     {
+      "path": "v2.txProcessing[2].result.result.result.results[0].tr.clawbackClaimableBalanceResult.code",
+      "value": "CLAWBACK_CLAIMABLE_BALANCE_DOES_NOT_EXIST",
+      "note": "cell arm:ClawbackClaimableBalanceResult.CLAWBACK_CLAIMABLE_BALANCE_DOES_NOT_EXIST"
+     },
+     {
+      "path": "v2.txProcessing[34].result.result.result.results[0].tr.clawbackClaimableBalanceResult.code",
+      "value": "CLAWBACK_CLAIMABLE_BALANCE_NOT_CLAWBACK_ENABLED",
+      "note": "cell arm:ClawbackClaimableBalanceResult.CLAWBACK_CLAIMABLE_BALANCE_NOT_CLAWBACK_ENABLED"
+     },
+     {
+      "path": "v2.txProcessing[46].result.result.result.results[0].tr.clawbackClaimableBalanceResult.code",
+      "value": "CLAWBACK_CLAIMABLE_BALANCE_NOT_ISSUER",
+      "note": "cell arm:ClawbackClaimableBalanceResult.CLAWBACK_CLAIMABLE_BALANCE_NOT_ISSUER"
+     },
+     {
+      "path": "v2.txProcessing[28].result.result.result.results[0].tr.clawbackResult.code",
+      "value": "CLAWBACK_NOT_CLAWBACK_ENABLED",
+      "note": "cell arm:ClawbackResult.CLAWBACK_NOT_CLAWBACK_ENABLED"
+     },
+     {
+      "path": "v2.txProcessing[3].result.result.result.results[0].tr.clawbackResult.code",
+      "value": "CLAWBACK_NO_TRUST",
+      "note": "cell arm:ClawbackResult.CLAWBACK_NO_TRUST"
+     },
+     {
+      "path": "v2.txProcessing[36].result.result.result.results[0].tr.clawbackResult.code",
+      "value": "CLAWBACK_UNDERFUNDED",
+      "note": "cell arm:ClawbackResult.CLAWBACK_UNDERFUNDED"
+     },
+     {
+      "path": "v2.txProcessing[21].result.result.result.results[0].tr.createAccountResult.code",
+      "value": "CREATE_ACCOUNT_ALREADY_EXIST",
+      "note": "cell arm:CreateAccountResult.CREATE_ACCOUNT_ALREADY_EXIST"
+     },
+     {
+      "path": "v2.txProcessing[23].result.result.result.results[0].tr.createClaimableBalanceResult.code",
+      "value": "CREATE_CLAIMABLE_BALANCE_NOT_AUTHORIZED",
+      "note": "cell arm:CreateClaimableBalanceResult.CREATE_CLAIMABLE_BALANCE_NOT_AUTHORIZED"
+     },
+     {
+      "path": "v2.txProcessing[19].result.result.result.results[0].tr.createClaimableBalanceResult.code",
+      "value": "CREATE_CLAIMABLE_BALANCE_UNDERFUNDED",
+      "note": "cell arm:CreateClaimableBalanceResult.CREATE_CLAIMABLE_BALANCE_UNDERFUNDED"
+     },
+     {
+      "path": "v2.txProcessing[6].result.result.result.results[0].tr.liquidityPoolDepositResult.code",
+      "value": "LIQUIDITY_POOL_DEPOSIT_BAD_PRICE",
+      "note": "cell arm:LiquidityPoolDepositResult.LIQUIDITY_POOL_DEPOSIT_BAD_PRICE"
+     },
+     {
+      "path": "v2.txProcessing[13].result.result.result.results[0].tr.liquidityPoolDepositResult.code",
+      "value": "LIQUIDITY_POOL_DEPOSIT_LINE_FULL",
+      "note": "cell arm:LiquidityPoolDepositResult.LIQUIDITY_POOL_DEPOSIT_LINE_FULL"
+     },
+     {
+      "path": "v2.txProcessing[57].result.result.result.results[0].tr.liquidityPoolDepositResult.code",
+      "value": "LIQUIDITY_POOL_DEPOSIT_NO_TRUST",
+      "note": "cell arm:LiquidityPoolDepositResult.LIQUIDITY_POOL_DEPOSIT_NO_TRUST"
+     },
+     {
+      "path": "v2.txProcessing[30].result.result.result.results[0].tr.liquidityPoolDepositResult.code",
+      "value": "LIQUIDITY_POOL_DEPOSIT_UNDERFUNDED",
+      "note": "cell arm:LiquidityPoolDepositResult.LIQUIDITY_POOL_DEPOSIT_UNDERFUNDED"
+     },
+     {
+      "path": "v2.txProcessing[49].result.result.result.results[0].tr.liquidityPoolWithdrawResult.code",
+      "value": "LIQUIDITY_POOL_WITHDRAW_NO_TRUST",
+      "note": "cell arm:LiquidityPoolWithdrawResult.LIQUIDITY_POOL_WITHDRAW_NO_TRUST"
+     },
+     {
+      "path": "v2.txProcessing[12].result.result.result.results[0].tr.liquidityPoolWithdrawResult.code",
+      "value": "LIQUIDITY_POOL_WITHDRAW_UNDERFUNDED",
+      "note": "cell arm:LiquidityPoolWithdrawResult.LIQUIDITY_POOL_WITHDRAW_UNDERFUNDED"
+     },
+     {
+      "path": "v2.txProcessing[39].result.result.result.results[0].tr.liquidityPoolWithdrawResult.code",
+      "value": "LIQUIDITY_POOL_WITHDRAW_UNDER_MINIMUM",
+      "note": "cell arm:LiquidityPoolWithdrawResult.LIQUIDITY_POOL_WITHDRAW_UNDER_MINIMUM"
+     },
+     {
+      "path": "v2.txProcessing[52].result.result.result.results[0].tr.manageBuyOfferResult.code",
+      "value": "MANAGE_BUY_OFFER_BUY_NO_TRUST",
+      "note": "cell arm:ManageBuyOfferResult.MANAGE_BUY_OFFER_BUY_NO_TRUST"
+     },
+     {
+      "path": "v2.txProcessing[10].result.result.result.results[0].tr.manageBuyOfferResult.code",
+      "value": "MANAGE_BUY_OFFER_CROSS_SELF",
+      "note": "cell arm:ManageBuyOfferResult.MANAGE_BUY_OFFER_CROSS_SELF"
+     },
+     {
+      "path": "v2.txProcessing[40].result.result.result.results[0].tr.manageBuyOfferResult.code",
+      "value": "MANAGE_BUY_OFFER_LINE_FULL",
+      "note": "cell arm:ManageBuyOfferResult.MANAGE_BUY_OFFER_LINE_FULL"
+     },
+     {
+      "path": "v2.txProcessing[4].result.result.result.results[0].tr.manageBuyOfferResult.code",
+      "value": "MANAGE_BUY_OFFER_SELL_NOT_AUTHORIZED",
+      "note": "cell arm:ManageBuyOfferResult.MANAGE_BUY_OFFER_SELL_NOT_AUTHORIZED"
+     },
+     {
+      "path": "v2.txProcessing[54].result.result.result.results[0].tr.manageDataResult.code",
+      "value": "MANAGE_DATA_LOW_RESERVE",
+      "note": "cell arm:ManageDataResult.MANAGE_DATA_LOW_RESERVE"
+     },
+     {
+      "path": "v2.txProcessing[37].result.result.result.results[0].tr.manageSellOfferResult.code",
+      "value": "MANAGE_SELL_OFFER_BUY_NOT_AUTHORIZED",
+      "note": "cell arm:ManageSellOfferResult.MANAGE_SELL_OFFER_BUY_NOT_AUTHORIZED"
+     }
+    ]
+   },
+   "validation": {
+    "independent_decoder": "pass",
+    "rs_stellar_xdr_roundtrip": "pass",
+    "stellar_core": {
+     "version": "30.0.0",
+     "command": "dump-xdr (meta-debug stream)",
+     "result": "pass",
+     "expected_values_agree": 40,
+     "expected_values_rendered_differently": 0
+    },
+    "core_golden": "not_applicable",
+    "sdk_decoders": {
+     "@stellar/stellar-sdk 17.4.0": "agree",
+     "stellar-sdk 17.0.1": "agree",
+     "stellar-xdr (Python) 0.2.1": "agree",
+     "go-stellar-sdk v0.9.0": "agree",
+     "network.lightsail:stellar-sdk 6.0.0": "agree"
+    }
+   },
+   "sightings": []
+  },
+  {
+   "id": "localcore-tx-failures-bumped-13",
+   "title": "Local stellar-core, scenario failures-p30: the same apply-time failures inside fee bumps, so the inner transaction result carries them",
+   "xdr_type": "LedgerCloseMeta",
+   "file": "entries/localcore-tx-failures-bumped-13.LedgerCloseMeta.xdr.b64",
+   "sha256": "8066fb5a5e8e4146ba84118c0570fda195647de886a4e1e445c04308dbfeaafa",
+   "size_bytes": 68792,
+   "protocol_version": 30,
+   "caps": [
+    {
+     "cap": "CAP-0021",
+     "cells": [],
+     "patterns": [
+      "tx-bad-min-seq-age-or-gap-at-apply"
+     ]
+    }
+   ],
+   "synthetic": false,
+   "source": {
+    "kind": "local_stellar_core",
+    "stellar_core_version": "stellar-core 30.0.0 (0e49751aa9ddf892302cca02cea7f3f5d97df9f1)",
+    "image": "stellar/stellar-core:30.0.0-3642.0e49751aa.noble",
+    "network_passphrase": "Test SDF Network ; September 2015",
+    "ledger_seq": 13,
+    "ledger_hash": "034dd68f2fd5f1fdad3ae130985626a30b6b356b0d7d4807e3c65a99f29b159a",
+    "scenario": "tx-failures-bumped",
+    "generator": "tools/localcore.py",
+    "notes": "Standalone network, manual close, fixed keys and close times; see the scenario in tools/localcore.py."
+   },
+   "shape": "As localcore-tx-failures-plain-12, with each victim wrapped in a fee bump paid by a third account: the outer result is txFEE_BUMP_INNER_FAILED and the inner result txBAD_SEQ, txBAD_AUTH, txBAD_AUTH_EXTRA (the attacker raised the master weight, so an extra signer's signature went unused), txBAD_MIN_SEQ_AGE_OR_GAP or txBAD_SPONSORSHIP, or an operation failing with opBAD_AUTH.",
+   "patterns": {
+    "failed-transaction": "v2.txProcessing[7].result.result.result",
+    "op-bad-auth-at-apply": "v2.txProcessing[21].result.result.result.innerResultPair.result.result.results[0]",
+    "scval-wide-integer": "v2.txProcessing[0].txApplyProcessing.v4.events[0].event.body.v0.data",
+    "tx-bad-auth-at-apply": "v2.txProcessing[7].result.result.result.innerResultPair.result.result",
+    "tx-bad-auth-extra-at-apply": "v2.txProcessing[37].result.result.result.innerResultPair.result.result",
+    "tx-bad-min-seq-age-or-gap-at-apply": "v2.txProcessing[29].result.result.result.innerResultPair.result.result",
+    "tx-bad-seq-at-apply": "v2.txProcessing[11].result.result.result.innerResultPair.result.result",
+    "tx-bad-sponsorship-at-apply": "v2.txProcessing[24].result.result.result.innerResultPair.result.result"
+   },
+   "designated": {
+    "patterns": [
+     "op-bad-auth-at-apply",
+     "tx-bad-auth-at-apply",
+     "tx-bad-auth-extra-at-apply",
+     "tx-bad-min-seq-age-or-gap-at-apply",
+     "tx-bad-seq-at-apply"
+    ],
+    "cells": [
+     "arm:InnerTransactionResultResult.txBAD_AUTH",
+     "arm:InnerTransactionResultResult.txBAD_AUTH_EXTRA",
+     "arm:InnerTransactionResultResult.txBAD_MIN_SEQ_AGE_OR_GAP",
+     "arm:InnerTransactionResultResult.txBAD_SEQ",
+     "arm:InnerTransactionResultResult.txBAD_SPONSORSHIP",
+     "arm:OperationResult.opBAD_AUTH"
+    ]
+   },
+   "cells": [
+    "arm:AccountEntryExt.0",
+    "arm:AccountEntryExt.1",
+    "arm:AccountEntryExtensionV1Ext.2",
+    "arm:AccountEntryExtensionV2Ext.3",
+    "arm:Asset.ASSET_TYPE_NATIVE",
+    "arm:BumpSequenceResult.BUMP_SEQUENCE_SUCCESS",
+    "arm:ContractEventBody.0",
+    "arm:ExtensionPoint.0",
+    "arm:FeeBumpTransactionExt.0",
+    "arm:FeeBumpTransactionInnerTx.ENVELOPE_TYPE_TX",
+    "arm:GeneralizedTransactionSet.1",
+    "arm:InnerTransactionResultExt.0",
+    "arm:InnerTransactionResultResult.txBAD_AUTH",
+    "arm:InnerTransactionResultResult.txBAD_AUTH_EXTRA",
+    "arm:InnerTransactionResultResult.txBAD_MIN_SEQ_AGE_OR_GAP",
+    "arm:InnerTransactionResultResult.txBAD_SEQ",
+    "arm:InnerTransactionResultResult.txBAD_SPONSORSHIP",
+    "arm:InnerTransactionResultResult.txFAILED",
+    "arm:InnerTransactionResultResult.txSUCCESS",
+    "arm:LedgerCloseMeta.2",
+    "arm:LedgerCloseMetaExt.0",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_STATE",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_UPDATED",
+    "arm:LedgerEntryData.ACCOUNT",
+    "arm:LedgerEntryExt.0",
+    "arm:LedgerHeaderExt.0",
+    "arm:LedgerHeaderHistoryEntryExt.0",
+    "arm:Memo.MEMO_NONE",
+    "arm:MuxedAccount.KEY_TYPE_ED25519",
+    "arm:OperationBody.BEGIN_SPONSORING_FUTURE_RESERVES",
+    "arm:OperationBody.BUMP_SEQUENCE",
+    "arm:OperationBody.PAYMENT",
+    "arm:OperationBody.SET_OPTIONS",
+    "arm:OperationResult.opBAD_AUTH",
+    "arm:OperationResult.opINNER",
+    "arm:OperationResultTr.BUMP_SEQUENCE",
+    "arm:OperationResultTr.PAYMENT",
+    "arm:OperationResultTr.SET_OPTIONS",
+    "arm:PaymentResult.PAYMENT_SUCCESS",
+    "arm:Preconditions.PRECOND_NONE",
+    "arm:Preconditions.PRECOND_V2",
+    "arm:PublicKey.PUBLIC_KEY_TYPE_ED25519",
+    "arm:SCAddress.SC_ADDRESS_TYPE_ACCOUNT",
+    "arm:SCVal.SCV_ADDRESS",
+    "arm:SCVal.SCV_I128",
+    "arm:SCVal.SCV_STRING",
+    "arm:SCVal.SCV_SYMBOL",
+    "arm:SetOptionsResult.SET_OPTIONS_SUCCESS",
+    "arm:SignerKey.SIGNER_KEY_TYPE_ED25519",
+    "arm:StellarValueExt.STELLAR_VALUE_SIGNED_MS",
+    "arm:TransactionEnvelope.ENVELOPE_TYPE_TX",
+    "arm:TransactionEnvelope.ENVELOPE_TYPE_TX_FEE_BUMP",
+    "arm:TransactionExt.0",
+    "arm:TransactionMeta.4",
+    "arm:TransactionPhase.0",
+    "arm:TransactionPhase.1",
+    "arm:TransactionResultExt.0",
+    "arm:TransactionResultResult.txFEE_BUMP_INNER_FAILED",
+    "arm:TransactionResultResult.txFEE_BUMP_INNER_SUCCESS",
+    "arm:TransactionResultResult.txSUCCESS",
+    "arm:TxSetComponent.TXSET_COMP_TXS_MAYBE_DISCOUNTED_FEE",
+    "enum:ContractEventType.CONTRACT",
+    "enum:TransactionEventStage.TRANSACTION_EVENT_STAGE_BEFORE_ALL_TXS"
+   ],
+   "cells_new_in_protocol": [
+    "arm:StellarValueExt.STELLAR_VALUE_SIGNED_MS"
+   ],
+   "expected": {
+    "decoded": [
+     {
+      "path": "v",
+      "value": 2
+     },
+     {
+      "path": "v2.ledgerHeader.header.ledgerSeq",
+      "value": 13
+     },
+     {
+      "path": "v2.ledgerHeader.header.ledgerVersion",
+      "value": 30
+     },
+     {
+      "path": "v2.ledgerHeader.hash",
+      "value": "034dd68f2fd5f1fdad3ae130985626a30b6b356b0d7d4807e3c65a99f29b159a"
+     },
+     {
+      "path": "v2.ledgerHeader.header.scpValue.closeTime",
+      "value": 4120000000
+     },
+     {
+      "path": "v2.txProcessing[21].result.result.result.innerResultPair.result.result.results[0].code",
+      "value": "opBAD_AUTH",
+      "note": "pattern op-bad-auth-at-apply"
+     },
+     {
+      "path": "v2.txProcessing[7].result.result.result.innerResultPair.result.result.code",
+      "value": "txBAD_AUTH",
+      "note": "pattern tx-bad-auth-at-apply"
+     },
+     {
+      "path": "v2.txProcessing[37].result.result.result.innerResultPair.result.result.code",
+      "value": "txBAD_AUTH_EXTRA",
+      "note": "pattern tx-bad-auth-extra-at-apply"
+     },
+     {
+      "path": "v2.txProcessing[29].result.result.result.innerResultPair.result.result.code",
+      "value": "txBAD_MIN_SEQ_AGE_OR_GAP",
+      "note": "pattern tx-bad-min-seq-age-or-gap-at-apply"
+     },
+     {
+      "path": "v2.txProcessing[11].result.result.result.innerResultPair.result.result.code",
+      "value": "txBAD_SEQ",
+      "note": "pattern tx-bad-seq-at-apply"
+     },
+     {
+      "path": "v2.txProcessing[24].result.result.result.innerResultPair.result.result.code",
+      "value": "txBAD_SPONSORSHIP",
+      "note": "cell arm:InnerTransactionResultResult.txBAD_SPONSORSHIP"
+     }
+    ]
+   },
+   "validation": {
+    "independent_decoder": "pass",
+    "rs_stellar_xdr_roundtrip": "pass",
+    "stellar_core": {
+     "version": "30.0.0",
+     "command": "dump-xdr (meta-debug stream)",
+     "result": "pass",
+     "expected_values_agree": 11,
+     "expected_values_rendered_differently": 0
+    },
+    "core_golden": "not_applicable",
+    "sdk_decoders": {
+     "@stellar/stellar-sdk 17.4.0": "agree",
+     "stellar-sdk 17.0.1": "agree",
+     "stellar-xdr (Python) 0.2.1": "agree",
+     "go-stellar-sdk v0.9.0": "agree",
+     "network.lightsail:stellar-sdk 6.0.0": "agree"
+    }
+   },
+   "sightings": []
+  },
+  {
+   "id": "localcore-tx-failures-plain-12",
+   "title": "Local stellar-core, scenario failures-p30: transactions that are in a closed ledger and failed the checks stellar-core repeats when it applies them",
+   "xdr_type": "LedgerCloseMeta",
+   "file": "entries/localcore-tx-failures-plain-12.LedgerCloseMeta.xdr.b64",
+   "sha256": "74105216567b4bca57ad4aadca52241ea43817258144dd699a58309c346a96a4",
+   "size_bytes": 60092,
+   "protocol_version": 30,
+   "caps": [],
+   "synthetic": false,
+   "source": {
+    "kind": "local_stellar_core",
+    "stellar_core_version": "stellar-core 30.0.0 (0e49751aa9ddf892302cca02cea7f3f5d97df9f1)",
+    "image": "stellar/stellar-core:30.0.0-3642.0e49751aa.noble",
+    "network_passphrase": "Test SDF Network ; September 2015",
+    "ledger_seq": 12,
+    "ledger_hash": "60efdf343a51e2858f9dda85c970d17f836ac8d954def4c179eb04a22a6b4d4a",
+    "scenario": "tx-failures-plain",
+    "generator": "tools/localcore.py",
+    "notes": "Standalone network, manual close, fixed keys and close times; see the scenario in tools/localcore.py."
+   },
+   "shape": "Each victim transaction was valid when it was queued. An attacker transaction of the same ledger, whose operation runs as the victim's account and is signed by it, changes the victim first: its sequence number (txBAD_SEQ), its master weight (txBAD_AUTH), a sequence-ledger gap (txBAD_MIN_SEQ_AGE_OR_GAP), or the signers of another operation's source (opBAD_AUTH). TransactionFrame::apply calls commonValid again, so the victim is in the ledger with that result. stellar-core orders transactions by hash, so each case is sent four times; some replicas apply before their attacker and succeed.",
+   "patterns": {
+    "failed-transaction": "v2.txProcessing[15].result.result.result",
+    "scval-wide-integer": "v2.txProcessing[0].txApplyProcessing.v4.events[0].event.body.v0.data",
+    "tx-bad-auth-at-apply": "v2.txProcessing[35].result.result.result",
+    "tx-bad-min-seq-age-or-gap-at-apply": "v2.txProcessing[15].result.result.result",
+    "tx-bad-seq-at-apply": "v2.txProcessing[27].result.result.result"
+   },
+   "designated": {
+    "patterns": [],
+    "cells": [
+     "arm:TransactionResultResult.txBAD_MIN_SEQ_AGE_OR_GAP"
+    ]
+   },
+   "cells": [
+    "arm:AccountEntryExt.0",
+    "arm:AccountEntryExt.1",
+    "arm:AccountEntryExtensionV1Ext.2",
+    "arm:AccountEntryExtensionV2Ext.3",
+    "arm:Asset.ASSET_TYPE_NATIVE",
+    "arm:BumpSequenceResult.BUMP_SEQUENCE_SUCCESS",
+    "arm:ContractEventBody.0",
+    "arm:ExtensionPoint.0",
+    "arm:GeneralizedTransactionSet.1",
+    "arm:LedgerCloseMeta.2",
+    "arm:LedgerCloseMetaExt.0",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_STATE",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_UPDATED",
+    "arm:LedgerEntryData.ACCOUNT",
+    "arm:LedgerEntryExt.0",
+    "arm:LedgerHeaderExt.0",
+    "arm:LedgerHeaderHistoryEntryExt.0",
+    "arm:Memo.MEMO_NONE",
+    "arm:MuxedAccount.KEY_TYPE_ED25519",
+    "arm:OperationBody.BUMP_SEQUENCE",
+    "arm:OperationBody.PAYMENT",
+    "arm:OperationBody.SET_OPTIONS",
+    "arm:OperationResult.opINNER",
+    "arm:OperationResultTr.BUMP_SEQUENCE",
+    "arm:OperationResultTr.PAYMENT",
+    "arm:OperationResultTr.SET_OPTIONS",
+    "arm:PaymentResult.PAYMENT_SUCCESS",
+    "arm:Preconditions.PRECOND_NONE",
+    "arm:Preconditions.PRECOND_V2",
+    "arm:PublicKey.PUBLIC_KEY_TYPE_ED25519",
+    "arm:SCAddress.SC_ADDRESS_TYPE_ACCOUNT",
+    "arm:SCVal.SCV_ADDRESS",
+    "arm:SCVal.SCV_I128",
+    "arm:SCVal.SCV_STRING",
+    "arm:SCVal.SCV_SYMBOL",
+    "arm:SetOptionsResult.SET_OPTIONS_SUCCESS",
+    "arm:SignerKey.SIGNER_KEY_TYPE_ED25519",
+    "arm:StellarValueExt.STELLAR_VALUE_SIGNED_MS",
+    "arm:TransactionEnvelope.ENVELOPE_TYPE_TX",
+    "arm:TransactionExt.0",
+    "arm:TransactionMeta.4",
+    "arm:TransactionPhase.0",
+    "arm:TransactionPhase.1",
+    "arm:TransactionResultExt.0",
+    "arm:TransactionResultResult.txBAD_AUTH",
+    "arm:TransactionResultResult.txBAD_MIN_SEQ_AGE_OR_GAP",
+    "arm:TransactionResultResult.txBAD_SEQ",
+    "arm:TransactionResultResult.txSUCCESS",
+    "arm:TxSetComponent.TXSET_COMP_TXS_MAYBE_DISCOUNTED_FEE",
+    "enum:ContractEventType.CONTRACT",
+    "enum:TransactionEventStage.TRANSACTION_EVENT_STAGE_BEFORE_ALL_TXS"
+   ],
+   "cells_new_in_protocol": [
+    "arm:StellarValueExt.STELLAR_VALUE_SIGNED_MS"
+   ],
+   "expected": {
+    "decoded": [
+     {
+      "path": "v",
+      "value": 2
+     },
+     {
+      "path": "v2.ledgerHeader.header.ledgerSeq",
+      "value": 12
+     },
+     {
+      "path": "v2.ledgerHeader.header.ledgerVersion",
+      "value": 30
+     },
+     {
+      "path": "v2.ledgerHeader.hash",
+      "value": "60efdf343a51e2858f9dda85c970d17f836ac8d954def4c179eb04a22a6b4d4a"
+     },
+     {
+      "path": "v2.ledgerHeader.header.scpValue.closeTime",
+      "value": 4110000000
+     },
+     {
+      "path": "v2.txProcessing[15].result.result.result.code",
+      "value": "txBAD_MIN_SEQ_AGE_OR_GAP",
+      "note": "cell arm:TransactionResultResult.txBAD_MIN_SEQ_AGE_OR_GAP"
+     }
+    ]
+   },
+   "validation": {
+    "independent_decoder": "pass",
+    "rs_stellar_xdr_roundtrip": "pass",
+    "stellar_core": {
+     "version": "30.0.0",
+     "command": "dump-xdr (meta-debug stream)",
+     "result": "pass",
+     "expected_values_agree": 6,
+     "expected_values_rendered_differently": 0
+    },
+    "core_golden": "not_applicable",
+    "sdk_decoders": {
+     "@stellar/stellar-sdk 17.4.0": "agree",
+     "stellar-sdk 17.0.1": "agree",
+     "stellar-xdr (Python) 0.2.1": "agree",
+     "go-stellar-sdk v0.9.0": "agree",
+     "network.lightsail:stellar-sdk 6.0.0": "agree"
+    }
+   },
+   "sightings": []
+  },
+  {
+   "id": "localcore-upgrades-14",
+   "title": "Local stellar-core, scenario failures-p30: a ledger that applies base fee, base reserve, max transaction set size and ledger flags upgrades",
+   "xdr_type": "LedgerCloseMeta",
+   "file": "entries/localcore-upgrades-14.LedgerCloseMeta.xdr.b64",
+   "sha256": "bc4674b5fb75bb2f605a4f80b987c430969d660aa0cd23601201407d7e1094fe",
+   "size_bytes": 668,
+   "protocol_version": 30,
+   "caps": [],
+   "synthetic": false,
+   "source": {
+    "kind": "local_stellar_core",
+    "stellar_core_version": "stellar-core 30.0.0 (0e49751aa9ddf892302cca02cea7f3f5d97df9f1)",
+    "image": "stellar/stellar-core:30.0.0-3642.0e49751aa.noble",
+    "network_passphrase": "Test SDF Network ; September 2015",
+    "ledger_seq": 14,
+    "ledger_hash": "2434799354008d9251bfe2ea59e9bf3c94e2d81c5307b0b8be3ce0ec24ef9dbe",
+    "scenario": "upgrades",
+    "generator": "tools/localcore.py",
+    "notes": "Standalone network, manual close, fixed keys and close times; see the scenario in tools/localcore.py."
+   },
+   "shape": "Four network upgrades armed together and applied in one ledger: the upgrades list carries LEDGER_UPGRADE_BASE_FEE, BASE_RESERVE, MAX_TX_SET_SIZE and FLAGS, and from the flags upgrade on the ledger header carries the v1 extension with the flags. An indexer that reads fees or reserves from configuration rather than from the header gets every later ledger wrong.",
+   "patterns": {},
+   "designated": {
+    "patterns": [],
+    "cells": [
+     "arm:LedgerHeaderExt.1",
+     "arm:LedgerHeaderExtensionV1Ext.0",
+     "arm:LedgerUpgrade.LEDGER_UPGRADE_BASE_FEE",
+     "arm:LedgerUpgrade.LEDGER_UPGRADE_BASE_RESERVE",
+     "arm:LedgerUpgrade.LEDGER_UPGRADE_FLAGS",
+     "arm:LedgerUpgrade.LEDGER_UPGRADE_MAX_TX_SET_SIZE"
+    ]
+   },
+   "cells": [
+    "arm:GeneralizedTransactionSet.1",
+    "arm:LedgerCloseMeta.2",
+    "arm:LedgerCloseMetaExt.0",
+    "arm:LedgerHeaderExt.1",
+    "arm:LedgerHeaderExtensionV1Ext.0",
+    "arm:LedgerHeaderHistoryEntryExt.0",
+    "arm:LedgerUpgrade.LEDGER_UPGRADE_BASE_FEE",
+    "arm:LedgerUpgrade.LEDGER_UPGRADE_BASE_RESERVE",
+    "arm:LedgerUpgrade.LEDGER_UPGRADE_FLAGS",
+    "arm:LedgerUpgrade.LEDGER_UPGRADE_MAX_TX_SET_SIZE",
+    "arm:PublicKey.PUBLIC_KEY_TYPE_ED25519",
+    "arm:StellarValueExt.STELLAR_VALUE_SIGNED_MS",
+    "arm:TransactionPhase.0",
+    "arm:TransactionPhase.1"
+   ],
+   "cells_new_in_protocol": [
+    "arm:StellarValueExt.STELLAR_VALUE_SIGNED_MS"
+   ],
+   "expected": {
+    "decoded": [
+     {
+      "path": "v",
+      "value": 2
+     },
+     {
+      "path": "v2.ledgerHeader.header.ledgerSeq",
+      "value": 14
+     },
+     {
+      "path": "v2.ledgerHeader.header.ledgerVersion",
+      "value": 30
+     },
+     {
+      "path": "v2.ledgerHeader.hash",
+      "value": "2434799354008d9251bfe2ea59e9bf3c94e2d81c5307b0b8be3ce0ec24ef9dbe"
+     },
+     {
+      "path": "v2.ledgerHeader.header.scpValue.closeTime",
+      "value": 4130000000
+     },
+     {
+      "path": "v2.ledgerHeader.header.ext.v",
+      "value": 1,
+      "note": "cell arm:LedgerHeaderExt.1"
+     },
+     {
+      "path": "v2.ledgerHeader.header.ext.v1.ext.v",
+      "value": 0,
+      "note": "cell arm:LedgerHeaderExtensionV1Ext.0"
+     },
+     {
+      "path": "v2.upgradesProcessing[0].upgrade.type",
+      "value": "LEDGER_UPGRADE_BASE_FEE",
+      "note": "cell arm:LedgerUpgrade.LEDGER_UPGRADE_BASE_FEE"
+     },
+     {
+      "path": "v2.upgradesProcessing[2].upgrade.type",
+      "value": "LEDGER_UPGRADE_BASE_RESERVE",
+      "note": "cell arm:LedgerUpgrade.LEDGER_UPGRADE_BASE_RESERVE"
+     },
+     {
+      "path": "v2.upgradesProcessing[3].upgrade.type",
+      "value": "LEDGER_UPGRADE_FLAGS",
+      "note": "cell arm:LedgerUpgrade.LEDGER_UPGRADE_FLAGS"
+     },
+     {
+      "path": "v2.upgradesProcessing[1].upgrade.type",
+      "value": "LEDGER_UPGRADE_MAX_TX_SET_SIZE",
+      "note": "cell arm:LedgerUpgrade.LEDGER_UPGRADE_MAX_TX_SET_SIZE"
+     }
+    ]
+   },
+   "validation": {
+    "independent_decoder": "pass",
+    "rs_stellar_xdr_roundtrip": "pass",
+    "stellar_core": {
+     "version": "30.0.0",
+     "command": "dump-xdr (meta-debug stream)",
+     "result": "pass",
+     "expected_values_agree": 11,
+     "expected_values_rendered_differently": 0
+    },
+    "core_golden": "not_applicable",
+    "sdk_decoders": {
+     "@stellar/stellar-sdk 17.4.0": "agree",
+     "stellar-sdk 17.0.1": "agree",
+     "stellar-xdr (Python) 0.2.1": "agree",
+     "go-stellar-sdk v0.9.0": "agree",
+     "network.lightsail:stellar-sdk 6.0.0": "agree"
     }
    },
    "sightings": []

@@ -72,6 +72,18 @@
     "seq": 3
    }
   },
+  "op-failures": {
+   "pubnet": {
+    "normalized_sha256": "e66350a25f68e726cf88273b6491ce99924b7a94bd55318f30322684526be7e5",
+    "raw_sha256": "f14b3cdad9775863499d4ea7d033a6835102f6bb2c080245619ae84843f82c1d",
+    "seq": 8
+   },
+   "testnet": {
+    "normalized_sha256": "8882dde1f279f015678621c20bd02acec63b93785b3d32086833e55481f5ff31",
+    "raw_sha256": "fb71d5ad6c65ed76057bc42c003ddaf8079f212efd58e0e03a50ace187a396a9",
+    "seq": 8
+   }
+  },
   "planted-auth": {
    "pubnet": {
     "normalized_sha256": "33219ea389044b66a16a6cf30c9070a44e26a960b58cb51aa3feaaa182bfbf69",
@@ -130,6 +142,42 @@
     "normalized_sha256": "ef2a7921e999b17bfd8d9d4abbdac64be4541dd58e93f1e43c0b43f0777d4782",
     "raw_sha256": "074f16ac46446081017b977a2155f27c6ca372c255c6ca644f171bc54d7cf65a",
     "seq": 9
+   }
+  },
+  "tx-failures-bumped": {
+   "pubnet": {
+    "normalized_sha256": "b719bdba47da6cc7daddefff33d4ef9eef83ea496a5f5b229d24c255af54a2f3",
+    "raw_sha256": "c1a850393f43c51f245d46f116fcb4eb7531904850ba0178e06f4d23baab5c58",
+    "seq": 13
+   },
+   "testnet": {
+    "normalized_sha256": "204c93061c09b3685ed2e7940a948eea35f5018c7df2d2673b804f70ee9c68b1",
+    "raw_sha256": "8066fb5a5e8e4146ba84118c0570fda195647de886a4e1e445c04308dbfeaafa",
+    "seq": 13
+   }
+  },
+  "tx-failures-plain": {
+   "pubnet": {
+    "normalized_sha256": "54bda7507fe4cea12c78c821aaf5bfee2a51d0b50136f900e5fc1d972e2ce48f",
+    "raw_sha256": "286d6d32d83d25402989de59219de318036d4ad4035f9dc0c050d3b902710517",
+    "seq": 12
+   },
+   "testnet": {
+    "normalized_sha256": "2746a1766ebf3771e17afbec57682110eeb5c0dad593af73d0bb774e6c58b88c",
+    "raw_sha256": "74105216567b4bca57ad4aadca52241ea43817258144dd699a58309c346a96a4",
+    "seq": 12
+   }
+  },
+  "upgrades": {
+   "pubnet": {
+    "normalized_sha256": "2af08bad5482c1230ef78eabe34f4a34a9f23640b7316b7511f93f201544a585",
+    "raw_sha256": "2af08bad5482c1230ef78eabe34f4a34a9f23640b7316b7511f93f201544a585",
+    "seq": 14
+   },
+   "testnet": {
+    "normalized_sha256": "bc4674b5fb75bb2f605a4f80b987c430969d660aa0cd23601201407d7e1094fe",
+    "raw_sha256": "bc4674b5fb75bb2f605a4f80b987c430969d660aa0cd23601201407d7e1094fe",
+    "seq": 14
    }
   }
  },

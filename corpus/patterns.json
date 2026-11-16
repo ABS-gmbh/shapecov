@@ -185,6 +185,40 @@
     "CAP-0046"
    ],
    "why": "The envelope claims effects that the meta shows did not happen."
+  },
+  "tx-bad-seq-at-apply": {
+   "title": "A transaction in a closed ledger whose result is txBAD_SEQ",
+   "caps": [],
+   "why": "The transaction is in a closed ledger, so it passed stellar-core's checks when it was queued; it failed them when it applied, because an earlier transaction of the same ledger changed its source's state. An indexer must read validity from the result, not infer it from inclusion. Here an earlier transaction bumped the source's sequence number."
+  },
+  "tx-bad-auth-at-apply": {
+   "title": "A transaction in a closed ledger whose result is txBAD_AUTH",
+   "caps": [],
+   "why": "The transaction is in a closed ledger, so it passed stellar-core's checks when it was queued; it failed them when it applied, because an earlier transaction of the same ledger changed its source's state. An indexer must read validity from the result, not infer it from inclusion. Here an earlier transaction changed the source's signers or weights, so the envelope's signatures no longer authorize it."
+  },
+  "tx-bad-auth-extra-at-apply": {
+   "title": "A transaction in a closed ledger whose result is txBAD_AUTH_EXTRA",
+   "caps": [],
+   "why": "The transaction is in a closed ledger, so it passed stellar-core's checks when it was queued; it failed them when it applied, because an earlier transaction of the same ledger changed its source's state. An indexer must read validity from the result, not infer it from inclusion. Here an earlier transaction raised the source's master weight, so one of the envelope's signatures went unused."
+  },
+  "tx-bad-min-seq-age-or-gap-at-apply": {
+   "title": "A transaction in a closed ledger whose result is txBAD_MIN_SEQ_AGE_OR_GAP",
+   "caps": [
+    "CAP-0021"
+   ],
+   "why": "The transaction is in a closed ledger, so it passed stellar-core's checks when it was queued; it failed them when it applied, because an earlier transaction of the same ledger changed its source's state. An indexer must read validity from the result, not infer it from inclusion. Here an earlier transaction changed the source's sequence number in the same ledger, so a minimum sequence-ledger gap is not met."
+  },
+  "tx-bad-sponsorship-at-apply": {
+   "title": "A transaction in a closed ledger whose result is txBAD_SPONSORSHIP",
+   "caps": [
+    "CAP-0033"
+   ],
+   "why": "A sponsorship sandwich left open: BeginSponsoringFutureReserves without its End. stellar-core sets the code in TransactionFrame::applyOperations, so the transaction is in the ledger, failed."
+  },
+  "op-bad-auth-at-apply": {
+   "title": "An operation in a closed ledger whose result is opBAD_AUTH",
+   "caps": [],
+   "why": "The operation's own source did not authorize it at apply: OperationFrame::checkSignature runs again then, and an earlier transaction of the ledger changed that source's signers. The envelope carries a signature that authorizes nothing."
   }
  }
 }

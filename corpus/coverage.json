@@ -1,6 +1,6 @@
 {
  "closed_ledger_cells": 502,
- "corpus_covers_reachable": 352,
+ "corpus_covers_reachable": 422,
  "definition": "a cell is a union arm, or a member of an enum that appears as a value; reachable means in a type LedgerCloseMeta reaches",
  "discriminant_only_enums": 73,
  "generator_covers": 549,
@@ -29,16 +29,15 @@
   "enum:TransactionEventStage.TRANSACTION_EVENT_STAGE_AFTER_TX"
  ],
  "uncovered_by_class": {
-  "before_protocol": 14,
+  "before_protocol": 17,
   "config_upgrade": 24,
   "consensus": 5,
   "contract": 6,
   "impractical": 1,
-  "local_core": 79,
+  "local_core": 12,
   "never_in_ledger": 36,
-  "unclassified": 15,
-  "upgrade": 6
+  "unclassified": 15
  },
- "uncovered_reachable": 186,
+ "uncovered_reachable": 116,
  "unreachable_cells": 121
 }

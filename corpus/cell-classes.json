@@ -1,32 +1,12 @@
 {
  "cells": {
-  "arm:AccountMergeResult.ACCOUNT_MERGE_DEST_FULL": {
-   "class": "local_core",
-   "why": "Set while the operation applies (Merge:doApplyBeforeV16, Merge:doApplyFromV16): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it."
-  },
-  "arm:AccountMergeResult.ACCOUNT_MERGE_HAS_SUB_ENTRIES": {
-   "class": "local_core",
-   "why": "Set while the operation applies (Merge:doApplyBeforeV16, Merge:doApplyFromV16): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it."
-  },
   "arm:AccountMergeResult.ACCOUNT_MERGE_IMMUTABLE_SET": {
-   "class": "local_core",
-   "why": "Set while the operation applies (Merge:doApplyBeforeV16, Merge:doApplyFromV16): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it."
-  },
-  "arm:AccountMergeResult.ACCOUNT_MERGE_IS_SPONSOR": {
    "class": "local_core",
    "why": "Set while the operation applies (Merge:doApplyBeforeV16, Merge:doApplyFromV16): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it."
   },
   "arm:AccountMergeResult.ACCOUNT_MERGE_MALFORMED": {
    "class": "never_in_ledger",
    "why": "Set only in Merge:doCheckValid, which depends on the operation and the protocol version alone. stellar-core runs it when it admits a transaction and when it validates a transaction set, so a transaction that fails it never reaches a ledger."
-  },
-  "arm:AccountMergeResult.ACCOUNT_MERGE_SEQNUM_TOO_FAR": {
-   "class": "local_core",
-   "why": "Set while the operation applies (Merge:doApplyBeforeV16, Merge:doApplyFromV16): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it."
-  },
-  "arm:AllowTrustResult.ALLOW_TRUST_CANT_REVOKE": {
-   "class": "local_core",
-   "why": "Set while the operation applies (AllowTrust:isAuthRevocationValid, AllowTrust:isRevocationToMaintainLiabilitiesValid): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it."
   },
   "arm:AllowTrustResult.ALLOW_TRUST_LOW_RESERVE": {
    "class": "local_core",
@@ -36,17 +16,13 @@
    "class": "never_in_ledger",
    "why": "Set only in AllowTrust:doCheckValid, which depends on the operation and the protocol version alone. stellar-core runs it when it admits a transaction and when it validates a transaction set, so a transaction that fails it never reaches a ledger."
   },
-  "arm:AllowTrustResult.ALLOW_TRUST_NO_TRUST_LINE": {
-   "class": "local_core",
-   "why": "Set while the operation applies (AllowTrust:setResultNoTrustLine): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it."
-  },
   "arm:AllowTrustResult.ALLOW_TRUST_SELF_NOT_ALLOWED": {
-   "class": "local_core",
-   "why": "Set while the operation applies (AllowTrust:setResultSelfNotAllowed): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it."
+   "class": "before_protocol",
+   "why": "Set in TrustFlagsOpFrameBase::doApply, but from protocol 16 AllowTrustOpFrame::doCheckValid rejects a trustor equal to the source as ALLOW_TRUST_MALFORMED first, so only protocols 3 to 15 have it."
   },
   "arm:AllowTrustResult.ALLOW_TRUST_TRUST_NOT_REQUIRED": {
-   "class": "local_core",
-   "why": "Set while the operation applies (AllowTrust:isAuthRevocationValid): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it."
+   "class": "before_protocol",
+   "why": "AllowTrustOpFrame sets it only when the ledger version is before 16 and the issuer does not require authorization."
   },
   "arm:BeginSponsoringFutureReservesResult.BEGIN_SPONSORING_FUTURE_RESERVES_MALFORMED": {
    "class": "never_in_ledger",
@@ -60,69 +36,21 @@
    "class": "never_in_ledger",
    "why": "There is no trustline to the native asset: ChangeTrust's doCheckValid rejects a native line, so no trustline entry, key or operation in a ledger carries this arm."
   },
-  "arm:ChangeTrustResult.CHANGE_TRUST_CANNOT_DELETE": {
-   "class": "local_core",
-   "why": "Set while the operation applies (ChangeTrust:doApply): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it."
-  },
-  "arm:ChangeTrustResult.CHANGE_TRUST_LOW_RESERVE": {
-   "class": "local_core",
-   "why": "Set while the operation applies (ChangeTrust:doApply): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it."
-  },
   "arm:ChangeTrustResult.CHANGE_TRUST_MALFORMED": {
    "class": "never_in_ledger",
    "why": "Set only in ChangeTrust:doCheckValid, which depends on the operation and the protocol version alone. stellar-core runs it when it admits a transaction and when it validates a transaction set, so a transaction that fails it never reaches a ledger."
   },
-  "arm:ChangeTrustResult.CHANGE_TRUST_NOT_AUTH_MAINTAIN_LIABILITIES": {
-   "class": "local_core",
-   "why": "Set while the operation applies (ChangeTrust:tryIncrementPoolUseCount): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it."
-  },
   "arm:ChangeTrustResult.CHANGE_TRUST_SELF_NOT_ALLOWED": {
-   "class": "local_core",
-   "why": "Set while the operation applies (ChangeTrust:doApply): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it."
-  },
-  "arm:ChangeTrustResult.CHANGE_TRUST_TRUST_LINE_MISSING": {
-   "class": "local_core",
-   "why": "Set while the operation applies (ChangeTrust:tryIncrementPoolUseCount): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it."
+   "class": "before_protocol",
+   "why": "Set in ChangeTrustOpFrame::doApply, but from protocol 16 ChangeTrustOpFrame::doCheckValid rejects a line issued by the source as CHANGE_TRUST_MALFORMED first, so only protocols before 16 have it."
   },
   "arm:ClaimAtom.CLAIM_ATOM_TYPE_V0": {
    "class": "before_protocol",
    "why": "Offers claimed before protocol 18 were reported as ClaimOfferAtomV0; from 18 they are ClaimOfferAtom (order book) or ClaimLiquidityAtom."
   },
-  "arm:ClaimClaimableBalanceResult.CLAIM_CLAIMABLE_BALANCE_LINE_FULL": {
-   "class": "local_core",
-   "why": "Set while the operation applies (ClaimClaimableBalance:doApply): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it."
-  },
-  "arm:ClaimClaimableBalanceResult.CLAIM_CLAIMABLE_BALANCE_NOT_AUTHORIZED": {
-   "class": "local_core",
-   "why": "Set while the operation applies (ClaimClaimableBalance:doApply): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it."
-  },
-  "arm:ClawbackClaimableBalanceResult.CLAWBACK_CLAIMABLE_BALANCE_DOES_NOT_EXIST": {
-   "class": "local_core",
-   "why": "Set while the operation applies (ClawbackClaimableBalance:doApply): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it."
-  },
-  "arm:ClawbackClaimableBalanceResult.CLAWBACK_CLAIMABLE_BALANCE_NOT_CLAWBACK_ENABLED": {
-   "class": "local_core",
-   "why": "Set while the operation applies (ClawbackClaimableBalance:doApply): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it."
-  },
-  "arm:ClawbackClaimableBalanceResult.CLAWBACK_CLAIMABLE_BALANCE_NOT_ISSUER": {
-   "class": "local_core",
-   "why": "Set while the operation applies (ClawbackClaimableBalance:doApply): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it."
-  },
   "arm:ClawbackResult.CLAWBACK_MALFORMED": {
    "class": "never_in_ledger",
    "why": "Set only in Clawback:doCheckValid, which depends on the operation and the protocol version alone. stellar-core runs it when it admits a transaction and when it validates a transaction set, so a transaction that fails it never reaches a ledger."
-  },
-  "arm:ClawbackResult.CLAWBACK_NOT_CLAWBACK_ENABLED": {
-   "class": "local_core",
-   "why": "Set while the operation applies (Clawback:doApply): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it."
-  },
-  "arm:ClawbackResult.CLAWBACK_NO_TRUST": {
-   "class": "local_core",
-   "why": "Set while the operation applies (Clawback:doApply): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it."
-  },
-  "arm:ClawbackResult.CLAWBACK_UNDERFUNDED": {
-   "class": "local_core",
-   "why": "Set while the operation applies (Clawback:doApply): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it."
   },
   "arm:ConfigSettingEntry.CONFIG_SETTING_FREEZE_BYPASS_TXS_DELTA": {
    "class": "config_upgrade",
@@ -132,10 +60,6 @@
    "class": "config_upgrade",
    "why": "Network configuration entries change only in a ledger that applies a Soroban configuration upgrade (a ConfigUpgradeSet stored in contract data and voted in); the corpus has no such ledger."
   },
-  "arm:CreateAccountResult.CREATE_ACCOUNT_ALREADY_EXIST": {
-   "class": "local_core",
-   "why": "Set while the operation applies (CreateAccount:doApply): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it."
-  },
   "arm:CreateAccountResult.CREATE_ACCOUNT_MALFORMED": {
    "class": "never_in_ledger",
    "why": "Set only in CreateAccount:doCheckValid, which depends on the operation and the protocol version alone. stellar-core runs it when it admits a transaction and when it validates a transaction set, so a transaction that fails it never reaches a ledger."
@@ -143,14 +67,6 @@
   "arm:CreateClaimableBalanceResult.CREATE_CLAIMABLE_BALANCE_MALFORMED": {
    "class": "never_in_ledger",
    "why": "Set only in CreateClaimableBalance:doCheckValid, which depends on the operation and the protocol version alone. stellar-core runs it when it admits a transaction and when it validates a transaction set, so a transaction that fails it never reaches a ledger."
-  },
-  "arm:CreateClaimableBalanceResult.CREATE_CLAIMABLE_BALANCE_NOT_AUTHORIZED": {
-   "class": "local_core",
-   "why": "Set while the operation applies (CreateClaimableBalance:doApply): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it."
-  },
-  "arm:CreateClaimableBalanceResult.CREATE_CLAIMABLE_BALANCE_UNDERFUNDED": {
-   "class": "local_core",
-   "why": "Set while the operation applies (CreateClaimableBalance:doApply): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it."
   },
   "arm:ExtendFootprintTTLResult.EXTEND_FOOTPRINT_TTL_MALFORMED": {
    "class": "never_in_ledger",
@@ -163,26 +79,6 @@
   "arm:InflationResult.INFLATION_SUCCESS": {
    "class": "before_protocol",
    "why": "Inflation ran until protocol 12 (CAP-0026); since then the operation is not supported."
-  },
-  "arm:InnerTransactionResultResult.txBAD_AUTH": {
-   "class": "local_core",
-   "why": "TransactionFrame::commonValid runs again when the transaction applies, against the ledger as earlier transactions in the same ledger left it; a transaction whose source's sequence number, signers or balance an earlier one changed fails with this code."
-  },
-  "arm:InnerTransactionResultResult.txBAD_AUTH_EXTRA": {
-   "class": "local_core",
-   "why": "Set in TransactionFrame::applyOperations as well as at admission: a signature that no signer used once earlier transactions in the ledger changed the signers."
-  },
-  "arm:InnerTransactionResultResult.txBAD_MIN_SEQ_AGE_OR_GAP": {
-   "class": "local_core",
-   "why": "TransactionFrame::commonValid runs again when the transaction applies, against the ledger as earlier transactions in the same ledger left it; a transaction whose source's sequence number, signers or balance an earlier one changed fails with this code."
-  },
-  "arm:InnerTransactionResultResult.txBAD_SEQ": {
-   "class": "local_core",
-   "why": "TransactionFrame::commonValid runs again when the transaction applies, against the ledger as earlier transactions in the same ledger left it; a transaction whose source's sequence number, signers or balance an earlier one changed fails with this code."
-  },
-  "arm:InnerTransactionResultResult.txBAD_SPONSORSHIP": {
-   "class": "local_core",
-   "why": "Set in TransactionFrame::applyOperations when a sponsorship sandwich is left open; a local stellar-core scenario can submit one."
   },
   "arm:InnerTransactionResultResult.txFROZEN_KEY_ACCESSED": {
    "class": "unclassified",
@@ -228,41 +124,9 @@
    "class": "never_in_ledger",
    "why": "stellar-core sets no INVOKE_HOST_FUNCTION_MALFORMED anywhere in src/transactions; a malformed invocation fails Soroban validation, which runs before admission."
   },
-  "arm:LedgerHeaderExt.1": {
-   "class": "upgrade",
-   "why": "The ledger header extension that carries ledger flags appears after a LEDGER_UPGRADE_FLAGS upgrade; a local scenario can arm one."
-  },
-  "arm:LedgerHeaderExtensionV1Ext.0": {
-   "class": "upgrade",
-   "why": "The ledger header extension that carries ledger flags appears after a LEDGER_UPGRADE_FLAGS upgrade; a local scenario can arm one."
-  },
   "arm:LedgerKey.CONFIG_SETTING": {
    "class": "config_upgrade",
    "why": "Network configuration entries change only in a ledger that applies a Soroban configuration upgrade (a ConfigUpgradeSet stored in contract data and voted in); the corpus has no such ledger."
-  },
-  "arm:LedgerUpgrade.LEDGER_UPGRADE_BASE_FEE": {
-   "class": "upgrade",
-   "why": "Only in a ledger that applies this network upgrade; stellar-core's standalone mode can arm it, so a local scenario can produce it."
-  },
-  "arm:LedgerUpgrade.LEDGER_UPGRADE_BASE_RESERVE": {
-   "class": "upgrade",
-   "why": "Only in a ledger that applies this network upgrade; stellar-core's standalone mode can arm it, so a local scenario can produce it."
-  },
-  "arm:LedgerUpgrade.LEDGER_UPGRADE_FLAGS": {
-   "class": "upgrade",
-   "why": "Only in a ledger that applies this network upgrade; stellar-core's standalone mode can arm it, so a local scenario can produce it."
-  },
-  "arm:LedgerUpgrade.LEDGER_UPGRADE_MAX_TX_SET_SIZE": {
-   "class": "upgrade",
-   "why": "Only in a ledger that applies this network upgrade; stellar-core's standalone mode can arm it, so a local scenario can produce it."
-  },
-  "arm:LiquidityPoolDepositResult.LIQUIDITY_POOL_DEPOSIT_BAD_PRICE": {
-   "class": "local_core",
-   "why": "Set while the operation applies (LiquidityPoolDeposit:depositIntoEmptyPool, LiquidityPoolDeposit:depositIntoNonEmptyPool): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it."
-  },
-  "arm:LiquidityPoolDepositResult.LIQUIDITY_POOL_DEPOSIT_LINE_FULL": {
-   "class": "local_core",
-   "why": "Set while the operation applies (LiquidityPoolDeposit:depositIntoEmptyPool, LiquidityPoolDeposit:depositIntoNonEmptyPool): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it."
   },
   "arm:LiquidityPoolDepositResult.LIQUIDITY_POOL_DEPOSIT_MALFORMED": {
    "class": "never_in_ledger",
@@ -272,17 +136,9 @@
    "class": "local_core",
    "why": "Set while the operation applies (LiquidityPoolDeposit:doApply): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it."
   },
-  "arm:LiquidityPoolDepositResult.LIQUIDITY_POOL_DEPOSIT_NO_TRUST": {
-   "class": "local_core",
-   "why": "Set while the operation applies (LiquidityPoolDeposit:doApply): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it."
-  },
   "arm:LiquidityPoolDepositResult.LIQUIDITY_POOL_DEPOSIT_POOL_FULL": {
    "class": "local_core",
    "why": "Set while the operation applies (LiquidityPoolDeposit:doApply): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it."
-  },
-  "arm:LiquidityPoolDepositResult.LIQUIDITY_POOL_DEPOSIT_UNDERFUNDED": {
-   "class": "local_core",
-   "why": "Set while the operation applies (LiquidityPoolDeposit:depositIntoEmptyPool, LiquidityPoolDeposit:depositIntoNonEmptyPool): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it."
   },
   "arm:LiquidityPoolWithdrawResult.LIQUIDITY_POOL_WITHDRAW_LINE_FULL": {
    "class": "local_core",
@@ -292,41 +148,13 @@
    "class": "never_in_ledger",
    "why": "Set only in LiquidityPoolWithdraw:doCheckValid, which depends on the operation and the protocol version alone. stellar-core runs it when it admits a transaction and when it validates a transaction set, so a transaction that fails it never reaches a ledger."
   },
-  "arm:LiquidityPoolWithdrawResult.LIQUIDITY_POOL_WITHDRAW_NO_TRUST": {
-   "class": "local_core",
-   "why": "Set while the operation applies (LiquidityPoolWithdraw:doApply): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it."
-  },
-  "arm:LiquidityPoolWithdrawResult.LIQUIDITY_POOL_WITHDRAW_UNDERFUNDED": {
-   "class": "local_core",
-   "why": "Set while the operation applies (LiquidityPoolWithdraw:doApply): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it."
-  },
-  "arm:LiquidityPoolWithdrawResult.LIQUIDITY_POOL_WITHDRAW_UNDER_MINIMUM": {
-   "class": "local_core",
-   "why": "Set while the operation applies (LiquidityPoolWithdraw:tryAddAssetBalance): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it."
-  },
   "arm:ManageBuyOfferResult.MANAGE_BUY_OFFER_BUY_NO_ISSUER": {
    "class": "before_protocol",
    "why": "Set only when the ledger version is before 13 (issuer existence checks, PaymentOpFrame, PathPaymentOpFrameBase::checkIssuer, ManageOfferOpFrameBase::checkOfferValid). The public archive's earlier ledgers have it."
   },
-  "arm:ManageBuyOfferResult.MANAGE_BUY_OFFER_BUY_NO_TRUST": {
-   "class": "local_core",
-   "why": "Set while the operation applies (ManageBuyOffer:setResultBuyNoTrust): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it."
-  },
-  "arm:ManageBuyOfferResult.MANAGE_BUY_OFFER_CROSS_SELF": {
-   "class": "local_core",
-   "why": "Set while the operation applies (ManageBuyOffer:setResultCrossSelf): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it."
-  },
-  "arm:ManageBuyOfferResult.MANAGE_BUY_OFFER_LINE_FULL": {
-   "class": "local_core",
-   "why": "Set while the operation applies (ManageBuyOffer:setResultLineFull): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it."
-  },
   "arm:ManageBuyOfferResult.MANAGE_BUY_OFFER_MALFORMED": {
    "class": "never_in_ledger",
    "why": "Set only in ManageBuyOffer:setResultMalformed, which depends on the operation and the protocol version alone. stellar-core runs it when it admits a transaction and when it validates a transaction set, so a transaction that fails it never reaches a ledger."
-  },
-  "arm:ManageBuyOfferResult.MANAGE_BUY_OFFER_SELL_NOT_AUTHORIZED": {
-   "class": "local_core",
-   "why": "Set while the operation applies (ManageBuyOffer:setResultSellNotAuthorized): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it."
   },
   "arm:ManageBuyOfferResult.MANAGE_BUY_OFFER_SELL_NO_ISSUER": {
    "class": "before_protocol",
@@ -336,25 +164,13 @@
    "class": "never_in_ledger",
    "why": "Set only in ManageData:doCheckValid, which depends on the operation and the protocol version alone. stellar-core runs it when it admits a transaction and when it validates a transaction set, so a transaction that fails it never reaches a ledger."
   },
-  "arm:ManageDataResult.MANAGE_DATA_LOW_RESERVE": {
-   "class": "local_core",
-   "why": "Set while the operation applies (ManageData:doApply): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it."
-  },
   "arm:ManageDataResult.MANAGE_DATA_NOT_SUPPORTED_YET": {
    "class": "never_in_ledger",
    "why": "Set only in ManageData:doCheckValid, which depends on the operation and the protocol version alone. stellar-core runs it when it admits a transaction and when it validates a transaction set, so a transaction that fails it never reaches a ledger."
   },
-  "arm:ManageSellOfferResult.MANAGE_SELL_OFFER_BUY_NOT_AUTHORIZED": {
-   "class": "local_core",
-   "why": "Set while the operation applies (ManageSellOffer:setResultBuyNotAuthorized): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it."
-  },
   "arm:ManageSellOfferResult.MANAGE_SELL_OFFER_BUY_NO_ISSUER": {
    "class": "before_protocol",
    "why": "Set only when the ledger version is before 13 (issuer existence checks, PaymentOpFrame, PathPaymentOpFrameBase::checkIssuer, ManageOfferOpFrameBase::checkOfferValid). The public archive's earlier ledgers have it."
-  },
-  "arm:ManageSellOfferResult.MANAGE_SELL_OFFER_LINE_FULL": {
-   "class": "local_core",
-   "why": "Set while the operation applies (ManageSellOffer:setResultLineFull): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it."
   },
   "arm:ManageSellOfferResult.MANAGE_SELL_OFFER_MALFORMED": {
    "class": "never_in_ledger",
@@ -364,17 +180,9 @@
    "class": "before_protocol",
    "why": "Set only when the ledger version is before 13 (issuer existence checks, PaymentOpFrame, PathPaymentOpFrameBase::checkIssuer, ManageOfferOpFrameBase::checkOfferValid). The public archive's earlier ledgers have it."
   },
-  "arm:Memo.MEMO_RETURN": {
-   "class": "local_core",
-   "why": "A transaction memo of type RETURN: any transaction can carry it; none of the sampled ledgers does."
-  },
   "arm:OperationBody.INFLATION": {
    "class": "before_protocol",
    "why": "Inflation ran until protocol 12 (CAP-0026); since then the operation is not supported."
-  },
-  "arm:OperationResult.opBAD_AUTH": {
-   "class": "local_core",
-   "why": "OperationFrame::checkSignature runs when the operation applies; an operation whose source's signers an earlier transaction in the ledger changed fails with it."
   },
   "arm:OperationResult.opEXCEEDED_WORK_LIMIT": {
    "class": "local_core",
@@ -400,61 +208,17 @@
    "class": "never_in_ledger",
    "why": "Set only in PathPaymentStrictReceive:setResultMalformed, which depends on the operation and the protocol version alone. stellar-core runs it when it admits a transaction and when it validates a transaction set, so a transaction that fails it never reaches a ledger."
   },
-  "arm:PathPaymentStrictReceiveResult.PATH_PAYMENT_STRICT_RECEIVE_NOT_AUTHORIZED": {
-   "class": "local_core",
-   "why": "Set while the operation applies (PathPaymentStrictReceive:setResultDestNotAuthorized, Payment:doApply): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it."
-  },
-  "arm:PathPaymentStrictReceiveResult.PATH_PAYMENT_STRICT_RECEIVE_NO_DESTINATION": {
-   "class": "local_core",
-   "why": "Set while the operation applies (PathPaymentStrictReceive:setResultNoDest, Payment:doApply): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it."
-  },
   "arm:PathPaymentStrictReceiveResult.PATH_PAYMENT_STRICT_RECEIVE_NO_ISSUER": {
    "class": "before_protocol",
    "why": "Set only when the ledger version is before 13 (issuer existence checks, PaymentOpFrame, PathPaymentOpFrameBase::checkIssuer, ManageOfferOpFrameBase::checkOfferValid). The public archive's earlier ledgers have it."
-  },
-  "arm:PathPaymentStrictReceiveResult.PATH_PAYMENT_STRICT_RECEIVE_NO_TRUST": {
-   "class": "local_core",
-   "why": "Set while the operation applies (PathPaymentStrictReceive:setResultDestNoTrust, Payment:doApply): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it."
-  },
-  "arm:PathPaymentStrictReceiveResult.PATH_PAYMENT_STRICT_RECEIVE_OFFER_CROSS_SELF": {
-   "class": "local_core",
-   "why": "Set while the operation applies (PathPaymentStrictReceive:setResultOfferCrossSelf): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it."
-  },
-  "arm:PathPaymentStrictReceiveResult.PATH_PAYMENT_STRICT_RECEIVE_SRC_NOT_AUTHORIZED": {
-   "class": "local_core",
-   "why": "Set while the operation applies (PathPaymentStrictReceive:setResultSourceNotAuthorized, Payment:doApply): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it."
-  },
-  "arm:PathPaymentStrictReceiveResult.PATH_PAYMENT_STRICT_RECEIVE_SRC_NO_TRUST": {
-   "class": "local_core",
-   "why": "Set while the operation applies (PathPaymentStrictReceive:setResultSourceNoTrust, Payment:doApply): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it."
-  },
-  "arm:PathPaymentStrictSendResult.PATH_PAYMENT_STRICT_SEND_LINE_FULL": {
-   "class": "local_core",
-   "why": "Set while the operation applies (PathPaymentStrictSend:setResultLineFull): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it."
   },
   "arm:PathPaymentStrictSendResult.PATH_PAYMENT_STRICT_SEND_MALFORMED": {
    "class": "never_in_ledger",
    "why": "Set only in PathPaymentStrictSend:setResultMalformed, which depends on the operation and the protocol version alone. stellar-core runs it when it admits a transaction and when it validates a transaction set, so a transaction that fails it never reaches a ledger."
   },
-  "arm:PathPaymentStrictSendResult.PATH_PAYMENT_STRICT_SEND_NOT_AUTHORIZED": {
-   "class": "local_core",
-   "why": "Set while the operation applies (PathPaymentStrictSend:setResultDestNotAuthorized): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it."
-  },
-  "arm:PathPaymentStrictSendResult.PATH_PAYMENT_STRICT_SEND_NO_DESTINATION": {
-   "class": "local_core",
-   "why": "Set while the operation applies (PathPaymentStrictSend:setResultNoDest): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it."
-  },
   "arm:PathPaymentStrictSendResult.PATH_PAYMENT_STRICT_SEND_NO_ISSUER": {
    "class": "before_protocol",
    "why": "Set only when the ledger version is before 13 (issuer existence checks, PaymentOpFrame, PathPaymentOpFrameBase::checkIssuer, ManageOfferOpFrameBase::checkOfferValid). The public archive's earlier ledgers have it."
-  },
-  "arm:PathPaymentStrictSendResult.PATH_PAYMENT_STRICT_SEND_OFFER_CROSS_SELF": {
-   "class": "local_core",
-   "why": "Set while the operation applies (PathPaymentStrictSend:setResultOfferCrossSelf): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it."
-  },
-  "arm:PathPaymentStrictSendResult.PATH_PAYMENT_STRICT_SEND_SRC_NOT_AUTHORIZED": {
-   "class": "local_core",
-   "why": "Set while the operation applies (PathPaymentStrictSend:setResultSourceNotAuthorized): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it."
   },
   "arm:PaymentResult.PAYMENT_MALFORMED": {
    "class": "never_in_ledger",
@@ -468,10 +232,6 @@
    "class": "never_in_ledger",
    "why": "Set only in RestoreFootprint:doCheckValidForSoroban, which depends on the operation and the protocol version alone. stellar-core runs it when it admits a transaction and when it validates a transaction set, so a transaction that fails it never reaches a ledger."
   },
-  "arm:RevokeSponsorshipResult.REVOKE_SPONSORSHIP_DOES_NOT_EXIST": {
-   "class": "local_core",
-   "why": "Set while the operation applies (RevokeSponsorship:updateLedgerEntrySponsorship, RevokeSponsorship:updateSignerSponsorship): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it."
-  },
   "arm:RevokeSponsorshipResult.REVOKE_SPONSORSHIP_LOW_RESERVE": {
    "class": "local_core",
    "why": "Set while the operation applies (RevokeSponsorship:processSponsorshipResult): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it."
@@ -479,10 +239,6 @@
   "arm:RevokeSponsorshipResult.REVOKE_SPONSORSHIP_MALFORMED": {
    "class": "never_in_ledger",
    "why": "Set only in RevokeSponsorship:doCheckValid, which depends on the operation and the protocol version alone. stellar-core runs it when it admits a transaction and when it validates a transaction set, so a transaction that fails it never reaches a ledger."
-  },
-  "arm:RevokeSponsorshipResult.REVOKE_SPONSORSHIP_ONLY_TRANSFERABLE": {
-   "class": "local_core",
-   "why": "Set while the operation applies (RevokeSponsorship:updateLedgerEntrySponsorship): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it."
   },
   "arm:SCError.SCE_EVENTS": {
    "class": "contract",
@@ -516,10 +272,6 @@
    "class": "contract",
    "why": "Only a contract puts this value in a ledger (in storage, an event or a return value); a local scenario with a contract written to emit it can produce it."
   },
-  "arm:SetOptionsResult.SET_OPTIONS_AUTH_REVOCABLE_REQUIRED": {
-   "class": "local_core",
-   "why": "Set while the operation applies (SetOptions:doApply): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it."
-  },
   "arm:SetOptionsResult.SET_OPTIONS_BAD_FLAGS": {
    "class": "never_in_ledger",
    "why": "Set only in SetOptions:doCheckValid, which depends on the operation and the protocol version alone. stellar-core runs it when it admits a transaction and when it validates a transaction set, so a transaction that fails it never reaches a ledger."
@@ -528,41 +280,17 @@
    "class": "never_in_ledger",
    "why": "Set only in SetOptions:doCheckValid, which depends on the operation and the protocol version alone. stellar-core runs it when it admits a transaction and when it validates a transaction set, so a transaction that fails it never reaches a ledger."
   },
-  "arm:SetOptionsResult.SET_OPTIONS_CANT_CHANGE": {
-   "class": "local_core",
-   "why": "Set while the operation applies (SetOptions:doApply): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it."
-  },
   "arm:SetOptionsResult.SET_OPTIONS_INVALID_HOME_DOMAIN": {
    "class": "never_in_ledger",
    "why": "Set only in SetOptions:doCheckValid, which depends on the operation and the protocol version alone. stellar-core runs it when it admits a transaction and when it validates a transaction set, so a transaction that fails it never reaches a ledger."
-  },
-  "arm:SetOptionsResult.SET_OPTIONS_INVALID_INFLATION": {
-   "class": "local_core",
-   "why": "Set while the operation applies (SetOptions:doApply): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it."
-  },
-  "arm:SetOptionsResult.SET_OPTIONS_LOW_RESERVE": {
-   "class": "local_core",
-   "why": "Set while the operation applies (SetOptions:addOrChangeSigner): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it."
   },
   "arm:SetOptionsResult.SET_OPTIONS_THRESHOLD_OUT_OF_RANGE": {
    "class": "never_in_ledger",
    "why": "Set only in SetOptions:doCheckValid, which depends on the operation and the protocol version alone. stellar-core runs it when it admits a transaction and when it validates a transaction set, so a transaction that fails it never reaches a ledger."
   },
-  "arm:SetOptionsResult.SET_OPTIONS_TOO_MANY_SIGNERS": {
-   "class": "local_core",
-   "why": "Set while the operation applies (SetOptions:addOrChangeSigner): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it."
-  },
   "arm:SetOptionsResult.SET_OPTIONS_UNKNOWN_FLAG": {
    "class": "never_in_ledger",
    "why": "Set only in SetOptions:doCheckValid, which depends on the operation and the protocol version alone. stellar-core runs it when it admits a transaction and when it validates a transaction set, so a transaction that fails it never reaches a ledger."
-  },
-  "arm:SetTrustLineFlagsResult.SET_TRUST_LINE_FLAGS_CANT_REVOKE": {
-   "class": "local_core",
-   "why": "Set while the operation applies (SetTrustLineFlags:isAuthRevocationValid): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it."
-  },
-  "arm:SetTrustLineFlagsResult.SET_TRUST_LINE_FLAGS_INVALID_STATE": {
-   "class": "local_core",
-   "why": "Set while the operation applies (SetTrustLineFlags:calcExpectedFlagValue): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it."
   },
   "arm:SetTrustLineFlagsResult.SET_TRUST_LINE_FLAGS_LOW_RESERVE": {
    "class": "local_core",
@@ -571,10 +299,6 @@
   "arm:SetTrustLineFlagsResult.SET_TRUST_LINE_FLAGS_MALFORMED": {
    "class": "never_in_ledger",
    "why": "Set only in SetTrustLineFlags:doCheckValid, which depends on the operation and the protocol version alone. stellar-core runs it when it admits a transaction and when it validates a transaction set, so a transaction that fails it never reaches a ledger."
-  },
-  "arm:SetTrustLineFlagsResult.SET_TRUST_LINE_FLAGS_NO_TRUST_LINE": {
-   "class": "local_core",
-   "why": "Set while the operation applies (SetTrustLineFlags:setResultNoTrustLine): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it."
   },
   "arm:StellarValueExt.STELLAR_VALUE_BASIC": {
    "class": "unclassified",
@@ -599,10 +323,6 @@
   "arm:TransactionResultResult.txBAD_AUTH_EXTRA": {
    "class": "local_core",
    "why": "Set in TransactionFrame::applyOperations as well as at admission: a signature that no signer used once earlier transactions in the ledger changed the signers."
-  },
-  "arm:TransactionResultResult.txBAD_MIN_SEQ_AGE_OR_GAP": {
-   "class": "local_core",
-   "why": "TransactionFrame::commonValid runs again when the transaction applies, against the ledger as earlier transactions in the same ledger left it; a transaction whose source's sequence number, signers or balance an earlier one changed fails with this code."
   },
   "arm:TransactionResultResult.txFROZEN_KEY_ACCESSED": {
    "class": "unclassified",
@@ -756,6 +476,6 @@
   "unclassified": "Not classified yet.",
   "upgrade": "Only in a ledger that applies a network upgrade; producible by a local scenario that arms it."
  },
- "note": "A class and a reason for every cell reachable from LedgerCloseMeta that no corpus entry has. Built from stellar-core f2b91947fb20fc8174cca38bf320eda7baa3edbb (src/transactions): the function that sets each result code. Checked by tools/cell_coverage.py.",
+ "note": "A class and a reason for every cell reachable from LedgerCloseMeta that no corpus entry has. Built from stellar-core f2b91947fb20fc8174cca38bf320eda7baa3edbb (src/transactions): the function that sets each result code. Checked by tools/coverage.py.",
  "stellar_core_commit": "f2b91947fb20fc8174cca38bf320eda7baa3edbb"
 }

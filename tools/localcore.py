@@ -58,6 +58,9 @@ Scenarios (one per run):
                      declared-deploy: an address credential that declares creating a contract from
                        its address; no contract is created (stellar/wallet-backend 80121f3).
                      Protocol 28 so that commits pinning go-stellar-sdk v0.7.3 can read the ledger.
+  failures-p30       Protocol 30, stellar-core 30.0.0. Operations and transactions that fail when they
+                     apply, many in one ledger: see tools/localcore_failures.py. Recorded ledgers
+                     op-failures, tx-failures-plain, tx-failures-bumped and upgrades.
   muxed-source-refused-p24
                      Protocol 24, stellar-core 30.0.0. The same transaction must be refused by the
                      queue with txSOROBAN_INVALID. Recorded as evidence, not a ledger.
@@ -91,7 +94,7 @@ IMAGE = "stellar/stellar-core:30.0.0-3642.0e49751aa.noble"
 IMAGE_V22 = "stellar/stellar-core:22.2.1-2429.e70f0aed8.focal"
 SCENARIOS = {"muxed-source-p22": IMAGE_V22, "classic-p22": IMAGE_V22, "pools-sponsorship-p30": IMAGE,
              "flags-preauth-p30": IMAGE, "muxed-source-refused-p24": IMAGE, "memo-and-offer-p30": IMAGE,
-             "sac-trust-p28": IMAGE, "participants-p28": IMAGE}
+             "sac-trust-p28": IMAGE, "participants-p28": IMAGE, "failures-p30": IMAGE}
 NAME = "shapecov-localcore-gen"
 PASSPHRASES = {"testnet": "Test SDF Network ; September 2015",
                "pubnet": "Public Global Stellar Network ; September 2015"}
@@ -305,6 +308,9 @@ def main():
             pools_sponsorship_p30(core, enc, dec, root, step, run)
         elif a.scenario == "sac-trust-p28":
             sac_trust_p28(core, enc, dec, root, step, run)
+        elif a.scenario == "failures-p30":
+            import localcore_failures
+            localcore_failures.failures(sys.modules[__name__], core, enc, dec, root, step, run, 30)
         elif a.scenario == "participants-p28":
             participants_p28(core, enc, root, step, run)
         elif a.scenario == "muxed-source-refused-p24":
