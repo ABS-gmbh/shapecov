@@ -41,16 +41,20 @@ jobs:
         run: python tools/corpus_check.py --quiet --goldens "$RUNNER_TEMP/core"
 
   guide:
-    name: "RFP check 4: the guide's field-by-field tables agree with the corpus manifest"
+    name: "RFP check 4: the guide's field-by-field tables agree with the corpus manifest and with stellar-core's answers"
     runs-on: ubuntu-24.04
-    timeout-minutes: 5
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: Guide tables against the manifest
+      - name: Guide tables against the manifest, the probe records and the corpus
         run: python guide/check_guide.py
+      - name: stellar-core 30.0.0
+        run: docker pull --platform linux/amd64 stellar/stellar-core:30.0.0-3642.0e49751aa.noble
+      - name: Every probe submitted again to a local stellar-core; each must get the recorded answer
+        run: python guide/probe_core.py check
 
   linter:
     name: "RFP check 3: linter flags seeded violations; no wallet-backend finding outside the accepted list"

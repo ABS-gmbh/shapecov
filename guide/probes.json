@@ -1,0 +1,332 @@
+{
+ "stellar_core": "stellar-core 30.0.0 (0e49751aa9ddf892302cca02cea7f3f5d97df9f1)",
+ "image": "stellar/stellar-core:30.0.0-3642.0e49751aa.noble",
+ "protocol": 30,
+ "network_passphrase": "Test SDF Network ; September 2015",
+ "probes": [
+  {
+   "id": "memo-text-29-bytes",
+   "row": "Memo text",
+   "rule": "at most 28 bytes",
+   "expect": "rejected: not decodable",
+   "note": "",
+   "outcome": "rejected: not decodable (xstring overflow)",
+   "agrees": true
+  },
+  {
+   "id": "memo-on-contract-invocation",
+   "row": "Memo text",
+   "rule": "no memo on a contract invocation from protocol 25",
+   "expect": "rejected at submission: txSOROBAN_INVALID",
+   "note": "",
+   "outcome": "rejected at submission: txSOROBAN_INVALID",
+   "agrees": true
+  },
+  {
+   "id": "muxed-source-contract-invocation",
+   "row": "Muxed source of a contract invocation",
+   "rule": "invalid from protocol 25",
+   "expect": "rejected at submission: txSOROBAN_INVALID",
+   "note": "",
+   "outcome": "rejected at submission: txSOROBAN_INVALID",
+   "agrees": true
+  },
+  {
+   "id": "signed-payload-signer-empty",
+   "row": "Signed-payload signer (`SetOptions` signer, `extraSigners`)",
+   "rule": "payload not empty",
+   "expect": "rejected at submission",
+   "note": "",
+   "outcome": "rejected at submission: txFAILED / SET_OPTIONS_BAD_SIGNER",
+   "agrees": true
+  },
+  {
+   "id": "signed-payload-signer-65-bytes",
+   "row": "Signed-payload signer (`SetOptions` signer, `extraSigners`)",
+   "rule": "payload at most 64 bytes",
+   "expect": "rejected: not decodable",
+   "note": "",
+   "outcome": "rejected: not decodable (xvector overflow)",
+   "agrees": true
+  },
+  {
+   "id": "extra-signers-repeated",
+   "row": "Signed-payload signer (`SetOptions` signer, `extraSigners`)",
+   "rule": "not the same key twice",
+   "expect": "rejected at submission: txMALFORMED",
+   "note": "",
+   "outcome": "rejected at submission: txMALFORMED",
+   "agrees": true
+  },
+  {
+   "id": "extra-signers-three",
+   "row": "Signed-payload signer (`SetOptions` signer, `extraSigners`)",
+   "rule": "at most two extraSigners",
+   "expect": "rejected: not decodable",
+   "note": "",
+   "outcome": "rejected: not decodable (xvector overflow)",
+   "agrees": true
+  },
+  {
+   "id": "manage-data-name-control-char",
+   "row": "`ManageData` name",
+   "rule": "each byte printable ASCII",
+   "expect": "rejected at submission: txFAILED / MANAGE_DATA_INVALID_NAME",
+   "note": "",
+   "outcome": "rejected at submission: txFAILED / MANAGE_DATA_INVALID_NAME",
+   "agrees": true
+  },
+  {
+   "id": "manage-data-name-empty",
+   "row": "`ManageData` name",
+   "rule": "1 to 64 bytes",
+   "expect": "rejected at submission: txFAILED / MANAGE_DATA_INVALID_NAME",
+   "note": "",
+   "outcome": "rejected at submission: txFAILED / MANAGE_DATA_INVALID_NAME",
+   "agrees": true
+  },
+  {
+   "id": "manage-data-value-65-bytes",
+   "row": "`ManageData` value",
+   "rule": "at most 64 bytes",
+   "expect": "rejected: not decodable",
+   "note": "",
+   "outcome": "rejected: not decodable (xvector overflow)",
+   "agrees": true
+  },
+  {
+   "id": "manage-data-value-any-bytes",
+   "row": "`ManageData` value",
+   "rule": "the bytes are not checked",
+   "expect": "accepted; when applied: txSUCCESS",
+   "note": "the value is 00 ff 0a",
+   "outcome": "accepted; when applied: txSUCCESS / MANAGE_DATA_SUCCESS (fee charged: 100 stroops)",
+   "agrees": true
+  },
+  {
+   "id": "home-domain-control-char",
+   "row": "Home domain",
+   "rule": "each byte printable ASCII",
+   "expect": "rejected at submission: txFAILED / SET_OPTIONS_INVALID_HOME_DOMAIN",
+   "note": "",
+   "outcome": "rejected at submission: txFAILED / SET_OPTIONS_INVALID_HOME_DOMAIN",
+   "agrees": true
+  },
+  {
+   "id": "home-domain-33-bytes",
+   "row": "Home domain",
+   "rule": "at most 32 bytes",
+   "expect": "rejected: not decodable",
+   "note": "",
+   "outcome": "rejected: not decodable (xstring overflow)",
+   "agrees": true
+  },
+  {
+   "id": "home-domain-not-a-domain",
+   "row": "Home domain",
+   "rule": "domain syntax is not checked",
+   "expect": "accepted; when applied: txSUCCESS",
+   "note": "the home domain is the text 'not a domain!'",
+   "outcome": "accepted; when applied: txSUCCESS / SET_OPTIONS_SUCCESS (fee charged: 100 stroops)",
+   "agrees": true
+  },
+  {
+   "id": "asset-code-punctuation",
+   "row": "Asset code",
+   "rule": "letters and digits only",
+   "expect": "rejected at submission: txFAILED / CHANGE_TRUST_MALFORMED",
+   "note": "",
+   "outcome": "rejected at submission: txFAILED / CHANGE_TRUST_MALFORMED",
+   "agrees": true
+  },
+  {
+   "id": "asset-code-nul-inside",
+   "row": "Asset code",
+   "rule": "NUL only as trailing padding",
+   "expect": "rejected at submission: txFAILED / CHANGE_TRUST_MALFORMED",
+   "note": "",
+   "outcome": "rejected at submission: txFAILED / CHANGE_TRUST_MALFORMED",
+   "agrees": true
+  },
+  {
+   "id": "pool-pair-in-strkey-order",
+   "row": "Liquidity-pool asset pair",
+   "rule": "assetA < assetB as XDR values, not strkey text",
+   "expect": "rejected at submission: txFAILED / CHANGE_TRUST_MALFORMED",
+   "note": "issuers GB63TMNSY6XQS2SH3PFWDEMAIEY2VRZOYD32BHLKW4WPVK6DHFSU4SYK and GBTKEWQVYLHVPDOA6OXF3UIUCI2SK37EF65QRRVBH7GLRXUDHUFAXFT4: in strkey text order, which is the reverse of key byte order",
+   "outcome": "rejected at submission: txFAILED / CHANGE_TRUST_MALFORMED",
+   "agrees": true
+  },
+  {
+   "id": "pool-pair-in-byte-order",
+   "row": "Liquidity-pool asset pair",
+   "rule": "control: the same pair in key byte order passes validation",
+   "expect": "accepted; when applied",
+   "note": "it then fails because the account holds no USD trustlines",
+   "outcome": "accepted; when applied: txFAILED / CHANGE_TRUST_TRUST_LINE_MISSING (fee charged: 100 stroops)",
+   "agrees": true
+  },
+  {
+   "id": "claim-predicate-4-levels",
+   "row": "Claim predicates and claimants",
+   "rule": "control: 4 levels (three NOTs over an unconditional leaf)",
+   "expect": "accepted; when applied: txSUCCESS",
+   "note": "",
+   "outcome": "accepted; when applied: txSUCCESS / CREATE_CLAIMABLE_BALANCE_SUCCESS (fee charged: 100 stroops)",
+   "agrees": true
+  },
+  {
+   "id": "claim-predicate-5-levels",
+   "row": "Claim predicates and claimants",
+   "rule": "at most 4 levels (four NOTs over an unconditional leaf are 5)",
+   "expect": "rejected at submission: txFAILED / CREATE_CLAIMABLE_BALANCE_MALFORMED",
+   "note": "",
+   "outcome": "rejected at submission: txFAILED / CREATE_CLAIMABLE_BALANCE_MALFORMED",
+   "agrees": true
+  },
+  {
+   "id": "claimant-repeated",
+   "row": "Claim predicates and claimants",
+   "rule": "no repeated destination",
+   "expect": "rejected at submission: txFAILED / CREATE_CLAIMABLE_BALANCE_MALFORMED",
+   "note": "",
+   "outcome": "rejected at submission: txFAILED / CREATE_CLAIMABLE_BALANCE_MALFORMED",
+   "agrees": true
+  },
+  {
+   "id": "path-6-hops",
+   "row": "Path payment path",
+   "rule": "at most 5 hops",
+   "expect": "rejected: not decodable",
+   "note": "",
+   "outcome": "rejected: not decodable (xvector overflow)",
+   "agrees": true
+  },
+  {
+   "id": "path-repeated-hops",
+   "row": "Path payment path",
+   "rule": "repeated hops are not checked",
+   "expect": "accepted; when applied",
+   "note": "the path names the same asset twice; it passes validation",
+   "outcome": "accepted; when applied: txFAILED / PATH_PAYMENT_STRICT_SEND_NO_DESTINATION (fee charged: 100 stroops)",
+   "agrees": true
+  },
+  {
+   "id": "operations-none",
+   "row": "Operations per transaction",
+   "rule": "at least 1",
+   "expect": "rejected at submission: txMISSING_OPERATION",
+   "note": "",
+   "outcome": "rejected at submission: txMISSING_OPERATION",
+   "agrees": true
+  },
+  {
+   "id": "operations-101",
+   "row": "Operations per transaction",
+   "rule": "at most 100",
+   "expect": "rejected: not decodable",
+   "note": "",
+   "outcome": "rejected: not decodable (xvector overflow)",
+   "agrees": true
+  },
+  {
+   "id": "signatures-21",
+   "row": "Signatures per envelope",
+   "rule": "at most 20",
+   "expect": "rejected: not decodable",
+   "note": "",
+   "outcome": "rejected: not decodable (xvector overflow)",
+   "agrees": true
+  },
+  {
+   "id": "offer-id-negative",
+   "row": "Offer ID",
+   "rule": "not negative",
+   "expect": "rejected at submission: txFAILED / MANAGE_SELL_OFFER_MALFORMED",
+   "note": "",
+   "outcome": "rejected at submission: txFAILED / MANAGE_SELL_OFFER_MALFORMED",
+   "agrees": true
+  },
+  {
+   "id": "payment-to-missing-account",
+   "row": "Destination and operation-source accounts",
+   "rule": "checked when applied, not when accepted",
+   "expect": "accepted; when applied: txFAILED / PAYMENT_NO_DESTINATION",
+   "note": "",
+   "outcome": "accepted; when applied: txFAILED / PAYMENT_NO_DESTINATION (fee charged: 100 stroops)",
+   "agrees": true
+  },
+  {
+   "id": "deploy-native-asset-contract",
+   "row": "(setup)",
+   "rule": "deploy the native Stellar Asset Contract",
+   "expect": "accepted; when applied: txSUCCESS",
+   "note": "",
+   "outcome": "accepted; when applied: txSUCCESS / INVOKE_HOST_FUNCTION_SUCCESS (fee charged: 128259 stroops)",
+   "agrees": true
+  },
+  {
+   "id": "scval-arg-2-levels",
+   "row": "Nesting of contract values (`ScVal`)",
+   "rule": "control: a wrong-typed argument 2 levels deep",
+   "expect": "accepted; when applied: txFAILED / INVOKE_HOST_FUNCTION_TRAPPED; host error: SCE_VALUE/SCEC_UNEXPECTED_TYPE",
+   "note": "fails on the argument's type, not on depth",
+   "outcome": "accepted; when applied: txFAILED / INVOKE_HOST_FUNCTION_TRAPPED (fee charged: 87392 stroops); host error: SCE_VALUE/SCEC_UNEXPECTED_TYPE",
+   "agrees": true
+  },
+  {
+   "id": "scval-arg-100-levels",
+   "row": "Nesting of contract values (`ScVal`)",
+   "rule": "control: 100 levels",
+   "expect": "accepted; when applied: txFAILED / INVOKE_HOST_FUNCTION_TRAPPED; host error: SCE_VALUE/SCEC_UNEXPECTED_TYPE",
+   "note": "still fails on the argument's type, not on depth",
+   "outcome": "accepted; when applied: txFAILED / INVOKE_HOST_FUNCTION_TRAPPED (fee charged: 89804 stroops); host error: SCE_VALUE/SCEC_UNEXPECTED_TYPE",
+   "agrees": true
+  },
+  {
+   "id": "scval-arg-101-levels",
+   "row": "Nesting of contract values (`ScVal`)",
+   "rule": "at most 100 levels for a value the host reads",
+   "expect": "accepted; when applied: txFAILED / INVOKE_HOST_FUNCTION_TRAPPED; host error: SCE_CONTEXT/SCEC_EXCEEDED_LIMIT",
+   "note": "",
+   "outcome": "accepted; when applied: txFAILED / INVOKE_HOST_FUNCTION_TRAPPED (fee charged: 89828 stroops); host error: SCE_CONTEXT/SCEC_EXCEEDED_LIMIT",
+   "agrees": true
+  },
+  {
+   "id": "symbol-invalid-char",
+   "row": "Symbols (`ScSymbol`)",
+   "rule": "only [_0-9A-Za-z]",
+   "expect": "accepted; when applied: txFAILED / INVOKE_HOST_FUNCTION_TRAPPED; host error: SCE_VALUE/SCEC_INVALID_INPUT",
+   "note": "the function name is the symbol bal-ance",
+   "outcome": "accepted; when applied: txFAILED / INVOKE_HOST_FUNCTION_TRAPPED (fee charged: 87367 stroops); host error: SCE_VALUE/SCEC_INVALID_INPUT",
+   "agrees": true
+  },
+  {
+   "id": "string-arg-not-utf8",
+   "row": "Contract strings (`ScString`)",
+   "rule": "UTF-8 and NUL not checked",
+   "expect": "accepted; when applied: txFAILED / INVOKE_HOST_FUNCTION_TRAPPED; host error: SCE_VALUE/SCEC_UNEXPECTED_TYPE",
+   "note": "the host takes the bytes ff fe 00 41 as a string and fails only because balance() wants an address, as for any wrong-typed argument; a symbol with a bad byte fails as SCEC_INVALID_INPUT",
+   "outcome": "accepted; when applied: txFAILED / INVOKE_HOST_FUNCTION_TRAPPED (fee charged: 87375 stroops); host error: SCE_VALUE/SCEC_UNEXPECTED_TYPE",
+   "agrees": true
+  },
+  {
+   "id": "map-keys-unsorted",
+   "row": "Maps (`ScMap`)",
+   "rule": "keys strictly ascending",
+   "expect": "accepted; when applied: txFAILED / INVOKE_HOST_FUNCTION_TRAPPED; host error: SCE_OBJECT/SCEC_INVALID_INPUT",
+   "note": "",
+   "outcome": "accepted; when applied: txFAILED / INVOKE_HOST_FUNCTION_TRAPPED (fee charged: 87442 stroops); host error: SCE_OBJECT/SCEC_INVALID_INPUT",
+   "agrees": true
+  },
+  {
+   "id": "map-keys-sorted",
+   "row": "Maps (`ScMap`)",
+   "rule": "control: the same map with sorted keys",
+   "expect": "accepted; when applied: txFAILED / INVOKE_HOST_FUNCTION_TRAPPED; host error: SCE_VALUE/SCEC_UNEXPECTED_TYPE",
+   "note": "fails on the argument's type, not on key order",
+   "outcome": "accepted; when applied: txFAILED / INVOKE_HOST_FUNCTION_TRAPPED (fee charged: 87442 stroops); host error: SCE_VALUE/SCEC_UNEXPECTED_TYPE",
+   "agrees": true
+  }
+ ]
+}
