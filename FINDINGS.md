@@ -6,7 +6,7 @@ Filed upstream:
 
 | Finding | Issue | Filed | Status, 16 November |
 |---|---|---|---|
-| J1 | https://github.com/lightsail-network/java-stellar-sdk/issues/833 | 14 November 2026 | open |
+| J1 | https://github.com/lightsail-network/java-stellar-sdk/issues/833 | 14 November 2026 | fixed: the maintainer merged his own fix, java-stellar-sdk#842, on 16 November, closing #833 |
 | P1 | https://github.com/StellarCN/py-stellar-base/issues/1262 | 14 November 2026 | closed: fixed in the new `stellar-xdr` package; the released SDK 17.0.1 still has it |
 | P2 | https://github.com/StellarCN/py-stellar-base/issues/1263 | 14 November 2026 | closed: fixed in the new `stellar-xdr` package; the released SDK 17.0.1 still has it |
 | E1 | https://github.com/stellar/stellar-etl/issues/512 | 15 November 2026 | open |
@@ -32,6 +32,9 @@ That search can miss things; check again before filing.
   bytes. Same class as go-stellar-sdk #6039.
 - Repro: `repro/JavaTrailing.java`. `AAAAAN6tvu8=` (MEMO_NONE plus `deadbeef`) decodes and
   re-encodes to `AAAAAA==`.
+- Status, 16 November: fixed upstream. The maintainer listed the same defect as item 1 of his own
+  audit (java-stellar-sdk #835) and merged a fix, java-stellar-sdk#842, which closed #833. The
+  fix is in `master`, not yet in a release.
 
 ### P1. Python SDK accepts non-zero XDR padding
 
@@ -60,7 +63,7 @@ That search can miss things; check again before filing.
 
 ## Confirmed, filed 15 November
 
-### E1. stellar-etl `export_token_transfer` fails on every ledger before protocol 23
+### E1. stellar-etl `export_token_transfer` fails on any ledger whose transaction meta is older than v4
 
 - Affects: stellar-etl `master` (`2b24ec89`, 11 November 2026) and every release since #340
   (September 2025).
@@ -73,8 +76,18 @@ That search can miss things; check again before filing.
   #340 replaced `NewEventsProcessor` with it and added no protocol check.
 - Check: with the same pinned SDK, `NewEventsProcessor` returns the right events for both ledgers
   and the SDK's `VerifyEvents` passes (`repro/stellar-etl-ttp/`).
-- Effect: a token transfer export over any range that starts before protocol 23 stops at the
-  first ledger with a transaction, for example a backfill after a fix to the token transfer path.
+- Effect, corrected 16 November: the failure follows the `TransactionMeta` version, not the
+  protocol. Stellar's public ledger archive serves old pubnet ledgers with v4 meta: protocol 13
+  ledgers 30,820,015 and 30,822,015 both have v4 meta for every transaction. stellar-etl's own
+  integration tests export token transfers from ledgers in that range and pass on `master`, so
+  SDF's datastore evidently holds v4 meta for old history too. The export stops only on a source
+  whose transactions carry v1 to v3 meta: a data lake written by stellar-core before 23 and never
+  regenerated, a local or private network, or captive core of an older release. The issue's first
+  "Impact" sentence, a backfill of any range before protocol 23, overstates it for SDF's own
+  datastore.
+- Fix: prepared on a local branch, awaiting issue acceptance. It chooses the processor by meta
+  version, so ledgers that already have v4 meta keep today's path and the integration goldens
+  are unchanged.
 - Searched on 15 November: no report in stellar-etl or go-stellar-sdk. The July 2026 audit (#448)
   lists token transfer classification as consistent without covering older ledgers.
 - Filed: stellar/stellar-etl#512. Details: `corpus/evidence/stellar-etl-token-transfer-pre23.md`.
