@@ -125,6 +125,8 @@ def oracle_verdict(entry, obs, mapping, value):
     exps = mapping.expectations(oracle.changes(value), passphrase)
     if hasattr(mapping, "balance_expectations"):
         exps += mapping.balance_expectations(oracle.balances(value), passphrase)
+    if hasattr(mapping, "muxed_expectations"):
+        exps += mapping.muxed_expectations(oracle.muxed_destinations(value), passphrase)
     c = classify.classify(exps, obs)
     known, unexplained = {}, []
     if not obs.get("ingested"):
@@ -559,8 +561,9 @@ def _failing(r):
 
 def cmd_backtest(a):
     """Verify backtest.json against recorded results: every "detected" claim must show each named
-    entry failing at the parent and passing at the fix; every "missed" claim must have no recorded
-    entry that does. Prints the table and K of N per pipeline; exits 1 on any claim that does not hold."""
+    entry failing at the parent and passing at the fix (or, for an open issue with no fix, flagged
+    with that issue at the commit named in "at"); every "missed" claim must have no recorded entry
+    that does. Prints the table and K of N per pipeline; exits 1 on any claim that does not hold."""
     spec = json.load(open(os.path.join(HERE, "backtest.json")))
     results = {}
     for name, path in spec["results"].items():
@@ -570,10 +573,18 @@ def cmd_backtest(a):
                 results[(name, r["commit"][:8], r["entry_id"])] = r
     bad, tally = 0, {}
     for it in spec["items"]:
-        p, f = it["parent"][:8], it["fix"][:8]
-        flips = sorted("%s:%s" % (src, e) for (src, c, e), r in results.items()
-                       if c == p and _failing(r) and (src, f, e) in results and not _failing(results[(src, f, e)]))
         ok = True
+        if it["verdict"] == "out_of_scope":
+            flips = []
+        elif it.get("at"):
+            # An open issue with no fix to compare: detected means the oracle flagged its rows at this commit.
+            at = it["at"][:8]
+            flips = sorted("%s:%s" % (src, e) for (src, c, e), r in results.items()
+                           if c == at and it["issue"] in ((r.get("oracle") or {}).get("known") or {}))
+        else:
+            p, f = it["parent"][:8], it["fix"][:8]
+            flips = sorted("%s:%s" % (src, e) for (src, c, e), r in results.items()
+                           if c == p and _failing(r) and (src, f, e) in results and not _failing(results[(src, f, e)]))
         if it["verdict"] == "detected":
             for claim in it["entries"]:
                 key = "%s:%s" % (claim["results"], claim["entry"])

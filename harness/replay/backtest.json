@@ -1,0 +1,470 @@
+{
+ "note": "Detection backtest claims, verified by `replay.py backtest`; see BACKTEST.md.",
+ "results": {
+  "pass1": "backtest/pass1.jsonl",
+  "pass2": "backtest/pass2.jsonl",
+  "etl": "out-stellar-etl/results.jsonl"
+ },
+ "items": [
+  {
+   "id": "wallet-backend#641",
+   "pipeline": "wallet-backend",
+   "fix": "666717aa",
+   "parent": "2617c48b",
+   "title": "fold fee-phase changes into native balances",
+   "verdict": "missed",
+   "entries": [],
+   "what_would_catch_it": "Read account balances (the accounts table), which the adapter does not, plus a ledger where an account's XLM moves only in the fee phase: a fee bump whose fee source does nothing else (1,005 fee bumps are in the corpus)."
+  },
+  {
+   "id": "wallet-backend#687",
+   "pipeline": "wallet-backend",
+   "fix": "bd545417",
+   "parent": "bdb934bc",
+   "title": "keep a same-ledger REMOVE so deletes are never lost",
+   "verdict": "missed",
+   "entries": [],
+   "what_would_catch_it": "Read the current-state tables (trustlines, pool shares, SAC balances), plus a ledger that creates and removes the same entry: a local-core scenario adding and removing one trustline in one ledger."
+  },
+  {
+   "id": "wallet-backend#693",
+   "pipeline": "wallet-backend",
+   "fix": "6e5a5910",
+   "parent": "79ea2acd",
+   "title": "reduce muxed addresses to their base account",
+   "verdict": "missed",
+   "entries": [],
+   "what_would_catch_it": "Not a detection by the rule: on `localcore-muxed-source-p22-3` the failure changes form at the fix (a truncated muxed address becomes a duplicate-key halt) and passes only from `bb0b162b`."
+  },
+  {
+   "id": "wallet-backend#695",
+   "pipeline": "wallet-backend",
+   "fix": "22660cf4",
+   "parent": "e2436eef",
+   "title": "verify SAC before recording contract balances",
+   "verdict": "detected",
+   "entries": [
+    {
+     "entry": "pubnet-59220000",
+     "results": "pass1",
+     "blind": true
+    },
+    {
+     "entry": "pubnet-61240000",
+     "results": "pass1",
+     "blind": true
+    },
+    {
+     "entry": "pubnet-59220000",
+     "results": "pass2",
+     "blind": true
+    },
+    {
+     "entry": "pubnet-59260000",
+     "results": "pass2",
+     "blind": true
+    },
+    {
+     "entry": "pubnet-59320000",
+     "results": "pass2",
+     "blind": true
+    },
+    {
+     "entry": "pubnet-59700000",
+     "results": "pass2",
+     "blind": true
+    },
+    {
+     "entry": "pubnet-59820000",
+     "results": "pass2",
+     "blind": true
+    },
+    {
+     "entry": "pubnet-59940000",
+     "results": "pass2",
+     "blind": true
+    },
+    {
+     "entry": "pubnet-60120000",
+     "results": "pass2",
+     "blind": true
+    },
+    {
+     "entry": "pubnet-60160000",
+     "results": "pass2",
+     "blind": true
+    },
+    {
+     "entry": "pubnet-60240000",
+     "results": "pass2",
+     "blind": true
+    },
+    {
+     "entry": "pubnet-60980000",
+     "results": "pass2",
+     "blind": true
+    },
+    {
+     "entry": "pubnet-61200000",
+     "results": "pass2",
+     "blind": true
+    },
+    {
+     "entry": "pubnet-61240000",
+     "results": "pass2",
+     "blind": true
+    },
+    {
+     "entry": "pubnet-61720000",
+     "results": "pass2",
+     "blind": true
+    },
+    {
+     "entry": "pubnet-62040000",
+     "results": "pass2",
+     "blind": true
+    },
+    {
+     "entry": "pubnet-62100000",
+     "results": "pass2",
+     "blind": true
+    },
+    {
+     "entry": "pubnet-62160000",
+     "results": "pass2",
+     "blind": true
+    },
+    {
+     "entry": "pubnet-62220000",
+     "results": "pass2",
+     "blind": true
+    },
+    {
+     "entry": "pubnet-62340000",
+     "results": "pass2",
+     "blind": true
+    },
+    {
+     "entry": "pubnet-62580000",
+     "results": "pass2",
+     "blind": true
+    },
+    {
+     "entry": "pubnet-62720000",
+     "results": "pass2",
+     "blind": true
+    },
+    {
+     "entry": "pubnet-62760000",
+     "results": "pass2",
+     "blind": true
+    },
+    {
+     "entry": "pubnet-62780000",
+     "results": "pass2",
+     "blind": true
+    },
+    {
+     "entry": "pubnet-63260000",
+     "results": "pass2",
+     "blind": true
+    },
+    {
+     "entry": "pubnet-63560000",
+     "results": "pass2",
+     "blind": true
+    },
+    {
+     "entry": "pubnet-64060000",
+     "results": "pass2",
+     "blind": true
+    },
+    {
+     "entry": "pubnet-64220000",
+     "results": "pass2",
+     "blind": true
+    },
+    {
+     "entry": "pubnet-64240000",
+     "results": "pass2",
+     "blind": true
+    },
+    {
+     "entry": "pubnet-64320000",
+     "results": "pass2",
+     "blind": true
+    },
+    {
+     "entry": "pubnet-64560000",
+     "results": "pass2",
+     "blind": true
+    },
+    {
+     "entry": "pubnet-64680000",
+     "results": "pass2",
+     "blind": true
+    },
+    {
+     "entry": "testnet-3740000",
+     "results": "pass2",
+     "blind": true
+    }
+   ],
+   "what_would_catch_it": null
+  },
+  {
+   "id": "wallet-backend#729",
+   "pipeline": "wallet-backend",
+   "fix": "2c873353",
+   "parent": "2a0a84ea",
+   "title": "handle CAP-40 signed-payload signers",
+   "verdict": "detected",
+   "entries": [
+    {
+     "entry": "testnet-4437357-signed-payload-signer",
+     "results": "pass1",
+     "blind": false
+    }
+   ],
+   "what_would_catch_it": null
+  },
+  {
+   "id": "wallet-backend#734",
+   "pipeline": "wallet-backend",
+   "fix": "c152783c",
+   "parent": "764a4f5b",
+   "title": "record SAC-created trustline state changes (#731)",
+   "verdict": "detected",
+   "entries": [
+    {
+     "entry": "localcore-sac-trust-p28-5",
+     "results": "pass1",
+     "blind": false
+    },
+    {
+     "entry": "pubnet-63920000",
+     "results": "pass1",
+     "blind": true
+    },
+    {
+     "entry": "pubnet-63920000",
+     "results": "pass2",
+     "blind": true
+    }
+   ],
+   "what_would_catch_it": null
+  },
+  {
+   "id": "wallet-backend#745",
+   "pipeline": "wallet-backend",
+   "fix": "ce0820d7",
+   "parent": "71625b21",
+   "title": "skip contract deploys from unstorable ScAddress kinds",
+   "verdict": "missed",
+   "entries": [],
+   "what_would_catch_it": "A create-contract whose deployer address is a claimable balance or a liquidity pool (protocol 23 or later), as the root host function and inside an auth entry: a local-core scenario at protocol 23 to 28."
+  },
+  {
+   "id": "490aab41",
+   "pipeline": "wallet-backend",
+   "fix": "490aab41",
+   "parent": "e8a171c5",
+   "title": "key the buffer's canonical transactions by ToID, not hash",
+   "verdict": "missed",
+   "entries": [],
+   "what_would_catch_it": "The same envelope at two positions of one ingest batch. The harness replays one ledger per run, so this needs multi-ledger replay."
+  },
+  {
+   "id": "wallet-backend#753",
+   "pipeline": "wallet-backend",
+   "fix": "bb0b162b",
+   "parent": "f8e5786d",
+   "title": "reduce a Soroban operation's source to its base account",
+   "verdict": "detected",
+   "entries": [
+    {
+     "entry": "localcore-muxed-source-p22-3",
+     "results": "pass1",
+     "blind": false
+    }
+   ],
+   "what_would_catch_it": null
+  },
+  {
+   "id": "7b7ee5f0",
+   "pipeline": "wallet-backend",
+   "fix": "7b7ee5f0",
+   "parent": "bb0b162b",
+   "title": "map the three frozen-trustline operation result codes",
+   "verdict": "missed",
+   "entries": [],
+   "what_would_catch_it": "A claim, deposit or withdraw failing on a frozen trustline at protocol 26 to 28. The corpus has them only at protocol 30 (`golden-frozenledgerkeys-a0fb94c3-15`, `-d637d647-16`), which the commits before the fix cannot decode: a local-core scenario that freezes a trustline at protocol 26 to 28."
+  },
+  {
+   "id": "ba821579",
+   "pipeline": "wallet-backend",
+   "fix": "ba821579",
+   "parent": "7b7ee5f0",
+   "title": "drop pool-share balances whose pool row is missing",
+   "verdict": "missed",
+   "entries": [],
+   "what_would_catch_it": "A ledger that changes a pool-share balance whose pool entry the ledger does not touch, replayed into an empty database (no such pass-2 ledger halted the parent)."
+  },
+  {
+   "id": "666a64d4",
+   "pipeline": "wallet-backend",
+   "fix": "666a64d4",
+   "parent": "ba821579",
+   "title": "skip events whose address kind an account column cannot store",
+   "verdict": "missed",
+   "entries": [],
+   "what_would_catch_it": "A SEP-41 or SAC event whose address topic is a claimable balance or a liquidity pool (protocol 23 or later): a local-core scenario with a token contract that emits one."
+  },
+  {
+   "id": "9538b3ca",
+   "pipeline": "wallet-backend",
+   "fix": "9538b3ca",
+   "parent": "666a64d4",
+   "title": "derive Soroban participants from executed meta, not the auth tree",
+   "verdict": "missed",
+   "entries": [],
+   "what_would_catch_it": "An auth entry naming an account that no require_auth matched, plus an oracle rule: every participant is the source, an account whose nonce entry the host created, or an account whose ledger state changed."
+  },
+  {
+   "id": "80121f3a",
+   "pipeline": "wallet-backend",
+   "fix": "80121f3a",
+   "parent": "9538b3ca",
+   "title": "record a declared nested deploy only when the meta shows it happened",
+   "verdict": "missed",
+   "entries": [],
+   "what_would_catch_it": "An auth tree declaring a CreateContract that never runs, plus an oracle rule that reports a stored ACCOUNT CREATE for a contract the meta does not create."
+  },
+  {
+   "id": "e2da4cad",
+   "pipeline": "wallet-backend",
+   "fix": "e2da4cad",
+   "parent": "80121f3a",
+   "title": "a Soroban participant is an address that authorised the operation",
+   "verdict": "missed",
+   "entries": [],
+   "what_would_catch_it": "The participant rule above, on any contract invocation: the invoked contract and event emitters stop being participants. Soroban invocations are in the corpus; the rule is what is missing."
+  },
+  {
+   "id": "wallet-backend#803",
+   "pipeline": "wallet-backend",
+   "fix": "ff73ff46",
+   "parent": "e967ce8b",
+   "title": "validate Blend pool name bytes and length on decode",
+   "verdict": "missed",
+   "entries": [],
+   "what_would_catch_it": "A Blend pool whose name is not valid UTF-8 or longer than the cap. Blend state is outside the oracle's model; needs a Blend deployment in a local-core scenario."
+  },
+  {
+   "id": "wallet-backend#802",
+   "pipeline": "wallet-backend",
+   "fix": "3e22515a",
+   "parent": "ff73ff46",
+   "title": "cap Blend decimals at 70",
+   "verdict": "missed",
+   "entries": [],
+   "what_would_catch_it": "A Blend pool whose reserve config has decimals above 70; same as above."
+  },
+  {
+   "id": "stellar/stellar-etl#460",
+   "issue": "stellar/stellar-etl#460",
+   "pipeline": "stellar-etl",
+   "at": "2b24ec89ddce",
+   "verdict": "detected",
+   "entries": [
+    {
+     "entry": "testnet-5709224",
+     "results": "etl",
+     "blind": true
+    },
+    {
+     "entry": "pubnet-65480300",
+     "results": "etl",
+     "blind": true
+    },
+    {
+     "entry": "pubnet-63920000",
+     "results": "etl",
+     "blind": true
+    },
+    {
+     "entry": "localcore-sac-trust-p28-5",
+     "results": "etl",
+     "blind": false
+    }
+   ]
+  },
+  {
+   "id": "stellar/stellar-etl#450",
+   "issue": "stellar/stellar-etl#450",
+   "pipeline": "stellar-etl",
+   "at": "2b24ec89ddce",
+   "verdict": "missed",
+   "entries": []
+  },
+  {
+   "id": "stellar/stellar-etl#453",
+   "issue": "stellar/stellar-etl#453",
+   "pipeline": "stellar-etl",
+   "at": "2b24ec89ddce",
+   "verdict": "missed",
+   "entries": []
+  },
+  {
+   "id": "stellar/stellar-etl#456",
+   "issue": "stellar/stellar-etl#456",
+   "pipeline": "stellar-etl",
+   "at": "2b24ec89ddce",
+   "verdict": "missed",
+   "entries": []
+  },
+  {
+   "id": "stellar/stellar-etl#457",
+   "issue": "stellar/stellar-etl#457",
+   "pipeline": "stellar-etl",
+   "at": "2b24ec89ddce",
+   "verdict": "missed",
+   "entries": []
+  },
+  {
+   "id": "stellar/stellar-etl#462",
+   "issue": "stellar/stellar-etl#462",
+   "pipeline": "stellar-etl",
+   "at": "2b24ec89ddce",
+   "verdict": "missed",
+   "entries": []
+  },
+  {
+   "id": "stellar/stellar-etl#451",
+   "issue": "stellar/stellar-etl#451",
+   "pipeline": "stellar-etl",
+   "at": "2b24ec89ddce",
+   "verdict": "missed",
+   "reason": "in an export the adapter does not run yet",
+   "entries": []
+  },
+  {
+   "id": "stellar/stellar-etl#452",
+   "issue": "stellar/stellar-etl#452",
+   "pipeline": "stellar-etl",
+   "at": "2b24ec89ddce",
+   "verdict": "missed",
+   "reason": "in an export the adapter does not run yet",
+   "entries": []
+  },
+  {
+   "id": "stellar/stellar-etl#459",
+   "issue": "stellar/stellar-etl#459",
+   "pipeline": "stellar-etl",
+   "at": "2b24ec89ddce",
+   "verdict": "missed",
+   "reason": "in an export the adapter does not run yet",
+   "entries": []
+  }
+ ]
+}

@@ -111,3 +111,15 @@ jobs:
       - uses: actions/checkout@v4
       - name: Build each probe against the releases before and with the fix
         run: harness/sightings/run.sh
+
+  backtest:
+    name: detection backtest claims hold against the recorded replays
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Every detected and missed fix in backtest.json, checked against harness/replay/backtest/
+        run: python3 harness/replay/replay.py backtest
