@@ -195,19 +195,22 @@ on 16 November 2026:
 | wallet-backend `main` (`3e22515a`), data lake | 611 | 694,646 | 694,515 | 89: wallet-backend#677; 42: wallet-backend#815 | 0 |
 | stellar-etl `master` (`2b24ec89`) | 611 | 321,142 | 321,071 | 69: stellar-etl#457; 1: stellar-etl#450; 1: stellar-etl#460 | 0 |
 
-No check failed for a reason the oracle could not name, so the oracle produced no false alarm in
-1,015,788 checks of real traffic. The wallet-backend checks include the participant rule (both
-directions); its first sweep found 94 false alarms of the "only what the meta shows" direction
-(operation-level sources of successful Soroban operations, which signed but appear only in the
-envelope), and the rule was corrected to allow them before these numbers. They also include the
-duplicate-row rule (a state-change row stored more than once fails): none of the 611 ledgers has
-one. Its first version failed any count above the ledger's and raised 10 false alarms, all rows that
-record no change (8 thresholds set to their old value, 2 authorization flags cleared that were not
-set: wallet-backend writes a row for what the operation asked for); those now pass. Of the
-778,927 rows the oracle derives, the other 84,281 are not checked, mostly current balances the
-data-lake observations predate. stellar-etl's sweep
-observations were recorded before its adapter reported muxed destinations, so its 39,257 muxed
-destination checks are not counted (the corpus replay runs them: `RESULTS-stellar-etl.md`).
+wallet-backend: rows expected 778,927, of which 84,281 not checked. All 84,281 are the current
+XLM balance check (`native_balance`): the sweep's observations were recorded before the adapter read
+`native_balances`, so that check runs on the corpus only. stellar-etl: its 39,257 muxed-destination
+checks are not counted, for the same reason (its sweep observations predate the adapter reporting
+muxed destinations; the corpus replay runs them, `RESULTS-stellar-etl.md`).
+
+1,015,788 checks on real traffic; the 202 that failed map to five open upstream issues (two in
+wallet-backend, three in stellar-etl); none unexplained. The wallet-backend checks include the
+participant rule (both directions); its first sweep found 94 false alarms of the "only what the
+meta shows" direction (operation-level sources of successful Soroban operations, which signed but
+appear only in the envelope), and the rule was corrected to allow them before these numbers. They
+also include the duplicate-row rule (a state-change row stored more than once fails): none of the
+611 ledgers has one. Its first version failed any count above the ledger's and raised 10 false
+alarms, all rows that record no change (8 thresholds set to their old value, 2 authorization flags
+cleared that were not set: wallet-backend writes a row for what the operation asked for); those now
+pass.
 The 9 sweep ledgers that bring schema cells or patterns the corpus lacked were added to `corpus/`
 (`tools/corpus_add.py`), one per protocol era from 23 to 30.
 
