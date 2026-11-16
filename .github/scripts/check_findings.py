@@ -112,8 +112,8 @@ def validate_records(doc, bad):
         if "reported" in r and not DATE.match(r["reported"]):
             bad.append("%s: reported %r is not YYYY-MM-DD" % (rid, r["reported"]))
         ups = r.get("upstream", [])
-        if not ups and r.get("kind") != "linter":
-            bad.append("%s: no upstream link (only an accepted linter finding may have none)" % rid)
+        if not ups and r.get("kind") not in ("linter", "unfiled"):
+            bad.append("%s: no upstream link (only an accepted linter finding or an unfiled one may have none)" % rid)
         for u in ups:
             if not URL.match(u):
                 bad.append("%s: upstream %r is not a GitHub issue, pull request or full-SHA commit URL" % (rid, u))

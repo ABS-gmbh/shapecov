@@ -19,7 +19,7 @@ indexer-hardening guide has each rule checked against stellar-core. Built for th
 | Replay harness: wallet-backend (reference adapter) and stellar-etl | [`harness/replay/`](harness/replay/); shapes each indexer mishandles or drops: [`SHAPES.md`](harness/replay/SHAPES.md) | 2: wallet-backend #729, #731 and #716 fail before their fixes and pass after | Met |
 | Linter for the three ingestion mistakes | [`linter/`](linter/) | 3: flags seeded violations, runs clean on wallet-backend | Partly met: 4 real findings on wallet-backend, each triaged with a reason; also run on stellar-etl |
 | Indexer-hardening guide | [`guide/`](guide/) | 4: tables agree with the manifest; publication gated on review | Tables met and probed against stellar-core 30.0.0; **unreviewed** |
-| Conformance runner: six SDK decoders and stellar-core | [`runners/`](runners/), [`sdk-matrix/`](sdk-matrix/MATRIX.md) | 5: js-stellar-sdk #1766, #1785 and #1789 fail on pre-fix tags | Met |
+| Conformance runner: six SDK decoders and stellar-core | [`runners/`](runners/), [`sdk-matrix/`](sdk-matrix/MATRIX.md) | 5: js-stellar-sdk #1766, #1785 and #1789 fail on pre-fix tags | Met; the same behaviour checks run in Go, Java, Rust and both Python SDKs, and java-stellar-sdk 6.0.0 shares three of the JavaScript defects |
 | Findings | [`FINDINGS.md`](FINDINGS.md), [`FINDINGS.json`](FINDINGS.json) | 6: every failure maps to a filed issue | Met for the committed results |
 
 Each check is a CI job of the same name. [`VERIFY.md`](VERIFY.md) gives every job and the command
@@ -40,7 +40,7 @@ laptop. CI reruns everything else.
 
 - **6 defects found and filed** in java-stellar-sdk, py-stellar-base and stellar-etl. The Java
   maintainer fixed #833 two days after it was filed; py-stellar-base closed #1262 and #1263 as
-  fixed in its replacement XDR package. All 33 findings, with severity, CAPs and a reproducing
+  fixed in its replacement XDR package. All 36 findings, with severity, CAPs and a reproducing
   entry each: [`FINDINGS.md`](FINDINGS.md).
 - **12 of the RFP's 18 sightings reproduced**, all in CI, each failing before its fix and passing
   after ([`harness/sightings/README.md`](harness/sightings/README.md)).

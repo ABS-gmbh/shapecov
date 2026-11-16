@@ -55,11 +55,7 @@ CODEC = [
 ]
 
 # Cells this script cannot run, with the source that says what is known. Anything else is "not tested".
-CITED = {
-    ("pool_pair_accepted", "go"): "not run here; js-stellar-sdk#1766 says the Go SDK had already fixed it",
-    ("pool_pair_accepted", "java"): "not run here; fixed on `master` by #832 (5 Nov), listed as pending in "
-                                    "the CHANGELOG, after 6.0.0",
-}
+CITED = {}  # every cell now comes from a run (siblings.py) or says why it does not apply
 
 SEMANTIC = [
     ("pool_pair_accepted", "testnet-5708889", "Liquidity-pool issuers ordered by strkey text, not key bytes",
@@ -200,9 +196,61 @@ def js_cell(res):
     return "; ".join(parts)
 
 
+# What a "present" cell means for an SDK whose defect differs in form from the JavaScript one.
+SIBLING_NOTES = {
+    ("java", "pool_pair_accepted"): "`LiquidityPool` refuses the pair: issuers compared as strkey text",
+    ("java", "ids_exact"): "decodes every ID exactly, but a negative offer ID is built and encoded",
+    ("java", "string_bytes_kept"): "`MemoText.getText()` turns the bytes into U+FFFD; `getBytes()` keeps them",
+}
+SIBLING_ISSUES = {
+    "pool_pair_accepted": " (overcat; merged on `master`, not in 6.0.0)",
+    "ids_exact": "; java-stellar-sdk: no issue for the negative offer ID (overcat's #837 covers other narrowing)",
+    "string_bytes_kept": "; java-stellar-sdk: no issue",
+    "map_entries_preserved": "; java-stellar-sdk #838 (overcat, 16 Nov) is about identical keys, which this entry does not have",
+}
+SIBLING_VERSIONS = {"java": "6.0.0", "go": "v0.9.0", "rust": "30.0.0", "python-xdr": "0.2.1", "python": "17.0.1"}
+
+
+def apply_siblings(semantic):
+    """Fill the behaviour cells of the other SDKs from harness/sdk-semantic/out/siblings.json, the
+    record of harness/sdk-semantic/siblings.py: a run of each SDK's own helper, or why it has none."""
+    path = SEM / "out" / "siblings.json"
+    if not path.exists():
+        return
+    sib = json.load(open(path))
+    for row in semantic:
+        for sdk, res in sib.items():
+            r = res.get(row["check"])
+            if not r or (sdk == "python" and row["cells"].get("python", "not tested") != "not tested"):
+                continue
+            v = SIBLING_VERSIONS[sdk]
+            if r["result"] == "pass":
+                cell = "passes in %s" % v
+            elif r["result"] == "mishandled":
+                note = SIBLING_NOTES.get((sdk, row["check"]))
+                cell = "**present in %s**" % v + (": " + note if note else "")
+            elif r["result"] == "not applicable":
+                cell = "not applicable: %s" % r["detail"]
+            else:
+                cell = "check could not run (%s)" % r.get("detail", "")[:80]
+            row["cells"][sdk] = cell
+            row.setdefault("siblings", {})[sdk] = r
+        base = next((t[3] for t in SEMANTIC if t[0] == row["check"]), row["issues"])
+        row["issues"] = base + SIBLING_ISSUES.get(row["check"], "")
+
+
 def main():
+    if "--siblings-only" in sys.argv[1:]:
+        # Refresh the behaviour cells from siblings.json without rerunning the codec and JS runs.
+        data = json.load(open(HERE / "matrix.json"))
+        apply_siblings(data["semantic"])
+        (HERE / "matrix.json").write_text(json.dumps(data, indent=1) + "\n")
+        (HERE / "MATRIX.md").write_text(render(data))
+        print("updated the behaviour cells of sdk-matrix/MATRIX.md from siblings.json")
+        return
     codec, versions = codec_rows()
     semantic = semantic_rows()
+    apply_siblings(semantic)
     data = {"versions": versions, "js_releases": JS_RELEASES, "codec": codec, "semantic": semantic}
     (HERE / "matrix.json").write_text(json.dumps(data, indent=1) + "\n")
     (HERE / "MATRIX.md").write_text(render(data))
@@ -229,9 +277,12 @@ def render(d):
     for r in d["codec"]:
         L.append("| %s | %s | %s | %s |" % (r["class"], r["core"], " | ".join(r["cells"][s] for s in COLUMNS), r["issues"]))
     L += ["", "## SDK behaviour above the codec", "",
-          "The corpus's pinned-SDK checks (`harness/sdk-semantic/`), each on the corpus entry named. These helpers "
-          "(asset ordering, `scValToNative` and the like) exist in the JavaScript and Python SDKs; the other "
-          "columns are not tested unless a source is named.", "",
+          "The corpus's pinned-SDK checks (`harness/sdk-semantic/`), each on the corpus entry named, run through "
+          "each SDK's own helper for the same job: asset ordering and pool IDs, sorted maps, maps converted to "
+          "native values, ID builders, memo text. JavaScript runs on every release listed above; the other SDKs "
+          "on the release in the header (`harness/sdk-semantic/siblings.py`). Where an SDK has no such helper, "
+          "the cell says so and why. A codec with no helper is still checked where the codec is the question: "
+          "IDs and string bytes must survive a decode and re-encode.", "",
           "| " + " | ".join(["Defect class", "Corpus entry"] + [NAMES[s] for s in COLUMNS] + ["Upstream"]) + " |",
           "|" + "---|" * (len(COLUMNS) + 3)]
     for r in d["semantic"]:

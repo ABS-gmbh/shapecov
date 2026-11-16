@@ -6,7 +6,7 @@ Run date: 14 November 2026, updated 16 November 2026. Versions are in `README.md
 
 <!-- findings-table:begin (generated from FINDINGS.json by .github/scripts/check_findings.py --write; do not edit by hand) -->
 
-33 findings in `FINDINGS.json`, one record each. Severity: **S1** halts or rejects valid data; **S2** wrong or missing data; **S3** accepts non-canonical input; **S4** hardening. Dates are UTC.
+36 findings in `FINDINGS.json`, one record each. Severity: **S1** halts or rejects valid data; **S2** wrong or missing data; **S3** accepts non-canonical input; **S4** hardening. Dates are UTC.
 
 **Found by ShapeCov and filed by us** (6)
 
@@ -19,7 +19,14 @@ Run date: 14 November 2026, updated 16 November 2026. Versions are in `README.md
 | E2 | A revocation that redeems pool shares in two pools gets one liquidity_pool_revoked, citing the other pool's balance | stellar-etl: export_effects (addLiquidityPoolRevokedEffect); Horizon has the same code | S2 | CAP-0038 | entry `localcore-pool-revoke-two-pools-7` | [stellar/stellar-etl#513](https://github.com/stellar/stellar-etl/issues/513) | ShapeCov, 2026-11-15 | open |
 | E3 | Pool-share trustlines removed by a revocation get no trustline_removed effect | stellar-etl: export_effects; Horizon has the same code | S2 | CAP-0038 | entry `localcore-pool-revoke-two-pools-7` | [stellar/stellar-etl#514](https://github.com/stellar/stellar-etl/issues/514) | ShapeCov, 2026-11-15 | open |
 
-**Reported first by others; ShapeCov's tools reproduce it** (11)
+**Found by ShapeCov and not filed: a fact sheet waits for a decision on filing** (2)
+
+| ID | Finding | Component | Severity | CAPs | Reproduction | Upstream | First reported | Status |
+|---|---|---|---|---|---|---|---|---|
+| J3 | A negative offer ID is built and encoded | java-stellar-sdk 6.0.0: ManageSellOfferOperation.builder().offerId | S4; stellar-core rejects such a transaction (MANAGE_SELL_OFFER_MALFORMED, probe offer-id-negative), so it is caught at submission | none: SDK input conversion, not a protocol shape | entry `synthetic-ids-beyond-f64` | not filed | ShapeCov, 2026-11-16 | not filed; the same input js-stellar-sdk refuses since 17.3.0 (#1785); go-stellar-sdk refuses it |
+| J4 | MemoText.getText() turns memo bytes that are not UTF-8 into U+FFFD | java-stellar-sdk 6.0.0: MemoText | S2; getBytes() keeps the bytes; code that rebuilds or stores the memo from getText() changes it | none: a classic memo; SDK string conversion, not a protocol shape | entry `localcore-memo-and-offer-p30-4` | not filed | ShapeCov, 2026-11-16 | not filed; the Java counterpart of js-stellar-sdk #1823, which was closed by documenting the behaviour |
+
+**Reported first by others; ShapeCov's tools reproduce it** (12)
 
 | ID | Finding | Component | Severity | CAPs | Reproduction | Upstream | First reported | Status |
 |---|---|---|---|---|---|---|---|---|
@@ -34,6 +41,7 @@ Run date: 14 November 2026, updated 16 November 2026. Versions are in `README.md
 | C9 | scval.to_native drops map entries whose keys collide (u32 1 and i64 1 in a host-written map) | py-stellar-base 17.0.1: scval | S2 | CAP-0046-01 | entry `testnet-5712621` | [StellarCN/py-stellar-base#1250](https://github.com/StellarCN/py-stellar-base/issues/1250) | kasbsquall, 2026-11-13 | fixed on main by #1252 (2026-11-16), not released; 17.0.1 still has it |
 | C10 | Participants from operation meta are never recorded: participantsForMeta reads only the TransactionMeta v0 arm | wallet-backend: participants (participantsForMeta) | S2; data is missing; nothing is stored wrong | none: an indexer rule (participants come from the meta), not a protocol shape | entry `pubnet-60280000` | [stellar/wallet-backend#677](https://github.com/stellar/wallet-backend/issues/677), [stellar/stellar-horizon#259](https://github.com/stellar/stellar-horizon/issues/259) | JakeUrban (SDF, #677); ErenTopaal added a sponsor case on 15 November; tolgayayci filed the Horizon counterpart, stellar-horizon#259, 2026-08-03 | open; the oracle's participant rule flags it at main: 89 missed participants in 78 transactions of the 611-ledger sweep (88 in 77 of 97,973 pubnet transactions), all sponsors whose sponsorship ended; our measured volume is on the issue (comment of 2026-11-16, https://github.com/stellar/wallet-backend/issues/677#issuecomment-6928536393) |
 | C11 | allow_trust exports trustline_flags_updated instead of trustline_authorized, deauthorized or authorized_to_maintain_liabilities | stellar-etl: export_effects (allow_trust) | S2; confirmed after reading the issue, not found blind | none: an effect-type contract with Horizon's model, not a protocol shape | entry `testnet-5710719` | [stellar/stellar-etl#457](https://github.com/stellar/stellar-etl/issues/457) | chowbao (stellar-etl maintainer), 2026-07-04 | open; the oracle flags it on testnet-5710719 and on 69 rows of the 611-ledger sweep |
+| J2 | A liquidity-pool asset pair the network accepted is refused: issuers compared as strkey text | java-stellar-sdk 6.0.0: LiquidityPool and Asset.compareTo | S1 | CAP-0038 | entry `testnet-5708889` | [lightsail-network/java-stellar-sdk#832](https://github.com/lightsail-network/java-stellar-sdk/pull/832) | overcat (java-stellar-sdk maintainer, #832); the same defect as js-stellar-sdk #1766, 2026-11-05 | fixed on master by #832 (2026-11-05), not released; 6.0.0 refuses the pair (harness/sdk-semantic/siblings.py) |
 
 **One of the RFP's sightings, reproduced before its fix and passing after** (10)
 

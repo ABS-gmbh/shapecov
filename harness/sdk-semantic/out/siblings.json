@@ -1,0 +1,136 @@
+{
+ "go": {
+  "ids_exact": {
+   "check": "ids_exact",
+   "detail": "",
+   "result": "pass",
+   "sdk": "go-stellar-sdk v0.9.0"
+  },
+  "map_entries_preserved": {
+   "detail": "go-stellar-sdk has no conversion of an ScMap to native values",
+   "result": "not applicable"
+  },
+  "map_entries_preserved:host": {
+   "detail": "go-stellar-sdk has no conversion of an ScMap to native values",
+   "result": "not applicable"
+  },
+  "map_keys_host_order": {
+   "detail": "go-stellar-sdk has no helper that builds an ScMap from native values",
+   "result": "not applicable"
+  },
+  "pool_pair_accepted": {
+   "check": "pool_pair_accepted",
+   "detail": "",
+   "result": "pass",
+   "sdk": "go-stellar-sdk v0.9.0"
+  },
+  "string_bytes_kept": {
+   "check": "string_bytes_kept",
+   "detail": "txnbuild.MemoText is a Go string, which holds the bytes as they are",
+   "result": "pass",
+   "sdk": "go-stellar-sdk v0.9.0"
+  }
+ },
+ "java": {
+  "ids_exact": {
+   "check": "ids_exact",
+   "detail": "offer_id -1 (negative) accepted, encodes -1",
+   "result": "mishandled",
+   "sdk": "java-stellar-sdk 6.0.0"
+  },
+  "map_entries_preserved": {
+   "check": "map_entries_preserved",
+   "detail": "",
+   "result": "pass",
+   "sdk": "java-stellar-sdk 6.0.0"
+  },
+  "map_entries_preserved:host": {
+   "check": "map_entries_preserved",
+   "detail": "",
+   "result": "pass",
+   "sdk": "java-stellar-sdk 6.0.0"
+  },
+  "map_keys_host_order": {
+   "check": "map_keys_host_order",
+   "detail": "",
+   "result": "pass",
+   "sdk": "java-stellar-sdk 6.0.0"
+  },
+  "pool_pair_accepted": {
+   "check": "pool_pair_accepted",
+   "detail": "rejected an asset pair the network accepted: java.lang.IllegalArgumentException: Assets are not in lexicographic order",
+   "result": "mishandled",
+   "sdk": "java-stellar-sdk 6.0.0"
+  },
+  "string_bytes_kept": {
+   "check": "string_bytes_kept",
+   "detail": "rebuilt from getText(): 000000010000001a7368617065636f7620efbfbdefbfbd206d656d6f200020656e640000, the ledger has 00000001000000167368617065636f7620fffe206d656d6f200020656e640000; rebuilt from getBytes() keeps the bytes",
+   "result": "mishandled",
+   "sdk": "java-stellar-sdk 6.0.0"
+  }
+ },
+ "python": {
+  "map_keys_host_order": {
+   "detail": "py-stellar-base builds a map from the entries it is given and does not sort them",
+   "result": "not applicable"
+  },
+  "string_bytes_kept": {
+   "detail": "TextMemo.memo_text is bytes; the round trip keeps them",
+   "result": "pass"
+  }
+ },
+ "python-xdr": {
+  "ids_exact": {
+   "detail": "decodes and re-encodes to the same bytes; 64-bit IDs are integer types",
+   "result": "pass"
+  },
+  "map_entries_preserved": {
+   "detail": "stellar-xdr has no conversion of a map to native values",
+   "result": "not applicable"
+  },
+  "map_entries_preserved:host": {
+   "detail": "stellar-xdr has no conversion of a map to native values",
+   "result": "not applicable"
+  },
+  "map_keys_host_order": {
+   "detail": "stellar-xdr builds no maps from native values",
+   "result": "not applicable"
+  },
+  "pool_pair_accepted": {
+   "detail": "stellar-xdr is a codec with no asset or liquidity-pool helpers",
+   "result": "not applicable"
+  },
+  "string_bytes_kept": {
+   "detail": "decodes and re-encodes to the same bytes; the string type holds bytes",
+   "result": "pass"
+  }
+ },
+ "rust": {
+  "ids_exact": {
+   "detail": "decodes and re-encodes to the same bytes; 64-bit IDs are integer types",
+   "result": "pass"
+  },
+  "map_entries_preserved": {
+   "detail": "rs-stellar-xdr has no conversion of a map to native values",
+   "result": "not applicable"
+  },
+  "map_entries_preserved:host": {
+   "detail": "rs-stellar-xdr has no conversion of a map to native values",
+   "result": "not applicable"
+  },
+  "map_keys_host_order": {
+   "check": "map_keys_host_order",
+   "detail": "ScMap::sorted_from gives the host's order",
+   "result": "pass",
+   "sdk": "rs-stellar-xdr 30.0.0"
+  },
+  "pool_pair_accepted": {
+   "detail": "rs-stellar-xdr is a codec with no asset or liquidity-pool helpers",
+   "result": "not applicable"
+  },
+  "string_bytes_kept": {
+   "detail": "decodes and re-encodes to the same bytes; the string type holds bytes",
+   "result": "pass"
+  }
+ }
+}

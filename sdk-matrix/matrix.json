@@ -80,12 +80,12 @@
    "entry": "testnet-5708889",
    "core": "\u2014",
    "cells": {
-    "rust": "not tested",
+    "rust": "not applicable: rs-stellar-xdr is a codec with no asset or liquidity-pool helpers",
     "js": "17.x: fixed in 17.2.1; 16.x: fixed in 16.4.1",
     "python": "passes in 17.0.1",
-    "python-xdr": "not tested",
-    "go": "not run here; js-stellar-sdk#1766 says the Go SDK had already fixed it",
-    "java": "not run here; fixed on `master` by #832 (5 Nov), listed as pending in the CHANGELOG, after 6.0.0"
+    "python-xdr": "not applicable: stellar-xdr is a codec with no asset or liquidity-pool helpers",
+    "go": "passes in v0.9.0",
+    "java": "**present in 6.0.0**: `LiquidityPool` refuses the pair: issuers compared as strkey text"
    },
    "js_releases": {
     "16.3.0": "mishandled",
@@ -96,7 +96,29 @@
     "17.4.0": "pass"
    },
    "python_17_0_1": "pass",
-   "issues": "js-stellar-sdk #1766 (30 Sep); py-stellar-base #1246 (4 Nov), fixed by #1247 (5 Nov); java-stellar-sdk #832 (5 Nov)"
+   "issues": "js-stellar-sdk #1766 (30 Sep); py-stellar-base #1246 (4 Nov), fixed by #1247 (5 Nov); java-stellar-sdk #832 (5 Nov); java-stellar-sdk: fixed on `master` by #832 (overcat, 5 Nov), not in 6.0.0",
+   "siblings": {
+    "go": {
+     "check": "pool_pair_accepted",
+     "detail": "",
+     "result": "pass",
+     "sdk": "go-stellar-sdk v0.9.0"
+    },
+    "java": {
+     "check": "pool_pair_accepted",
+     "detail": "rejected an asset pair the network accepted: java.lang.IllegalArgumentException: Assets are not in lexicographic order",
+     "result": "mishandled",
+     "sdk": "java-stellar-sdk 6.0.0"
+    },
+    "python-xdr": {
+     "detail": "stellar-xdr is a codec with no asset or liquidity-pool helpers",
+     "result": "not applicable"
+    },
+    "rust": {
+     "detail": "rs-stellar-xdr is a codec with no asset or liquidity-pool helpers",
+     "result": "not applicable"
+    }
+   }
   },
   {
    "class": "Map keys not sorted in the host's order",
@@ -104,12 +126,12 @@
    "entry": "testnet-5712621",
    "core": "\u2014",
    "cells": {
-    "rust": "not tested",
+    "rust": "passes in 30.0.0",
     "js": "17.x: fixed in 17.2.1; 16.x: **present in 16.4.1**",
-    "python": "not tested",
-    "python-xdr": "not tested",
-    "go": "not tested",
-    "java": "not tested"
+    "python": "not applicable: py-stellar-base builds a map from the entries it is given and does not sort them",
+    "python-xdr": "not applicable: stellar-xdr builds no maps from native values",
+    "go": "not applicable: go-stellar-sdk has no helper that builds an ScMap from native values",
+    "java": "passes in 6.0.0"
    },
    "js_releases": {
     "16.3.0": "mishandled",
@@ -120,7 +142,33 @@
     "17.4.0": "pass"
    },
    "python_17_0_1": null,
-   "issues": "js-stellar-sdk #1766 (30 Sep)"
+   "issues": "js-stellar-sdk #1766 (30 Sep)",
+   "siblings": {
+    "go": {
+     "detail": "go-stellar-sdk has no helper that builds an ScMap from native values",
+     "result": "not applicable"
+    },
+    "java": {
+     "check": "map_keys_host_order",
+     "detail": "",
+     "result": "pass",
+     "sdk": "java-stellar-sdk 6.0.0"
+    },
+    "python": {
+     "detail": "py-stellar-base builds a map from the entries it is given and does not sort them",
+     "result": "not applicable"
+    },
+    "python-xdr": {
+     "detail": "stellar-xdr builds no maps from native values",
+     "result": "not applicable"
+    },
+    "rust": {
+     "check": "map_keys_host_order",
+     "detail": "ScMap::sorted_from gives the host's order",
+     "result": "pass",
+     "sdk": "rs-stellar-xdr 30.0.0"
+    }
+   }
   },
   {
    "class": "Map entries dropped when keys collide (u32 `1` and symbol `\"1\"`)",
@@ -128,12 +176,12 @@
    "entry": "synthetic-scmap-colliding-keys",
    "core": "\u2014",
    "cells": {
-    "rust": "not tested",
+    "rust": "not applicable: rs-stellar-xdr has no conversion of a map to native values",
     "js": "17.x: fixed in 17.3.0; 16.x: **present in 16.4.1**",
     "python": "passes in 17.0.1",
-    "python-xdr": "not tested",
-    "go": "not tested",
-    "java": "not tested"
+    "python-xdr": "not applicable: stellar-xdr has no conversion of a map to native values",
+    "go": "not applicable: go-stellar-sdk has no conversion of an ScMap to native values",
+    "java": "passes in 6.0.0"
    },
    "js_releases": {
     "16.3.0": "mishandled",
@@ -144,7 +192,27 @@
     "17.4.0": "pass"
    },
    "python_17_0_1": "pass",
-   "issues": "js-stellar-sdk #1789 (7 Oct)"
+   "issues": "js-stellar-sdk #1789 (7 Oct); java-stellar-sdk #838 (overcat, 16 Nov) is about identical keys, which this entry does not have",
+   "siblings": {
+    "go": {
+     "detail": "go-stellar-sdk has no conversion of an ScMap to native values",
+     "result": "not applicable"
+    },
+    "java": {
+     "check": "map_entries_preserved",
+     "detail": "",
+     "result": "pass",
+     "sdk": "java-stellar-sdk 6.0.0"
+    },
+    "python-xdr": {
+     "detail": "stellar-xdr has no conversion of a map to native values",
+     "result": "not applicable"
+    },
+    "rust": {
+     "detail": "rs-stellar-xdr has no conversion of a map to native values",
+     "result": "not applicable"
+    }
+   }
   },
   {
    "class": "Map entries dropped when keys collide (u32 `1` and i64 `1`, a map the host wrote)",
@@ -152,12 +220,12 @@
    "entry": "testnet-5712621",
    "core": "\u2014",
    "cells": {
-    "rust": "not tested",
+    "rust": "not applicable: rs-stellar-xdr has no conversion of a map to native values",
     "js": "17.x: passes in 17.3.0, 17.4.0 (could not run on 17.2.0, 17.2.1); 16.x: **present in 16.4.1** (could not run on 16.3.0)",
     "python": "**present in 17.0.1**",
-    "python-xdr": "not tested",
-    "go": "not tested",
-    "java": "not tested"
+    "python-xdr": "not applicable: stellar-xdr has no conversion of a map to native values",
+    "go": "not applicable: go-stellar-sdk has no conversion of an ScMap to native values",
+    "java": "passes in 6.0.0"
    },
    "js_releases": {
     "16.3.0": "error",
@@ -168,7 +236,27 @@
     "17.4.0": "pass"
    },
    "python_17_0_1": "mishandled",
-   "issues": "js-stellar-sdk #1789 (7 Oct); py-stellar-base #1250 (13 Nov), fixed on `main` by #1252 (16 Nov)"
+   "issues": "js-stellar-sdk #1789 (7 Oct); py-stellar-base #1250 (13 Nov), fixed on `main` by #1252 (16 Nov)",
+   "siblings": {
+    "go": {
+     "detail": "go-stellar-sdk has no conversion of an ScMap to native values",
+     "result": "not applicable"
+    },
+    "java": {
+     "check": "map_entries_preserved",
+     "detail": "",
+     "result": "pass",
+     "sdk": "java-stellar-sdk 6.0.0"
+    },
+    "python-xdr": {
+     "detail": "stellar-xdr has no conversion of a map to native values",
+     "result": "not applicable"
+    },
+    "rust": {
+     "detail": "rs-stellar-xdr has no conversion of a map to native values",
+     "result": "not applicable"
+    }
+   }
   },
   {
    "class": "Offer and muxed IDs beyond 2^53 encode a different ID",
@@ -176,12 +264,12 @@
    "entry": "synthetic-ids-beyond-f64",
    "core": "\u2014",
    "cells": {
-    "rust": "not tested",
+    "rust": "passes in 30.0.0",
     "js": "17.x: fixed in 17.3.0; 16.x: **present in 16.4.1**",
     "python": "**present in 17.0.1**",
-    "python-xdr": "not tested",
-    "go": "not tested",
-    "java": "not tested"
+    "python-xdr": "passes in 0.2.1",
+    "go": "passes in v0.9.0",
+    "java": "**present in 6.0.0**: decodes every ID exactly, but a negative offer ID is built and encoded"
    },
    "js_releases": {
     "16.3.0": "mishandled",
@@ -192,7 +280,29 @@
     "17.4.0": "pass"
    },
    "python_17_0_1": "mishandled",
-   "issues": "js-stellar-sdk #1785 (8 Oct); py-stellar-base #1251 (13 Nov), fixed on `main` by #1253 (14 Nov)"
+   "issues": "js-stellar-sdk #1785 (8 Oct); py-stellar-base #1251 (13 Nov), fixed on `main` by #1253 (14 Nov); java-stellar-sdk: no issue for the negative offer ID (overcat's #837 covers other narrowing)",
+   "siblings": {
+    "go": {
+     "check": "ids_exact",
+     "detail": "",
+     "result": "pass",
+     "sdk": "go-stellar-sdk v0.9.0"
+    },
+    "java": {
+     "check": "ids_exact",
+     "detail": "offer_id -1 (negative) accepted, encodes -1",
+     "result": "mishandled",
+     "sdk": "java-stellar-sdk 6.0.0"
+    },
+    "python-xdr": {
+     "detail": "decodes and re-encodes to the same bytes; 64-bit IDs are integer types",
+     "result": "pass"
+    },
+    "rust": {
+     "detail": "decodes and re-encodes to the same bytes; 64-bit IDs are integer types",
+     "result": "pass"
+    }
+   }
   },
   {
    "class": "Non-UTF-8 string bytes changed by the string arm's `.value`",
@@ -200,12 +310,12 @@
    "entry": "localcore-memo-and-offer-p30-4",
    "core": "\u2014",
    "cells": {
-    "rust": "not tested",
+    "rust": "passes in 30.0.0",
     "js": "17.x: **present in 17.4.0**; 16.x: check could not run (16.3.0, 16.4.1)",
-    "python": "not tested",
-    "python-xdr": "not tested",
-    "go": "not tested",
-    "java": "not tested"
+    "python": "passes in 17.0.1",
+    "python-xdr": "passes in 0.2.1",
+    "go": "passes in v0.9.0",
+    "java": "**present in 6.0.0**: `MemoText.getText()` turns the bytes into U+FFFD; `getBytes()` keeps them"
    },
    "js_releases": {
     "16.3.0": "error",
@@ -216,7 +326,33 @@
     "17.4.0": "mishandled"
    },
    "python_17_0_1": null,
-   "issues": "js-stellar-sdk #1823 (16 Oct), closed on 20 Oct by documenting the behaviour (#1824), not by a code change"
+   "issues": "js-stellar-sdk #1823 (16 Oct), closed on 20 Oct by documenting the behaviour (#1824), not by a code change; java-stellar-sdk: no issue",
+   "siblings": {
+    "go": {
+     "check": "string_bytes_kept",
+     "detail": "txnbuild.MemoText is a Go string, which holds the bytes as they are",
+     "result": "pass",
+     "sdk": "go-stellar-sdk v0.9.0"
+    },
+    "java": {
+     "check": "string_bytes_kept",
+     "detail": "rebuilt from getText(): 000000010000001a7368617065636f7620efbfbdefbfbd206d656d6f200020656e640000, the ledger has 00000001000000167368617065636f7620fffe206d656d6f200020656e640000; rebuilt from getBytes() keeps the bytes",
+     "result": "mishandled",
+     "sdk": "java-stellar-sdk 6.0.0"
+    },
+    "python": {
+     "detail": "TextMemo.memo_text is bytes; the round trip keeps them",
+     "result": "pass"
+    },
+    "python-xdr": {
+     "detail": "decodes and re-encodes to the same bytes; the string type holds bytes",
+     "result": "pass"
+    },
+    "rust": {
+     "detail": "decodes and re-encodes to the same bytes; the string type holds bytes",
+     "result": "pass"
+    }
+   }
   }
  ]
 }

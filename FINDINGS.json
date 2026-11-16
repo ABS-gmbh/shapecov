@@ -24,6 +24,7 @@
  ],
  "kinds": {
   "found": "found by ShapeCov and filed by us",
+  "unfiled": "found by ShapeCov and not filed: a fact sheet waits for a decision on filing",
   "confirmed": "reported first by others; ShapeCov's tools reproduce it",
   "sighting": "one of the RFP's sightings, reproduced before its fix and passing after",
   "fixed_upstream": "fixed upstream before ShapeCov existed; the harness detects it at the commits before the fix",
@@ -398,6 +399,62 @@
    "labels": [
     "stellar/stellar-etl#457"
    ]
+  },
+  {
+   "id": "J2",
+   "kind": "confirmed",
+   "title": "A liquidity-pool asset pair the network accepted is refused: issuers compared as strkey text",
+   "component": "java-stellar-sdk 6.0.0: LiquidityPool and Asset.compareTo",
+   "severity": "S1",
+   "caps": [
+    "CAP-0038"
+   ],
+   "reproduction": {
+    "corpus_entry": "testnet-5708889"
+   },
+   "upstream": [
+    "https://github.com/lightsail-network/java-stellar-sdk/pull/832"
+   ],
+   "first_reported_by": "overcat (java-stellar-sdk maintainer, #832); the same defect as js-stellar-sdk #1766",
+   "reported": "2026-11-05",
+   "status": "fixed on master by #832 (2026-11-05), not released; 6.0.0 refuses the pair (harness/sdk-semantic/siblings.py)",
+   "labels": []
+  },
+  {
+   "id": "J3",
+   "kind": "unfiled",
+   "title": "A negative offer ID is built and encoded",
+   "component": "java-stellar-sdk 6.0.0: ManageSellOfferOperation.builder().offerId",
+   "severity": "S4",
+   "severity_note": "stellar-core rejects such a transaction (MANAGE_SELL_OFFER_MALFORMED, probe offer-id-negative), so it is caught at submission",
+   "caps": [],
+   "caps_none_reason": "SDK input conversion, not a protocol shape",
+   "reproduction": {
+    "corpus_entry": "synthetic-ids-beyond-f64"
+   },
+   "upstream": [],
+   "first_reported_by": "ShapeCov",
+   "reported": "2026-11-16",
+   "status": "not filed; the same input js-stellar-sdk refuses since 17.3.0 (#1785); go-stellar-sdk refuses it",
+   "labels": []
+  },
+  {
+   "id": "J4",
+   "kind": "unfiled",
+   "title": "MemoText.getText() turns memo bytes that are not UTF-8 into U+FFFD",
+   "component": "java-stellar-sdk 6.0.0: MemoText",
+   "severity": "S2",
+   "severity_note": "getBytes() keeps the bytes; code that rebuilds or stores the memo from getText() changes it",
+   "caps": [],
+   "caps_none_reason": "a classic memo; SDK string conversion, not a protocol shape",
+   "reproduction": {
+    "corpus_entry": "localcore-memo-and-offer-p30-4"
+   },
+   "upstream": [],
+   "first_reported_by": "ShapeCov",
+   "reported": "2026-11-16",
+   "status": "not filed; the Java counterpart of js-stellar-sdk #1823, which was closed by documenting the behaviour",
+   "labels": []
   },
   {
    "id": "R1",

@@ -185,6 +185,8 @@ jobs:
         run: npm install --no-audit --no-fund
       - name: Every entry through six SDKs, stellar-core and the pinned-SDK checks
         run: python tools/corpus_check.py --sdks rust,js,python,python-xdr,go,java --core --sdk-checks --quiet
+      - name: The same behaviour checks in Go, Java, Rust and both Python SDKs (do they share the JavaScript defects?)
+        run: python harness/sdk-semantic/siblings.py --check
 
   findings:
     name: "RFP check 6: every replay failure maps to a complete finding record"
