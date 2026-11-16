@@ -1,0 +1,6 @@
+[package]
+name = "probe-sdk-30-0-0-rc-1"
+version = "0.1.0"
+edition = "2021"
+[dependencies]
+soroban-sdk = { version = "=30.0.0-rc.1", features = ["testutils"] }

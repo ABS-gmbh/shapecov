@@ -248,7 +248,7 @@ def sdk_checks(entries):
                 targets = [["node", str(sem / "ids.mjs"), "sdk-17.2.1", entry, spec.name],
                            ["node", str(sem / "ids.mjs"), "sdk-17.4.0", entry, spec.name],
                            [py, str(sem / "ids.py"), entry, spec.name]]
-            elif x["check"] in ("pool_pair_accepted", "map_keys_host_order"):
+            elif x["check"] in ("pool_pair_accepted", "map_keys_host_order", "string_bytes_kept"):
                 # Extract the value with the independent decoder, so SDK releases that cannot decode
                 # the whole (newer) ledger are still tested on this behaviour (js-stellar-sdk#1766).
                 print(f"{e['id']}: {x['check']} at {x['path']}")
@@ -257,8 +257,10 @@ def sdk_checks(entries):
                 b64 = base64.b64encode(Encoder(schema).encode(x["xdr_type"], get(whole, x["path"]))).decode()
                 extra = [x["pool_id"]] if x["check"] == "pool_pair_accepted" else []
                 # 16.4.1: the maintained v16 line; 17.2.0: the last release before #1766; 17.2.1: the fix
+                versions = ("sdk-17.2.1", "sdk-17.4.0") if x["check"] == "string_bytes_kept" else \
+                    ("sdk-16.4.1", "sdk-17.2.0", "sdk-17.2.1")
                 targets = [["node", str(sem / "order.mjs"), v, x["check"], x["xdr_type"], b64] + extra
-                           for v in ("sdk-16.4.1", "sdk-17.2.0", "sdk-17.2.1")]
+                           for v in versions]
                 if x["check"] == "pool_pair_accepted":
                     targets.append([py, str(sem / "order.py"), x["check"], x["xdr_type"], b64] + extra)
             else:

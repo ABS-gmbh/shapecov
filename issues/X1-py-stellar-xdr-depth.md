@@ -1,8 +1,14 @@
-# Draft, not filed: lightsail-network/py-stellar-xdr
+# Fact sheet for a human write-up: lightsail-network/py-stellar-xdr
 
-**Title:** Decode depth limit depends on the caller's stack, so valid envelopes can fail with XdrDepthError
+Not for posting as is. Stellar's contribution guide (stellar/.github CONTRIBUTING.md) requires the
+human submitter to verify the content and write to maintainers in their own words; no AI session
+posts it. This sheet records what was run and what it showed.
 
-Following StellarCN/py-stellar-base#1264's invitation for API feedback before 1.0.
+**Kind: design question, not a defect.** No valid data is decoded wrongly. Valid data can fail to
+decode depending on the caller's stack depth. A fit for a comment on StellarCN/py-stellar-base#1264
+(which invites API feedback before 1.0) rather than a new issue.
+
+**Suggested subject:** Decode depth limit depends on the caller's stack, so valid envelopes can fail with XdrDepthError
 
 ### What
 

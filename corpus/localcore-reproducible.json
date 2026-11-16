@@ -1,0 +1,113 @@
+{
+ "ledgers": {
+  "claim-and-sponsor": {
+   "pubnet": {
+    "normalized_sha256": "0362dd3c7a0dde5ad67035636115b2b6d1a0754893b92f8208ad61526eb2545f",
+    "raw_sha256": "26995cc6b7755b3adc4e98ccd2a5a2c2b22bffb29b1bd3ea7b59f68b6e0279f5",
+    "seq": 8
+   },
+   "testnet": {
+    "normalized_sha256": "c692ff895c861a3a7f97ee5994f21c8dc7e6c7d727879741abc55140f5c66629",
+    "raw_sha256": "7dc6a7725ba9fbea3b14d57e4efdd7420cc4f36563d3da1f6903215cbe229bda",
+    "seq": 8
+   }
+  },
+  "classic-p22": {
+   "pubnet": {
+    "normalized_sha256": "c4bf6de9f9cf62a34f2357bd0beee883e8e3ed23ecaedc3ad4e3453021b8203e",
+    "raw_sha256": "f7d323b8c3d7f1a9ff4345ecf4928b3e81301e513535bede247f8cc27748f497",
+    "seq": 3
+   },
+   "testnet": {
+    "normalized_sha256": "c0c61ed3ddd51da8717e4db430f0a540d64cafb66934901000b5581bc5a847ef",
+    "raw_sha256": "3da95579a3d02b50898314d0b7f20594153fbfbed36abb2a97014376516465ac",
+    "seq": 3
+   }
+  },
+  "maintain-liabilities": {
+   "pubnet": {
+    "normalized_sha256": "92251a27d3fb756c736fb3a2f3d970f0db4fa6885fc7859ce35379b557ca2f7b",
+    "raw_sha256": "92251a27d3fb756c736fb3a2f3d970f0db4fa6885fc7859ce35379b557ca2f7b",
+    "seq": 5
+   },
+   "testnet": {
+    "normalized_sha256": "2de7510498bdffe83ae08ff33997411d983dba9ba539bab78c9dfc926c966090",
+    "raw_sha256": "2de7510498bdffe83ae08ff33997411d983dba9ba539bab78c9dfc926c966090",
+    "seq": 5
+   }
+  },
+  "memo-and-offer-p30": {
+   "pubnet": {
+    "normalized_sha256": "73839d17e9ab70fad011e0c85f344ce40c914a1abf73a1ee69c9b986b7b136a5",
+    "raw_sha256": "73839d17e9ab70fad011e0c85f344ce40c914a1abf73a1ee69c9b986b7b136a5",
+    "seq": 4
+   },
+   "testnet": {
+    "normalized_sha256": "2ed5a283b7f6bab701fe9cd49a660b07ee74d621cff48230bb2d0f249ac6d387",
+    "raw_sha256": "2ed5a283b7f6bab701fe9cd49a660b07ee74d621cff48230bb2d0f249ac6d387",
+    "seq": 4
+   }
+  },
+  "muxed-source-p22": {
+   "pubnet": {
+    "normalized_sha256": "690d44528ea56a8885356b80318fe5b6897e331266063bc91497b8203e222999",
+    "raw_sha256": "cc093db2bfbbccb5fc1752157e3c0db311782e3c93084f0771750b704bbd0536",
+    "seq": 3
+   },
+   "testnet": {
+    "normalized_sha256": "68bd534e57d9b8ae84ec5172a3f6e281fffa59140f11bfc72fda6f961d859ae8",
+    "raw_sha256": "7a9717906714c2654480c85892e5b9aae1c16dad796531fc182ba0ddd10f4248",
+    "seq": 3
+   }
+  },
+  "pool-revoke-two-pools": {
+   "pubnet": {
+    "normalized_sha256": "b2371cceab6a01792914c314b05fdbd9328a112a520a55095feccd51c797c1d8",
+    "raw_sha256": "fe8bcedf69b30bc7c16bb0738ac55e557f3e92044233a4aa430cec7047912673",
+    "seq": 7
+   },
+   "testnet": {
+    "normalized_sha256": "08019020742f5f0bc509998092f3fad5e4dc523d148cc5920c0f06ce902aaa02",
+    "raw_sha256": "3779a7e19fcbbde3d7ab7d4eb26c6ea6c46c1905d3ad27ef564a64cd93fecfa5",
+    "seq": 7
+   }
+  },
+  "preauth-failed": {
+   "pubnet": {
+    "normalized_sha256": "e3f1c2592358b3252f4971a14443dbe0db644d012fe99ca559d4ad8e18e9d99f",
+    "raw_sha256": "e3f1c2592358b3252f4971a14443dbe0db644d012fe99ca559d4ad8e18e9d99f",
+    "seq": 6
+   },
+   "testnet": {
+    "normalized_sha256": "ec97323a9ad01aa61a2e08f5646fea24b963504994d150cc52be1b9d7068b8c6",
+    "raw_sha256": "ec97323a9ad01aa61a2e08f5646fea24b963504994d150cc52be1b9d7068b8c6",
+    "seq": 6
+   }
+  },
+  "sac-trust-p28": {
+   "pubnet": {
+    "normalized_sha256": "53d001a8dcdf4940dd1ff2ee4d0fcbf0ebb557fb44dc1f36fd78508441e081eb",
+    "raw_sha256": "8d305e0d408b942ec53f1a7c6de585862aa61266e4b5f8b57f838e03d4041e0d",
+    "seq": 5
+   },
+   "testnet": {
+    "normalized_sha256": "9585e959848c02e05d91a940eba79b5cc99369d6f38fab2aa2d69526c5e9d357",
+    "raw_sha256": "6141848a70bb39e1c6fed9f486416ecdc46d4b10def8392da3dd7f240f847086",
+    "seq": 5
+   }
+  },
+  "sponsorship-transfer": {
+   "pubnet": {
+    "normalized_sha256": "ab3ef995064a3cab19ccd4c105562ed21468976019524726e71714b8534a84f6",
+    "raw_sha256": "2d5f4dc81e610baded6133ed56efcb2e7d072979bde9d9dc312761be152b78bf",
+    "seq": 9
+   },
+   "testnet": {
+    "normalized_sha256": "ef2a7921e999b17bfd8d9d4abbdac64be4541dd58e93f1e43c0b43f0777d4782",
+    "raw_sha256": "074f16ac46446081017b977a2155f27c6ca372c255c6ca644f171bc54d7cf65a",
+    "seq": 9
+   }
+  }
+ },
+ "note": "SHA-256 of each tools/localcore.py scenario ledger per passphrase, raw and normalized; see tools/localcore_repro.py for the normalization. Checked in CI by regenerating."
+}

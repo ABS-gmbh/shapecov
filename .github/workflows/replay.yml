@@ -14,18 +14,24 @@ on:
       - "harness/replay/**"
       - "corpus/manifest.json"
       - "corpus/entries/**"
+      - "corpus/localcore-reproducible.json"
+      - "tools/localcore*.py"
+      - "harness/sightings/**"
   pull_request:
     paths:
       - "harness/replay/**"
       - "corpus/manifest.json"
       - "corpus/entries/**"
+      - "corpus/localcore-reproducible.json"
+      - "tools/localcore*.py"
+      - "harness/sightings/**"
 
 permissions:
   contents: read
 
 jobs:
   sightings:
-    name: sightings reproduce before their fixes and pass after
+    name: "RFP check 2: reference adapter reproduces wallet-backend #729, #731, #716 on pre-fix commits and passes on fixed ones"
     runs-on: ubuntu-24.04
     timeout-minutes: 90
     steps:
@@ -68,3 +74,40 @@ jobs:
           path: |
             harness/replay/RESULTS-stellar-etl.md
             harness/replay/out-stellar-etl/
+
+  memory:
+    name: a 600 MB corpus is served within a 64 MB memory budget
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Feeder peak memory over a corpus ten times its budget
+        run: python3 harness/replay/memcheck.py --corpus-mb 600 --budget-mb 64
+
+  localcore-reproducible:
+    name: local stellar-core corpus entries regenerate identically on testnet and mainnet passphrases
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Regenerate under the testnet passphrase
+        run: python3 tools/localcore_repro.py run --passphrase testnet --out /tmp/localcore/testnet
+      - name: Regenerate under the mainnet passphrase
+        run: python3 tools/localcore_repro.py run --passphrase pubnet --out /tmp/localcore/pubnet
+      - name: Compare with corpus/ and corpus/localcore-reproducible.json
+        run: python3 tools/localcore_repro.py check --run /tmp/localcore/testnet --run /tmp/localcore/pubnet
+
+  sightings-rust:
+    name: rs-stellar-xdr#598 and rs-soroban-sdk#2099 reproduce before their fixes and pass after
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build each probe against the releases before and with the fix
+        run: harness/sightings/run.sh

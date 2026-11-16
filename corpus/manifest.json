@@ -9889,8 +9889,8 @@
    "title": "Local stellar-core, scenario memo-and-offer-p30: A text memo whose bytes are not valid UTF-8 and 1 more pattern(s)",
    "xdr_type": "LedgerCloseMeta",
    "file": "entries/localcore-memo-and-offer-p30-4.LedgerCloseMeta.xdr.b64",
-   "sha256": "43255298dc0c7567bef08e56ca140c03adcc59c12ab5f9495969f901392b73db",
-   "size_bytes": 3316,
+   "sha256": "2ed5a283b7f6bab701fe9cd49a660b07ee74d621cff48230bb2d0f249ac6d387",
+   "size_bytes": 3420,
    "protocol_version": 30,
    "caps": [],
    "synthetic": false,
@@ -9900,17 +9900,17 @@
     "image": "stellar/stellar-core:30.0.0-3642.0e49751aa.noble",
     "network_passphrase": "Test SDF Network ; September 2015",
     "ledger_seq": 4,
-    "ledger_hash": "8c05d21ccf2b44566dfb920c2e8b8939f52d29780ffe582d6afae52cfc295701",
+    "ledger_hash": "92e773ea688672510394221d2a4bba2a8c703101d903c291e8d765fbb8c0703c",
     "scenario": "memo-and-offer-p30",
     "generator": "tools/localcore.py",
-    "notes": "Standalone network, manual close, fixed keys and close times; see the scenario in tools/localcore.py."
+    "notes": "Standalone network, manual close, fixed keys and close times; reproducible with tools/localcore_repro.py. See the scenario in tools/localcore.py."
    },
    "shape": "A text memo whose bytes are not valid UTF-8. stellar-core does not validate memo text. Treating it as a string corrupts it or crashes. An offer ID above 2^53. Held in a float, it names a different offer.",
    "patterns": {
-    "failed-transaction": "v2.txProcessing[1].result.result.result",
+    "failed-transaction": "v2.txProcessing[0].result.result.result",
     "memo-text-not-utf8": "v2.txSet.v1TxSet.phases[0].v0Components[0].txsMaybeDiscountedFee.txs[0].v1.tx.memo.text",
     "offer-id-beyond-f64": "v2.txSet.v1TxSet.phases[0].v0Components[0].txsMaybeDiscountedFee.txs[1].v1.tx.operations[0].body.manageSellOfferOp.offerID",
-    "scval-wide-integer": "v2.txProcessing[0].txApplyProcessing.v4.operations[0].events[0].body.v0.data.map[0].val"
+    "scval-wide-integer": "v2.txProcessing[0].txApplyProcessing.v4.events[0].event.body.v0.data"
    },
    "designated": {
     "patterns": [
@@ -9989,11 +9989,11 @@
      },
      {
       "path": "v2.ledgerHeader.hash",
-      "value": "8c05d21ccf2b44566dfb920c2e8b8939f52d29780ffe582d6afae52cfc295701"
+      "value": "92e773ea688672510394221d2a4bba2a8c703101d903c291e8d765fbb8c0703c"
      },
      {
       "path": "v2.ledgerHeader.header.scpValue.closeTime",
-      "value": 1600392989
+      "value": 4030000000
      },
      {
       "path": "v2.txSet.v1TxSet.phases[0].v0Components[0].txsMaybeDiscountedFee.txs[1].v1.tx.operations[0].body.manageSellOfferOp.offerID",
@@ -10001,9 +10001,18 @@
       "note": "pattern offer-id-beyond-f64"
      },
      {
-      "path": "v2.txProcessing[1].result.result.result.results[0].tr.manageSellOfferResult.code",
+      "path": "v2.txProcessing[0].result.result.result.results[0].tr.manageSellOfferResult.code",
       "value": "MANAGE_SELL_OFFER_BUY_NO_TRUST",
       "note": "cell arm:ManageSellOfferResult.MANAGE_SELL_OFFER_BUY_NO_TRUST"
+     }
+    ],
+    "sdk": [
+     {
+      "check": "string_bytes_kept",
+      "path": "v2.txSet.v1TxSet.phases[0].v0Components[0].txsMaybeDiscountedFee.txs[0].v1.tx.memo",
+      "xdr_type": "Memo",
+      "sighting": "js-stellar-sdk#1823",
+      "note": "The memo text's bytes are not UTF-8. Rebuilding the memo from the arm's .value must keep them. js-stellar-sdk closed #1823 with documentation (#1824), so every release, including the latest, is expected to report this as mishandled."
      }
     ]
    },
@@ -10032,7 +10041,7 @@
    "title": "Local stellar-core 22.2.1, scenario muxed-source-p22: a contract call that runs as the transaction's muxed source",
    "xdr_type": "LedgerCloseMeta",
    "file": "entries/localcore-muxed-source-p22-3.LedgerCloseMeta.xdr.b64",
-   "sha256": "b0ec1f6063db64149f664330681bcba43711f7fa5ce89aeb340b73ae591e64d9",
+   "sha256": "7a9717906714c2654480c85892e5b9aae1c16dad796531fc182ba0ddd10f4248",
    "size_bytes": 3768,
    "protocol_version": 22,
    "caps": [
@@ -10058,10 +10067,10 @@
     "image": "stellar/stellar-core:22.2.1-2429.e70f0aed8.focal",
     "network_passphrase": "Test SDF Network ; September 2015",
     "ledger_seq": 3,
-    "ledger_hash": "eaac425a0adb592eac85fa14850d05781d90d754c0df2abe212bfd1e3e251d52",
+    "ledger_hash": "01bd4117bc2281d4f43c8ddfd9e5b9a689f8fedca70ef64d9636c3dcebe536d7",
     "scenario": "muxed-source-p22",
     "generator": "tools/localcore.py",
-    "notes": "Standalone network, manual close, fixed keys and close times; see the scenario in tools/localcore.py."
+    "notes": "Standalone network, manual close, fixed keys and close times; reproducible with tools/localcore_repro.py. See the scenario in tools/localcore.py."
    },
    "shape": "A contract invocation whose operation source is a muxed account. Participant extraction that renders the source as M... writes a 40-byte key where 32 are expected.",
    "patterns": {
@@ -10149,11 +10158,11 @@
      },
      {
       "path": "v1.ledgerHeader.hash",
-      "value": "eaac425a0adb592eac85fa14850d05781d90d754c0df2abe212bfd1e3e251d52"
+      "value": "01bd4117bc2281d4f43c8ddfd9e5b9a689f8fedca70ef64d9636c3dcebe536d7"
      },
      {
       "path": "v1.ledgerHeader.header.scpValue.closeTime",
-      "value": 1600179017
+      "value": 4020000000
      },
      {
       "path": "v1.txSet.v1TxSet.phases[1].v0Components[0].txsMaybeDiscountedFee.txs[0].v1.tx.sourceAccount.type",
@@ -10201,7 +10210,7 @@
    "title": "Local stellar-core, scenario sac-trust-p28: a trustline created by the Stellar Asset Contract's trust(), with no ChangeTrust and no event",
    "xdr_type": "LedgerCloseMeta",
    "file": "entries/localcore-sac-trust-p28-5.LedgerCloseMeta.xdr.b64",
-   "sha256": "6a7670d7f26668ab75c8a99c33222bfdb9dfecd20eb5b168e64fed09fdaa7a73",
+   "sha256": "6141848a70bb39e1c6fed9f486416ecdc46d4b10def8392da3dd7f240f847086",
    "size_bytes": 4600,
    "protocol_version": 28,
    "caps": [],
@@ -10212,15 +10221,15 @@
     "image": "stellar/stellar-core:30.0.0-3642.0e49751aa.noble",
     "network_passphrase": "Test SDF Network ; September 2015",
     "ledger_seq": 5,
-    "ledger_hash": "a37ccdb643f320480a1bef8dbe7319e7f236cb3b263a0de29de79ba9b30c9449",
+    "ledger_hash": "f390bd159bd718fd0288a44969cb71c50ef2ec7185675c33bf9ec2004103f4ab",
     "scenario": "sac-trust-p28",
     "generator": "tools/localcore.py",
-    "notes": "Standalone network, manual close, fixed keys and close times; see the scenario in tools/localcore.py."
+    "notes": "Standalone network, manual close, fixed keys and close times; reproducible with tools/localcore_repro.py. See the scenario in tools/localcore.py."
    },
    "shape": "Selected because it exercises 0 schema cell(s) that no other entry reaches.",
    "patterns": {
     "scval-wide-integer": "v2.txProcessing[0].txApplyProcessing.v4.events[0].event.body.v0.data",
-    "soroban-created-trustline": "v2.txProcessing[0].txApplyProcessing.v4.operations[0].changes[0].created.data"
+    "soroban-created-trustline": "v2.txProcessing[0].txApplyProcessing.v4.operations[0].changes[2].created.data"
    },
    "designated": {
     "patterns": [],
@@ -10303,11 +10312,11 @@
      },
      {
       "path": "v2.ledgerHeader.hash",
-      "value": "a37ccdb643f320480a1bef8dbe7319e7f236cb3b263a0de29de79ba9b30c9449"
+      "value": "f390bd159bd718fd0288a44969cb71c50ef2ec7185675c33bf9ec2004103f4ab"
      },
      {
       "path": "v2.ledgerHeader.header.scpValue.closeTime",
-      "value": 1600543824
+      "value": 4040000000
      }
     ],
     "indexer": [
@@ -10359,7 +10368,7 @@
    "title": "Protocol 22 ledger with one classic transaction (TransactionMeta v3)",
    "xdr_type": "LedgerCloseMeta",
    "file": "entries/localcore-classic-p22-3.LedgerCloseMeta.xdr.b64",
-   "sha256": "3d1e20afe72a6df62a97583e4994f1fae5c82192063fa1132d548b9a3fda8bea",
+   "sha256": "3da95579a3d02b50898314d0b7f20594153fbfbed36abb2a97014376516465ac",
    "size_bytes": 1696,
    "protocol_version": 22,
    "caps": [],
@@ -10370,12 +10379,12 @@
     "image": "stellar/stellar-core:22.2.1-2429.e70f0aed8.focal",
     "network_passphrase": "Test SDF Network ; September 2015",
     "ledger_seq": 3,
-    "ledger_hash": "cb603358e317b0b635e62f91dca37a3d53bf32e8b459bd599cdb7d3cb09dd1b5",
+    "ledger_hash": "fe3f0b86389c8b8e3d179d2a03ef91924b205d7f9527ebcb41020b92e4a3f1a1",
     "scenario": "classic-p22",
     "generator": "tools/localcore.py",
-    "notes": "Standalone network, manual close, fixed keys and close times; see the scenario in tools/localcore.py."
+    "notes": "Standalone network, manual close, fixed keys and close times; reproducible with tools/localcore_repro.py. See the scenario in tools/localcore.py."
    },
-   "shape": "A ledger from before protocol 23 holding only a CreateAccount: TransactionMeta v3, no unified events. Added as replay evidence that a pre-protocol-23 ledger is rejected for every transaction, not only for Soroban ones, by tools that read only the protocol-23 event stream.",
+   "shape": "A protocol 22 ledger from stellar-core 22.2.1 holding only a CreateAccount: TransactionMeta v3, no unified events. Added as replay evidence that tools reading only v4 meta reject every transaction in it, not only Soroban ones.",
    "patterns": {},
    "designated": {
     "patterns": [],
@@ -10431,11 +10440,11 @@
      },
      {
       "path": "v1.ledgerHeader.hash",
-      "value": "cb603358e317b0b635e62f91dca37a3d53bf32e8b459bd599cdb7d3cb09dd1b5"
+      "value": "fe3f0b86389c8b8e3d179d2a03ef91924b205d7f9527ebcb41020b92e4a3f1a1"
      },
      {
       "path": "v1.ledgerHeader.header.scpValue.closeTime",
-      "value": 1600179123
+      "value": 4020000000
      }
     ]
    },
@@ -10456,7 +10465,7 @@
    "title": "Claimable balance claimed; data entry and signer created under sponsorship (CAP-23, CAP-33)",
    "xdr_type": "LedgerCloseMeta",
    "file": "entries/localcore-claim-and-sponsor-8.LedgerCloseMeta.xdr.b64",
-   "sha256": "ce229ae4ff83c4fbb015a4ec77d2b8554dfa15cd74d4eeecf9c4e780fae13e57",
+   "sha256": "7dc6a7725ba9fbea3b14d57e4efdd7420cc4f36563d3da1f6903215cbe229bda",
    "size_bytes": 5232,
    "protocol_version": 30,
    "caps": [],
@@ -10467,10 +10476,10 @@
     "image": "stellar/stellar-core:30.0.0-3642.0e49751aa.noble",
     "network_passphrase": "Test SDF Network ; September 2015",
     "ledger_seq": 8,
-    "ledger_hash": "e051e1f9d1a9e1f0b594ada4f9e896a7370c454b127f9a5054447d42015a8527",
+    "ledger_hash": "4edb7240fe366c38675da3673a86a59766a16bd01ed929464f41930b95777c7e",
     "scenario": "claim-and-sponsor",
     "generator": "tools/localcore.py",
-    "notes": "Standalone network, manual close, fixed keys and close times; see the scenario in tools/localcore.py."
+    "notes": "Standalone network, manual close, fixed keys and close times; reproducible with tools/localcore_repro.py. See the scenario in tools/localcore.py."
    },
    "shape": "The trustor claims the BBB claimable balance a pool revocation created; in another transaction a sponsor pays the reserves for a new data entry and a new signer on another account, inside a sponsorship sandwich.",
    "patterns": {
@@ -10573,11 +10582,11 @@
      },
      {
       "path": "v2.ledgerHeader.hash",
-      "value": "e051e1f9d1a9e1f0b594ada4f9e896a7370c454b127f9a5054447d42015a8527"
+      "value": "4edb7240fe366c38675da3673a86a59766a16bd01ed929464f41930b95777c7e"
      },
      {
       "path": "v2.ledgerHeader.header.scpValue.closeTime",
-      "value": 1601075496
+      "value": 4070000000
      }
     ]
    },
@@ -10598,7 +10607,7 @@
    "title": "Authorization revocation that redeems pool shares in two pools at once (CAP-38)",
    "xdr_type": "LedgerCloseMeta",
    "file": "entries/localcore-pool-revoke-two-pools-7.LedgerCloseMeta.xdr.b64",
-   "sha256": "c5b4eba5b27f201f0be5bceff6aaeba853ae081e17360435bd0f50dac8a1844f",
+   "sha256": "3779a7e19fcbbde3d7ab7d4eb26c6ea6c46c1905d3ad27ef564a64cd93fecfa5",
    "size_bytes": 5624,
    "protocol_version": 30,
    "caps": [],
@@ -10609,10 +10618,10 @@
     "image": "stellar/stellar-core:30.0.0-3642.0e49751aa.noble",
     "network_passphrase": "Test SDF Network ; September 2015",
     "ledger_seq": 7,
-    "ledger_hash": "1160f561364a004bc50bada51f91fe049141787aa2720843f646ee8d2bb4316c",
+    "ledger_hash": "01b32dc80a791f63075f36ab715e37a7aa3cecadd74338f98d99898bae84496e",
     "scenario": "pool-revoke-two-pools",
     "generator": "tools/localcore.py",
-    "notes": "Standalone network, manual close, fixed keys and close times; see the scenario in tools/localcore.py."
+    "notes": "Standalone network, manual close, fixed keys and close times; reproducible with tools/localcore_repro.py. See the scenario in tools/localcore.py."
    },
    "shape": "One SetTrustLineFlags clears AAA authorization on a trustor that holds the only shares of two pools sharing AAA (AAA/BBB, AAA/CCC). Core redeems both pools in that one operation: two pools removed, two pool-share trustlines removed, four claimable balances created and sponsored. Effect models that look for a single pool change per revocation report one pool.",
    "patterns": {
@@ -10707,14 +10716,14 @@
      },
      {
       "path": "v2.ledgerHeader.hash",
-      "value": "1160f561364a004bc50bada51f91fe049141787aa2720843f646ee8d2bb4316c"
+      "value": "01b32dc80a791f63075f36ab715e37a7aa3cecadd74338f98d99898bae84496e"
      },
      {
       "path": "v2.ledgerHeader.header.scpValue.closeTime",
-      "value": 1600886156
+      "value": 4060000000
      },
      {
-      "path": "v2.txProcessing[0].txApplyProcessing.v4.operations[0].changes[5].removed.type",
+      "path": "v2.txProcessing[0].txApplyProcessing.v4.operations[0].changes[7].removed.type",
       "value": "LIQUIDITY_POOL",
       "note": "cell arm:LedgerKey.LIQUIDITY_POOL"
      }
@@ -10737,7 +10746,7 @@
    "title": "Sponsorship of a data entry and a signer transferred to a new sponsor (CAP-33)",
    "xdr_type": "LedgerCloseMeta",
    "file": "entries/localcore-sponsorship-transfer-9.LedgerCloseMeta.xdr.b64",
-   "sha256": "3bfa27fef32ffa2908655a178bdb98dcd6d2101175c8bf7ed64426d83dbc7f04",
+   "sha256": "074f16ac46446081017b977a2155f27c6ca372c255c6ca644f171bc54d7cf65a",
    "size_bytes": 3716,
    "protocol_version": 30,
    "caps": [],
@@ -10748,10 +10757,10 @@
     "image": "stellar/stellar-core:30.0.0-3642.0e49751aa.noble",
     "network_passphrase": "Test SDF Network ; September 2015",
     "ledger_seq": 9,
-    "ledger_hash": "8b304cd4a2d464ce2e2c8b19bd7215ac735c5d9c9df1b0c611fe68e68428741d",
+    "ledger_hash": "38f60f9d27f2469fcd4063412eaaf7edadb45d7c874c5695639e298960c5ed68",
     "scenario": "sponsorship-transfer",
     "generator": "tools/localcore.py",
-    "notes": "Standalone network, manual close, fixed keys and close times; see the scenario in tools/localcore.py."
+    "notes": "Standalone network, manual close, fixed keys and close times; reproducible with tools/localcore_repro.py. See the scenario in tools/localcore.py."
    },
    "shape": "RevokeSponsorship by the current sponsor inside a sandwich opened by a second sponsor: both the data entry and the signer change sponsor without being removed.",
    "patterns": {
@@ -10835,11 +10844,11 @@
      },
      {
       "path": "v2.ledgerHeader.hash",
-      "value": "8b304cd4a2d464ce2e2c8b19bd7215ac735c5d9c9df1b0c611fe68e68428741d"
+      "value": "38f60f9d27f2469fcd4063412eaaf7edadb45d7c874c5695639e298960c5ed68"
      },
      {
       "path": "v2.ledgerHeader.header.scpValue.closeTime",
-      "value": 1601248996
+      "value": 4080000000
      }
     ]
    },
@@ -12977,6 +12986,229 @@
       "path": "v2.txSet.v1TxSet.phases[0].v0Components[0].txsMaybeDiscountedFee.txs[3].v1.tx.sourceAccount.type",
       "value": "KEY_TYPE_MUXED_ED25519",
       "note": "pattern muxed-account"
+     }
+    ]
+   },
+   "validation": {
+    "independent_decoder": "not_run",
+    "rs_stellar_xdr_roundtrip": "not_run",
+    "stellar_core": {
+     "version": "30.0.0",
+     "command": "",
+     "result": "not_run"
+    },
+    "core_golden": "not_applicable"
+   },
+   "sightings": []
+  },
+  {
+   "id": "localcore-maintain-liabilities-5",
+   "title": "Trustline moved to AUTHORIZED_TO_MAINTAIN_LIABILITIES (CAP-18)",
+   "xdr_type": "LedgerCloseMeta",
+   "file": "entries/localcore-maintain-liabilities-5.LedgerCloseMeta.xdr.b64",
+   "sha256": "2de7510498bdffe83ae08ff33997411d983dba9ba539bab78c9dfc926c966090",
+   "size_bytes": 2104,
+   "protocol_version": 30,
+   "caps": [],
+   "synthetic": false,
+   "source": {
+    "kind": "local_stellar_core",
+    "stellar_core_version": "stellar-core 30.0.0 (0e49751aa9ddf892302cca02cea7f3f5d97df9f1)",
+    "image": "stellar/stellar-core:30.0.0-3642.0e49751aa.noble",
+    "network_passphrase": "Test SDF Network ; September 2015",
+    "ledger_seq": 5,
+    "ledger_hash": "4b83fbd51e15437c38a13685b3f7e1c965d94389fc8568f2fc75e1aab7fb9c9c",
+    "scenario": "maintain-liabilities",
+    "generator": "tools/localcore.py",
+    "notes": "Standalone network, manual close, fixed keys and close times; see the scenario in tools/localcore.py."
+   },
+   "shape": "An issuer with AUTH_REVOCABLE clears AUTHORIZED and sets AUTHORIZED_TO_MAINTAIN_LIABILITIES on a trustline in one SetTrustLineFlags. The holder can keep its offers but not receive or send the asset; readers that treat trustline authorization as a boolean lose the third state.",
+   "patterns": {
+    "scval-wide-integer": "v2.txProcessing[0].txApplyProcessing.v4.events[0].event.body.v0.data"
+   },
+   "designated": {
+    "patterns": [],
+    "cells": []
+   },
+   "cells": [
+    "arm:AccountEntryExt.1",
+    "arm:AccountEntryExtensionV1Ext.2",
+    "arm:AccountEntryExtensionV2Ext.3",
+    "arm:Asset.ASSET_TYPE_CREDIT_ALPHANUM4",
+    "arm:ContractEventBody.0",
+    "arm:ExtensionPoint.0",
+    "arm:GeneralizedTransactionSet.1",
+    "arm:LedgerCloseMeta.2",
+    "arm:LedgerCloseMetaExt.0",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_STATE",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_UPDATED",
+    "arm:LedgerEntryData.ACCOUNT",
+    "arm:LedgerEntryData.TRUSTLINE",
+    "arm:LedgerEntryExt.0",
+    "arm:LedgerHeaderExt.0",
+    "arm:LedgerHeaderHistoryEntryExt.0",
+    "arm:Memo.MEMO_NONE",
+    "arm:MuxedAccount.KEY_TYPE_ED25519",
+    "arm:OperationBody.SET_TRUST_LINE_FLAGS",
+    "arm:OperationResult.opINNER",
+    "arm:OperationResultTr.SET_TRUST_LINE_FLAGS",
+    "arm:Preconditions.PRECOND_NONE",
+    "arm:PublicKey.PUBLIC_KEY_TYPE_ED25519",
+    "arm:SCAddress.SC_ADDRESS_TYPE_ACCOUNT",
+    "arm:SCVal.SCV_ADDRESS",
+    "arm:SCVal.SCV_BOOL",
+    "arm:SCVal.SCV_I128",
+    "arm:SCVal.SCV_STRING",
+    "arm:SCVal.SCV_SYMBOL",
+    "arm:SetTrustLineFlagsResult.SET_TRUST_LINE_FLAGS_SUCCESS",
+    "arm:StellarValueExt.STELLAR_VALUE_SIGNED_MS",
+    "arm:TransactionEnvelope.ENVELOPE_TYPE_TX",
+    "arm:TransactionExt.0",
+    "arm:TransactionMeta.4",
+    "arm:TransactionPhase.0",
+    "arm:TransactionPhase.1",
+    "arm:TransactionResultExt.0",
+    "arm:TransactionResultResult.txSUCCESS",
+    "arm:TrustLineAsset.ASSET_TYPE_CREDIT_ALPHANUM4",
+    "arm:TrustLineEntryExt.0",
+    "arm:TxSetComponent.TXSET_COMP_TXS_MAYBE_DISCOUNTED_FEE",
+    "enum:ContractEventType.CONTRACT",
+    "enum:TransactionEventStage.TRANSACTION_EVENT_STAGE_BEFORE_ALL_TXS"
+   ],
+   "cells_new_in_protocol": [
+    "arm:StellarValueExt.STELLAR_VALUE_SIGNED_MS"
+   ],
+   "expected": {
+    "decoded": [
+     {
+      "path": "v",
+      "value": 2
+     },
+     {
+      "path": "v2.ledgerHeader.header.ledgerSeq",
+      "value": 5
+     },
+     {
+      "path": "v2.ledgerHeader.header.ledgerVersion",
+      "value": 30
+     },
+     {
+      "path": "v2.ledgerHeader.hash",
+      "value": "4b83fbd51e15437c38a13685b3f7e1c965d94389fc8568f2fc75e1aab7fb9c9c"
+     },
+     {
+      "path": "v2.ledgerHeader.header.scpValue.closeTime",
+      "value": 4040000000
+     }
+    ]
+   },
+   "validation": {
+    "independent_decoder": "not_run",
+    "rs_stellar_xdr_roundtrip": "not_run",
+    "stellar_core": {
+     "version": "30.0.0",
+     "command": "",
+     "result": "not_run"
+    },
+    "core_golden": "not_applicable"
+   },
+   "sightings": []
+  },
+  {
+   "id": "localcore-preauth-failed-6",
+   "title": "Pre-authorized transaction that fails still consumes its signer (CAP-28)",
+   "xdr_type": "LedgerCloseMeta",
+   "file": "entries/localcore-preauth-failed-6.LedgerCloseMeta.xdr.b64",
+   "sha256": "ec97323a9ad01aa61a2e08f5646fea24b963504994d150cc52be1b9d7068b8c6",
+   "size_bytes": 1676,
+   "protocol_version": 30,
+   "caps": [],
+   "synthetic": false,
+   "source": {
+    "kind": "local_stellar_core",
+    "stellar_core_version": "stellar-core 30.0.0 (0e49751aa9ddf892302cca02cea7f3f5d97df9f1)",
+    "image": "stellar/stellar-core:30.0.0-3642.0e49751aa.noble",
+    "network_passphrase": "Test SDF Network ; September 2015",
+    "ledger_seq": 6,
+    "ledger_hash": "59baefbe4f6cd2230b56dab0c399628b3d07c5c3137bdf3e32fa20f405ae6ed4",
+    "scenario": "preauth-failed",
+    "generator": "tools/localcore.py",
+    "notes": "Standalone network, manual close, fixed keys and close times; see the scenario in tools/localcore.py."
+   },
+   "shape": "A payment authorized only by a pre-auth-tx signer fails at apply (underfunded). stellar-core removes the signer anyway, in the transaction-level changes before the operations, so the removal is not inside any operation's meta.",
+   "patterns": {
+    "failed-transaction": "v2.txProcessing[0].result.result.result",
+    "scval-wide-integer": "v2.txProcessing[0].txApplyProcessing.v4.events[0].event.body.v0.data"
+   },
+   "designated": {
+    "patterns": [],
+    "cells": []
+   },
+   "cells": [
+    "arm:AccountEntryExt.1",
+    "arm:AccountEntryExtensionV1Ext.2",
+    "arm:AccountEntryExtensionV2Ext.3",
+    "arm:Asset.ASSET_TYPE_NATIVE",
+    "arm:ContractEventBody.0",
+    "arm:ExtensionPoint.0",
+    "arm:GeneralizedTransactionSet.1",
+    "arm:LedgerCloseMeta.2",
+    "arm:LedgerCloseMetaExt.0",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_STATE",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_UPDATED",
+    "arm:LedgerEntryData.ACCOUNT",
+    "arm:LedgerEntryExt.0",
+    "arm:LedgerHeaderExt.0",
+    "arm:LedgerHeaderHistoryEntryExt.0",
+    "arm:Memo.MEMO_NONE",
+    "arm:MuxedAccount.KEY_TYPE_ED25519",
+    "arm:OperationBody.PAYMENT",
+    "arm:OperationResult.opINNER",
+    "arm:OperationResultTr.PAYMENT",
+    "arm:PaymentResult.PAYMENT_UNDERFUNDED",
+    "arm:Preconditions.PRECOND_NONE",
+    "arm:PublicKey.PUBLIC_KEY_TYPE_ED25519",
+    "arm:SCAddress.SC_ADDRESS_TYPE_ACCOUNT",
+    "arm:SCVal.SCV_ADDRESS",
+    "arm:SCVal.SCV_I128",
+    "arm:SCVal.SCV_SYMBOL",
+    "arm:SignerKey.SIGNER_KEY_TYPE_PRE_AUTH_TX",
+    "arm:StellarValueExt.STELLAR_VALUE_SIGNED_MS",
+    "arm:TransactionEnvelope.ENVELOPE_TYPE_TX",
+    "arm:TransactionExt.0",
+    "arm:TransactionMeta.4",
+    "arm:TransactionPhase.0",
+    "arm:TransactionPhase.1",
+    "arm:TransactionResultExt.0",
+    "arm:TransactionResultResult.txFAILED",
+    "arm:TxSetComponent.TXSET_COMP_TXS_MAYBE_DISCOUNTED_FEE",
+    "enum:ContractEventType.CONTRACT",
+    "enum:TransactionEventStage.TRANSACTION_EVENT_STAGE_BEFORE_ALL_TXS"
+   ],
+   "cells_new_in_protocol": [
+    "arm:StellarValueExt.STELLAR_VALUE_SIGNED_MS"
+   ],
+   "expected": {
+    "decoded": [
+     {
+      "path": "v",
+      "value": 2
+     },
+     {
+      "path": "v2.ledgerHeader.header.ledgerSeq",
+      "value": 6
+     },
+     {
+      "path": "v2.ledgerHeader.header.ledgerVersion",
+      "value": 30
+     },
+     {
+      "path": "v2.ledgerHeader.hash",
+      "value": "59baefbe4f6cd2230b56dab0c399628b3d07c5c3137bdf3e32fa20f405ae6ed4"
+     },
+     {
+      "path": "v2.ledgerHeader.header.scpValue.closeTime",
+      "value": 4050000000
      }
     ]
    },

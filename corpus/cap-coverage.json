@@ -1,0 +1,646 @@
+{
+ "note": "Every live CAP (status Final or Implemented in stellar-protocol core/README.md, retrieved 16 November 2026): the schema cells, named patterns or data probes that show it in ledger data, or why it has no reader-visible shape. tools/cap_coverage.py checks each against the corpus.",
+ "caps": [
+  {
+   "cap": "CAP-0001",
+   "protocol": "10",
+   "title": "Bump Sequence",
+   "evidence": {
+    "cells": [
+     "arm:OperationBody.BUMP_SEQUENCE"
+    ]
+   }
+  },
+  {
+   "cap": "CAP-0002",
+   "protocol": "10",
+   "title": "Transaction level signature verification",
+   "no_shape_reason": "Changes when signatures are checked; no new XDR. Readers see only the existing result codes."
+  },
+  {
+   "cap": "CAP-0003",
+   "protocol": "10",
+   "title": "Asset-backed offers",
+   "evidence": {
+    "cells": [
+     "arm:AccountEntryExt.1",
+     "arm:TrustLineEntryExt.1"
+    ]
+   }
+  },
+  {
+   "cap": "CAP-0004",
+   "protocol": "10",
+   "title": "Improved Rounding for Cross Offer",
+   "no_shape_reason": "Changes how crossed-offer amounts are rounded; no new XDR. The amounts themselves are checked by the replay oracle's balance check."
+  },
+  {
+   "cap": "CAP-0005",
+   "protocol": "11",
+   "title": "Throttling and transaction pricing improvements",
+   "no_shape_reason": "Fee and surge-pricing rules; no new XDR (transaction-set fee components came with CAP-0042)."
+  },
+  {
+   "cap": "CAP-0006",
+   "protocol": "11",
+   "title": "Add ManageBuyOffer Operation",
+   "evidence": {
+    "cells": [
+     "arm:OperationBody.MANAGE_BUY_OFFER"
+    ]
+   }
+  },
+  {
+   "cap": "CAP-0015",
+   "protocol": "13",
+   "title": "Fee Bump Transactions",
+   "evidence": {
+    "cells": [
+     "arm:TransactionEnvelope.ENVELOPE_TYPE_TX_FEE_BUMP"
+    ]
+   }
+  },
+  {
+   "cap": "CAP-0018",
+   "protocol": "13",
+   "title": "Fine-Grained Control of Authorization",
+   "evidence": {
+    "probes": [
+     "trustline_authorized_to_maintain_liabilities"
+    ]
+   }
+  },
+  {
+   "cap": "CAP-0019",
+   "protocol": "13",
+   "title": "Future-upgradable TransactionEnvelope type",
+   "evidence": {
+    "cells": [
+     "arm:TransactionEnvelope.ENVELOPE_TYPE_TX",
+     "arm:TransactionEnvelope.ENVELOPE_TYPE_TX_V0"
+    ]
+   }
+  },
+  {
+   "cap": "CAP-0020",
+   "protocol": "11",
+   "title": "Bucket Initial Entries",
+   "no_shape_reason": "Bucket-list internals (INITENTRY in history-archive buckets); nothing reaches LedgerCloseMeta or transactions."
+  },
+  {
+   "cap": "CAP-0021",
+   "protocol": "19",
+   "title": "Generalized transaction preconditions",
+   "evidence": {
+    "cells": [
+     "arm:Preconditions.PRECOND_V2"
+    ]
+   }
+  },
+  {
+   "cap": "CAP-0023",
+   "protocol": "14",
+   "title": "Two-Part Payments with ClaimableBalanceEntry",
+   "evidence": {
+    "cells": [
+     "arm:OperationBody.CREATE_CLAIMABLE_BALANCE",
+     "arm:OperationBody.CLAIM_CLAIMABLE_BALANCE",
+     "arm:LedgerEntryData.CLAIMABLE_BALANCE"
+    ]
+   }
+  },
+  {
+   "cap": "CAP-0024",
+   "protocol": "12",
+   "title": "Make PathPayment Symmetrical",
+   "evidence": {
+    "cells": [
+     "arm:OperationBody.PATH_PAYMENT_STRICT_SEND"
+    ]
+   }
+  },
+  {
+   "cap": "CAP-0025",
+   "protocol": "12",
+   "title": "Remove Bucket Shadowing",
+   "no_shape_reason": "Bucket-list merge internals; nothing reaches LedgerCloseMeta or transactions."
+  },
+  {
+   "cap": "CAP-0026",
+   "protocol": "12",
+   "title": "Disable Inflation Mechanism",
+   "no_shape_reason": "Inflation stops running; no new XDR."
+  },
+  {
+   "cap": "CAP-0027",
+   "protocol": "13",
+   "title": "First-class multiplexed accounts",
+   "evidence": {
+    "cells": [
+     "arm:MuxedAccount.KEY_TYPE_MUXED_ED25519"
+    ],
+    "patterns": [
+     "muxed-account",
+     "muxed-id-beyond-f64"
+    ]
+   }
+  },
+  {
+   "cap": "CAP-0028",
+   "protocol": "13",
+   "title": "Clear pre-auth transaction signer on failed transactions",
+   "evidence": {
+    "probes": [
+     "preauth_signer_removed_in_failed_tx"
+    ]
+   }
+  },
+  {
+   "cap": "CAP-0029",
+   "protocol": "16",
+   "title": "AllowTrust when not AUTH_REQUIRED",
+   "no_shape_reason": "Relaxes a validity rule for AllowTrust; no new XDR."
+  },
+  {
+   "cap": "CAP-0030",
+   "protocol": "13",
+   "title": "Remove NO_ISSUER Operation Results",
+   "no_shape_reason": "Removes result codes; nothing new to read."
+  },
+  {
+   "cap": "CAP-0033",
+   "protocol": "14/15",
+   "title": "Sponsored Reserve with EphemeralSponsorshipEntry",
+   "evidence": {
+    "cells": [
+     "arm:OperationBody.BEGIN_SPONSORING_FUTURE_RESERVES",
+     "arm:OperationBody.END_SPONSORING_FUTURE_RESERVES",
+     "arm:OperationBody.REVOKE_SPONSORSHIP",
+     "arm:AccountEntryExtensionV1Ext.2"
+    ]
+   }
+  },
+  {
+   "cap": "CAP-0034",
+   "protocol": "14",
+   "title": "Preserve Transaction-Set/Close-Time Affinity During Nomination",
+   "no_shape_reason": "Consensus nomination rule; no new XDR in ledger data."
+  },
+  {
+   "cap": "CAP-0035",
+   "protocol": "17",
+   "title": "Asset Clawback",
+   "evidence": {
+    "cells": [
+     "arm:OperationBody.CLAWBACK",
+     "arm:OperationBody.CLAWBACK_CLAIMABLE_BALANCE",
+     "arm:OperationBody.SET_TRUST_LINE_FLAGS"
+    ]
+   }
+  },
+  {
+   "cap": "CAP-0038",
+   "protocol": "18",
+   "title": "Automated Market Makers",
+   "evidence": {
+    "cells": [
+     "arm:OperationBody.LIQUIDITY_POOL_DEPOSIT",
+     "arm:OperationBody.LIQUIDITY_POOL_WITHDRAW",
+     "arm:ChangeTrustAsset.ASSET_TYPE_POOL_SHARE",
+     "arm:LedgerEntryData.LIQUIDITY_POOL"
+    ]
+   }
+  },
+  {
+   "cap": "CAP-0040",
+   "protocol": "19",
+   "title": "Ed25519 Signed Payload Signer for Transaction Signature Disclosure",
+   "evidence": {
+    "cells": [
+     "arm:SignerKey.SIGNER_KEY_TYPE_ED25519_SIGNED_PAYLOAD"
+    ],
+    "patterns": [
+     "signed-payload-signer"
+    ]
+   }
+  },
+  {
+   "cap": "CAP-0042",
+   "protocol": "-",
+   "title": "Multi-Part Transaction Sets",
+   "evidence": {
+    "cells": [
+     "arm:GeneralizedTransactionSet.1"
+    ]
+   }
+  },
+  {
+   "cap": "CAP-0046",
+   "protocol": "20",
+   "title": "Soroban smart contract system overview",
+   "evidence": {
+    "cells": [
+     "arm:OperationBody.INVOKE_HOST_FUNCTION"
+    ]
+   }
+  },
+  {
+   "cap": "CAP-0046-01",
+   "protocol": "20",
+   "title": "WebAssembly Smart Contract Runtime Environment",
+   "evidence": {
+    "cells": [
+     "arm:SCVal.SCV_MAP"
+    ],
+    "patterns": [
+     "scval-nested-5-deep",
+     "scval-wide-integer"
+    ]
+   }
+  },
+  {
+   "cap": "CAP-0046-02",
+   "protocol": "20",
+   "title": "Smart Contract Lifecycle",
+   "evidence": {
+    "cells": [
+     "arm:HostFunction.HOST_FUNCTION_TYPE_CREATE_CONTRACT",
+     "arm:HostFunction.HOST_FUNCTION_TYPE_UPLOAD_CONTRACT_WASM",
+     "arm:ContractExecutable.CONTRACT_EXECUTABLE_WASM"
+    ]
+   }
+  },
+  {
+   "cap": "CAP-0046-03",
+   "protocol": "20",
+   "title": "Smart Contract Host Functions",
+   "no_shape_reason": "The host-function set itself; readers see its results only through values, events and ledger entries, covered under CAP-0046-01, -05 and -08."
+  },
+  {
+   "cap": "CAP-0046-05",
+   "protocol": "20",
+   "title": "Smart Contract Data",
+   "evidence": {
+    "cells": [
+     "arm:LedgerEntryData.CONTRACT_DATA",
+     "arm:LedgerEntryData.CONTRACT_CODE",
+     "enum:ContractDataDurability.PERSISTENT",
+     "enum:ContractDataDurability.TEMPORARY"
+    ]
+   }
+  },
+  {
+   "cap": "CAP-0046-06",
+   "protocol": "20",
+   "title": "Smart Contract Standardized Asset",
+   "evidence": {
+    "cells": [
+     "arm:ContractExecutable.CONTRACT_EXECUTABLE_STELLAR_ASSET",
+     "arm:ContractIDPreimage.CONTRACT_ID_PREIMAGE_FROM_ASSET"
+    ]
+   }
+  },
+  {
+   "cap": "CAP-0046-07",
+   "protocol": "20",
+   "title": "Fee model in smart contracts",
+   "evidence": {
+    "cells": [
+     "arm:TransactionExt.1"
+    ]
+   }
+  },
+  {
+   "cap": "CAP-0046-08",
+   "protocol": "20",
+   "title": "Smart Contract Logging",
+   "evidence": {
+    "cells": [
+     "enum:ContractEventType.CONTRACT",
+     "enum:ContractEventType.SYSTEM",
+     "enum:ContractEventType.DIAGNOSTIC"
+    ]
+   }
+  },
+  {
+   "cap": "CAP-0046-09",
+   "protocol": "20",
+   "title": "Network Configuration Ledger Entries",
+   "evidence": {
+    "cells": [
+     "arm:LedgerEntryData.CONFIG_SETTING"
+    ]
+   }
+  },
+  {
+   "cap": "CAP-0046-10",
+   "protocol": "20",
+   "title": "Smart Contract Budget Metering",
+   "no_shape_reason": "Metering inside the host; its parameters are config-setting entries (covered under CAP-0046-09) and its cost types are not serialized."
+  },
+  {
+   "cap": "CAP-0046-11",
+   "protocol": "20",
+   "title": "Soroban Authorization Framework",
+   "evidence": {
+    "cells": [
+     "arm:SorobanCredentials.SOROBAN_CREDENTIALS_ADDRESS"
+    ],
+    "patterns": [
+     "auth-nested-invocations",
+     "auth-tree-4-deep"
+    ]
+   }
+  },
+  {
+   "cap": "CAP-0046-12",
+   "protocol": "20",
+   "title": "Soroban State Archival Interface",
+   "evidence": {
+    "cells": [
+     "arm:OperationBody.EXTEND_FOOTPRINT_TTL",
+     "arm:OperationBody.RESTORE_FOOTPRINT",
+     "arm:LedgerEntryData.TTL"
+    ]
+   }
+  },
+  {
+   "cap": "CAP-0051",
+   "protocol": "21",
+   "title": "Smart Contract Host Functionality: Secp256r1 Verification",
+   "no_shape_reason": "Host functions only: no new XDR reaches ledger data. Any new cost types extend ContractCostType, which no serialized type references."
+  },
+  {
+   "cap": "CAP-0053",
+   "protocol": "21",
+   "title": "Separate host functions to extend the TTL for contract instance and contract code",
+   "no_shape_reason": "Host functions only: no new XDR reaches ledger data. Any new cost types extend ContractCostType, which no serialized type references. The TTL changes they make are TTL entries, covered under CAP-0046-12."
+  },
+  {
+   "cap": "CAP-0054",
+   "protocol": "21",
+   "title": "Soroban refined VM instantiation cost model",
+   "no_shape_reason": "Cost model; only cost types and config values change."
+  },
+  {
+   "cap": "CAP-0055",
+   "protocol": "21",
+   "title": "Soroban streamlined linking",
+   "no_shape_reason": "VM-internal linking; no new XDR."
+  },
+  {
+   "cap": "CAP-0056",
+   "protocol": "21",
+   "title": "Soroban intra-transaction module caching",
+   "no_shape_reason": "VM-internal caching; no new XDR."
+  },
+  {
+   "cap": "CAP-0058",
+   "protocol": "22",
+   "title": "Constructors for Soroban Contracts",
+   "evidence": {
+    "cells": [
+     "arm:HostFunction.HOST_FUNCTION_TYPE_CREATE_CONTRACT_V2",
+     "arm:SorobanAuthorizedFunction.SOROBAN_AUTHORIZED_FUNCTION_TYPE_CREATE_CONTRACT_V2_HOST_FN"
+    ]
+   }
+  },
+  {
+   "cap": "CAP-0059",
+   "protocol": "22",
+   "title": "Host functions for BLS12-381",
+   "no_shape_reason": "Host functions only: no new XDR reaches ledger data. Any new cost types extend ContractCostType, which no serialized type references."
+  },
+  {
+   "cap": "CAP-0062",
+   "protocol": "23",
+   "title": "Soroban Live State Prioritization",
+   "evidence": {
+    "cells": [
+     "arm:LedgerCloseMeta.2"
+    ]
+   }
+  },
+  {
+   "cap": "CAP-0063",
+   "protocol": "23",
+   "title": "Parallelism-friendly Transaction Scheduling",
+   "evidence": {
+    "cells": [
+     "arm:TransactionPhase.1"
+    ]
+   }
+  },
+  {
+   "cap": "CAP-0065",
+   "protocol": "23",
+   "title": "Reusable Module Cache",
+   "no_shape_reason": "VM-internal caching; no new XDR."
+  },
+  {
+   "cap": "CAP-0066",
+   "protocol": "23",
+   "title": "Soroban In-memory Read Resource",
+   "evidence": {
+    "cells": [
+     "arm:SorobanTransactionDataExt.1"
+    ]
+   }
+  },
+  {
+   "cap": "CAP-0067",
+   "protocol": "23",
+   "title": "Unified Asset Events",
+   "evidence": {
+    "cells": [
+     "arm:TransactionMeta.4",
+     "arm:SCAddress.SC_ADDRESS_TYPE_MUXED_ACCOUNT"
+    ],
+    "patterns": [
+     "scaddress-muxed-account"
+    ]
+   }
+  },
+  {
+   "cap": "CAP-0068",
+   "protocol": "23",
+   "title": "Host function for getting executable for `Address`",
+   "no_shape_reason": "Host functions only: no new XDR reaches ledger data. Any new cost types extend ContractCostType, which no serialized type references."
+  },
+  {
+   "cap": "CAP-0069",
+   "protocol": "23",
+   "title": "String/Bytes conversion host functions",
+   "no_shape_reason": "Host functions only: no new XDR reaches ledger data. Any new cost types extend ContractCostType, which no serialized type references."
+  },
+  {
+   "cap": "CAP-0070",
+   "protocol": "23",
+   "title": "Configurable SCP Timing Parameters",
+   "evidence": {
+    "cells": [
+     "arm:ConfigSettingEntry.CONFIG_SETTING_SCP_TIMING"
+    ]
+   }
+  },
+  {
+   "cap": "CAP-0071",
+   "protocol": "27",
+   "title": "Authentication delegation and address-bound Soroban credentials",
+   "evidence": {
+    "cells": [
+     "arm:SorobanCredentials.SOROBAN_CREDENTIALS_ADDRESS_V2",
+     "arm:SorobanCredentials.SOROBAN_CREDENTIALS_ADDRESS_WITH_DELEGATES"
+    ]
+   }
+  },
+  {
+   "cap": "CAP-0071-01",
+   "protocol": "27",
+   "title": "Authentication delegation for custom accounts",
+   "evidence": {
+    "cells": [
+     "arm:SorobanCredentials.SOROBAN_CREDENTIALS_ADDRESS_WITH_DELEGATES"
+    ]
+   }
+  },
+  {
+   "cap": "CAP-0071-02",
+   "protocol": "27",
+   "title": "Address-bound Soroban address credentials",
+   "evidence": {
+    "cells": [
+     "arm:SorobanCredentials.SOROBAN_CREDENTIALS_ADDRESS_V2"
+    ]
+   }
+  },
+  {
+   "cap": "CAP-0073",
+   "protocol": "26",
+   "title": "Allow SAC to create G-account balances",
+   "evidence": {
+    "patterns": [
+     "soroban-created-trustline",
+     "soroban-created-account"
+    ]
+   }
+  },
+  {
+   "cap": "CAP-0074",
+   "protocol": "25",
+   "title": "Host functions for BN254",
+   "no_shape_reason": "Host functions only: no new XDR reaches ledger data. Any new cost types extend ContractCostType, which no serialized type references."
+  },
+  {
+   "cap": "CAP-0075",
+   "protocol": "25",
+   "title": "Cryptographic Primitives for Poseidon/Poseidon2 Hash Functions",
+   "no_shape_reason": "Host functions only: no new XDR reaches ledger data. Any new cost types extend ContractCostType, which no serialized type references."
+  },
+  {
+   "cap": "CAP-0076",
+   "protocol": "24",
+   "title": "P23 State Archival bug remediation",
+   "no_shape_reason": "A one-time correction of archived state applied with the protocol 24 upgrade; no new XDR."
+  },
+  {
+   "cap": "CAP-0077",
+   "protocol": "26",
+   "title": "Freeze Ledger Entries via Network Configuration",
+   "evidence": {
+    "cells": [
+     "arm:ConfigSettingEntry.CONFIG_SETTING_FROZEN_LEDGER_KEYS",
+     "arm:ConfigSettingEntry.CONFIG_SETTING_FREEZE_BYPASS_TXS",
+     "arm:LiquidityPoolWithdrawResult.LIQUIDITY_POOL_WITHDRAW_TRUSTLINE_FROZEN",
+     "arm:ClaimClaimableBalanceResult.CLAIM_CLAIMABLE_BALANCE_TRUSTLINE_FROZEN",
+     "arm:LiquidityPoolDepositResult.LIQUIDITY_POOL_DEPOSIT_TRUSTLINE_FROZEN",
+     "arm:ConfigSettingEntry.CONFIG_SETTING_FROZEN_LEDGER_KEYS_DELTA",
+     "arm:ConfigSettingEntry.CONFIG_SETTING_FREEZE_BYPASS_TXS_DELTA"
+    ]
+   },
+   "planned": "Ledgers in which a claim or a deposit fails on a frozen trustline, and a frozen-keys delta upgrade, mined from stellar-core's frozen-ledger-key golden tests."
+  },
+  {
+   "cap": "CAP-0078",
+   "protocol": "26",
+   "title": "Host functions for performing limited TTL extensions",
+   "no_shape_reason": "Host functions only: no new XDR reaches ledger data. Any new cost types extend ContractCostType, which no serialized type references."
+  },
+  {
+   "cap": "CAP-0079",
+   "protocol": "26",
+   "title": "Host functions for muxed address strkey conversions",
+   "no_shape_reason": "Host functions only: no new XDR reaches ledger data. Any new cost types extend ContractCostType, which no serialized type references."
+  },
+  {
+   "cap": "CAP-0080",
+   "protocol": "26",
+   "title": "Host functions for efficient ZK BN254 use cases",
+   "no_shape_reason": "Host functions only: no new XDR reaches ledger data. Any new cost types extend ContractCostType, which no serialized type references."
+  },
+  {
+   "cap": "CAP-0082",
+   "protocol": "26",
+   "title": "Checked 256-bit integer arithmetic host functions",
+   "no_shape_reason": "Host functions only: no new XDR reaches ledger data. Any new cost types extend ContractCostType, which no serialized type references."
+  },
+  {
+   "cap": "CAP-0083",
+   "protocol": "28",
+   "title": "Allow validators to vote to drop the transaction set from the current ledger",
+   "evidence": {
+    "cells": [
+     "arm:StellarValueExt.STELLAR_VALUE_EMPTY_TX_SET"
+    ]
+   },
+   "planned": "A ledger whose transaction set was dropped by vote; search stellar-core's goldens, else a local-core scenario if standalone mode can produce one."
+  },
+  {
+   "cap": "CAP-0084",
+   "protocol": "30",
+   "title": "Muxed Contract Addresses",
+   "evidence": {
+    "cells": [
+     "arm:SCAddress.SC_ADDRESS_TYPE_MUXED_CONTRACT"
+    ],
+    "patterns": [
+     "scaddress-muxed-contract"
+    ]
+   }
+  },
+  {
+   "cap": "CAP-0085",
+   "protocol": "28",
+   "title": "Externally managed contract executables",
+   "evidence": {
+    "cells": [
+     "arm:ContractExecutable.CONTRACT_EXECUTABLE_EXTERNAL_REF"
+    ]
+   }
+  },
+  {
+   "cap": "CAP-0086",
+   "protocol": "28",
+   "title": "Host functions for sparse Symbol-keyed map creation and unpacking",
+   "no_shape_reason": "Host functions only: no new XDR reaches ledger data. Any new cost types extend ContractCostType, which no serialized type references."
+  },
+  {
+   "cap": "CAP-0087",
+   "protocol": "30",
+   "title": "Host functions for ML-DSA signature verification",
+   "no_shape_reason": "Host functions only: no new XDR reaches ledger data. Any new cost types extend ContractCostType, which no serialized type references."
+  },
+  {
+   "cap": "CAP-0088",
+   "protocol": "30",
+   "title": "Millisecond-Resolution Close Times",
+   "evidence": {
+    "cells": [
+     "arm:StellarValueExt.STELLAR_VALUE_SIGNED_MS",
+     "arm:StellarValueExt.STELLAR_VALUE_EMPTY_TX_SET_MS"
+    ]
+   },
+   "planned": "A dropped-transaction-set ledger at protocol 30 (the _MS form of the CAP-0083 entry)."
+  }
+ ]
+}

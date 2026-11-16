@@ -6,6 +6,7 @@
                 [--proposed FILE] [--work DIR] [--out DIR]
   replay.py report [--out DIR]       regenerate RESULTS.md from out/results.jsonl
   replay.py rejudge [--out DIR]      recompute the oracle verdicts from the stored observations
+  replay.py backtest                 verify backtest.json against the recorded results
   replay.py check [--out DIR]        fail unless out/results.jsonl matches every claim in sightings.json
 
 Entries are discovered from corpus/manifest.json (xdr_type == LedgerCloseMeta). By default the
@@ -550,6 +551,50 @@ def cmd_check(a):
     sys.exit(1 if bad else 0)
 
 
+def _failing(r):
+    """A replay counts as failing when the indexer mishandled or dropped the ledger, or the oracle has
+    a failure that no known issue explains."""
+    return r["result"] in ("mishandled", "dropped") or bool((r.get("oracle") or {}).get("unexplained"))
+
+
+def cmd_backtest(a):
+    """Verify backtest.json against recorded results: every "detected" claim must show each named
+    entry failing at the parent and passing at the fix; every "missed" claim must have no recorded
+    entry that does. Prints the table and K of N per pipeline; exits 1 on any claim that does not hold."""
+    spec = json.load(open(os.path.join(HERE, "backtest.json")))
+    results = {}
+    for name, path in spec["results"].items():
+        with open(os.path.join(HERE, path)) as f:
+            for line in f:
+                r = json.loads(line)
+                results[(name, r["commit"][:8], r["entry_id"])] = r
+    bad, tally = 0, {}
+    for it in spec["items"]:
+        p, f = it["parent"][:8], it["fix"][:8]
+        flips = sorted("%s:%s" % (src, e) for (src, c, e), r in results.items()
+                       if c == p and _failing(r) and (src, f, e) in results and not _failing(results[(src, f, e)]))
+        ok = True
+        if it["verdict"] == "detected":
+            for claim in it["entries"]:
+                key = "%s:%s" % (claim["results"], claim["entry"])
+                ok &= key in flips
+        elif it["verdict"] == "missed":
+            ok = not flips
+        t = tally.setdefault(it["pipeline"], {"detected": 0, "blind": 0, "in_scope": 0})
+        if it["verdict"] in ("detected", "missed"):
+            t["in_scope"] += 1
+        if it["verdict"] == "detected":
+            t["detected"] += 1
+            t["blind"] += any(c.get("blind") for c in it["entries"])
+        bad += not ok
+        print("%-8s %-14s %-24s %-9s %s" % ("ok" if ok else "DIFFERS", it["pipeline"], it["id"], it["verdict"],
+                                           ", ".join(flips)[:120] if it["verdict"] != "out_of_scope" else it["reason"][:90]))
+    for k, t in tally.items():
+        print("%s: detected %d of %d in-scope fixes (%d with a blind entry)" % (k, t["detected"], t["in_scope"], t["blind"]))
+    print("BACKTEST OK" if not bad else "%d BACKTEST CLAIM(S) DO NOT HOLD" % bad)
+    sys.exit(1 if bad else 0)
+
+
 def main():
     ap = argparse.ArgumentParser()
     sub = ap.add_subparsers(dest="verb", required=True)
@@ -568,6 +613,7 @@ def main():
     p.add_argument("--corpus", help="a corpus directory (manifest.json, entries/) other than corpus/")
     p = sub.add_parser("report")
     p.add_argument("--out", default=os.path.join(HERE, "out"))
+    sub.add_parser("backtest")
     p = sub.add_parser("rejudge")
     p.add_argument("--out", default=os.path.join(HERE, "out"))
     p.add_argument("--corpus", help="the corpus directory the results were run from")
@@ -575,7 +621,8 @@ def main():
     p.add_argument("--out", default=os.path.join(HERE, "out"))
     p.add_argument("--oracle", action="store_true", help="also fail on unexplained oracle failures")
     a = ap.parse_args()
-    {"run": cmd_run, "report": cmd_report, "rejudge": cmd_rejudge, "check": cmd_check}[a.verb](a)
+    {"run": cmd_run, "report": cmd_report, "rejudge": cmd_rejudge, "check": cmd_check,
+     "backtest": cmd_backtest}[a.verb](a)
 
 
 if __name__ == "__main__":

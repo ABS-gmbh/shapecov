@@ -1,8 +1,14 @@
-# Draft, not filed: lightsail-network/py-stellar-xdr
+# Fact sheet for a human write-up: lightsail-network/py-stellar-xdr
 
-**Title:** No standalone codec for SponsorshipDescriptor and the bare integer types
+Not for posting as is. Stellar's contribution guide (stellar/.github CONTRIBUTING.md) requires the
+human submitter to verify the content and write to maintainers in their own words; no AI session
+posts it. This sheet records what was run and what it showed.
 
-Following StellarCN/py-stellar-base#1264's invitation for API feedback before 1.0.
+**Kind: API completeness question, not a defect.** Every value that has a codec round-trips
+correctly; five schema types have no standalone codec. A fit for a comment on StellarCN/py-stellar-base#1264
+(which invites API feedback before 1.0) rather than a new issue.
+
+**Suggested subject:** No standalone codec for SponsorshipDescriptor and the bare integer types
 
 ### What
 

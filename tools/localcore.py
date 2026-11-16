@@ -11,8 +11,8 @@ own meta stream:
   DIR/run.json                   what was submitted, core's answer, and which ledger holds what
 
 Transactions are built with tools/encode.py and signed with tools/ed25519.py (no Stellar SDK).
-All keys are derived from fixed strings, so every run submits the same transactions; close times
-follow core's virtual clock, so ledger hashes differ between runs. The network root key is
+All keys are derived from fixed strings and close times are fixed (4,000,000,000, then + 10,000,000 per ledger), so
+every run with the same image and passphrase produces the same ledgers, byte for byte. The network root key is
 sha256(passphrase), as on every standalone network.
 
 Scenarios (one per run):
@@ -24,8 +24,8 @@ Scenarios (one per run):
                      it carries non-source-account authorization, so 22.2.1 is the newest release
                      that can produce this ledger.
   classic-p22        Protocol 22, stellar-core 22.2.1. One CreateAccount from the root account: a
-                     ledger before protocol 23 with only a classic transaction, so TransactionMeta
-                     v3 and no unified events. Tools that need protocol-23 meta reject it.
+                     protocol 22 ledger with only a classic transaction, so TransactionMeta
+                     v3 and no unified events. Tools that read only v4 meta reject it.
   pools-sponsorship-p30
                      Protocol 30, stellar-core 30.0.0. An issuer with AUTH_REVOCABLE and three assets
                      (AAA, BBB, CCC); a trustor holding shares in two pools that share AAA (AAA/BBB and
@@ -38,6 +38,11 @@ Scenarios (one per run):
                        entry and new signer (CAP-33).
                      sponsorship-transfer: a second sponsor takes over both sponsorships through
                        RevokeSponsorship inside a sponsorship sandwich.
+  flags-preauth-p30  Protocol 30, stellar-core 30.0.0. Two recorded ledgers:
+                     maintain-liabilities: an issuer moves a trustline from AUTHORIZED to
+                       AUTHORIZED_TO_MAINTAIN_LIABILITIES with SetTrustLineFlags (CAP-18).
+                     preauth-failed: a transaction authorized only by a pre-auth-tx signer fails at
+                       apply (an underfunded payment); core still removes the signer (CAP-28).
   sac-trust-p28      Protocol 28, stellar-core 30.0.0. Create a trustor account, deploy the Stellar
                      Asset Contract for USD issued by the root account, then have the trustor call
                      the contract's trust(trustor) (CAP-73) in a ledger of its own. That creates a
@@ -75,12 +80,18 @@ from encode import Encoder  # noqa: E402
 ROOT = Path(__file__).resolve().parent.parent
 IMAGE = "stellar/stellar-core:30.0.0-3642.0e49751aa.noble"
 IMAGE_V22 = "stellar/stellar-core:22.2.1-2429.e70f0aed8.focal"
-SCENARIOS = {"muxed-source-p22": IMAGE_V22, "classic-p22": IMAGE_V22, "pools-sponsorship-p30": IMAGE, "muxed-source-refused-p24": IMAGE, "memo-and-offer-p30": IMAGE,
+SCENARIOS = {"muxed-source-p22": IMAGE_V22, "classic-p22": IMAGE_V22, "pools-sponsorship-p30": IMAGE,
+             "flags-preauth-p30": IMAGE, "muxed-source-refused-p24": IMAGE, "memo-and-offer-p30": IMAGE,
              "sac-trust-p28": IMAGE}
 NAME = "shapecov-localcore-gen"
 PASSPHRASES = {"testnet": "Test SDF Network ; September 2015",
                "pubnet": "Public Global Stellar Network ; September 2015"}
 F64_PLUS_1 = 2 ** 53 + 1
+CLOSE_TIME_BASE = 4_000_000_000
+# In manual-close mode core's own clock runs ahead of the last close by up to about a day between
+# requests, and a close time behind it is refused as "too early". A step of 10,000,000 seconds keeps
+# every close ahead of it; even 100 ledgers end below core's maximum close time (7,258,118,400).
+CLOSE_TIME_STEP = 10_000_000
 BAD_MEMO = b"shapecov \xff\xfe memo \x00 end"  # 23 bytes: invalid UTF-8 and a NUL
 assert len(BAD_MEMO) <= 28
 
@@ -147,20 +158,13 @@ class Core:
         return self.http("info")["info"]
 
     def close(self):
-        # Fixed, increasing close times: letting core use the wall clock trips an assertion in its
-        # virtual clock (Timer.cpp: t >= mVirtualNow).
+        # Fixed close times make every run byte-for-byte reproducible: the same transactions, keys
+        # and close times give the same ledgers.
         before = self.info()["ledger"]["num"]
-        self.close_time = getattr(self, "close_time", 1600000000) + 5
+        self.close_time = getattr(self, "close_time", CLOSE_TIME_BASE) + CLOSE_TIME_STEP
         answer = self.http("manualclose?ledgerSeq=%d&closeTime=%d" % (before + 1, self.close_time))
-        # Core refuses a close time behind its virtual clock ("too early ... now=N"). In standalone
-        # manual-close mode that clock runs far ahead of real time between requests, so retry
-        # with a wide margin above the "now" it reports.
-        for _ in range(5):
-            m = re.search(r"too early.*now=(\d+)", json.dumps(answer))
-            if not m:
-                break
-            self.close_time = int(m.group(1)) + 100_000
-            answer = self.http("manualclose?ledgerSeq=%d&closeTime=%d" % (before + 1, self.close_time))
+        if "too early" in json.dumps(answer) or "exception" in answer:
+            raise SystemExit("core refused close time %d: %s" % (self.close_time, json.dumps(answer)[:300]))
         for _ in range(100):
             now = self.info()["ledger"]["num"]
             if now > before:
@@ -286,6 +290,8 @@ def main():
             muxed_source(core, enc, root, step, run, 22, accepted=True)
         elif a.scenario == "classic-p22":
             classic_p22(core, enc, root, payee, step, run)
+        elif a.scenario == "flags-preauth-p30":
+            flags_preauth_p30(core, enc, root, step, run)
         elif a.scenario == "pools-sponsorship-p30":
             pools_sponsorship_p30(core, enc, dec, root, step, run)
         elif a.scenario == "sac-trust-p28":
@@ -487,6 +493,51 @@ def pools_sponsorship_p30(core, enc, dec, root, step, run):
             "accountID": claimant.account(), "signerKey": signer_key}}, source=s1),
         op("END_SPONSORING_FUTURE_RESERVES", None, None, source=s1)], fee=4000), [s2, s1])
     run["ledger_sponsorship_transfer"] = core.close()
+
+
+def flags_preauth_p30(core, enc, root, step, run):
+    core.upgrade(30)
+    issuer, holder, owner = Keys("liabilities issuer"), Keys("liabilities holder"), Keys("preauth owner")
+    for name, k in (("issuer", issuer), ("holder", holder), ("preauth_owner", owner)):
+        run[name] = strkey.account(k.pub)
+    no_opts = {"inflationDest": None, "clearFlags": None, "setFlags": None, "masterWeight": None,
+               "lowThreshold": None, "medThreshold": None, "highThreshold": None, "homeDomain": None, "signer": None}
+    lia = {"type": "ASSET_TYPE_CREDIT_ALPHANUM4", "alphaNum4": {"assetCode": b"LIA\0".hex(), "issuer": issuer.account()}}
+
+    def send(name, t, signers, expect="PENDING, applied"):
+        blob, h = envelope_multi(enc, core, t, signers)
+        if step("flags-preauth-p30: " + name, 30, blob, h, expect)["status"] != "PENDING":
+            raise SystemExit("%s was refused; see the diagnostics above" % name)
+        return h
+
+    send("create accounts", tx(root.muxed(), 1, [
+        op("CREATE_ACCOUNT", "createAccountOp", {"destination": k.account(), "startingBalance": 100_0000000})
+        for k in (issuer, holder, owner)], fee=3000), [root])
+    born = core.close() << 32
+    send("issuer sets AUTH_REVOCABLE", tx(issuer.muxed(), born + 1, [
+        op("SET_OPTIONS", "setOptionsOp", dict(no_opts, setFlags=2))]), [issuer])
+    send("holder trusts LIA", tx(holder.muxed(), born + 1, [
+        op("CHANGE_TRUST", "changeTrustOp", {"line": lia, "limit": 2 ** 63 - 1})]), [holder])
+    # The transaction the pre-auth signer will authorize: a payment far beyond the owner's balance,
+    # valid to submit, failing at apply with PAYMENT_UNDERFUNDED.
+    doomed = tx(owner.muxed(), born + 2, [op("PAYMENT", "paymentOp", {
+        "destination": root.muxed(), "asset": {"type": "ASSET_TYPE_NATIVE"}, "amount": 1_000_000_0000000})])
+    payload = enc.encode("TransactionSignaturePayload", {
+        "networkId": core.network_id.hex(), "taggedTransaction": {"type": "ENVELOPE_TYPE_TX", "tx": doomed}})
+    doomed_hash = hashlib.sha256(payload).hexdigest()
+    send("owner adds a pre-auth signer for the doomed payment", tx(owner.muxed(), born + 1, [
+        op("SET_OPTIONS", "setOptionsOp", dict(no_opts, signer={
+            "key": {"type": "SIGNER_KEY_TYPE_PRE_AUTH_TX", "preAuthTx": doomed_hash}, "weight": 1}))]), [owner])
+    core.close()
+    send("issuer: AUTHORIZED -> AUTHORIZED_TO_MAINTAIN_LIABILITIES", tx(issuer.muxed(), born + 2, [
+        op("SET_TRUST_LINE_FLAGS", "setTrustLineFlagsOp", {"trustor": holder.account(), "asset": lia,
+                                                           "clearFlags": 1, "setFlags": 2})]), [issuer])
+    run["ledger_maintain_liabilities"] = core.close()
+    env = {"type": "ENVELOPE_TYPE_TX", "v1": {"tx": doomed, "signatures": []}}
+    if step("flags-preauth-p30: the pre-authorized payment, no signatures", 30, enc.encode("TransactionEnvelope", env),
+            doomed_hash, "PENDING, fails at apply")["status"] != "PENDING":
+        raise SystemExit("the pre-authorized payment was refused")
+    run["ledger_preauth_failed"] = core.close()
 
 
 def sac_trust_p28(core, enc, dec, root, step, run):

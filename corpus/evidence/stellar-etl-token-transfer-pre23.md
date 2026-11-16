@@ -1,4 +1,12 @@
-# Evidence: stellar-etl `export_token_transfer` rejects every ledger before protocol 23
+# Evidence: stellar-etl `export_token_transfer` rejects transaction meta older than v4
+
+**Scope, corrected 16 November 2026.** The failure follows the `TransactionMeta` version, not the
+protocol. Stellar's public ledger archive serves old pubnet ledgers with v4 meta (checked: ledgers
+40,000,000, 50,000,000 and 57,000,000, protocols 18, 19 and 22, all carry `TransactionMeta` v4), and
+stellar-etl's own integration tests export token transfers from protocol 13 ledgers and pass. Only
+ledgers whose meta is v1 to v3, such as those a stellar-core older than 23.0 emits, fail. It does not
+break SDF's own exports from that archive. The filed issue (#512) says "every ledger before protocol
+23"; that is broader than the defect.
 
 Found by the replay harness's stellar-etl adapter on 15 November 2026, at stellar-etl `master`
 `2b24ec89` (go-stellar-sdk `v0.8.1-0.20261106081502-e31e3b146d00`). Filed as
@@ -6,8 +14,8 @@ stellar/stellar-etl#512 the same day; the text is `issues/E1-stellar-etl-token-t
 
 ## What happens
 
-`export_token_transfer` exits with a fatal error on a ledger before protocol 23 that holds any
-transaction. The other exports (`export_transactions`, `export_operations`, `export_effects`) take
+`export_token_transfer` exits with a fatal error on a ledger whose transactions carry
+`TransactionMeta` v1 to v3. The other exports (`export_transactions`, `export_operations`, `export_effects`) take
 the same ledger without error.
 
 ```
@@ -22,8 +30,8 @@ passphrase (`tools/localcore.py`):
 | `localcore-classic-p22-3` | 22 | one `CreateAccount` (classic only) | exit 1, the error above |
 | `localcore-muxed-source-p22-3` | 22 | one `InvokeHostFunction` | exit 1, the error above |
 
-The classic-only ledger rules out anything Soroban-specific: every transaction in a
-protocol 22 ledger has `TransactionMeta` v3.
+The classic-only ledger rules out anything Soroban-specific: stellar-core 22.2.1 writes
+`TransactionMeta` v3 for every transaction.
 
 ## Cause
 
@@ -71,22 +79,23 @@ Built with `golang:1.27.3` and `CGO_ENABLED=1`, the toolchain stellar-etl's own
 
 ## Impact
 
-Any re-export of token transfers for a range that starts before protocol 23 stops at the first
-ledger with a transaction. That covers backfills after a fix to the token transfer path, such as
+A token transfer export over ledgers with v1 to v3 meta stops at the first one with a transaction:
+for example ledgers from a captive core or a data lake written by stellar-core older than 23.0.
+Ledgers from Stellar's public archive carry v4 meta and are not affected. That covers backfills after a fix to the token transfer path, such as
 the one stellar-etl #450 (fabricated muxed destinations) would need. With the default
 `--strict-export` the run is fatal; without it, the batch's token transfers are logged as failures
 and skipped.
 
 ## Suggested fix
 
-Choose the constructor by the ledger's protocol: `NewEventsProcessorForUnifiedEvents` from protocol
-23, `NewEventsProcessor` before it. The `VerifyEvents` call in the same function already takes the
+Choose the constructor by the transaction meta version: `NewEventsProcessorForUnifiedEvents` for v4,
+`NewEventsProcessor` for v1 to v3. The `VerifyEvents` call in the same function already takes the
 mode as its third argument.
 
 ## Searched before writing this
 
 stellar/stellar-etl issues (all states) and stellar/go-stellar-sdk issues, 15 November 2026:
-nothing on token transfers failing before protocol 23. The nearest are stellar-etl #438 (a
+nothing on token transfers failing on older transaction meta. The nearest are stellar-etl #438 (a
 consistent `--strict-export` error strategy, general) and #448, the July 2026 transform audit,
 which lists the token transfer classification as "verified consistent" without covering
 older ledgers.

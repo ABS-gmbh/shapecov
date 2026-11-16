@@ -18,7 +18,7 @@
   },
   {
    "issue": "stellar/stellar-etl#512",
-   "note": "export_token_transfer builds the processor for protocol-23 unified events only, which rejects any transaction whose meta is not v4: every ledger before protocol 23 that holds a transaction.",
+   "note": "export_token_transfer builds the processor for unified events only, which rejects any transaction whose meta is not v4: ledgers with TransactionMeta v1 to v3, such as those stellar-core older than 23.0 emits. Stellar's public archive serves old ledgers with v4 meta, so exports from it are not affected.",
    "match": {
     "error_contains": "error reading from unified events stream, expected version 4 got 3"
    }

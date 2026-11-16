@@ -11,6 +11,9 @@
 //                      the pool ID the ledger records (expected, from the manifest).
 // map_keys_host_order  a map the Soroban host wrote, in host key order: scvSortedMap() given the
 //                      entries reversed must reproduce the host's exact bytes.
+// string_bytes_kept    a memo whose text is not UTF-8 (js-stellar-sdk#1823): rebuilding it from the
+//                      arm's `.value` must give the same bytes. Also reports whether the SDK's own
+//                      Memo.fromXDRObject() round trip keeps them.
 import { readFileSync } from "node:fs";
 
 const [alias, check, type, b64, expected] = process.argv.slice(2);
@@ -25,6 +28,17 @@ const value = xdrType.fromXDR(b64, "base64");
 // XDR fields are accessor methods before 17.x and plain properties from 17.x.
 const f = (o, k) => (typeof o[k] === "function" ? o[k]() : o[k]);
 const keyName = (k) => (typeof k.switch === "function" ? k.switch().name : (k.type ?? k.switch?.name ?? String(k)));
+
+if (check === "string_bytes_kept") {
+  const want = value.toXDR("hex");
+  const viaValue = sdk.xdr.Memo.memoText(value.value).toXDR("hex");
+  const viaMemo = sdk.Memo.fromXDRObject(value).toXDRObject().toXDR("hex");
+  out.result = viaValue === want ? "pass" : "mishandled";
+  out.detail = viaValue === want ? "" : `rebuilt from .value: ${viaValue}, the ledger has ${want}` +
+    `; Memo.fromXDRObject round trip ${viaMemo === want ? "keeps the bytes" : "changes them too"}`;
+  console.log(JSON.stringify(out));
+  process.exit(0);
+}
 
 if (check === "pool_pair_accepted") {
   try {

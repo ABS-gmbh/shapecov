@@ -1,5 +1,7 @@
 # Filed 15 November 2026: https://github.com/stellar/stellar-etl/issues/512
 
+**Correction, 16 November 2026:** the defect is narrower than this text. The failure follows the TransactionMeta version, not the protocol: Stellar's public archive serves old pubnet ledgers with v4 meta, which export fine. Only ledgers with v1 to v3 meta fail. See `corpus/evidence/stellar-etl-token-transfer-pre23.md`.
+
 The filed text links the two ledger files and the evidence note directly; otherwise it is this.
 
 **Title:** export_token_transfer fails on every ledger before protocol 23 (unified-events processor requires TransactionMeta v4)

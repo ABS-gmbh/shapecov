@@ -236,9 +236,11 @@ At stellar-etl `master` (`2b24ec89`), all 64 ledgers (results in
   contract's `trust()` (CAP-73) gets no `trustline_created`. The oracle found all five rows from
   ledger data alone: `testnet-5709224` (both shapes), `pubnet-65480300`, `pubnet-63920000`,
   `localcore-sac-trust-p28-5`.
-- **E1, new, filed as stellar-etl#512:** `export_token_transfer` fails on every ledger before protocol 23 that holds a
-  transaction (`localcore-classic-p22-3`, `localcore-muxed-source-p22-3`): stellar-etl builds the
-  token transfer processor in unified-events mode, which requires `TransactionMeta` v4. The SDK's
+- **E1, new, filed as stellar-etl#512:** `export_token_transfer` fails on any ledger whose transaction
+  meta is v1 to v3 (`localcore-classic-p22-3`, `localcore-muxed-source-p22-3`, from stellar-core
+  22.2.1): stellar-etl builds the token transfer processor in unified-events mode, which requires
+  `TransactionMeta` v4. Stellar's public archive serves old ledgers with v4 meta, so SDF's own exports
+  from it are not affected. The SDK's
   other constructor handles both ledgers. Evidence: `corpus/evidence/stellar-etl-token-transfer-pre23.md`.
 
 - **E2, new, filed as stellar-etl#513:** a revocation that redeems pool shares in two pools at once gets one
