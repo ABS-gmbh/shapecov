@@ -225,15 +225,23 @@ jobs:
         run: python3 security/images.py pull golang:1.26 maven:3.9-eclipse-temurin-21
       - name: Go runner
         run: docker run --rm -v "$PWD/runners/go:/work" golang:1.26 sh /work/build.sh
+      # Maven's local repository is kept between runs, so the Java runner rarely needs Maven Central:
+      # resolving from it failed on three runs on 15 and 16 November.
+      - uses: actions/cache@5a3ec84eff668545956fd18022155c47e93e2684 # v4.2.3
+        with:
+          path: ~/.m2/repository
+          key: maven-${{ hashFiles('runners/java/pom.xml') }}
       - name: Java runner
-        # The plugin is named in full so Maven need not resolve the "dependency" prefix, a lookup
-        # that failed once on a Maven Central hiccup; three attempts cover the rest.
+        # The plugin is named in full so Maven need not resolve the "dependency" prefix; three
+        # attempts, a minute apart, cover a Maven Central hiccup when the cache is cold.
         run: |
+          mkdir -p "$HOME/.m2/repository"
           for attempt in 1 2 3; do
-            docker run --rm -v "$PWD/runners/java:/work" -w /work maven:3.9-eclipse-temurin-21 \
+            docker run --rm -v "$PWD/runners/java:/work" -v "$HOME/.m2/repository:/root/.m2/repository" -w /work \
+              maven:3.9-eclipse-temurin-21 \
               sh -c "mvn -q org.apache.maven.plugins:maven-dependency-plugin:3.8.1:copy-dependencies -DoutputDirectory=lib && javac -cp 'lib/*' Runner.java" \
               && exit 0
-            echo "attempt $attempt failed"; sleep 20
+            echo "attempt $attempt failed"; sleep 60
           done
           exit 1
       - name: stellar-core 30.0.0, by the digest in security/images.lock.json
