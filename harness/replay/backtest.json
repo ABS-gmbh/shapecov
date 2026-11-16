@@ -597,6 +597,7 @@
      "fix": {}
     }
    ],
+   "condition": "The ledger is replayed into a database that has no row for that pool, as when live ingestion starts at that ledger, a valid starting state; after a full backfill the pool row exists and the failure does not appear.",
    "what_would_catch_it": null
   },
   {
