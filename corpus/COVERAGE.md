@@ -13,6 +13,7 @@ Coverage is measured over the cells a ledger reader can meet: those in the 358 o
 | | Cells | Covered |
 |---|---|---|
 | Reachable from `LedgerCloseMeta`, by the corpus | 538 | 352 (65.4%) |
+| Reachable and able to occur in a closed ledger (all but the 36 classed `never_in_ledger`; the unclassified stay in), by the corpus | 502 | 352 (70.1%) |
 | All cells, by the generator's valid cases (`out/cases.jsonl`) | 659 | 549 (83.3%) |
 | Reachable cells, by the generator | 538 | 448 (83.3%) |
 
