@@ -138,6 +138,9 @@ tracking.
 | The same, plus Docker | SDK runners for Go and Java, stellar-core checks, local stellar-core scenarios and guide probes, the replay harness, the linter on wallet-backend |
 | CI `ci.yml`, every push and weekly | one job per RFP acceptance check (1, 3, 4, 6; and 1 with 5); see `VERIFY.md` |
 | CI `replay.yml`, weekly and on changes | RFP check 2, stellar-etl replay, memory budget, reproducible local-core entries on both passphrases, the Rust sightings |
+| CI `sdk-conformance.yml` (reusable) and `linter/action.yml` | the corpus through one SDK at the caller's version, and the linter on the caller's module: called by `ci.yml`, and by any other repository (`ADOPT.md`) |
+| CI `release.yml`, on a tag | corpus archive, linter binaries for five platforms, `SHA256SUMS`, build provenance attestations, attached to the release |
+| CI `upstream-drift.yml`, weekly | one issue per upstream release newer than the pins, with the runbook checklist |
 
 ## Planned, not built
 

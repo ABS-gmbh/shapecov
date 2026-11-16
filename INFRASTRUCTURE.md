@@ -8,8 +8,13 @@ What shapecov runs on, what it connects to, and what it records about anyone.
   part runs on a developer's machine or in GitHub Actions.
 - **No user tracking.** There is no telemetry, analytics, crash reporting or update check. The tools
   record nothing about who runs them. The complete list of network connections is below.
-- **No keys or funds.** Nothing needs a secret, a funded account or mainnet access. The CI
-  workflows run with read-only repository permissions and no secrets.
+- **No keys or funds.** Nothing needs a secret, a funded account or mainnet access. The test
+  workflows (`ci.yml`, `replay.yml`, `sdk-conformance.yml`) run with read-only repository
+  permissions and no secrets. Two workflows can write, each only what it needs:
+  - `release.yml` attaches assets to a release and attests their provenance;
+  - `upstream-drift.yml` opens issues in this repository.
+
+  Both are listed below.
 - **Third-party code runs isolated.** Indexers, SDKs and stellar-core run in Docker. During a run
   they have either no network at all or a Docker network with no route to the internet.
 
@@ -23,12 +28,18 @@ What shapecov runs on, what it connects to, and what it records about anyone.
 | Replay harness (`harness/replay/`) | Docker, or the `replay` workflow | about 5 minutes for all sightings in CI |
 | Linter (`linter/`) | Go 1.26, or Docker | |
 
-GitHub Actions runs two workflows (`.github/workflows/`, both `permissions: contents: read`):
+GitHub Actions workflows (`.github/workflows/`):
 
-| Workflow | When | Typical duration |
-|---|---|---|
-| `ci.yml` | every push and pull request | about 3 minutes |
-| `replay.yml` | weekly, on demand, and on pushes and pull requests that change the harness or the corpus | about 5 minutes |
+| Workflow | When | Permissions | Typical duration |
+|---|---|---|---|
+| `ci.yml` | every push and pull request, and weekly | `contents: read` | about 6 minutes |
+| `replay.yml` | weekly, on demand, and on pushes and pull requests that change the harness or the corpus | `contents: read` | about 5 minutes |
+| `sdk-conformance.yml` | called by `ci.yml`, or by another repository (`ADOPT.md`) | `contents: read` | about 2 minutes |
+| `release.yml` | on a `v*` tag; by hand, as a dry run | `contents: write` (attach assets to the tag's release, or create it as a draft), `id-token: write` and `attestations: write` (build provenance) | about 3 minutes |
+| `upstream-drift.yml` | weekly; by hand, as a dry run | `contents: read`, `issues: write` (one issue per newer upstream release) | under a minute |
+
+The linter's composite action (`linter/action.yml`) runs with whatever permissions the calling
+workflow grants. It needs only to read the code.
 
 ## Network connections
 
@@ -41,6 +52,8 @@ network use.
 | `github.com/stellar/wallet-backend` | the replay adapter and `linter/scripts/run-wallet-backend.sh` | when a wallet-backend commit is not cached locally | clone the indexer under test |
 | Go module proxy, npm, PyPI, crates.io, Maven Central | build steps (`go mod download`, `npm ci`, `pip install`, `cargo build`, `mvn`) | when building runners, the linter or a wallet-backend commit | fetch pinned dependencies |
 | Docker Hub | `docker pull` | when an image is missing | fetch the images below |
+| `api.github.com` | `.github/scripts/upstream_drift.py`; `release.yml` | weekly, and on a release | read the latest releases of the pinned upstreams; open drift issues and attach release assets in this repository |
+| `github.com/stellar/stellar-core` | the `ci` workflow (RFP check 1) | every run | fetch stellar-core's golden files (`test-lcm-current/` only) at the pinned commit |
 
 **Nothing else.** Every other address in the code is local:
 - the replay feeder's mock stellar-rpc (port 8000) and S3-compatible store (port 9000), reachable

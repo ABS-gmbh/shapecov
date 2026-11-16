@@ -33,6 +33,8 @@ things they depend on move.
   failure means the harness, an image or a dependency changed. Before each release, run
   `harness/replay/run.sh full` to replay the whole corpus at wallet-backend's current `main`. A new `mishandled` or
   `dropped` result there is a finding to triage and report.
+- **New upstream releases** are found by `upstream-drift.yml`, which opens one issue per release
+  newer than the pins, with the matching checklist below.
 - **New SDK releases.**
   1. Raise the pin (see the list under "Protocol upgrade").
   2. Add the release to `harness/sdk-semantic/package.json`.

@@ -1,0 +1,41 @@
+# Upstream drift: once a week, compare every pinned upstream (stellar-core, stellar-xdr and the six
+# SDKs) with its latest release, and open one issue per newer release in this repository, carrying
+# the matching checklist from MAINTENANCE.md. The only workflow that writes issues.
+name: upstream-drift
+
+on:
+  schedule:
+    - cron: "41 5 * * 1"
+  workflow_dispatch:
+    inputs:
+      dry-run:
+        description: "print what would be opened, open nothing"
+        required: false
+        type: boolean
+        default: true
+
+permissions: {}
+
+jobs:
+  drift:
+    name: Pinned upstreams against their latest releases
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      issues: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: One issue per newer release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.dry-run }}
+        run: |
+          if [ "$DRY_RUN" = "true" ]; then
+            python .github/scripts/upstream_drift.py --dry-run
+          else
+            python .github/scripts/upstream_drift.py
+          fi

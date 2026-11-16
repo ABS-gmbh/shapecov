@@ -1,0 +1,83 @@
+# Release assets: on a version tag, build the corpus archive and the linter binaries, write
+# SHA256SUMS, attest build provenance, and attach them to the tag's release. If the tag has no
+# release yet, a draft release is created to hold them; publishing it stays a human step.
+# Run by hand with dry-run to build and checksum without attesting or uploading.
+name: release
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "an existing tag to build assets for"
+        required: true
+        type: string
+      dry-run:
+        description: "build and checksum only: no attestation, no upload to the release"
+        required: false
+        type: boolean
+        default: true
+
+permissions: {}
+
+jobs:
+  assets:
+    name: "Release assets for ${{ inputs.tag || github.ref_name }}"
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    permissions:
+      contents: write
+      id-token: write
+      attestations: write
+    env:
+      TAG: ${{ inputs.tag || github.ref_name }}
+      DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.dry-run }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.tag || github.ref }}
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: linter/go.mod
+          cache-dependency-path: linter/go.sum
+      - name: Corpus archive (reproducible tar.gz)
+        run: |
+          mkdir -p dist
+          tar --sort=name --mtime='@0' --owner=0 --group=0 --numeric-owner \
+            --transform "s,^,shapecov-corpus-$TAG/," \
+            -cf - corpus schema/schema.json schema/SOURCE LICENSE \
+            | gzip -n -9 > "dist/shapecov-corpus-$TAG.tar.gz"
+      - name: Linter binaries
+        working-directory: linter
+        run: |
+          for target in linux/amd64 linux/arm64 darwin/amd64 darwin/arm64 windows/amd64; do
+            os=${target%/*}; arch=${target#*/}; ext=""; [ "$os" = windows ] && ext=".exe"
+            CGO_ENABLED=0 GOOS=$os GOARCH=$arch go build -trimpath -ldflags "-s -w -buildid=" \
+              -o "../dist/shapecov-lint-$TAG-$os-$arch$ext" ./cmd/shapecov-lint
+          done
+      - name: SHA256SUMS
+        working-directory: dist
+        run: |
+          sha256sum * > SHA256SUMS
+          cat SHA256SUMS
+      - name: Build provenance attestation
+        if: env.DRY_RUN != 'true'
+        uses: actions/attest-build-provenance@v2
+        with:
+          subject-path: "dist/*"
+      - name: Attach to the release (a draft release if the tag has none)
+        if: env.DRY_RUN != 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            gh release upload "$TAG" dist/* --clobber
+          else
+            gh release create "$TAG" dist/* --draft --verify-tag --title "ShapeCov $TAG" \
+              --notes "Assets built by the release workflow. Write the notes, then publish."
+          fi
+      - uses: actions/upload-artifact@v4
+        with:
+          name: release-assets-${{ env.TAG }}
+          path: dist/
