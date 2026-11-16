@@ -29,6 +29,7 @@ Expectation kinds (`expect`):
 Every entry also carries the implicit expectation that the ledger is ingested without error
 and that every stored address is a valid SEP-23 address.
 """
+import json
 import strkeyx
 
 ADDRESS_FIELDS = ("account", "token", "signer_key", "spender", "creator", "destination")
@@ -74,6 +75,20 @@ def _state_change(exp, obs):
                                   for k in field_diff))
     label = "%s%s state change %s" % (want.get("category", "?"), "/" + want["reason"] if "reason" in want else "",
                                       ", ".join("%s=%s" % (k, want[k]) for k in ADDRESS_FIELDS + ("tx_hash",) if k in want))
+    if exp.get("exact") and len(full) > need:
+        # A row stored more than once is a duplicate. Extra rows that differ are not: wallet-backend
+        # writes a row for what an operation asked for, so a threshold set to its old value or a flag
+        # cleared that was never set gets a row that records no change. Those are counted, not failed.
+        seen = {}
+        for r in full:
+            k = json.dumps(r, sort_keys=True)
+            seen[k] = seen.get(k, 0) + 1
+        copies = max(seen.values())
+        if copies > 1:
+            return "wrong_value", "%s: %d rows stored, the ledger gives %d; one row is stored %d times" % (
+                label, len(full), need, copies)
+        return "met", "%s: %d rows stored, the ledger gives %d; the other %d record no change" % (
+            label, len(full), need, len(full) - need)
     if len(full) >= need:
         return "met", "%s: %d row(s) stored" % (label, len(full))
     if near:

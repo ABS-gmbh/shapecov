@@ -175,14 +175,20 @@ on 16 November 2026:
 
 | Indexer | Ledgers ingested | Oracle rows checked | Met | Known open issues | Unexplained |
 |---|---|---|---|---|---|
-| wallet-backend `main` (`3e22515a`), data lake | 611 | 544,445 | 544,314 | 89: wallet-backend#677; 42: wallet-backend#815 | 0 |
+| wallet-backend `main` (`3e22515a`), data lake | 611 | 694,646 | 694,515 | 89: wallet-backend#677; 42: wallet-backend#815 | 0 |
 | stellar-etl `master` (`2b24ec89`) | 611 | 321,142 | 321,071 | 69: stellar-etl#457; 1: stellar-etl#450; 1: stellar-etl#460 | 0 |
 
 No check failed for a reason the oracle could not name, so the oracle produced no false alarm in
-865,587 checks of real traffic. The wallet-backend checks include the participant rule (both
+1,015,788 checks of real traffic. The wallet-backend checks include the participant rule (both
 directions); its first sweep found 94 false alarms of the "only what the meta shows" direction
 (operation-level sources of successful Soroban operations, which signed but appear only in the
-envelope), and the rule was corrected to allow them before these numbers. stellar-etl's sweep
+envelope), and the rule was corrected to allow them before these numbers. They also include the
+duplicate-row rule (a state-change row stored more than once fails): none of the 611 ledgers has
+one. Its first version failed any count above the ledger's and raised 10 false alarms, all rows that
+record no change (8 thresholds set to their old value, 2 authorization flags cleared that were not
+set: wallet-backend writes a row for what the operation asked for); those now pass. Of the
+778,927 rows the oracle derives, the other 84,281 are not checked, mostly current balances the
+data-lake observations predate. stellar-etl's sweep
 observations were recorded before its adapter reported muxed destinations, so its 39,257 muxed
 destination checks are not counted (the corpus replay runs them: `RESULTS-stellar-etl.md`).
 The 9 sweep ledgers that bring schema cells or patterns the corpus lacked were added to `corpus/`
@@ -300,6 +306,24 @@ storage, which the oracle does not read, so their token transfer events are not 
   state through RPC see none.
 - **One ledger per run.** The mock RPC window and the data-lake prefix each hold exactly one ledger.
   Cross-ledger behaviour, such as a delete in the next ledger, is not covered yet.
+- **Current balances from protocol 23 only.** The `native_balance` check skips ledgers before
+  protocol 23: wallet-backend's documented contract (`docs/architecture/state-changes.md`, and
+  `internal/indexer/processors/accounts.go` lines 30–37 at `3e22515a`) folds the Soroban fee refund
+  from the post-apply list that protocol 23 introduced, and before 23 the refund is in
+  `txChangesAfter`. Its backfill does not write `native_balances` either: backfill persists through
+  `insertIntoDB` (`internal/services/ingest.go:265`, called from `ingest_backfill.go:326`), which
+  inserts transactions, operations, their participant rows and state changes only. So a pre-23
+  ledger's balance never reaches that table, and the skip hides no defect.
+- **Trustlines created with no flags** expect a `BALANCE_AUTHORIZATION SET` row with no flags. That is
+  what wallet-backend stores: the one such trustline in the corpus (`testnet-5708889`) passes at
+  `main`.
+- **No pool trades and no liquidity-pool share balances for wallet-backend.** Its state-change
+  vocabulary has no trade or pool rows, and the adapter does not read its liquidity-pool share
+  tables, so a pool trade is checked only through the balance rows of the accounts it moves.
+- **Balances held by contracts are not checked.** The oracle reads account and trustline balances;
+  a Stellar Asset Contract balance held by a contract is a `CONTRACT_DATA` balance entry it does not
+  read yet, and the adapter does not read wallet-backend's `sac_balances` table. Movements of
+  contract-held balances are therefore unchecked, for asset contracts as well as other tokens.
 
 ## Next
 

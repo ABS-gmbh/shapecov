@@ -81,6 +81,23 @@ class StateChange(unittest.TestCase):
         row = sc("SIGNER", "ADD", A, fields={"weight": 2})
         self.assertEqual(classify.classify([exp], obs(state_changes=[row]))["result"], "mishandled")
 
+    def test_exact_count_fails_a_duplicate(self):
+        exp = dict(self.EXP, exact=True)
+        self.assertEqual(classify.classify([exp], obs(state_changes=[sc("SIGNER", "ADD", A)]))["result"], "pass")
+        two = [sc("SIGNER", "ADD", A), sc("SIGNER", "ADD", A)]
+        r = classify.classify([exp], obs(state_changes=two))
+        self.assertEqual(r["result"], "mishandled")
+        self.assertIn("2 rows stored", r["mishandled"][0])
+
+    def test_exact_count_passes_a_row_that_records_no_change(self):
+        """A threshold set to its old value gets its own row: an extra row, not a duplicate."""
+        exp = dict(self.EXP, exact=True)
+        rows = [sc("SIGNER", "ADD", A, fields={"threshold": "LOW", "threshold_old": 1, "threshold_new": 1}),
+                sc("SIGNER", "ADD", A, fields={"threshold": "HIGH", "threshold_old": 1, "threshold_new": 2})]
+        r = classify.classify([exp], obs(state_changes=rows))
+        self.assertEqual(r["result"], "pass")
+        self.assertIn("record no change", r["checks"][0]["detail"])
+
     def test_no_state_change(self):
         exp = dict(self.EXP, expect="no_state_change")
         self.assertEqual(classify.classify([exp], obs())["result"], "pass")

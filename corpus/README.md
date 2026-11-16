@@ -1,13 +1,13 @@
 # Corpus
 
-94 entries, each one XDR value with a manifest record: 91 real ledgers (LedgerCloseMeta) and 3
+95 entries, each one XDR value with a manifest record: 92 real ledgers (LedgerCloseMeta) and 3
 generated values. The real ledgers come from three sources:
 
 | Source | Entries | `source.kind` |
 |---|---|---|
 | stellar-core's golden LedgerCloseMeta (`test-lcm-current`, the `--check-lcm` files), byte-identical | 46 | `stellar_core_golden` |
 | testnet (19) and pubnet (11) history, from Stellar's public ledger archive | 30 | `network_ledger` |
-| a local stellar-core running fixed scenarios (`tools/localcore.py`): 30.0.0, and 22.2.1 for the two protocol 22 scenarios; each regenerates identically on the testnet and mainnet passphrases | 15 | `local_stellar_core` |
+| a local stellar-core running fixed scenarios (`tools/localcore.py`): 30.0.0, and 22.2.1 for the two protocol 22 scenarios; each regenerates identically on the testnet and mainnet passphrases | 16 | `local_stellar_core` |
 | generated from a readable value (`values/`) | 3 | `generated` |
 
 Every entry is checked in CI (RFP check 1) and by `quickcheck.py`; see "How an entry is checked"
@@ -84,7 +84,7 @@ path can be looked up in what stellar-core prints.
    `expected.decoded`.
 
 With `--goldens`, each golden entry is also compared byte for byte with its record in
-stellar-core's `test-lcm-current` files. All checks pass for all 94 entries in CI.
+stellar-core's `test-lcm-current` files. All checks pass for all 95 entries in CI.
 
 ## Adding an entry
 

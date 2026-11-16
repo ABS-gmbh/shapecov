@@ -182,10 +182,10 @@
   {
    "mutant": "duplicate state changes",
    "what": "every state change stored twice",
-   "check": "none: state changes are checked for presence, not for extra copies",
-   "status": "survived",
+   "check": "state_change: a row stored more than once",
+   "status": "killed",
    "ledgers_changed": 11,
-   "ledgers_failing": 0
+   "ledgers_failing": 11
   },
   {
    "mutant": "a stranger's state change",

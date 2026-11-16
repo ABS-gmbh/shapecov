@@ -53,6 +53,12 @@ verifies every row of `backtest.json` against the recorded results.
   XLM balance the ledger changed, the fee phase included, has a row with its final balance; ledgers
   of protocol 23 and later) was added for #641 and needs the table read back, so the corpus was
   replayed again at #641's parent and fix and at `main`. At `main` it is clean on every ledger.
+  Ledgers before protocol 23 are skipped because wallet-backend's documented contract does not
+  cover them: `docs/architecture/state-changes.md` and `internal/indexer/processors/accounts.go`
+  lines 30–37 at `3e22515a` fold the Soroban fee refund from the post-apply list that protocol 23
+  introduced (before 23 it is in `txChangesAfter`). Backfill, the only way such ledgers would reach
+  the table, does not write `native_balances` (`insertIntoDB`, `internal/services/ingest.go:265`,
+  called from `ingest_backfill.go:326`).
 - **Built after reading the fix.** `localcore-planted-auth-5` and `localcore-declared-deploy-6`
   (scenario `participants-p28` in `tools/localcore.py`) were built after reading 9538b3c and
   80121f3: an authorization entry no `require_auth` matches, and one declaring a deploy that never

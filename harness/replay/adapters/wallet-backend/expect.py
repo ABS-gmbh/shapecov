@@ -70,7 +70,7 @@ def expectations(changes, passphrase):
         row = ROW.get((c["what"], c["how"]))
         if row is None:
             continue
-        e = {"expect": "state_change", "category": row[0], "reason": row[1], "tx_hash": c["tx_hash"]}
+        e = {"expect": "state_change", "category": row[0], "reason": row[1], "tx_hash": c["tx_hash"], "exact": True}
         if c["what"] == "contract":
             e["account"] = c["contract"]
         else:
@@ -216,3 +216,4 @@ def known_rule(expectation, commit=None):
         if ok:
             return rule
     return None
+

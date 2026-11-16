@@ -1,5 +1,17 @@
 {
  "ledgers": {
+  "big-merge": {
+   "pubnet": {
+    "normalized_sha256": "ac44ad853463b674c9ef4a81ff33160bd9de4d53f10099a8296933837349106c",
+    "raw_sha256": "8a9a3650f04d80c5e8147e0b5e0563a9586a172acde41ab6c7d2edae6d1cfafe",
+    "seq": 4
+   },
+   "testnet": {
+    "normalized_sha256": "2669b649c06622574c519da2845f77577e60013082dea25192b1714cb3d9218b",
+    "raw_sha256": "1384a592d7967045f4d41c2b968210d5965d718f404fe65b308f925c4cc45fbd",
+    "seq": 4
+   }
+  },
   "claim-and-sponsor": {
    "pubnet": {
     "normalized_sha256": "0362dd3c7a0dde5ad67035636115b2b6d1a0754893b92f8208ad61526eb2545f",

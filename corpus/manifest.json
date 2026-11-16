@@ -16959,6 +16959,130 @@
     }
    },
    "sightings": []
+  },
+  {
+   "id": "localcore-big-merge-4",
+   "title": "Local stellar-core, scenario big-merge-p30: a payment of 2^53 + 1 stroops and an account merge that moves more than 2^53",
+   "xdr_type": "LedgerCloseMeta",
+   "file": "entries/localcore-big-merge-4.LedgerCloseMeta.xdr.b64",
+   "sha256": "1384a592d7967045f4d41c2b968210d5965d718f404fe65b308f925c4cc45fbd",
+   "size_bytes": 3016,
+   "protocol_version": 30,
+   "caps": [],
+   "synthetic": false,
+   "source": {
+    "kind": "local_stellar_core",
+    "stellar_core_version": "stellar-core 30.0.0 (0e49751aa9ddf892302cca02cea7f3f5d97df9f1)",
+    "image": "stellar/stellar-core:30.0.0-3642.0e49751aa.noble",
+    "network_passphrase": "Test SDF Network ; September 2015",
+    "ledger_seq": 4,
+    "ledger_hash": "9dd2072c915ba6acc5b37e1e990a137afbdd2ac63eb8fb486e9496f999f16ec1",
+    "scenario": "big-merge",
+    "generator": "tools/localcore.py",
+    "notes": "Standalone network, manual close, fixed keys and close times; see the scenario in tools/localcore.py."
+   },
+   "shape": "One transaction: the root account pays a new account 9,007,199,254,740,993 stroops (2^53 + 1), then that account, as its operation's source, merges into a third account, which receives 9,007,200,254,740,993. Both amounts are past the largest integer a float64 holds exactly, so a reader that parses stroops into a JavaScript number or a double stores them rounded; and the merge removes an account in a successful transaction.",
+   "patterns": {
+    "scval-wide-integer": "v2.txProcessing[0].txApplyProcessing.v4.operations[0].events[0].body.v0.data"
+   },
+   "designated": {
+    "patterns": [],
+    "cells": []
+   },
+   "cells": [
+    "arm:AccountEntryExt.0",
+    "arm:AccountEntryExt.1",
+    "arm:AccountEntryExtensionV1Ext.2",
+    "arm:AccountEntryExtensionV2Ext.3",
+    "arm:AccountMergeResult.ACCOUNT_MERGE_SUCCESS",
+    "arm:Asset.ASSET_TYPE_NATIVE",
+    "arm:ContractEventBody.0",
+    "arm:ExtensionPoint.0",
+    "arm:GeneralizedTransactionSet.1",
+    "arm:LedgerCloseMeta.2",
+    "arm:LedgerCloseMetaExt.0",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_REMOVED",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_STATE",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_UPDATED",
+    "arm:LedgerEntryData.ACCOUNT",
+    "arm:LedgerEntryExt.0",
+    "arm:LedgerHeaderExt.0",
+    "arm:LedgerHeaderHistoryEntryExt.0",
+    "arm:LedgerKey.ACCOUNT",
+    "arm:Memo.MEMO_NONE",
+    "arm:MuxedAccount.KEY_TYPE_ED25519",
+    "arm:OperationBody.ACCOUNT_MERGE",
+    "arm:OperationBody.PAYMENT",
+    "arm:OperationResult.opINNER",
+    "arm:OperationResultTr.ACCOUNT_MERGE",
+    "arm:OperationResultTr.PAYMENT",
+    "arm:PaymentResult.PAYMENT_SUCCESS",
+    "arm:Preconditions.PRECOND_NONE",
+    "arm:PublicKey.PUBLIC_KEY_TYPE_ED25519",
+    "arm:SCAddress.SC_ADDRESS_TYPE_ACCOUNT",
+    "arm:SCVal.SCV_ADDRESS",
+    "arm:SCVal.SCV_I128",
+    "arm:SCVal.SCV_STRING",
+    "arm:SCVal.SCV_SYMBOL",
+    "arm:StellarValueExt.STELLAR_VALUE_SIGNED_MS",
+    "arm:TransactionEnvelope.ENVELOPE_TYPE_TX",
+    "arm:TransactionExt.0",
+    "arm:TransactionMeta.4",
+    "arm:TransactionPhase.0",
+    "arm:TransactionPhase.1",
+    "arm:TransactionResultExt.0",
+    "arm:TransactionResultResult.txSUCCESS",
+    "arm:TxSetComponent.TXSET_COMP_TXS_MAYBE_DISCOUNTED_FEE",
+    "enum:ContractEventType.CONTRACT",
+    "enum:TransactionEventStage.TRANSACTION_EVENT_STAGE_BEFORE_ALL_TXS"
+   ],
+   "cells_new_in_protocol": [
+    "arm:StellarValueExt.STELLAR_VALUE_SIGNED_MS"
+   ],
+   "expected": {
+    "decoded": [
+     {
+      "path": "v",
+      "value": 2
+     },
+     {
+      "path": "v2.ledgerHeader.header.ledgerSeq",
+      "value": 4
+     },
+     {
+      "path": "v2.ledgerHeader.header.ledgerVersion",
+      "value": 30
+     },
+     {
+      "path": "v2.ledgerHeader.hash",
+      "value": "9dd2072c915ba6acc5b37e1e990a137afbdd2ac63eb8fb486e9496f999f16ec1"
+     },
+     {
+      "path": "v2.ledgerHeader.header.scpValue.closeTime",
+      "value": 4030000000
+     }
+    ]
+   },
+   "validation": {
+    "independent_decoder": "pass",
+    "rs_stellar_xdr_roundtrip": "pass",
+    "stellar_core": {
+     "version": "30.0.0",
+     "command": "dump-xdr (meta-debug stream)",
+     "result": "pass",
+     "expected_values_agree": 5,
+     "expected_values_rendered_differently": 0
+    },
+    "core_golden": "not_applicable",
+    "sdk_decoders": {
+     "@stellar/stellar-sdk 17.4.0": "agree",
+     "stellar-sdk 17.0.1": "agree",
+     "stellar-xdr (Python) 0.2.1": "agree",
+     "go-stellar-sdk v0.9.0": "agree",
+     "network.lightsail:stellar-sdk 6.0.0": "agree"
+    }
+   },
+   "sightings": []
   }
  ]
 }

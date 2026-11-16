@@ -289,7 +289,7 @@ MUTANTS = [
     ("a stranger's balance", "a BALANCE row for an account the ledger never touches", "unexpected balance movement",
      spurious_balance),
     ("duplicate state changes", "every state change stored twice",
-     "none: state changes are checked for presence, not for extra copies", duplicate_state_changes),
+     "state_change: a row stored more than once", duplicate_state_changes),
     ("a stranger's state change", "a TRUSTLINE ADD row for an account the ledger never touches",
      "participants_within: a stored state change's account must be an address the meta shows", stranger_state_change),
     ("a contract's balance", "a BALANCE row for a contract the ledger never touches",
@@ -368,8 +368,9 @@ def render(d):
          "each mutant on %d corpus ledgers (the baseline passes on %d). The method is in the script's docstring."
          % (len(d["ledgers"]), d["baseline_passes"]), "",
          "**%d of the %d mutants the ledgers exercise are killed.** Survivors: %s. The checks require every row "
-         "the ledger implies; extra rows are caught only by the participant rule and by the balance cross-check on "
-         "accounts, so a row stored twice passes, and a contract's balance is caught only by chance. Where a mutant "
+         "the ledger implies, and a state-change row stored more than once fails; other extra rows are caught only by "
+         "the participant rule and by the balance cross-check on accounts, so a contract's balance is caught only by "
+         "chance. Where a mutant "
          "fails on only some of the ledgers it changes, the others happen to satisfy every check."
          % (killed, exercised, ", ".join(survivors) or "none"),
          "",
