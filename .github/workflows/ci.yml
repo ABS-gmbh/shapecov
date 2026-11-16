@@ -1,17 +1,22 @@
-# Checks that run on every push and pull request. See README.md, "CI".
+# Checks that run on every push and pull request, and weekly. Each job is named after the RFP
+# acceptance check it covers; VERIFY.md maps every check to its job and command. RFP check 2
+# (the replay harness) runs in replay.yml.
 name: ci
 
 on:
   push:
   pull_request:
   workflow_dispatch:
+  schedule:
+    # Mondays: the linter job then runs against wallet-backend main instead of the pinned commit.
+    - cron: "17 4 * * 1"
 
 permissions:
   contents: read
 
 jobs:
   corpus:
-    name: corpus and guide
+    name: "RFP check 1: corpus entries agree with the stellar-core --check-lcm goldens"
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
@@ -24,15 +29,33 @@ jobs:
         run: |
           python tools/strkey.py
           python tools/ed25519.py
-      - name: Corpus manifest and every entry (independent decoder, hashes, expectations)
-        run: python tools/corpus_check.py --quiet
-      - name: Indexer-hardening guide agrees with the corpus
+      - name: stellar-core golden LedgerCloseMeta (test-lcm-current only) at the commit the manifest names
+        run: |
+          commit=$(python -c 'import json; print(*sorted({e["source"]["stellar_core_commit"] for e in json.load(open("corpus/manifest.json"))["entries"] if e["source"]["kind"] == "stellar_core_golden"}))')
+          git init -q "$RUNNER_TEMP/core" && cd "$RUNNER_TEMP/core"
+          git sparse-checkout set --no-cone /test-lcm-current/
+          git fetch -q --depth 1 --filter=blob:none https://github.com/stellar/stellar-core.git "$commit"
+          git checkout -q FETCH_HEAD
+          echo "stellar-core $commit: $(find test-lcm-current -name '*.xdr' | wc -l) golden files"
+      - name: Every entry (independent decoder, hashes, expectations); golden entries byte-identical to core's
+        run: python tools/corpus_check.py --quiet --goldens "$RUNNER_TEMP/core"
+
+  guide:
+    name: "RFP check 4: the guide's field-by-field tables agree with the corpus manifest"
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Guide tables against the manifest
         run: python guide/check_guide.py
 
   linter:
-    name: linter
+    name: "RFP check 3: linter flags seeded violations; no wallet-backend finding outside the accepted list"
     runs-on: ubuntu-24.04
-    timeout-minutes: 10
+    timeout-minutes: 15
     defaults:
       run:
         working-directory: linter
@@ -47,10 +70,29 @@ jobs:
           out=$(gofmt -l .)
           if [ -n "$out" ]; then echo "$out"; exit 1; fi
       - run: go vet ./...
-      - run: go test -count=1 ./...
+      - name: Seeded violations and correct code (analysistest)
+        run: go test -count=1 ./...
+      - name: wallet-backend at the commit pinned in accepted/wallet-backend.json (weekly run, main)
+        run: |
+          ref=$(python3 -c 'import json; print(json.load(open("accepted/wallet-backend.json"))["pinned_commit"])')
+          if [ "${{ github.event_name }}" = "schedule" ]; then ref=main; fi
+          git init -q "$RUNNER_TEMP/wb" && cd "$RUNNER_TEMP/wb"
+          git fetch -q --depth 1 https://github.com/stellar/wallet-backend.git "$ref"
+          git checkout -q FETCH_HEAD
+          echo "wallet-backend $ref = $(git rev-parse HEAD)"
+          go mod download
+      - name: No finding outside accepted/wallet-backend.json
+        run: |
+          go build -o "$RUNNER_TEMP/lint" ./cmd/shapecov-lint
+          set +e
+          "$RUNNER_TEMP/lint" -C "$RUNNER_TEMP/wb" -o "$RUNNER_TEMP/report.json" ./...
+          code=$?
+          set -e
+          if [ "$code" -gt 1 ]; then echo "linter error (exit $code)"; exit 1; fi
+          python3 scripts/check_accepted.py "$RUNNER_TEMP/report.json" accepted/wallet-backend.json
 
   conformance:
-    name: conformance (5 SDKs and stellar-core)
+    name: "RFP checks 1 and 5: entries round-trip in rs-stellar-xdr and five more decoders; js-stellar-sdk #1766, #1785, #1789 reproduce on pre-fix tags"
     runs-on: ubuntu-24.04
     timeout-minutes: 30
     needs: corpus
@@ -85,8 +127,20 @@ jobs:
           sh -c "mvn -q dependency:copy-dependencies -DoutputDirectory=lib && javac -cp 'lib/*' Runner.java"
       - name: stellar-core 30.0.0
         run: docker pull --platform linux/amd64 stellar/stellar-core:30.0.0-3642.0e49751aa.noble
-      - name: Pinned-SDK checks
+      - name: Pinned-SDK checks (the js-stellar-sdk sightings on their pre-fix and fixed releases)
         working-directory: harness/sdk-semantic
         run: npm install --no-audit --no-fund
       - name: Every entry through six SDKs, stellar-core and the pinned-SDK checks
         run: python tools/corpus_check.py --sdks rust,js,python,python-xdr,go,java --core --sdk-checks --quiet
+
+  findings:
+    name: "RFP check 6: every replay failure maps to a filed issue or a claimed sighting"
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Oracle failures in the committed wallet-backend and stellar-etl replay results
+        run: python .github/scripts/check_findings.py
