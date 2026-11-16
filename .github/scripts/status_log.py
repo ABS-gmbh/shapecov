@@ -1,0 +1,53 @@
+#!/usr/bin/env python3
+"""Write STATUS.md: a dated log of the repository, newest first, from its git history and tags.
+
+  python3 .github/scripts/status_log.py
+
+Every line comes from a commit subject or a release tag, so the log says only what the history
+shows. Dates are UTC. Run from the repository root, in a full clone (not a shallow one).
+"""
+import os
+import subprocess
+from collections import OrderedDict
+from datetime import datetime, timezone
+
+REPO = "https://github.com/ABS-gmbh/shapecov"
+
+
+def git(*args):
+    return subprocess.run(["git", *args], capture_output=True, text=True, check=True).stdout
+
+
+def utc_day(epoch):
+    return datetime.fromtimestamp(int(epoch), timezone.utc).strftime("%-d %B %Y")
+
+
+def main():
+    if git("rev-parse", "--is-shallow-repository").strip() == "true":
+        raise SystemExit("shallow clone: run `git fetch --unshallow` first")
+    tags = {}
+    for line in git("tag", "--list", "v*", "--format=%(objectname)|%(*objectname)|%(refname:short)").splitlines():
+        obj, peeled, name = line.split("|")
+        tags.setdefault(peeled or obj, []).append(name)
+    days = OrderedDict()
+    for line in git("log", "--format=%H|%ct|%s", "HEAD").splitlines():
+        sha, ct, subject = line.split("|", 2)
+        items = days.setdefault(utc_day(ct), [])
+        for t in tags.get(sha, []):
+            items.append("**Release [%s](%s/releases/tag/%s)**, at `%s`." % (t, REPO, t, sha[:7]))
+        items.append("%s ([`%s`](%s/commit/%s))" % (subject, sha[:7], REPO, sha))
+    out = ["# Status", "",
+           "What has changed in this repository, newest first. Generated from the git history and",
+           "release tags by `.github/scripts/status_log.py`; each line is a commit subject or a release.",
+           "Dates are UTC. The current state is in [`README.md`](README.md); every finding, with its",
+           "upstream status, is in [`FINDINGS.md`](FINDINGS.md).", ""]
+    for day, items in days.items():
+        out += ["## %s" % day, ""] + ["- " + i for i in items] + [""]
+    with open("STATUS.md", "w") as f:
+        f.write("\n".join(out))
+    print("STATUS.md: %d days, %d tagged releases" % (len(days), sum(len(v) for v in tags.values())))
+
+
+if __name__ == "__main__":
+    os.chdir(git("rev-parse", "--show-toplevel").strip())
+    main()
