@@ -27,6 +27,12 @@ def load(path):
         return json.load(f)
 
 
+def linter_findings(target):
+    """Findings in the recorded linter report at the commit the accepted list pins."""
+    pin = load("linter/accepted/%s.json" % target)["pinned_commit"][:12]
+    return len(load("linter/results/%s-%s.json" % (target, pin))["findings"])
+
+
 def counts():
     entries = load("corpus/manifest.json")["entries"]
     kinds = [e["source"]["kind"] for e in entries]
@@ -88,6 +94,8 @@ def counts():
         "reachable cells reached by valid cases": cov["generator_covers_reachable"],
         "reachable cells in no corpus entry": cov["uncovered_reachable"],
         "quickcheck checks": len(qc.CHECKS),
+        "linter findings on wallet-backend": linter_findings("wallet-backend"),
+        "linter findings on stellar-etl": linter_findings("stellar-etl"),
         "quickcheck checks without --full": sum(1 for c in qc.CHECKS if c[0] not in qc.FULL_ONLY),
         "quickcheck time budget, seconds": qc.BUDGET_SECONDS,
         "guide probes (without the setup transaction)": sum(1 for p in probes if p["row"] != "(setup)"),
@@ -140,6 +148,11 @@ PATTERNS = {
     "backtest: stellar-etl flags on a blind ledger": [r"\bstellar-etl's [\d,]+ in-scope issues \(([\d,]+) blind\)"],
     "schema cells reached by valid cases": [r"\breach(?:es)? ([\d,]+) of (?:the )?[\d,]+ schema cells",
                                             r"\bexercise ([\d,]+) of [\d,]+ schema cells"],
+    "linter findings on wallet-backend": [r"\bPartly met: ([\d,]+) findings on wallet-backend",
+                                          r"\bwallet-backend `main` \(([\d,]+) findings",
+                                          r"\bOn wallet-backend the linter reports ([\d,]+) findings"],
+    "linter findings on stellar-etl": [r"\bor on stellar-etl\s+\(([\d,]+), all real",
+                                       r"\.json\)\): ([\d,]+) findings, all real"],
     "quickcheck checks": [r"--full` adds the unit tests and the mutation testing[,:] ([\d,]+) checks"],
     "quickcheck checks without --full": [r"\bthe ([\d,]+) fast checks"],
     "quickcheck time budget, seconds": [r"## Check it in under ([\d,]+) seconds"],

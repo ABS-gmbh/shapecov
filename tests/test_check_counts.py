@@ -15,6 +15,8 @@ Corpus: 4 entries, 3 of them real ledgers.
 **1 of the RFP's 2 sightings reproduced**.
 **4 generated cases across all 2 types**; valid cases reach 2 of the 3 schema cells.
 ## Check it in under 9 seconds
+| Linter | linter/ | 3 | Partly met: 2 findings on wallet-backend, both real |
+The linter does not run clean on wallet-backend or on stellar-etl (1, all real, in uncalled code).
 It reruns the 1 fast checks that work from the repository alone: 2 seconds on a laptop.
 `python3 quickcheck.py --full` adds the unit tests and the mutation testing, 2 checks in 12 seconds.
 Coverage of the 1 schema cells no valid case reaches yet.
@@ -60,6 +62,10 @@ class CheckCounts(unittest.TestCase):
             ".github/workflows/ci.yml": "name: ci\n",
             "quickcheck.py": QUICKCHECK,
             "guide/probes.json": {"probes": [{"row": "Home domain"}, {"row": "(setup)"}]},
+            "linter/accepted/wallet-backend.json": {"pinned_commit": "a" * 40, "accepted": []},
+            "linter/accepted/stellar-etl.json": {"pinned_commit": "b" * 40, "accepted": []},
+            "linter/results/wallet-backend-aaaaaaaaaaaa.json": {"findings": [{}, {}]},
+            "linter/results/stellar-etl-bbbbbbbbbbbb.json": {"findings": [{}]},
             "harness/replay/backtest.json": {"items": [
                 {"pipeline": "wallet-backend", "verdict": "detected", "entries": [{"entry": "e", "blind": True}]},
                 {"pipeline": "wallet-backend", "verdict": "missed", "entries": []},
