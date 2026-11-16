@@ -9,7 +9,7 @@ python3 quickcheck.py
 ```
 
 No Docker, no SDK toolchain and no network after the clone. It prints one line per check, PASS or
-FAIL, and the time it took. On a clean clone on a laptop it took **10 seconds** for all 8 checks
+FAIL, and the time it took. On a clean clone on a laptop it took **10 seconds** for all 9 checks
 (measured 16 November 2026).
 
 What it reruns:
@@ -17,7 +17,9 @@ What it reruns:
   manifest record, its hashes and the manifest's JSON Schema;
 - the guide's tables against the corpus manifest, including the recorded stellar-core verdict for
   every row;
-- the per-CAP table against the corpus.
+- the per-CAP table against the corpus;
+- the headline numbers in the documentation against the repository;
+- the unit tests of the checking scripts themselves (`tests/`).
 
 What it checks from recorded results, against their expected verdicts:
 - the wallet-backend and stellar-etl replays: each sighting fails before its fix and passes after,

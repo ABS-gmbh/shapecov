@@ -41,6 +41,9 @@ CHECKS = [
      [PY, "tools/cap_coverage.py", "--check"]),
     ("Docs", "the headline numbers in README, VERIFY and the other top-level documents match the repository",
      [PY, ".github/scripts/check_counts.py"]),
+    ("Unit tests", "the tests of the checking scripts themselves (tests/); those needing Docker or the network "
+                   "are skipped",
+     [PY, "-m", "unittest", "discover", "-s", "tests", "-t", "."]),
 ]
 
 NOT_RERUN = [
