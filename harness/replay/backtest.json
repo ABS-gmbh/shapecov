@@ -501,9 +501,20 @@
    "fix": "ce0820d7",
    "parent": "71625b21",
    "title": "skip contract deploys from unstorable ScAddress kinds",
-   "verdict": "missed",
-   "entries": [],
-   "what_would_catch_it": "A create-contract whose deployer address is a claimable balance or a liquidity pool (protocol 23 or later), as the root host function and inside an auth entry: a local-core scenario at protocol 23 to 28."
+   "verdict": "detected",
+   "entries": [
+    {
+     "entry": "localcore-deployer-cb-5",
+     "results": "pass1",
+     "blind": false,
+     "parent": {
+      "indexer: mishandled": 1,
+      "unexplained": 1
+     },
+     "fix": {}
+    }
+   ],
+   "what_would_catch_it": null
   },
   {
    "id": "ee82038d",

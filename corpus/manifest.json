@@ -17306,6 +17306,143 @@
     "core_golden": "not_applicable"
    },
    "sightings": []
+  },
+  {
+   "id": "localcore-deployer-cb-5",
+   "title": "Local stellar-core, scenario deployer-cb-p28: a claimable balance named as the address that deploys a contract",
+   "xdr_type": "LedgerCloseMeta",
+   "file": "entries/localcore-deployer-cb-5.LedgerCloseMeta.xdr.b64",
+   "sha256": "c8c209292e95db8e9c3af8f4c04ecd67e7aafbf385b0d2c1a777deb6e4c320a6",
+   "size_bytes": 8820,
+   "protocol_version": 28,
+   "caps": [],
+   "synthetic": false,
+   "source": {
+    "kind": "local_stellar_core",
+    "stellar_core_version": "stellar-core 30.0.0 (0e49751aa9ddf892302cca02cea7f3f5d97df9f1)",
+    "image": "stellar/stellar-core:30.0.0-3642.0e49751aa.noble",
+    "network_passphrase": "Test SDF Network ; September 2015",
+    "ledger_seq": 5,
+    "ledger_hash": "e762b5713ee92fd35f3e21bda420523384ed44f4f457e1736a26104e5f630f64",
+    "scenario": "deployer-cb",
+    "generator": "tools/localcore.py",
+    "notes": "Standalone network, manual close, fixed keys and close times; see the scenario in tools/localcore.py."
+   },
+   "shape": "Two transactions, protocol 28. A native-asset transfer succeeds and carries, besides its source-account authorization, an unused address-credential entry declaring a contract deploy from a claimable-balance address (SC_ADDRESS_TYPE_CLAIMABLE_BALANCE). A create-contract host function from that same address fails when applied (INVOKE_HOST_FUNCTION_TRAPPED). A claimable balance cannot deploy a contract, but the network accepts both and writes them into the ledger; an indexer that stores the deployer in an account column cannot store a 33-byte claimable-balance address (stellar/wallet-backend#745).",
+   "patterns": {
+    "failed-transaction": "v2.txProcessing[1].result.result.result",
+    "scval-wide-integer": "v2.txSet.v1TxSet.phases[1].parallelTxsComponent.executionStages[0][0][1].v1.tx.operations[0].body.invokeHostFunctionOp.hostFunction.invokeContract.args[2]"
+   },
+   "designated": {
+    "patterns": [],
+    "cells": []
+   },
+   "cells": [
+    "arm:AccountEntryExt.0",
+    "arm:AccountEntryExt.1",
+    "arm:AccountEntryExtensionV1Ext.2",
+    "arm:AccountEntryExtensionV2Ext.3",
+    "arm:ClaimableBalanceID.CLAIMABLE_BALANCE_ID_TYPE_V0",
+    "arm:ContractEventBody.0",
+    "arm:ContractExecutable.CONTRACT_EXECUTABLE_WASM",
+    "arm:ContractIDPreimage.CONTRACT_ID_PREIMAGE_FROM_ADDRESS",
+    "arm:ExtensionPoint.0",
+    "arm:GeneralizedTransactionSet.1",
+    "arm:HostFunction.HOST_FUNCTION_TYPE_CREATE_CONTRACT",
+    "arm:HostFunction.HOST_FUNCTION_TYPE_INVOKE_CONTRACT",
+    "arm:InvokeHostFunctionResult.INVOKE_HOST_FUNCTION_SUCCESS",
+    "arm:InvokeHostFunctionResult.INVOKE_HOST_FUNCTION_TRAPPED",
+    "arm:LedgerCloseMeta.2",
+    "arm:LedgerCloseMetaExt.0",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_STATE",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_UPDATED",
+    "arm:LedgerEntryData.ACCOUNT",
+    "arm:LedgerEntryData.TTL",
+    "arm:LedgerEntryExt.0",
+    "arm:LedgerHeaderExt.0",
+    "arm:LedgerHeaderHistoryEntryExt.0",
+    "arm:LedgerKey.ACCOUNT",
+    "arm:LedgerKey.CONTRACT_CODE",
+    "arm:LedgerKey.CONTRACT_DATA",
+    "arm:Memo.MEMO_NONE",
+    "arm:MuxedAccount.KEY_TYPE_ED25519",
+    "arm:OperationBody.INVOKE_HOST_FUNCTION",
+    "arm:OperationResult.opINNER",
+    "arm:OperationResultTr.INVOKE_HOST_FUNCTION",
+    "arm:Preconditions.PRECOND_NONE",
+    "arm:PublicKey.PUBLIC_KEY_TYPE_ED25519",
+    "arm:SCAddress.SC_ADDRESS_TYPE_ACCOUNT",
+    "arm:SCAddress.SC_ADDRESS_TYPE_CLAIMABLE_BALANCE",
+    "arm:SCAddress.SC_ADDRESS_TYPE_CONTRACT",
+    "arm:SCError.SCE_OBJECT",
+    "arm:SCVal.SCV_ADDRESS",
+    "arm:SCVal.SCV_BYTES",
+    "arm:SCVal.SCV_ERROR",
+    "arm:SCVal.SCV_I128",
+    "arm:SCVal.SCV_LEDGER_KEY_CONTRACT_INSTANCE",
+    "arm:SCVal.SCV_STRING",
+    "arm:SCVal.SCV_SYMBOL",
+    "arm:SCVal.SCV_U64",
+    "arm:SCVal.SCV_VEC",
+    "arm:SCVal.SCV_VOID",
+    "arm:SorobanAuthorizedFunction.SOROBAN_AUTHORIZED_FUNCTION_TYPE_CONTRACT_FN",
+    "arm:SorobanAuthorizedFunction.SOROBAN_AUTHORIZED_FUNCTION_TYPE_CREATE_CONTRACT_HOST_FN",
+    "arm:SorobanCredentials.SOROBAN_CREDENTIALS_ADDRESS",
+    "arm:SorobanCredentials.SOROBAN_CREDENTIALS_SOURCE_ACCOUNT",
+    "arm:SorobanTransactionDataExt.0",
+    "arm:SorobanTransactionMetaExt.0",
+    "arm:StellarValueExt.STELLAR_VALUE_SIGNED",
+    "arm:TransactionEnvelope.ENVELOPE_TYPE_TX",
+    "arm:TransactionExt.1",
+    "arm:TransactionMeta.4",
+    "arm:TransactionPhase.0",
+    "arm:TransactionPhase.1",
+    "arm:TransactionResultExt.0",
+    "arm:TransactionResultResult.txFAILED",
+    "arm:TransactionResultResult.txSUCCESS",
+    "enum:ContractDataDurability.PERSISTENT",
+    "enum:ContractEventType.CONTRACT",
+    "enum:ContractEventType.DIAGNOSTIC",
+    "enum:SCErrorCode.SCEC_INVALID_INPUT",
+    "enum:TransactionEventStage.TRANSACTION_EVENT_STAGE_AFTER_ALL_TXS",
+    "enum:TransactionEventStage.TRANSACTION_EVENT_STAGE_BEFORE_ALL_TXS"
+   ],
+   "cells_new_in_protocol": [],
+   "expected": {
+    "decoded": [
+     {
+      "path": "v",
+      "value": 2
+     },
+     {
+      "path": "v2.ledgerHeader.header.ledgerSeq",
+      "value": 5
+     },
+     {
+      "path": "v2.ledgerHeader.header.ledgerVersion",
+      "value": 28
+     },
+     {
+      "path": "v2.ledgerHeader.hash",
+      "value": "e762b5713ee92fd35f3e21bda420523384ed44f4f457e1736a26104e5f630f64"
+     },
+     {
+      "path": "v2.ledgerHeader.header.scpValue.closeTime",
+      "value": 4040000000
+     }
+    ]
+   },
+   "validation": {
+    "independent_decoder": "not_run",
+    "rs_stellar_xdr_roundtrip": "not_run",
+    "stellar_core": {
+     "version": "30.0.0",
+     "command": "",
+     "result": "not_run"
+    },
+    "core_golden": "not_applicable"
+   },
+   "sightings": []
   }
  ]
 }

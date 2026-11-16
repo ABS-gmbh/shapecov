@@ -62,6 +62,11 @@ Scenarios (one per run):
                      account 2^53 + 1 stroops, then that account (as its operation's source, signing
                      too) merges into a third, which receives a balance above 2^53. Amounts a reader
                      that keeps stroops in a float64 rounds, and a successful merge.
+  deployer-cb-p28    Protocol 28, stellar-core 30.0.0. One ledger with two transactions naming a
+                     claimable balance as the address that deploys a contract: a native-asset transfer
+                     that succeeds and carries an unused authorization entry declaring such a deploy,
+                     and a create-contract host function from that address, which fails when applied.
+                     Built after reading stellar/wallet-backend#745 (ce0820d7).
   trustline-churn-p28
                      Protocol 28, stellar-core 30.0.0 (so commits pinning go-stellar-sdk v0.7.3 read
                      it). Two consecutive ledgers: in the first an account
@@ -105,7 +110,7 @@ IMAGE_V22 = "stellar/stellar-core:22.2.1-2429.e70f0aed8.focal"
 SCENARIOS = {"muxed-source-p22": IMAGE_V22, "classic-p22": IMAGE_V22, "pools-sponsorship-p30": IMAGE,
              "flags-preauth-p30": IMAGE, "muxed-source-refused-p24": IMAGE, "memo-and-offer-p30": IMAGE,
              "sac-trust-p28": IMAGE, "participants-p28": IMAGE, "failures-p30": IMAGE, "big-merge-p30": IMAGE,
-             "trustline-churn-p28": IMAGE}
+             "trustline-churn-p28": IMAGE, "deployer-cb-p28": IMAGE}
 NAME = "shapecov-localcore-gen"
 PASSPHRASES = {"testnet": "Test SDF Network ; September 2015",
                "pubnet": "Public Global Stellar Network ; September 2015"}
@@ -321,6 +326,8 @@ def main():
             sac_trust_p28(core, enc, dec, root, step, run)
         elif a.scenario == "big-merge-p30":
             big_merge_p30(core, enc, root, step, run)
+        elif a.scenario == "deployer-cb-p28":
+            deployer_cb_p28(core, enc, root, step, run)
         elif a.scenario == "trustline-churn-p28":
             trustline_churn_p28(core, enc, root, step, run)
         elif a.scenario == "failures-p30":
@@ -733,6 +740,91 @@ def big_merge_p30(core, enc, root, step, run):
         raise SystemExit("the payment and merge were refused; see the diagnostics above")
     run["ledger_big_merge"] = core.close()
 
+
+
+def deployer_cb_p28(core, enc, root, step, run):
+    """A claimable balance as a contract's deployer, in a successful and a failed transaction."""
+    core.upgrade(28)
+    native_pre = {"type": "CONTRACT_ID_PREIMAGE_FROM_ASSET", "fromAsset": {"type": "ASSET_TYPE_NATIVE"}}
+
+    def contract_id(preimage):
+        return hashlib.sha256(enc.encode("HashIDPreimage", {
+            "type": "ENVELOPE_TYPE_CONTRACT_ID",
+            "contractID": {"networkID": core.network_id.hex(), "contractIDPreimage": preimage}})).hexdigest()
+
+    def instance_key(cid):
+        return {"type": "CONTRACT_DATA", "contractData": {
+            "contract": {"type": "SC_ADDRESS_TYPE_CONTRACT", "contractId": cid},
+            "key": {"type": "SCV_LEDGER_KEY_CONTRACT_INSTANCE"}, "durability": "PERSISTENT"}}
+
+    def soroban(read_only, read_write):
+        return {"ext": {"v": 0}, "resources": {"footprint": {"readOnly": read_only, "readWrite": read_write},
+                "instructions": 5_000_000, "diskReadBytes": 20_000, "writeBytes": 5_000},
+                "resourceFee": 50_000_000}
+
+    native = contract_id(native_pre)
+    caller, planted = Keys("deployer cb caller"), Keys("deployer cb planted")
+    run["caller"], run["planted"] = strkey.account(caller.pub), strkey.account(planted.pub)
+    t = tx(root.muxed(), 1, [op("CREATE_ACCOUNT", "createAccountOp", {"destination": caller.account(),
+                                                                      "startingBalance": 1000_0000000})])
+    blob, h = envelope(enc, core, t, root)
+    step("deployer-cb-p28: create caller", 28, blob, h, "PENDING, applied")
+    created = core.close()
+    deploy_native = {"sourceAccount": None, "body": {"type": "INVOKE_HOST_FUNCTION", "invokeHostFunctionOp": {
+        "hostFunction": {"type": "HOST_FUNCTION_TYPE_CREATE_CONTRACT", "createContract": {
+            "contractIDPreimage": native_pre, "executable": {"type": "CONTRACT_EXECUTABLE_STELLAR_ASSET"}}},
+        "auth": []}}}
+    blob, h = envelope(enc, core, tx(root.muxed(), 2, [deploy_native], fee=50_010_000,
+                                     soroban=soroban([], [instance_key(native)])), root)
+    if step("deployer-cb-p28: deploy native asset contract", 28, blob, h, "PENDING, applied")["status"] != "PENDING":
+        raise SystemExit("the native asset contract deploy was refused; see the diagnostics above")
+    core.close()
+
+    # A claimable balance address (no such balance needs to exist: the deploy never runs).
+    cb = {"type": "SC_ADDRESS_TYPE_CLAIMABLE_BALANCE", "claimableBalanceId": {
+        "type": "CLAIMABLE_BALANCE_ID_TYPE_V0", "v0": hashlib.sha256(b"shapecov claimable balance deployer").hexdigest()}}
+    from_cb = {"type": "CONTRACT_ID_PREIMAGE_FROM_ADDRESS", "fromAddress": {
+        "address": cb, "salt": hashlib.sha256(b"shapecov deployer cb salt").hexdigest()}}
+    run["cb_contract"] = strkey.contract(contract_id(from_cb))
+    wasm = {"type": "CONTRACT_EXECUTABLE_WASM", "wasm_hash": "00" * 32}
+
+    def acct(k):
+        return {"type": "SC_ADDRESS_TYPE_ACCOUNT", "accountId": k.account()}
+
+    call = {"contractAddress": {"type": "SC_ADDRESS_TYPE_CONTRACT", "contractId": native}, "functionName": "transfer",
+            "args": [{"type": "SCV_ADDRESS", "address": acct(caller)}, {"type": "SCV_ADDRESS", "address": acct(root)},
+                     {"type": "SCV_I128", "i128": {"hi": 0, "lo": 1_0000000}}]}
+    own = {"credentials": {"type": "SOROBAN_CREDENTIALS_SOURCE_ACCOUNT"},
+           "rootInvocation": {"function": {"type": "SOROBAN_AUTHORIZED_FUNCTION_TYPE_CONTRACT_FN", "contractFn": call},
+                              "subInvocations": []}}
+    declared = {"credentials": {"type": "SOROBAN_CREDENTIALS_ADDRESS", "address": {
+        "address": acct(planted), "nonce": 7, "signatureExpirationLedger": 1_000_000, "signature": {"type": "SCV_VOID"}}},
+        "rootInvocation": {"function": {"type": "SOROBAN_AUTHORIZED_FUNCTION_TYPE_CREATE_CONTRACT_HOST_FN",
+                                        "createContractHostFn": {"contractIDPreimage": from_cb, "executable": wasm}},
+                           "subInvocations": []}}
+    transfer = {"sourceAccount": None, "body": {"type": "INVOKE_HOST_FUNCTION", "invokeHostFunctionOp": {
+        "hostFunction": {"type": "HOST_FUNCTION_TYPE_INVOKE_CONTRACT", "invokeContract": call},
+        "auth": [own, declared]}}}
+    rw = [{"type": "ACCOUNT", "account": {"accountID": caller.account()}},
+          {"type": "ACCOUNT", "account": {"accountID": root.account()}}]
+    blob, h = envelope(enc, core, tx(caller.muxed(), (created << 32) + 1, [transfer], fee=50_010_000,
+                                     soroban=soroban([instance_key(native)], rw)), caller)
+    run["tx_declared"] = h
+    if step("deployer-cb-p28: transfer declaring a deploy from a claimable balance", 28, blob, h,
+            "PENDING, applied")["status"] != "PENDING":
+        raise SystemExit("the transfer was refused; see the diagnostics above")
+    create = {"sourceAccount": None, "body": {"type": "INVOKE_HOST_FUNCTION", "invokeHostFunctionOp": {
+        "hostFunction": {"type": "HOST_FUNCTION_TYPE_CREATE_CONTRACT", "createContract": {
+            "contractIDPreimage": from_cb, "executable": wasm}},
+        "auth": []}}}
+    code = {"type": "CONTRACT_CODE", "contractCode": {"hash": "00" * 32}}
+    blob, h = envelope(enc, core, tx(root.muxed(), 3, [create], fee=50_010_000,
+                                     soroban=soroban([code], [instance_key(contract_id(from_cb))])), root)
+    run["tx_create"] = h
+    if step("deployer-cb-p28: create a contract from a claimable balance", 28, blob, h,
+            "PENDING, fails when applied")["status"] != "PENDING":
+        raise SystemExit("the create-contract was refused; see the diagnostics above")
+    run["ledger_deployer_cb"] = core.close()
 
 
 def trustline_churn_p28(core, enc, root, step, run):

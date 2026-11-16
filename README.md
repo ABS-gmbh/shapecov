@@ -15,7 +15,7 @@ indexer-hardening guide has each rule checked against stellar-core. Built for th
 
 | Deliverable | Where | The RFP's acceptance check | Status |
 |---|---|---|---|
-| Corpus: 97 entries, 94 of them real ledgers, with per-CAP coverage | [`corpus/`](corpus/), [`CAP-COVERAGE.md`](corpus/CAP-COVERAGE.md) | 1: entries round-trip through rs-stellar-xdr and match stellar-core's `--check-lcm` goldens | Met |
+| Corpus: 98 entries, 95 of them real ledgers, with per-CAP coverage | [`corpus/`](corpus/), [`CAP-COVERAGE.md`](corpus/CAP-COVERAGE.md) | 1: entries round-trip through rs-stellar-xdr and match stellar-core's `--check-lcm` goldens | Met |
 | Replay harness: wallet-backend (reference adapter) and stellar-etl | [`harness/replay/`](harness/replay/); shapes each indexer mishandles or drops: [`SHAPES.md`](harness/replay/SHAPES.md) | 2: wallet-backend #729, #731 and #716 fail before their fixes and pass after | Met |
 | Linter for the three ingestion mistakes | [`linter/`](linter/) | 3: flags seeded violations, runs clean on wallet-backend | Partly met: 4 real findings on wallet-backend, each triaged with a reason; also run on stellar-etl |
 | Indexer-hardening guide | [`guide/`](guide/) | 4: tables agree with the manifest; publication gated on review | Tables met and probed against stellar-core 30.0.0; **unreviewed** |
@@ -48,7 +48,7 @@ on a laptop. `python3 quickcheck.py --full` adds the unit tests and the mutation
 - **Every corpus ledger is an indexer test.** The oracle derives the expected rows from the ledger;
   every failure in wallet-backend and stellar-etl maps to a filed issue. A sweep of 611 further
   network ledgers (100,676 transactions) found no new defect.
-- **Backtest on past fixes**, measured and incomplete: the harness detects 9 of wallet-backend's 18
+- **Backtest on past fixes**, measured and incomplete: the harness detects 10 of wallet-backend's 18
   in-scope fixes (5 on ledgers not chosen for the bug) and flags 5 of stellar-etl's 9 in-scope issues
   (1 blind). Every miss names the shape, oracle rule or export that would catch it
   ([`BACKTEST.md`](harness/replay/BACKTEST.md)).
@@ -140,7 +140,7 @@ results are not in the repository):
 
 ## Corpus
 
-`corpus/` holds 97 entries and their manifest. `corpus/README.md` describes every field;
+`corpus/` holds 98 entries and their manifest. `corpus/README.md` describes every field;
 `corpus/evidence/` records the reproduced sightings and our findings. Three examples:
 
 | Entry | Type | Source | Shows |
