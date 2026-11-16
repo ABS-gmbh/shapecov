@@ -1,0 +1,29 @@
+{
+ "observation_version": 1,
+ "adapter": "stellar-etl",
+ "commit": "2b24ec89ddce7fc0beb7795de982c93e6895eaf3",
+ "input": "datalake",
+ "entry_id": "localcore-upgrades-14",
+ "ledger_seq": 14,
+ "ingested": true,
+ "error": null,
+ "adapter_failure": false,
+ "transactions": [],
+ "operations": [],
+ "state_changes": [],
+ "balance_movements": [],
+ "unreadable": [],
+ "row_counts": {
+  "transactions": 0,
+  "operations": 0,
+  "effects": 0,
+  "token_transfer": 0,
+  "contract_events": 0
+ },
+ "seconds": 2.0,
+ "process": {
+  "outcome": "exited",
+  "exit_code": 0
+ },
+ "contract_events": []
+}

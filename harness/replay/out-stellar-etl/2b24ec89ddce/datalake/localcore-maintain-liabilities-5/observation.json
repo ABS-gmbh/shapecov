@@ -62,11 +62,30 @@
   "transactions": 1,
   "operations": 1,
   "effects": 1,
-  "token_transfer": 1
+  "token_transfer": 1,
+  "contract_events": 2
  },
  "seconds": 1.5,
  "process": {
   "outcome": "exited",
   "exit_code": 0
- }
+ },
+ "contract_events": [
+  {
+   "tx_hash": "9bde8161307c0d2908963dbefd80ae1889e79cc12d56fde1f46cd15d897d27e0",
+   "op_order": null,
+   "type": "ContractEventTypeContract",
+   "successful": true,
+   "in_successful_contract_call": true,
+   "event_sha256": "dcc3160369d06404f04dee59ab1685bbb8e73d5ec759d616801a2981b621d1c4"
+  },
+  {
+   "tx_hash": "9bde8161307c0d2908963dbefd80ae1889e79cc12d56fde1f46cd15d897d27e0",
+   "op_order": 1,
+   "type": "ContractEventTypeContract",
+   "successful": true,
+   "in_successful_contract_call": true,
+   "event_sha256": "0cd03e07a3a6000e837363cc46d53d159489cff9862f9af60eacb3f4fe832c0c"
+  }
+ ]
 }

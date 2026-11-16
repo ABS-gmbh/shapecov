@@ -397,11 +397,62 @@
   "transactions": 1,
   "operations": 1,
   "effects": 16,
-  "token_transfer": 5
+  "token_transfer": 5,
+  "contract_events": 6
  },
- "seconds": 1.7,
+ "seconds": 1.4,
  "process": {
   "outcome": "exited",
   "exit_code": 0
- }
+ },
+ "contract_events": [
+  {
+   "tx_hash": "bf42f546abf271d32c8a7dd8e06a26aa5ab305a5426431f13d3e136f961885a5",
+   "op_order": null,
+   "type": "ContractEventTypeContract",
+   "successful": true,
+   "in_successful_contract_call": true,
+   "event_sha256": "62f51c530d1035992923dfd0ee2e07556bd86e92ed8a7dfaef84d6443ba6c5e0"
+  },
+  {
+   "tx_hash": "bf42f546abf271d32c8a7dd8e06a26aa5ab305a5426431f13d3e136f961885a5",
+   "op_order": 1,
+   "type": "ContractEventTypeContract",
+   "successful": true,
+   "in_successful_contract_call": true,
+   "event_sha256": "e2667baf70edd1d62be9e0eb8581b6e47e8169785104ce5f31ac3bcc45891f1c"
+  },
+  {
+   "tx_hash": "bf42f546abf271d32c8a7dd8e06a26aa5ab305a5426431f13d3e136f961885a5",
+   "op_order": 1,
+   "type": "ContractEventTypeContract",
+   "successful": true,
+   "in_successful_contract_call": true,
+   "event_sha256": "778e22c8cb43ec44a28c3c4f62b06f7c798472f1bf49e70f38663b487eaa108a"
+  },
+  {
+   "tx_hash": "bf42f546abf271d32c8a7dd8e06a26aa5ab305a5426431f13d3e136f961885a5",
+   "op_order": 1,
+   "type": "ContractEventTypeContract",
+   "successful": true,
+   "in_successful_contract_call": true,
+   "event_sha256": "583204f2ccdbaeb3acdeab7fadc0a48e836986c48f742488403e40f66335f1bd"
+  },
+  {
+   "tx_hash": "bf42f546abf271d32c8a7dd8e06a26aa5ab305a5426431f13d3e136f961885a5",
+   "op_order": 1,
+   "type": "ContractEventTypeContract",
+   "successful": true,
+   "in_successful_contract_call": true,
+   "event_sha256": "8a927bc3fdf367c85a880368f9ef07781399eacd9e27c64024f9270dd741f9c1"
+  },
+  {
+   "tx_hash": "bf42f546abf271d32c8a7dd8e06a26aa5ab305a5426431f13d3e136f961885a5",
+   "op_order": 1,
+   "type": "ContractEventTypeContract",
+   "successful": true,
+   "in_successful_contract_call": true,
+   "event_sha256": "297e9bae77221627e3f921c86b37f863389df54ec3171999ae1a735b668d242c"
+  }
+ ]
 }

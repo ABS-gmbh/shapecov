@@ -141,7 +141,7 @@ rows from ledger data.
 | #449 trust_lines asset_id hashed from the enum name | no: an identifier derivation in a table the adapter does not export | — | — |
 | #450 fabricated muxed destination for text/hash memos | yes | **flagged, confirmed after reading the issue**: 928 rows in 17 ledgers (`localcore-memo-and-offer-p30-4`, 11 pubnet and 5 testnet ledgers). Each is a payment to a G address carrying a text (926) or hash (2) memo that stellar-etl exports with an M address of muxed ID 0. The rule compares the export's `to_muxed` with the CAP-67 transfer event's `to_muxed_id` (an integer gives an M address, a string or bytes gives none); it was written after reading the issue, so the detection is not blind | — |
 | #451 rounding_slippage formula for strict-receive pool trades | yes | not run: the adapter does not run `export_trades` | `export_trades` in the adapter, and the pool trades already in the pubnet corpus ledgers |
-| #452 diagnostic events emitted twice in contract events | yes | not run: the adapter does not run `export_contract_events` | `export_contract_events` in the adapter; every Soroban corpus ledger has diagnostic events |
+| #452 diagnostic events emitted twice in contract events | yes | **flagged, confirmed after reading the issue**: 1,684 contract events exported twice in 500 transactions on 31 ledgers (the copy from the meta's diagnostic list, which repeats a successful call's events), and 1,692 events of 1,655 failed transactions exported with `in_successful_contract_call` true on 34 ledgers. The rule matches each exported row's event XDR to the meta: every event of the operations and the transaction exactly as often as the meta has it, and the flag equal to the transaction's success. Every other exported contract event matches an event of the meta, except 20 rows in three ledgers: events of failed calls, which only the diagnostic list carries, exported with `in_successful_contract_call` false | — |
 | #453 Soroban fee fields (fee-bump undercount, refund zeroed for muxed fee source) | yes | **missed**: the oracle checks fees through token transfers, not the transactions export's fee columns | compare `fee_charged` and `resource_fee_refund` with the oracle's fee bucket, plus a new entry: a fee bump with a muxed fee source around a Soroban transaction (a local-core scenario), and a protocol 20 Soroban fee bump from the public archive |
 | #454 amounts as float64 | no: a representation contract, not a ledger shape (the adapter reads `amount_raw`) | — | — |
 | #455 path-payment amount JSON type varies with success | no: serialization type stability | — | — |
@@ -155,8 +155,8 @@ rows from ledger data.
 | #463 dead code | no | — | — |
 | #464 fee-bump inner signers captured nowhere | no: a schema omission by design | — | — |
 
-**stellar-etl: 5 of 9 in-scope issues flagged (1 blind).** Three are in exports the adapter does not
-run yet (#451, #452, #459); #453 needs both a rule and a new entry (none of the corpus's 1,005 fee
+**stellar-etl: 6 of 9 in-scope issues flagged (1 blind).** Two are in exports the adapter does not
+run yet (#451, #459); #453 needs both a rule and a new entry (none of the corpus's 1,005 fee
 bumps has a muxed fee source on a Soroban transaction). All three the RFP's background names are
 settled: #450 and #457 are flagged from ledger data, and #454 is a precision contract rather than a
 ledger shape.

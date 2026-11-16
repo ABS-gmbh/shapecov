@@ -15,25 +15,26 @@
   "localcore-op-failures-8",
   "testnet-4437357-signed-payload-signer",
   "testnet-5709224",
-  "pubnet-65480300"
+  "pubnet-65480300",
+  "localcore-big-merge-4"
  ],
- "baseline_passes": 16,
+ "baseline_passes": 17,
  "mutants": [
   {
    "mutant": "ignore the fee",
    "what": "no BALANCE row for the fee",
    "check": "balance_net at position 0",
    "status": "killed",
-   "ledgers_changed": 16,
-   "ledgers_failing": 16
+   "ledgers_changed": 17,
+   "ledgers_failing": 17
   },
   {
    "mutant": "fee once per operation",
    "what": "the fee multiplied by the operation count",
    "check": "balance_net at position 0",
    "status": "killed",
-   "ledgers_changed": 3,
-   "ledgers_failing": 3
+   "ledgers_changed": 4,
+   "ledgers_failing": 4
   },
   {
    "mutant": "skip failed transactions",
@@ -48,8 +49,8 @@
    "what": "no rows for PAYMENT operations",
    "check": "balance_net",
    "status": "killed",
-   "ledgers_changed": 4,
-   "ledgers_failing": 4
+   "ledgers_changed": 5,
+   "ledgers_failing": 5
   },
   {
    "mutant": "drop path payments (strict send)",
@@ -72,32 +73,32 @@
    "what": "a payment's debit and credit stored on the wrong accounts",
    "check": "balance_net",
    "status": "killed",
-   "ledgers_changed": 4,
-   "ledgers_failing": 4
+   "ledgers_changed": 5,
+   "ledgers_failing": 5
   },
   {
    "mutant": "sign flipped",
    "what": "CREDIT and DEBIT swapped for every operation",
    "check": "balance_net",
    "status": "killed",
-   "ledgers_changed": 9,
-   "ledgers_failing": 9
+   "ledgers_changed": 10,
+   "ledgers_failing": 10
   },
   {
    "mutant": "operation index off by one",
    "what": "operation positions shifted by one",
    "check": "balance_net",
    "status": "killed",
-   "ledgers_changed": 9,
-   "ledgers_failing": 9
+   "ledgers_changed": 10,
+   "ledgers_failing": 10
   },
   {
    "mutant": "truncate addresses",
    "what": "every stored address loses its last character",
    "check": "state_change, balance_net",
    "status": "killed",
-   "ledgers_changed": 16,
-   "ledgers_failing": 16
+   "ledgers_changed": 17,
+   "ledgers_failing": 17
   },
   {
    "mutant": "amount from the envelope",
@@ -111,9 +112,9 @@
    "mutant": "amounts through float64",
    "what": "amounts above 2^53 rounded",
    "check": "balance_net",
-   "status": "not exercised",
-   "ledgers_changed": 0,
-   "ledgers_failing": 0
+   "status": "killed",
+   "ledgers_changed": 1,
+   "ledgers_failing": 1
   },
   {
    "mutant": "drop signers",
@@ -135,9 +136,9 @@
    "mutant": "drop account merge",
    "what": "no ACCOUNT MERGE rows",
    "check": "state_change",
-   "status": "not exercised",
-   "ledgers_changed": 0,
-   "ledgers_failing": 0
+   "status": "killed",
+   "ledgers_changed": 1,
+   "ledgers_failing": 1
   },
   {
    "mutant": "drop trustline authorization",
@@ -168,39 +169,39 @@
    "what": "transactions stored with no participants",
    "check": "participant",
    "status": "killed",
-   "ledgers_changed": 16,
-   "ledgers_failing": 16
+   "ledgers_changed": 17,
+   "ledgers_failing": 17
   },
   {
    "mutant": "a stranger's balance",
    "what": "a BALANCE row for an account the ledger never touches",
    "check": "unexpected balance movement",
    "status": "killed",
-   "ledgers_changed": 16,
-   "ledgers_failing": 16
+   "ledgers_changed": 17,
+   "ledgers_failing": 17
   },
   {
    "mutant": "duplicate state changes",
    "what": "every state change stored twice",
    "check": "state_change: a row stored more than once",
    "status": "killed",
-   "ledgers_changed": 11,
-   "ledgers_failing": 11
+   "ledgers_changed": 12,
+   "ledgers_failing": 12
   },
   {
    "mutant": "a stranger's state change",
    "what": "a TRUSTLINE ADD row for an account the ledger never touches",
    "check": "participants_within: a stored state change's account must be an address the meta shows",
    "status": "killed",
-   "ledgers_changed": 16,
-   "ledgers_failing": 16
+   "ledgers_changed": 17,
+   "ledgers_failing": 17
   },
   {
    "mutant": "a contract's balance",
    "what": "a BALANCE row for a contract the ledger never touches",
    "check": "only incidentally, through participants_within, when the contract is absent from the meta: balances held by contracts are not compared, because the oracle does not read contract storage",
    "status": "killed",
-   "ledgers_changed": 16,
+   "ledgers_changed": 17,
    "ledgers_failing": 1
   }
  ]

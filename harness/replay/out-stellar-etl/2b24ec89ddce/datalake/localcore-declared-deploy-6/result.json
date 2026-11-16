@@ -1,0 +1,49 @@
+{
+ "entry_id": "localcore-declared-deploy-6",
+ "adapter": "stellar-etl",
+ "ref": "2b24ec89ddce7fc0beb7795de982c93e6895eaf3",
+ "commit": "2b24ec89ddce7fc0beb7795de982c93e6895eaf3",
+ "input": "datalake",
+ "protocol_version": 28,
+ "sdk_pin": "v0.8.1-0.20261106081502-e31e3b146d00",
+ "mode": "unmodified",
+ "result": "pass",
+ "mishandled": [],
+ "dropped": [],
+ "checks": [],
+ "expectations": 0,
+ "expectations_source": "none (implicit checks only)",
+ "ledger": {
+  "seq": 6,
+  "hash": "3f5409bb5539bb87eb595a8affc1379128dce5391857126065f35bb1a68fd4bc",
+  "close_time": 4050000000,
+  "protocol": 28
+ },
+ "ingested": true,
+ "row_counts": {
+  "transactions": 1,
+  "operations": 1,
+  "effects": 2,
+  "token_transfer": 3,
+  "contract_events": 25
+ },
+ "process": {
+  "outcome": "exited",
+  "exit_code": 0
+ },
+ "seconds": 1.6,
+ "feeder_requests": 20,
+ "evidence": "out-stellar-etl/2b24ec89ddce/datalake/localcore-declared-deploy-6",
+ "oracle": {
+  "verdict": "known issues only",
+  "rows_expected": 9,
+  "rows_met": 8,
+  "known": {
+   "stellar/stellar-etl#452": 1
+  },
+  "unexplained": [],
+  "known_outcome": {
+   "stellar/stellar-etl#452": "mishandled"
+  }
+ }
+}

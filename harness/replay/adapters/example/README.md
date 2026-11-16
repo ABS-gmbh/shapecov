@@ -51,7 +51,7 @@ shows up as a new commit and `check.py` asks for a rerun.
 [`mutants.py`](mutants.py) runs a third, "full" toy indexer in-process, with no Docker: it stores
 what the oracle checks (state changes, BALANCE rows and participants, in wallet-backend's
 vocabulary), first exactly as each ledger's meta shows, then with one seeded bug at a time. The
-harness's own verdict judges every mutant on 16 corpus ledgers; [`MUTANTS.md`](MUTANTS.md) lists
+harness's own verdict judges every mutant on 17 corpus ledgers; [`MUTANTS.md`](MUTANTS.md) lists
 which are killed, which survive and what would catch them. The quick check reruns it.
 
 ## Writing an adapter for a real indexer

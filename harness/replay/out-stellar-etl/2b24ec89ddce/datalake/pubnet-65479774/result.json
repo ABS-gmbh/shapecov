@@ -1,50 +1,53 @@
 {
- "adapter": "stellar-etl",
- "checks": [],
- "commit": "2b24ec89ddce7fc0beb7795de982c93e6895eaf3",
- "dropped": [],
  "entry_id": "pubnet-65479774",
- "evidence": "out-stellar-etl/2b24ec89ddce/datalake/pubnet-65479774",
+ "adapter": "stellar-etl",
+ "ref": "2b24ec89ddce7fc0beb7795de982c93e6895eaf3",
+ "commit": "2b24ec89ddce7fc0beb7795de982c93e6895eaf3",
+ "input": "datalake",
+ "protocol_version": 29,
+ "sdk_pin": "v0.8.1-0.20261106081502-e31e3b146d00",
+ "mode": "unmodified",
+ "result": "pass",
+ "mishandled": [],
+ "dropped": [],
+ "checks": [],
  "expectations": 0,
  "expectations_source": "none (implicit checks only)",
- "feeder_requests": 16,
- "ingested": true,
- "input": "datalake",
  "ledger": {
-  "close_time": 1794684912,
+  "seq": 65479774,
   "hash": "903e67b781d4182ece91294ec104860358bc817394617583bd6a14f67ade2b1e",
-  "protocol": 29,
-  "seq": 65479774
+  "close_time": 1794684912,
+  "protocol": 29
  },
- "mishandled": [],
- "mode": "unmodified",
+ "ingested": true,
+ "row_counts": {
+  "transactions": 181,
+  "operations": 560,
+  "effects": 538,
+  "token_transfer": 582,
+  "contract_events": 776
+ },
+ "process": {
+  "outcome": "exited",
+  "exit_code": 0
+ },
+ "seconds": 1.3,
+ "feeder_requests": 20,
+ "evidence": "out-stellar-etl/2b24ec89ddce/datalake/pubnet-65479774",
  "oracle": {
   "verdict": "known issues only",
-  "rows_expected": 900,
-  "rows_met": 794,
+  "rows_expected": 1938,
+  "rows_met": 1768,
   "known": {
    "stellar/stellar-etl#456": 12,
-   "stellar/stellar-etl#450": 94
+   "stellar/stellar-etl#450": 94,
+   "stellar/stellar-etl#452": 64
   },
   "unexplained": [],
   "known_outcome": {
    "stellar/stellar-etl#456": "mishandled",
-   "stellar/stellar-etl#450": "mishandled"
+   "stellar/stellar-etl#450": "mishandled",
+   "stellar/stellar-etl#452": "mishandled"
   }
- },
- "process": {
-  "exit_code": 0,
-  "outcome": "exited"
- },
- "protocol_version": 29,
- "ref": "master",
- "result": "pass",
- "row_counts": {
-  "effects": 538,
-  "operations": 560,
-  "token_transfer": 582,
-  "transactions": 181
- },
- "sdk_pin": "v0.8.1-0.20261106081502-e31e3b146d00",
- "seconds": 1.8
+ }
 }

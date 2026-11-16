@@ -5,8 +5,8 @@ Runs the real, unmodified exporter at a given commit:
   prepare  clone, export the commit, `go build` its own main package with cgo, in the Go image its
            own docker/Dockerfile names (Docker)
   up       nothing: stellar-etl keeps no state between runs
-  run      the commit's own `export_transactions`, `export_operations`, `export_effects` and
-           `export_token_transfer` commands for the one ledger, reading the data lake through the
+  run      the commit's own `export_transactions`, `export_operations`, `export_effects`,
+           `export_token_transfer` and `export_contract_events` commands for the one ledger, reading the data lake through the
            Google Cloud Storage client pointed at the feeder with STORAGE_EMULATOR_HOST
            -> the exported JSON lines are read back
   down     remove the container
@@ -20,14 +20,17 @@ Nothing in the stellar-etl tree is edited and no dependency is changed. Everythi
 runs in Docker. Python standard library only.
 """
 import argparse
+import base64
 import glob
 import gzip
+import hashlib
 import json
 import os
 import re
 import subprocess
 import sys
 import time
+from urllib.parse import urlparse
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(HERE, "..", ".."))
@@ -35,15 +38,19 @@ import strkeyx  # noqa: E402
 
 REPO_URL = "https://github.com/stellar/stellar-etl"
 DEFAULT_GO_IMAGE = "golang:1.27"
-RUN = "shapecov-replay-etl"
-BUILD = "shapecov-replay-etl-build"
-GCS_HOST = "shapecov-replay-feeder:9100"
+# REPLAY_PREFIX (default shapecov-replay) names every container, as replay.py does, so that two
+# replays can run side by side. The feeder's GCS endpoint is on the same host as its S3 endpoint.
+PREFIX = os.environ.get("REPLAY_PREFIX", "shapecov-replay")
+RUN = PREFIX + "-etl"
+BUILD = PREFIX + "-etl-build"
+GCS_PORT = 9100
 NETWORK_FLAGS = {"Public Global Stellar Network ; September 2015": [],
                  "Test SDF Network ; September 2015": ["--testnet"],
                  "Test SDF Future Network ; October 2022": ["--futurenet"]}
 # export command -> output name. Order matters only for the log.
 EXPORTS = [("export_transactions", "transactions"), ("export_operations", "operations"),
-           ("export_effects", "effects"), ("export_token_transfer", "token_transfer")]
+           ("export_effects", "effects"), ("export_token_transfer", "token_transfer"),
+           ("export_contract_events", "contract_events")]
 STRKEY = re.compile(r"^[GMCPTXLB][A-Z2-7]{55,}$")
 
 
@@ -170,6 +177,15 @@ def unreadable_strings(table, rows):
     return out
 
 
+def contract_event_sha256(diagnostic_b64):
+    """stellar-etl's contract_event_xdr is a DiagnosticEvent (a 4-byte bool, then the ContractEvent);
+    the SHA-256 of the ContractEvent alone, to compare with the event in the meta. The exported rows
+    themselves are kept in exports/contract_events."""
+    if not diagnostic_b64:
+        return None
+    return hashlib.sha256(base64.b64decode(diagnostic_b64)[4:]).hexdigest()
+
+
 DEPLOY_FIELDS = ("type", "from", "address", "asset", "salt", "contract_id")
 
 
@@ -222,7 +238,7 @@ def run(a):
         # Run as the calling user, so the exported files can be read, compressed and removed on the host.
         p = sh(["docker", "run", "--rm", "--name", RUN, "--network", job["docker_network"], "--memory", "2g",
                 "--user", "%d:%d" % (os.getuid(), os.getgid()), "-e", "HOME=/tmp",
-                "-e", "STORAGE_EMULATOR_HOST=" + GCS_HOST, "-v", os.path.join(work, "bin") + ":/etl:ro",
+                "-e", "STORAGE_EMULATOR_HOST=%s:%d" % (urlparse(job["datalake"]["s3_endpoint"]).hostname, GCS_PORT), "-v", os.path.join(work, "bin") + ":/etl:ro",
                 "-v", exports + ":/exports", info["go_image"], "sh", "-c", script], check=False,
                timeout=job.get("timeout_seconds", 120) * len(EXPORTS))
     except subprocess.TimeoutExpired:
@@ -302,6 +318,19 @@ def run(a):
                                                  "token_kind": "asset" if t.get("asset") else "contract",
                                                  "to_muxed": t.get("to_muxed") if delta > 0 else None,
                                                  "event": t.get("event_topic")})
+    # Contract events (history_contract_events): one row per exported event, with the event's own XDR,
+    # hashed, so that each can be matched to the event in the meta it came from.
+    # Rows of type Diagnostic are left out: no event in the operations' or transaction's lists has
+    # that type, so none can match; they stay in exports/contract_events with the rest.
+    obs["contract_events"] = []
+    for c in rows["contract_events"]:
+        if c.get("type_string") == "ContractEventTypeDiagnostic":
+            continue
+        op = toid_parts(c["operation_id"])[2] if c.get("operation_id") is not None else None
+        obs["contract_events"].append({"tx_hash": c["transaction_hash"], "op_order": op,
+                                       "type": c.get("type_string"), "successful": c.get("successful"),
+                                       "in_successful_contract_call": c.get("in_successful_contract_call"),
+                                       "event_sha256": contract_event_sha256(c.get("contract_event_xdr"))})
     for name, rs in rows.items():
         obs["unreadable"] += unreadable_strings(name, rs)
     finish()

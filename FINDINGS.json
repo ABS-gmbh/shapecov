@@ -472,6 +472,28 @@
    ]
   },
   {
+   "id": "C15",
+   "kind": "confirmed",
+   "title": "history_contract_events exports a successful call's contract events twice, and marks events of failed transactions as in a successful contract call",
+   "component": "stellar-etl: export_contract_events (TransformContractEvent)",
+   "severity": "S2",
+   "severity_note": "confirmed after reading the issue, not found blind; rows are duplicated or carry a wrong flag, none is lost",
+   "caps": [],
+   "caps_none_reason": "an export's handling of the meta's event lists, not a protocol shape",
+   "reproduction": {
+    "corpus_entry": "testnet-5711641"
+   },
+   "upstream": [
+    "https://github.com/stellar/stellar-etl/issues/452"
+   ],
+   "first_reported_by": "chowbao (stellar-etl maintainer)",
+   "reported": "2026-07-04",
+   "status": "open; the oracle flags 1,684 contract events exported twice in 500 transactions on 31 corpus ledgers, and 1,692 events of 1,655 failed transactions with in_successful_contract_call true on 34 ledgers",
+   "labels": [
+    "stellar/stellar-etl#452"
+   ]
+  },
+  {
    "id": "J2",
    "kind": "confirmed",
    "title": "A liquidity-pool asset pair the network accepted is refused: issuers compared as strkey text",

@@ -40,7 +40,8 @@ LEDGERS = ["localcore-classic-p22-3", "localcore-memo-and-offer-p30-4", "localco
            "localcore-pool-revoke-two-pools-7", "localcore-claim-and-sponsor-8", "localcore-sponsorship-transfer-9",
            "localcore-preauth-failed-6", "localcore-maintain-liabilities-5", "localcore-muxed-source-p22-3",
            "localcore-planted-auth-5", "localcore-declared-deploy-6", "localcore-tx-failures-plain-12",
-           "localcore-op-failures-8", "testnet-4437357-signed-payload-signer", "testnet-5709224", "pubnet-65480300"]
+           "localcore-op-failures-8", "testnet-4437357-signed-payload-signer", "testnet-5709224", "pubnet-65480300",
+           "localcore-big-merge-4"]
 OUT_JSON, OUT_MD = HERE / "mutants.json", HERE / "MUTANTS.md"
 STRANGER = "GA7QYNF7SOWQ3GLR2BGMZEHXAVIRZA4KVWLTJJFC7MGXUA74P7UJVSGZ"
 

@@ -227,6 +227,36 @@ class OperationDetail(unittest.TestCase):
         self.assertEqual(classify.classify([exp], obs(operations=self.ops(contract_id=C)))["result"], "dropped")
 
 
+class ContractEvent(unittest.TestCase):
+    """stellar-etl#452: each contract event exported as often as the meta has it, with the right flag."""
+    EV = "ab" * 32
+
+    def ev(self, n, flag=True, tx=TX):
+        return [{"tx_hash": tx, "event_sha256": self.EV, "in_successful_contract_call": flag} for _ in range(n)]
+
+    def count(self, n):
+        return {"expect": "contract_event", "tx_hash": TX, "event_sha256": self.EV, "count": n}
+
+    def test_exactly_as_often_as_the_meta(self):
+        self.assertEqual(classify.classify([self.count(1)], obs(contract_events=self.ev(1)))["result"], "pass")
+
+    def test_exported_twice_is_mishandled(self):
+        r = classify.classify([self.count(1)], obs(contract_events=self.ev(2)))
+        self.assertEqual(r["result"], "mishandled")
+        self.assertIn("exported 2 time(s), the meta has it 1", r["mishandled"][0])
+
+    def test_not_exported_is_dropped(self):
+        self.assertEqual(classify.classify([self.count(1)], obs(contract_events=self.ev(1, tx="bb" * 32)))["result"], "dropped")
+
+    def test_flag_of_a_failed_transaction(self):
+        exp = {"expect": "contract_event_flag", "tx_hash": TX, "event_sha256": self.EV, "in_successful_contract_call": False}
+        self.assertEqual(classify.classify([exp], obs(contract_events=self.ev(1, flag=False)))["result"], "pass")
+        self.assertEqual(classify.classify([exp], obs(contract_events=self.ev(1, flag=True)))["result"], "mishandled")
+
+    def test_an_indexer_without_contract_events_is_not_checked(self):
+        self.assertEqual(classify.classify([self.count(1)], obs())["result"], "pass")
+
+
 class Unknown(unittest.TestCase):
     def test_unknown_kind_is_counted_not_judged(self):
         r = classify.classify([{"expect": "from_the_future"}], obs())

@@ -1,25 +1,41 @@
 {
- "adapter": "stellar-etl",
- "checks": [],
- "commit": "2b24ec89ddce7fc0beb7795de982c93e6895eaf3",
- "dropped": [],
  "entry_id": "localcore-muxed-source-p22-3",
- "evidence": "out-stellar-etl/2b24ec89ddce/datalake/localcore-muxed-source-p22-3",
+ "adapter": "stellar-etl",
+ "ref": "2b24ec89ddce7fc0beb7795de982c93e6895eaf3",
+ "commit": "2b24ec89ddce7fc0beb7795de982c93e6895eaf3",
+ "input": "datalake",
+ "protocol_version": 22,
+ "sdk_pin": "v0.8.1-0.20261106081502-e31e3b146d00",
+ "mode": "unmodified",
+ "result": "mishandled",
+ "mishandled": [
+  "the indexer raised an error on this ledger and did not ingest it: token_transfer exited 1: time=\"2026-11-16T21:56:06.533Z\" level=fatal msg=\"could not transform token transfers for ledger 3: error reading from unified events stream, expected version 4 got 3\" pid=37"
+ ],
+ "dropped": [],
+ "checks": [],
  "expectations": 0,
  "expectations_source": "none (implicit checks only)",
- "feeder_requests": 16,
- "ingested": false,
- "input": "datalake",
  "ledger": {
-  "close_time": 4020000000,
+  "seq": 3,
   "hash": "01bd4117bc2281d4f43c8ddfd9e5b9a689f8fedca70ef64d9636c3dcebe536d7",
-  "protocol": 22,
-  "seq": 3
+  "close_time": 4020000000,
+  "protocol": 22
  },
- "mishandled": [
-  "the indexer raised an error on this ledger and did not ingest it: token_transfer exited 1: time=\"2026-11-16T17:25:47.240Z\" level=fatal msg=\"could not transform token transfers for ledger 3: error reading from unified events stream, expected version 4 got 3\" pid=38"
- ],
- "mode": "unmodified",
+ "ingested": false,
+ "row_counts": {
+  "transactions": 1,
+  "operations": 1,
+  "effects": 0,
+  "token_transfer": 0,
+  "contract_events": 21
+ },
+ "process": {
+  "outcome": "exited",
+  "exit_code": 1
+ },
+ "seconds": 1.4,
+ "feeder_requests": 20,
+ "evidence": "out-stellar-etl/2b24ec89ddce/datalake/localcore-muxed-source-p22-3",
  "oracle": {
   "verdict": "mishandled",
   "rows_expected": 2,
@@ -28,20 +44,5 @@
    "stellar/stellar-etl#512": 1
   },
   "unexplained": []
- },
- "process": {
-  "exit_code": 1,
-  "outcome": "exited"
- },
- "protocol_version": 22,
- "ref": "master",
- "result": "mishandled",
- "row_counts": {
-  "effects": 0,
-  "operations": 1,
-  "token_transfer": 0,
-  "transactions": 1
- },
- "sdk_pin": "v0.8.1-0.20261106081502-e31e3b146d00",
- "seconds": 1.9
+ }
 }

@@ -1,7 +1,7 @@
 {
  "job_version": 1,
  "entry_id": "localcore-classic-p22-3",
- "ref": "master",
+ "ref": "2b24ec89ddce7fc0beb7795de982c93e6895eaf3",
  "commit": "2b24ec89ddce7fc0beb7795de982c93e6895eaf3",
  "input": "datalake",
  "network_passphrase": "Test SDF Network ; September 2015",
@@ -12,17 +12,17 @@
   "protocol": 22
  },
  "rpc": {
-  "url": "http://shapecov-replay-feeder:8000/rpc/localcore-classic-p22-3"
+  "url": "http://shapecov-etl-feeder:8000/rpc/localcore-classic-p22-3"
  },
  "datalake": {
-  "s3_endpoint": "http://shapecov-replay-feeder:9000",
+  "s3_endpoint": "http://shapecov-etl-feeder:9000",
   "bucket_path": "shapecov-lake/localcore-classic-p22-3",
   "region": "us-east-1"
  },
  "history_archive": {
-  "url": "http://shapecov-replay-feeder:8000/archive/localcore-classic-p22-3"
+  "url": "http://shapecov-etl-feeder:8000/archive/localcore-classic-p22-3"
  },
- "docker_network": "shapecov-replay-net",
+ "docker_network": "shapecov-etl-net",
  "timeout_seconds": 120,
  "work_dir": "$REPLAY_WORK"
 }

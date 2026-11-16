@@ -29,8 +29,9 @@ REPORT_INTRO = [
     "Each cell is the result for one entry at one commit. stellar-etl reads ledgers only from a data lake",
     "on Google Cloud Storage, so the one input is `datalake`: the Galexie layout served through the GCS JSON",
     "and XML APIs, with the exporter's own GCS client pointed at the feeder by `STORAGE_EMULATOR_HOST`. Every",
-    "cell runs the commit's own `export_transactions`, `export_operations`, `export_effects` and",
-    "`export_token_transfer` for the one ledger and reads the exported JSON back. stellar-etl reads only",
+    "cell runs the commit's own `export_transactions`, `export_operations`, `export_effects`,",
+    "`export_token_transfer` and `export_contract_events` for the one ledger and reads the exported JSON",
+    "back. stellar-etl reads only",
     "pubnet, testnet and futurenet, so entries from stellar-core's test data are `n/a`.",
 ]
 
@@ -243,6 +244,47 @@ def deploy_expectations(value, passphrase):
         if d["from"] == "address":
             out.append(dict(base, field="salt", derived_from="oracle: the deploy's preimage carries a salt",
                             via=dict(base["via"], how="salt")))
+    return out
+
+
+def meta_events(value):
+    """Per transaction, the contract events its meta carries outside the diagnostic list: protocol 23+
+    (meta v4) each operation's `events` and the transaction-level `events` (fee events); before 23
+    (meta v3) `sorobanMeta.events`. Yields (tx_hash, success, [ContractEvent value, ...])."""
+    import oracle
+    for tp in value["v%d" % value["v"]]["txProcessing"]:
+        res = tp["result"]
+        meta = tp["txApplyProcessing"]
+        mv = meta.get("v%d" % meta["v"]) or {}
+        events = []
+        if meta["v"] >= 4:
+            events += [te["event"] for te in mv.get("events") or []]
+            for op in mv.get("operations") or []:
+                events += op.get("events") or []
+        elif meta["v"] == 3:
+            events += (mv.get("sorobanMeta") or {}).get("events") or []
+        yield res["transactionHash"], res["result"]["result"]["code"] in oracle.SUCCESS, events
+
+
+def event_expectations(value, passphrase):
+    """stellar-etl's history_contract_events: every contract event of the meta exported exactly as
+    often as the meta carries it (stellar-etl#452: the diagnostic list, which repeats a successful
+    call's contract events, is exported as well), and `in_successful_contract_call` true only for a
+    successful transaction (#452: hard-coded true)."""
+    out = []
+    for tx, ok, events in meta_events(value):
+        counts = {}
+        for ev in events:
+            x = hashlib.sha256(_encoder().encode("ContractEvent", ev)).hexdigest()
+            counts[x] = counts.get(x, 0) + 1
+        for x, n in counts.items():
+            base = {"tx_hash": tx, "event_sha256": x, "via": {"what": "contract event", "success": ok}}
+            out.append(dict(base, expect="contract_event", count=n,
+                            derived_from="oracle: the event appears %d time(s) in the transaction's meta, diagnostics "
+                                         "aside" % n, via=dict(base["via"], how="exported as often as the meta has it")))
+            out.append(dict(base, expect="contract_event_flag", in_successful_contract_call=ok,
+                            derived_from="oracle: the transaction %s" % ("succeeded" if ok else "failed"),
+                            via=dict(base["via"], how="in_successful_contract_call")))
     return out
 
 

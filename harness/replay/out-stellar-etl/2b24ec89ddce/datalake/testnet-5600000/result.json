@@ -1,48 +1,51 @@
 {
- "adapter": "stellar-etl",
- "checks": [],
- "commit": "2b24ec89ddce7fc0beb7795de982c93e6895eaf3",
- "dropped": [],
  "entry_id": "testnet-5600000",
- "evidence": "out-stellar-etl/2b24ec89ddce/datalake/testnet-5600000",
+ "adapter": "stellar-etl",
+ "ref": "2b24ec89ddce7fc0beb7795de982c93e6895eaf3",
+ "commit": "2b24ec89ddce7fc0beb7795de982c93e6895eaf3",
+ "input": "datalake",
+ "protocol_version": 30,
+ "sdk_pin": "v0.8.1-0.20261106081502-e31e3b146d00",
+ "mode": "unmodified",
+ "result": "pass",
+ "mishandled": [],
+ "dropped": [],
+ "checks": [],
  "expectations": 0,
  "expectations_source": "none (implicit checks only)",
- "feeder_requests": 16,
- "ingested": true,
- "input": "datalake",
  "ledger": {
-  "close_time": 1794023641,
+  "seq": 5600000,
   "hash": "f769877f13f65e11bda1bfe73e8c4e080897f759873ffba9ca40a29207551e1e",
-  "protocol": 30,
-  "seq": 5600000
+  "close_time": 1794023641,
+  "protocol": 30
  },
- "mishandled": [],
- "mode": "unmodified",
+ "ingested": true,
+ "row_counts": {
+  "transactions": 12,
+  "operations": 33,
+  "effects": 7,
+  "token_transfer": 22,
+  "contract_events": 179
+ },
+ "process": {
+  "outcome": "exited",
+  "exit_code": 0
+ },
+ "seconds": 1.2,
+ "feeder_requests": 20,
+ "evidence": "out-stellar-etl/2b24ec89ddce/datalake/testnet-5600000",
  "oracle": {
   "verdict": "known issues only",
-  "rows_expected": 20,
-  "rows_met": 19,
+  "rows_expected": 86,
+  "rows_met": 71,
   "known": {
-   "stellar/stellar-etl#450": 1
+   "stellar/stellar-etl#450": 1,
+   "stellar/stellar-etl#452": 14
   },
   "unexplained": [],
   "known_outcome": {
-   "stellar/stellar-etl#450": "mishandled"
+   "stellar/stellar-etl#450": "mishandled",
+   "stellar/stellar-etl#452": "mishandled"
   }
- },
- "process": {
-  "exit_code": 0,
-  "outcome": "exited"
- },
- "protocol_version": 30,
- "ref": "master",
- "result": "pass",
- "row_counts": {
-  "effects": 7,
-  "operations": 33,
-  "token_transfer": 22,
-  "transactions": 12
- },
- "sdk_pin": "v0.8.1-0.20261106081502-e31e3b146d00",
- "seconds": 1.4
+ }
 }

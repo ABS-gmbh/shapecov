@@ -82,6 +82,13 @@
      "contract_id"
     ]
    }
+  },
+  {
+   "issue": "stellar/stellar-etl#452",
+   "note": "history_contract_events appends the transaction's DiagnosticEvents after its operation and transaction events with no dedup, so a successful call's contract events, which the diagnostic list repeats, are exported twice; and in_successful_contract_call is hard-coded true for operation and transaction events, also in failed transactions. Filed by chowbao (P1).",
+   "match": {
+    "what": "contract event"
+   }
   }
  ]
 }

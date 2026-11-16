@@ -213,7 +213,30 @@ def _detail(exp, obs):
     return "met", "%s: %s" % (label, d[exp["field"]])
 
 
+def _contract_event(exp, obs):
+    """One contract event of the meta, exported exactly `count` times in its transaction
+    (stellar-etl#452: the diagnostic list repeats it), or every exported copy carrying the expected
+    `in_successful_contract_call`."""
+    if "contract_events" not in obs:
+        return "not_checked", "the observation does not report contract events"
+    rows = [r for r in obs["contract_events"] if r.get("tx_hash") == exp["tx_hash"] and r.get("event_sha256") == exp["event_sha256"]]
+    label = "contract event %s… in tx %s" % (exp["event_sha256"][:12], exp["tx_hash"][:12])
+    if exp["expect"] == "contract_event_flag":
+        bad = [r for r in rows if r.get("in_successful_contract_call") != exp["in_successful_contract_call"]]
+        if bad:
+            return "wrong_value", "%s: in_successful_contract_call is %s, the transaction %s" % (
+                label, bad[0].get("in_successful_contract_call"), "succeeded" if exp["in_successful_contract_call"] else "failed")
+        return "met", "%s: in_successful_contract_call %s" % (label, exp["in_successful_contract_call"])
+    if len(rows) < exp["count"]:
+        return "missing", "%s: exported %d time(s), the meta has it %d time(s)" % (label, len(rows), exp["count"])
+    if len(rows) > exp["count"]:
+        return "wrong_value", "%s: exported %d time(s), the meta has it %d time(s)" % (label, len(rows), exp["count"])
+    return "met", "%s: exported %d time(s)" % (label, len(rows))
+
+
 def _check(exp, obs):
+    if exp.get("expect") in ("contract_event", "contract_event_flag"):
+        return _contract_event(exp, obs)
     if exp.get("expect") == "operation_detail":
         return _detail(exp, obs)
     if exp.get("expect") == "effect_count_at_most":

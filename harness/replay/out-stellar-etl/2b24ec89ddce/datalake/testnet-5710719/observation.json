@@ -1127,11 +1127,462 @@
   "transactions": 20,
   "operations": 21,
   "effects": 21,
-  "token_transfer": 40
+  "token_transfer": 40,
+  "contract_events": 358
  },
- "seconds": 1.5,
+ "seconds": 1.1,
  "process": {
   "outcome": "exited",
   "exit_code": 0
- }
+ },
+ "contract_events": [
+  {
+   "tx_hash": "6bd8c9ed24e6de771ed590ce16c71210620837775df6db74a4c20c269add1540",
+   "op_order": null,
+   "type": "ContractEventTypeContract",
+   "successful": true,
+   "in_successful_contract_call": true,
+   "event_sha256": "af567eacf7f212f1eb65b9001e1f4bf2cd21895fd1ab7c2af4690e2f55f1002f"
+  },
+  {
+   "tx_hash": "6bd8c9ed24e6de771ed590ce16c71210620837775df6db74a4c20c269add1540",
+   "op_order": 1,
+   "type": "ContractEventTypeContract",
+   "successful": true,
+   "in_successful_contract_call": true,
+   "event_sha256": "6712af9d438a522f7909df40da6d116e4a48827066ef5284149080d34e2f130d"
+  },
+  {
+   "tx_hash": "967f95cf5188c1129ee0730f183a0d54c14c4ffd10094100ae36d19d4b39ed1a",
+   "op_order": null,
+   "type": "ContractEventTypeContract",
+   "successful": false,
+   "in_successful_contract_call": true,
+   "event_sha256": "3d2883b2644a6ae51ef3f0275154a780c8f758ef15052039dec3347c39a1d6d9"
+  },
+  {
+   "tx_hash": "bd7ed139d7f2e4b83a3f3752224e901ff5cb69a61d57a1a5f96ff42f2bd8847b",
+   "op_order": null,
+   "type": "ContractEventTypeContract",
+   "successful": true,
+   "in_successful_contract_call": true,
+   "event_sha256": "22d451c170f50faaf33916ab4bb6150a1e35fee9c1bbf7d918fa1801df85b69e"
+  },
+  {
+   "tx_hash": "bd7ed139d7f2e4b83a3f3752224e901ff5cb69a61d57a1a5f96ff42f2bd8847b",
+   "op_order": 1,
+   "type": "ContractEventTypeContract",
+   "successful": true,
+   "in_successful_contract_call": true,
+   "event_sha256": "0f8f6923574c37aca4a1270998a921bd22fe8993aac2ca6038b006af5721da2f"
+  },
+  {
+   "tx_hash": "bd7ed139d7f2e4b83a3f3752224e901ff5cb69a61d57a1a5f96ff42f2bd8847b",
+   "op_order": 2,
+   "type": "ContractEventTypeContract",
+   "successful": true,
+   "in_successful_contract_call": true,
+   "event_sha256": "fd1d0a7879dfd57ed22719e34e0c497fb8cdc8155d883adf0492ca5f1896ed19"
+  },
+  {
+   "tx_hash": "4b10c055e10f97e31cdc529539d64032123786969e590e524e9ba0f759efb7e0",
+   "op_order": null,
+   "type": "ContractEventTypeContract",
+   "successful": false,
+   "in_successful_contract_call": true,
+   "event_sha256": "1e1dc3e3e8155e167a300cf095928e73f07eec0748531b2ca66b2950344da247"
+  },
+  {
+   "tx_hash": "abac9b67ae857399bbf1933b0e2d570792ac694b59526fedfa734e1311517cb4",
+   "op_order": null,
+   "type": "ContractEventTypeContract",
+   "successful": true,
+   "in_successful_contract_call": true,
+   "event_sha256": "b76005e53a11e5bfd20f362befd84a6190da7b637ebdf56aa6dd87d93fccbd50"
+  },
+  {
+   "tx_hash": "abac9b67ae857399bbf1933b0e2d570792ac694b59526fedfa734e1311517cb4",
+   "op_order": 1,
+   "type": "ContractEventTypeContract",
+   "successful": true,
+   "in_successful_contract_call": true,
+   "event_sha256": "b304246c5750c71d901da4b7c68080d3735844121d62b00ed1d9ca5dc7a9d881"
+  },
+  {
+   "tx_hash": "648ce88b0158f1f55ab69edc443ad7cb7a373e88f7fdb3c7ce5acb493c334251",
+   "op_order": null,
+   "type": "ContractEventTypeContract",
+   "successful": true,
+   "in_successful_contract_call": true,
+   "event_sha256": "5b7a829da68db6da46d78b91b0eb55109226277091626c8d258bf431f898fcbd"
+  },
+  {
+   "tx_hash": "648ce88b0158f1f55ab69edc443ad7cb7a373e88f7fdb3c7ce5acb493c334251",
+   "op_order": 1,
+   "type": "ContractEventTypeContract",
+   "successful": true,
+   "in_successful_contract_call": true,
+   "event_sha256": "d8166f0430a7310dd81c3b8c854d88f82514d7f8f8c6077c369ae1f28d736337"
+  },
+  {
+   "tx_hash": "6986b58d0ffd37e77706dd84cbe8ac95f6ada1c2568e53d6ce9ba15b74c79875",
+   "op_order": null,
+   "type": "ContractEventTypeContract",
+   "successful": true,
+   "in_successful_contract_call": true,
+   "event_sha256": "a147c91e800036653e3702e0feb2ee52ca1fc5f2d8f885463eae585ea6b1b5db"
+  },
+  {
+   "tx_hash": "6986b58d0ffd37e77706dd84cbe8ac95f6ada1c2568e53d6ce9ba15b74c79875",
+   "op_order": 1,
+   "type": "ContractEventTypeContract",
+   "successful": true,
+   "in_successful_contract_call": true,
+   "event_sha256": "ece3371c11a2cd0553013c9f500e1a4215d910d62889f2f69a124c61ac87383e"
+  },
+  {
+   "tx_hash": "8b5a158fdabe957496175fb6dae59ba01568b35f773b2d8c76ded0de852a6766",
+   "op_order": null,
+   "type": "ContractEventTypeContract",
+   "successful": false,
+   "in_successful_contract_call": true,
+   "event_sha256": "d4cec6514aefe63d931b116261d221ab25b9f9481b1497c3ce3e8dd64113c8e1"
+  },
+  {
+   "tx_hash": "c4c0ff26995767d4e55ba8bbed9a59fd90b123249257d656d95e5d60323cacd7",
+   "op_order": null,
+   "type": "ContractEventTypeContract",
+   "successful": true,
+   "in_successful_contract_call": true,
+   "event_sha256": "94b3b34bca0c3b6fb73a210fc866625c5b64b1689ff2aaec225bcc2a0e8709f8"
+  },
+  {
+   "tx_hash": "c4c0ff26995767d4e55ba8bbed9a59fd90b123249257d656d95e5d60323cacd7",
+   "op_order": 1,
+   "type": "ContractEventTypeContract",
+   "successful": true,
+   "in_successful_contract_call": true,
+   "event_sha256": "6616bf122391c0fd0e6b3f394a2d464711423f2ceb30ea30da67e323d2434930"
+  },
+  {
+   "tx_hash": "a766db900fb001001d2cb2c1c666a802d264970bbf46832ab44d283c5874f0e8",
+   "op_order": null,
+   "type": "ContractEventTypeContract",
+   "successful": true,
+   "in_successful_contract_call": true,
+   "event_sha256": "7a23cead6748bd51b2ca9e64a45c7de01208974a4a035bb95975355463f6d4a8"
+  },
+  {
+   "tx_hash": "a766db900fb001001d2cb2c1c666a802d264970bbf46832ab44d283c5874f0e8",
+   "op_order": null,
+   "type": "ContractEventTypeContract",
+   "successful": true,
+   "in_successful_contract_call": true,
+   "event_sha256": "554e2713fd39fd1de5a219e2055d92d64db0eb5e63955b5d21250f5a0ea3db00"
+  },
+  {
+   "tx_hash": "a766db900fb001001d2cb2c1c666a802d264970bbf46832ab44d283c5874f0e8",
+   "op_order": 1,
+   "type": "ContractEventTypeContract",
+   "successful": true,
+   "in_successful_contract_call": true,
+   "event_sha256": "a283477dfc0f95836c318541e4006913ed2a8788ccb9db5ede78c833ddb63690"
+  },
+  {
+   "tx_hash": "a766db900fb001001d2cb2c1c666a802d264970bbf46832ab44d283c5874f0e8",
+   "op_order": null,
+   "type": "ContractEventTypeContract",
+   "successful": true,
+   "in_successful_contract_call": true,
+   "event_sha256": "a283477dfc0f95836c318541e4006913ed2a8788ccb9db5ede78c833ddb63690"
+  },
+  {
+   "tx_hash": "3c8c2882bc24666fc78c1235b8fa2c8d771a0ae532327000192eff86f399d589",
+   "op_order": null,
+   "type": "ContractEventTypeContract",
+   "successful": true,
+   "in_successful_contract_call": true,
+   "event_sha256": "4ec75dbe2d8db90716c0c33158509b5a54255cedc983eb3ef6ef07a1e4b8475a"
+  },
+  {
+   "tx_hash": "3c8c2882bc24666fc78c1235b8fa2c8d771a0ae532327000192eff86f399d589",
+   "op_order": null,
+   "type": "ContractEventTypeContract",
+   "successful": true,
+   "in_successful_contract_call": true,
+   "event_sha256": "271dfa2126b8f1b1d9346b1070f48e3fe5c61036ed29dd9765eb9665af8a695e"
+  },
+  {
+   "tx_hash": "8183e09210c715aaad31e29fe0ee33b2212c001323a7d12d094ac636f4606356",
+   "op_order": null,
+   "type": "ContractEventTypeContract",
+   "successful": true,
+   "in_successful_contract_call": true,
+   "event_sha256": "5e48fdfc95080ed21171fadfdf3c0e6cff0f4c996fcaa80098a7b902b9112435"
+  },
+  {
+   "tx_hash": "8183e09210c715aaad31e29fe0ee33b2212c001323a7d12d094ac636f4606356",
+   "op_order": null,
+   "type": "ContractEventTypeContract",
+   "successful": true,
+   "in_successful_contract_call": true,
+   "event_sha256": "c61d17eb5027d70d1b5f163722910140949ad01ab5dc87f7ad7cec7f934d73aa"
+  },
+  {
+   "tx_hash": "d6f06c409fcec7a6d4675d6fe96db0684da155c601a5c6bbdcdbd6ee0a0853ba",
+   "op_order": null,
+   "type": "ContractEventTypeContract",
+   "successful": true,
+   "in_successful_contract_call": true,
+   "event_sha256": "45ee256639a82584897c64c48de9d5803193ba2907df8412e9bf3db38c2b75a3"
+  },
+  {
+   "tx_hash": "d6f06c409fcec7a6d4675d6fe96db0684da155c601a5c6bbdcdbd6ee0a0853ba",
+   "op_order": null,
+   "type": "ContractEventTypeContract",
+   "successful": true,
+   "in_successful_contract_call": true,
+   "event_sha256": "25161650142b534bd6c4a2429c0c582f202d7d542baec16b3fe9740124969060"
+  },
+  {
+   "tx_hash": "d6f06c409fcec7a6d4675d6fe96db0684da155c601a5c6bbdcdbd6ee0a0853ba",
+   "op_order": 1,
+   "type": "ContractEventTypeContract",
+   "successful": true,
+   "in_successful_contract_call": true,
+   "event_sha256": "ae086a2c057cb7ad5751d65fc3cab4da326ffa0ed5caee1289beb1cb69aef4dc"
+  },
+  {
+   "tx_hash": "d6f06c409fcec7a6d4675d6fe96db0684da155c601a5c6bbdcdbd6ee0a0853ba",
+   "op_order": null,
+   "type": "ContractEventTypeContract",
+   "successful": true,
+   "in_successful_contract_call": true,
+   "event_sha256": "ae086a2c057cb7ad5751d65fc3cab4da326ffa0ed5caee1289beb1cb69aef4dc"
+  },
+  {
+   "tx_hash": "27237bce81af84c6cbf51e80ff2531e856766371b905417f2b912a9f71d68a51",
+   "op_order": null,
+   "type": "ContractEventTypeContract",
+   "successful": true,
+   "in_successful_contract_call": true,
+   "event_sha256": "1fd0996477e59bcc7d864de04b734ee620107d25837b4cfdb53a31154107e204"
+  },
+  {
+   "tx_hash": "27237bce81af84c6cbf51e80ff2531e856766371b905417f2b912a9f71d68a51",
+   "op_order": null,
+   "type": "ContractEventTypeContract",
+   "successful": true,
+   "in_successful_contract_call": true,
+   "event_sha256": "544e903480dbd8d8283627935be3a7c794179ed66c28952bd43bb816da8c5d33"
+  },
+  {
+   "tx_hash": "36f50b0c631105f90da92ed03b1f9c90910778290efacd2c469ff95dd87834e6",
+   "op_order": null,
+   "type": "ContractEventTypeContract",
+   "successful": true,
+   "in_successful_contract_call": true,
+   "event_sha256": "4ecdd73ac03f26f4e196651c66896a6d190647ee0745850b55259c61362c0fbe"
+  },
+  {
+   "tx_hash": "36f50b0c631105f90da92ed03b1f9c90910778290efacd2c469ff95dd87834e6",
+   "op_order": null,
+   "type": "ContractEventTypeContract",
+   "successful": true,
+   "in_successful_contract_call": true,
+   "event_sha256": "8ad610d14ccb0e52273b481a324ac6bf8b6a515ebac9955dd1629effdf62abae"
+  },
+  {
+   "tx_hash": "36f50b0c631105f90da92ed03b1f9c90910778290efacd2c469ff95dd87834e6",
+   "op_order": 1,
+   "type": "ContractEventTypeContract",
+   "successful": true,
+   "in_successful_contract_call": true,
+   "event_sha256": "886da560c91da912f53a56be448ab46c92974aede6e93de29eef034411c72819"
+  },
+  {
+   "tx_hash": "36f50b0c631105f90da92ed03b1f9c90910778290efacd2c469ff95dd87834e6",
+   "op_order": 1,
+   "type": "ContractEventTypeContract",
+   "successful": true,
+   "in_successful_contract_call": true,
+   "event_sha256": "7abe09008a6bcbfb2758ff33442ad66398d6fa3a4daf37252fa6ee11a694de34"
+  },
+  {
+   "tx_hash": "36f50b0c631105f90da92ed03b1f9c90910778290efacd2c469ff95dd87834e6",
+   "op_order": 1,
+   "type": "ContractEventTypeContract",
+   "successful": true,
+   "in_successful_contract_call": true,
+   "event_sha256": "d067dabb806d10a0ab95321e2aa5a2dd1f64584a5814f9d6173168d81ef6bd45"
+  },
+  {
+   "tx_hash": "36f50b0c631105f90da92ed03b1f9c90910778290efacd2c469ff95dd87834e6",
+   "op_order": null,
+   "type": "ContractEventTypeContract",
+   "successful": true,
+   "in_successful_contract_call": true,
+   "event_sha256": "886da560c91da912f53a56be448ab46c92974aede6e93de29eef034411c72819"
+  },
+  {
+   "tx_hash": "36f50b0c631105f90da92ed03b1f9c90910778290efacd2c469ff95dd87834e6",
+   "op_order": null,
+   "type": "ContractEventTypeContract",
+   "successful": true,
+   "in_successful_contract_call": true,
+   "event_sha256": "7abe09008a6bcbfb2758ff33442ad66398d6fa3a4daf37252fa6ee11a694de34"
+  },
+  {
+   "tx_hash": "36f50b0c631105f90da92ed03b1f9c90910778290efacd2c469ff95dd87834e6",
+   "op_order": null,
+   "type": "ContractEventTypeContract",
+   "successful": true,
+   "in_successful_contract_call": true,
+   "event_sha256": "d067dabb806d10a0ab95321e2aa5a2dd1f64584a5814f9d6173168d81ef6bd45"
+  },
+  {
+   "tx_hash": "5e1b6c8ec73ab0ef9f806ff4594a578c3b444bc1e9d35768a7d39acd0c6d49b7",
+   "op_order": null,
+   "type": "ContractEventTypeContract",
+   "successful": true,
+   "in_successful_contract_call": true,
+   "event_sha256": "821063145fcec8fb6ba6d9313f28d5b1484f06386f69ec73411a0766abe3a1dd"
+  },
+  {
+   "tx_hash": "5e1b6c8ec73ab0ef9f806ff4594a578c3b444bc1e9d35768a7d39acd0c6d49b7",
+   "op_order": null,
+   "type": "ContractEventTypeContract",
+   "successful": true,
+   "in_successful_contract_call": true,
+   "event_sha256": "6e4c2e7a688213dafaf1e4068d2c5ddf8453ea564dc78c09d3f8219ffa57ccc6"
+  },
+  {
+   "tx_hash": "5e1b6c8ec73ab0ef9f806ff4594a578c3b444bc1e9d35768a7d39acd0c6d49b7",
+   "op_order": 1,
+   "type": "ContractEventTypeContract",
+   "successful": true,
+   "in_successful_contract_call": true,
+   "event_sha256": "6e59f6edcf7c46047165c714ec3960a7f192475852a7d72da5727974306bdac1"
+  },
+  {
+   "tx_hash": "5e1b6c8ec73ab0ef9f806ff4594a578c3b444bc1e9d35768a7d39acd0c6d49b7",
+   "op_order": null,
+   "type": "ContractEventTypeContract",
+   "successful": true,
+   "in_successful_contract_call": true,
+   "event_sha256": "6e59f6edcf7c46047165c714ec3960a7f192475852a7d72da5727974306bdac1"
+  },
+  {
+   "tx_hash": "0793c8ee32dc0516fee3439e66a184004328d2e6b906a780b753bda696f7f9f2",
+   "op_order": null,
+   "type": "ContractEventTypeContract",
+   "successful": true,
+   "in_successful_contract_call": true,
+   "event_sha256": "170f29a4f8174221980a9e963fb390a37d9039a273cd4f07240f890a2d8ebe46"
+  },
+  {
+   "tx_hash": "0793c8ee32dc0516fee3439e66a184004328d2e6b906a780b753bda696f7f9f2",
+   "op_order": null,
+   "type": "ContractEventTypeContract",
+   "successful": true,
+   "in_successful_contract_call": true,
+   "event_sha256": "3d287243e94d9a1a14ba1a936600e4f4495c7e576f9a016b07459cb1168117b4"
+  },
+  {
+   "tx_hash": "0793c8ee32dc0516fee3439e66a184004328d2e6b906a780b753bda696f7f9f2",
+   "op_order": 1,
+   "type": "ContractEventTypeContract",
+   "successful": true,
+   "in_successful_contract_call": true,
+   "event_sha256": "7a1159756f7177af2f06a9570720b82ba6516c85795493d754736fa2c72bd93c"
+  },
+  {
+   "tx_hash": "0793c8ee32dc0516fee3439e66a184004328d2e6b906a780b753bda696f7f9f2",
+   "op_order": null,
+   "type": "ContractEventTypeContract",
+   "successful": true,
+   "in_successful_contract_call": true,
+   "event_sha256": "7a1159756f7177af2f06a9570720b82ba6516c85795493d754736fa2c72bd93c"
+  },
+  {
+   "tx_hash": "c4570ef094a2e3c9ed319c4f5487e1fd409266a1436904e88bdb376d5355195b",
+   "op_order": null,
+   "type": "ContractEventTypeContract",
+   "successful": false,
+   "in_successful_contract_call": true,
+   "event_sha256": "541ff68af755654285600bea04913d082fc24ee5bac3984845231006eac84a16"
+  },
+  {
+   "tx_hash": "c4570ef094a2e3c9ed319c4f5487e1fd409266a1436904e88bdb376d5355195b",
+   "op_order": null,
+   "type": "ContractEventTypeContract",
+   "successful": false,
+   "in_successful_contract_call": true,
+   "event_sha256": "72603a2fcc2263ad3a411c57c3f7b40696ca2b13daaa0e2d46c225ea97dc8726"
+  },
+  {
+   "tx_hash": "480d13a8307e6ff247a4c5c7a71f1c528a8191401c8b014c5a1e6acfd11d64d9",
+   "op_order": null,
+   "type": "ContractEventTypeContract",
+   "successful": true,
+   "in_successful_contract_call": true,
+   "event_sha256": "dc522c1735fc61924130eafd542a2b243e0ec74742b01d6760988a2e89d87d52"
+  },
+  {
+   "tx_hash": "480d13a8307e6ff247a4c5c7a71f1c528a8191401c8b014c5a1e6acfd11d64d9",
+   "op_order": null,
+   "type": "ContractEventTypeContract",
+   "successful": true,
+   "in_successful_contract_call": true,
+   "event_sha256": "9ffb0ced75ffd76d8c6775c57793b8cfc77980154d5bf5468637b47847d8cca2"
+  },
+  {
+   "tx_hash": "480d13a8307e6ff247a4c5c7a71f1c528a8191401c8b014c5a1e6acfd11d64d9",
+   "op_order": 1,
+   "type": "ContractEventTypeContract",
+   "successful": true,
+   "in_successful_contract_call": true,
+   "event_sha256": "41298447b873115913bc112a19a1739951bbe0c37f8c7a481ee246bfbb2b973d"
+  },
+  {
+   "tx_hash": "480d13a8307e6ff247a4c5c7a71f1c528a8191401c8b014c5a1e6acfd11d64d9",
+   "op_order": null,
+   "type": "ContractEventTypeContract",
+   "successful": true,
+   "in_successful_contract_call": true,
+   "event_sha256": "41298447b873115913bc112a19a1739951bbe0c37f8c7a481ee246bfbb2b973d"
+  },
+  {
+   "tx_hash": "9223d04f7c612d39d1dba6bcacbf3c8bfde41ae7744e23c3f6ec6a23ad020142",
+   "op_order": null,
+   "type": "ContractEventTypeContract",
+   "successful": true,
+   "in_successful_contract_call": true,
+   "event_sha256": "76522196d81d88676fba01a58bb53d852c8fad05eada7940c5b6eec405dd5071"
+  },
+  {
+   "tx_hash": "9223d04f7c612d39d1dba6bcacbf3c8bfde41ae7744e23c3f6ec6a23ad020142",
+   "op_order": null,
+   "type": "ContractEventTypeContract",
+   "successful": true,
+   "in_successful_contract_call": true,
+   "event_sha256": "b341868dba8ffd85fd476ac7ac8c8f024ea2e2b67d13af91d3210994deff7c70"
+  },
+  {
+   "tx_hash": "9223d04f7c612d39d1dba6bcacbf3c8bfde41ae7744e23c3f6ec6a23ad020142",
+   "op_order": 1,
+   "type": "ContractEventTypeContract",
+   "successful": true,
+   "in_successful_contract_call": true,
+   "event_sha256": "7bd8267e63b03b6d53c9ac7a8a53e90cb89ccc6559058ee4f66f378a04383c15"
+  },
+  {
+   "tx_hash": "9223d04f7c612d39d1dba6bcacbf3c8bfde41ae7744e23c3f6ec6a23ad020142",
+   "op_order": null,
+   "type": "ContractEventTypeContract",
+   "successful": true,
+   "in_successful_contract_call": true,
+   "event_sha256": "7bd8267e63b03b6d53c9ac7a8a53e90cb89ccc6559058ee4f66f378a04383c15"
+  }
+ ]
 }

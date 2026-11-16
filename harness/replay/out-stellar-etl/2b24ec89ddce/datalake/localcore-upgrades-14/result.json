@@ -1,0 +1,44 @@
+{
+ "entry_id": "localcore-upgrades-14",
+ "adapter": "stellar-etl",
+ "ref": "2b24ec89ddce7fc0beb7795de982c93e6895eaf3",
+ "commit": "2b24ec89ddce7fc0beb7795de982c93e6895eaf3",
+ "input": "datalake",
+ "protocol_version": 30,
+ "sdk_pin": "v0.8.1-0.20261106081502-e31e3b146d00",
+ "mode": "unmodified",
+ "result": "pass",
+ "mishandled": [],
+ "dropped": [],
+ "checks": [],
+ "expectations": 0,
+ "expectations_source": "none (implicit checks only)",
+ "ledger": {
+  "seq": 14,
+  "hash": "2434799354008d9251bfe2ea59e9bf3c94e2d81c5307b0b8be3ce0ec24ef9dbe",
+  "close_time": 4130000000,
+  "protocol": 30
+ },
+ "ingested": true,
+ "row_counts": {
+  "transactions": 0,
+  "operations": 0,
+  "effects": 0,
+  "token_transfer": 0,
+  "contract_events": 0
+ },
+ "process": {
+  "outcome": "exited",
+  "exit_code": 0
+ },
+ "seconds": 2.0,
+ "feeder_requests": 20,
+ "evidence": "out-stellar-etl/2b24ec89ddce/datalake/localcore-upgrades-14",
+ "oracle": {
+  "verdict": "pass",
+  "rows_expected": 0,
+  "rows_met": 0,
+  "known": {},
+  "unexplained": []
+ }
+}

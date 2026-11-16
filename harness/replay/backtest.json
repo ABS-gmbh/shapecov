@@ -1981,9 +1981,190 @@
    "issue": "stellar/stellar-etl#452",
    "pipeline": "stellar-etl",
    "at": "2b24ec89ddce",
-   "verdict": "missed",
-   "reason": "in an export the adapter does not run yet",
-   "entries": []
+   "verdict": "detected",
+   "entries": [
+    {
+     "entry": "localcore-declared-deploy-6",
+     "results": "etl",
+     "blind": false
+    },
+    {
+     "entry": "localcore-memo-and-offer-p30-4",
+     "results": "etl",
+     "blind": false
+    },
+    {
+     "entry": "localcore-op-failures-8",
+     "results": "etl",
+     "blind": false
+    },
+    {
+     "entry": "localcore-planted-auth-5",
+     "results": "etl",
+     "blind": false
+    },
+    {
+     "entry": "localcore-preauth-failed-6",
+     "results": "etl",
+     "blind": false
+    },
+    {
+     "entry": "localcore-tx-failures-bumped-13",
+     "results": "etl",
+     "blind": false
+    },
+    {
+     "entry": "localcore-tx-failures-plain-12",
+     "results": "etl",
+     "blind": false
+    },
+    {
+     "entry": "pubnet-59220000",
+     "results": "etl",
+     "blind": false
+    },
+    {
+     "entry": "pubnet-60280000",
+     "results": "etl",
+     "blind": false
+    },
+    {
+     "entry": "pubnet-61240000",
+     "results": "etl",
+     "blind": false
+    },
+    {
+     "entry": "pubnet-63920000",
+     "results": "etl",
+     "blind": false
+    },
+    {
+     "entry": "pubnet-65280000",
+     "results": "etl",
+     "blind": false
+    },
+    {
+     "entry": "pubnet-65460000",
+     "results": "etl",
+     "blind": false
+    },
+    {
+     "entry": "pubnet-65479774",
+     "results": "etl",
+     "blind": false
+    },
+    {
+     "entry": "pubnet-65480264",
+     "results": "etl",
+     "blind": false
+    },
+    {
+     "entry": "pubnet-65480300",
+     "results": "etl",
+     "blind": false
+    },
+    {
+     "entry": "pubnet-65480508",
+     "results": "etl",
+     "blind": false
+    },
+    {
+     "entry": "pubnet-65480598",
+     "results": "etl",
+     "blind": false
+    },
+    {
+     "entry": "testnet-4437357-signed-payload-signer",
+     "results": "etl",
+     "blind": false
+    },
+    {
+     "entry": "testnet-5400000",
+     "results": "etl",
+     "blind": false
+    },
+    {
+     "entry": "testnet-5600000",
+     "results": "etl",
+     "blind": false
+    },
+    {
+     "entry": "testnet-5681488",
+     "results": "etl",
+     "blind": false
+    },
+    {
+     "entry": "testnet-5692653",
+     "results": "etl",
+     "blind": false
+    },
+    {
+     "entry": "testnet-5707122",
+     "results": "etl",
+     "blind": false
+    },
+    {
+     "entry": "testnet-5708889",
+     "results": "etl",
+     "blind": false
+    },
+    {
+     "entry": "testnet-5709224",
+     "results": "etl",
+     "blind": false
+    },
+    {
+     "entry": "testnet-5710719",
+     "results": "etl",
+     "blind": false
+    },
+    {
+     "entry": "testnet-5711238",
+     "results": "etl",
+     "blind": false
+    },
+    {
+     "entry": "testnet-5711641",
+     "results": "etl",
+     "blind": false
+    },
+    {
+     "entry": "testnet-5712621",
+     "results": "etl",
+     "blind": false
+    },
+    {
+     "entry": "testnet-5716828",
+     "results": "etl",
+     "blind": false
+    },
+    {
+     "entry": "testnet-5718650",
+     "results": "etl",
+     "blind": false
+    },
+    {
+     "entry": "testnet-5719527",
+     "results": "etl",
+     "blind": false
+    },
+    {
+     "entry": "testnet-5722195",
+     "results": "etl",
+     "blind": false
+    },
+    {
+     "entry": "testnet-5725684",
+     "results": "etl",
+     "blind": false
+    },
+    {
+     "entry": "testnet-5726002",
+     "results": "etl",
+     "blind": false
+    }
+   ],
+   "note": "Oracle rule written after reading the issue: not blind. The adapter runs export_contract_events since 16 November."
   },
   {
    "id": "stellar/stellar-etl#459",

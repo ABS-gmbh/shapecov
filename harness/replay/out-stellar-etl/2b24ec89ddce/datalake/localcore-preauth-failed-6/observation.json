@@ -44,11 +44,22 @@
   "transactions": 1,
   "operations": 1,
   "effects": 0,
-  "token_transfer": 1
+  "token_transfer": 1,
+  "contract_events": 1
  },
- "seconds": 1.9,
+ "seconds": 1.5,
  "process": {
   "outcome": "exited",
   "exit_code": 0
- }
+ },
+ "contract_events": [
+  {
+   "tx_hash": "96bded6886e3b579178c1cf22b6fcfb7306753dea297da8d7c7dd213c7d1f277",
+   "op_order": null,
+   "type": "ContractEventTypeContract",
+   "successful": false,
+   "in_successful_contract_call": true,
+   "event_sha256": "eae3b529bfb1b95c20bda41770dafb59e4257e9fba51aa5f2a77ae6bc6781d2a"
+  }
+ ]
 }
