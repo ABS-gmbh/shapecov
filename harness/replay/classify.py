@@ -184,7 +184,23 @@ def _at_most(exp, obs):
     return "met", "%s: %d stored, at most %d" % (label, len(rows), exp["max"])
 
 
+def _detail(exp, obs):
+    """A field in the details of one stored operation: present, and equal to `value` when one is given."""
+    ops = [o for o in obs.get("operations") or [] if o.get("tx_hash") == exp["tx_hash"] and o.get("op_order") == exp["op_order"]]
+    label = "%s of operation %d in tx %s" % (exp["field"], exp["op_order"], exp["tx_hash"][:12])
+    if not ops:
+        return "missing", "%s: the operation is not stored" % label
+    d = ops[0].get("details") or {}
+    if exp["field"] not in d:
+        return "missing", "%s: not in the stored details" % label
+    if exp.get("value") is not None and d[exp["field"]] != exp["value"]:
+        return "wrong_value", "%s: stored %s, the envelope gives %s" % (label, d[exp["field"]], exp["value"])
+    return "met", "%s: %s" % (label, d[exp["field"]])
+
+
 def _check(exp, obs):
+    if exp.get("expect") == "operation_detail":
+        return _detail(exp, obs)
     if exp.get("expect") == "effect_count_at_most":
         return _at_most(exp, obs)
     if exp.get("expect") == "native_balance":

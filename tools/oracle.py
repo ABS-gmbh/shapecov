@@ -568,6 +568,40 @@ def tx_sources(value, passphrase):
     return out
 
 
+def deploys(value, passphrase):
+    """Every contract a successful transaction's operation deploys, from its envelope: {tx_hash,
+    where (operation index), contract (C address from the preimage and the network), from
+    ("address" or "asset"), salt (hex, for an address preimage)}."""
+    import hashlib
+    from encode import Encoder
+    if "e" not in _ENCODER:
+        _ENCODER["e"] = Encoder(json.load(open(ROOT / "schema" / "schema.json")))
+    network = hashlib.sha256(passphrase.encode()).hexdigest()
+    envs = envelopes_by_hash(value, passphrase)
+    out = []
+    for tp in value["v%d" % value["v"]]["txProcessing"]:
+        h = tp["result"]["transactionHash"]
+        if tp["result"]["result"]["result"]["code"] not in SUCCESS or h not in envs:
+            continue
+        for k, op in enumerate(envs[h][1]["operations"]):
+            body = op["body"]
+            if body["type"] != "INVOKE_HOST_FUNCTION":
+                continue
+            hf = body["invokeHostFunctionOp"]["hostFunction"]
+            args = hf.get("createContract") or hf.get("createContractV2")
+            if not args:
+                continue
+            pre = args["contractIDPreimage"]
+            cid = hashlib.sha256(_ENCODER["e"].encode("HashIDPreimage", {
+                "type": "ENVELOPE_TYPE_CONTRACT_ID", "contractID": {"networkID": network, "contractIDPreimage": pre}})).hexdigest()
+            rec = {"tx_hash": h, "where": k, "contract": strkey.contract(cid),
+                   "from": "address" if pre["type"] == "CONTRACT_ID_PREIMAGE_FROM_ADDRESS" else "asset"}
+            if rec["from"] == "address":
+                rec["salt"] = pre["fromAddress"]["salt"]
+            out.append(rec)
+    return out
+
+
 def participants(value, passphrase=None):
     """Who each transaction affected, read from its meta and never from its envelope (the RFP's
     second rule). One record per transaction:

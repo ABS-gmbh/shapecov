@@ -139,6 +139,8 @@ def oracle_verdict(entry, obs, mapping, value):
             exps += mapping.participant_expectations(oracle.participants(value, passphrase), passphrase)
         if hasattr(mapping, "state_expectations"):
             exps += mapping.state_expectations(value, passphrase)
+        if hasattr(mapping, "deploy_expectations"):
+            exps += mapping.deploy_expectations(value, passphrase)
         _EXPS.clear()
         _EXPS[key] = (value, exps)  # holding the value keeps id(value) from being reused
     exps = copy.deepcopy(_EXPS[key][1])

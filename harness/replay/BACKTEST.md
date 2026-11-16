@@ -116,16 +116,15 @@ rows from ledger data.
 | #459 forked SAC helpers in contract_data | yes | not run: the adapter does not run `export_ledger_entry_changes` | that export in the adapter; native-asset balance entries are in the Soroban corpus ledgers |
 | #460 CAP-73 effect gaps | yes | **flagged, blind**: 5 rows in 4 ledgers (`testnet-5709224`, `pubnet-65480300`, `pubnet-63920000`, `localcore-sac-trust-p28-5`); the oracle reported them as unexplained before the issue was found | — |
 | #461 misnamed hash columns | no: naming | — | — |
-| #462 create_contract details omit salt; contract_id heuristic | yes | **missed**: the oracle does not check operation details | check `create_contract` details against the envelope; deploys are in the corpus |
+| #462 create_contract details omit salt; contract_id heuristic | yes | **flagged, confirmed after reading the issue**: the three deploys from an address preimage in `testnet-5711641` and `testnet-5718650` are exported without their salt. The rule derives each deploy's contract ID and salt from the envelope; every exported contract_id in the corpus matches the derived one, so the footprint heuristic has not misfired yet | a factory deploy (a contract deploying another) would test the contract_id heuristic |
 | #463 dead code | no | — | — |
 | #464 fee-bump inner signers captured nowhere | no: a schema omission by design | — | — |
 
-**stellar-etl: 4 of 9 in-scope issues flagged (1 blind).** Three are in exports the adapter does not
-run yet (#451, #452, #459). Of the other two, #462 is a miss whose shape the corpus already has, so it
-needs an oracle rule, not a new ledger; #453 needs both a rule and a new entry (none of the
-corpus's 1,005 fee bumps has a muxed fee source on a Soroban transaction). All three the RFP's
-background names are settled: #450 and #457 are flagged from ledger data, and #454 is a precision
-contract rather than a ledger shape.
+**stellar-etl: 5 of 9 in-scope issues flagged (1 blind).** Three are in exports the adapter does not
+run yet (#451, #452, #459); #453 needs both a rule and a new entry (none of the corpus's 1,005 fee
+bumps has a muxed fee source on a Soroban transaction). All three the RFP's background names are
+settled: #450 and #457 are flagged from ledger data, and #454 is a precision contract rather than a
+ledger shape.
 
 ## Reproduce
 

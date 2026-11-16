@@ -6,7 +6,7 @@ Run date: 14 November 2026, updated 16 November 2026. Versions are in `README.md
 
 <!-- findings-table:begin (generated from FINDINGS.json by .github/scripts/check_findings.py --write; do not edit by hand) -->
 
-38 findings in `FINDINGS.json`, one record each. Severity: **S1** halts or rejects valid data; **S2** wrong or missing data; **S3** accepts non-canonical input; **S4** hardening. Dates are UTC.
+39 findings in `FINDINGS.json`, one record each. Severity: **S1** halts or rejects valid data; **S2** wrong or missing data; **S3** accepts non-canonical input; **S4** hardening. Dates are UTC.
 
 **Found by ShapeCov and filed by us** (6)
 
@@ -26,7 +26,7 @@ Run date: 14 November 2026, updated 16 November 2026. Versions are in `README.md
 | J3 | A negative offer ID is built and encoded | java-stellar-sdk 6.0.0: ManageSellOfferOperation.builder().offerId | S4; stellar-core rejects such a transaction (MANAGE_SELL_OFFER_MALFORMED, probe offer-id-negative), so it is caught at submission | none: SDK input conversion, not a protocol shape | entry `synthetic-ids-beyond-f64` | not filed | ShapeCov, 2026-11-16 | not filed; the same input js-stellar-sdk refuses since 17.3.0 (#1785); go-stellar-sdk refuses it |
 | J4 | MemoText.getText() turns memo bytes that are not UTF-8 into U+FFFD | java-stellar-sdk 6.0.0: MemoText | S2; getBytes() keeps the bytes; code that rebuilds or stores the memo from getText() changes it | none: a classic memo; SDK string conversion, not a protocol shape | entry `localcore-memo-and-offer-p30-4` | not filed | ShapeCov, 2026-11-16 | not filed; the Java counterpart of js-stellar-sdk #1823, which was closed by documenting the behaviour |
 
-**Reported first by others; ShapeCov's tools reproduce it** (14)
+**Reported first by others; ShapeCov's tools reproduce it** (15)
 
 | ID | Finding | Component | Severity | CAPs | Reproduction | Upstream | First reported | Status |
 |---|---|---|---|---|---|---|---|---|
@@ -43,6 +43,7 @@ Run date: 14 November 2026, updated 16 November 2026. Versions are in `README.md
 | C11 | allow_trust exports trustline_flags_updated instead of trustline_authorized, deauthorized or authorized_to_maintain_liabilities | stellar-etl: export_effects (allow_trust) | S2; confirmed after reading the issue, not found blind | none: an effect-type contract with Horizon's model, not a protocol shape | entry `testnet-5710719` | [stellar/stellar-etl#457](https://github.com/stellar/stellar-etl/issues/457) | chowbao (stellar-etl maintainer), 2026-07-04 | open; the oracle flags it on testnet-5710719 and on 69 rows of the 611-ledger sweep |
 | C12 | Trade claims export offer_created, offer_updated and offer_removed effects the ledger does not show | stellar-etl: export_effects (trade claims) | S2; confirmed after reading the issue, not found blind | none: an effect-model contract with Horizon's, not a protocol shape | entry `pubnet-59220000` | [stellar/stellar-etl#456](https://github.com/stellar/stellar-etl/issues/456) | chowbao (stellar-etl maintainer), 2026-07-04 | open; the oracle flags 225 operations in 11 corpus ledgers |
 | C13 | A pre-authorized transaction signer that core removes from a failed transaction gets no SIGNER REMOVE state change | wallet-backend: state changes (signers) | S2 | CAP-0028 | entry `localcore-preauth-failed-6` | [stellar/wallet-backend#805](https://github.com/stellar/wallet-backend/issues/805), [stellar/wallet-backend#818](https://github.com/stellar/wallet-backend/issues/818) | tolgayayci (#805, 2026-11-13); then ErenTopaal (shapekit project, #818), 2026-11-13 | open; the oracle flags it at main on localcore-preauth-failed-6, both inputs |
+| C14 | create_contract details omit the salt of an address preimage | stellar-etl: export_operations (create_contract details) | S2; confirmed after reading the issue, not found blind | CAP-0046-02 | entry `testnet-5711641` | [stellar/stellar-etl#462](https://github.com/stellar/stellar-etl/issues/462) | chowbao (stellar-etl maintainer), 2026-07-04 | open; the oracle flags the three address-preimage deploys in the corpus |
 | J2 | A liquidity-pool asset pair the network accepted is refused: issuers compared as strkey text | java-stellar-sdk 6.0.0: LiquidityPool and Asset.compareTo | S1 | CAP-0038 | entry `testnet-5708889` | [lightsail-network/java-stellar-sdk#832](https://github.com/lightsail-network/java-stellar-sdk/pull/832) | overcat (java-stellar-sdk maintainer, #832); the same defect as js-stellar-sdk #1766, 2026-11-05 | fixed on master by #832 (2026-11-05), not released; 6.0.0 refuses the pair (harness/sdk-semantic/siblings.py) |
 
 **One of the RFP's sightings, reproduced before its fix and passing after** (10)
@@ -326,7 +327,7 @@ The py-stellar-base maintainer asks that XDR and strkey problems be tried agains
 
 Would the harness have caught defects that were already fixed or reported upstream? Replayed at the
 commit before and after each in-scope fix, it detects 8 of wallet-backend's 17 in-scope fixes (5 on
-ledgers not chosen for the bug) and flags 4 of stellar-etl's 9 in-scope issues (1 blind). The
+ledgers not chosen for the bug) and flags 5 of stellar-etl's 9 in-scope issues (1 blind). The
 measurement is incomplete: `harness/replay/BACKTEST.md` lists every fix, and for each miss the
 shape, oracle rule or export that would catch it. `python3 harness/replay/replay.py backtest`
 checks every claim against the recorded replays.

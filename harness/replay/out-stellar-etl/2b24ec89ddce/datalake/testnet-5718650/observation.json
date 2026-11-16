@@ -891,7 +891,13 @@
    "tx_order": 11,
    "op_order": 1,
    "type": "invoke_host_function",
-   "participants": []
+   "participants": [],
+   "details": {
+    "type": "create_contract_v2",
+    "from": "address",
+    "address": "GB5WG6W7O4TGIOV7FFJTWYVZQVYQDEDXG6UCP3V7J2ZBPOJGEEALVMCB",
+    "contract_id": "CAC7V4SOPTA2GIK24GGFSMA32SJEG3HT3AZEKLBYDOOE6YVAAXI26VBN"
+   }
   },
   {
    "tx_hash": "ccc1d5a5050394184b825ca97ffd5cebdef4950b7140c11b8763533df7a132af",
@@ -912,7 +918,13 @@
    "tx_order": 14,
    "op_order": 1,
    "type": "invoke_host_function",
-   "participants": []
+   "participants": [],
+   "details": {
+    "type": "create_contract_v2",
+    "from": "address",
+    "address": "GDHMNJ7LE7R3LT6252JMITFQDBTYKK2JIVWW64SGOAXJVL5574FDXCYB",
+    "contract_id": "CAHFYE5XJWWPLZYF53MLCI6RKJB6KHUWSPWS2VQP5Q5JUBCZJLDWYKH3"
+   }
   },
   {
    "tx_hash": "534a04d27c0cc2aec0e0a181660f4c8f48d4726def617416f787eb5f046b0cf6",

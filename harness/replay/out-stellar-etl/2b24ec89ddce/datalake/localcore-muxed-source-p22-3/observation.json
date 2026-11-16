@@ -23,7 +23,13 @@
    "tx_order": 1,
    "op_order": 1,
    "type": "invoke_host_function",
-   "participants": []
+   "participants": [],
+   "details": {
+    "type": "create_contract",
+    "from": "asset",
+    "asset": "native",
+    "contract_id": "CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC"
+   }
   }
  ],
  "state_changes": [],

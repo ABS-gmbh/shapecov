@@ -102,10 +102,10 @@ Only the implicit checks apply: the ledger is ingested without an error and ever
 | `testnet-5709224` | 30 | datalake | dropped: stellar-etl#460 |
 | `testnet-5710719` | 30 | datalake | mishandled: stellar-etl#450, stellar-etl#457 |
 | `testnet-5711238` | 30 | datalake | mishandled: stellar-etl#450 |
-| `testnet-5711641` | 30 | datalake | pass |
+| `testnet-5711641` | 30 | datalake | dropped: stellar-etl#462 |
 | `testnet-5712621` | 30 | datalake | pass |
 | `testnet-5716828` | 30 | datalake | mishandled: stellar-etl#450 |
-| `testnet-5718650` | 30 | datalake | pass |
+| `testnet-5718650` | 30 | datalake | dropped: stellar-etl#462 |
 | `testnet-5719527` | 30 | datalake | mishandled: stellar-etl#450 |
 | `testnet-5722195` | 30 | datalake | pass |
 | `testnet-5725684` | 30 | datalake | pass |
@@ -115,7 +115,7 @@ Only the implicit checks apply: the ledger is ingested without an error and ever
 
 | Commit | Input | pass | mishandled | dropped | error | not applicable |
 |---|---|---|---|---|---|---|
-| `2b24ec89` | datalake | 17 | 20 | 2 | 0 | 46 |
+| `2b24ec89` | datalake | 15 | 20 | 4 | 0 | 46 |
 
 ## Oracle checks
 
@@ -126,7 +126,7 @@ checked. A failure is labelled with the open upstream issue that explains it
 
 | Commit | Input | Replays | Rows expected | Rows met | Known issues | Unexplained |
 |---|---|---|---|---|---|---|
-| `2b24ec89` | datalake | 39 | 14035 | 12868 | stellar-etl#450 (928), stellar-etl#456 (225), stellar-etl#457 (1), stellar-etl#460 (5), stellar-etl#512 (2), stellar-etl#513 (1), stellar-etl#514 (2) | 0 |
+| `2b24ec89` | datalake | 39 | 14043 | 12872 | stellar-etl#450 (928), stellar-etl#456 (225), stellar-etl#457 (1), stellar-etl#460 (5), stellar-etl#462 (3), stellar-etl#512 (2), stellar-etl#513 (1), stellar-etl#514 (2) | 0 |
 
 
 

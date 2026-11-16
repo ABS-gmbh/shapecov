@@ -688,7 +688,13 @@
    "tx_order": 12,
    "op_order": 1,
    "type": "invoke_host_function",
-   "participants": []
+   "participants": [],
+   "details": {
+    "type": "create_contract",
+    "from": "asset",
+    "asset": "USDX:GDDQTCOS24IUJMQXCUJHPTELNMSAYV6GMBWZ7QIQGFPGRQWPC4P57AYC",
+    "contract_id": "CCNNNEV743CTPK6ZV6VLNZFI2MDPW5P2A6GXE7XMDJQWC4CDLG4YI6VD"
+   }
   },
   {
    "tx_hash": "f8d601abd1e47f90d69e10ab9955c4a749a84c28444abce7546940ef2e771daa",
@@ -709,7 +715,13 @@
    "tx_order": 15,
    "op_order": 1,
    "type": "invoke_host_function",
-   "participants": []
+   "participants": [],
+   "details": {
+    "type": "create_contract_v2",
+    "from": "address",
+    "address": "GDUFRPLU4TW6HT2JWCSTHWD6RNFWMFAACQVF64UHVUAVYIOWAW7JBWXU",
+    "contract_id": "CBSGWMA7VVALBJ4IDGP4VXCI6OEWU4FWGAEORUDTVOKT6T24FOQJKDAD"
+   }
   },
   {
    "tx_hash": "93bb849e609a7c5ff412afcccfd7191fe0c53c475fe0b54f708732c7cd18f242",

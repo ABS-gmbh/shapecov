@@ -170,6 +170,17 @@ def unreadable_strings(table, rows):
     return out
 
 
+DEPLOY_FIELDS = ("type", "from", "address", "asset", "salt", "contract_id")
+
+
+def op_details(o):
+    """The fields of a contract deploy's details the oracle can check (stellar-etl#462)."""
+    d = o.get("details") or {}
+    if d.get("type") not in ("create_contract", "create_contract_v2"):
+        return {}
+    return {"details": {k: d[k] for k in DEPLOY_FIELDS if k in d}}
+
+
 def run(a):
     with open(a.job) as f:
         job = json.load(f)
@@ -247,8 +258,10 @@ def run(a):
                                     "successful": t.get("successful"), "participants": []})
     for o in rows["operations"]:
         _l, order, op = toid_parts(o["id"])
-        obs["operations"].append({"tx_hash": tx_by_id.get(order), "tx_order": order, "op_order": op,
-                                  "type": o.get("type_string"), "participants": []})
+        row = {"tx_hash": tx_by_id.get(order), "tx_order": order, "op_order": op,
+               "type": o.get("type_string"), "participants": []}
+        row.update(op_details(o))
+        obs["operations"].append(row)
     for e in rows["effects"]:
         _l, order, op = toid_parts(e["operation_id"])
         d = e.get("details") or {}

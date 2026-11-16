@@ -195,6 +195,21 @@ class AtMost(unittest.TestCase):
         self.assertIn("3 stored", r["mishandled"][0])
 
 
+class OperationDetail(unittest.TestCase):
+    """stellar-etl#462: a deploy's details carry its salt and the contract ID its preimage gives."""
+    def ops(self, **details):
+        return [{"tx_hash": TX, "op_order": 1, "details": details}]
+
+    def test_present_and_equal(self):
+        exp = {"expect": "operation_detail", "tx_hash": TX, "op_order": 1, "field": "contract_id", "value": C}
+        self.assertEqual(classify.classify([exp], obs(operations=self.ops(contract_id=C)))["result"], "pass")
+        self.assertEqual(classify.classify([exp], obs(operations=self.ops(contract_id=strkey.contract("44" * 32))))["result"], "mishandled")
+
+    def test_missing_field_is_dropped(self):
+        exp = {"expect": "operation_detail", "tx_hash": TX, "op_order": 1, "field": "salt"}
+        self.assertEqual(classify.classify([exp], obs(operations=self.ops(contract_id=C)))["result"], "dropped")
+
+
 class Unknown(unittest.TestCase):
     def test_unknown_kind_is_counted_not_judged(self):
         r = classify.classify([{"expect": "from_the_future"}], obs())

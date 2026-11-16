@@ -229,6 +229,23 @@ def offer_effect_bounds(changes):
             for (tx, where), n in sorted(per.items())]
 
 
+def deploy_expectations(value, passphrase):
+    """A contract deploy's details: the contract ID derived from the envelope's preimage, and, for an
+    address preimage, its salt (stellar-etl#462: the salt is omitted, and contract_id is the first
+    contract-data key of the footprint)."""
+    import oracle
+    out = []
+    for d in oracle.deploys(value, passphrase):
+        base = {"expect": "operation_detail", "tx_hash": d["tx_hash"], "op_order": d["where"] + 1,
+                "via": {"where": d["where"], "what": "deploy details"}}
+        out.append(dict(base, field="contract_id", value=d["contract"], derived_from="oracle: the contract ID of the deploy's preimage",
+                        via=dict(base["via"], how="contract_id")))
+        if d["from"] == "address":
+            out.append(dict(base, field="salt", derived_from="oracle: the deploy's preimage carries a salt",
+                            via=dict(base["via"], how="salt")))
+    return out
+
+
 def allow_trust_types(changes):
     """Horizon's model gives an AllowTrust operation, before its trustline_flags_updated effect, an
     effect whose type says the trustline's new authorization: trustline_authorized (23),

@@ -71,6 +71,17 @@
     "what": "offer effects",
     "how": "more than the ledger changed, in a trade"
    }
+  },
+  {
+   "issue": "stellar/stellar-etl#462",
+   "note": "create_contract details omit the salt of an address preimage, and contract_id is the first contract-data key of the footprint rather than the ID the preimage gives. Rule written after reading the issue.",
+   "match": {
+    "what": "deploy details",
+    "how": [
+     "salt",
+     "contract_id"
+    ]
+   }
   }
  ]
 }

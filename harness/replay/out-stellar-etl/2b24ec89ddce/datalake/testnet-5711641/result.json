@@ -19,11 +19,16 @@
  "mishandled": [],
  "mode": "unmodified",
  "oracle": {
-  "verdict": "pass",
-  "rows_expected": 106,
-  "rows_met": 106,
-  "known": {},
-  "unexplained": []
+  "verdict": "known issues only",
+  "rows_expected": 109,
+  "rows_met": 108,
+  "known": {
+   "stellar/stellar-etl#462": 1
+  },
+  "unexplained": [],
+  "known_outcome": {
+   "stellar/stellar-etl#462": "dropped"
+  }
  },
  "process": {
   "exit_code": 0,
