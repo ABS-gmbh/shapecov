@@ -9,7 +9,7 @@ python3 quickcheck.py
 ```
 
 No Docker, no SDK toolchain and no network after the clone. It prints one line per check, PASS or
-FAIL, and the time it took. On a clean clone on a laptop it took **10 seconds** for all 11 checks
+FAIL, and the time it took. On a clean clone on a laptop it took **10 seconds** for all 12 checks
 (measured 16 November 2026).
 
 What it reruns:

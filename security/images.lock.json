@@ -1,0 +1,41 @@
+{
+ "note": "Every Docker image the kit runs, pinned by digest. Code names images by tag; security/images.py pull fetches each image by the digest below and tags it locally, so a run uses exactly this content even if the tag moves upstream. security/check.py fails if the code names an image tag that is not listed here. A digest is the registry's: a multi-platform index where the image has one, otherwise the single manifest. Resolved from Docker Hub on 16 November 2026.",
+ "images": {
+  "golang:1.26": {
+   "digest": "sha256:f6946db66567acc1497655237e58f06ec3a57478a5e0d67fca29d2ffcf2ea136",
+   "used_for": "the Go SDK runner, wallet-backend builds and runs in the replay, the linter's tests and its run on wallet-backend"
+  },
+  "golang:1.27": {
+   "digest": "sha256:fe517acaa580cc7915457080f850c37e618b3c1e750f98b58fc6429b605147a1",
+   "used_for": "the stellar-etl adapter's default Go image; the linter's run on stellar-etl"
+  },
+  "golang:1.27.3": {
+   "digest": "sha256:e519d3b0a5b285e5aa53ab9eef02bc6bbb9cb04608389b743a136a9ce75f0d1e",
+   "used_for": "stellar-etl builds in the replay",
+   "named_by": "stellar-etl's own docker/Dockerfile at the pinned commit; the adapter reads the image from it"
+  },
+  "python:3.14-slim": {
+   "digest": "sha256:9aaa474097d094040649f2162a627c0049b408f52138d980916788d80f04802f",
+   "used_for": "the replay feeder and the memory check; the network isolation test"
+  },
+  "maven:3.9-eclipse-temurin-21": {
+   "digest": "sha256:99e61abcff91a9b1333463bd8451fb18495d6eba9250ac66a338b518f8278320",
+   "used_for": "the Java SDK runner"
+  },
+  "timescale/timescaledb:2.28.2-pg17": {
+   "digest": "sha256:909e2c7577c074517c8936b6d8799294b33f25fb5bad978a2199250665f1ce1a",
+   "used_for": "the replay database for wallet-backend",
+   "named_by": "also wallet-backend's own docker-compose.yaml at the pinned commit; the adapter reads the image from it"
+  },
+  "stellar/stellar-core:30.0.0-3642.0e49751aa.noble": {
+   "digest": "sha256:eb7a7c81a29b8665c8878d55e1b3979f0d7527426350c4ff258a9c7647ae5c51",
+   "platform": "linux/amd64",
+   "used_for": "stellar-core checks, local ledgers and the guide's probes"
+  },
+  "stellar/stellar-core:22.2.1-2429.e70f0aed8.focal": {
+   "digest": "sha256:d215d9ed4a66c4fb0f55f46f0c06ffd1e87ecebd3d09421669c13249c2db71c4",
+   "platform": "linux/amd64",
+   "used_for": "the two protocol 22 local-ledger scenarios"
+  }
+ }
+}

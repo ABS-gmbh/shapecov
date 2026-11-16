@@ -32,7 +32,7 @@ pip install jsonschema
 python3 quickcheck.py
 ```
 
-Python only, with no Docker and no network. It reruns the 11 checks that work from the repository
+Python only, with no Docker and no network. It reruns the 12 checks that work from the repository
 alone and checks the recorded results of the rest against their verdicts. It took 10 seconds on a
 laptop. CI reruns everything else.
 
@@ -71,8 +71,8 @@ laptop. CI reruns everything else.
   messages, 1 is impractical, and 15 are not yet classified.
 
 More: [`ARCHITECTURE.md`](ARCHITECTURE.md) (how the parts fit, the adapter interface, isolation),
-[`STATUS.md`](STATUS.md) (dated log), [`MAINTENANCE.md`](MAINTENANCE.md) and
-[`INFRASTRUCTURE.md`](INFRASTRUCTURE.md).
+[`STATUS.md`](STATUS.md) (dated log), [`MAINTENANCE.md`](MAINTENANCE.md),
+[`INFRASTRUCTURE.md`](INFRASTRUCTURE.md) and [`THREAT-MODEL.md`](THREAT-MODEL.md).
 
 ## What it does
 

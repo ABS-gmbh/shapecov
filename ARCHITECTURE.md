@@ -131,7 +131,9 @@ network access or on a network that has no route to the internet:
 
 The tools hold no keys or funds and need no secrets. CI runs with read-only repository
 permissions. `INFRASTRUCTURE.md` lists every network connection the tools make. There is no user
-tracking.
+tracking. [`THREAT-MODEL.md`](THREAT-MODEL.md) models the threats to the kit itself. Its checks run
+in CI: images pinned by digest and actions by commit SHA, workflow permissions, and a test that the
+replay network has no route to the internet (`security/`).
 
 ## What runs where
 

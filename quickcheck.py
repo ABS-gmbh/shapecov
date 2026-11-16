@@ -45,6 +45,9 @@ CHECKS = [
      [PY, "harness/replay/replay.py", "backtest"]),
     ("Docs", "the headline numbers in README, VERIFY and the other top-level documents match the repository",
      [PY, ".github/scripts/check_counts.py"]),
+    ("Security", "images pinned by digest, actions by commit SHA, workflow permissions, internal networks, "
+                 "no home paths in recorded evidence (THREAT-MODEL.md)",
+     [PY, "security/check.py"]),
     ("Unit tests", "the tests of the checking scripts themselves (tests/); those needing Docker or the network "
                    "are skipped",
      [PY, "-m", "unittest", "discover", "-s", "tests", "-t", "."]),

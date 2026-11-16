@@ -51,8 +51,8 @@ jobs:
           python-version: "3.12"
       - name: Guide tables against the manifest, the probe records and the corpus
         run: python guide/check_guide.py
-      - name: stellar-core 30.0.0
-        run: docker pull --platform linux/amd64 stellar/stellar-core:30.0.0-3642.0e49751aa.noble
+      - name: stellar-core 30.0.0, by the digest in security/images.lock.json
+        run: python3 security/images.py pull stellar/stellar-core:30.0.0-3642.0e49751aa.noble
       - name: Every probe submitted again to a local stellar-core; each must get the recorded answer
         run: python guide/probe_core.py check
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
@@ -163,6 +163,8 @@ jobs:
         run: |
           python -m venv runners/python-xdr/.venv
           runners/python-xdr/.venv/bin/pip install -r runners/python-xdr/requirements.txt
+      - name: Go and Maven images, by the digests in security/images.lock.json
+        run: python3 security/images.py pull golang:1.26 maven:3.9-eclipse-temurin-21
       - name: Go runner
         run: docker run --rm -v "$PWD/runners/go:/work" golang:1.26 sh /work/build.sh
       - name: Java runner
@@ -176,8 +178,8 @@ jobs:
             echo "attempt $attempt failed"; sleep 20
           done
           exit 1
-      - name: stellar-core 30.0.0
-        run: docker pull --platform linux/amd64 stellar/stellar-core:30.0.0-3642.0e49751aa.noble
+      - name: stellar-core 30.0.0, by the digest in security/images.lock.json
+        run: python3 security/images.py pull stellar/stellar-core:30.0.0-3642.0e49751aa.noble
       - name: Pinned-SDK checks (the js-stellar-sdk sightings on their pre-fix and fixed releases)
         working-directory: harness/sdk-semantic
         run: npm install --no-audit --no-fund
@@ -231,6 +233,24 @@ jobs:
         run: |
           coverage combine --rcfile=tests/coverage.ini -q
           coverage report --rcfile=tests/coverage.ini
+
+  security:
+    name: "Security: pinned images and actions, workflow permissions, no internet route from the replay network"
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+        with:
+          python-version: "3.12"
+      - name: Static checks (THREAT-MODEL.md)
+        run: python3 security/check.py
+      - name: The isolation test's image, by digest, and the local tag verified against the lock
+        run: |
+          python3 security/images.py pull python:3.14-slim
+          python3 security/images.py verify python:3.14-slim
+      - name: No internet route from an --internal network or --network none, with a control
+        run: python3 security/isolation.py --control
 
   # The packaged forms other repositories use (ADOPT.md), exercised here on every push.
   reusable-conformance-js:

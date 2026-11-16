@@ -6,6 +6,12 @@ Report it privately to **contact@absolution-gmbh.com**, not in a public issue. I
 
 In scope: anything here that could harm the machine or CI it runs on. The harness and runners execute third-party code (indexers, SDKs, stellar-core) in Docker, with no network or with a network that has no route to the internet (see `INFRASTRUCTURE.md`). An escape from that isolation is in scope, as is a corpus entry or tool input that makes our own tools misbehave.
 
+## Threat model
+
+[`THREAT-MODEL.md`](THREAT-MODEL.md) is a STRIDE model of the kit itself, in the form of SDF's
+threat-modeling guide: what it protects, who can attack it, and for each threat the mitigation and
+the command that checks it (`security/check.py`, `security/isolation.py`, `security/images.py`).
+
 ## A vulnerability this kit finds in Stellar software
 
 The kit is built to find defects in software that reads the Stellar ledger: SDKs, indexers and stellar-core. A defect that only makes data wrong or incomplete is filed as a public issue in the affected project, with a minimal reproduction, as listed in `FINDINGS.md`.

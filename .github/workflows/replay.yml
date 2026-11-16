@@ -35,10 +35,12 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 90
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
         with:
           python-version: "3.12"
+      - name: Images by the digests in security/images.lock.json
+        run: python3 security/images.py pull golang:1.26 timescale/timescaledb:2.28.2-pg17 python:3.14-slim
       # Weekly and on demand: the whole corpus at wallet-backend's current main, failing on any
       # unexplained oracle failure (a candidate new finding). Pushes and pull requests: sightings only.
       - name: Replay
@@ -49,7 +51,7 @@ jobs:
             harness/replay/run.sh sightings
           fi
       - if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: replay-results
           path: |
@@ -61,14 +63,16 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 45
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
         with:
           python-version: "3.12"
+      - name: Images by the digests in security/images.lock.json
+        run: python3 security/images.py pull golang:1.27 golang:1.27.3 python:3.14-slim
       - name: Replay
         run: harness/replay/run.sh etl
       - if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: replay-results-stellar-etl
           path: |
@@ -80,10 +84,12 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 30
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
         with:
           python-version: "3.12"
+      - name: Images by the digests in security/images.lock.json
+        run: python3 security/images.py pull python:3.14-slim
       - name: Feeder peak memory over a corpus ten times its budget
         run: python3 harness/replay/memcheck.py --corpus-mb 600 --budget-mb 64
 
@@ -92,10 +98,12 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 60
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
         with:
           python-version: "3.12"
+      - name: Images by the digests in security/images.lock.json
+        run: python3 security/images.py pull stellar/stellar-core:30.0.0-3642.0e49751aa.noble stellar/stellar-core:22.2.1-2429.e70f0aed8.focal
       - name: Regenerate under the testnet passphrase
         run: python3 tools/localcore_repro.py run --passphrase testnet --out /tmp/localcore/testnet
       - name: Regenerate under the mainnet passphrase
@@ -108,7 +116,7 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 45
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
       - name: Build each probe against the releases before and with the fix
         run: harness/sightings/run.sh
 
@@ -117,8 +125,8 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
         with:
           python-version: "3.12"
       - name: Every detected and missed fix in backtest.json, checked against harness/replay/backtest/

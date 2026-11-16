@@ -35,20 +35,20 @@ jobs:
     timeout-minutes: 30
     steps:
       - name: ShapeCov at the chosen corpus
-        uses: actions/checkout@v4
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
         with:
           repository: ABS-gmbh/shapecov
           ref: ${{ inputs.corpus-ref }}
           path: shapecov
       - name: The calling repository, for its known-failures file
         if: inputs.known-failures != ''
-        uses: actions/checkout@v4
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
         with:
           path: caller
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
         with:
           python-version: "3.12"
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         if: inputs.sdk == 'js'
         with:
           node-version: "22"
@@ -67,7 +67,7 @@ jobs:
           python shapecov/.github/scripts/sdk_conformance.py run --sdk "$SDK" $args --report "$RUNNER_TEMP/conformance.json"
       - name: Report
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: shapecov-conformance-${{ inputs.sdk }}
           path: ${{ runner.temp }}/conformance.json
