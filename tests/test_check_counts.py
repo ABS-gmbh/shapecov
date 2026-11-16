@@ -14,7 +14,9 @@ Corpus: 4 entries, 3 of them real ledgers.
 **1 defects found and filed** in one SDK. All 2 findings, with severity, CAPs and a reproducing entry.
 **1 of the RFP's 2 sightings reproduced**.
 **4 generated cases across all 2 types**; valid cases reach 2 of the 3 schema cells.
-It reruns the 1 checks that work from the repository alone.
+## Check it in under 9 seconds
+It reruns the 1 fast checks that work from the repository alone: 2 seconds on a laptop.
+`python3 quickcheck.py --full` adds the unit tests and the mutation testing, 2 checks in 12 seconds.
 Coverage of the 1 schema cells no valid case reaches yet.
 So 1 of the 2 cells a ledger reader can meet appear in a corpus entry. Each of the other 1 is classified.
 Valid cases exercise 2 of 3 schema cells, and 2 of the 2 a ledger reader can meet.
@@ -34,7 +36,8 @@ SIGHTINGS = """**1 of 2 reproduced.**
 
 1 corpus entries are stellar-core's golden ledgers.
 """
-QUICKCHECK = 'CHECKS = [("A", "a", ["python", "a.py"])]\n'
+QUICKCHECK = ('FULL_ONLY = {"M"}\nBUDGET_SECONDS = 9\n'
+              'CHECKS = [("A", "a", ["python", "a.py"]), ("M", "m", ["python", "m.py"])]\n')
 
 
 class CheckCounts(unittest.TestCase):
@@ -97,6 +100,18 @@ class CheckCounts(unittest.TestCase):
         rc, out = self.run_check()
         self.assertEqual(rc, 1, out)
         self.assertIn("says 4, but backtest: wallet-backend fixes detected is 1", out)
+
+    def test_quick_check_time_over_its_budget_fails(self):
+        write_tree(self.dir, {"README.md": README.replace(": 2 seconds on a laptop", ": 11 seconds on a laptop")})
+        rc, out = self.run_check()
+        self.assertEqual(rc, 1, out)
+        self.assertIn("is over the quick check's budget of 9 s", out)
+
+    def test_quick_check_counts_with_and_without_full(self):
+        write_tree(self.dir, {"README.md": README.replace("the 1 fast checks", "the 2 fast checks")})
+        rc, out = self.run_check()
+        self.assertEqual(rc, 1, out)
+        self.assertIn("says 2, but quickcheck checks without --full is 1", out)
 
     def test_a_fact_no_document_states_fails(self):
         write_tree(self.dir, {"VERIFY.md": ""})

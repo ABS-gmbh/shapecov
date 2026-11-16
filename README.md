@@ -25,16 +25,17 @@ indexer-hardening guide has each rule checked against stellar-core. Built for th
 Each check is a CI job of the same name. [`VERIFY.md`](VERIFY.md) gives every job and the command
 that runs it on your machine.
 
-## Check it in under a minute
+## Check it in under 15 seconds
 
 ```bash
 pip install jsonschema
 python3 quickcheck.py
 ```
 
-Python only, with no Docker and no network. It reruns the 15 checks that work from the repository
-alone and checks the recorded results of the rest against their verdicts. It took 34 seconds on a
-laptop. CI reruns everything else.
+Python only, with no Docker and no network. It reruns, in parallel, the 13 fast checks that work from
+the repository alone, and checks the recorded results of the rest against their verdicts: 5 seconds
+on a laptop. `python3 quickcheck.py --full` adds the unit tests and the mutation testing, 15 checks in
+17 seconds; CI runs it on every push, and reruns everything else.
 
 ## Results
 
@@ -200,7 +201,7 @@ to its job and command.
 
 | Workflow | When | What |
 |---|---|---|
-| `ci.yml` | every push and pull request, and weekly | One job per RFP acceptance check: the corpus against stellar-core's goldens (check 1), the linter on wallet-backend and on stellar-etl (check 3), the guide and its probes against stellar-core (check 4), every entry through six SDKs, stellar-core and the pinned-SDK and sibling behaviour checks (checks 1 and 5), the findings records (check 6). Also: the count check, the unit tests with coverage and the mutation test, the security checks and the network isolation test, and the reusable workflow and linter action as other repositories call them. |
+| `ci.yml` | every push and pull request, and weekly | One job per RFP acceptance check: the corpus against stellar-core's goldens (check 1), the linter on wallet-backend and on stellar-etl (check 3), the guide and its probes against stellar-core (check 4), every entry through six SDKs, stellar-core and the pinned-SDK and sibling behaviour checks (checks 1 and 5), the findings records (check 6). Also: the count check, the unit tests with coverage and `quickcheck.py --full` (which includes the mutation test), the security checks and the network isolation test, and the reusable workflow and linter action as other repositories call them. |
 | `replay.yml` | weekly, on demand, and on pushes and pull requests that touch the harness or the corpus | Six jobs: the RFP's wallet-backend sightings before and after their fixes (check 2), every ledger through stellar-etl, the memory budget, the local stellar-core entries regenerated on both passphrases, the Rust sightings, and the detection backtest's claims. |
 | `sdk-conformance.yml` | called by `ci.yml`, or by another repository | The corpus through one SDK at the caller's version ([`ADOPT.md`](ADOPT.md)). |
 | `release.yml` | on a version tag | The corpus archive and linter binaries, with `SHA256SUMS` and build provenance. |

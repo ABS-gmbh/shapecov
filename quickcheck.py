@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
-"""Check the RFP acceptance claims in a few minutes, with Python only.
+"""Check the RFP acceptance claims in seconds, with Python only.
 
-  python3 quickcheck.py
+  python3 quickcheck.py          the fast checks, run in parallel (BUDGET_SECONDS on a laptop)
+  python3 quickcheck.py --full   also the unit tests and the mutation testing (FULL_ONLY); CI runs this
 
 Needs Python 3.10 or later and one package, `pip install jsonschema` (for the manifest's JSON
 Schema). No Docker, no SDK toolchain and no network. It reruns every check that works from the
@@ -18,6 +19,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
 PY = sys.executable
+FULL_ONLY = {"Mutants", "Unit tests"}  # slow; run with --full, and in CI
+BUDGET_SECONDS = 15  # the default run should stay under this; README.md and VERIFY.md state the measured time
 
 CHECKS = [
     ("RFP check 1", "every corpus entry decodes strictly, re-encodes to the same bytes, and matches its manifest "
@@ -80,21 +83,37 @@ def main():
     except ImportError:
         print("needs one package: pip install jsonschema")
         return 2
+    import concurrent.futures as cf
+    full = "--full" in sys.argv[1:]
+    checks = [c for c in CHECKS if full or c[0] not in FULL_ONLY]
     failed = 0
     start = time.monotonic()
-    for check, what, cmd in CHECKS:
+
+    def one(cmd):
         t = time.monotonic()
         p = subprocess.run(cmd, cwd=ROOT, capture_output=True, text=True)
-        took = time.monotonic() - t
-        ok = p.returncode == 0
-        failed += not ok
-        print("%s  %-12s %5.1f s  %s" % ("PASS" if ok else "FAIL", check, took, what), flush=True)
-        if not ok:
-            lines = (p.stdout + p.stderr).strip().splitlines()
-            bad = [x for x in lines if re.search(r"FAIL|ERROR|DIFFERS|UNEXPLAINED|MISSING|NEW |Traceback|Error", x)]
-            for line in (bad or lines)[-8:]:
-                print("        " + line.strip())
-    print("\n%d of %d checks passed in %.0f s." % (len(CHECKS) - failed, len(CHECKS), time.monotonic() - start))
+        return p, time.monotonic() - t
+
+    # The checks are independent: run them in parallel, report them in order.
+    with cf.ThreadPoolExecutor(max_workers=8) as pool:
+        futures = [pool.submit(one, cmd) for _, _, cmd in checks]
+        for (check, what, _), fut in zip(checks, futures):
+            p, took = fut.result()
+            ok = p.returncode == 0
+            failed += not ok
+            print("%s  %-12s %5.1f s  %s" % ("PASS" if ok else "FAIL", check, took, what), flush=True)
+            if not ok:
+                lines = (p.stdout + p.stderr).strip().splitlines()
+                bad = [x for x in lines if re.search(r"FAIL|ERROR|DIFFERS|UNEXPLAINED|MISSING|NEW |Traceback|Error", x)]
+                for line in (bad or lines)[-8:]:
+                    print("        " + line.strip())
+    total = time.monotonic() - start
+    print("\n%d of %d checks passed in %.0f s." % (len(checks) - failed, len(checks), total))
+    if not full:
+        print("Not run without --full: %s (python3 quickcheck.py --full; CI runs them)."
+              % ", ".join(c[0] for c in CHECKS if c[0] in FULL_ONLY))
+        if total > BUDGET_SECONDS:
+            print("Note: this took longer than the %d s the README states for a laptop." % BUDGET_SECONDS)
     print("\nNot rerun here, because they need Docker, an SDK toolchain or the network; CI reruns them:")
     for check, what, job in NOT_RERUN:
         print("  %-12s %s  ->  %s" % (check, what, job))

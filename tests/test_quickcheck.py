@@ -60,5 +60,30 @@ class Quickcheck(unittest.TestCase):
         self.assertIn("1 of 2 checks passed", out)
 
 
+    def test_full_only_names_checks_that_exist(self):
+        names = {c[0] for c in qc.CHECKS}
+        self.assertTrue(qc.FULL_ONLY)
+        self.assertLessEqual(qc.FULL_ONLY, names)
+
+    @unittest.skipUnless(HAVE_JSONSCHEMA, "quickcheck needs jsonschema (pip install jsonschema)")
+    def test_slow_checks_run_only_with_full(self):
+        old = qc.CHECKS
+        slow = sorted(qc.FULL_ONLY)[0]
+        qc.CHECKS = [("A", "fast", [sys.executable, "-c", "pass"]),
+                     (slow, "slow", [sys.executable, "-c", "pass"])]
+        try:
+            rc, out = call_main(qc.main)
+            self.assertEqual(rc, 0, out)
+            self.assertIn("1 of 1 checks passed", out)
+            self.assertNotIn("PASS  " + slow, out)
+            self.assertIn("Not run without --full: " + slow, out)
+            rc, out = call_main(qc.main, "--full")
+            self.assertEqual(rc, 0, out)
+            self.assertIn("2 of 2 checks passed", out)
+            self.assertIn("PASS  " + slow, out)
+            self.assertNotIn("Not run without --full", out)
+        finally:
+            qc.CHECKS = old
+
 if __name__ == "__main__":
     unittest.main()

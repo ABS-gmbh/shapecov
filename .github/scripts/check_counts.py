@@ -88,6 +88,8 @@ def counts():
         "reachable cells reached by valid cases": cov["generator_covers_reachable"],
         "reachable cells in no corpus entry": cov["uncovered_reachable"],
         "quickcheck checks": len(qc.CHECKS),
+        "quickcheck checks without --full": sum(1 for c in qc.CHECKS if c[0] not in qc.FULL_ONLY),
+        "quickcheck time budget, seconds": qc.BUDGET_SECONDS,
         "guide probes (without the setup transaction)": sum(1 for p in probes if p["row"] != "(setup)"),
         "schema cells no valid case reaches": cov["schema_cells"] - cov["generator_covers"],
         "backtest: wallet-backend fixes detected": wb.get("detected", 0),
@@ -138,7 +140,9 @@ PATTERNS = {
     "backtest: stellar-etl flags on a blind ledger": [r"\bstellar-etl's [\d,]+ in-scope issues \(([\d,]+) blind\)"],
     "schema cells reached by valid cases": [r"\breach(?:es)? ([\d,]+) of (?:the )?[\d,]+ schema cells",
                                             r"\bexercise ([\d,]+) of [\d,]+ schema cells"],
-    "quickcheck checks": [r"\bfor all ([\d,]+) checks", r"\breruns the ([\d,]+) checks"],
+    "quickcheck checks": [r"--full` adds the unit tests and the mutation testing[,:] ([\d,]+) checks"],
+    "quickcheck checks without --full": [r"\bthe ([\d,]+) fast checks"],
+    "quickcheck time budget, seconds": [r"## Check it in under ([\d,]+) seconds"],
     "guide probes (without the setup transaction)": [r"\b([\d,]+) probes, plus one setup"],
 }
 
@@ -165,6 +169,13 @@ def main():
         if not stated[fact]:
             bad.append("%s (%d) is no longer stated in any of %s; update the pattern or drop the fact"
                        % (fact, value, ", ".join(DOCS)))
+    # The measured time of the default quick check must stay within the budget the heading states.
+    for doc, text in texts.items():
+        for m in re.finditer(r"fast checks[^.]*?\*{0,2}([\d,]+) seconds", text):
+            if int(m.group(1)) > facts["quickcheck time budget, seconds"]:
+                bad.append("%s:%d: %r is over the quick check's budget of %d s (quickcheck.py BUDGET_SECONDS)"
+                           % (doc, text.count("\n", 0, m.start()) + 1, m.group(0),
+                              facts["quickcheck time budget, seconds"]))
     print("mismatches: %d" % len(bad))
     for b in bad:
         print("  " + b)
