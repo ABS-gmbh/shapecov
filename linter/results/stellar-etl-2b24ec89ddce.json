@@ -1,0 +1,119 @@
+{
+  "tool": "shapecov-lint",
+  "version": "0.1.0",
+  "rules": [
+    "SC001",
+    "SC002",
+    "SC003"
+  ],
+  "options": null,
+  "packages_analyzed": 6,
+  "load_errors": [],
+  "suppressed_by_ignore_comment": 0,
+  "findings": [
+    {
+      "rule": "SC003",
+      "file": "internal/transform/operation.go",
+      "line": 2130,
+      "column": 3,
+      "message": "participants is filled from the transaction envelope with no check that the transaction succeeded; the envelope records what the submitter claimed, so derive participants from the ledger meta or return only the source account for a failed transaction",
+      "package": "github.com/stellar/stellar-etl/v2/internal/transform"
+    },
+    {
+      "rule": "SC003",
+      "file": "internal/transform/operation.go",
+      "line": 2132,
+      "column": 3,
+      "message": "participants is filled from the transaction envelope with no check that the transaction succeeded; the envelope records what the submitter claimed, so derive participants from the ledger meta or return only the source account for a failed transaction",
+      "package": "github.com/stellar/stellar-etl/v2/internal/transform"
+    },
+    {
+      "rule": "SC003",
+      "file": "internal/transform/operation.go",
+      "line": 2134,
+      "column": 3,
+      "message": "participants is filled from the transaction envelope with no check that the transaction succeeded; the envelope records what the submitter claimed, so derive participants from the ledger meta or return only the source account for a failed transaction",
+      "package": "github.com/stellar/stellar-etl/v2/internal/transform"
+    },
+    {
+      "rule": "SC003",
+      "file": "internal/transform/operation.go",
+      "line": 2136,
+      "column": 3,
+      "message": "participants is filled from the transaction envelope with no check that the transaction succeeded; the envelope records what the submitter claimed, so derive participants from the ledger meta or return only the source account for a failed transaction",
+      "package": "github.com/stellar/stellar-etl/v2/internal/transform"
+    },
+    {
+      "rule": "SC003",
+      "file": "internal/transform/operation.go",
+      "line": 2148,
+      "column": 3,
+      "message": "participants is filled from the transaction envelope with no check that the transaction succeeded; the envelope records what the submitter claimed, so derive participants from the ledger meta or return only the source account for a failed transaction",
+      "package": "github.com/stellar/stellar-etl/v2/internal/transform"
+    },
+    {
+      "rule": "SC003",
+      "file": "internal/transform/operation.go",
+      "line": 2150,
+      "column": 3,
+      "message": "participants is filled from the transaction envelope with no check that the transaction succeeded; the envelope records what the submitter claimed, so derive participants from the ledger meta or return only the source account for a failed transaction",
+      "package": "github.com/stellar/stellar-etl/v2/internal/transform"
+    },
+    {
+      "rule": "SC003",
+      "file": "internal/transform/operation.go",
+      "line": 2159,
+      "column": 4,
+      "message": "participants is filled from the transaction envelope with no check that the transaction succeeded; the envelope records what the submitter claimed, so derive participants from the ledger meta or return only the source account for a failed transaction",
+      "package": "github.com/stellar/stellar-etl/v2/internal/transform"
+    },
+    {
+      "rule": "SC003",
+      "file": "internal/transform/operation.go",
+      "line": 2164,
+      "column": 3,
+      "message": "participants is filled from the transaction envelope with no check that the transaction succeeded; the envelope records what the submitter claimed, so derive participants from the ledger meta or return only the source account for a failed transaction",
+      "package": "github.com/stellar/stellar-etl/v2/internal/transform"
+    },
+    {
+      "rule": "SC003",
+      "file": "internal/transform/operation.go",
+      "line": 2174,
+      "column": 4,
+      "message": "participants is filled from the transaction envelope with no check that the transaction succeeded; the envelope records what the submitter claimed, so derive participants from the ledger meta or return only the source account for a failed transaction",
+      "package": "github.com/stellar/stellar-etl/v2/internal/transform"
+    },
+    {
+      "rule": "SC003",
+      "file": "internal/transform/operation.go",
+      "line": 2176,
+      "column": 4,
+      "message": "participants is filled from the transaction envelope with no check that the transaction succeeded; the envelope records what the submitter claimed, so derive participants from the ledger meta or return only the source account for a failed transaction",
+      "package": "github.com/stellar/stellar-etl/v2/internal/transform"
+    },
+    {
+      "rule": "SC003",
+      "file": "internal/transform/operation.go",
+      "line": 2182,
+      "column": 3,
+      "message": "participants is filled from the transaction envelope with no check that the transaction succeeded; the envelope records what the submitter claimed, so derive participants from the ledger meta or return only the source account for a failed transaction",
+      "package": "github.com/stellar/stellar-etl/v2/internal/transform"
+    },
+    {
+      "rule": "SC003",
+      "file": "internal/transform/operation.go",
+      "line": 2187,
+      "column": 3,
+      "message": "participants is filled from the transaction envelope with no check that the transaction succeeded; the envelope records what the submitter claimed, so derive participants from the ledger meta or return only the source account for a failed transaction",
+      "package": "github.com/stellar/stellar-etl/v2/internal/transform"
+    },
+    {
+      "rule": "SC001",
+      "file": "internal/transform/transaction.go",
+      "line": 77,
+      "column": 24,
+      "message": "memo text is read with MustText() and used without a UTF-8 check; stellar-core accepts any 28 bytes, so validate with utf8.ValidString or store it as bytes",
+      "package": "github.com/stellar/stellar-etl/v2/internal/transform"
+    }
+  ]
+}

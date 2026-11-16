@@ -222,6 +222,9 @@ type InvokeHostFunctionOp struct {
 
 type Asset struct{}
 
+func NewCreditAsset(code string, issuer string) (Asset, error) { return Asset{}, nil }
+func (a Asset) ContractID(passphrase string) ([32]byte, error) { return [32]byte{}, nil }
+
 type PaymentOp struct {
 	Destination MuxedAccount
 	Asset       Asset

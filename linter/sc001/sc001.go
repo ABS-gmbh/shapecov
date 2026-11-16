@@ -62,6 +62,8 @@ type fn struct {
 	idVars        map[types.Object]bool // variables holding a muxed or memo ID
 	muxedTypeSeen bool                  // the function reads MuxedAccount.Type or uses the two-result GetMed25519
 	nonceSeen     bool                  // the function refers to ScValTypeScvLedgerKeyNonce
+	sacIDVars     map[types.Object]bool // variables holding an Asset's Stellar Asset Contract ID
+	sacIDChecked  bool                  // such an ID is compared with == or != (the entry is the asset's own contract)
 	readsLedger   bool                  // the package reads ledger output (see sx.ReadsLedgerOutput)
 }
 
@@ -69,7 +71,7 @@ func checkFunc(pass *analysis.Pass, fd *ast.FuncDecl, validatorRE *regexp.Regexp
 	f := &fn{
 		pass: pass, info: pass.TypesInfo, readsLedger: readsLedger,
 		valExprs: map[string]bool{}, valObjs: map[types.Object]bool{},
-		cmpExprs: map[string]bool{}, idVars: map[types.Object]bool{},
+		cmpExprs: map[string]bool{}, idVars: map[types.Object]bool{}, sacIDVars: map[types.Object]bool{},
 	}
 
 	// Pass 1: collect what the function validates, compares and inspects.
@@ -92,6 +94,10 @@ func checkFunc(pass *analysis.Pass, fd *ast.FuncDecl, validatorRE *regexp.Regexp
 			case token.LSS, token.LEQ, token.GTR, token.GEQ:
 				f.recordExprs(x.X, f.cmpExprs, nil)
 				f.recordExprs(x.Y, f.cmpExprs, nil)
+			case token.EQL, token.NEQ:
+				if f.mentions(x.X, f.sacIDVars) || f.mentions(x.Y, f.sacIDVars) {
+					f.sacIDChecked = true
+				}
 			}
 		case *ast.SelectorExpr:
 			if x.Sel.Name == "Type" && sx.IsXDR(f.info.TypeOf(x.X), "MuxedAccount") {
@@ -105,6 +111,13 @@ func checkFunc(pass *analysis.Pass, fd *ast.FuncDecl, validatorRE *regexp.Regexp
 				f.nonceSeen = true
 			}
 		case *ast.AssignStmt:
+			if len(x.Rhs) == 1 && len(x.Lhs) >= 1 && f.isAssetContractID(x.Rhs[0]) {
+				if id, ok := x.Lhs[0].(*ast.Ident); ok {
+					if obj := f.info.ObjectOf(id); obj != nil {
+						f.sacIDVars[obj] = true
+					}
+				}
+			}
 			if len(x.Rhs) == 1 && len(x.Lhs) >= 1 && f.isIDSource(x.Rhs[0]) {
 				if id, ok := x.Lhs[0].(*ast.Ident); ok {
 					if obj := f.info.ObjectOf(id); obj != nil {
@@ -132,6 +145,29 @@ func checkFunc(pass *analysis.Pass, fd *ast.FuncDecl, validatorRE *regexp.Regexp
 		}
 		return true
 	})
+}
+
+// isAssetContractID reports whether e calls ContractID on an xdr.Asset: the ID of that asset's
+// Stellar Asset Contract.
+func (f *fn) isAssetContractID(e ast.Expr) bool {
+	call, ok := ast.Unparen(e).(*ast.CallExpr)
+	if !ok {
+		return false
+	}
+	sel, ok := ast.Unparen(call.Fun).(*ast.SelectorExpr)
+	return ok && sel.Sel.Name == "ContractID" && sx.IsXDR(f.info.TypeOf(sel.X), "Asset")
+}
+
+// mentions reports whether e refers to any of objs.
+func (f *fn) mentions(e ast.Expr, objs map[types.Object]bool) bool {
+	found := false
+	ast.Inspect(e, func(n ast.Node) bool {
+		if id, ok := n.(*ast.Ident); ok && objs[f.info.ObjectOf(id)] {
+			found = true
+		}
+		return !found
+	})
+	return found
 }
 
 // recordExprs records the printed form of e and of every expression inside it,
@@ -290,6 +326,13 @@ func (f *fn) checkConversion(call *ast.CallExpr, target types.Type, stack []ast.
 				sx.IsXDR(f.info.TypeOf(s.X), "InvokeContractArgs") {
 				what = "a function name taken from the transaction envelope (xdr.ScSymbol)"
 			}
+		}
+		// A Stellar Asset Contract's stored asset code is bound to the contract's ID: the host
+		// validated the code (ASCII alphanumeric) when it created the contract, and a function that
+		// derives the contract ID from the asset and compares it with the entry's ID keeps only that
+		// contract's entries (go-stellar-sdk's and stellar-etl's AssetFromContractData).
+		if sx.IsXDR(argT, "ScString") && f.sacIDChecked {
+			return
 		}
 		if what != "" && !f.validated(call, stack) {
 			sx.Report(f.pass, Rule, call.Pos(),

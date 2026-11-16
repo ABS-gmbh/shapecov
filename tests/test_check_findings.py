@@ -31,7 +31,8 @@ def records():
                reproduction={"corpus_entry": "e1"}, upstream=["https://github.com/o/r/pull/2"],
                first_reported_by="maintainer", labels=["o/r#2 (half)"], rfp_sighting=2),
         record(id="L1", kind="linter", title="Unbounded walk", severity="S4",
-               reproduction={"linter_report": "linter/results/r.json", "accepted": ["walks without a cap"]},
+               reproduction={"linter_report": "linter/results/wallet-backend-000000000000.json",
+                             "accepted": ["walks without a cap"]},
                upstream=[], labels=[]),
     ]
 
@@ -56,7 +57,7 @@ class CheckFindings(unittest.TestCase):
             "linter/accepted/wallet-backend.json": {"accepted": [
                 {"rule": "SC2", "file": "w.go", "message_contains": "walks without a cap", "upstream": None,
                  "reason": "real, low"}]},
-            "linter/results/r.json": {"findings": []},
+            "linter/results/wallet-backend-000000000000.json": {"findings": []},
             "harness/replay/out-stellar-etl/results.jsonl": "",
         })
         write_jsonl(self.dir, "out/cases.jsonl", [{"id": "T/trailing0", "valid": False}])
@@ -145,7 +146,7 @@ class CheckFindings(unittest.TestCase):
     def test_accepted_linter_finding_needs_a_record(self):
         self.doc["findings"][2]["reproduction"]["accepted"] = []
         self.save()
-        self.assertFails("accepted linter finding SC2 'walks without a cap' maps to no record")
+        self.assertFails("accepted wallet-backend linter finding SC2 'walks without a cap' maps to no record")
 
     def test_record_label_maps_an_unfiled_finding(self):
         self.results[0]["oracle"]["known"] = {"record:L1": 3}

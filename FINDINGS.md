@@ -6,7 +6,7 @@ Run date: 14 November 2026, updated 16 November 2026. Versions are in `README.md
 
 <!-- findings-table:begin (generated from FINDINGS.json by .github/scripts/check_findings.py --write; do not edit by hand) -->
 
-31 findings in `FINDINGS.json`, one record each. Severity: **S1** halts or rejects valid data; **S2** wrong or missing data; **S3** accepts non-canonical input; **S4** hardening. Dates are UTC.
+33 findings in `FINDINGS.json`, one record each. Severity: **S1** halts or rejects valid data; **S2** wrong or missing data; **S3** accepts non-canonical input; **S4** hardening. Dates are UTC.
 
 **Found by ShapeCov and filed by us** (6)
 
@@ -56,13 +56,15 @@ Run date: 14 November 2026, updated 16 November 2026. Versions are in `README.md
 |---|---|---|---|---|---|---|---|---|
 | R11 | Participants taken from the envelope: failed-transaction destinations, unmatched authorization entries, declared-only deploys, invoked contracts | wallet-backend: participants and contract deploys (indexer) | S2; accounts are recorded as participants of transactions whose meta does not show them | none: an indexer rule (participants come from the meta), not a protocol shape | entry `pubnet-61240000` | [stellar/wallet-backend@9538b3c](https://github.com/stellar/wallet-backend/commit/9538b3caeaebfeb3d034146c0ce9643c3066cf8a), [stellar/wallet-backend@80121f3](https://github.com/stellar/wallet-backend/commit/80121f3abe0fcdf6487d123e940de2631c1210b2), [stellar/wallet-backend@e2da4ca](https://github.com/stellar/wallet-backend/commit/e2da4cadf2689380e9fc2dd0e1bce64191f411b8) | aditya1702 (wallet-backend maintainer), who fixed it; no issue was filed, 2026-09-28 | fixed upstream (2026-09-28); the replay oracle flags it at the commits before e2da4ca, blind on pubnet-61240000 |
 
-**A finding of the linter on wallet-backend, accepted with a reason** (3)
+**A finding of the linter on wallet-backend, accepted with a reason** (5)
 
 | ID | Finding | Component | Severity | CAPs | Reproduction | Upstream | First reported | Status |
 |---|---|---|---|---|---|---|---|---|
 | L1 | The declared authorization tree is walked with no depth cap of its own | wallet-backend: ContractDeployProcessor (walkInvocation) | S4 | CAP-0046-11 | `linter/results/wallet-backend-3e22515a4497.json` | [stellar/wallet-backend#820](https://github.com/stellar/wallet-backend/issues/820) | ErenTopaal (shapekit project), 2026-11-15 | open; a fix with a test is ready on a branch, awaiting issue acceptance |
 | L2 | Participants taken from the envelope for failed transactions | wallet-backend: participants (GetOperationsParticipants) | S2; a documented design choice: an account named only in a failed transaction's envelope is recorded as a participant | none: an indexer design rule (participants from the meta), not a protocol shape | `linter/results/wallet-backend-3e22515a4497.json` | not filed | ShapeCov, 2026-11-15 | accepted in linter/accepted/wallet-backend.json; not filed, because it is a design choice |
 | L3 | Memo text used without a UTF-8 check in an uncalled helper | wallet-backend: utils.Memo | S4; not reachable today; becomes live if a memo column is added (wallet-backend #800) | none: a classic memo; an indexer storage rule, not a protocol shape | `linter/results/wallet-backend-3e22515a4497.json` | [stellar/wallet-backend#800](https://github.com/stellar/wallet-backend/issues/800) | ShapeCov, 2026-11-15 | accepted in linter/accepted/wallet-backend.json; not filed, because the code is uncalled |
+| L4 | Memo text exported without a UTF-8 check: invalid bytes become U+FFFD | stellar-etl: export_transactions (TransformTransaction, memo column) | S2; live: the exported memo differs from the ledger's for any non-UTF-8 text memo | none: a classic memo; an indexer storage rule, not a protocol shape | `linter/results/stellar-etl-2b24ec89ddce.json` | [stellar/stellar-etl#504](https://github.com/stellar/stellar-etl/issues/504) | tolgayayci (#504), 2026-11-13 | open; SC001 reports the line #504 names, on the linter's first run on stellar-etl |
+| L5 | Operation participants taken from the envelope with no success check, in an uncalled copy of Horizon's processor | stellar-etl: transactionOperationWrapper.Participants (internal/transform/operation.go) | S4; not reachable: nothing in stellar-etl calls it | none: an indexer design rule (participants from the meta), not a protocol shape | `linter/results/stellar-etl-2b24ec89ddce.json` | not filed | ShapeCov, 2026-11-16 | accepted in linter/accepted/stellar-etl.json; not filed, because the code is uncalled and stellar-etl#463 already proposes deleting the dead Horizon copy it belongs to |
 
 <!-- findings-table:end -->
 

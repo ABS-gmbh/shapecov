@@ -163,3 +163,22 @@ func assetFromScVal(v xdr.ScVal) (xdr.Asset, error) {
 	}
 	return assets[0], nil
 }
+
+// A Stellar Asset Contract's asset code, kept only when the entry belongs to that asset's own
+// contract: the host validated the code when it created the contract (go-stellar-sdk's and
+// stellar-etl's AssetFromContractData).
+func assetFromContractData(entry xdr.ContractDataEntry, code xdr.ScVal, issuer, passphrase string) *xdr.Asset {
+	assetCode := string(code.MustStr())
+	asset, err := xdr.NewCreditAsset(assetCode, issuer)
+	if err != nil {
+		return nil
+	}
+	expectedID, err := asset.ContractID(passphrase)
+	if err != nil {
+		return nil
+	}
+	if entry.Contract.ContractId == nil || expectedID != *entry.Contract.ContractId {
+		return nil
+	}
+	return &asset
+}

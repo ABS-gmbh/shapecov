@@ -133,3 +133,14 @@ func describeName(v xdr.ScVal) string {
 func describeNameAfterQuoted(v, w xdr.ScVal) string {
 	return fmt.Sprintf("%q %v", string(w.MustStr()), string(v.MustStr())) // want `a contract-supplied string \(xdr.ScString\) is converted to string`
 }
+
+// Deriving the asset contract's ID without comparing it with the entry's does not bind the code.
+func assetCodeUnbound(code xdr.ScVal, issuer, passphrase string) (string, error) {
+	assetCode := string(code.MustStr()) // want `a contract-supplied string \(xdr.ScString\) is converted to string`
+	asset, err := xdr.NewCreditAsset(assetCode, issuer)
+	if err != nil {
+		return "", err
+	}
+	_, err = asset.ContractID(passphrase)
+	return assetCode, err
+}

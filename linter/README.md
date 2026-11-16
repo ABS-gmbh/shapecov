@@ -16,6 +16,8 @@ A linter for Go indexers written against `github.com/stellar/go-stellar-sdk` (or
 scripts/test.sh                                   # gofmt, go vet, go test (Docker, no network)
 scripts/run-wallet-backend.sh <ref> [flags]       # lint stellar/wallet-backend at a commit,
                                                   # writes results/wallet-backend-<sha12>.json
+GO_IMAGE=golang:1.27.3 scripts/run-target.sh stellar-etl https://github.com/stellar/stellar-etl <ref>
+                                                  # any Go repository; writes results/<name>-<sha12>.json
 ```
 
 Or build the command and run it on any Go module:
@@ -78,7 +80,11 @@ is inside the call, is the same expression, or is assigned to a variable that is
 The default includes strict parsers that reject anything outside a fixed grammar
 (`xdr.BuildAssets`, `strconv.Parse*`). A value is also covered when it is only an argument of a
 `fmt` printf-style call whose verb for it is `%q`, `%x` or `%X`, since those escape every byte.
-Building an XDR string (`xdr.ScString("name")`) and converting a constant are not reported.
+Building an XDR string (`xdr.ScString("name")`) and converting a constant are not reported. Nor is a
+contract string in a function that derives a Stellar Asset Contract's ID from the asset
+(`asset.ContractID(passphrase)`) and compares it with the ledger entry's contract ID: such a function
+keeps only that contract's own entries, and the host accepted the asset code (ASCII letters and
+digits) when it created the contract.
 
 ### SC002: missing depth and size caps
 
@@ -176,6 +182,49 @@ checked against the historical controls below, which are unchanged.
 Two rule bugs were fixed before that. SC001 reported `xdr.ScString("SEP41 Token")`, which builds a
 value rather than reading one. SC003 treated `len(ops)`, used as a map capacity hint, as a
 participant.
+
+## Run on stellar-etl `master`
+
+The rules were written against wallet-backend, so they were also run on a second indexer they had
+never seen: stellar-etl at `2b24ec89ddce7fc0beb7795de982c93e6895eaf3` (11 November 2026), the commit
+the replay harness pins. Command:
+`GO_IMAGE=golang:1.27.3 scripts/run-target.sh stellar-etl https://github.com/stellar/stellar-etl 2b24ec89…`.
+It analysed 6 packages with no load errors:
+[`results/stellar-etl-2b24ec89ddce.json`](results/stellar-etl-2b24ec89ddce.json).
+
+**Go version.** stellar-etl's Dockerfile pins Go 1.27.3. With Go 1.27.4 the packages do not load:
+the toolchain rejects the prebuilt library of its cgo dependency `go-stellar-xdr-json`
+("disallowed LTO section .llvmbc in #cgo LDFLAGS"), on amd64 and arm64 alike. Lint it with 1.27.3.
+
+**False positives: 1 of 14 before the rule was fixed, 0 of 13 after.** The one false positive was
+`internal/transform/contract_data.go:282`, the asset code read from a Stellar Asset Contract's
+instance storage in `AssetFromContractData`. The function keeps the asset only when the asset's
+contract ID equals the entry's, and the host validates the code before it creates that contract
+(`validate_asset` in rs-soroban-env), so the string cannot hold arbitrary bytes. The same function
+is in go-stellar-sdk's processors, so any indexer that uses it would have hit this. SC001 now treats
+that identity check as covering the string (above, "SC001"), with a fixture that stays quiet and a
+seeded case, the ID derived but never compared, that still fires. Rerun with the fix, wallet-backend
+`main` and the two contract-string controls (`ec6b706f`, `e6bb6ea4`) give exactly the findings
+recorded before: 4, 34 and 32.
+
+| # | Rule | Location | Verdict | Reason |
+|---|---|---|---|---|
+| 1 | SC001 | `internal/transform/transaction.go:77` | **true positive, live**; reported first as [stellar/stellar-etl#504](https://github.com/stellar/stellar-etl/issues/504) by tolgayayci on 13 November | `TransformTransaction` copies MEMO_TEXT with `MustText()` into the `memo` column. `json.Marshal` replaces invalid UTF-8 with U+FFFD, so a memo that is not UTF-8 is exported changed. #504 names this line. |
+| 2–13 | SC003 | `internal/transform/operation.go:2130` to `:2187` (12 sites) | **true positive, not reachable** | `transactionOperationWrapper.Participants()` adds destinations, trustors, claimants and sponsored accounts from the envelope with no success check. Nothing in stellar-etl calls it: it belongs to the copy of Horizon's operations processor that [stellar/stellar-etl#463](https://github.com/stellar/stellar-etl/issues/463) (open, by a maintainer) proposes to delete. #463 names `Details()`, not `Participants()`. Not filed. |
+
+CI runs it like wallet-backend: the `linter-stellar-etl` job lints the pinned commit with Go 1.27.3 and
+fails on any finding outside [`accepted/stellar-etl.json`](accepted/stellar-etl.json).
+
+**What this says about the linter.** Its precision held on a codebase it was not tuned on: one
+false-positive class, fixed in the rule, and every remaining finding is a real instance of a named
+mistake. Its reach is narrow. Of the 17 issues in stellar-etl's own correctness audit (#448) and
+#504, only #504 is one of the three mistakes in a form a rule can see in one function, and SC001
+finds it. The others are semantic: a wrong pool formula (#451), the wrong effect type (#457), a muxed
+destination fabricated from a memo inside the token-transfer events (#450). The replay oracle, not
+the linter, is what catches those (`FINDINGS.md`). SC002 reported nothing: stellar-etl has no
+recursive walk of its own over contract values, and hands each one to `xdrjson`
+(`internal/transform/contract_events.go`, `serializeScVal`). Twelve of the thirteen findings are in
+one uncalled function; SC003 reports each site, not each function.
 
 ## Historical positive controls
 

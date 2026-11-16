@@ -17,11 +17,12 @@ FINDINGS.json holds one record per finding, in the form the RFP asks for. This s
   label a failure `record:<ID>` to map it to a record that has no filed issue; those are counted
   and printed apart from the failures that map to a filed issue;
 - a claimed sighting, a reproduced sighting in harness/sightings/README.md, or an accepted linter
-  finding (linter/accepted/wallet-backend.json) maps to no record;
+  finding (linter/accepted/<indexer>.json) maps to no record;
 - a label names an issue that is not among the record's upstream links;
 - the table at the top of FINDINGS.md differs from what this script generates.
 Run from the repository root.
 """
+import glob
 import json
 import os
 import re
@@ -221,19 +222,25 @@ def check_rfp_sightings(doc, bad):
 
 
 def check_linter(doc, bad):
-    """Every accepted linter finding has a record, with the same upstream link."""
-    acc = load_json("linter/accepted/wallet-backend.json")["accepted"]
+    """Every accepted linter finding, for every indexer the linter runs on (linter/accepted/<name>.json),
+    has a record whose linter report is for that indexer, with the same upstream link."""
     owner = {}
     for r in doc["findings"]:
-        for m in r.get("reproduction", {}).get("accepted", []):
-            owner[m] = r
-    for a in acc:
-        r = owner.get(a["message_contains"])
-        if r is None:
-            bad.append("accepted linter finding %s %r maps to no record" % (a["rule"], a["message_contains"]))
-        elif a.get("upstream") and a["upstream"] not in r.get("upstream", []):
-            bad.append("%s: accepted linter finding cites %s, which the record does not" % (r.get("id"), a["upstream"]))
-    return len(acc)
+        rep = r.get("reproduction", {})
+        target = re.sub(r"-[0-9a-f]{12}\.json$", "", os.path.basename(rep.get("linter_report", "")))
+        for m in rep.get("accepted", []):
+            owner[(target, m)] = r
+    n = 0
+    for path in sorted(glob.glob("linter/accepted/*.json")):
+        target = os.path.basename(path)[:-len(".json")]
+        for a in load_json(path)["accepted"]:
+            n += 1
+            r = owner.get((target, a["message_contains"]))
+            if r is None:
+                bad.append("accepted %s linter finding %s %r maps to no record" % (target, a["rule"], a["message_contains"]))
+            elif a.get("upstream") and a["upstream"] not in r.get("upstream", []):
+                bad.append("%s: accepted linter finding cites %s, which the record does not" % (r.get("id"), a["upstream"]))
+    return n
 
 
 def cell(s):

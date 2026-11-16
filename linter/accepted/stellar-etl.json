@@ -1,0 +1,22 @@
+{
+ "note": "Findings of the linter on stellar/stellar-etl that are accepted, one per entry, each with the reason it is accepted and the upstream issue that tracks it where one exists. scripts/check_accepted.py fails on any finding this file does not list. An entry matches a finding by rule, file and a substring of its message, not by line. An entry that matches nothing is reported as resolved and should be removed. Accepting a finding records a triage decision; it does not mean the code is correct. Lint stellar-etl with Go 1.27.3, the version its own Dockerfile pins: Go 1.27.4 refuses to load its go-stellar-xdr-json dependency (\"disallowed LTO section .llvmbc in #cgo LDFLAGS\").",
+ "target": "https://github.com/stellar/stellar-etl",
+ "pinned_commit": "2b24ec89ddce7fc0beb7795de982c93e6895eaf3",
+ "go_version": "1.27.3",
+ "accepted": [
+  {
+   "rule": "SC001",
+   "file": "internal/transform/transaction.go",
+   "message_contains": "memo text is read with MustText()",
+   "upstream": "https://github.com/stellar/stellar-etl/issues/504",
+   "reason": "Real and live: TransformTransaction copies MEMO_TEXT with MustText() into the memo column without a UTF-8 check, and json.Marshal turns invalid bytes into U+FFFD, so the exported memo is not the memo in the ledger. Reported first as #504 by tolgayayci on 13 November (open), which names this line."
+  },
+  {
+   "rule": "SC003",
+   "file": "internal/transform/operation.go",
+   "message_contains": "participants is filled from the transaction envelope",
+   "upstream": null,
+   "reason": "Real, not reachable: transactionOperationWrapper.Participants() takes participants from envelope operations with no success check (12 sites in one function), but nothing in stellar-etl calls it. It is part of the near-verbatim copy of Horizon's operations processor that #463 (open, by a maintainer) proposes to delete; #463 names Details(), not Participants(). No issue filed: it is dead code."
+  }
+ ]
+}

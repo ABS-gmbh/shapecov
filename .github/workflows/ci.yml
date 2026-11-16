@@ -20,8 +20,8 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
         with:
           python-version: "3.12"
       - run: pip install jsonschema==4.23.0
@@ -45,8 +45,8 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
         with:
           python-version: "3.12"
       - name: Guide tables against the manifest, the probe records and the corpus
@@ -55,7 +55,7 @@ jobs:
         run: docker pull --platform linux/amd64 stellar/stellar-core:30.0.0-3642.0e49751aa.noble
       - name: Every probe submitted again to a local stellar-core; each must get the recorded answer
         run: python guide/probe_core.py check
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: "22"
       - name: The developers.stellar.org page is current, formatted with stellar-docs' own prettier config
@@ -71,8 +71,8 @@ jobs:
       run:
         working-directory: linter
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-go@v5
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      - uses: actions/setup-go@40f1582b2485089dde7abd97c1529aa768e1baff # v5.6.0
         with:
           go-version-file: linter/go.mod
           cache-dependency-path: linter/go.sum
@@ -102,17 +102,50 @@ jobs:
           if [ "$code" -gt 1 ]; then echo "linter error (exit $code)"; exit 1; fi
           python3 scripts/check_accepted.py "$RUNNER_TEMP/report.json" accepted/wallet-backend.json
 
+  linter-stellar-etl:
+    name: "RFP check 3: linter on a second indexer, stellar-etl; no finding outside its accepted list"
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: linter
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      # stellar-etl's own Dockerfile pins Go 1.27.3; Go 1.27.4 refuses to load its cgo dependency
+      # go-stellar-xdr-json ("disallowed LTO section .llvmbc in #cgo LDFLAGS").
+      - uses: actions/setup-go@40f1582b2485089dde7abd97c1529aa768e1baff # v5.6.0
+        with:
+          go-version: "1.27.3"
+          cache-dependency-path: linter/go.sum
+      - name: stellar-etl at the commit pinned in accepted/stellar-etl.json
+        run: |
+          ref=$(python3 -c 'import json; print(json.load(open("accepted/stellar-etl.json"))["pinned_commit"])')
+          git init -q "$RUNNER_TEMP/etl" && cd "$RUNNER_TEMP/etl"
+          git fetch -q --depth 1 https://github.com/stellar/stellar-etl.git "$ref"
+          git checkout -q FETCH_HEAD
+          echo "stellar-etl $ref = $(git rev-parse HEAD)"
+          go mod download
+      - name: No finding outside accepted/stellar-etl.json
+        run: |
+          go build -o "$RUNNER_TEMP/lint" ./cmd/shapecov-lint
+          set +e
+          "$RUNNER_TEMP/lint" -C "$RUNNER_TEMP/etl" -o "$RUNNER_TEMP/report.json" ./...
+          code=$?
+          set -e
+          if [ "$code" -gt 1 ]; then echo "linter error (exit $code)"; exit 1; fi
+          python3 scripts/check_accepted.py "$RUNNER_TEMP/report.json" accepted/stellar-etl.json
+
   conformance:
     name: "RFP checks 1 and 5: entries round-trip in rs-stellar-xdr and five more decoders; js-stellar-sdk #1766, #1785, #1789 reproduce on pre-fix tags"
     runs-on: ubuntu-24.04
     timeout-minutes: 30
     needs: corpus
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
         with:
           python-version: "3.12"
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: "22"
       - run: pip install jsonschema==4.23.0
@@ -156,8 +189,8 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 5
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
         with:
           python-version: "3.12"
       - name: FINDINGS.json records, and every failure in the committed replay results mapped to one
@@ -168,8 +201,8 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 5
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
         with:
           python-version: "3.12"
       - name: Counts stated in README, VERIFY, ARCHITECTURE and the corpus and sightings READMEs
@@ -183,8 +216,8 @@ jobs:
       SHAPECOV_ROOT: ${{ github.workspace }}
       COVERAGE_PROCESS_START: ${{ github.workspace }}/tests/coverage.ini
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
         with:
           python-version: "3.12"
       - name: Install jsonschema and coverage; measure the scripts the tests run as subprocesses
@@ -222,7 +255,7 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
       - name: wallet-backend at the commit pinned in linter/accepted/wallet-backend.json
         run: |
           ref=$(python3 -c 'import json; print(json.load(open("linter/accepted/wallet-backend.json"))["pinned_commit"])')

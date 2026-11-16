@@ -716,6 +716,53 @@
    "reported": "2026-11-15",
    "status": "accepted in linter/accepted/wallet-backend.json; not filed, because the code is uncalled",
    "labels": []
+  },
+  {
+   "id": "L4",
+   "kind": "linter",
+   "title": "Memo text exported without a UTF-8 check: invalid bytes become U+FFFD",
+   "component": "stellar-etl: export_transactions (TransformTransaction, memo column)",
+   "severity": "S2",
+   "severity_note": "live: the exported memo differs from the ledger's for any non-UTF-8 text memo",
+   "caps": [],
+   "caps_none_reason": "a classic memo; an indexer storage rule, not a protocol shape",
+   "reproduction": {
+    "linter_report": "linter/results/stellar-etl-2b24ec89ddce.json",
+    "accepted": [
+     "memo text is read with MustText()"
+    ],
+    "also": [
+     "localcore-memo-and-offer-p30-4"
+    ]
+   },
+   "upstream": [
+    "https://github.com/stellar/stellar-etl/issues/504"
+   ],
+   "first_reported_by": "tolgayayci (#504)",
+   "reported": "2026-11-13",
+   "status": "open; SC001 reports the line #504 names, on the linter's first run on stellar-etl",
+   "labels": []
+  },
+  {
+   "id": "L5",
+   "kind": "linter",
+   "title": "Operation participants taken from the envelope with no success check, in an uncalled copy of Horizon's processor",
+   "component": "stellar-etl: transactionOperationWrapper.Participants (internal/transform/operation.go)",
+   "severity": "S4",
+   "severity_note": "not reachable: nothing in stellar-etl calls it",
+   "caps": [],
+   "caps_none_reason": "an indexer design rule (participants from the meta), not a protocol shape",
+   "reproduction": {
+    "linter_report": "linter/results/stellar-etl-2b24ec89ddce.json",
+    "accepted": [
+     "participants is filled from the transaction envelope"
+    ]
+   },
+   "upstream": [],
+   "first_reported_by": "ShapeCov",
+   "reported": "2026-11-16",
+   "status": "accepted in linter/accepted/stellar-etl.json; not filed, because the code is uncalled and stellar-etl#463 already proposes deleting the dead Horizon copy it belongs to",
+   "labels": []
   }
  ],
  "sightings_without_record": {

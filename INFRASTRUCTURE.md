@@ -26,7 +26,7 @@ What shapecov runs on, what it connects to, and what it records about anyone.
 | SDK conformance runners (`runners/`) | the same, plus Docker | Rust (stable), Node.js 22, a Python venv with stellar-sdk 17.0.1, Docker for Go and Java |
 | stellar-core checks (`corpus_check.py --core`), local ledgers (`tools/localcore.py`) | Docker | the `linux/amd64` stellar-core image; on Apple silicon it runs under emulation |
 | Replay harness (`harness/replay/`) | Docker, or the `replay` workflow | about 5 minutes for all sightings in CI |
-| Linter (`linter/`) | Go 1.26, or Docker | |
+| Linter (`linter/`) | Go 1.26, or Docker; Go 1.27.3 to lint stellar-etl | |
 
 GitHub Actions workflows (`.github/workflows/`):
 
@@ -49,7 +49,7 @@ network use.
 | Destination | Made by | When | Why |
 |---|---|---|---|
 | `aws-public-blockchain.s3.us-east-2.amazonaws.com` (Stellar's public ledger archive, Galexie layout) | `tools/mine.py` | only when mining new ledgers for the corpus | download public testnet and mainnet `LedgerCloseMeta` |
-| `github.com/stellar/wallet-backend` | the replay adapter and `linter/scripts/run-wallet-backend.sh` | when a wallet-backend commit is not cached locally | clone the indexer under test |
+| `github.com/stellar/wallet-backend`, `github.com/stellar/stellar-etl` | the replay adapters and `linter/scripts/run-target.sh` | when a commit is not cached locally | clone the indexer under test |
 | Go module proxy, npm, PyPI, crates.io, Maven Central | build steps (`go mod download`, `npm ci`, `pip install`, `cargo build`, `mvn`) | when building runners, the linter or a wallet-backend commit | fetch pinned dependencies |
 | Docker Hub | `docker pull` | when an image is missing | fetch the images below |
 | `api.github.com` | `.github/scripts/upstream_drift.py`; `release.yml` | weekly, and on a release | read the latest releases of the pinned upstreams; open drift issues and attach release assets in this repository |
@@ -74,18 +74,21 @@ Once dependencies, images and the wallet-backend clone are cached, these run ful
 | Go and Java SDK runners (`tools/run.py`) | `--network none`, 2 GB of memory, 2 CPUs |
 | stellar-core checks (`tools/corpus_check.py --core`) | `--network none` |
 | Local stellar-core (`tools/localcore.py`) | `--network none` |
-| Linter tests and linter runs on wallet-backend | `--network none` |
+| Linter tests and linter runs on wallet-backend and stellar-etl | `--network none` |
 | Replay: feeder, TimescaleDB and the indexer | a Docker network created with `--internal`, which has no route to the internet |
 
 ## Docker images
 
-Pinned in the code, with their sizes on 15 November 2026:
+Every image is pinned by digest in [`security/images.lock.json`](security/images.lock.json);
+`python3 security/images.py pull` fetches them by digest, and `security/check.py` fails if the code
+names an image the lock does not pin. Sizes on 15 November 2026:
 
 | Image | Used for | Size |
 |---|---|---|
 | `stellar/stellar-core:30.0.0-3642.0e49751aa.noble` | stellar-core checks, local ledgers | 789 MB |
 | `stellar/stellar-core:22.2.1-2429.e70f0aed8.focal` | one local-ledger scenario (`muxed-source-p22`) | 522 MB |
 | `golang:1.26` | the Go runner, wallet-backend builds, the linter | 1.3 GB |
+| `golang:1.27`, `golang:1.27.3` | stellar-etl builds in the replay (the version its Dockerfile names), the linter on stellar-etl | 1.3 GB each |
 | `maven:3.9-eclipse-temurin-21` | the Java runner | 847 MB |
 | `timescale/timescaledb:2.28.2-pg17` | the replay database (the image the wallet-backend commit's own `docker-compose.yaml` names, if it names one) | 1.8 GB |
 | `python:3.14-slim` | the replay feeder | 206 MB |
