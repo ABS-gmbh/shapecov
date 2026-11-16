@@ -506,14 +506,24 @@
    "what_would_catch_it": "A create-contract whose deployer address is a claimable balance or a liquidity pool (protocol 23 or later), as the root host function and inside an auth entry: a local-core scenario at protocol 23 to 28."
   },
   {
-   "id": "490aab41",
+   "id": "ee82038d",
    "pipeline": "wallet-backend",
-   "fix": "490aab41",
-   "parent": "e8a171c5",
-   "title": "key the buffer's canonical transactions by ToID, not hash",
+   "fix": "ee82038d",
+   "parent": "8ba290cd",
+   "title": "claim a contract under the binding each ledger of a batch saw",
    "verdict": "missed",
    "entries": [],
-   "what_would_catch_it": "The same envelope at two positions of one ingest batch. A sequence of ledgers does not give that: as the fix's own message says, a network never repeats a transaction hash within or across ledgers, so only a synthetic ledger reaches it."
+   "what_would_catch_it": "A contract rebound from one wasm to another between two ledgers of one ingest batch, with SEP-41 events on the earlier ledger: a local-core scenario replayed as a sequence (`replay.py run --sequence`)."
+  },
+  {
+   "id": "f5b67b07",
+   "pipeline": "wallet-backend",
+   "fix": "f5b67b07",
+   "parent": "367fe56e",
+   "title": "keep a rebound contract classified for every ledger of its batch",
+   "verdict": "missed",
+   "entries": [],
+   "what_would_catch_it": "The same rebind as `ee82038d`, with the earlier ledger's protocol events and history checked: the same sequence."
   },
   {
    "id": "wallet-backend#753",
@@ -1701,6 +1711,18 @@
    "verdict": "missed",
    "entries": [],
    "what_would_catch_it": "A Blend pool whose reserve config has decimals above 70; same as above."
+  },
+  {
+   "id": "490aab41",
+   "pipeline": "wallet-backend",
+   "fix": "490aab41",
+   "parent": "e8a171c5",
+   "title": "key the buffer's canonical transactions by ToID, not hash",
+   "verdict": "out_of_scope",
+   "reason": "only reachable on synthetic input: the same transaction envelope at two positions; the fix's own message says real networks cannot repeat a hash within or across ledgers",
+   "scope_changed": "2026-11-16",
+   "commit_url": "https://github.com/stellar/wallet-backend/commit/490aab41f6caae6479e0a26b8affcf6a934ac875",
+   "entries": []
   },
   {
    "id": "stellar/stellar-etl#460",

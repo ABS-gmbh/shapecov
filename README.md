@@ -48,7 +48,7 @@ on a laptop. `python3 quickcheck.py --full` adds the unit tests and the mutation
 - **Every corpus ledger is an indexer test.** The oracle derives the expected rows from the ledger;
   every failure in wallet-backend and stellar-etl maps to a filed issue. A sweep of 611 further
   network ledgers (100,676 transactions) found no new defect.
-- **Backtest on past fixes**, measured and incomplete: the harness detects 9 of wallet-backend's 17
+- **Backtest on past fixes**, measured and incomplete: the harness detects 9 of wallet-backend's 18
   in-scope fixes (5 on ledgers not chosen for the bug) and flags 5 of stellar-etl's 9 in-scope issues
   (1 blind). Every miss names the shape, oracle rule or export that would catch it
   ([`BACKTEST.md`](harness/replay/BACKTEST.md)).

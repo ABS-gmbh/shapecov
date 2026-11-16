@@ -73,20 +73,41 @@ verifies every row of `backtest.json` against the recorded results.
 
 ## Scope
 
+A fix is in or out of scope by what it fixes, decided before looking at whether the harness
+detects it: in scope when it changes how a ledger's contents become stored rows, or stops
+ingestion halting on a valid ledger, and when valid network input can reach it. A fix that only
+synthetic input reaches (a ledger no network can produce) is out.
+
 All wallet-backend commits from 1 July to 16 November 2026 whose subject starts with `fix` and that
-touch `internal/indexer`, `internal/ingest`, `internal/services` or `internal/data`: 47. A fix is in
-scope when it changes how a ledger's contents become stored rows, or stops ingestion halting on a
-valid ledger.
+touch `internal/indexer`, `internal/ingest`, `internal/services` or `internal/data`: 47. In scope: 18.
 
-Out of scope (30): metrics, pool sizing, commit barriers, lock handling, migrations, GraphQL, indexes
-and performance; checkpoint fixes (`a3483497`, `1d74900e`; the harness serves no history archive);
-the API-layer fixes `5c780dd8` (#757, an account-history loader bound) and `bf15e8c2` (a query
-plan); and the multi-ledger batch fixes `ee82038d` and `f5b67b07` (the harness replays one ledger
-per run).
+Out of scope (29): metrics, pool sizing, commit barriers, lock handling, migrations, GraphQL, indexes
+and performance; the API-layer fixes `5c780dd8` (#757, an account-history loader bound) and
+`bf15e8c2` (a query plan); and three fixes only synthetic input reaches:
 
-## wallet-backend: 17 in-scope fixes
+- `490aab41` (key the buffer's canonical transactions by ToID, not hash) needs the same transaction
+  envelope at two positions. Its own commit message: "Real networks cannot repeat a hash within or
+  across ledgers"
+  ([`490aab41`](https://github.com/stellar/wallet-backend/commit/490aab41f6caae6479e0a26b8affcf6a934ac875)).
+- The checkpoint fixes `1d74900e` and `a3483497` guard a liquidity-pool body that is not constant
+  product, which the wire format cannot express; `a3483497`'s message: reaching that branch
+  "required hand-building a LiquidityPoolEntryBody the wire format cannot express"
+  ([`a3483497`](https://github.com/stellar/wallet-backend/commit/a3483497698f499cfc155425e79773729cc5d6ea)).
 
-**Detected 9 of 17 in-scope fixes; 5 with a blind ledger.** Each row: the fix, the replays at its parent (pass 1 corpus / pass 2 sweep ledgers), and either the ledgers with a failure at the parent that the fix removes, or what would catch it.
+**Scope changes, 16 Nov 2026.** `490aab41` moved out of scope (only reachable on synthetic input):
+in-scope fixes for wallet-backend were 17 before it moved. The rule above was then applied to every
+other fix of both adapters, detected ones included. None of the detected fixes or flagged
+stellar-etl issues is reachable only on synthetic input, so none moved out. Two fixes moved in:
+the multi-ledger batch fixes `ee82038d` and `f5b67b07` (a contract rebound from one wasm to
+another inside one ingest batch, which a network produces) had been out because the harness
+replayed one ledger per run, a reason about detection rather than about what they fix. The
+checkpoint fixes stay out, now for the reason above rather than because the harness serves no
+history archive. In-scope fixes for wallet-backend: 17 before, 16 after `490aab41` moved out, 18
+with the two batch fixes. `backtest.json` records the reason on the out-of-scope fix.
+
+## wallet-backend: 18 in-scope fixes
+
+**Detected 9 of 18 in-scope fixes; 5 with a blind ledger.** Each row: the fix, the replays at its parent (pass 1 corpus / pass 2 sweep ledgers), and either the ledgers with a failure at the parent that the fix removes, or what would catch it.
 
 | Fix | Issue | Subject | Replays at parent | Result | Ledgers, or what would catch it |
 |---|---|---|---|---|---|
@@ -97,7 +118,8 @@ per run).
 | `2c873353` | wallet-backend#729 | handle CAP-40 signed-payload signers | 12 / 59 | **detected, confirmed after reading the fix** | pass 1: `testnet-4437357-signed-payload-signer` (mishandled 1, unexplained 1 → none; built after reading the fix) |
 | `c152783c` | wallet-backend#734 | record SAC-created trustline state changes (#731) | 12 / 59 | **detected, blind** | pass 1: `localcore-sac-trust-p28-5` (dropped 1, unexplained 2 → none; built after reading the fix), `pubnet-63920000` (unexplained 2 → none); pass 2: 1 of 59 sweep ledgers (together unexplained 2 → none) |
 | `ce0820d7` | wallet-backend#745 | skip contract deploys from unstorable ScAddress kinds | 12 / 59 | missed | A create-contract whose deployer address is a claimable balance or a liquidity pool (protocol 23 or later), as the root host function and inside an auth entry: a local-core scenario at protocol 23 to 28. |
-| `490aab41` | — | key the buffer's canonical transactions by ToID, not hash | 12 / 59 | missed | The same envelope at two positions of one ingest batch. A sequence of ledgers does not give that: as the fix's own message says, a network never repeats a transaction hash within or across ledgers, so only a synthetic ledger reaches it. |
+| `ee82038d` | — | claim a contract under the binding each ledger of a batch saw | 0 / — | missed | A contract rebound from one wasm to another between two ledgers of one ingest batch, with SEP-41 events on the earlier ledger: a local-core scenario replayed as a sequence (`replay.py run --sequence`). |
+| `f5b67b07` | — | keep a rebound contract classified for every ledger of its batch | 0 / — | missed | The same rebind as `ee82038d`, with the earlier ledger's protocol events and history checked: the same sequence. |
 | `bb0b162b` | wallet-backend#753 | reduce a Soroban operation's source to its base account | 12 / 59 | **detected, confirmed after reading the fix** | pass 1: `localcore-muxed-source-p22-3` (mishandled 1, unexplained 1 → none; built after reading the fix) |
 | `7b7ee5f0` | — | map the three frozen-trustline operation result codes | 12 / 59 | missed | A claim, deposit or withdraw failing on a frozen trustline at protocol 26 to 28. The corpus has them only at protocol 30 (`golden-frozenledgerkeys-a0fb94c3-15`, `-d637d647-16`), which the commits before the fix cannot decode: a local-core scenario that freezes a trustline at protocol 26 to 28. The codes exist from protocol 26, but freezing a ledger key takes a Soroban configuration upgrade (a ConfigUpgradeSet written by a contract, then armed); not built, as it would give one detection made after reading the fix. |
 | `ba821579` | — | drop pool-share balances whose pool row is missing | 12 / 59 | missed | A ledger that changes a pool-share balance whose pool entry the ledger does not touch, replayed into an empty database (no such pass-2 ledger halted the parent). |
