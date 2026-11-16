@@ -104,6 +104,7 @@ type state struct {
 	sites   map[types.Object][]site        // in-package static call sites of each function
 	success map[*ast.FuncDecl][]token.Pos  // positions of success checks in each function
 	declObj map[*ast.FuncDecl]types.Object // the object each declaration defines
+	declOf  map[types.Object]*ast.FuncDecl // the declaration of each function in the package
 }
 
 func run(pass *analysis.Pass) (any, error) {
@@ -112,7 +113,8 @@ func run(pass *analysis.Pass) (any, error) {
 		return nil, err
 	}
 	st := &state{pass: pass, info: pass.TypesInfo, sinkRE: re,
-		sites: map[types.Object][]site{}, success: map[*ast.FuncDecl][]token.Pos{}, declObj: map[*ast.FuncDecl]types.Object{}}
+		sites: map[types.Object][]site{}, success: map[*ast.FuncDecl][]token.Pos{}, declObj: map[*ast.FuncDecl]types.Object{},
+		declOf: map[types.Object]*ast.FuncDecl{}}
 
 	var decls []*ast.FuncDecl
 	// Call sites and success checks come from the same files that are
@@ -124,6 +126,9 @@ func run(pass *analysis.Pass) (any, error) {
 				continue
 			}
 			st.declObj[fd] = st.info.Defs[fd.Name]
+			if obj := st.info.Defs[fd.Name]; obj != nil {
+				st.declOf[obj] = fd
+			}
 			ast.Inspect(fd.Body, func(n ast.Node) bool {
 				switch x := n.(type) {
 				case *ast.Ident:
@@ -165,6 +170,82 @@ func (st *state) guardedAt(fd *ast.FuncDecl, pos token.Pos) bool {
 		if p < pos {
 			return true
 		}
+	}
+	return false
+}
+
+// guardedCallee reports whether call calls a function of this package whose first statement
+// returns early when the transaction did not succeed, and whose early return carries no envelope
+// data beyond the source and fee accounts. One level only: the callee's own callees are not
+// followed, and a function of another package is never trusted.
+func (st *state) guardedCallee(call *ast.CallExpr) bool {
+	var obj types.Object
+	switch f := ast.Unparen(call.Fun).(type) {
+	case *ast.Ident:
+		obj = st.info.Uses[f]
+	case *ast.SelectorExpr:
+		obj = st.info.Uses[f.Sel]
+	}
+	fn, ok := obj.(*types.Func)
+	if !ok || fn.Pkg() != st.pass.Pkg {
+		return false
+	}
+	fd := st.declOf[fn.Origin()]
+	if fd == nil || fd.Body == nil || len(fd.Body.List) == 0 {
+		return false
+	}
+	ifs, ok := fd.Body.List[0].(*ast.IfStmt)
+	if !ok || ifs.Init != nil || ifs.Else != nil || len(ifs.Body.List) == 0 {
+		return false
+	}
+	// The condition: the negation of a success check (!tx.Successful(), !op.Transaction.Successful()).
+	not, ok := ast.Unparen(ifs.Cond).(*ast.UnaryExpr)
+	if !ok || not.Op != token.NOT || !isSuccessCheck(not.X) {
+		return false
+	}
+	if _, ok := ifs.Body.List[len(ifs.Body.List)-1].(*ast.ReturnStmt); !ok {
+		return false
+	}
+	// The early return may name the source and fee accounts, and ask yes/no questions of the
+	// envelope (IsFeeBump), but nothing else from it.
+	clean := true
+	ast.Inspect(ifs.Body, func(n ast.Node) bool {
+		if !clean {
+			return false
+		}
+		switch x := n.(type) {
+		case *ast.FuncLit:
+			clean = false
+			return false
+		case *ast.SelectorExpr:
+			if sourceNames[x.Sel.Name] {
+				return false
+			}
+		case *ast.CallExpr:
+			if t := st.info.TypeOf(x); t != nil && types.Identical(t.Underlying(), types.Typ[types.Bool]) {
+				return false
+			}
+		}
+		if ex, ok := n.(ast.Expr); ok {
+			if tv, ok := st.info.Types[ex]; ok && !tv.IsType() && typeKind(tv.Type) != none {
+				clean = false
+				return false
+			}
+		}
+		return true
+	})
+	return clean
+}
+
+// isSuccessCheck reports whether e is a call or selector whose name is a success check.
+func isSuccessCheck(e ast.Expr) bool {
+	switch x := ast.Unparen(e).(type) {
+	case *ast.CallExpr:
+		return isSuccessCheck(x.Fun)
+	case *ast.SelectorExpr:
+		return successRE.MatchString(x.Sel.Name)
+	case *ast.Ident:
+		return successRE.MatchString(x.Name)
 	}
 	return false
 }
@@ -216,6 +297,30 @@ func (st *state) checkFunc(fd *ast.FuncDecl) {
 					if _, builtin := st.info.Uses[id].(*types.Builtin); builtin && (id.Name == "len" || id.Name == "cap") {
 						return false
 					}
+				}
+				// The result of a function of this package that returns early for a failed
+				// transaction is guarded, whatever its arguments (not in strict mode).
+				if !strict && st.guardedCallee(x) {
+					return false
+				}
+			case *ast.CompositeLit:
+				// A keyed struct literal with a field named as holding participants: only those
+				// fields carry participants; the others (an operation wrapper, an index) are context.
+				var sinkVals []ast.Expr
+				for _, el := range x.Elts {
+					if kv, ok := el.(*ast.KeyValueExpr); ok {
+						if key, ok := kv.Key.(*ast.Ident); ok && st.sinkRE.MatchString(key.Name) {
+							sinkVals = append(sinkVals, kv.Value)
+						}
+					}
+				}
+				if len(sinkVals) > 0 {
+					for _, v := range sinkVals {
+						if vk := kindOfIf(v, count); vk > k {
+							k = vk
+						}
+					}
+					return false
 				}
 			case *ast.SelectorExpr:
 				if sourceNames[x.Sel.Name] {
@@ -362,7 +467,8 @@ func (st *state) checkFunc(fd *ast.FuncDecl) {
 					rhs = x.Rhs[i]
 				}
 				k := kindOf(rhs)
-				if ix, ok := l.(*ast.IndexExpr); ok {
+				if ix, ok := l.(*ast.IndexExpr); ok && !isInteger(st.info.TypeOf(ix.Index)) {
+					// An integer key (an operation ID, a position) names no account.
 					if ik := kindOf(ix.Index); ik > k {
 						k = ik
 					}
@@ -415,6 +521,15 @@ func (st *state) checkFunc(fd *ast.FuncDecl) {
 		}
 		return true
 	})
+}
+
+// isInteger reports whether t is an integer type.
+func isInteger(t types.Type) bool {
+	if t == nil {
+		return false
+	}
+	b, ok := t.Underlying().(*types.Basic)
+	return ok && b.Info()&types.IsInteger != 0
 }
 
 // rootName returns the name that identifies a collection expression: the

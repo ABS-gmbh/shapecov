@@ -108,7 +108,9 @@ collection**: a variable, struct field, map, set (`Add`, `Append`, …) or funct
 name matches `-sinks`. Two kinds:
 
 - **From operation bodies:** reported when no success check guards the code (`Successful()`,
-  `IsSuccess`, `TxSuccess`, …) earlier in the function or in every caller. `-strict` reports them
+  `IsSuccess`, `TxSuccess`, …) earlier in the function or in every caller, and the value is not the
+  result of a function of the same package whose first statement returns early for a transaction
+  that did not succeed. `-strict` reports them
   even when guarded, since the meta is still the source of record.
 - **From the declared Soroban authorization tree** (`SorobanAuthorizationEntry`,
   `SorobanAuthorizedInvocation` and their parts): always reported. A success check does not
@@ -137,17 +139,17 @@ test-support package (`integrationtests`) and a signer that never reads ledger o
 
 Commit `3e22515a44979fdc3a558fda3991ca2b48e38cef` (12 November 2026). The command was
 `scripts/run-wallet-backend.sh 3e22515a…`. It analysed 40 packages with no load errors and
-reported **4 findings**:
+reported **2 findings**:
 [`results/wallet-backend-3e22515a4497.json`](results/wallet-backend-3e22515a4497.json).
 
-Two are real instances of the mistakes; the other two, at one site, are a false positive (row 2).
-**The linter does not run clean on wallet-backend.** None is a bug to file as is: one is low
-severity and already reported (#820), one is in dead code, and the site of the other two has the
-check the rule asks for one call down.
+Both are real instances of the mistakes, and both have an open upstream issue. **The linter does
+not run clean on wallet-backend**, because these are real. Neither is a bug to file as is: one is
+low severity and already reported (#820), one is in dead code (#800 plans the column that would
+make it live).
 
 **What CI checks instead.** [`accepted/wallet-backend.json`](accepted/wallet-backend.json) lists
-the four findings, each with the reason it is accepted and the upstream issue that tracks it where
-one exists (#820 for the first, #800 for the memo helper). The `linter` job runs the linter on
+the two findings, each with the reason it is accepted and the upstream issue that tracks it (#820
+for the first, #800 for the memo helper). The `linter` job runs the linter on
 wallet-backend at the commit pinned in that file and runs
 [`scripts/check_accepted.py`](scripts/check_accepted.py). The job fails on any finding the file
 does not list. An entry that no longer matches a finding is printed as resolved. The weekly run
@@ -156,15 +158,13 @@ triage record, not a claim that the code is correct: "no finding outside the acc
 "clean".
 
 The fix for finding 1 is prepared on a local branch, awaiting acceptance of #820. With it, the
-linter reports 3 findings on that branch, and SC002 no longer fires. That is the first control
+linter reports 1 finding on that branch, and SC002 no longer fires. That is the first control
 in which a depth cap was *added* (see "SC002" below).
 
 | # | Rule | Location | Verdict | Reason |
 |---|---|---|---|---|
 | 1 | SC002 | `internal/indexer/processors/contract_deploy.go:116` | **true positive**, low severity; reported earlier as [stellar/wallet-backend#820](https://github.com/stellar/wallet-backend/issues/820) by the shapekit project | `walkInvocation` recurses into `SubInvocations` of the declared auth tree with no depth counter. The submitter chooses the nesting. The Go XDR decoder caps decode depth at 1500, so the walk cannot overflow, but it has no cap of its own. |
-| 2 | SC003 | `internal/indexer/processors/participants.go:146` | **false positive** for failed transactions | `GetOperationsParticipants` calls `GetOperationParticipants`, which since `9538b3ca` (25 September 2026) returns only the source and the fee-bump account for a failed transaction (lines 166-176), because the addresses a failed transaction names are, in its own comment, "unverified submitter input". SC003 looks for the success check in the function and its callers, not in the function it calls. For a successful transaction the participants come from the operation body, as the rule says; the meta shows those accounts changed. Related, not the same: [stellar/wallet-backend#677](https://github.com/stellar/wallet-backend/issues/677) (open) reports the meta side, participants that the meta records but the indexer drops. |
-| 3 | SC003 | `internal/indexer/processors/participants.go:155` | **false positive** (same site) | The same participants written into the result map. |
-| 4 | SC001 | `internal/utils/ingestion_utils.go:17` | **true positive**, not reachable | `utils.Memo` returns memo text without a UTF-8 check. Nothing in wallet-backend calls it, and no table has a memo column, so it is dead code today. [stellar/wallet-backend#800](https://github.com/stellar/wallet-backend/issues/800) (open, by a maintainer) plans a memo column; once memo text is stored, the check matters. |
+| 2 | SC001 | `internal/utils/ingestion_utils.go:17` | **true positive**, not reachable | `utils.Memo` returns memo text without a UTF-8 check. Nothing in wallet-backend calls it, and no table has a memo column, so it is dead code today. [stellar/wallet-backend#800](https://github.com/stellar/wallet-backend/issues/800) (open, by a maintainer) plans a memo column; once memo text is stored, the check matters. |
 
 ### How the false positives were removed
 
@@ -179,6 +179,22 @@ checked against the historical controls below, which are unchanged.
 | `protocol_contracts.go:127`, `fmt.Sprintf("tag=%q", string(ref.Tag))` | escaping format | A value printed only with `%q`, `%x` or `%X` counts as validated. `%s` and `%v` still fire. |
 | `integrationtests/infrastructure/helpers.go:110` and `soroban_transactions.go:291` | test support | Test-support packages are skipped like `_test.go` files; `-tests` includes them. |
 | `pkg/sorobanauth/sorobanauth.go:44` and `:157` | signer, pre-submission check | The declared-credentials pattern applies only in packages that read ledger output. |
+
+A later run reported two more, at one site: `participants.go:146` and `:155`, where
+`GetOperationsParticipants` stores what `GetOperationParticipants` returns. The latter has
+returned only the source and the fee-bump account for a failed transaction since `9538b3ca` (25
+September 2026), because the addresses a failed transaction names are, in its own comment,
+"unverified submitter input"; the rule looked for the check in the function and its callers, not in
+the function it calls. Two changes to SC003, each with fixtures in both directions
+(`testdata/src/sc003`): the result of a function of the same package counts as guarded when that
+function's first statement returns early for a transaction that did not succeed, and carries
+nothing from the envelope but the source and fee accounts (one level only; a function of another
+package, a check after the envelope is read, or no check at all is still reported); and when a
+participant collection is filled with a keyed struct literal that has a field named as holding
+participants, only those fields count, and an integer key (an operation ID) names no account. In
+the recorded runs below this removes, besides those two, only a second report of the same flow
+(the store into the map, one line per commit); every finding in the files the historical fixes
+touched is unchanged.
 
 Two rule bugs were fixed before that. SC001 reported `xdr.ScString("SEP41 Token")`, which builds a
 value rather than reading one. SC003 treated `len(ops)`, used as a map capacity hint, as a
@@ -242,8 +258,8 @@ committed here. Only the findings in the files the fix touched are shown. Full o
 
 One more pair shows that SC003 follows the success guard. #474 "store failed operations"
 (`13c0444a`) removed the success check from envelope-derived participants. Its parent
-(`84959de0`) has no envelope-participant findings. #474 itself has 14, in `participants.go` and
-`transaction_operation_wrapper.go`.
+(`84959de0`) has no envelope-participant findings. #474 itself has 13, in `participants.go` and
+`transaction_operation_wrapper.go` (14 before SC003 stopped reporting the same flow twice, see above).
 
 SC002 has no control in wallet-backend's history in which a depth cap was *added*; the only one is
 our own unmerged branch for #820, described above. In wallet-backend's history, the
@@ -252,10 +268,6 @@ stellar-etl's commit messages either.
 
 ## Known false positives
 
-- **A success check inside the called function.** SC003 accepts a success check earlier in the
-  function or in every caller, not one inside a function it calls. wallet-backend's
-  `GetOperationsParticipants` stores what `GetOperationParticipants` returns, and the check is in
-  the latter (rows 2 and 3 of the wallet-backend run).
 
 - **Validation the rule cannot see.** SC001 recognises validators by name, plus the strict
   parsers and `%q`/`%x` formatting listed above. Any other parser or safe sink is not recognised.

@@ -149,14 +149,6 @@
     },
     {
       "rule": "SC003",
-      "file": "internal/indexer/processors/participants.go",
-      "line": 150,
-      "column": 4,
-      "message": "operationsParticipants is filled from the transaction envelope with no check that the transaction succeeded; the envelope records what the submitter claimed, so derive participants from the ledger meta or return only the source account for a failed transaction",
-      "package": "github.com/stellar/wallet-backend/internal/indexer/processors"
-    },
-    {
-      "rule": "SC003",
       "file": "internal/indexer/processors/transaction_operation_wrapper.go",
       "line": 520,
       "column": 3,

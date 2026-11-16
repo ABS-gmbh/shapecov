@@ -5,20 +5,20 @@ go version go1.26.11 linux/arm64
 ?   	shapecov/linter/cmd/shapecov-lint	[no test files]
 ?   	shapecov/linter/internal/sx	[no test files]
 === RUN   TestFixtures
---- PASS: TestFixtures (0.52s)
+--- PASS: TestFixtures (5.10s)
 === RUN   TestTestSupportSkipped
---- PASS: TestTestSupportSkipped (0.01s)
+--- PASS: TestTestSupportSkipped (0.12s)
 === RUN   TestSignerPackage
---- PASS: TestSignerPackage (0.18s)
+--- PASS: TestSignerPackage (1.85s)
 PASS
-ok  	shapecov/linter/sc001	0.727s
+ok  	shapecov/linter/sc001	7.122s
 === RUN   TestFixtures
---- PASS: TestFixtures (0.43s)
+--- PASS: TestFixtures (4.66s)
 PASS
-ok  	shapecov/linter/sc002	0.433s
+ok  	shapecov/linter/sc002	4.716s
 === RUN   TestFixtures
---- PASS: TestFixtures (0.09s)
+--- PASS: TestFixtures (1.06s)
 === RUN   TestStrict
---- PASS: TestStrict (0.01s)
+--- PASS: TestStrict (0.35s)
 PASS
-ok  	shapecov/linter/sc003	0.111s
+ok  	shapecov/linter/sc003	1.511s

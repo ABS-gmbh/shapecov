@@ -71,7 +71,7 @@ class CheckAccepted(unittest.TestCase):
         rc, out = run_script(SCRIPT, "linter/results/wallet-backend-3e22515a4497.json",
                              "linter/accepted/wallet-backend.json")
         self.assertEqual(rc, 0, out)
-        self.assertIn("4 findings: 4 accepted, 0 not accepted", out)
+        self.assertIn("2 findings: 2 accepted, 0 not accepted", out)
 
 
 if __name__ == "__main__":

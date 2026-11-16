@@ -12,8 +12,8 @@ What the repository itself lists as open.
 
 - Review of the indexer-hardening guide by a stellar-core or platform engineer, which the RFP
   requires before publication (`VERIFY.md`, check 4).
-- The linter's 4 findings on wallet-backend are triaged (2 real, 2 a false positive at one site), so
-  RFP check 3 is partly met. The
+- The linter's 2 findings on wallet-backend are real and triaged, both with an open upstream issue,
+  so RFP check 3 is partly met. The
   fix prepared for wallet-backend #820 waits for the issue to be accepted (`VERIFY.md`, check 3).
 - The fix prepared for stellar-etl #512 waits for the issue to be accepted.
 - The detection backtest's misses, each with what would catch it (`harness/replay/BACKTEST.md`):
@@ -36,6 +36,8 @@ backtest, packaging for other repositories' CI, findings kept as checked records
 
 Commits:
 
+- CI: the Java runner's Maven cache is saved as soon as it builds; longer waits between attempts ([`45b83be`](https://github.com/ABS-gmbh/shapecov/commit/45b83be2368dc3080860b32ddb60ccfa77fd777a))
+- Linter triage on wallet-backend: the two SC003 findings are a false positive for failed transactions ([`1dfbcb5`](https://github.com/ABS-gmbh/shapecov/commit/1dfbcb53b9ca13abd771910dc780243bf285a701))
 - Backtest: 666a64d4 out of scope; corpus caps field described as it is ([`966a561`](https://github.com/ABS-gmbh/shapecov/commit/966a561269b05880c49497b54de3cbb777657c39))
 - README and VERIFY: three replayed indexers in the remaining two-adapter lines ([`69d7726`](https://github.com/ABS-gmbh/shapecov/commit/69d7726ee2f3f5937fae3e19bafd1f0ab1de3ac3))
 - Backtest: the starting state ba821579's detection depends on ([`735accf`](https://github.com/ABS-gmbh/shapecov/commit/735accf1a0115d83dfab9ea493aa2c755220c639))

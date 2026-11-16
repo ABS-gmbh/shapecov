@@ -4,6 +4,8 @@ package sc003
 import (
 	"github.com/stellar/go-stellar-sdk/ingest"
 	"github.com/stellar/go-stellar-sdk/xdr"
+
+	"sc003helper"
 )
 
 // --- Pattern 1: operation bodies appended to a participant slice, with no
@@ -147,4 +149,58 @@ func participantsInLoop(invs []xdr.SorobanAuthorizedInvocation) []string {
 		}
 	}
 	return out // want `the result of participantsInLoop is filled from the declared Soroban authorization tree`
+}
+
+// --- A success check in the called function: trusted only when it is the callee's first
+// statement, in this package, and returns early.
+
+// No check at all: reported in the producer and where its result is stored.
+func unguardedOpParticipants(w *opWrapper) []string {
+	var participants []string
+	if p, ok := w.Op.Body.GetPaymentOp(); ok {
+		participants = append(participants, p.Destination.ToAccountId().Address()) // want `participants is filled from the transaction envelope`
+	}
+	return participants
+}
+
+func storesUnguarded(tx *ingest.LedgerTransaction) {
+	for _, op := range tx.Envelope.Operations() {
+		w := &opWrapper{Tx: tx, Op: op}
+		participants := unguardedOpParticipants(w) // want `participants is filled from the transaction envelope`
+		_ = participants
+	}
+}
+
+// The envelope is read before the check.
+func lateCheckOpParticipants(w *opWrapper) []string {
+	dest := w.Op.Body.MustPaymentOp().Destination.ToAccountId().Address()
+	if !w.Tx.Successful() {
+		return []string{dest}
+	}
+	return []string{dest}
+}
+
+func storesLateCheck(tx *ingest.LedgerTransaction) {
+	for _, op := range tx.Envelope.Operations() {
+		w := &opWrapper{Tx: tx, Op: op}
+		participants := lateCheckOpParticipants(w) // want `participants is filled from the transaction envelope`
+		_ = participants
+	}
+}
+
+// The producer checks first, but it is in another package.
+func storesOtherPackage(tx *ingest.LedgerTransaction) {
+	for _, op := range tx.Envelope.Operations() {
+		participants := sc003helper.GuardedOpParticipants(tx, op) // want `participants is filled from the transaction envelope`
+		_ = participants
+	}
+}
+
+// A keyed literal whose participants field is filled from the envelope.
+func literalFromEnvelope(tx ingest.LedgerTransaction) map[int64]opParticipantsRow {
+	operationsParticipants := map[int64]opParticipantsRow{}
+	for i, op := range tx.Envelope.Operations() {
+		operationsParticipants[int64(i)] = opParticipantsRow{Participants: []string{op.Body.MustPaymentOp().Destination.ToAccountId().Address()}} // want `operationsParticipants is filled from the transaction envelope`
+	}
+	return operationsParticipants
 }

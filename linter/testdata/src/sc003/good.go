@@ -116,3 +116,39 @@ func participantsSized(tx ingest.LedgerTransaction, fromMeta []string) map[strin
 	}
 	return participants
 }
+
+// The wallet-backend shape: the producer returns early for a failed transaction (its first
+// statement), and the caller stores its result under an integer operation ID, next to the
+// operation wrapper it came from.
+type opWrapper struct {
+	Tx *ingest.LedgerTransaction
+	Op xdr.Operation
+}
+
+func (w *opWrapper) ID() int64 { return 0 }
+
+type opParticipantsRow struct {
+	Wrapper      *opWrapper
+	Participants []string
+}
+
+func guardedOpParticipants(w *opWrapper) []string {
+	if !w.Tx.Successful() {
+		return []string{w.Tx.Envelope.SourceAccount().ToAccountId().Address()}
+	}
+	var participants []string
+	if p, ok := w.Op.Body.GetPaymentOp(); ok {
+		participants = append(participants, p.Destination.ToAccountId().Address())
+	}
+	return participants
+}
+
+func allOpParticipants(tx *ingest.LedgerTransaction) map[int64]opParticipantsRow {
+	operationsParticipants := map[int64]opParticipantsRow{}
+	for _, op := range tx.Envelope.Operations() {
+		w := &opWrapper{Tx: tx, Op: op}
+		participants := guardedOpParticipants(w)
+		operationsParticipants[w.ID()] = opParticipantsRow{Wrapper: w, Participants: participants}
+	}
+	return operationsParticipants
+}

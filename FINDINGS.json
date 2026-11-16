@@ -849,28 +849,6 @@
    "labels": []
   },
   {
-   "id": "L2",
-   "kind": "linter",
-   "title": "SC003 flags GetOperationsParticipants, whose failed-transaction check is in the function it calls: a false positive",
-   "component": "wallet-backend: participants (GetOperationsParticipants, GetOperationParticipants)",
-   "severity": "S4",
-   "severity_note": "no defect: since 9538b3ca (25 September 2026) a failed transaction contributes only its source and fee-bump account; the linter's rule does not follow the check into the called function",
-   "caps": [],
-   "caps_none_reason": "an indexer design rule (participants from the meta), not a protocol shape",
-   "reproduction": {
-    "linter_report": "linter/results/wallet-backend-3e22515a4497.json",
-    "accepted": [
-     "participants is filled from the transaction envelope",
-     "operationsParticipants is filled from the transaction envelope"
-    ]
-   },
-   "upstream": [],
-   "first_reported_by": "ShapeCov",
-   "reported": "2026-11-15",
-   "status": "accepted in linter/accepted/wallet-backend.json as a false positive; nothing to file",
-   "labels": []
-  },
-  {
    "id": "L3",
    "kind": "linter",
    "title": "Memo text used without a UTF-8 check in an uncalled helper",

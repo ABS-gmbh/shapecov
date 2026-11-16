@@ -41,7 +41,7 @@ testing, 16 checks in about 18 seconds there; CI runs it on every push, and reru
 
 - **8 defects found and filed** in java-stellar-sdk, py-stellar-base and stellar-etl. The Java
   maintainer fixed #833 two days after it was filed; py-stellar-base closed #1262 and #1263 as
-  fixed in its replacement XDR package. All 41 findings, with severity, CAPs and a reproducing
+  fixed in its replacement XDR package. All 40 findings, with severity, CAPs and a reproducing
   entry each: [`FINDINGS.md`](FINDINGS.md).
 - **12 of the RFP's 18 sightings reproduced**, all in CI, each failing before its fix and passing
   after ([`harness/sightings/README.md`](harness/sightings/README.md)).
@@ -240,8 +240,8 @@ every other job passed, or was skipped on purpose.
   stellar-xdr has no v29 tag, so cells added in protocols 29 and 30 are dated together.
 - Review of the hardening guide by a stellar-core or platform engineer, which the RFP requires
   before publication.
-- The linter does not run clean on wallet-backend `main` (4 findings: 2 real, and 2 at one site that
-  are a false positive, the success check being in the function it calls) or on stellar-etl
+- The linter does not run clean on wallet-backend `main` (2 findings, both real, both with an open
+  upstream issue) or on stellar-etl
   (13, all real, 12 of them in uncalled code). CI fails on any finding outside the accepted lists
   in `linter/accepted/` (see `linter/README.md`).
 

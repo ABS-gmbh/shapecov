@@ -11,20 +11,6 @@
    "reason": "Real, low severity: the walk of the declared authorization tree has no depth cap of its own. Reported first by the shapekit project as #820 (open, no maintainer reply on 16 November). A fix with a test is prepared on a local branch, awaiting issue acceptance."
   },
   {
-   "rule": "SC003",
-   "file": "internal/indexer/processors/participants.go",
-   "message_contains": "participants is filled from the transaction envelope",
-   "upstream": null,
-   "reason": "A false positive for failed transactions, accepted as such. The finding is in GetOperationsParticipants (line 146), but the success check it asks for is one call down: since 9538b3ca (25 September 2026) GetOperationParticipants (lines 166-176 at the pin) returns only the source and the fee-bump account for a failed transaction. SC003 looks for the check in the function and its callers, not in the function it calls (linter/README.md, Known false positives). For a successful transaction the participants come from the operation body, which is what the rule describes; the meta shows those accounts changed."
-  },
-  {
-   "rule": "SC003",
-   "file": "internal/indexer/processors/participants.go",
-   "message_contains": "operationsParticipants is filled from the transaction envelope",
-   "upstream": null,
-   "reason": "Same site and same reason as the entry above: the same participants written into the per-operation map (line 155)."
-  },
-  {
    "rule": "SC001",
    "file": "internal/utils/ingestion_utils.go",
    "message_contains": "memo text is read with GetText()",
