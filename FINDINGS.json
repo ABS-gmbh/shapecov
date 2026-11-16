@@ -26,6 +26,7 @@
   "found": "found by ShapeCov and filed by us",
   "confirmed": "reported first by others; ShapeCov's tools reproduce it",
   "sighting": "one of the RFP's sightings, reproduced before its fix and passing after",
+  "fixed_upstream": "fixed upstream before ShapeCov existed; the harness detects it at the commits before the fix",
   "linter": "a finding of the linter on wallet-backend, accepted with a reason"
  },
  "findings": [
@@ -572,6 +573,28 @@
    "status": "fixed in 30.0.0-rc.1; the latest stable release, 29.0.1, does not have the fix",
    "labels": [],
    "rfp_sighting": 11
+  },
+  {
+   "id": "R11",
+   "kind": "fixed_upstream",
+   "title": "Participants taken from the envelope: failed-transaction destinations, unmatched authorization entries, declared-only deploys, invoked contracts",
+   "component": "wallet-backend: participants and contract deploys (indexer)",
+   "severity": "S2",
+   "severity_note": "accounts are recorded as participants of transactions whose meta does not show them",
+   "caps": [],
+   "caps_none_reason": "an indexer rule (participants come from the meta), not a protocol shape",
+   "reproduction": {
+    "corpus_entry": "pubnet-61240000"
+   },
+   "upstream": [
+    "https://github.com/stellar/wallet-backend/commit/9538b3caeaebfeb3d034146c0ce9643c3066cf8a",
+    "https://github.com/stellar/wallet-backend/commit/80121f3abe0fcdf6487d123e940de2631c1210b2",
+    "https://github.com/stellar/wallet-backend/commit/e2da4cadf2689380e9fc2dd0e1bce64191f411b8"
+   ],
+   "first_reported_by": "aditya1702 (wallet-backend maintainer), who fixed it; no issue was filed",
+   "reported": "2026-09-28",
+   "status": "fixed upstream (2026-09-28); the replay oracle flags it at the commits before e2da4ca, blind on pubnet-61240000",
+   "labels": []
   },
   {
    "id": "L1",

@@ -35,7 +35,7 @@ REQUIRED = ("id", "kind", "title", "component", "severity", "caps", "reproductio
             "first_reported_by", "reported", "status", "labels")
 REPRO_KEYS = ("corpus_entry", "generated_case", "evidence_file", "linter_report")
 ISSUE = re.compile(r"^([\w.-]+)/([\w.-]+)#(\d+)")
-URL = re.compile(r"^https://github\.com/([\w.-]+)/([\w.-]+)/(issues|pull)/(\d+)$")
+URL = re.compile(r"^https://github\.com/([\w.-]+)/([\w.-]+)/(issues|pull|commit)/(\d+|[0-9a-f]{40})$")
 CAP = re.compile(r"^CAP-\d{4}(-\d{2})?$")
 DATE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 RESULTS = ("harness/replay/out", "harness/replay/out-stellar-etl")
@@ -49,7 +49,11 @@ def load_json(path):
 
 def short_ref(url):
     m = URL.match(url)
-    return "%s/%s#%s" % (m.group(1), m.group(2), m.group(4)) if m else url
+    if not m:
+        return url
+    if m.group(3) == "commit":
+        return "%s/%s@%s" % (m.group(1), m.group(2), m.group(4)[:7])
+    return "%s/%s#%s" % (m.group(1), m.group(2), m.group(4))
 
 
 _DIVERGENCES = None
@@ -111,7 +115,7 @@ def validate_records(doc, bad):
             bad.append("%s: no upstream link (only an accepted linter finding may have none)" % rid)
         for u in ups:
             if not URL.match(u):
-                bad.append("%s: upstream %r is not a GitHub issue or pull request URL" % (rid, u))
+                bad.append("%s: upstream %r is not a GitHub issue, pull request or full-SHA commit URL" % (rid, u))
         rep = r.get("reproduction", {})
         if not any(k in rep for k in REPRO_KEYS):
             bad.append("%s: reproduction names none of %s" % (rid, ", ".join(REPRO_KEYS)))
@@ -155,7 +159,7 @@ def check_failures(doc, label_owner, bad):
             rule_labels |= {rule["issue"] for rule in load_json(p)["rules"]}
     labelled = unexplained_claimed = unfiled = 0
     used = set()
-    record_ids = {r["id"] for r in doc["findings"]}
+    record_ids = {r.get("id") for r in doc["findings"]}
     for out in RESULTS:
         with open(out + "/results.jsonl") as f:
             for line in f:
@@ -199,7 +203,7 @@ def check_failures(doc, label_owner, bad):
 
 def check_rfp_sightings(doc, bad):
     """Every sighting harness/sightings/README.md marks reproduced has a record."""
-    by_row = {r["rfp_sighting"]: r["id"] for r in doc["findings"] if "rfp_sighting" in r}
+    by_row = {r["rfp_sighting"]: r.get("id") for r in doc["findings"] if "rfp_sighting" in r}
     exempt = {int(k) for k in doc.get("sightings_without_record", {})}
     reproduced = []
     with open("harness/sightings/README.md") as f:
@@ -227,8 +231,8 @@ def check_linter(doc, bad):
         r = owner.get(a["message_contains"])
         if r is None:
             bad.append("accepted linter finding %s %r maps to no record" % (a["rule"], a["message_contains"]))
-        elif a.get("upstream") and a["upstream"] not in r["upstream"]:
-            bad.append("%s: accepted linter finding cites %s, which the record does not" % (r["id"], a["upstream"]))
+        elif a.get("upstream") and a["upstream"] not in r.get("upstream", []):
+            bad.append("%s: accepted linter finding cites %s, which the record does not" % (r.get("id"), a["upstream"]))
     return len(acc)
 
 
@@ -241,18 +245,19 @@ def render(doc):
     lines = [BEGIN, ""]
     counts = {}
     for r in doc["findings"]:
-        counts[r["kind"]] = counts.get(r["kind"], 0) + 1
+        counts[r.get("kind")] = counts.get(r.get("kind"), 0) + 1
     lines.append("%d findings in `FINDINGS.json`, one record each. Severity: %s. Dates are UTC."
                  % (len(doc["findings"]), "; ".join("**%s** %s" % (k, v) for k, v in scale.items())))
     for kind, heading in doc["kinds"].items():
-        rows = [r for r in doc["findings"] if r["kind"] == kind]
+        rows = [r for r in doc["findings"] if r.get("kind") == kind]
         if not rows:
             continue
         lines += ["", "**%s** (%d)" % (heading[0].upper() + heading[1:], len(rows)), "",
                   "| ID | Finding | Component | Severity | CAPs | Reproduction | Upstream | First reported | Status |",
                   "|---|---|---|---|---|---|---|---|---|"]
         for r in rows:
-            rep = r["reproduction"]
+            # Tolerates an incomplete record: validate_records() has already reported what is missing.
+            rep = r.get("reproduction", {})
             repro = []
             if "corpus_entry" in rep:
                 repro.append("entry `%s`" % rep["corpus_entry"])
@@ -261,12 +266,13 @@ def render(doc):
             for k in ("evidence_file", "linter_report"):
                 if k in rep:
                     repro.append("`%s`" % rep[k])
-            sev = r["severity"] + ("; " + r["severity_note"] if r.get("severity_note") else "")
-            caps = ", ".join(r["caps"]) if r["caps"] else "none: " + r["caps_none_reason"]
-            ups = ", ".join("[%s](%s)" % (short_ref(u), u) for u in r["upstream"]) or "not filed"
-            first = "%s, %s" % (r["first_reported_by"], r["reported"])
-            lines.append("| " + " | ".join(cell(x) for x in (
-                r["id"], r["title"], r["component"], sev, caps, "; ".join(repro), ups, first, r["status"])) + " |")
+            sev = r.get("severity", "?") + ("; " + r["severity_note"] if r.get("severity_note") else "")
+            caps = ", ".join(r.get("caps") or []) or "none: " + r.get("caps_none_reason", "?")
+            ups = ", ".join("[%s](%s)" % (short_ref(u), u) for u in r.get("upstream", [])) or "not filed"
+            first = "%s, %s" % (r.get("first_reported_by", "?"), r.get("reported", "?"))
+            lines.append("| " + " | ".join(cell(r.get(k, "?")) for k in ("id", "title", "component")) + " | "
+                         + " | ".join(cell(x) for x in (sev, caps, "; ".join(repro), ups, first, r.get("status", "?")))
+                         + " |")
     lines += ["", END]
     return "\n".join(lines)
 
@@ -298,7 +304,7 @@ def main():
                        "python3 .github/scripts/check_findings.py --write")
 
     print("records in FINDINGS.json: %d (%s)" % (len(doc["findings"]), ", ".join(
-        "%d %s" % (sum(1 for r in doc["findings"] if r["kind"] == k), k) for k in doc["kinds"])))
+        "%d %s" % (sum(1 for r in doc["findings"] if r.get("kind") == k), k) for k in doc["kinds"])))
     print("oracle failures labelled with a filed issue that a record claims: %d" % labelled)
     print("failures that are a claimed RFP sighting at its pre-fix commit: %d" % claimed)
     print("failures mapped to a record with no filed issue (label record:<ID>): %d" % unfiled)

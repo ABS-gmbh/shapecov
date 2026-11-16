@@ -6,7 +6,7 @@ Run date: 14 November 2026, updated 16 November 2026. Versions are in `README.md
 
 <!-- findings-table:begin (generated from FINDINGS.json by .github/scripts/check_findings.py --write; do not edit by hand) -->
 
-28 findings in `FINDINGS.json`, one record each. Severity: **S1** halts or rejects valid data; **S2** wrong or missing data; **S3** accepts non-canonical input; **S4** hardening. Dates are UTC.
+29 findings in `FINDINGS.json`, one record each. Severity: **S1** halts or rejects valid data; **S2** wrong or missing data; **S3** accepts non-canonical input; **S4** hardening. Dates are UTC.
 
 **Found by ShapeCov and filed by us** (6)
 
@@ -47,6 +47,12 @@ Run date: 14 November 2026, updated 16 November 2026. Versions are in `README.md
 | R8 | XDR string arms change bytes that are not UTF-8 | js-stellar-sdk: XDR string .value | S2 | none: a classic memo; SDK string conversion, not a protocol shape | entry `localcore-memo-and-offer-p30-4` | [stellar/js-stellar-sdk#1823](https://github.com/stellar/js-stellar-sdk/issues/1823) | quietbits (js-stellar-sdk maintainer), 2026-10-16 | closed 2026-10-20 by documenting the behaviour (#1824); 17.4.0 still changes the bytes |
 | R9 | Serde deserialization accepts a VecM over its maximum length | rs-stellar-xdr: serde (JSON) support | S3 | none: codec level, an XDR length limit, not a CAP | `harness/sightings/rs-stellar-xdr-598/acct21.json` | [stellar/rs-stellar-xdr#598](https://github.com/stellar/rs-stellar-xdr/pull/598) | leighmcculloch (SDF), 2026-09-29 | fixed in 28.0.1 and 30.0.0; 28.0.0 accepts 21 signers and emits XDR that 30.0.0 rejects |
 | R10 | MuxedAddress panics on a non-address ScVal | rs-soroban-sdk: MuxedAddress conversion | S1 | CAP-0067 | `harness/sightings/rs-soroban-sdk-2099` | [stellar/rs-soroban-sdk#2099](https://github.com/stellar/rs-soroban-sdk/pull/2099) | leighmcculloch (SDF), 2026-09-29 | fixed in 30.0.0-rc.1; the latest stable release, 29.0.1, does not have the fix |
+
+**Fixed upstream before ShapeCov existed; the harness detects it at the commits before the fix** (1)
+
+| ID | Finding | Component | Severity | CAPs | Reproduction | Upstream | First reported | Status |
+|---|---|---|---|---|---|---|---|---|
+| R11 | Participants taken from the envelope: failed-transaction destinations, unmatched authorization entries, declared-only deploys, invoked contracts | wallet-backend: participants and contract deploys (indexer) | S2; accounts are recorded as participants of transactions whose meta does not show them | none: an indexer rule (participants come from the meta), not a protocol shape | entry `pubnet-61240000` | [stellar/wallet-backend@9538b3c](https://github.com/stellar/wallet-backend/commit/9538b3caeaebfeb3d034146c0ce9643c3066cf8a), [stellar/wallet-backend@80121f3](https://github.com/stellar/wallet-backend/commit/80121f3abe0fcdf6487d123e940de2631c1210b2), [stellar/wallet-backend@e2da4ca](https://github.com/stellar/wallet-backend/commit/e2da4cadf2689380e9fc2dd0e1bce64191f411b8) | aditya1702 (wallet-backend maintainer), who fixed it; no issue was filed, 2026-09-28 | fixed upstream (2026-09-28); the replay oracle flags it at the commits before e2da4ca, blind on pubnet-61240000 |
 
 **A finding of the linter on wallet-backend, accepted with a reason** (3)
 
