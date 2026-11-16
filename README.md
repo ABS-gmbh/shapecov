@@ -16,7 +16,7 @@ indexer-hardening guide has each rule checked against stellar-core. Built for th
 | Deliverable | Where | The RFP's acceptance check | Status |
 |---|---|---|---|
 | Corpus: 88 entries, 85 of them real ledgers, with per-CAP coverage | [`corpus/`](corpus/), [`CAP-COVERAGE.md`](corpus/CAP-COVERAGE.md) | 1: entries round-trip through rs-stellar-xdr and match stellar-core's `--check-lcm` goldens | Met |
-| Replay harness: wallet-backend (reference adapter) and stellar-etl | [`harness/replay/`](harness/replay/) | 2: wallet-backend #729, #731 and #716 fail before their fixes and pass after | Met |
+| Replay harness: wallet-backend (reference adapter) and stellar-etl | [`harness/replay/`](harness/replay/); shapes each indexer mishandles or drops: [`SHAPES.md`](harness/replay/SHAPES.md) | 2: wallet-backend #729, #731 and #716 fail before their fixes and pass after | Met |
 | Linter for the three ingestion mistakes | [`linter/`](linter/) | 3: flags seeded violations, runs clean on wallet-backend | Partly met: 4 real findings on wallet-backend, each triaged with a reason |
 | Indexer-hardening guide | [`guide/`](guide/) | 4: tables agree with the manifest; publication gated on review | Tables met and probed against stellar-core 30.0.0; **unreviewed** |
 | Conformance runner: six SDK decoders and stellar-core | [`runners/`](runners/), [`sdk-matrix/`](sdk-matrix/MATRIX.md) | 5: js-stellar-sdk #1766, #1785 and #1789 fail on pre-fix tags | Met |
@@ -32,7 +32,7 @@ pip install jsonschema
 python3 quickcheck.py
 ```
 
-Python only, with no Docker and no network. It reruns the 10 checks that work from the repository
+Python only, with no Docker and no network. It reruns the 11 checks that work from the repository
 alone and checks the recorded results of the rest against their verdicts. It took 10 seconds on a
 laptop. CI reruns everything else.
 
