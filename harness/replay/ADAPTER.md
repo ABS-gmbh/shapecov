@@ -5,7 +5,9 @@ An adapter lets the replay harness run the corpus against one indexer. The harne
 indexer: building it, starting it, pointing it at a ledger, and reading back what it stored.
 
 The reference adapter is `adapters/wallet-backend/adapter.py`; `adapters/stellar-etl/adapter.py` is
-the second. A new adapter goes in `adapters/<name>/adapter.py` and is selected with
+the second. For a minimal one to copy, see [`adapters/example/`](adapters/example/): a toy indexer of
+about 100 lines storing to SQLite, in two variants (participants from the envelope, participants
+from the meta), with no Docker, run through every verb below; its report is `RESULTS-example.md`. A new adapter goes in `adapters/<name>/adapter.py` and is selected with
 `replay.py run --adapter <name> --out out-<name>`: one output directory per adapter, and the report
 goes to `RESULTS-<name>.md`.
 
@@ -64,7 +66,16 @@ prepare(ref) -> up(commit) -> run(job) for every entry and input -> down
 ```
 
 Required: `commit`, `commit_date`, `subject`, `source_modified`, `dependency_pins`,
-`dependencies_modified`. Extra fields are kept and shown in `out/runs.jsonl`. Two optional fields
+`dependencies_modified`.
+
+- `commit` identifies the build: the 40-hex git commit for a git checkout. An indexer that is not
+  built from git gives any stable hex digest of what it runs (the example adapter hashes its
+  variant name and source). The report shows its first 12 characters, and a `known.json` rule's
+  `fixed_by` (git ancestry) only works with git commits.
+- `commit_date` is ISO 8601 with a UTC offset (`2026-09-04T15:07:54-04:00`); the report sorts
+  commits by it and fails on anything else. Without git, give the time the indexer's source was
+  last changed.
+- `dependency_pins` may be `{}`. Extra fields are kept and shown in `out/runs.jsonl`. Two optional fields
 change what the harness runs:
 
 | Field | Effect |
@@ -80,6 +91,7 @@ The harness writes one job per entry, commit and input:
 {
   "job_version": 1,
   "entry_id": "testnet-4437357-signed-payload-signer",
+  "ref": "2a0a84ea12",
   "commit": "2a0a84ea12523b6c92e278c0c84b443041240095",
   "input": "rpc",
   "network_passphrase": "Test SDF Network ; September 2015",
@@ -180,7 +192,7 @@ by providing two files next to `adapter.py`:
 
 | File | Contains |
 |---|---|
-| `expect.py` | **Required**, even when it derives nothing: `expectations(changes, network_passphrase)`, the row the indexer should store for each oracle change, as expectations in the format below (`state_change`, `participant`, …), each with a `via` field saying where the oracle saw the change (return `[]` if the indexer stores none of them); and `known_issue(expectation)` (return `None` if nothing is known). **Optional**, used when present: `balance_expectations(records, network_passphrase)`, one `balance_net` expectation per balance record naming the indexer's token and operation position (the harness then also reports stored balance movements for an account where the ledger shows none, asset contracts only); `muxed_expectations(records, network_passphrase)`; `participant_expectations(records, network_passphrase)`, from `oracle.participants()`, a `participants_within` expectation per transaction and, if the indexer promises it, a `participant` expectation per account whose entry the transaction changed; `manifest_expectations(exps)`, which keeps or rewrites the manifest's hand-written expectations (written in wallet-backend's vocabulary); `REPORT_INTRO`, the lines that describe a cell at the top of the report. |
+| `expect.py` | **Required**, even when it derives nothing: `expectations(changes, network_passphrase)`, the row the indexer should store for each oracle change, as expectations in the format below (`state_change`, `participant`, …), each with a `via` field saying where the oracle saw the change (return `[]` if the indexer stores none of them); and `known_issue(expectation)` (return `None` if nothing is known). **Optional**, used when present: `balance_expectations(records, network_passphrase)`, one `balance_net` expectation per balance record naming the indexer's token and operation position (the harness then also reports stored balance movements for an account where the ledger shows none, asset contracts only); `muxed_expectations(records, network_passphrase)`; `participant_expectations(records, network_passphrase)`, from `oracle.participants()`, a `participants_within` expectation per transaction and, if the indexer promises it, a `participant` expectation per account whose entry the transaction changed; `manifest_expectations(exps)`, which keeps or rewrites the manifest's hand-written expectations (written in wallet-backend's vocabulary; without this function an adapter inherits them, so an indexer with no state-change rows should define it and return `[]`); `REPORT_INTRO`, the lines that describe a cell at the top of the report. |
 | `known.json` | Upstream issues (or `record:<ID>` findings) that explain a failing oracle expectation, as match rules on the row and on where the change happened. |
 
 `expect.py` only names rows in the indexer's own vocabulary; whether a row is expected always comes

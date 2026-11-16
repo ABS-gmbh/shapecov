@@ -9,6 +9,10 @@ cell runs the commit's own `export_transactions`, `export_operations`, `export_e
 `export_token_transfer` for the one ledger and reads the exported JSON back. stellar-etl reads only
 pubnet, testnet and futurenet, so entries from stellar-core's test data are `n/a`.
 
+A cell is the entry's verdict: the worse of the indexer's result against the manifest's expectations and
+the oracle's check of every row the ledger implies (`pass`, `dropped`: a row or the ledger is missing,
+`mishandled`: an error or a wrong stored value). After the colon: the upstream issues or records that
+explain the failures, or `unexplained` (a candidate new finding). The details below list each failure.
 ## Commits
 
 | Commit | Date | Subject | go-stellar-sdk pin | Source or dependencies modified |
@@ -68,41 +72,41 @@ Only the implicit checks apply: the ledger is ingested without an error and ever
 | `golden-offer-9a363b75-30` | 30 | datalake | n/a |
 | `golden-pathpayment-34519f44-22` | 30 | datalake | n/a |
 | `localcore-claim-and-sponsor-8` | 30 | datalake | pass |
-| `localcore-classic-p22-3` | 22 | datalake | mishandled |
+| `localcore-classic-p22-3` | 22 | datalake | mishandled: stellar-etl#512 |
 | `localcore-maintain-liabilities-5` | 30 | datalake | pass |
-| `localcore-memo-and-offer-p30-4` | 30 | datalake | pass |
-| `localcore-muxed-source-p22-3` | 22 | datalake | mishandled |
-| `localcore-pool-revoke-two-pools-7` | 30 | datalake | pass |
+| `localcore-memo-and-offer-p30-4` | 30 | datalake | mishandled: stellar-etl#450 |
+| `localcore-muxed-source-p22-3` | 22 | datalake | mishandled: stellar-etl#512 |
+| `localcore-pool-revoke-two-pools-7` | 30 | datalake | mishandled: stellar-etl#513, stellar-etl#514 |
 | `localcore-preauth-failed-6` | 30 | datalake | pass |
-| `localcore-sac-trust-p28-5` | 28 | datalake | pass |
+| `localcore-sac-trust-p28-5` | 28 | datalake | dropped: stellar-etl#460 |
 | `localcore-sponsorship-transfer-9` | 30 | datalake | pass |
-| `pubnet-59220000` | 23 | datalake | pass |
-| `pubnet-60280000` | 24 | datalake | pass |
-| `pubnet-61240000` | 25 | datalake | pass |
-| `pubnet-63920000` | 27 | datalake | pass |
-| `pubnet-65280000` | 29 | datalake | pass |
-| `pubnet-65460000` | 29 | datalake | pass |
-| `pubnet-65479774` | 29 | datalake | pass |
-| `pubnet-65480264` | 29 | datalake | pass |
-| `pubnet-65480300` | 29 | datalake | pass |
-| `pubnet-65480508` | 29 | datalake | pass |
-| `pubnet-65480598` | 29 | datalake | pass |
+| `pubnet-59220000` | 23 | datalake | mishandled: stellar-etl#450 |
+| `pubnet-60280000` | 24 | datalake | mishandled: stellar-etl#450 |
+| `pubnet-61240000` | 25 | datalake | mishandled: stellar-etl#450 |
+| `pubnet-63920000` | 27 | datalake | mishandled: stellar-etl#450, stellar-etl#460 |
+| `pubnet-65280000` | 29 | datalake | mishandled: stellar-etl#450 |
+| `pubnet-65460000` | 29 | datalake | mishandled: stellar-etl#450 |
+| `pubnet-65479774` | 29 | datalake | mishandled: stellar-etl#450 |
+| `pubnet-65480264` | 29 | datalake | mishandled: stellar-etl#450 |
+| `pubnet-65480300` | 29 | datalake | mishandled: stellar-etl#450, stellar-etl#460 |
+| `pubnet-65480508` | 29 | datalake | mishandled: stellar-etl#450 |
+| `pubnet-65480598` | 29 | datalake | mishandled: stellar-etl#450 |
 | `testnet-1780000` | 25 | datalake | pass |
 | `testnet-4437357-signed-payload-signer` | 28 | datalake | pass |
 | `testnet-5400000` | 29 | datalake | pass |
-| `testnet-5600000` | 30 | datalake | pass |
+| `testnet-5600000` | 30 | datalake | mishandled: stellar-etl#450 |
 | `testnet-5681488` | 30 | datalake | pass |
 | `testnet-5692653` | 30 | datalake | pass |
 | `testnet-5707122` | 30 | datalake | pass |
 | `testnet-5708889` | 30 | datalake | pass |
-| `testnet-5709224` | 30 | datalake | pass |
-| `testnet-5710719` | 30 | datalake | pass |
-| `testnet-5711238` | 30 | datalake | pass |
+| `testnet-5709224` | 30 | datalake | dropped: stellar-etl#460 |
+| `testnet-5710719` | 30 | datalake | mishandled: stellar-etl#450, stellar-etl#457 |
+| `testnet-5711238` | 30 | datalake | mishandled: stellar-etl#450 |
 | `testnet-5711641` | 30 | datalake | pass |
 | `testnet-5712621` | 30 | datalake | pass |
-| `testnet-5716828` | 30 | datalake | pass |
+| `testnet-5716828` | 30 | datalake | mishandled: stellar-etl#450 |
 | `testnet-5718650` | 30 | datalake | pass |
-| `testnet-5719527` | 30 | datalake | pass |
+| `testnet-5719527` | 30 | datalake | mishandled: stellar-etl#450 |
 | `testnet-5722195` | 30 | datalake | pass |
 | `testnet-5725684` | 30 | datalake | pass |
 | `testnet-5726002` | 30 | datalake | pass |
@@ -111,7 +115,7 @@ Only the implicit checks apply: the ledger is ingested without an error and ever
 
 | Commit | Input | pass | mishandled | dropped | error | not applicable |
 |---|---|---|---|---|---|---|
-| `2b24ec89` | datalake | 37 | 2 | 0 | 0 | 46 |
+| `2b24ec89` | datalake | 17 | 20 | 2 | 0 | 46 |
 
 ## Oracle checks
 

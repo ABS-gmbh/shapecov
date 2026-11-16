@@ -6,6 +6,10 @@ Each cell is the result for one entry at one commit, per input: `rpc` is the moc
 `getLedgers` endpoint, `datalake` is the Galexie layout on an S3-compatible store. Every cell is a run
 of the indexer's own `ingest` command against PostgreSQL/TimescaleDB with the tables read back.
 
+A cell is the entry's verdict: the worse of the indexer's result against the manifest's expectations and
+the oracle's check of every row the ledger implies (`pass`, `dropped`: a row or the ledger is missing,
+`mishandled`: an error or a wrong stored value). After the colon: the upstream issues or records that
+explain the failures, or `unexplained` (a candidate new finding). The details below list each failure.
 ## Commits
 
 | Commit | Date | Subject | go-stellar-sdk pin | Source or dependencies modified |
@@ -26,12 +30,12 @@ Expectations come from `expected.indexer` in the corpus manifest unless the deta
 
 | Entry | Protocol | Input | `79ea2acd` | `6e5a5910` | `2a0a84ea` | `2c873353` | `764a4f5b` | `c152783c` | `f8e5786d` | `bb0b162b` | `3e22515a` |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| `localcore-muxed-source-p22-3` | 22 | rpc | mishandled | mishandled | not run | not run | not run | not run | mishandled | pass | pass |
-| `localcore-muxed-source-p22-3` | 22 | datalake | mishandled | mishandled | not run | not run | not run | not run | mishandled | pass | pass |
-| `localcore-sac-trust-p28-5` | 28 | rpc | not run | not run | not run | not run | dropped | pass | not run | not run | pass |
-| `localcore-sac-trust-p28-5` | 28 | datalake | not run | not run | not run | not run | dropped | pass | not run | not run | pass |
-| `testnet-4437357-signed-payload-signer` | 28 | rpc | mishandled | mishandled | mishandled | pass | not run | not run | not run | not run | pass |
-| `testnet-4437357-signed-payload-signer` | 28 | datalake | mishandled | mishandled | mishandled | pass | not run | not run | not run | not run | pass |
+| `localcore-muxed-source-p22-3` | 22 | rpc | mishandled: wallet-backend#815 | mishandled: unexplained | not run | not run | not run | not run | mishandled: unexplained | dropped: wallet-backend#815 | dropped: wallet-backend#815 |
+| `localcore-muxed-source-p22-3` | 22 | datalake | mishandled: wallet-backend#815 | mishandled: unexplained | not run | not run | not run | not run | mishandled: unexplained | dropped: wallet-backend#815 | dropped: wallet-backend#815 |
+| `localcore-sac-trust-p28-5` | 28 | rpc | not run | not run | not run | not run | mishandled: R11, unexplained | mishandled: R11 | not run | not run | pass |
+| `localcore-sac-trust-p28-5` | 28 | datalake | not run | not run | not run | not run | mishandled: R11, unexplained | mishandled: R11 | not run | not run | pass |
+| `testnet-4437357-signed-payload-signer` | 28 | rpc | mishandled: R11, unexplained | mishandled: unexplained | mishandled: unexplained | mishandled: R11 | not run | not run | not run | not run | pass |
+| `testnet-4437357-signed-payload-signer` | 28 | datalake | mishandled: R11, unexplained | mishandled: unexplained | mishandled: unexplained | mishandled: R11 | not run | not run | not run | not run | pass |
 
 ## Entries without indexer expectations
 
@@ -51,16 +55,16 @@ Only the implicit checks apply: the ledger is ingested without an error and ever
 | `golden-frozenledgerkeys-0d70bfa2-11` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `golden-frozenledgerkeys-0d70bfa2-16` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `golden-frozenledgerkeys-0d70bfa2-16` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
-| `golden-frozenledgerkeys-12c04cf7-20` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
-| `golden-frozenledgerkeys-12c04cf7-20` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
-| `golden-frozenledgerkeys-1cd53aa0-23` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
-| `golden-frozenledgerkeys-1cd53aa0-23` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `golden-frozenledgerkeys-12c04cf7-20` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | dropped: wallet-backend#677 |
+| `golden-frozenledgerkeys-12c04cf7-20` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | dropped: wallet-backend#677 |
+| `golden-frozenledgerkeys-1cd53aa0-23` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | dropped: wallet-backend#677 |
+| `golden-frozenledgerkeys-1cd53aa0-23` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | dropped: wallet-backend#677 |
 | `golden-frozenledgerkeys-3f24be68-11` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `golden-frozenledgerkeys-3f24be68-11` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `golden-frozenledgerkeys-3f24be68-4` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `golden-frozenledgerkeys-3f24be68-4` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
-| `golden-frozenledgerkeys-7a27fd53-34` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
-| `golden-frozenledgerkeys-7a27fd53-34` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `golden-frozenledgerkeys-7a27fd53-34` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | dropped: wallet-backend#677 |
+| `golden-frozenledgerkeys-7a27fd53-34` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | dropped: wallet-backend#677 |
 | `golden-frozenledgerkeys-a0fb94c3-10` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `golden-frozenledgerkeys-a0fb94c3-10` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `golden-frozenledgerkeys-a0fb94c3-15` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
@@ -95,8 +99,8 @@ Only the implicit checks apply: the ledger is ingested without an error and ever
 | `golden-invokehostfunction-57a486ab-17` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `golden-invokehostfunction-60000be2-10` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `golden-invokehostfunction-60000be2-10` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
-| `golden-invokehostfunction-692fdd0e-17` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
-| `golden-invokehostfunction-692fdd0e-17` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `golden-invokehostfunction-692fdd0e-17` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | dropped: wallet-backend#816 |
+| `golden-invokehostfunction-692fdd0e-17` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | dropped: wallet-backend#816 |
 | `golden-invokehostfunction-7f92354d-11` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `golden-invokehostfunction-7f92354d-11` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `golden-invokehostfunction-8299635e-11` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
@@ -143,16 +147,16 @@ Only the implicit checks apply: the ledger is ingested without an error and ever
 | `localcore-memo-and-offer-p30-4` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `localcore-planted-auth-5` | 28 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `localcore-planted-auth-5` | 28 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
-| `localcore-pool-revoke-two-pools-7` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
-| `localcore-pool-revoke-two-pools-7` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `localcore-pool-revoke-two-pools-7` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | dropped: wallet-backend#817 |
+| `localcore-pool-revoke-two-pools-7` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | dropped: wallet-backend#817 |
 | `localcore-preauth-failed-6` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `localcore-preauth-failed-6` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `localcore-sponsorship-transfer-9` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `localcore-sponsorship-transfer-9` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `pubnet-59220000` | 23 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `pubnet-59220000` | 23 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
-| `pubnet-60280000` | 24 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
-| `pubnet-60280000` | 24 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `pubnet-60280000` | 24 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | dropped: wallet-backend#677 |
+| `pubnet-60280000` | 24 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | dropped: wallet-backend#677 |
 | `pubnet-61240000` | 25 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `pubnet-61240000` | 25 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `pubnet-63920000` | 27 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
@@ -165,8 +169,8 @@ Only the implicit checks apply: the ledger is ingested without an error and ever
 | `pubnet-65479774` | 29 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `pubnet-65480264` | 29 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `pubnet-65480264` | 29 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
-| `pubnet-65480300` | 29 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
-| `pubnet-65480300` | 29 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `pubnet-65480300` | 29 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | dropped: wallet-backend#816 |
+| `pubnet-65480300` | 29 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | dropped: wallet-backend#816 |
 | `pubnet-65480508` | 29 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `pubnet-65480508` | 29 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `pubnet-65480598` | 29 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
@@ -181,18 +185,18 @@ Only the implicit checks apply: the ledger is ingested without an error and ever
 | `testnet-5681488` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `testnet-5692653` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `testnet-5692653` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
-| `testnet-5707122` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
-| `testnet-5707122` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `testnet-5707122` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | dropped: wallet-backend#815 |
+| `testnet-5707122` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | dropped: wallet-backend#815 |
 | `testnet-5708889` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `testnet-5708889` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
-| `testnet-5709224` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
-| `testnet-5709224` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `testnet-5709224` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | dropped: wallet-backend#816 |
+| `testnet-5709224` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | dropped: wallet-backend#816 |
 | `testnet-5710719` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `testnet-5710719` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `testnet-5711238` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `testnet-5711238` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
-| `testnet-5711641` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
-| `testnet-5711641` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `testnet-5711641` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | dropped: wallet-backend#815 |
+| `testnet-5711641` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | dropped: wallet-backend#815 |
 | `testnet-5712621` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `testnet-5712621` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `testnet-5716828` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
@@ -205,8 +209,8 @@ Only the implicit checks apply: the ledger is ingested without an error and ever
 | `testnet-5722195` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `testnet-5725684` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `testnet-5725684` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
-| `testnet-5726002` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
-| `testnet-5726002` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `testnet-5726002` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | dropped: wallet-backend#815 |
+| `testnet-5726002` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | dropped: wallet-backend#815 |
 
 ## Totals
 
@@ -218,18 +222,18 @@ Only the implicit checks apply: the ledger is ingested without an error and ever
 | `6e5a5910` | datalake | 0 | 2 | 0 | 0 |
 | `2a0a84ea` | rpc | 0 | 1 | 0 | 0 |
 | `2a0a84ea` | datalake | 0 | 1 | 0 | 0 |
-| `2c873353` | rpc | 1 | 0 | 0 | 0 |
-| `2c873353` | datalake | 1 | 0 | 0 | 0 |
-| `764a4f5b` | rpc | 0 | 0 | 1 | 0 |
-| `764a4f5b` | datalake | 0 | 0 | 1 | 0 |
-| `c152783c` | rpc | 1 | 0 | 0 | 0 |
-| `c152783c` | datalake | 1 | 0 | 0 | 0 |
+| `2c873353` | rpc | 0 | 1 | 0 | 0 |
+| `2c873353` | datalake | 0 | 1 | 0 | 0 |
+| `764a4f5b` | rpc | 0 | 1 | 0 | 0 |
+| `764a4f5b` | datalake | 0 | 1 | 0 | 0 |
+| `c152783c` | rpc | 0 | 1 | 0 | 0 |
+| `c152783c` | datalake | 0 | 1 | 0 | 0 |
 | `f8e5786d` | rpc | 0 | 1 | 0 | 0 |
 | `f8e5786d` | datalake | 0 | 1 | 0 | 0 |
-| `bb0b162b` | rpc | 1 | 0 | 0 | 0 |
-| `bb0b162b` | datalake | 1 | 0 | 0 | 0 |
-| `3e22515a` | rpc | 87 | 0 | 0 | 0 |
-| `3e22515a` | datalake | 87 | 0 | 0 | 0 |
+| `bb0b162b` | rpc | 0 | 0 | 1 | 0 |
+| `bb0b162b` | datalake | 0 | 0 | 1 | 0 |
+| `3e22515a` | rpc | 75 | 0 | 12 | 0 |
+| `3e22515a` | datalake | 75 | 0 | 12 | 0 |
 
 ## Oracle checks
 

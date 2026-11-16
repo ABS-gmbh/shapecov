@@ -26,7 +26,11 @@
    "stellar/stellar-etl#514": 2,
    "stellar/stellar-etl#513": 1
   },
-  "unexplained": []
+  "unexplained": [],
+  "known_outcome": {
+   "stellar/stellar-etl#514": "dropped",
+   "stellar/stellar-etl#513": "mishandled"
+  }
  },
  "process": {
   "exit_code": 0,
