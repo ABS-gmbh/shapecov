@@ -108,6 +108,32 @@ def main():
              "", "The number after each piece of evidence is how many corpus entries contain it.", "",
              "| CAP | Protocol | Title | Status | Evidence in the corpus, or why there is no shape | Gap |",
              "|---|---|---|---|---|---|"] + rows
+    dated = CORPUS / "cell-protocols.json"
+    if dated.exists():
+        cp = json.load(open(dated))
+        have = set(by_cell)
+        order = list(cp["tags"])
+        per = {t: [0, 0] for t in order}
+        for cell, tag in cp["first_tag"].items():
+            per[tag][0] += 1
+            per[tag][1] += cell in have
+        labels = {"v19": "19 or earlier", "v30.0": "29 or 30"}
+        checks = cp["cap_tag_checks"]
+        lines += ["", "## Schema cells by the protocol that introduced them", "",
+                  "Each cell (union arm or enum member) of the protocol 30 schema, dated to the first stellar/stellar-xdr "
+                  "tag that has it (`tools/cell_protocols.py`, `corpus/cell-protocols.json`). There is no v29 tag, so "
+                  "cells first seen in v30.0 came with protocol 29 or 30.", "",
+                  "| First tag | Protocol | Cells introduced | In the corpus | Not in the corpus |", "|---|---|---|---|---|"]
+        for t in order:
+            if per[t][0]:
+                lines.append("| %s | %s | %d | %d | %d |" % (t, labels.get(t, t[1:].split(".")[0]), per[t][0], per[t][1],
+                                                           per[t][0] - per[t][1]))
+        bad = [c for c in checks if not c["agrees"]]
+        lines += ["", "The hand-assigned CAP of each cell in `corpus/cap-map.json` was checked against these dates: "
+                  "%d of %d agree (a CAP's cells first appear in the protocol the CAP shipped in)%s" % (
+                      len(checks) - len(bad), len(checks), "." if not bad else ". Disagreements:")]
+        lines += ["- `%s`: tagged %s (protocol %s), first in %s" % (c["cell"], c["cap"], c["cap_protocol"], c["first_tag"])
+                  for c in bad]
     text = "\n".join(lines) + "\n"
     out = CORPUS / "CAP-COVERAGE.md"
     if a.check:

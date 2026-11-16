@@ -72,9 +72,28 @@ The number after each piece of evidence is how many corpus entries contain it.
 | CAP-0079 | 26 | Host functions for muxed address strkey conversions | no shape | Host functions only: no new XDR reaches ledger data. Any new cost types extend ContractCostType, which no serialized type references. | — |
 | CAP-0080 | 26 | Host functions for efficient ZK BN254 use cases | no shape | Host functions only: no new XDR reaches ledger data. Any new cost types extend ContractCostType, which no serialized type references. | — |
 | CAP-0082 | 26 | Checked 256-bit integer arithmetic host functions | no shape | Host functions only: no new XDR reaches ledger data. Any new cost types extend ContractCostType, which no serialized type references. | — |
-| CAP-0083 | 28 | Allow validators to vote to drop the transaction set from the current ledger | gap |  | `arm:StellarValueExt.STELLAR_VALUE_EMPTY_TX_SET`. Planned: A ledger whose transaction set was dropped by vote. None of stellar-core's 15,306 golden ledgers (commit f2b91947) has one; it needs a validator set that votes to drop a transaction set. |
+| CAP-0083 | 28 | Allow validators to vote to drop the transaction set from the current ledger | gap |  | `arm:StellarValueExt.STELLAR_VALUE_EMPTY_TX_SET`. Planned: A ledger whose transaction set was dropped by vote. Neither stellar-core's current golden ledgers nor its next-protocol ones (15,306 each, commit f2b91947) have one; it needs a validator set that votes to drop a transaction set, which a standalone local core does not do. |
 | CAP-0084 | 30 | Muxed Contract Addresses | covered | `arm:SCAddress.SC_ADDRESS_TYPE_MUXED_CONTRACT` (3); pattern `scaddress-muxed-contract` (2) | — |
 | CAP-0085 | 28 | Externally managed contract executables | covered | `arm:ContractExecutable.CONTRACT_EXECUTABLE_EXTERNAL_REF` (1) | — |
 | CAP-0086 | 28 | Host functions for sparse Symbol-keyed map creation and unpacking | no shape | Host functions only: no new XDR reaches ledger data. Any new cost types extend ContractCostType, which no serialized type references. | — |
 | CAP-0087 | 30 | Host functions for ML-DSA signature verification | no shape | Host functions only: no new XDR reaches ledger data. Any new cost types extend ContractCostType, which no serialized type references. | — |
 | CAP-0088 | 30 | Millisecond-Resolution Close Times | partly covered | `arm:StellarValueExt.STELLAR_VALUE_SIGNED_MS` (60) | `arm:StellarValueExt.STELLAR_VALUE_EMPTY_TX_SET_MS`. Planned: The _MS form of the CAP-0083 ledger, at protocol 30. |
+
+## Schema cells by the protocol that introduced them
+
+Each cell (union arm or enum member) of the protocol 30 schema, dated to the first stellar/stellar-xdr tag that has it (`tools/cell_protocols.py`, `corpus/cell-protocols.json`). There is no v29 tag, so cells first seen in v30.0 came with protocol 29 or 30.
+
+| First tag | Protocol | Cells introduced | In the corpus | Not in the corpus |
+|---|---|---|---|---|
+| v19 | 19 or earlier | 552 | 167 | 385 |
+| v20 | 20 | 462 | 151 | 311 |
+| v21.0 | 21 | 29 | 6 | 23 |
+| v22.0 | 22 | 52 | 2 | 50 |
+| v23.0 | 23 | 33 | 15 | 18 |
+| v25.0 | 25 | 15 | 0 | 15 |
+| v26.0 | 26 | 18 | 5 | 13 |
+| v27.0 | 27 | 6 | 2 | 4 |
+| v28.0 | 28 | 6 | 2 | 4 |
+| v30.0 | 29 or 30 | 15 | 2 | 13 |
+
+The hand-assigned CAP of each cell in `corpus/cap-map.json` was checked against these dates: 40 of 40 agree (a CAP's cells first appear in the protocol the CAP shipped in).
