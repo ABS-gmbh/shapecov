@@ -81,19 +81,19 @@ The number after each piece of evidence is how many corpus entries contain it.
 
 ## Schema cells by the protocol that introduced them
 
-Each cell (union arm or enum member) of the protocol 30 schema, dated to the first stellar/stellar-xdr tag that has it (`tools/cell_protocols.py`, `corpus/cell-protocols.json`). There is no v29 tag, so cells first seen in v30.0 came with protocol 29 or 30.
+Each cell a ledger reader can meet (a union arm, or a member of an enum that appears as a value, in a type `LedgerCloseMeta` reaches; see `COVERAGE.md`), dated to the first stellar/stellar-xdr tag that has it (`tools/cell_protocols.py`, `corpus/cell-protocols.json`). There is no v29 tag, so cells first seen in v30.0 came with protocol 29 or 30. A cell not in the corpus is either classified in `corpus/cell-classes.json` (why it is absent and what would add it) or not yet.
 
-| First tag | Protocol | Cells introduced | In the corpus | Not in the corpus |
-|---|---|---|---|---|
-| v19 | 19 or earlier | 552 | 167 | 385 |
-| v20 | 20 | 462 | 151 | 311 |
-| v21.0 | 21 | 29 | 6 | 23 |
-| v22.0 | 22 | 52 | 2 | 50 |
-| v23.0 | 23 | 33 | 15 | 18 |
-| v25.0 | 25 | 15 | 0 | 15 |
-| v26.0 | 26 | 18 | 5 | 13 |
-| v27.0 | 27 | 6 | 2 | 4 |
-| v28.0 | 28 | 6 | 2 | 4 |
-| v30.0 | 29 or 30 | 15 | 2 | 13 |
+| First tag | Protocol | Arms and members dated | Not cells: discriminant-only enum members | Not reachable | Cells introduced | In the corpus | Not in the corpus, classified | Not yet classified |
+|---|---|---|---|---|---|---|---|---|
+| v19 | 19 or earlier | 552 | 303 | 45 | 204 | 167 | 33 | 4 |
+| v20 | 20 | 462 | 128 | 49 | 285 | 151 | 128 | 6 |
+| v21.0 | 21 | 29 | 23 | 0 | 6 | 6 | 0 | 0 |
+| v22.0 | 22 | 52 | 31 | 19 | 2 | 2 | 0 | 0 |
+| v23.0 | 23 | 33 | 6 | 7 | 20 | 15 | 4 | 1 |
+| v25.0 | 25 | 15 | 15 | 0 | 0 | 0 | 0 | 0 |
+| v26.0 | 26 | 18 | 5 | 0 | 13 | 5 | 6 | 2 |
+| v27.0 | 27 | 6 | 3 | 1 | 2 | 2 | 0 | 0 |
+| v28.0 | 28 | 6 | 3 | 0 | 3 | 2 | 0 | 1 |
+| v30.0 | 29 or 30 | 15 | 12 | 0 | 3 | 2 | 0 | 1 |
 
 The hand-assigned CAP of each cell in `corpus/cap-map.json` was checked against these dates: 40 of 40 agree (a CAP's cells first appear in the protocol the CAP shipped in).

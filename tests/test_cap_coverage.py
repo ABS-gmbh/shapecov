@@ -22,7 +22,7 @@ class CapCoverage(unittest.TestCase):
         self.assertIn("CAP COVERAGE OK", out)
 
     def corpus_copy(self, d):
-        for name in ("manifest.json", "CAP-COVERAGE.md", "cell-protocols.json", "cap-coverage.json"):
+        for name in ("manifest.json", "CAP-COVERAGE.md", "cell-protocols.json", "cap-coverage.json", "cell-classes.json"):
             shutil.copyfile(ROOT / "corpus" / name, Path(d) / name)
 
     def run_on(self, d):

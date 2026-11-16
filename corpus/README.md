@@ -133,8 +133,14 @@ committed replay results, on every push.
 - The entries' `caps` field is written by hand and is empty on 44 entries, most of them
   stellar-core goldens added for the schema cells they reach. Per-CAP coverage
   (`CAP-COVERAGE.md`) does not rely on it: it is computed from each entry's cells and patterns.
-- 352 of the 1,188 schema cells appear in a corpus entry. Whole ledgers are not generated; they
-  come from the three sources above.
+- 352 of the 538 reachable cells, those a ledger reader can meet (65.4%), appear in a corpus entry
+  (`COVERAGE.md`: a cell is a union arm or a member of an enum used as a value, in a type
+  `LedgerCloseMeta` reaches). Each of the other 186 has a class and a reason in
+  `cell-classes.json`, from stellar-core's source: 36 can never be in a closed ledger, 14 belong to
+  protocols before 20, 30 need a network or configuration upgrade, 79 are failures a local
+  stellar-core scenario can produce, 6 need a contract written to produce them, 5 appear only in
+  recorded consensus messages, 1 is impractical, and 15 are not classified yet. Whole ledgers are not
+  generated; they come from the three sources above.
 - The three generated entries are decode-level values, not the output of applied transactions.
 - `expected.indexer` is hand-written for 3 entries. The replay oracle (`tools/oracle.py`) derives
   the expected rows for every ledger instead.

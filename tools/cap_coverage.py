@@ -112,22 +112,41 @@ def main():
     if dated.exists():
         cp = json.load(open(dated))
         have = set(by_cell)
+        import coverage
+        every, reach, _ = coverage.cells(json.load(open(ROOT / "schema" / "schema.json")))
+        classes = json.load(open(CORPUS / "cell-classes.json"))["cells"]
         order = list(cp["tags"])
-        per = {t: [0, 0] for t in order}
+        per = {t: [0, 0, 0, 0] for t in order}  # reachable introduced, in corpus, classified, unclassified
+        skipped = {t: [0, 0, 0] for t in order}  # all cells as dated, discriminant-only, unreachable
         for cell, tag in cp["first_tag"].items():
+            skipped[tag][0] += 1
+            if cell not in every:
+                skipped[tag][1] += 1
+                continue
+            if cell not in reach:
+                skipped[tag][2] += 1
+                continue
             per[tag][0] += 1
-            per[tag][1] += cell in have
+            if cell in have:
+                per[tag][1] += 1
+            elif classes.get(cell, {}).get("class", "unclassified") != "unclassified":
+                per[tag][2] += 1
+            else:
+                per[tag][3] += 1
         labels = {"v19": "19 or earlier", "v30.0": "29 or 30"}
         checks = cp["cap_tag_checks"]
         lines += ["", "## Schema cells by the protocol that introduced them", "",
-                  "Each cell (union arm or enum member) of the protocol 30 schema, dated to the first stellar/stellar-xdr "
-                  "tag that has it (`tools/cell_protocols.py`, `corpus/cell-protocols.json`). There is no v29 tag, so "
-                  "cells first seen in v30.0 came with protocol 29 or 30.", "",
-                  "| First tag | Protocol | Cells introduced | In the corpus | Not in the corpus |", "|---|---|---|---|---|"]
+                  "Each cell a ledger reader can meet (a union arm, or a member of an enum that appears as a value, in a "
+                  "type `LedgerCloseMeta` reaches; see `COVERAGE.md`), dated to the first stellar/stellar-xdr tag that "
+                  "has it (`tools/cell_protocols.py`, `corpus/cell-protocols.json`). There is no v29 tag, so cells first "
+                  "seen in v30.0 came with protocol 29 or 30. A cell not in the corpus is either classified in "
+                  "`corpus/cell-classes.json` (why it is absent and what would add it) or not yet.", "",
+                  "| First tag | Protocol | Arms and members dated | Not cells: discriminant-only enum members | Not reachable | Cells introduced | In the corpus | Not in the corpus, classified | Not yet classified |",
+                  "|---|---|---|---|---|---|---|---|---|"]
         for t in order:
-            if per[t][0]:
-                lines.append("| %s | %s | %d | %d | %d |" % (t, labels.get(t, t[1:].split(".")[0]), per[t][0], per[t][1],
-                                                           per[t][0] - per[t][1]))
+            if skipped[t][0]:
+                lines.append("| %s | %s | %d | %d | %d | %d | %d | %d | %d |" % (
+                    t, labels.get(t, t[1:].split(".")[0]), *skipped[t], *per[t]))
         bad = [c for c in checks if not c["agrees"]]
         lines += ["", "The hand-assigned CAP of each cell in `corpus/cap-map.json` was checked against these dates: "
                   "%d of %d agree (a CAP's cells first appear in the protocol the CAP shipped in)%s" % (
