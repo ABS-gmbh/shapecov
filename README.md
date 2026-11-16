@@ -46,7 +46,7 @@ on a laptop. `python3 quickcheck.py --full` adds the unit tests and the mutation
 - **12 of the RFP's 18 sightings reproduced**, all in CI, each failing before its fix and passing
   after ([`harness/sightings/README.md`](harness/sightings/README.md)).
 - **Every corpus ledger is an indexer test.** The oracle derives the expected rows from the ledger;
-  every failure in wallet-backend and stellar-etl maps to a filed issue. A sweep of 611 further
+  every failure in wallet-backend, stellar-etl and Horizon maps to a filed issue. A sweep of 611 further
   network ledgers (100,676 transactions) found no new defect.
 - **Backtest on past fixes**, measured and incomplete: the harness detects 12 of wallet-backend's 18
   in-scope fixes (5 on ledgers not chosen for the bug) and flags 6 of stellar-etl's 9 in-scope issues
@@ -234,7 +234,7 @@ every other job passed, or was skipped on purpose.
   colliding map keys twice, out-of-range IDs, string bytes) and transaction decoding. Those run in
   every SDK that has the helper.
 - Coverage of the 110 schema cells no valid case reaches yet.
-- Replay adapters beyond wallet-backend and stellar-etl. Three corpus entries have hand-written
+- Replay adapters beyond wallet-backend, stellar-etl and Horizon. Three corpus entries have hand-written
   `expected.indexer` rows; the oracle checks every ledger. See `harness/replay/README.md`, "Limits".
 - CAP tags are assigned by hand from the CAP texts, then checked against the XDR history.
   stellar-xdr has no v29 tag, so cells added in protocols 29 and 30 are dated together.

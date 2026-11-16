@@ -23,8 +23,8 @@ What it reruns:
 - the unit tests of the checking scripts themselves (`tests/`).
 
 What it checks from recorded results, against their expected verdicts:
-- the wallet-backend and stellar-etl replays: each sighting fails before its fix and passes after,
-  and every oracle failure maps to a filed issue;
+- the wallet-backend, stellar-etl and Horizon replays: each sighting fails before its fix and passes
+  after, and every oracle failure maps to a filed issue;
 - the linter's report on wallet-backend;
 - the detection backtest's claims (below, "Beyond the RFP's checks").
 
