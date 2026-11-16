@@ -9,7 +9,7 @@ Filed upstream:
 | J1 | https://github.com/lightsail-network/java-stellar-sdk/issues/833 | 14 November 2026 | closed 16 November: fixed by the maintainer in java-stellar-sdk#842 (`d093810`), which closes our issue; not yet released, so 6.0.0 still has it |
 | P1 | https://github.com/StellarCN/py-stellar-base/issues/1262 | 14 November 2026 | closed: fixed in the new `stellar-xdr` package; the released SDK 17.0.1 still has it |
 | P2 | https://github.com/StellarCN/py-stellar-base/issues/1263 | 14 November 2026 | closed: fixed in the new `stellar-xdr` package; the released SDK 17.0.1 still has it |
-| E1 | https://github.com/stellar/stellar-etl/issues/512 | 15 November 2026 | open |
+| E1 | https://github.com/stellar/stellar-etl/issues/512 | 15 November 2026 | open; impact corrected on the issue on 16 November (v1 to v3 meta only; SDF's datastore not affected) |
 | E2 | https://github.com/stellar/stellar-etl/issues/513 | 16 November 2026 | open |
 | E3 | https://github.com/stellar/stellar-etl/issues/514 | 16 November 2026 | open |
 
@@ -87,6 +87,12 @@ That search can miss things; check again before filing.
   regenerated, a local or private network, or captive core of an older release. The issue's first
   "Impact" sentence, a backfill of any range before protocol 23, overstates it for SDF's own
   datastore.
+- Corrected on the issue, 16 November: the issue is retitled "export_token_transfer fails on
+  ledgers whose TransactionMeta is older than v4". A comment
+  (https://github.com/stellar/stellar-etl/issues/512#issuecomment-6923662005) states that the
+  failure follows the meta version and that SDF's datastore is not affected. It cites pubnet
+  ledgers 30,820,015, 40,000,000, 50,000,000 and 57,000,000 (protocols 13, 18, 19 and 22), with
+  v4 meta for every transaction. The text first filed is kept below as history.
 - Fix: prepared on a local branch, awaiting issue acceptance. It chooses the processor by meta
   version, so ledgers that already have v4 meta keep today's path and the integration goldens
   are unchanged.
