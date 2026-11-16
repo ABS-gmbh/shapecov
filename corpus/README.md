@@ -142,8 +142,9 @@ results, on every push.
 
 ## Limits
 
-- The entries' `caps` field is written by hand and is empty on 44 entries, most of them
-  stellar-core goldens added for the schema cells they reach. Per-CAP coverage
+- The entries' `caps` field names the CAPs of the patterns and cells an entry was added for
+  (`tools/corpus_add.py` derives it from `cap-map.json`), so it is empty on entries that brought
+  none new: many stellar-core goldens, and local-core ledgers built for a replay. Per-CAP coverage
   (`CAP-COVERAGE.md`) does not rely on it: it is computed from each entry's cells and patterns.
 - 422 of the 538 reachable cells, those a ledger reader can meet (78.4%), appear in a corpus entry,
   and 422 of the 502 that can occur in a closed ledger (84.1%) (`COVERAGE.md`: a cell is a union arm or
