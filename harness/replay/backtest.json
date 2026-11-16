@@ -584,9 +584,20 @@
    "fix": "ba821579",
    "parent": "7b7ee5f0",
    "title": "drop pool-share balances whose pool row is missing",
-   "verdict": "missed",
-   "entries": [],
-   "what_would_catch_it": "A ledger that changes a pool-share balance whose pool entry the ledger does not touch, replayed into an empty database (no such pass-2 ledger halted the parent)."
+   "verdict": "detected",
+   "entries": [
+    {
+     "entry": "localcore-pool-share-unsponsor-6",
+     "results": "pass1",
+     "blind": false,
+     "parent": {
+      "indexer: mishandled": 1,
+      "unexplained": 1
+     },
+     "fix": {}
+    }
+   ],
+   "what_would_catch_it": null
   },
   {
    "id": "666a64d4",

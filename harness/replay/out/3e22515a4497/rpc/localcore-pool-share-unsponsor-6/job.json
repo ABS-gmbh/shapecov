@@ -1,0 +1,28 @@
+{
+ "job_version": 1,
+ "entry_id": "localcore-pool-share-unsponsor-6",
+ "ref": "3e22515a4497",
+ "commit": "3e22515a44979fdc3a558fda3991ca2b48e38cef",
+ "input": "rpc",
+ "network_passphrase": "Test SDF Network ; September 2015",
+ "ledger": {
+  "seq": 6,
+  "hash": "729f11ff387321ee76b07094b66319c5bf1bd30e55580f5c35df89a4e53cbe72",
+  "close_time": 4050000000,
+  "protocol": 28
+ },
+ "rpc": {
+  "url": "http://shapecov-seq-feeder:8000/rpc/localcore-pool-share-unsponsor-6"
+ },
+ "datalake": {
+  "s3_endpoint": "http://shapecov-seq-feeder:9000",
+  "bucket_path": "shapecov-lake/localcore-pool-share-unsponsor-6",
+  "region": "us-east-1"
+ },
+ "history_archive": {
+  "url": "http://shapecov-seq-feeder:8000/archive/localcore-pool-share-unsponsor-6"
+ },
+ "docker_network": "shapecov-seq-net",
+ "timeout_seconds": 120,
+ "work_dir": "$REPLAY_WORK"
+}

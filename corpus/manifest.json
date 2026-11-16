@@ -17550,6 +17550,118 @@
     "core_golden": "not_applicable"
    },
    "sightings": []
+  },
+  {
+   "id": "localcore-pool-share-unsponsor-6",
+   "title": "Local stellar-core, scenario pool-share-unsponsor-p28: a pool-share trustline whose sponsorship is revoked",
+   "xdr_type": "LedgerCloseMeta",
+   "file": "entries/localcore-pool-share-unsponsor-6.LedgerCloseMeta.xdr.b64",
+   "sha256": "a40bc6b9488cdba0c2817bcd3db1c0bb9d95602ea7d14b1d7b0478247f0bd2ef",
+   "size_bytes": 2520,
+   "protocol_version": 28,
+   "caps": [],
+   "synthetic": false,
+   "source": {
+    "kind": "local_stellar_core",
+    "stellar_core_version": "stellar-core 30.0.0 (0e49751aa9ddf892302cca02cea7f3f5d97df9f1)",
+    "image": "stellar/stellar-core:30.0.0-3642.0e49751aa.noble",
+    "network_passphrase": "Test SDF Network ; September 2015",
+    "ledger_seq": 6,
+    "ledger_hash": "729f11ff387321ee76b07094b66319c5bf1bd30e55580f5c35df89a4e53cbe72",
+    "scenario": "pool-share-unsponsor",
+    "generator": "tools/localcore.py",
+    "notes": "Standalone network, manual close, fixed keys and close times; see the scenario in tools/localcore.py."
+   },
+   "shape": "Protocol 28. One REVOKE_SPONSORSHIP of a sponsored pool-share trustline: the trustline entry is updated (its sponsor removed, the holder's reserve now paid by the holder) and the liquidity pool entry is not touched. An indexer that writes a share balance on every pool-share trustline change, and a pool row only when the pool entry changes, writes a share balance with no pool row when it has not seen the pool before (wallet-backend ba821579).",
+   "patterns": {
+    "scval-wide-integer": "v2.txProcessing[0].txApplyProcessing.v4.events[0].event.body.v0.data"
+   },
+   "designated": {
+    "patterns": [],
+    "cells": []
+   },
+   "cells": [
+    "arm:AccountEntryExt.1",
+    "arm:AccountEntryExtensionV1Ext.2",
+    "arm:AccountEntryExtensionV2Ext.3",
+    "arm:ContractEventBody.0",
+    "arm:ExtensionPoint.0",
+    "arm:GeneralizedTransactionSet.1",
+    "arm:LedgerCloseMeta.2",
+    "arm:LedgerCloseMetaExt.0",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_STATE",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_UPDATED",
+    "arm:LedgerEntryData.ACCOUNT",
+    "arm:LedgerEntryData.TRUSTLINE",
+    "arm:LedgerEntryExt.0",
+    "arm:LedgerEntryExt.1",
+    "arm:LedgerEntryExtensionV1Ext.0",
+    "arm:LedgerHeaderExt.0",
+    "arm:LedgerHeaderHistoryEntryExt.0",
+    "arm:LedgerKey.TRUSTLINE",
+    "arm:Memo.MEMO_NONE",
+    "arm:MuxedAccount.KEY_TYPE_ED25519",
+    "arm:OperationBody.REVOKE_SPONSORSHIP",
+    "arm:OperationResult.opINNER",
+    "arm:OperationResultTr.REVOKE_SPONSORSHIP",
+    "arm:Preconditions.PRECOND_NONE",
+    "arm:PublicKey.PUBLIC_KEY_TYPE_ED25519",
+    "arm:RevokeSponsorshipOp.REVOKE_SPONSORSHIP_LEDGER_ENTRY",
+    "arm:RevokeSponsorshipResult.REVOKE_SPONSORSHIP_SUCCESS",
+    "arm:SCAddress.SC_ADDRESS_TYPE_ACCOUNT",
+    "arm:SCVal.SCV_ADDRESS",
+    "arm:SCVal.SCV_I128",
+    "arm:SCVal.SCV_SYMBOL",
+    "arm:StellarValueExt.STELLAR_VALUE_SIGNED",
+    "arm:TransactionEnvelope.ENVELOPE_TYPE_TX",
+    "arm:TransactionExt.0",
+    "arm:TransactionMeta.4",
+    "arm:TransactionPhase.0",
+    "arm:TransactionPhase.1",
+    "arm:TransactionResultExt.0",
+    "arm:TransactionResultResult.txSUCCESS",
+    "arm:TrustLineAsset.ASSET_TYPE_POOL_SHARE",
+    "arm:TrustLineEntryExt.0",
+    "arm:TxSetComponent.TXSET_COMP_TXS_MAYBE_DISCOUNTED_FEE",
+    "enum:ContractEventType.CONTRACT",
+    "enum:TransactionEventStage.TRANSACTION_EVENT_STAGE_BEFORE_ALL_TXS"
+   ],
+   "cells_new_in_protocol": [],
+   "expected": {
+    "decoded": [
+     {
+      "path": "v",
+      "value": 2
+     },
+     {
+      "path": "v2.ledgerHeader.header.ledgerSeq",
+      "value": 6
+     },
+     {
+      "path": "v2.ledgerHeader.header.ledgerVersion",
+      "value": 28
+     },
+     {
+      "path": "v2.ledgerHeader.hash",
+      "value": "729f11ff387321ee76b07094b66319c5bf1bd30e55580f5c35df89a4e53cbe72"
+     },
+     {
+      "path": "v2.ledgerHeader.header.scpValue.closeTime",
+      "value": 4050000000
+     }
+    ]
+   },
+   "validation": {
+    "independent_decoder": "not_run",
+    "rs_stellar_xdr_roundtrip": "not_run",
+    "stellar_core": {
+     "version": "30.0.0",
+     "command": "",
+     "result": "not_run"
+    },
+    "core_golden": "not_applicable"
+   },
+   "sightings": []
   }
  ]
 }

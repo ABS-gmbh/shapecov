@@ -62,6 +62,11 @@ Scenarios (one per run):
                      account 2^53 + 1 stroops, then that account (as its operation's source, signing
                      too) merges into a third, which receives a balance above 2^53. Amounts a reader
                      that keeps stroops in a float64 rounds, and a successful merge.
+  pool-share-unsponsor-p28
+                     Protocol 28, stellar-core 30.0.0. A sponsor pays the reserve of an account's
+                     pool-share trustline; in the next ledger the sponsor revokes that sponsorship. The
+                     trustline entry changes (its sponsor) and the pool entry does not. Built after
+                     reading wallet-backend ba821579.
   frozen-claim-p28   Protocol 28, stellar-core 30.0.0. A Soroban configuration upgrade freezes one
                      account's trustline (CAP-77, from protocol 26); in the next ledger that account
                      claims a claimable balance of the asset, which fails when applied with
@@ -117,7 +122,7 @@ SCENARIOS = {"muxed-source-p22": IMAGE_V22, "classic-p22": IMAGE_V22, "pools-spo
              "flags-preauth-p30": IMAGE, "muxed-source-refused-p24": IMAGE, "memo-and-offer-p30": IMAGE,
              "sac-trust-p28": IMAGE, "participants-p28": IMAGE, "failures-p30": IMAGE, "big-merge-p30": IMAGE,
              "trustline-churn-p28": IMAGE, "deployer-cb-p28": IMAGE,
-             "frozen-claim-p28": IMAGE}
+             "frozen-claim-p28": IMAGE, "pool-share-unsponsor-p28": IMAGE}
 NAME = "shapecov-localcore-gen"
 PASSPHRASES = {"testnet": "Test SDF Network ; September 2015",
                "pubnet": "Public Global Stellar Network ; September 2015"}
@@ -333,6 +338,8 @@ def main():
             sac_trust_p28(core, enc, dec, root, step, run)
         elif a.scenario == "big-merge-p30":
             big_merge_p30(core, enc, root, step, run)
+        elif a.scenario == "pool-share-unsponsor-p28":
+            pool_share_unsponsor_p28(core, enc, root, step, run)
         elif a.scenario == "frozen-claim-p28":
             frozen_claim_p28(core, enc, dec, root, step, run)
         elif a.scenario == "deployer-cb-p28":
@@ -749,6 +756,43 @@ def big_merge_p30(core, enc, root, step, run):
         raise SystemExit("the payment and merge were refused; see the diagnostics above")
     run["ledger_big_merge"] = core.close()
 
+
+
+def pool_share_unsponsor_p28(core, enc, root, step, run):
+    """A pool-share trustline that changes while its pool does not: its sponsorship is revoked."""
+    core.upgrade(28)
+    holder, sponsor = Keys("pool share holder"), Keys("pool share sponsor")
+    run["holder"], run["sponsor"] = strkey.account(holder.pub), strkey.account(sponsor.pub)
+    usd = {"type": "ASSET_TYPE_CREDIT_ALPHANUM4", "alphaNum4": {"assetCode": b"PSU\0".hex(), "issuer": root.account()}}
+    params = {"type": "LIQUIDITY_POOL_CONSTANT_PRODUCT", "constantProduct": {
+        "assetA": {"type": "ASSET_TYPE_NATIVE"}, "assetB": usd, "fee": 30}}
+    pool = hashlib.sha256(enc.encode("LiquidityPoolParameters", params)).hexdigest()
+    run["pool"] = pool
+    blob, h = envelope(enc, core, tx(root.muxed(), 1, [op("CREATE_ACCOUNT", "createAccountOp", {
+        "destination": k.account(), "startingBalance": 100_0000000}) for k in (holder, sponsor)], fee=200), root)
+    step("pool-share-unsponsor-p28: create accounts", 28, blob, h, "PENDING, applied")
+    born = core.close() << 32
+    blob, h = envelope(enc, core, tx(holder.muxed(), born + 1, [op("CHANGE_TRUST", "changeTrustOp", {
+        "line": usd, "limit": 2 ** 63 - 1})]), holder)
+    step("pool-share-unsponsor-p28: holder trusts PSU", 28, blob, h, "PENDING, applied")
+    core.close()
+    t = tx(sponsor.muxed(), born + 1, [
+        op("BEGIN_SPONSORING_FUTURE_RESERVES", "beginSponsoringFutureReservesOp", {"sponsoredID": holder.account()}),
+        op("CHANGE_TRUST", "changeTrustOp", {"line": {"type": "ASSET_TYPE_POOL_SHARE", "liquidityPool": params},
+                                             "limit": 2 ** 63 - 1}, source=holder),
+        op("END_SPONSORING_FUTURE_RESERVES", None, None, source=holder)], fee=300)
+    blob, h = envelope_multi(enc, core, t, [sponsor, holder])
+    if step("pool-share-unsponsor-p28: sponsored pool-share trustline", 28, blob, h, "PENDING, applied")["status"] != "PENDING":
+        raise SystemExit("the sponsored pool-share trustline was refused; see the diagnostics above")
+    core.close()
+    key = {"type": "TRUSTLINE", "trustLine": {"accountID": holder.account(),
+                                              "asset": {"type": "ASSET_TYPE_POOL_SHARE", "liquidityPoolID": pool}}}
+    blob, h = envelope(enc, core, tx(sponsor.muxed(), born + 2, [op("REVOKE_SPONSORSHIP", "revokeSponsorshipOp", {
+        "type": "REVOKE_SPONSORSHIP_LEDGER_ENTRY", "ledgerKey": key})]), sponsor)
+    run["tx_unsponsor"] = h
+    if step("pool-share-unsponsor-p28: revoke the sponsorship", 28, blob, h, "PENDING, applied")["status"] != "PENDING":
+        raise SystemExit("the revoke was refused; see the diagnostics above")
+    run["ledger_pool_share_unsponsor"] = core.close()
 
 
 def frozen_claim_p28(core, enc, dec, root, step, run):

@@ -96,6 +96,6 @@ corpus/manifest.json and schema/SOURCE; do not edit it by hand.
    - corpus/entries/testnet-5725684.LedgerCloseMeta.xdr.b64: testnet ledger 5725684
    - corpus/entries/testnet-5726002.LedgerCloseMeta.xdr.b64: testnet ledger 5726002
 
-Not third-party: 20 corpus entries are ledgers that ShapeCov's own scenarios (tools/localcore.py)
+Not third-party: 21 corpus entries are ledgers that ShapeCov's own scenarios (tools/localcore.py)
 made by running stellar-core's published images on a private standalone network, and 3 are values
 ShapeCov generated (tools/encode.py from corpus/values/).
