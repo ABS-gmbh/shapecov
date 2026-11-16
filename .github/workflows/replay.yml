@@ -1,30 +1,15 @@
 # The replay harness against stellar/wallet-backend: every sighting in harness/replay/sightings.json,
-# then `replay.py check`. It builds nine wallet-backend commits (about 5 minutes), so it runs on
-# pushes and pull requests that change the harness or the corpus, weekly, and on demand.
+# then `replay.py check`. It builds nine wallet-backend commits (about 5 minutes). ci.yml calls it on
+# every push to main and on pull requests and branch pushes that change the harness or the corpus,
+# so that its result is part of ci's `green` check; it also runs weekly on its own, and on demand.
 # A second job runs every ledger through stellar-etl's current master with the same oracle check.
 name: replay
 
 on:
+  workflow_call:
   workflow_dispatch:
   schedule:
     - cron: "0 4 * * 1"
-  push:
-    branches: [main]
-    paths:
-      - "harness/replay/**"
-      - "corpus/manifest.json"
-      - "corpus/entries/**"
-      - "corpus/localcore-reproducible.json"
-      - "tools/localcore*.py"
-      - "harness/sightings/**"
-  pull_request:
-    paths:
-      - "harness/replay/**"
-      - "corpus/manifest.json"
-      - "corpus/entries/**"
-      - "corpus/localcore-reproducible.json"
-      - "tools/localcore*.py"
-      - "harness/sightings/**"
 
 permissions:
   contents: read

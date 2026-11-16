@@ -197,14 +197,15 @@ inside `golang:1.26`, and `mvn dependency:copy-dependencies -DoutputDirectory=li
 ## CI
 
 Five GitHub Actions workflows in `.github/workflows/`; [`VERIFY.md`](VERIFY.md) maps each RFP check
-to its job and command.
+to its job and command. The check to look at is `green`, the last job of `ci.yml`: it passes only if
+every other job passed, or was skipped on purpose.
 
 | Workflow | When | What |
 |---|---|---|
-| `ci.yml` | every push and pull request, and weekly | One job per RFP acceptance check: the corpus against stellar-core's goldens (check 1), the linter on wallet-backend and on stellar-etl (check 3), the guide and its probes against stellar-core (check 4), every entry through six SDKs, stellar-core and the pinned-SDK and sibling behaviour checks (checks 1 and 5), the findings records (check 6). Also: the count check, the unit tests with coverage and `quickcheck.py --full` (which includes the mutation test), the security checks and the network isolation test, and the reusable workflow and linter action as other repositories call them. |
-| `replay.yml` | weekly, on demand, and on pushes and pull requests that touch the harness or the corpus | Six jobs: the RFP's wallet-backend sightings before and after their fixes (check 2), every ledger through stellar-etl, the memory budget, the local stellar-core entries regenerated on both passphrases, the Rust sightings, and the detection backtest's claims. |
+| `ci.yml` | every push and pull request, and weekly | `green`, which needs every job below. One job per RFP acceptance check: the corpus against stellar-core's goldens (check 1), the linter on wallet-backend and on stellar-etl (check 3), the guide and its probes against stellar-core (check 4), every entry through six SDKs, stellar-core and the pinned-SDK and sibling behaviour checks (checks 1 and 5), the findings records (check 6). Also: the count check, the unit tests with coverage and `quickcheck.py --full` (which includes the mutation test), the security checks and the network isolation test, and the reusable workflow and linter action as other repositories call them; `python3 quickcheck.py` as the README runs it; and `replay.yml`, on every push to main and on changes to a replay path. |
+| `replay.yml` | called by `ci.yml` (every push to main; pull requests and branch pushes that touch the harness or the corpus), weekly, and on demand | Six jobs: the RFP's wallet-backend sightings before and after their fixes (check 2), every ledger through stellar-etl, the memory budget, the local stellar-core entries regenerated on both passphrases, the Rust sightings, and the detection backtest's claims. |
 | `sdk-conformance.yml` | called by `ci.yml`, or by another repository | The corpus through one SDK at the caller's version ([`ADOPT.md`](ADOPT.md)). |
-| `release.yml` | on a version tag | The corpus archive and linter binaries, with `SHA256SUMS` and build provenance. |
+| `release.yml` | on a version tag | The corpus archive and linter binaries, with `SHA256SUMS` and build provenance; refuses a tag whose commit is not on main or has no passing `green` check. |
 | `upstream-drift.yml` | weekly | One issue per upstream release newer than the pinned one, and image tags that moved. |
 
 ## Infrastructure and maintenance

@@ -1,6 +1,8 @@
 # Checks that run on every push and pull request, and weekly. Each job is named after the RFP
 # acceptance check it covers; VERIFY.md maps every check to its job and command. RFP check 2
-# (the replay harness) runs in replay.yml.
+# (the replay harness) is replay.yml, called from here by the `replay` job: on every push to main,
+# and on a pull request or branch push only when it changes a replay path. The last job, `green`,
+# passes only if every other job passed or was skipped on purpose: it is the one check to look at.
 name: ci
 
 on:
@@ -14,7 +16,63 @@ on:
 permissions:
   contents: read
 
+# A new push to a pull request cancels the run it replaces. Runs on main are never cancelled: each
+# gets its own group.
+concurrency:
+  group: ci-${{ github.event.pull_request.number && format('pr-{0}', github.event.pull_request.number) || github.run_id }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 jobs:
+  changes:
+    name: "Changes: does this push or pull request touch a replay path?"
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    outputs:
+      replay: ${{ steps.diff.outputs.replay }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          fetch-depth: 0
+      - id: diff
+        name: git diff against the base (a pull request's base; for a branch push, its merge base with main)
+        env:
+          EVENT: ${{ github.event_name }}
+          REF: ${{ github.ref }}
+          PR_BASE: ${{ github.event.pull_request.base.sha }}
+        run: |
+          if [ "$EVENT" = "push" ] && [ "$REF" = "refs/heads/main" ]; then
+            echo "push to main: the replay always runs"; echo "replay=true" >> "$GITHUB_OUTPUT"; exit 0
+          fi
+          if [ "$EVENT" = "schedule" ] || [ "$EVENT" = "workflow_dispatch" ]; then
+            echo "$EVENT: replay.yml runs on its own schedule and by hand"; echo "replay=false" >> "$GITHUB_OUTPUT"; exit 0
+          fi
+          if [ "$EVENT" = "pull_request" ]; then base="$PR_BASE"; else base=$(git merge-base origin/main HEAD); fi
+          changed=$(git diff --name-only "$base" HEAD)
+          echo "$changed"
+          if echo "$changed" | grep -qE '^(harness/replay/|corpus/manifest\.json$|corpus/entries/|corpus/localcore-reproducible\.json$|tools/localcore[^/]*\.py$|harness/sightings/|tools/oracle\.py$)'; then
+            echo "a replay path changed: the replay runs"; echo "replay=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "no replay path changed: the replay is skipped"; echo "replay=false" >> "$GITHUB_OUTPUT"
+          fi
+
+  replay:
+    name: replay
+    needs: changes
+    if: needs.changes.outputs.replay == 'true'
+    uses: ./.github/workflows/replay.yml
+
+  quickcheck:
+    name: "Quick check: python3 quickcheck.py, as the README tells a reviewer to run it"
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+        with:
+          python-version: "3.12"
+      - run: pip install jsonschema
+      - run: python3 quickcheck.py
+
   corpus:
     name: "RFP check 1: corpus entries agree with the stellar-core --check-lcm goldens"
     runs-on: ubuntu-24.04
@@ -290,3 +348,22 @@ jobs:
         with:
           working-directory: wallet-backend
           accepted: linter/accepted/wallet-backend.json
+
+  # The one check to look at: it fails if any job above failed or was cancelled. A job skipped on
+  # purpose (the replay, when no replay path changed) counts as passed.
+  green:
+    name: green
+    if: always()
+    needs: [changes, replay, quickcheck, corpus, guide, linter, linter-stellar-etl, conformance, findings, counts,
+            unit-tests, security, reusable-conformance-js, reusable-conformance-go, linter-action]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Every job passed, or was skipped on purpose
+        env:
+          NEEDS: ${{ toJSON(needs) }}
+        run: |
+          echo "$NEEDS" | jq -r 'to_entries[] | "\(.value.result)\t\(.key)"' | sort
+          bad=$(echo "$NEEDS" | jq -r '[to_entries[] | select(.value.result != "success" and .value.result != "skipped") | .key] | join(", ")')
+          if [ -n "$bad" ]; then echo "::error::not green: $bad"; exit 1; fi
+          echo "green"

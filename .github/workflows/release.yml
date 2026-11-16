@@ -30,6 +30,7 @@ jobs:
       contents: write
       id-token: write
       attestations: write
+      checks: read
     env:
       TAG: ${{ inputs.tag || github.ref_name }}
       DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.dry-run }}
@@ -37,6 +38,22 @@ jobs:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
         with:
           ref: ${{ inputs.tag || github.ref }}
+          fetch-depth: 0
+      - name: Refuse unless the tagged commit is on main and its `green` check passed
+        if: env.DRY_RUN != 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          sha=$(git rev-parse HEAD)
+          if ! git merge-base --is-ancestor "$sha" origin/main; then
+            echo "::error::$TAG ($sha) is not on main"; exit 1
+          fi
+          ok=$(gh api "repos/$GITHUB_REPOSITORY/commits/$sha/check-runs?check_name=green" \
+                 --jq '[.check_runs[] | select(.conclusion == "success")] | length')
+          if [ "$ok" -lt 1 ]; then
+            echo "::error::$TAG ($sha) has no successful green check; see https://github.com/$GITHUB_REPOSITORY/commit/$sha/checks"; exit 1
+          fi
+          echo "$TAG ($sha) is on main and green"
       - uses: actions/setup-go@40f1582b2485089dde7abd97c1529aa768e1baff # v5.6.0
         with:
           go-version-file: linter/go.mod

@@ -33,9 +33,9 @@ GitHub Actions workflows (`.github/workflows/`):
 | Workflow | When | Permissions | Typical duration |
 |---|---|---|---|
 | `ci.yml` | every push and pull request, and weekly | `contents: read` | about 6 minutes |
-| `replay.yml` | weekly, on demand, and on pushes and pull requests that change the harness or the corpus | `contents: read` | about 5 minutes |
+| `replay.yml` | called by `ci.yml` (every push to main; pull requests and branch pushes that change the harness or the corpus), weekly, and on demand | `contents: read` | about 5 minutes |
 | `sdk-conformance.yml` | called by `ci.yml`, or by another repository (`ADOPT.md`) | `contents: read` | about 2 minutes |
-| `release.yml` | on a `v*` tag; by hand, as a dry run | `contents: write` (attach assets to the tag's release, or create it as a draft), `id-token: write` and `attestations: write` (build provenance) | about 3 minutes |
+| `release.yml` | on a `v*` tag; by hand, as a dry run | `contents: write` (attach assets to the tag's release, or create it as a draft), `id-token: write` and `attestations: write` (build provenance), `checks: read` (the tagged commit's `green` check) | about 3 minutes |
 | `upstream-drift.yml` | weekly; by hand, as a dry run | `contents: read`, `issues: write` (one issue per newer upstream release) | under a minute |
 
 The linter's composite action (`linter/action.yml`) runs with whatever permissions the calling
