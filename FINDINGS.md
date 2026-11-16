@@ -6,7 +6,7 @@ Filed upstream:
 
 | Finding | Issue | Filed | Status, 16 November |
 |---|---|---|---|
-| J1 | https://github.com/lightsail-network/java-stellar-sdk/issues/833 | 14 November 2026 | fixed: the maintainer merged his own fix, java-stellar-sdk#842, on 16 November, closing #833 |
+| J1 | https://github.com/lightsail-network/java-stellar-sdk/issues/833 | 14 November 2026 | closed 16 November: fixed by the maintainer in java-stellar-sdk#842 (`d093810`), which closes our issue; not yet released, so 6.0.0 still has it |
 | P1 | https://github.com/StellarCN/py-stellar-base/issues/1262 | 14 November 2026 | closed: fixed in the new `stellar-xdr` package; the released SDK 17.0.1 still has it |
 | P2 | https://github.com/StellarCN/py-stellar-base/issues/1263 | 14 November 2026 | closed: fixed in the new `stellar-xdr` package; the released SDK 17.0.1 still has it |
 | E1 | https://github.com/stellar/stellar-etl/issues/512 | 15 November 2026 | open |
@@ -32,9 +32,11 @@ That search can miss things; check again before filing.
   bytes. Same class as go-stellar-sdk #6039.
 - Repro: `repro/JavaTrailing.java`. `AAAAAN6tvu8=` (MEMO_NONE plus `deadbeef`) decodes and
   re-encodes to `AAAAAA==`.
-- Status, 16 November: fixed upstream. The maintainer listed the same defect as item 1 of his own
-  audit (java-stellar-sdk #835) and merged a fix, java-stellar-sdk#842, which closed #833. The
-  fix is in `master`, not yet in a release.
+- Status: closed 16 November, two days after we filed it. The maintainer fixed it in
+  java-stellar-sdk#842 (`d093810`), which closes our issue and also covers item 1 of his own
+  audit, java-stellar-sdk #835. The fix is his, not ours. It is not yet released, so 6.0.0 still
+  has the defect. Checked against the fix: of the 954 trailing-byte cases the generator makes,
+  6.0.0 accepts all and `master` at `d093810` rejects all.
 
 ### P1. Python SDK accepts non-zero XDR padding
 
