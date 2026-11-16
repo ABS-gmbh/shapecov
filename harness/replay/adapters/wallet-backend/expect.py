@@ -120,10 +120,18 @@ def participant_expectations(records, passphrase):
     operations_accounts; the adapter reads both back."""
     out = []
     for r in records:
-        out.append({"expect": "participants_within", "tx_hash": r["tx_hash"], "allowed": r["shown"],
-                    "success": r["success"],
-                    "derived_from": "oracle: addresses the %s transaction's meta shows" % ("successful" if r["success"] else "failed"),
-                    "via": {"what": "participant", "how": "outside meta", "success": r["success"]}})
+        base = {"expect": "participants_within", "tx_hash": r["tx_hash"], "allowed": r["shown"], "success": r["success"]}
+        if not r["success"]:
+            kinds = [("failed transaction", {})]
+        else:  # one check per kind, so that each kind of failure can be told apart
+            kinds = [("account participant", {"where": ["participants"], "address_kind": "G"}),
+                     ("contract participant", {"where": ["participants"], "address_kind": "C"}),
+                     ("state change", {"where": ["state_changes"]})]
+        for kind, sel in kinds:
+            out.append(dict(base, **sel,
+                            derived_from="oracle: addresses the %s transaction's meta shows (%s)" % (
+                                "successful" if r["success"] else "failed", kind),
+                            via={"what": "participant", "how": "outside meta", "kind": kind, "success": r["success"]}))
         for a in (r["changed"] if CHECK_CHANGED else []):
             out.append({"expect": "participant", "account": a, "tx_hash": r["tx_hash"],
                         "derived_from": "oracle: the transaction changes this account's entry",
@@ -162,6 +170,11 @@ def fixed_upstream():
 
 
 def known_issue(expectation, commit=None):
+    rule = known_rule(expectation, commit)
+    return rule["issue"] if rule else None
+
+
+def known_rule(expectation, commit=None):
     """The upstream issue or finding record that explains this expectation failing at `commit`,
     from known.json, or None."""
     if "rules" not in _KNOWN:
@@ -170,7 +183,7 @@ def known_issue(expectation, commit=None):
     via = expectation.get("via") or {}
     facts = {"category": expectation.get("category"), "reason": expectation.get("reason"),
              "account_kind": (expectation.get("account") or "?")[0], "op_type": via.get("op_type"),
-             "where": via.get("where"), "what": via.get("what"), "how": via.get("how")}
+             "where": via.get("where"), "what": via.get("what"), "how": via.get("how"), "kind": via.get("kind")}
     for rule in _KNOWN["rules"]:
         if rule.get("fixed_by") and not _before(commit, rule["fixed_by"]):
             continue  # a defect wallet-backend has fixed labels only the commits before its fix
@@ -181,5 +194,5 @@ def known_issue(expectation, commit=None):
                 ok = False
                 break
         if ok:
-            return rule["issue"]
+            return rule
     return None

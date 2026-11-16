@@ -47,8 +47,8 @@
  "mode": "unmodified",
  "oracle": {
   "verdict": "dropped",
-  "rows_expected": 5,
-  "rows_met": 2,
+  "rows_expected": 7,
+  "rows_met": 4,
   "known": {
    "record:R11": 1
   },
@@ -57,7 +57,10 @@
    "BALANCE_AUTHORIZATION/SET state change account=GAKLOY2E7ZEJMCPGH74PVRHMRIDZGSKVOWJEDLWCOJUYS7ME5GXPOSFS, token=CBVGR4WEKIDDTOYOWYGY2FWP7BMRSNLKUZAJAOPJGHLSTPGD2JYXTWKV, tx_hash=3739928234a57a2e5899da59d1e0ac7128d3c681f53f7c5c23d2a96dbe7a57ba: 0 row(s) stored, 1 expected"
   ],
   "fixed_upstream": {
-   "record:R11": 1
+   "R11 contract participant": 1
+  },
+  "fixed_by": {
+   "R11 contract participant": "e2da4cad"
   }
  },
  "process": {

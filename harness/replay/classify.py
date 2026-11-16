@@ -125,19 +125,27 @@ def _muxed(exp, obs):
 
 
 def _within(exp, obs):
+    """Optional filters split the check by kind: `where` is "participants" or "state_changes" (default
+    both), `address_kind` a strkey prefix such as "G" or "C" (default any)."""
     allowed = set(exp["allowed"])
+    where = exp.get("where") or ("participants", "state_changes")
+    kind = exp.get("address_kind")
     stored = {}
-    for t in obs.get("transactions") or []:
-        if t.get("hash") == exp["tx_hash"]:
-            for p in t.get("participants") or []:
-                stored.setdefault(p, "the transaction")
-    for o in obs.get("operations") or []:
-        if o.get("tx_hash") == exp["tx_hash"]:
-            for p in o.get("participants") or []:
-                stored.setdefault(p, "operation %s" % o.get("op_order"))
-    for r in obs.get("state_changes") or []:
-        if r.get("tx_hash") == exp["tx_hash"] and r.get("account"):
-            stored.setdefault(r["account"], "a %s/%s state change" % (r.get("category"), r.get("reason")))
+    if "participants" in where:
+        for t in obs.get("transactions") or []:
+            if t.get("hash") == exp["tx_hash"]:
+                for p in t.get("participants") or []:
+                    stored.setdefault(p, "the transaction")
+        for o in obs.get("operations") or []:
+            if o.get("tx_hash") == exp["tx_hash"]:
+                for p in o.get("participants") or []:
+                    stored.setdefault(p, "operation %s" % o.get("op_order"))
+    if "state_changes" in where:
+        for r in obs.get("state_changes") or []:
+            if r.get("tx_hash") == exp["tx_hash"] and r.get("account"):
+                stored.setdefault(r["account"], "a %s/%s state change" % (r.get("category"), r.get("reason")))
+    if kind:
+        stored = {p: w for p, w in stored.items() if p.startswith(kind)}
     extra = sorted(p for p in stored if p not in allowed)
     label = "addresses recorded for tx %s" % exp["tx_hash"][:12]
     if extra:

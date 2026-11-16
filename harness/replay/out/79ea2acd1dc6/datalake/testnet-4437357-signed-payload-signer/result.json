@@ -33,8 +33,8 @@
  "mode": "unmodified",
  "oracle": {
   "verdict": "mishandled",
-  "rows_expected": 43,
-  "rows_met": 40,
+  "rows_expected": 65,
+  "rows_met": 62,
   "known": {
    "record:R11": 2
   },
@@ -42,7 +42,12 @@
    "SIGNER/ADD state change account=GBCK2RYYLIYOSHBEL2FQLAVRSHRH3GP3ID476SGKBV7BEZHMQ6NSBB7B, signer_key=PBCK2RYYLIYOSHBEL2FQLAVRSHRH3GP3ID476SGKBV7BEZHMQ6NSAAAAAAB55LN6AANMS, tx_hash=d9f78749cd01297cd5f22c7f2c798c9eec93d56f399e1c4cc2f8977ca52b9fed: signer_key is stored truncated: 33 of 41 bytes (7844ad47185a30e91c245e8b0582b191e27d99fb40f9ff48ca0d7e1264ec879b20); it reads back as PBCK2RYYLIYOSHBEL2FQLAVRSHRH3GP3ID476SGKBV7BEZHMQ6NSBYVM, expected PBCK2RYYLIYOSHBEL2FQLAVRSHRH3GP3ID476SGKBV7BEZHMQ6NSAAAAAAB55LN6AANMS"
   ],
   "fixed_upstream": {
-   "record:R11": 2
+   "R11 failed transaction": 1,
+   "R11 contract participant": 1
+  },
+  "fixed_by": {
+   "R11 failed transaction": "9538b3ca",
+   "R11 contract participant": "e2da4cad"
   }
  },
  "process": {

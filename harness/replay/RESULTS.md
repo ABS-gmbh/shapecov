@@ -240,24 +240,24 @@ checked. A failure is labelled with the open upstream issue that explains it
 
 | Commit | Input | Replays | Rows expected | Rows met | Known issues | Unexplained |
 |---|---|---|---|---|---|---|
-| `79ea2acd` | rpc | 2 | 47 | 42 | record:R11 (3), wallet-backend#815 (1) | 1 |
-| `79ea2acd` | datalake | 2 | 47 | 42 | record:R11 (3), wallet-backend#815 (1) | 1 |
-| `6e5a5910` | rpc | 2 | 47 | 0 | none | 2 |
-| `6e5a5910` | datalake | 2 | 47 | 0 | none | 2 |
-| `2a0a84ea` | rpc | 1 | 43 | 0 | none | 1 |
-| `2a0a84ea` | datalake | 1 | 43 | 0 | none | 1 |
-| `2c873353` | rpc | 1 | 43 | 41 | record:R11 (2) | 0 |
-| `2c873353` | datalake | 1 | 43 | 41 | record:R11 (2) | 0 |
-| `764a4f5b` | rpc | 1 | 5 | 2 | record:R11 (1) | 2 |
-| `764a4f5b` | datalake | 1 | 5 | 2 | record:R11 (1) | 2 |
-| `c152783c` | rpc | 1 | 5 | 4 | record:R11 (1) | 0 |
-| `c152783c` | datalake | 1 | 5 | 4 | record:R11 (1) | 0 |
-| `f8e5786d` | rpc | 1 | 4 | 0 | none | 1 |
-| `f8e5786d` | datalake | 1 | 4 | 0 | none | 1 |
-| `bb0b162b` | rpc | 1 | 4 | 3 | wallet-backend#815 (1) | 0 |
-| `bb0b162b` | datalake | 1 | 4 | 3 | wallet-backend#815 (1) | 0 |
-| `3e22515a` | rpc | 87 | 18929 | 18912 | wallet-backend#677 (6), wallet-backend#815 (6), wallet-backend#816 (3), wallet-backend#817 (2) | 0 |
-| `3e22515a` | datalake | 87 | 18929 | 18912 | wallet-backend#677 (6), wallet-backend#815 (6), wallet-backend#816 (3), wallet-backend#817 (2) | 0 |
+| `79ea2acd` | rpc | 2 | 71 | 67 | record:R11 (2), wallet-backend#815 (1) | 1 |
+| `79ea2acd` | datalake | 2 | 71 | 67 | record:R11 (2), wallet-backend#815 (1) | 1 |
+| `6e5a5910` | rpc | 2 | 71 | 0 | none | 2 |
+| `6e5a5910` | datalake | 2 | 71 | 0 | none | 2 |
+| `2a0a84ea` | rpc | 1 | 65 | 0 | none | 1 |
+| `2a0a84ea` | datalake | 1 | 65 | 0 | none | 1 |
+| `2c873353` | rpc | 1 | 65 | 63 | record:R11 (2) | 0 |
+| `2c873353` | datalake | 1 | 65 | 63 | record:R11 (2) | 0 |
+| `764a4f5b` | rpc | 1 | 7 | 4 | record:R11 (1) | 2 |
+| `764a4f5b` | datalake | 1 | 7 | 4 | record:R11 (1) | 2 |
+| `c152783c` | rpc | 1 | 7 | 6 | record:R11 (1) | 0 |
+| `c152783c` | datalake | 1 | 7 | 6 | record:R11 (1) | 0 |
+| `f8e5786d` | rpc | 1 | 6 | 0 | none | 1 |
+| `f8e5786d` | datalake | 1 | 6 | 0 | none | 1 |
+| `bb0b162b` | rpc | 1 | 6 | 5 | wallet-backend#815 (1) | 0 |
+| `bb0b162b` | datalake | 1 | 6 | 5 | wallet-backend#815 (1) | 0 |
+| `3e22515a` | rpc | 87 | 23793 | 23776 | wallet-backend#677 (6), wallet-backend#815 (6), wallet-backend#816 (3), wallet-backend#817 (2) | 0 |
+| `3e22515a` | datalake | 87 | 23793 | 23776 | wallet-backend#677 (6), wallet-backend#815 (6), wallet-backend#816 (3), wallet-backend#817 (2) | 0 |
 
 Failures that are a claimed sighting (found by the oracle alone, without the manifest's expectation):
 

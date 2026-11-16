@@ -44,14 +44,17 @@
  "mode": "unmodified",
  "oracle": {
   "verdict": "known issues only",
-  "rows_expected": 5,
-  "rows_met": 4,
+  "rows_expected": 7,
+  "rows_met": 6,
   "known": {
    "record:R11": 1
   },
   "unexplained": [],
   "fixed_upstream": {
-   "record:R11": 1
+   "R11 contract participant": 1
+  },
+  "fixed_by": {
+   "R11 contract participant": "e2da4cad"
   }
  },
  "process": {

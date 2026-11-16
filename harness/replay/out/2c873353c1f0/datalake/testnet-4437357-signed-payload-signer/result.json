@@ -30,14 +30,19 @@
  "mode": "unmodified",
  "oracle": {
   "verdict": "known issues only",
-  "rows_expected": 43,
-  "rows_met": 41,
+  "rows_expected": 65,
+  "rows_met": 63,
   "known": {
    "record:R11": 2
   },
   "unexplained": [],
   "fixed_upstream": {
-   "record:R11": 2
+   "R11 failed transaction": 1,
+   "R11 contract participant": 1
+  },
+  "fixed_by": {
+   "R11 failed transaction": "9538b3ca",
+   "R11 contract participant": "e2da4cad"
   }
  },
  "process": {

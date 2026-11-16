@@ -11,13 +11,23 @@ verifies every row of `backtest.json` against the recorded results.
 
 ## Method
 
-- **What counts as a detection.** A fix is detected when a ledger has a failure at the parent that
-  is gone, or smaller, at the fix. The failures compared are the indexer's own result
-  (`mishandled` or `dropped`), the number of oracle failures no known issue explains, and the number
-  under each label of a defect the indexer fixed later (R11). Counting matters twice: R11 spans
-  three fixes, so 9538b3c removes only part of it; and a ledger can carry a later fix's failure at
-  both the parent and the fix of an earlier one. A fix whose failure changes form but persists
-  is not a detection.
+- **What counts as a detection.** A fix is detected on a ledger when, at the parent, the ledger has
+  failures that bear on the fix, and at the fix it has none. The failures that bear on a fix are
+  the indexer's own result (`mishandled` or `dropped`), the oracle failures no known issue
+  explains, and the oracle failures of the kind this fix removes. Failures present on both sides
+  of a fix and attributed to a different fix (`known.json` `fixed_by`) or to an open issue are
+  ignored for that fix. A fix whose parent ingested a ledger that the fix then halts on never
+  counts: the failure changed form, and the fix's oracle failures are unknown, not gone. Each
+  detecting ledger's counts at the parent and at the fix are recorded in `backtest.json`, shown in
+  the table as "parent → fix", and checked by `replay.py backtest`.
+- **One record, four kinds.** wallet-backend fixed taking participants from the envelope in three
+  commits with no issue (record R11). The participant rule tells four kinds of its failures
+  apart, and each belongs to one fix: a failed transaction's addresses and an account only an
+  unmatched authorization entry names (9538b3c), a state change for a contract a declared deploy
+  would have created (80121f3), and a contract participant the meta never shows (e2da4ca). At
+  666a64d, 9538b3c, 80121f3 and e2da4ca the pass-1 corpus counts are: failed transaction
+  241, 0, 0, 0; account participant 2, 0, 0, 0; state change 1, 1, 0, 0; contract participant
+  128, 128, 127, 0.
 - **Blind or not.** A detection is *blind* when the ledger that shows it was not chosen or built
   with knowledge of that fix: network ledgers picked by stride or by schema-cell cover. A detection
   on an entry built or selected after reading the fix or its issue is labelled "confirmed after
@@ -66,18 +76,18 @@ per run).
 | `666717aa` | wallet-backend#641 | fold fee-phase changes into native balances | 12 / — | missed | Read account balances (the accounts table), which the adapter does not, plus a ledger where an account's XLM moves only in the fee phase: a fee bump whose fee source does nothing else (1,005 fee bumps are in the corpus). |
 | `bd545417` | wallet-backend#687 | keep a same-ledger REMOVE so deletes are never lost | 12 / — | missed | Read the current-state tables (trustlines, pool shares, SAC balances), plus a ledger that creates and removes the same entry: a local-core scenario adding and removing one trustline in one ledger. |
 | `6e5a5910` | wallet-backend#693 | reduce muxed addresses to their base account | 12 / 59 | missed | Not a detection by the rule: on `localcore-muxed-source-p22-3` the failure changes form at the fix (a truncated muxed address becomes a duplicate-key halt) and passes only from `bb0b162b`. |
-| `22660cf4` | wallet-backend#695 | verify SAC before recording contract balances | 12 / 59 | **detected, blind** | pass 1: `pubnet-59220000`, `pubnet-61240000`; pass 2: 31 of 59 sweep ledgers |
-| `2c873353` | wallet-backend#729 | handle CAP-40 signed-payload signers | 12 / 59 | **detected, confirmed after reading the fix** | pass 1: `testnet-4437357-signed-payload-signer` (chosen or built after reading the fix) |
-| `c152783c` | wallet-backend#734 | record SAC-created trustline state changes (#731) | 12 / 59 | **detected, blind** | pass 1: `localcore-sac-trust-p28-5` (chosen or built after reading the fix), `pubnet-63920000`; pass 2: 1 of 59 sweep ledgers |
+| `22660cf4` | wallet-backend#695 | verify SAC before recording contract balances | 12 / 59 | **detected, blind** | pass 1: `pubnet-59220000` (mishandled 1, unexplained 1 → none), `pubnet-61240000` (mishandled 1, unexplained 1 → none); pass 2: 31 of 59 sweep ledgers (together mishandled 31, unexplained 31 → none) |
+| `2c873353` | wallet-backend#729 | handle CAP-40 signed-payload signers | 12 / 59 | **detected, confirmed after reading the fix** | pass 1: `testnet-4437357-signed-payload-signer` (mishandled 1, unexplained 1 → none; built after reading the fix) |
+| `c152783c` | wallet-backend#734 | record SAC-created trustline state changes (#731) | 12 / 59 | **detected, blind** | pass 1: `localcore-sac-trust-p28-5` (dropped 1, unexplained 2 → none; built after reading the fix), `pubnet-63920000` (unexplained 2 → none); pass 2: 1 of 59 sweep ledgers (together unexplained 2 → none) |
 | `ce0820d7` | wallet-backend#745 | skip contract deploys from unstorable ScAddress kinds | 12 / 59 | missed | A create-contract whose deployer address is a claimable balance or a liquidity pool (protocol 23 or later), as the root host function and inside an auth entry: a local-core scenario at protocol 23 to 28. |
 | `490aab41` | — | key the buffer's canonical transactions by ToID, not hash | 12 / 59 | missed | The same envelope at two positions of one ingest batch. The harness replays one ledger per run, so this needs multi-ledger replay. |
-| `bb0b162b` | wallet-backend#753 | reduce a Soroban operation's source to its base account | 12 / 59 | **detected, confirmed after reading the fix** | pass 1: `localcore-muxed-source-p22-3` (chosen or built after reading the fix) |
+| `bb0b162b` | wallet-backend#753 | reduce a Soroban operation's source to its base account | 12 / 59 | **detected, confirmed after reading the fix** | pass 1: `localcore-muxed-source-p22-3` (mishandled 1, unexplained 1 → none; built after reading the fix) |
 | `7b7ee5f0` | — | map the three frozen-trustline operation result codes | 12 / 59 | missed | A claim, deposit or withdraw failing on a frozen trustline at protocol 26 to 28. The corpus has them only at protocol 30 (`golden-frozenledgerkeys-a0fb94c3-15`, `-d637d647-16`), which the commits before the fix cannot decode: a local-core scenario that freezes a trustline at protocol 26 to 28. |
 | `ba821579` | — | drop pool-share balances whose pool row is missing | 12 / 59 | missed | A ledger that changes a pool-share balance whose pool entry the ledger does not touch, replayed into an empty database (no such pass-2 ledger halted the parent). |
 | `666a64d4` | — | skip events whose address kind an account column cannot store | 12 / 59 | missed | A SEP-41 or SAC event whose address topic is a claimable balance or a liquidity pool (protocol 23 or later): a local-core scenario with a token contract that emits one. |
-| `9538b3ca` | — | derive Soroban participants from executed meta, not the auth tree | 14 / 59 | **detected, blind** | pass 1: `localcore-planted-auth-5` (chosen or built after reading the fix), `pubnet-59220000`, `pubnet-60280000`, `pubnet-61240000`, `pubnet-63920000`, `testnet-4437357-signed-payload-signer`; pass 2: 55 of 59 sweep ledgers |
-| `80121f3a` | — | record a declared nested deploy only when the meta shows it happened | 14 / 59 | **detected, confirmed after reading the fix** | pass 1: `localcore-declared-deploy-6` (chosen or built after reading the fix) |
-| `e2da4cad` | — | a Soroban participant is an address that authorised the operation | 14 / 59 | **detected, blind** | pass 1: `localcore-sac-trust-p28-5`, `pubnet-59220000`, `pubnet-60280000`, `pubnet-61240000`, `pubnet-63920000`, `testnet-4437357-signed-payload-signer`; pass 2: 51 of 59 sweep ledgers |
+| `9538b3ca` | — | derive Soroban participants from executed meta, not the auth tree | 14 / 59 | **detected, blind** | pass 1: `localcore-declared-deploy-6` (account participant 1 → none; built after reading the fix), `localcore-planted-auth-5` (account participant 1 → none; built after reading the fix), `pubnet-59220000` (failed transaction 20 → none), `pubnet-60280000` (failed transaction 61 → none), `pubnet-61240000` (failed transaction 56 → none), `pubnet-63920000` (failed transaction 103 → none), `testnet-4437357-signed-payload-signer` (failed transaction 1 → none); pass 2: 55 of 59 sweep ledgers (together account participant 8, failed transaction 5583 → none) |
+| `80121f3a` | — | record a declared nested deploy only when the meta shows it happened | 14 / 59 | **detected, confirmed after reading the fix** | pass 1: `localcore-declared-deploy-6` (state change 1 → none; built after reading the fix) |
+| `e2da4cad` | — | a Soroban participant is an address that authorised the operation | 14 / 59 | **detected, blind** | pass 1: `localcore-sac-trust-p28-5` (contract participant 1 → none), `pubnet-59220000` (contract participant 2 → none), `pubnet-60280000` (contract participant 6 → none), `pubnet-61240000` (contract participant 99 → none), `pubnet-63920000` (contract participant 18 → none), `testnet-4437357-signed-payload-signer` (contract participant 1 → none); pass 2: 51 of 59 sweep ledgers (together contract participant 757 → none) |
 | `ff73ff46` | wallet-backend#803 | validate Blend pool name bytes and length on decode | 64 / 59 | missed | A Blend pool whose name is not valid UTF-8 or longer than the cap. Blend state is outside the oracle's model; needs a Blend deployment in a local-core scenario. |
 | `3e22515a` | wallet-backend#802 | cap Blend decimals at 70 | 64 / 59 | missed | A Blend pool whose reserve config has decimals above 70; same as above. |
 

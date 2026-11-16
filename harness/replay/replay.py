@@ -141,7 +141,7 @@ def oracle_verdict(entry, obs, mapping, value):
         _EXPS[key] = (value, exps)  # holding the value keeps id(value) from being reused
     exps = copy.deepcopy(_EXPS[key][1])
     c = classify.classify(exps, obs)
-    known, unexplained = {}, []
+    known, unexplained, fixed, fixed_by = {}, [], {}, {}
     if not obs.get("ingested"):
         # Every check is moot when the indexer did not take the ledger: that failure is itself the
         # finding, unless a known issue explains it.
@@ -172,6 +172,11 @@ def oracle_verdict(entry, obs, mapping, value):
         issue = _known(mapping, ch["expect"], obs)
         if issue:
             known.setdefault(issue, []).append(ch["detail"])
+            rule = mapping.known_rule(ch["expect"], commit=obs.get("commit")) if hasattr(mapping, "known_rule") else None
+            if rule and rule.get("fixed_by"):
+                # A defect fixed later: counted per rule, i.e. per kind of failure and the fix it belongs to.
+                fixed[rule["kind"]] = fixed.get(rule["kind"], 0) + 1
+                fixed_by[rule["kind"]] = rule["fixed_by"][:8]
         else:
             unexplained.append(ch["detail"])
     met = sum(1 for ch in c["checks"] if ch["outcome"] == "met")
@@ -184,9 +189,9 @@ def oracle_verdict(entry, obs, mapping, value):
         verdict = "pass" if not known else "known issues only"
     out = {"verdict": verdict, "rows_expected": len(exps), "rows_met": met,
            "known": {k: len(v) for k, v in known.items()}, "unexplained": unexplained}
-    fixed = mapping.fixed_upstream() if hasattr(mapping, "fixed_upstream") else set()
-    if any(k in fixed for k in known):
-        out["fixed_upstream"] = {k: len(v) for k, v in known.items() if k in fixed}
+    if fixed:
+        out["fixed_upstream"] = fixed
+        out["fixed_by"] = fixed_by
     return out
 
 
@@ -586,9 +591,11 @@ def _failing(r):
     return bool(_failures(r))
 
 
-def _failures(r):
-    """The failures of one replay, counted by kind: the indexer's own result when it is not `pass`,
-    the unexplained oracle failures, and the oracle failures under each fixed-upstream label."""
+def _failures(r, fix=None):
+    """The failures of one replay that bear on `fix` (a commit), counted by kind: the indexer's own
+    result when it is not `pass`, the unexplained oracle failures, and the oracle failures of each
+    known.json kind wallet-backend fixed in that commit. Failures attributed to another fix, or to an
+    open issue, are left out: they say nothing about this one."""
     o = r.get("oracle") or {}
     out = {}
     if r["result"] in ("mishandled", "dropped"):
@@ -596,25 +603,25 @@ def _failures(r):
     n = o.get("unexplained_count", len(o.get("unexplained") or []))
     if n:
         out["unexplained"] = n
-    for label, k in (o.get("fixed_upstream") or {}).items():
-        out[label] = k
+    for kind, k in (o.get("fixed_upstream") or {}).items():
+        if fix is None or (o.get("fixed_by") or {}).get(kind, "")[:8] == fix[:8]:
+            out[kind] = k
     return out
 
 
-def _fixed_by(parent, fix):
-    """A fix removes a failure when some kind of failure at the parent is gone, or fewer, at the fix.
-    (Comparing counts, not just failing or passing, matters when one label spans several fixes, and
-    when a later fix's failure is present on both sides.)"""
-    if parent.get("ingested", True) and not fix.get("ingested", True):
-        return False  # the fix halts where the parent ingested: the failure changed form, and the
-        #               fix's oracle failures are unknown, not gone
-    p, f = _failures(parent), _failures(fix)
-    return any(n > f.get(k, 0) for k, n in p.items())
+def _fixed_by(parent, fix_result, fix):
+    """A fix is detected on a ledger when the ledger has failures bearing on the fix at its parent and
+    none at the fix. A fix that halts on a ledger its parent ingested never counts: the failure changed
+    form, and the fix's oracle failures are unknown, not gone."""
+    if parent.get("ingested", True) and not fix_result.get("ingested", True):
+        return False
+    return bool(_failures(parent, fix)) and not _failures(fix_result, fix)
 
 
 def cmd_backtest(a):
     """Verify backtest.json against recorded results: every "detected" claim must show each named
-    entry with a failure at the parent that the fix removes (_fixed_by) (or, for an open issue with no fix, flagged
+    entry with failures bearing on the fix at the parent and none at the fix (_fixed_by), with the
+    counts recorded in the claim (or, for an open issue with no fix, flagged
     with that issue at the commit named in "at"); every "missed" claim must have no recorded entry
     that does. Prints the table and K of N per pipeline; exits 1 on any claim that does not hold."""
     spec = json.load(open(os.path.join(HERE, "backtest.json")))
@@ -637,11 +644,15 @@ def cmd_backtest(a):
         else:
             p, f = it["parent"][:8], it["fix"][:8]
             flips = sorted("%s:%s" % (src, e) for (src, c, e), r in results.items()
-                           if c == p and (src, f, e) in results and _fixed_by(r, results[(src, f, e)]))
+                           if c == p and (src, f, e) in results and _fixed_by(r, results[(src, f, e)], f))
+            counts = {"%s:%s" % (src, e): {"parent": _failures(r, f), "fix": _failures(results[(src, f, e)], f)}
+                      for (src, c, e), r in results.items() if c == p and (src, f, e) in results}
         if it["verdict"] == "detected":
             for claim in it["entries"]:
                 key = "%s:%s" % (claim["results"], claim["entry"])
                 ok &= key in flips
+                if "parent" in claim and not it.get("at"):  # the recorded counts must be the replays'
+                    ok &= counts.get(key) == {"parent": claim["parent"], "fix": claim["fix"]}
         elif it["verdict"] == "missed":
             ok = not flips
         t = tally.setdefault(it["pipeline"], {"detected": 0, "blind": 0, "in_scope": 0})

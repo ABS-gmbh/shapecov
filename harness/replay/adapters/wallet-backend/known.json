@@ -52,20 +52,55 @@
    }
   },
   {
-   "issue": "record:R11",
-   "fixed_by": "e2da4cadf2689380e9fc2dd0e1bce64191f411b8",
-   "title": "Participants taken from the envelope (failed-transaction destinations, unmatched authorization entries, declared-only deploys, invoked contracts); fixed upstream in 9538b3c, 80121f3 and e2da4ca with no issue",
-   "match": {
-    "what": "participant",
-    "how": "outside meta"
-   }
-  },
-  {
    "issue": "stellar/wallet-backend#677",
    "title": "Transaction meta participants are silently dropped: participantsForMeta reads only TransactionMeta's v0 arm, so an account an operation changes but does not name (a sponsor whose sponsorship ends, the maker of an offer taken whole) is not a transaction participant",
    "match": {
     "what": "participant",
     "how": "account changed"
+   }
+  },
+  {
+   "issue": "record:R11",
+   "kind": "R11 failed transaction",
+   "fixed_by": "9538b3caeaebfeb3d034146c0ce9643c3066cf8a",
+   "title": "Participants taken from the envelope: a failed transaction's operations: payment destinations and other addresses its envelope names (fixed in 9538b3c)",
+   "match": {
+    "what": "participant",
+    "how": "outside meta",
+    "kind": "failed transaction"
+   }
+  },
+  {
+   "issue": "record:R11",
+   "kind": "R11 account participant",
+   "fixed_by": "9538b3caeaebfeb3d034146c0ce9643c3066cf8a",
+   "title": "Participants taken from the envelope: an account only an authorization entry names, which no require_auth matched (fixed in 9538b3c)",
+   "match": {
+    "what": "participant",
+    "how": "outside meta",
+    "kind": "account participant"
+   }
+  },
+  {
+   "issue": "record:R11",
+   "kind": "R11 contract participant",
+   "fixed_by": "e2da4cadf2689380e9fc2dd0e1bce64191f411b8",
+   "title": "Participants taken from the envelope: a contract the meta never shows: the invoked contract, event emitters, a declared deploy (fixed in e2da4ca)",
+   "match": {
+    "what": "participant",
+    "how": "outside meta",
+    "kind": "contract participant"
+   }
+  },
+  {
+   "issue": "record:R11",
+   "kind": "R11 state change",
+   "fixed_by": "80121f3abe0fcdf6487d123e940de2631c1210b2",
+   "title": "Participants taken from the envelope: a state change for a contract a declared deploy would have created, which the meta does not create (fixed in 80121f3)",
+   "match": {
+    "what": "participant",
+    "how": "outside meta",
+    "kind": "state change"
    }
   }
  ]

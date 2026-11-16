@@ -34,16 +34,12 @@
  "mode": "unmodified",
  "oracle": {
   "verdict": "known issues only",
-  "rows_expected": 4,
-  "rows_met": 2,
+  "rows_expected": 6,
+  "rows_met": 5,
   "known": {
-   "stellar/wallet-backend#815": 1,
-   "record:R11": 1
+   "stellar/wallet-backend#815": 1
   },
-  "unexplained": [],
-  "fixed_upstream": {
-   "record:R11": 1
-  }
+  "unexplained": []
  },
  "process": {
   "exit_code": 0,
