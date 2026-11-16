@@ -219,6 +219,16 @@ def balance_expectations(records, passphrase):
     return out
 
 
+def muxed_expectations(records, passphrase):
+    """One muxed_destination expectation per CAP-67 transfer or mint event that names `to_muxed_id`:
+    stellar-etl's token transfer row for that receipt must carry the muxed address for an integer ID,
+    and none for a text or hash memo."""
+    return [{"expect": "muxed_destination", "tx_hash": m["tx_hash"], "op_order": m["where"] + 1,
+             "account": m["account"], "muxed": m["muxed"], "amount": m.get("amount"),
+             "derived_from": "oracle: to_muxed_id %s (op %d)" % (m["kind"], m["where"]),
+             "via": {"where": m["where"], "what": "muxed", "how": m["kind"]}} for m in records]
+
+
 _KNOWN = {}
 
 

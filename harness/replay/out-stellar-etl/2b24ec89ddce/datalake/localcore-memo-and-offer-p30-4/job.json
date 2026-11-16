@@ -7,8 +7,8 @@
  "network_passphrase": "Test SDF Network ; September 2015",
  "ledger": {
   "seq": 4,
-  "hash": "8c05d21ccf2b44566dfb920c2e8b8939f52d29780ffe582d6afae52cfc295701",
-  "close_time": 1600392989,
+  "hash": "92e773ea688672510394221d2a4bba2a8c703101d903c291e8d765fbb8c0703c",
+  "close_time": 4030000000,
   "protocol": 30
  },
  "rpc": {
@@ -23,6 +23,6 @@
   "url": "http://shapecov-replay-feeder:8000/archive/localcore-memo-and-offer-p30-4"
  },
  "docker_network": "shapecov-replay-net",
- "timeout_seconds": 60,
+ "timeout_seconds": 120,
  "work_dir": "$REPLAY_WORK"
 }

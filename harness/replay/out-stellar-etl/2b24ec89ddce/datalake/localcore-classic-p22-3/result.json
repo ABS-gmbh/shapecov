@@ -11,13 +11,13 @@
  "ingested": false,
  "input": "datalake",
  "ledger": {
-  "close_time": 1600179123,
-  "hash": "cb603358e317b0b635e62f91dca37a3d53bf32e8b459bd599cdb7d3cb09dd1b5",
+  "close_time": 4020000000,
+  "hash": "fe3f0b86389c8b8e3d179d2a03ef91924b205d7f9527ebcb41020b92e4a3f1a1",
   "protocol": 22,
   "seq": 3
  },
  "mishandled": [
-  "the indexer raised an error on this ledger and did not ingest it: token_transfer exited 1: time=\"2026-11-15T22:53:07.122Z\" level=fatal msg=\"could not transform token transfers for ledger 3: error reading from unified events stream, expected version 4 got 3\" pid=35"
+  "the indexer raised an error on this ledger and did not ingest it: token_transfer exited 1: time=\"2026-11-16T17:25:50.826Z\" level=fatal msg=\"could not transform token transfers for ledger 3: error reading from unified events stream, expected version 4 got 3\" pid=37"
  ],
  "mode": "unmodified",
  "oracle": {
@@ -43,5 +43,5 @@
   "transactions": 1
  },
  "sdk_pin": "v0.8.1-0.20261106081502-e31e3b146d00",
- "seconds": 1.1
+ "seconds": 1.6
 }

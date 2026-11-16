@@ -10,40 +10,40 @@
  "adapter_failure": false,
  "transactions": [
   {
-   "hash": "be633e1fa5e5da902a7fc85a2c9f3a13dd8de3b8bc66022f36e190d2a313a92b",
+   "hash": "d7f13aea2d65f8100761c57e55e5c41060df4701e5afe36a8e4c3eded542971f",
    "tx_order": 1,
-   "result_code": "TransactionResultCodeTxSuccess",
-   "successful": true,
+   "result_code": "TransactionResultCodeTxFailed",
+   "successful": false,
    "participants": []
   },
   {
-   "hash": "d7f13aea2d65f8100761c57e55e5c41060df4701e5afe36a8e4c3eded542971f",
+   "hash": "be633e1fa5e5da902a7fc85a2c9f3a13dd8de3b8bc66022f36e190d2a313a92b",
    "tx_order": 2,
-   "result_code": "TransactionResultCodeTxFailed",
-   "successful": false,
+   "result_code": "TransactionResultCodeTxSuccess",
+   "successful": true,
    "participants": []
   }
  ],
  "operations": [
   {
-   "tx_hash": "be633e1fa5e5da902a7fc85a2c9f3a13dd8de3b8bc66022f36e190d2a313a92b",
+   "tx_hash": "d7f13aea2d65f8100761c57e55e5c41060df4701e5afe36a8e4c3eded542971f",
    "tx_order": 1,
    "op_order": 1,
-   "type": "payment",
+   "type": "manage_sell_offer",
    "participants": []
   },
   {
-   "tx_hash": "d7f13aea2d65f8100761c57e55e5c41060df4701e5afe36a8e4c3eded542971f",
+   "tx_hash": "be633e1fa5e5da902a7fc85a2c9f3a13dd8de3b8bc66022f36e190d2a313a92b",
    "tx_order": 2,
    "op_order": 1,
-   "type": "manage_sell_offer",
+   "type": "payment",
    "participants": []
   }
  ],
  "state_changes": [
   {
    "tx_hash": "be633e1fa5e5da902a7fc85a2c9f3a13dd8de3b8bc66022f36e190d2a313a92b",
-   "tx_order": 1,
+   "tx_order": 2,
    "op_order": 1,
    "category": "EFFECT",
    "reason": "account_credited",
@@ -59,7 +59,7 @@
   },
   {
    "tx_hash": "be633e1fa5e5da902a7fc85a2c9f3a13dd8de3b8bc66022f36e190d2a313a92b",
-   "tx_order": 1,
+   "tx_order": 2,
    "op_order": 1,
    "category": "EFFECT",
    "reason": "account_debited",
@@ -76,21 +76,23 @@
  ],
  "balance_movements": [
   {
-   "tx_hash": "be633e1fa5e5da902a7fc85a2c9f3a13dd8de3b8bc66022f36e190d2a313a92b",
-   "op_order": 0,
-   "account": "GBRPYHIL2CI3FNQ4BXLFMNDLFJUNPU2HY3ZMFSHONUCEOASW7QC7OX2H",
-   "token": "CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC",
-   "delta": -100,
-   "token_kind": "asset",
-   "event": "fee"
-  },
-  {
    "tx_hash": "d7f13aea2d65f8100761c57e55e5c41060df4701e5afe36a8e4c3eded542971f",
    "op_order": 0,
    "account": "GBYOSWSKNHG2N2WAPP44KG5XUAAQX2GJQPG2BB5N4LNG4PODTATCK2IX",
    "token": "CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC",
    "delta": -100,
    "token_kind": "asset",
+   "to_muxed": null,
+   "event": "fee"
+  },
+  {
+   "tx_hash": "be633e1fa5e5da902a7fc85a2c9f3a13dd8de3b8bc66022f36e190d2a313a92b",
+   "op_order": 0,
+   "account": "GBRPYHIL2CI3FNQ4BXLFMNDLFJUNPU2HY3ZMFSHONUCEOASW7QC7OX2H",
+   "token": "CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC",
+   "delta": -100,
+   "token_kind": "asset",
+   "to_muxed": null,
    "event": "fee"
   },
   {
@@ -100,6 +102,7 @@
    "token": "CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC",
    "delta": -10000000,
    "token_kind": "asset",
+   "to_muxed": null,
    "event": "transfer"
   },
   {
@@ -109,6 +112,7 @@
    "token": "CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC",
    "delta": 10000000,
    "token_kind": "asset",
+   "to_muxed": "MBYOSWSKNHG2N2WAPP44KG5XUAAQX2GJQPG2BB5N4LNG4PODTATCKAAAAAAAAAAAAC62A",
    "event": "transfer"
   }
  ],
@@ -119,7 +123,7 @@
   "effects": 2,
   "token_transfer": 3
  },
- "seconds": 1.1,
+ "seconds": 1.9,
  "process": {
   "outcome": "exited",
   "exit_code": 0

@@ -1,43 +1,45 @@
 {
- "entry_id": "pubnet-60280000",
  "adapter": "stellar-etl",
- "ref": "master",
- "commit": "2b24ec89ddce7fc0beb7795de982c93e6895eaf3",
- "input": "datalake",
- "protocol_version": 24,
- "sdk_pin": "v0.8.1-0.20261106081502-e31e3b146d00",
- "mode": "unmodified",
- "result": "pass",
- "mishandled": [],
- "dropped": [],
  "checks": [],
+ "commit": "2b24ec89ddce7fc0beb7795de982c93e6895eaf3",
+ "dropped": [],
+ "entry_id": "pubnet-60280000",
+ "evidence": "out-stellar-etl/2b24ec89ddce/datalake/pubnet-60280000",
  "expectations": 0,
  "expectations_source": "none (implicit checks only)",
- "ledger": {
-  "seq": 60280000,
-  "hash": "5908e062272c663874bec89e5324225c968413bb4b2355f1430e0686880db789",
-  "close_time": 1765619382,
-  "protocol": 24
- },
+ "feeder_requests": 16,
  "ingested": true,
- "row_counts": {
-  "transactions": 324,
-  "operations": 507,
-  "effects": 306,
-  "token_transfer": 605
+ "input": "datalake",
+ "ledger": {
+  "close_time": 1765619382,
+  "hash": "5908e062272c663874bec89e5324225c968413bb4b2355f1430e0686880db789",
+  "protocol": 24,
+  "seq": 60280000
+ },
+ "mishandled": [],
+ "mode": "unmodified",
+ "oracle": {
+  "verdict": "known issues only",
+  "rows_expected": 612,
+  "rows_met": 521,
+  "known": {
+   "stellar/stellar-etl#450": 91
+  },
+  "unexplained": []
  },
  "process": {
-  "outcome": "exited",
-  "exit_code": 0
+  "exit_code": 0,
+  "outcome": "exited"
  },
- "seconds": 1.5,
- "feeder_requests": 16,
- "evidence": "out-stellar-etl/2b24ec89ddce/datalake/pubnet-60280000",
- "oracle": {
-  "verdict": "pass",
-  "rows_expected": 521,
-  "rows_met": 521,
-  "known": {},
-  "unexplained": []
- }
+ "protocol_version": 24,
+ "ref": "master",
+ "result": "pass",
+ "row_counts": {
+  "effects": 306,
+  "operations": 507,
+  "token_transfer": 605,
+  "transactions": 324
+ },
+ "sdk_pin": "v0.8.1-0.20261106081502-e31e3b146d00",
+ "seconds": 2.0
 }

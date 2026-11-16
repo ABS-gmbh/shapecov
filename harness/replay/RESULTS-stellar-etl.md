@@ -21,38 +21,59 @@ Only the implicit checks apply: the ledger is ingested without an error and ever
 
 | Entry | Protocol | Input | `2b24ec89` |
 |---|---|---|---|
+| `golden-beginsponsoringfuturereserves-16ca002d-1` | 30 | datalake | n/a |
+| `golden-beginsponsoringfuturereserves-24cec2c5-1` | 30 | datalake | n/a |
+| `golden-beginsponsoringfuturereserves-5a03a46b-2` | 30 | datalake | n/a |
 | `golden-claimablebalance-3635a801-1` | 30 | datalake | n/a |
 | `golden-frozenledgerkeys-0d70bfa2-11` | 30 | datalake | n/a |
 | `golden-frozenledgerkeys-0d70bfa2-16` | 30 | datalake | n/a |
+| `golden-frozenledgerkeys-12c04cf7-20` | 30 | datalake | n/a |
 | `golden-frozenledgerkeys-1cd53aa0-23` | 30 | datalake | n/a |
 | `golden-frozenledgerkeys-3f24be68-11` | 30 | datalake | n/a |
 | `golden-frozenledgerkeys-3f24be68-4` | 30 | datalake | n/a |
 | `golden-frozenledgerkeys-7a27fd53-34` | 30 | datalake | n/a |
 | `golden-frozenledgerkeys-a0fb94c3-10` | 30 | datalake | n/a |
+| `golden-frozenledgerkeys-a0fb94c3-15` | 30 | datalake | n/a |
 | `golden-frozenledgerkeys-c8e33a7d-3` | 30 | datalake | n/a |
+| `golden-frozenledgerkeys-d637d647-16` | 30 | datalake | n/a |
+| `golden-invokehostfunction-04667ce6-23` | 30 | datalake | n/a |
 | `golden-invokehostfunction-1373c067-11` | 30 | datalake | n/a |
+| `golden-invokehostfunction-182fa281-1` | 30 | datalake | n/a |
 | `golden-invokehostfunction-1dd4c042-10` | 30 | datalake | n/a |
+| `golden-invokehostfunction-27003f6c-2` | 20 | datalake | n/a |
+| `golden-invokehostfunction-27003f6c-3` | 20 | datalake | n/a |
+| `golden-invokehostfunction-27003f6c-5` | 20 | datalake | n/a |
 | `golden-invokehostfunction-41088f6e-29` | 23 | datalake | n/a |
 | `golden-invokehostfunction-49190109-10` | 30 | datalake | n/a |
 | `golden-invokehostfunction-4c437318-42` | 30 | datalake | n/a |
+| `golden-invokehostfunction-568d5125-9` | 30 | datalake | n/a |
 | `golden-invokehostfunction-57a486ab-17` | 30 | datalake | n/a |
 | `golden-invokehostfunction-60000be2-10` | 30 | datalake | n/a |
 | `golden-invokehostfunction-692fdd0e-17` | 30 | datalake | n/a |
 | `golden-invokehostfunction-7f92354d-11` | 30 | datalake | n/a |
+| `golden-invokehostfunction-8299635e-11` | 30 | datalake | n/a |
+| `golden-invokehostfunction-8299635e-27` | 30 | datalake | n/a |
+| `golden-invokehostfunction-897493fc-17` | 30 | datalake | n/a |
+| `golden-invokehostfunction-8e3126c5-10` | 30 | datalake | n/a |
 | `golden-invokehostfunction-92400d0c-31` | 30 | datalake | n/a |
 | `golden-invokehostfunction-938fb779-18` | 30 | datalake | n/a |
 | `golden-invokehostfunction-a8df5d4d-2` | 30 | datalake | n/a |
+| `golden-invokehostfunction-e0e11e1f-32` | 23 | datalake | n/a |
+| `golden-invokehostfunction-e296f7c5-7` | 30 | datalake | n/a |
 | `golden-invokehostfunction-e6b26f2a-0` | 0 | datalake | n/a |
 | `golden-invokehostfunction-e6b26f2a-1` | 29 | datalake | n/a |
 | `golden-invokehostfunction-f2fc9bf3-12` | 20 | datalake | n/a |
 | `golden-invokehostfunction-f5fa0a4b-12` | 30 | datalake | n/a |
+| `golden-invokehostfunction-fad872f3-12` | 30 | datalake | n/a |
 | `golden-offer-9a363b75-30` | 30 | datalake | n/a |
 | `golden-pathpayment-34519f44-22` | 30 | datalake | n/a |
 | `localcore-claim-and-sponsor-8` | 30 | datalake | pass |
 | `localcore-classic-p22-3` | 22 | datalake | mishandled |
+| `localcore-maintain-liabilities-5` | 30 | datalake | pass |
 | `localcore-memo-and-offer-p30-4` | 30 | datalake | pass |
 | `localcore-muxed-source-p22-3` | 22 | datalake | mishandled |
 | `localcore-pool-revoke-two-pools-7` | 30 | datalake | pass |
+| `localcore-preauth-failed-6` | 30 | datalake | pass |
 | `localcore-sac-trust-p28-5` | 28 | datalake | pass |
 | `localcore-sponsorship-transfer-9` | 30 | datalake | pass |
 | `pubnet-59220000` | 23 | datalake | pass |
@@ -90,7 +111,7 @@ Only the implicit checks apply: the ledger is ingested without an error and ever
 
 | Commit | Input | pass | mishandled | dropped | error | not applicable |
 |---|---|---|---|---|---|---|
-| `2b24ec89` | datalake | 35 | 2 | 0 | 0 | 27 |
+| `2b24ec89` | datalake | 37 | 2 | 0 | 0 | 46 |
 
 ## Oracle checks
 
@@ -101,7 +122,7 @@ checked. A failure is labelled with the open upstream issue that explains it
 
 | Commit | Input | Replays | Rows expected | Rows met | Known issues | Unexplained |
 |---|---|---|---|---|---|---|
-| `2b24ec89` | datalake | 37 | 10456 | 10443 | stellar-etl#460 (5), stellar-etl#512 (2), stellar-etl#513 (1), stellar-etl#514 (2) | 0 |
+| `2b24ec89` | datalake | 39 | 11508 | 10567 | stellar-etl#450 (928), stellar-etl#460 (5), stellar-etl#512 (2), stellar-etl#513 (1), stellar-etl#514 (2) | 0 |
 
 
 
@@ -111,18 +132,18 @@ checked. A failure is labelled with the open upstream issue that explains it
 
 ## Details of every result that is not `pass`
 
-`n/a` (not applicable): 27 runs. The indexer reads only these networks: Public Global Stellar Network ; September 2015; Test SDF Future Network ; October 2022; Test SDF Network ; September 2015; this entry is on '(V) (;,,;) (V)'.
+`n/a` (not applicable): 46 runs. The indexer reads only these networks: Public Global Stellar Network ; September 2015; Test SDF Future Network ; October 2022; Test SDF Network ; September 2015; this entry is on '(V) (;,,;) (V)'.
 
 ### `localcore-classic-p22-3` at `2b24ec89ddce`, input datalake: mishandled
 
-- mishandled: the indexer raised an error on this ledger and did not ingest it: token_transfer exited 1: time="2026-11-15T22:53:07.122Z" level=fatal msg="could not transform token transfers for ledger 3: error reading from unified events stream, expected version 4 got 3" pid=35
+- mishandled: the indexer raised an error on this ledger and did not ingest it: token_transfer exited 1: time="2026-11-16T17:25:50.826Z" level=fatal msg="could not transform token transfers for ledger 3: error reading from unified events stream, expected version 4 got 3" pid=37
 - expectations: 0, source: none (implicit checks only)
 - indexer process: exited (exit code 1)
 - evidence: `out-stellar-etl/2b24ec89ddce/datalake/localcore-classic-p22-3/` (job.json, observation.json, result.json, feeder-requests.jsonl, and exports/: each command's JSON lines (gzipped), log and exit code)
 
 ### `localcore-muxed-source-p22-3` at `2b24ec89ddce`, input datalake: mishandled
 
-- mishandled: the indexer raised an error on this ledger and did not ingest it: token_transfer exited 1: time="2026-11-15T22:53:04.811Z" level=fatal msg="could not transform token transfers for ledger 3: error reading from unified events stream, expected version 4 got 3" pid=36
+- mishandled: the indexer raised an error on this ledger and did not ingest it: token_transfer exited 1: time="2026-11-16T17:25:47.240Z" level=fatal msg="could not transform token transfers for ledger 3: error reading from unified events stream, expected version 4 got 3" pid=38
 - expectations: 0, source: none (implicit checks only)
 - indexer process: exited (exit code 1)
 - evidence: `out-stellar-etl/2b24ec89ddce/datalake/localcore-muxed-source-p22-3/` (job.json, observation.json, result.json, feeder-requests.jsonl, and exports/: each command's JSON lines (gzipped), log and exit code)
@@ -135,3 +156,4 @@ checked. A failure is labelled with the open upstream issue that explains it
 | 2026-11-15T22:52:33+00:00 | `2b24ec89` | datalake | 52 | 35.1 | 36468 | 0 | 0 |
 | 2026-11-15T22:57:21+00:00 | `2b24ec89` | datalake | 3 | 4.3 | 36320 | 0 | 0 |
 | 2026-11-16T08:25:31+00:00 | `2b24ec89` | datalake | 9 | 23.7 | 36684 | 0 | 0 |
+| 2026-11-16T17:25:00+00:00 | `2b24ec89` | datalake | 85 | 84.0 | 37004 | 0 | 0 |

@@ -1,0 +1,28 @@
+{
+ "job_version": 1,
+ "entry_id": "localcore-maintain-liabilities-5",
+ "ref": "master",
+ "commit": "2b24ec89ddce7fc0beb7795de982c93e6895eaf3",
+ "input": "datalake",
+ "network_passphrase": "Test SDF Network ; September 2015",
+ "ledger": {
+  "seq": 5,
+  "hash": "4b83fbd51e15437c38a13685b3f7e1c965d94389fc8568f2fc75e1aab7fb9c9c",
+  "close_time": 4040000000,
+  "protocol": 30
+ },
+ "rpc": {
+  "url": "http://shapecov-replay-feeder:8000/rpc/localcore-maintain-liabilities-5"
+ },
+ "datalake": {
+  "s3_endpoint": "http://shapecov-replay-feeder:9000",
+  "bucket_path": "shapecov-lake/localcore-maintain-liabilities-5",
+  "region": "us-east-1"
+ },
+ "history_archive": {
+  "url": "http://shapecov-replay-feeder:8000/archive/localcore-maintain-liabilities-5"
+ },
+ "docker_network": "shapecov-replay-net",
+ "timeout_seconds": 120,
+ "work_dir": "$REPLAY_WORK"
+}

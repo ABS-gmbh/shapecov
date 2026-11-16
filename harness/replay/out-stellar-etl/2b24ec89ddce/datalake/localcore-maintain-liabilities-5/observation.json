@@ -1,0 +1,72 @@
+{
+ "observation_version": 1,
+ "adapter": "stellar-etl",
+ "commit": "2b24ec89ddce7fc0beb7795de982c93e6895eaf3",
+ "input": "datalake",
+ "entry_id": "localcore-maintain-liabilities-5",
+ "ledger_seq": 5,
+ "ingested": true,
+ "error": null,
+ "adapter_failure": false,
+ "transactions": [
+  {
+   "hash": "9bde8161307c0d2908963dbefd80ae1889e79cc12d56fde1f46cd15d897d27e0",
+   "tx_order": 1,
+   "result_code": "TransactionResultCodeTxSuccess",
+   "successful": true,
+   "participants": []
+  }
+ ],
+ "operations": [
+  {
+   "tx_hash": "9bde8161307c0d2908963dbefd80ae1889e79cc12d56fde1f46cd15d897d27e0",
+   "tx_order": 1,
+   "op_order": 1,
+   "type": "set_trust_line_flags",
+   "participants": []
+  }
+ ],
+ "state_changes": [
+  {
+   "tx_hash": "9bde8161307c0d2908963dbefd80ae1889e79cc12d56fde1f46cd15d897d27e0",
+   "tx_order": 1,
+   "op_order": 1,
+   "category": "EFFECT",
+   "reason": "trustline_flags_updated",
+   "account": "GDIUVY5KQY72DQXCGJSKXFCGQ3QRAHVHI6SDCP7OQDE2VAZXKBRTNQTC",
+   "signer_key": null,
+   "token": "LIA:GDIUVY5KQY72DQXCGJSKXFCGQ3QRAHVHI6SDCP7OQDE2VAZXKBRTNQTC",
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "op_order": 1,
+    "trustor": "GBQNFCPENSM4KN2YZGKEPPM2NMMKOFLTECEASM373VG2KHG7X4Z5W55E"
+   }
+  }
+ ],
+ "balance_movements": [
+  {
+   "tx_hash": "9bde8161307c0d2908963dbefd80ae1889e79cc12d56fde1f46cd15d897d27e0",
+   "op_order": 0,
+   "account": "GDIUVY5KQY72DQXCGJSKXFCGQ3QRAHVHI6SDCP7OQDE2VAZXKBRTNQTC",
+   "token": "CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC",
+   "delta": -100,
+   "token_kind": "asset",
+   "to_muxed": null,
+   "event": "fee"
+  }
+ ],
+ "unreadable": [],
+ "row_counts": {
+  "transactions": 1,
+  "operations": 1,
+  "effects": 1,
+  "token_transfer": 1
+ },
+ "seconds": 1.5,
+ "process": {
+  "outcome": "exited",
+  "exit_code": 0
+ }
+}

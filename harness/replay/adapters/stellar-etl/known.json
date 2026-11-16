@@ -44,6 +44,17 @@
      "SET_TRUST_LINE_FLAGS"
     ]
    }
+  },
+  {
+   "issue": "stellar/stellar-etl#450",
+   "note": "export_token_transfer turns a text or hash memo into a muxed destination with ID 0: to_muxed is an M address although the CAP-67 event's to_muxed_id is a memo, not an ID. Rule written after reading the issue.",
+   "match": {
+    "what": "muxed",
+    "how": [
+     "text",
+     "hash"
+    ]
+   }
   }
  ]
 }

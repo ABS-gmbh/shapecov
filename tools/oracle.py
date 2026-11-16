@@ -411,6 +411,41 @@ def balances(value):
     return out
 
 
+def muxed_destinations(value):
+    """CAP-67 transfer and mint events that say who received the asset: one record per event whose data
+    names `to_muxed_id`. An integer ID means the destination was a muxed account; a string or bytes
+    (a text or hash memo) means it was not, and no muxed address should be derived from it."""
+    body = value["v%d" % value["v"]]
+    out = []
+    for tp in body["txProcessing"]:
+        res = tp["result"]
+        meta = tp["txApplyProcessing"]
+        mv = meta.get("v%d" % meta["v"]) or {}
+        for k, op in enumerate(mv.get("operations") or []):
+            for ev in op.get("events") or []:
+                b = (ev.get("body") or {}).get("v0") or {}
+                topics = b.get("topics") or []
+                if len(topics) < 3 or topics[0].get("sym") not in ("transfer", "mint"):
+                    continue
+                to = topics[2 if topics[0]["sym"] == "transfer" else 1].get("address") or {}
+                if to.get("type") != "SC_ADDRESS_TYPE_ACCOUNT":
+                    continue
+                data = b.get("data") or {}
+                if data.get("type") != "SCV_MAP":
+                    continue
+                mid = next((e["val"] for e in data["map"] if e["key"].get("sym") == "to_muxed_id"), None)
+                if mid is None:
+                    continue
+                account = account_of(to["accountId"])
+                amt = next((e["val"] for e in data["map"] if e["key"].get("sym") == "amount"), {})
+                amount = (amt["i128"]["hi"] << 64) + amt["i128"]["lo"] if amt.get("type") == "SCV_I128" else None
+                kind = {"SCV_U64": "id", "SCV_STRING": "text", "SCV_BYTES": "hash"}.get(mid["type"], mid["type"])
+                out.append({"tx_hash": res["transactionHash"], "where": k, "account": account, "kind": kind,
+                            "amount": amount,
+                            "muxed": strkey.muxed(to["accountId"]["ed25519"], mid["u64"]) if kind == "id" else None})
+    return out
+
+
 def tx_envelopes(body):
     """Envelopes by transaction hash are not needed; operation types come from the results."""
     return None

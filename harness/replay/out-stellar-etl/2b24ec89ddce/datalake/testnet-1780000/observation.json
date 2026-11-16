@@ -455,6 +455,7 @@
    "token": "CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC",
    "delta": -100,
    "token_kind": "asset",
+   "to_muxed": null,
    "event": "fee"
   },
   {
@@ -464,6 +465,7 @@
    "token": "CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC",
    "delta": -100,
    "token_kind": "asset",
+   "to_muxed": null,
    "event": "fee"
   },
   {
@@ -473,6 +475,7 @@
    "token": "CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC",
    "delta": -5000,
    "token_kind": "asset",
+   "to_muxed": null,
    "event": "fee"
   },
   {
@@ -482,6 +485,7 @@
    "token": "CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC",
    "delta": -20000000,
    "token_kind": "asset",
+   "to_muxed": null,
    "event": "transfer"
   },
   {
@@ -491,6 +495,7 @@
    "token": "CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC",
    "delta": 20000000,
    "token_kind": "asset",
+   "to_muxed": null,
    "event": "transfer"
   }
  ],
@@ -501,7 +506,7 @@
   "effects": 3,
   "token_transfer": 4
  },
- "seconds": 1.4,
+ "seconds": 1.6,
  "process": {
   "outcome": "exited",
   "exit_code": 0

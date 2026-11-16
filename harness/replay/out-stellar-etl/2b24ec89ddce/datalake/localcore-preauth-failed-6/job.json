@@ -1,0 +1,28 @@
+{
+ "job_version": 1,
+ "entry_id": "localcore-preauth-failed-6",
+ "ref": "master",
+ "commit": "2b24ec89ddce7fc0beb7795de982c93e6895eaf3",
+ "input": "datalake",
+ "network_passphrase": "Test SDF Network ; September 2015",
+ "ledger": {
+  "seq": 6,
+  "hash": "59baefbe4f6cd2230b56dab0c399628b3d07c5c3137bdf3e32fa20f405ae6ed4",
+  "close_time": 4050000000,
+  "protocol": 30
+ },
+ "rpc": {
+  "url": "http://shapecov-replay-feeder:8000/rpc/localcore-preauth-failed-6"
+ },
+ "datalake": {
+  "s3_endpoint": "http://shapecov-replay-feeder:9000",
+  "bucket_path": "shapecov-lake/localcore-preauth-failed-6",
+  "region": "us-east-1"
+ },
+ "history_archive": {
+  "url": "http://shapecov-replay-feeder:8000/archive/localcore-preauth-failed-6"
+ },
+ "docker_network": "shapecov-replay-net",
+ "timeout_seconds": 120,
+ "work_dir": "$REPLAY_WORK"
+}

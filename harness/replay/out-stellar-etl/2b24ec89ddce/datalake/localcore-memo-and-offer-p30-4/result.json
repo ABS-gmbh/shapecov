@@ -11,18 +11,20 @@
  "ingested": true,
  "input": "datalake",
  "ledger": {
-  "close_time": 1600392989,
-  "hash": "8c05d21ccf2b44566dfb920c2e8b8939f52d29780ffe582d6afae52cfc295701",
+  "close_time": 4030000000,
+  "hash": "92e773ea688672510394221d2a4bba2a8c703101d903c291e8d765fbb8c0703c",
   "protocol": 30,
   "seq": 4
  },
  "mishandled": [],
  "mode": "unmodified",
  "oracle": {
-  "verdict": "pass",
-  "rows_expected": 4,
+  "verdict": "known issues only",
+  "rows_expected": 5,
   "rows_met": 4,
-  "known": {},
+  "known": {
+   "stellar/stellar-etl#450": 1
+  },
   "unexplained": []
  },
  "process": {
@@ -39,5 +41,5 @@
   "transactions": 2
  },
  "sdk_pin": "v0.8.1-0.20261106081502-e31e3b146d00",
- "seconds": 1.1
+ "seconds": 1.9
 }

@@ -1,43 +1,43 @@
 {
- "entry_id": "testnet-5400000",
  "adapter": "stellar-etl",
- "ref": "master",
- "commit": "2b24ec89ddce7fc0beb7795de982c93e6895eaf3",
- "input": "datalake",
- "protocol_version": 29,
- "sdk_pin": "v0.8.1-0.20261106081502-e31e3b146d00",
- "mode": "unmodified",
- "result": "pass",
- "mishandled": [],
- "dropped": [],
  "checks": [],
+ "commit": "2b24ec89ddce7fc0beb7795de982c93e6895eaf3",
+ "dropped": [],
+ "entry_id": "testnet-5400000",
+ "evidence": "out-stellar-etl/2b24ec89ddce/datalake/testnet-5400000",
  "expectations": 0,
  "expectations_source": "none (implicit checks only)",
- "ledger": {
-  "seq": 5400000,
-  "hash": "c3e3299c723b9fc2ccb456d29718fa975ac6b78080c14ab0838742d3b97a3e53",
-  "close_time": 1793023587,
-  "protocol": 29
- },
- "ingested": true,
- "row_counts": {
-  "transactions": 25,
-  "operations": 36,
-  "effects": 46,
-  "token_transfer": 62
- },
- "process": {
-  "outcome": "exited",
-  "exit_code": 0
- },
- "seconds": 1.4,
  "feeder_requests": 16,
- "evidence": "out-stellar-etl/2b24ec89ddce/datalake/testnet-5400000",
+ "ingested": true,
+ "input": "datalake",
+ "ledger": {
+  "close_time": 1793023587,
+  "hash": "c3e3299c723b9fc2ccb456d29718fa975ac6b78080c14ab0838742d3b97a3e53",
+  "protocol": 29,
+  "seq": 5400000
+ },
+ "mishandled": [],
+ "mode": "unmodified",
  "oracle": {
   "verdict": "pass",
   "rows_expected": 52,
   "rows_met": 52,
   "known": {},
   "unexplained": []
- }
+ },
+ "process": {
+  "exit_code": 0,
+  "outcome": "exited"
+ },
+ "protocol_version": 29,
+ "ref": "master",
+ "result": "pass",
+ "row_counts": {
+  "effects": 46,
+  "operations": 36,
+  "token_transfer": 62,
+  "transactions": 25
+ },
+ "sdk_pin": "v0.8.1-0.20261106081502-e31e3b146d00",
+ "seconds": 1.7
 }

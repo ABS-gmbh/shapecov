@@ -287,6 +287,7 @@ def run(a):
                 obs["balance_movements"].append({"tx_hash": t["transaction_hash"], "op_order": op, "account": account,
                                                  "token": t.get("contract_id"), "delta": delta,
                                                  "token_kind": "asset" if t.get("asset") else "contract",
+                                                 "to_muxed": t.get("to_muxed") if delta > 0 else None,
                                                  "event": t.get("event_topic")})
     for name, rs in rows.items():
         obs["unreadable"] += unreadable_strings(name, rs)

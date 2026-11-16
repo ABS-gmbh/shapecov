@@ -99,7 +99,28 @@ def balance_sums(obs):
     return sums
 
 
+def _muxed(exp, obs):
+    rows = [m for m in obs.get("balance_movements") or [] if m.get("tx_hash") == exp["tx_hash"]
+            and m.get("op_order") == exp["op_order"] and m.get("account") == exp["account"] and m.get("delta", 0) > 0]
+    if exp.get("amount") is not None and any(m.get("delta") == exp["amount"] for m in rows):
+        # The same account can receive several times in one operation: compare the receipt of this amount.
+        rows = [m for m in rows if m.get("delta") == exp["amount"]]
+    label = "receipt of %s in tx %s, operation %d" % (exp["account"], exp["tx_hash"][:12], exp["op_order"])
+    if not rows:
+        return "missing", "%s: no stored transfer to it" % label
+    got = {m.get("to_muxed") for m in rows}
+    # The same account can receive the same amount more than once in one operation (a path payment
+    # through itself), and only the event for the final receipt names to_muxed_id. So: one of the
+    # receipts must carry the destination the event gives.
+    if exp["muxed"] in got:
+        return "met", label
+    return "wrong_value", "%s: stored muxed destination %s, the event says %s" % (
+        label, ", ".join(sorted(str(g) for g in got)), exp["muxed"] or "none (its to_muxed_id is a memo, not an ID)")
+
+
 def _check(exp, obs):
+    if exp.get("expect") == "muxed_destination":
+        return _muxed(exp, obs)
     if exp.get("expect") == "balance_net":
         sums = obs.setdefault("_balance_sums", balance_sums(obs))
         k = (exp["tx_hash"], exp["op_order"], exp["account"], exp["token"])

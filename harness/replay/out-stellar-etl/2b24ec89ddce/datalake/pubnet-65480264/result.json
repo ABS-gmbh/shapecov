@@ -19,10 +19,12 @@
  "mishandled": [],
  "mode": "unmodified",
  "oracle": {
-  "verdict": "pass",
-  "rows_expected": 1074,
-  "rows_met": 1074,
-  "known": {},
+  "verdict": "known issues only",
+  "rows_expected": 1174,
+  "rows_met": 1079,
+  "known": {
+   "stellar/stellar-etl#450": 95
+  },
   "unexplained": []
  },
  "process": {
@@ -39,5 +41,5 @@
   "transactions": 575
  },
  "sdk_pin": "v0.8.1-0.20261106081502-e31e3b146d00",
- "seconds": 1.1
+ "seconds": 1.9
 }

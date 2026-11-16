@@ -20,10 +20,11 @@
  "mode": "unmodified",
  "oracle": {
   "verdict": "known issues only",
-  "rows_expected": 1163,
+  "rows_expected": 1183,
   "rows_met": 1162,
   "known": {
-   "stellar/stellar-etl#460": 1
+   "stellar/stellar-etl#460": 1,
+   "stellar/stellar-etl#450": 20
   },
   "unexplained": []
  },
@@ -41,5 +42,5 @@
   "transactions": 419
  },
  "sdk_pin": "v0.8.1-0.20261106081502-e31e3b146d00",
- "seconds": 1.1
+ "seconds": 1.8
 }

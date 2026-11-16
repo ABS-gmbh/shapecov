@@ -1,0 +1,54 @@
+{
+ "observation_version": 1,
+ "adapter": "stellar-etl",
+ "commit": "2b24ec89ddce7fc0beb7795de982c93e6895eaf3",
+ "input": "datalake",
+ "entry_id": "localcore-preauth-failed-6",
+ "ledger_seq": 6,
+ "ingested": true,
+ "error": null,
+ "adapter_failure": false,
+ "transactions": [
+  {
+   "hash": "96bded6886e3b579178c1cf22b6fcfb7306753dea297da8d7c7dd213c7d1f277",
+   "tx_order": 1,
+   "result_code": "TransactionResultCodeTxFailed",
+   "successful": false,
+   "participants": []
+  }
+ ],
+ "operations": [
+  {
+   "tx_hash": "96bded6886e3b579178c1cf22b6fcfb7306753dea297da8d7c7dd213c7d1f277",
+   "tx_order": 1,
+   "op_order": 1,
+   "type": "payment",
+   "participants": []
+  }
+ ],
+ "state_changes": [],
+ "balance_movements": [
+  {
+   "tx_hash": "96bded6886e3b579178c1cf22b6fcfb7306753dea297da8d7c7dd213c7d1f277",
+   "op_order": 0,
+   "account": "GACQOG6C5B3OSYFWESGZMU25YSNFAT5GSIKPACPMGOHSF2HYAHOYX3FU",
+   "token": "CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC",
+   "delta": -100,
+   "token_kind": "asset",
+   "to_muxed": null,
+   "event": "fee"
+  }
+ ],
+ "unreadable": [],
+ "row_counts": {
+  "transactions": 1,
+  "operations": 1,
+  "effects": 0,
+  "token_transfer": 1
+ },
+ "seconds": 1.9,
+ "process": {
+  "outcome": "exited",
+  "exit_code": 0
+ }
+}
