@@ -204,9 +204,9 @@ SIBLING_NOTES = {
 }
 SIBLING_ISSUES = {
     "pool_pair_accepted": " (overcat; merged on `master`, not in 6.0.0)",
-    "ids_exact": "; java-stellar-sdk: no issue for the negative offer ID (overcat's #837 covers other narrowing)",
-    "string_bytes_kept": "; java-stellar-sdk: no issue",
-    "map_entries_preserved": "; java-stellar-sdk #838 (overcat, 16 Nov) is about identical keys, which this entry does not have",
+    "ids_exact": "; java-stellar-sdk [#843](https://github.com/lightsail-network/java-stellar-sdk/issues/843) (the negative offer ID; overcat's #837 covers other narrowing)",
+    "string_bytes_kept": "; java-stellar-sdk [#843](https://github.com/lightsail-network/java-stellar-sdk/issues/843)",
+    "map_entries_preserved": "; java-stellar-sdk passes for keys that differ only in type; exact duplicates are #838 (overcat, 16 Nov)",
 }
 SIBLING_VERSIONS = {"java": "6.0.0", "go": "v0.9.0", "rust": "30.0.0", "python-xdr": "0.2.1", "python": "17.0.1"}
 
@@ -225,7 +225,7 @@ def apply_siblings(semantic):
                 continue
             v = SIBLING_VERSIONS[sdk]
             if r["result"] == "pass":
-                cell = "passes in %s" % v
+                cell = "passes in %s" % v + (" (%s)" % r["note"] if r.get("note") else "")
             elif r["result"] == "mishandled":
                 note = SIBLING_NOTES.get((sdk, row["check"]))
                 cell = "**present in %s**" % v + (": " + note if note else "")

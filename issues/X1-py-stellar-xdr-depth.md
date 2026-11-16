@@ -1,6 +1,6 @@
 # Fact sheet: lightsail-network/py-stellar-xdr
 
-Notes for an upstream report, not posted as is. This sheet records what was run and what it showed.
+Posted on 16 November 2026 as a comment on StellarCN/py-stellar-base#1264: https://github.com/StellarCN/py-stellar-base/issues/1264#issuecomment-6930257881. This sheet records what was run and what it showed.
 
 **Kind: design question, not a defect.** No valid data is decoded wrongly. Valid data can fail to
 decode depending on the caller's stack depth. A fit for a comment on StellarCN/py-stellar-base#1264

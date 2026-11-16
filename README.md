@@ -39,7 +39,7 @@ on a laptop. `python3 quickcheck.py --full` adds the unit tests and the mutation
 
 ## Results
 
-- **6 defects found and filed** in java-stellar-sdk, py-stellar-base and stellar-etl. The Java
+- **8 defects found and filed** in java-stellar-sdk, py-stellar-base and stellar-etl. The Java
   maintainer fixed #833 two days after it was filed; py-stellar-base closed #1262 and #1263 as
   fixed in its replacement XDR package. All 39 findings, with severity, CAPs and a reproducing
   entry each: [`FINDINGS.md`](FINDINGS.md).

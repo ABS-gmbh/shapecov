@@ -8,7 +8,7 @@ Run date: 14 November 2026, updated 16 November 2026. Versions are in `README.md
 
 39 findings in `FINDINGS.json`, one record each. Severity: **S1** halts or rejects valid data; **S2** wrong or missing data; **S3** accepts non-canonical input; **S4** hardening. Dates are UTC.
 
-**Found by ShapeCov and filed by us** (6)
+**Found by ShapeCov and filed by us** (8)
 
 | ID | Finding | Component | Severity | CAPs | Reproduction | Upstream | First reported | Status |
 |---|---|---|---|---|---|---|---|---|
@@ -18,13 +18,8 @@ Run date: 14 November 2026, updated 16 November 2026. Versions are in `README.md
 | E1 | export_token_transfer fails on ledgers whose TransactionMeta is older than v4 | stellar-etl: export_token_transfer (internal/transform/token_transfer.go) | S1; narrow: only sources with v1 to v3 meta (old or never-regenerated data lakes, local networks, older captive core); SDF's datastore serves v4 meta for old ledgers and is not affected | CAP-0067 | entry `localcore-classic-p22-3` | [stellar/stellar-etl#512](https://github.com/stellar/stellar-etl/issues/512) | ShapeCov, 2026-11-15 | open; impact corrected on the issue 2026-11-16; a fix with a regression test is ready on a branch, awaiting issue acceptance |
 | E2 | A revocation that redeems pool shares in two pools gets one liquidity_pool_revoked, citing the other pool's balance | stellar-etl: export_effects (addLiquidityPoolRevokedEffect); Horizon has the same code | S2 | CAP-0038 | entry `localcore-pool-revoke-two-pools-7` | [stellar/stellar-etl#513](https://github.com/stellar/stellar-etl/issues/513) | ShapeCov, 2026-11-15 | open |
 | E3 | Pool-share trustlines removed by a revocation get no trustline_removed effect | stellar-etl: export_effects; Horizon has the same code | S2 | CAP-0038 | entry `localcore-pool-revoke-two-pools-7` | [stellar/stellar-etl#514](https://github.com/stellar/stellar-etl/issues/514) | ShapeCov, 2026-11-15 | open |
-
-**Found by ShapeCov and not filed: a fact sheet waits for a decision on filing** (2)
-
-| ID | Finding | Component | Severity | CAPs | Reproduction | Upstream | First reported | Status |
-|---|---|---|---|---|---|---|---|---|
-| J3 | A negative offer ID is built and encoded | java-stellar-sdk 6.0.0: ManageSellOfferOperation.builder().offerId | S4; stellar-core rejects such a transaction (MANAGE_SELL_OFFER_MALFORMED, probe offer-id-negative), so it is caught at submission | none: SDK input conversion, not a protocol shape | entry `synthetic-ids-beyond-f64` | not filed | ShapeCov, 2026-11-16 | not filed; the same input js-stellar-sdk refuses since 17.3.0 (#1785); go-stellar-sdk refuses it |
-| J4 | MemoText.getText() turns memo bytes that are not UTF-8 into U+FFFD | java-stellar-sdk 6.0.0: MemoText | S2; getBytes() keeps the bytes; code that rebuilds or stores the memo from getText() changes it | none: a classic memo; SDK string conversion, not a protocol shape | entry `localcore-memo-and-offer-p30-4` | not filed | ShapeCov, 2026-11-16 | not filed; the Java counterpart of js-stellar-sdk #1823, which was closed by documenting the behaviour |
+| J3 | A negative offer ID is built and encoded | java-stellar-sdk 6.0.0: ManageSellOfferOperation.builder().offerId | S4; stellar-core rejects such a transaction (MANAGE_SELL_OFFER_MALFORMED, probe offer-id-negative), so it is caught at submission | none: SDK input conversion, not a protocol shape | entry `synthetic-ids-beyond-f64` | [lightsail-network/java-stellar-sdk#843](https://github.com/lightsail-network/java-stellar-sdk/issues/843) | ShapeCov, 2026-11-16 | open; filed on 16 November 2026 with J4 as java-stellar-sdk #843; the same input js-stellar-sdk refuses since 17.3.0 (#1785); go-stellar-sdk refuses it |
+| J4 | MemoText.getText() turns memo bytes that are not UTF-8 into U+FFFD | java-stellar-sdk 6.0.0: MemoText | S2; getBytes() keeps the bytes; code that rebuilds or stores the memo from getText() changes it | none: a classic memo; SDK string conversion, not a protocol shape | entry `localcore-memo-and-offer-p30-4` | [lightsail-network/java-stellar-sdk#843](https://github.com/lightsail-network/java-stellar-sdk/issues/843) | ShapeCov, 2026-11-16 | open; filed on 16 November 2026 with J3 as java-stellar-sdk #843; the Java counterpart of js-stellar-sdk #1823, which was closed by documenting the behaviour |
 
 **Reported first by others; ShapeCov's tools reproduce it** (15)
 
@@ -318,7 +313,8 @@ The py-stellar-base maintainer asks that XDR and strkey problems be tried agains
   instead of SEP-51's hex: rs-stellar-xdr #618 (open), confirmed here; stellar-xdr conforms.
 - Strkeys: agrees with SEP-23 1.4.0 on all 172 cases, including CAP-84 muxed contracts. The same
   cases find 8 differences in stellar-sdk 17.0.1's `StrKey`.
-- Not defects, API feedback (drafts, not filed): the decode depth limit moves with the caller's
+- Not defects, API feedback, posted on 16 November 2026 as a comment on
+  [StellarCN/py-stellar-base#1264](https://github.com/StellarCN/py-stellar-base/issues/1264#issuecomment-6930257881): the decode depth limit moves with the caller's
   stack, so a valid 240-level envelope argument fails when the caller is more than 501 frames deep
   (`issues/X1-py-stellar-xdr-depth.md`); `SponsorshipDescriptor` and the bare integer types have no
   codec (`issues/X2-py-stellar-xdr-typedef-codecs.md`).

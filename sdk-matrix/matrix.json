@@ -96,7 +96,7 @@
     "17.4.0": "pass"
    },
    "python_17_0_1": "pass",
-   "issues": "js-stellar-sdk #1766 (30 Sep); py-stellar-base #1246 (4 Nov), fixed by #1247 (5 Nov); java-stellar-sdk #832 (5 Nov); java-stellar-sdk: fixed on `master` by #832 (overcat, 5 Nov), not in 6.0.0",
+   "issues": "js-stellar-sdk #1766 (30 Sep); py-stellar-base #1246 (4 Nov), fixed by #1247 (5 Nov); java-stellar-sdk #832 (5 Nov) (overcat; merged on `master`, not in 6.0.0)",
    "siblings": {
     "go": {
      "check": "pool_pair_accepted",
@@ -181,7 +181,7 @@
     "python": "passes in 17.0.1",
     "python-xdr": "not applicable: stellar-xdr has no conversion of a map to native values",
     "go": "not applicable: go-stellar-sdk has no conversion of an ScMap to native values",
-    "java": "passes in 6.0.0"
+    "java": "passes in 6.0.0 (keys that differ only in type; exact duplicates are java-stellar-sdk #838)"
    },
    "js_releases": {
     "16.3.0": "mishandled",
@@ -192,7 +192,7 @@
     "17.4.0": "pass"
    },
    "python_17_0_1": "pass",
-   "issues": "js-stellar-sdk #1789 (7 Oct); java-stellar-sdk #838 (overcat, 16 Nov) is about identical keys, which this entry does not have",
+   "issues": "js-stellar-sdk #1789 (7 Oct); java-stellar-sdk passes for keys that differ only in type; exact duplicates are #838 (overcat, 16 Nov)",
    "siblings": {
     "go": {
      "detail": "go-stellar-sdk has no conversion of an ScMap to native values",
@@ -201,6 +201,7 @@
     "java": {
      "check": "map_entries_preserved",
      "detail": "",
+     "note": "keys that differ only in type; exact duplicates are java-stellar-sdk #838",
      "result": "pass",
      "sdk": "java-stellar-sdk 6.0.0"
     },
@@ -225,7 +226,7 @@
     "python": "**present in 17.0.1**",
     "python-xdr": "not applicable: stellar-xdr has no conversion of a map to native values",
     "go": "not applicable: go-stellar-sdk has no conversion of an ScMap to native values",
-    "java": "passes in 6.0.0"
+    "java": "passes in 6.0.0 (keys that differ only in type; exact duplicates are java-stellar-sdk #838)"
    },
    "js_releases": {
     "16.3.0": "error",
@@ -245,6 +246,7 @@
     "java": {
      "check": "map_entries_preserved",
      "detail": "",
+     "note": "keys that differ only in type; exact duplicates are java-stellar-sdk #838",
      "result": "pass",
      "sdk": "java-stellar-sdk 6.0.0"
     },
@@ -280,7 +282,7 @@
     "17.4.0": "pass"
    },
    "python_17_0_1": "mishandled",
-   "issues": "js-stellar-sdk #1785 (8 Oct); py-stellar-base #1251 (13 Nov), fixed on `main` by #1253 (14 Nov); java-stellar-sdk: no issue for the negative offer ID (overcat's #837 covers other narrowing)",
+   "issues": "js-stellar-sdk #1785 (8 Oct); py-stellar-base #1251 (13 Nov), fixed on `main` by #1253 (14 Nov); java-stellar-sdk [#843](https://github.com/lightsail-network/java-stellar-sdk/issues/843) (the negative offer ID; overcat's #837 covers other narrowing)",
    "siblings": {
     "go": {
      "check": "ids_exact",
@@ -291,6 +293,7 @@
     "java": {
      "check": "ids_exact",
      "detail": "offer_id -1 (negative) accepted, encodes -1",
+     "issue": "https://github.com/lightsail-network/java-stellar-sdk/issues/843",
      "result": "mishandled",
      "sdk": "java-stellar-sdk 6.0.0"
     },
@@ -326,7 +329,7 @@
     "17.4.0": "mishandled"
    },
    "python_17_0_1": null,
-   "issues": "js-stellar-sdk #1823 (16 Oct), closed on 20 Oct by documenting the behaviour (#1824), not by a code change; java-stellar-sdk: no issue",
+   "issues": "js-stellar-sdk #1823 (16 Oct), closed on 20 Oct by documenting the behaviour (#1824), not by a code change; java-stellar-sdk [#843](https://github.com/lightsail-network/java-stellar-sdk/issues/843)",
    "siblings": {
     "go": {
      "check": "string_bytes_kept",
@@ -337,6 +340,7 @@
     "java": {
      "check": "string_bytes_kept",
      "detail": "rebuilt from getText(): 000000010000001a7368617065636f7620efbfbdefbfbd206d656d6f200020656e640000, the ledger has 00000001000000167368617065636f7620fffe206d656d6f200020656e640000; rebuilt from getBytes() keeps the bytes",
+     "issue": "https://github.com/lightsail-network/java-stellar-sdk/issues/843",
      "result": "mishandled",
      "sdk": "java-stellar-sdk 6.0.0"
     },

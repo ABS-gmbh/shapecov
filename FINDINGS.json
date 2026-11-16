@@ -493,7 +493,7 @@
   },
   {
    "id": "J3",
-   "kind": "unfiled",
+   "kind": "found",
    "title": "A negative offer ID is built and encoded",
    "component": "java-stellar-sdk 6.0.0: ManageSellOfferOperation.builder().offerId",
    "severity": "S4",
@@ -503,15 +503,17 @@
    "reproduction": {
     "corpus_entry": "synthetic-ids-beyond-f64"
    },
-   "upstream": [],
+   "upstream": [
+    "https://github.com/lightsail-network/java-stellar-sdk/issues/843"
+   ],
    "first_reported_by": "ShapeCov",
    "reported": "2026-11-16",
-   "status": "not filed; the same input js-stellar-sdk refuses since 17.3.0 (#1785); go-stellar-sdk refuses it",
+   "status": "open; filed on 16 November 2026 with J4 as java-stellar-sdk #843; the same input js-stellar-sdk refuses since 17.3.0 (#1785); go-stellar-sdk refuses it",
    "labels": []
   },
   {
    "id": "J4",
-   "kind": "unfiled",
+   "kind": "found",
    "title": "MemoText.getText() turns memo bytes that are not UTF-8 into U+FFFD",
    "component": "java-stellar-sdk 6.0.0: MemoText",
    "severity": "S2",
@@ -521,10 +523,12 @@
    "reproduction": {
     "corpus_entry": "localcore-memo-and-offer-p30-4"
    },
-   "upstream": [],
+   "upstream": [
+    "https://github.com/lightsail-network/java-stellar-sdk/issues/843"
+   ],
    "first_reported_by": "ShapeCov",
    "reported": "2026-11-16",
-   "status": "not filed; the Java counterpart of js-stellar-sdk #1823, which was closed by documenting the behaviour",
+   "status": "open; filed on 16 November 2026 with J3 as java-stellar-sdk #843; the Java counterpart of js-stellar-sdk #1823, which was closed by documenting the behaviour",
    "labels": []
   },
   {

@@ -185,6 +185,22 @@ def run_python_base(args):
     return res
 
 
+# Upstream issues and notes recorded next to a result (they do not change the result).
+ANNOTATIONS = {
+    ("java", "ids_exact"): {"issue": "https://github.com/lightsail-network/java-stellar-sdk/issues/843"},
+    ("java", "string_bytes_kept"): {"issue": "https://github.com/lightsail-network/java-stellar-sdk/issues/843"},
+    ("java", "map_entries_preserved"): {"note": "keys that differ only in type; exact duplicates are java-stellar-sdk #838"},
+    ("java", "map_entries_preserved:host"): {"note": "keys that differ only in type; exact duplicates are java-stellar-sdk #838"},
+}
+
+
+def annotate(out):
+    for (sdk, row), extra in ANNOTATIONS.items():
+        if row in out.get(sdk, {}):
+            out[sdk][row].update(extra)
+    return out
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--sdk", default="java,go,rust,python-xdr,python")
@@ -207,7 +223,7 @@ def main():
             r = res.get(row, res.get("_error", {"result": "error", "detail": "no result"}))
             print("%-12s %-28s %-15s %s" % (sdk, row, r["result"], r.get("detail", "")[:150]))
     Path(a.out).parent.mkdir(exist_ok=True)
-    Path(a.out).write_text(json.dumps(out, indent=1, sort_keys=True) + "\n")
+    Path(a.out).write_text(json.dumps(annotate(out), indent=1, sort_keys=True) + "\n")
     if a.check:
         diff = ["%s %s: recorded %s, now %s" % (sdk, row, r["result"], out.get(sdk, {}).get(row, {}).get("result"))
                 for sdk, rows in recorded.items() if sdk in a.sdk.split(",") for row, r in rows.items()
