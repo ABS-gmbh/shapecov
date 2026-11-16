@@ -1,8 +1,6 @@
 # Fact sheet: confirmation of stellar/wallet-backend#677
 
-Not for posting as is. Stellar's contribution guide (stellar/.github CONTRIBUTING.md) requires the
-human submitter to verify the content and write to maintainers in their own words; no AI session
-posts it. This sheet records what was run and what it showed.
+Notes for an upstream report, not posted as is. This sheet records what was run and what it showed.
 
 **Kind: confirmation of an open issue, not a new finding.** The defect is
 [stellar/wallet-backend#677](https://github.com/stellar/wallet-backend/issues/677), "Transaction

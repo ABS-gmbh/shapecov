@@ -1,6 +1,6 @@
 # Release assets: on a version tag, build the corpus archive and the linter binaries, write
 # SHA256SUMS, attest build provenance, and attach them to the tag's release. If the tag has no
-# release yet, a draft release is created to hold them; publishing it stays a human step.
+# release yet, a draft release is created to hold them; publishing it stays a manual step.
 # Run by hand with dry-run to build and checksum without attesting or uploading.
 name: release
 

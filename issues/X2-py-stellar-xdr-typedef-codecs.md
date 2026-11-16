@@ -1,8 +1,6 @@
-# Fact sheet for a human write-up: lightsail-network/py-stellar-xdr
+# Fact sheet: lightsail-network/py-stellar-xdr
 
-Not for posting as is. Stellar's contribution guide (stellar/.github CONTRIBUTING.md) requires the
-human submitter to verify the content and write to maintainers in their own words; no AI session
-posts it. This sheet records what was run and what it showed.
+Notes for an upstream report, not posted as is. This sheet records what was run and what it showed.
 
 **Kind: API completeness question, not a defect.** Every value that has a codec round-trips
 correctly; five schema types have no standalone codec. A fit for a comment on StellarCN/py-stellar-base#1264
