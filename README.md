@@ -25,22 +25,22 @@ indexer-hardening guide has each rule checked against stellar-core. Built for th
 Each check is a CI job of the same name. [`VERIFY.md`](VERIFY.md) gives every job and the command
 that runs it on your machine.
 
-## Check it in 10 seconds
+## Check it in under a minute
 
 ```bash
 pip install jsonschema
 python3 quickcheck.py
 ```
 
-Python only, with no Docker and no network. It reruns the 14 checks that work from the repository
-alone and checks the recorded results of the rest against their verdicts. It took 10 seconds on a
+Python only, with no Docker and no network. It reruns the 15 checks that work from the repository
+alone and checks the recorded results of the rest against their verdicts. It took 34 seconds on a
 laptop. CI reruns everything else.
 
 ## Results
 
 - **6 defects found and filed** in java-stellar-sdk, py-stellar-base and stellar-etl. The Java
   maintainer fixed #833 two days after it was filed; py-stellar-base closed #1262 and #1263 as
-  fixed in its replacement XDR package. All 37 findings, with severity, CAPs and a reproducing
+  fixed in its replacement XDR package. All 38 findings, with severity, CAPs and a reproducing
   entry each: [`FINDINGS.md`](FINDINGS.md).
 - **12 of the RFP's 18 sightings reproduced**, all in CI, each failing before its fix and passing
   after ([`harness/sightings/README.md`](harness/sightings/README.md)).
@@ -105,15 +105,20 @@ More: [`ARCHITECTURE.md`](ARCHITECTURE.md) (how the parts fit, the adapter inter
 | Java | network.lightsail:stellar-sdk 6.0.0 | Docker, `maven:3.9-eclipse-temurin-21` |
 | stellar-core | 30.0.0 (0e49751aa) | Docker, `stellar/stellar-core`, amd64 |
 
-## Results so far
+## Conformance results in detail
 
-- 7,392 cases across all 477 types. The independent encoder and the reference decoder agree
-  byte for byte on every valid case (3,808 of 3,808 that the reference has a type for).
-- 943 further cases for the seven core-decodable types. stellar-core accepts all 280 valid ones.
+The headline results are at the top of this file. The detail behind the conformance half:
+
+- The independent encoder and the reference decoder agree byte for byte on every valid generated
+  case the reference has a type for (3,808 of them).
+- 943 further cases for the seven types stellar-core's `print-xdr` can decode. stellar-core accepts
+  all 280 valid ones.
 - Valid cases exercise 549 of 659 schema cells (83.3%), and 448 of the 538 a ledger reader can
   meet. A cell is a union arm, or a member of an enum used as a value; the members of the 73 enums
   used only as union discriminants are covered exactly when their arm is (`corpus/coverage.json`).
-- Confirmed disagreements are in `FINDINGS.md`. Full clusters are in `out/REPORT.md`.
+- Confirmed disagreements are in `FINDINGS.md`. Full clusters are in `out/REPORT.md`. Which SDK
+  release has which defect, codec faults and behaviour above the codec alike, is in
+  [`sdk-matrix/MATRIX.md`](sdk-matrix/MATRIX.md).
 - stellar-xdr 0.2.1, the package replacing `stellar_sdk.xdr`, agrees with the reference on every
   generated case and every corpus entry, and fixes P1 and P2; stellar-strkey 0.2.0 passes all of
   SEP-23 1.4.0's 36 vectors and 136 generated mutations. Two API points for before 1.0 are drafted in
@@ -145,7 +150,7 @@ results are not in the repository):
 
 - `tools/decode.py` and `tools/encode.py` are a strict decoder and an encoder driven by the same
   schema as the generator. The decoder accepts all 3,816 valid generated cases, rejects all 3,576
-  faulty ones, and re-encodes every valid case and the real ledger byte for byte.
+  faulty ones, and re-encodes every valid case and every corpus entry byte for byte.
 - Every schema cell is dated to the stellar-xdr release that introduced it: `tools/cell_protocols.py`
   parses each tag from v19 to v30.0 with ShapeCov's own schema parser (`corpus/cell-protocols.json`).
   The hand-assigned CAP tags are checked against those dates, and all 40 agree.
@@ -164,11 +169,13 @@ results are not in the repository):
   transfers against the same oracle. It found E1 to E3 in `FINDINGS.md`.
 - `harness/wallet-backend/` is the earlier, database-free version: it calls wallet-backend's
   `indexer.ProcessLedger` from a Go test.
-- `harness/sdk-semantic/` runs the manifest's SDK checks against pinned SDK versions.
+- `harness/sdk-semantic/` runs the manifest's SDK checks against pinned SDK versions: every
+  js-stellar-sdk release from 16.3.0 to 17.4.0, and the same behaviour checks in Go, Java, Rust and
+  both Python SDKs (`siblings.py`).
 
 ```bash
 python3 tools/corpus_build.py
-python3 tools/corpus_check.py --sdks rust,js,python,go,java --core --sdk-checks
+python3 tools/corpus_check.py --sdks rust,js,python,python-xdr,go,java --core --sdk-checks
 ```
 
 ## Run it
@@ -181,24 +188,29 @@ python3 tools/diff.py out/cases.jsonl
 ```
 
 Build steps for the runners (one time): `cargo build --release` in `runners/rust`, `npm install`
-in `runners/js`, a venv with `stellar-sdk==17.0.1` in `runners/python`, `runners/go/build.sh`
+in `runners/js`, a venv with `stellar-sdk==17.0.1` in `runners/python`, a venv with
+`runners/python-xdr/requirements.txt` in `runners/python-xdr`, `runners/go/build.sh`
 inside `golang:1.26`, and `mvn dependency:copy-dependencies -DoutputDirectory=lib` plus
 `javac -cp 'lib/*' Runner.java` inside the Maven image.
 
 ## CI
 
-Two GitHub Actions workflows in `.github/workflows/`. RFP check 2, the replay harness, is `replay.yml`:
+Five GitHub Actions workflows in `.github/workflows/`; [`VERIFY.md`](VERIFY.md) maps each RFP check
+to its job and command.
 
 | Workflow | When | What |
 |---|---|---|
-| `ci.yml` | every push and pull request, and weekly | One job per RFP acceptance check; [`VERIFY.md`](VERIFY.md) maps each check to its job and command. **RFP check 1**: self-tests, every entry through `tools/corpus_check.py`, and the golden entries compared byte for byte with stellar-core's `test-lcm-current` files. **RFP check 4**: `guide/check_guide.py`. **RFP check 3**: gofmt, `go vet`, `go test` with seeded violations, then the linter on wallet-backend (the pinned commit; `main` in the weekly run), failing on any finding outside `linter/accepted/wallet-backend.json`. **RFP checks 1 and 5**: builds the six decoder runners and runs every entry through them, through stellar-core 30.0.0 (`--core`) and through the pinned-SDK checks. **RFP check 6**: `.github/scripts/check_findings.py`: every failure in the committed replay results maps to a complete record in `FINDINGS.json`. |
-| `replay.yml` | weekly, on demand, and on pushes and pull requests that touch the harness or the corpus | `harness/replay/run.sh sightings`: replays every sighting in `harness/replay/sightings.json` against real wallet-backend commits and fails unless each fails before its fix and passes after it. Results are uploaded as an artifact. |
+| `ci.yml` | every push and pull request, and weekly | One job per RFP acceptance check: the corpus against stellar-core's goldens (check 1), the linter on wallet-backend and on stellar-etl (check 3), the guide and its probes against stellar-core (check 4), every entry through six SDKs, stellar-core and the pinned-SDK and sibling behaviour checks (checks 1 and 5), the findings records (check 6). Also: the count check, the unit tests with coverage and the mutation test, the security checks and the network isolation test, and the reusable workflow and linter action as other repositories call them. |
+| `replay.yml` | weekly, on demand, and on pushes and pull requests that touch the harness or the corpus | Six jobs: the RFP's wallet-backend sightings before and after their fixes (check 2), every ledger through stellar-etl, the memory budget, the local stellar-core entries regenerated on both passphrases, the Rust sightings, and the detection backtest's claims. |
+| `sdk-conformance.yml` | called by `ci.yml`, or by another repository | The corpus through one SDK at the caller's version ([`ADOPT.md`](ADOPT.md)). |
+| `release.yml` | on a version tag | The corpus archive and linter binaries, with `SHA256SUMS` and build provenance. |
+| `upstream-drift.yml` | weekly | One issue per upstream release newer than the pinned one, and image tags that moved. |
 
 ## Infrastructure and maintenance
 
 - [`INFRASTRUCTURE.md`](INFRASTRUCTURE.md): what the tools run on, every network connection they
   make, the Docker images and disk they need, and user tracking (there is none).
-- [`MAINTENANCE.md`](MAINTENANCE.md): who maintains shapecov and for how long, routine work, and the
+- [`MAINTENANCE.md`](MAINTENANCE.md): who maintains ShapeCov and for how long, routine work, and the
   step-by-step plan for each protocol upgrade.
 
 ## Known artefacts in the current numbers
@@ -216,27 +228,25 @@ Two GitHub Actions workflows in `.github/workflows/`. RFP check 2, the replay ha
   stellar-core as a decoder. Whole ledgers come from fixed local stellar-core scenarios
   (`tools/localcore.py`), and the guide's probes submit transactions to a local stellar-core
   (`guide/probe_core.py`).
-- Semantic checks above the codec beyond those in `harness/sdk-semantic/`, which cover issuer
-  ordering, out-of-range IDs, colliding map keys and transaction decoding.
+- Behaviour checks above the codec beyond the six in the SDK matrix (issuer ordering, map key order,
+  colliding map keys twice, out-of-range IDs, string bytes) and transaction decoding. Those run in
+  every SDK that has the helper.
 - Coverage of the 110 schema cells no valid case reaches yet.
 - Replay adapters beyond wallet-backend and stellar-etl. Three corpus entries have hand-written
   `expected.indexer` rows; the oracle checks every ledger. See `harness/replay/README.md`, "Limits".
 - CAP tags are assigned by hand from the CAP texts, then checked against the XDR history.
   stellar-xdr has no v29 tag, so cells added in protocols 29 and 30 are dated together.
 - Review of the hardening guide by a stellar-core or platform engineer, which the RFP requires
-  before publication. Every shape it describes has a corpus entry; three come from a local
-  stellar-core (see the guide's appendix).
-- The linter does not run clean on wallet-backend `main`: it reports 4 findings, all real and none
-  of them a bug to file as is. CI fails on any finding outside `linter/accepted/wallet-backend.json`
-  (see `linter/README.md`).
+  before publication.
+- The linter does not run clean on wallet-backend `main` (4 findings, all real) or on stellar-etl
+  (13, all real, 12 of them in uncalled code). CI fails on any finding outside the accepted lists
+  in `linter/accepted/` (see `linter/README.md`).
 
 ## Licence
 
-Apache-2.0, see `LICENSE`.
-
-Files from other projects keep their own terms:
-
-- `schema/x/` and `schema/x-v28.0/` are the XDR definitions from `stellar/stellar-xdr` (tags v30.0
-  and v28.0), which is also Apache-2.0. The exact commits are in `schema/SOURCE`.
-- `corpus/entries/testnet-4437357.LedgerCloseMeta.xdr.b64` is a ledger from the public Stellar
-  testnet, fetched from Stellar's public ledger archive.
+Apache-2.0, see `LICENSE`. Material from other projects keeps its own terms:
+[`NOTICE`](NOTICE) lists each source, its licence and the commit or location it came from: the
+stellar-xdr definitions in `schema/`, the 46 corpus entries copied from stellar-core's golden files,
+the 30 ledgers from Stellar's public archive, and the prettier configuration from stellar-docs. It
+is generated from `corpus/manifest.json` and `schema/SOURCE` by `.github/scripts/notice.py`, and the
+quick check fails if it is out of date.

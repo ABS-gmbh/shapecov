@@ -49,6 +49,8 @@ CHECKS = [
      [PY, "harness/replay/adapters/example/mutants.py", "--check"]),
     ("Backtest", "every detection-backtest claim (a fix detected, or missed) holds against the recorded replays",
      [PY, "harness/replay/replay.py", "backtest"]),
+    ("Notice", "NOTICE names every third-party source in the corpus and schema, as the manifest records them",
+     [PY, ".github/scripts/notice.py", "--check"]),
     ("Docs", "the headline numbers in README, VERIFY and the other top-level documents match the repository",
      [PY, ".github/scripts/check_counts.py"]),
     ("Security", "images pinned by digest, actions by commit SHA, workflow permissions, internal networks, "

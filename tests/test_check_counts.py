@@ -18,6 +18,9 @@ It reruns the 1 checks that work from the repository alone.
 Coverage of the 1 schema cells no valid case reaches yet.
 So 1 of the 2 cells a ledger reader can meet appear in a corpus entry. Each of the other 1 is classified.
 Valid cases exercise 2 of 3 schema cells, and 2 of the 2 a ledger reader can meet.
+The schema has 1 union arms and 2 enum members. The decoder accepts all 3 valid generated cases,
+rejects all 1
+faulty ones. One GitHub Actions workflows run it.
 The harness detects 1 of wallet-backend's 2 in-scope fixes (1 on ledgers not chosen for the bug)
 and flags 0 of stellar-etl's 1 in-scope issues (0 blind).
 """
@@ -50,7 +53,8 @@ class CheckCounts(unittest.TestCase):
                                      "corpus_covers_reachable": 1, "generator_covers_reachable": 2,
                                      "uncovered_reachable": 1},
             "FINDINGS.json": {"findings": [{"kind": "found"}, {"kind": "sighting"}]},
-            "schema/schema.json": {"types": {"U": {}, "E": {}}},
+            "schema/schema.json": {"types": {"U": {"k": "union", "arms": [{}]}, "E": {"k": "enum", "members": [[1], [2]]}}},
+            ".github/workflows/ci.yml": "name: ci\n",
             "quickcheck.py": QUICKCHECK,
             "guide/probes.json": {"probes": [{"row": "Home domain"}, {"row": "(setup)"}]},
             "harness/replay/backtest.json": {"items": [
@@ -63,7 +67,7 @@ class CheckCounts(unittest.TestCase):
                                 "`network_ledger` |\n| b | 1 | `local_stellar_core` |\n| c | 1 | `generated` |\n",
             "harness/sightings/README.md": SIGHTINGS,
         })
-        write_jsonl(self.dir, "out/cases.jsonl", [{"id": i} for i in range(4)])
+        write_jsonl(self.dir, "out/cases.jsonl", [{"id": i, "valid": i < 3} for i in range(4)])
 
     def tearDown(self):
         self.tmp.cleanup()

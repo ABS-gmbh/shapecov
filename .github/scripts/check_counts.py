@@ -13,9 +13,12 @@ Exit status 1 on any mismatch. Run from the repository root.
 """
 import importlib.util
 import json
+import os
 import re
 import sys
 
+WORDS = {w: i for i, w in enumerate(["zero", "one", "two", "three", "four", "five", "six", "seven", "eight",
+                                     "nine", "ten"])}
 DOCS = ("README.md", "VERIFY.md", "ARCHITECTURE.md", "FINDINGS.md", "corpus/README.md", "harness/sightings/README.md")
 
 
@@ -34,8 +37,16 @@ def counts():
             cells = [c.strip() for c in line.split("|")]
             if len(cells) > 4 and cells[1].isdigit():
                 rows.append(cells[3])
+    valid = faulty = 0
     with open("out/cases.jsonl") as f:
-        cases = sum(1 for _ in f)
+        for line in f:
+            if json.loads(line)["valid"]:
+                valid += 1
+            else:
+                faulty += 1
+    cases = valid + faulty
+    types = load("schema/schema.json")["types"]
+    workflows = len([n for n in os.listdir(".github/workflows") if n.endswith((".yml", ".yaml"))])
     cov = load("corpus/coverage.json")
     spec = importlib.util.spec_from_file_location("quickcheck", "quickcheck.py")
     qc = importlib.util.module_from_spec(spec)
@@ -64,6 +75,11 @@ def counts():
         "RFP sightings": len(rows),
         "RFP sightings reproduced": rows.count("reproduced"),
         "generated cases": cases,
+        "valid generated cases": valid,
+        "faulty generated cases": faulty,
+        "schema union arms": sum(len(t["arms"]) for t in types.values() if t["k"] == "union"),
+        "schema enum members": sum(len(t["members"]) for t in types.values() if t["k"] == "enum"),
+        "GitHub Actions workflows": workflows,
         "schema types": len(load("schema/schema.json")["types"]),
         "schema cells": cov["schema_cells"],
         "schema cells reached by valid cases": cov["generator_covers"],
@@ -89,8 +105,9 @@ PATTERNS = {
                        r"(?m)^([\d,]+) entries, each", r"\bfor all ([\d,]+) entries"],
     "real ledgers (not synthetic)": [r"\b([\d,]+) (?:of them )?real ledgers"],
     "stellar-core golden entries": [r"\b([\d,]+) corpus entries are stellar-core's golden",
-                                    r"\| ([\d,]+) \| `stellar_core_golden` \|"],
-    "network ledger entries": [r"\| ([\d,]+) \| `network_ledger` \|"],
+                                    r"\| ([\d,]+) \| `stellar_core_golden` \|",
+                                    r"\bthe ([\d,]+) corpus entries copied from stellar-core"],
+    "network ledger entries": [r"\| ([\d,]+) \| `network_ledger` \|", r"\bthe ([\d,]+) ledgers from Stellar's public"],
     "testnet network ledgers": [r"\btestnet \(([\d,]+)\) and pubnet"],
     "pubnet network ledgers": [r"\band pubnet \(([\d,]+)\)"],
     "local stellar-core entries": [r"\| ([\d,]+) \| `local_stellar_core` \|"],
@@ -101,6 +118,11 @@ PATTERNS = {
     "RFP sightings": [r"\b(?:of|of the RFP's) ([\d,]+) (?:public )?sightings", r"\b[\d,]+ of ([\d,]+) reproduced"],
     "RFP sightings reproduced": [r"\b([\d,]+) of the RFP's [\d,]+ sightings", r"\b([\d,]+) of [\d,]+ reproduced"],
     "generated cases": [r"\b([\d,]+) (?:generated )?cases across"],
+    "valid generated cases": [r"\baccepts all ([\d,]+) valid generated cases"],
+    "faulty generated cases": [r"\brejects all ([\d,]+)\s+faulty ones"],
+    "schema union arms": [r"\b([\d,]+) union arms\b"],
+    "schema enum members": [r"\b([\d,]+) enum members\b"],
+    "GitHub Actions workflows": [r"(?i)\b(one|two|three|four|five|six|seven|eight|nine|ten|\d+) GitHub Actions workflows"],
     "schema types": [r"\b([\d,]+) types\b"],
     "schema cells": [r"\b[\d,]+ of (?:the )?([\d,]+) schema cells"],
     "cells a ledger reader can meet": [r"\b[\d,]+ of the ([\d,]+) (?:reachable cells|cells a ledger reader can meet|a ledger reader)"],
@@ -132,7 +154,8 @@ def main():
         for pat in pats:
             for doc, text in texts.items():
                 for m in re.finditer(pat, text):
-                    n = int(m.group(1).replace(",", ""))
+                    word = m.group(1).lower()
+                    n = WORDS[word] if word in WORDS else int(word.replace(",", ""))
                     line = text.count("\n", 0, m.start()) + 1
                     stated[fact] += 1
                     if n != facts[fact]:
