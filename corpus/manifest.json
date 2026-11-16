@@ -13439,6 +13439,1944 @@
     "core_golden": "pass"
    },
    "sightings": []
+  },
+  {
+   "id": "golden-beginsponsoringfuturereserves-5a03a46b-2",
+   "title": "stellar-core golden: sponsor future reserves|protocol version 30|sponsoring account is sponsored",
+   "xdr_type": "LedgerCloseMeta",
+   "file": "entries/golden-beginsponsoringfuturereserves-5a03a46b-2.LedgerCloseMeta.xdr.b64",
+   "sha256": "c883565688286eb7e7fd66040a7204ffefd5e37bb726ef174e4a2f73d65a1009",
+   "size_bytes": 1856,
+   "protocol_version": 30,
+   "caps": [],
+   "synthetic": false,
+   "source": {
+    "kind": "stellar_core_golden",
+    "stellar_core_commit": "f2b91947fb20fc8174cca38bf320eda7baa3edbb",
+    "golden_file": "test-lcm-current/BeginSponsoringFutureReservesTests/5a03a46b7b48bb06.xdr",
+    "record": 2,
+    "test": "sponsor future reserves|protocol version 30|sponsoring account is sponsored",
+    "network_passphrase": "(V) (;,,;) (V)"
+   },
+   "shape": "Selected because it exercises 2 schema cell(s) that no other entry reaches.",
+   "patterns": {
+    "failed-transaction": "v2.txProcessing[0].result.result.result"
+   },
+   "designated": {
+    "patterns": [],
+    "cells": [
+     "arm:BeginSponsoringFutureReservesResult.BEGIN_SPONSORING_FUTURE_RESERVES_RECURSIVE",
+     "arm:EndSponsoringFutureReservesResult.END_SPONSORING_FUTURE_RESERVES_NOT_SPONSORED"
+    ]
+   },
+   "cells": [
+    "arm:AccountEntryExt.1",
+    "arm:AccountEntryExtensionV1Ext.2",
+    "arm:AccountEntryExtensionV2Ext.3",
+    "arm:BeginSponsoringFutureReservesResult.BEGIN_SPONSORING_FUTURE_RESERVES_RECURSIVE",
+    "arm:BeginSponsoringFutureReservesResult.BEGIN_SPONSORING_FUTURE_RESERVES_SUCCESS",
+    "arm:EndSponsoringFutureReservesResult.END_SPONSORING_FUTURE_RESERVES_NOT_SPONSORED",
+    "arm:EndSponsoringFutureReservesResult.END_SPONSORING_FUTURE_RESERVES_SUCCESS",
+    "arm:ExtensionPoint.0",
+    "arm:GeneralizedTransactionSet.1",
+    "arm:LedgerCloseMeta.2",
+    "arm:LedgerCloseMetaExt.0",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_STATE",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_UPDATED",
+    "arm:LedgerEntryData.ACCOUNT",
+    "arm:LedgerEntryExt.0",
+    "arm:LedgerHeaderExt.0",
+    "arm:LedgerHeaderHistoryEntryExt.0",
+    "arm:Memo.MEMO_NONE",
+    "arm:MuxedAccount.KEY_TYPE_ED25519",
+    "arm:OperationBody.BEGIN_SPONSORING_FUTURE_RESERVES",
+    "arm:OperationBody.END_SPONSORING_FUTURE_RESERVES",
+    "arm:OperationResult.opINNER",
+    "arm:OperationResultTr.BEGIN_SPONSORING_FUTURE_RESERVES",
+    "arm:OperationResultTr.END_SPONSORING_FUTURE_RESERVES",
+    "arm:Preconditions.PRECOND_NONE",
+    "arm:PublicKey.PUBLIC_KEY_TYPE_ED25519",
+    "arm:StellarValueExt.STELLAR_VALUE_SIGNED_MS",
+    "arm:TransactionEnvelope.ENVELOPE_TYPE_TX",
+    "arm:TransactionExt.0",
+    "arm:TransactionMeta.4",
+    "arm:TransactionPhase.0",
+    "arm:TransactionPhase.1",
+    "arm:TransactionResultExt.0",
+    "arm:TransactionResultResult.txFAILED",
+    "arm:TxSetComponent.TXSET_COMP_TXS_MAYBE_DISCOUNTED_FEE"
+   ],
+   "cells_new_in_protocol": [
+    "arm:StellarValueExt.STELLAR_VALUE_SIGNED_MS"
+   ],
+   "expected": {
+    "decoded": [
+     {
+      "path": "v",
+      "value": 2
+     },
+     {
+      "path": "v2.ledgerHeader.header.ledgerSeq",
+      "value": 4
+     },
+     {
+      "path": "v2.ledgerHeader.header.ledgerVersion",
+      "value": 30
+     },
+     {
+      "path": "v2.ledgerHeader.hash",
+      "value": "a5cc1206c4ab1913376d3a0b770f5ff8f963d9f6c31e7c515c18030e2ec58fe8"
+     },
+     {
+      "path": "v2.ledgerHeader.header.scpValue.closeTime",
+      "value": 0
+     },
+     {
+      "path": "v2.txProcessing[0].result.result.result.results[1].tr.beginSponsoringFutureReservesResult.code",
+      "value": "BEGIN_SPONSORING_FUTURE_RESERVES_RECURSIVE",
+      "note": "cell arm:BeginSponsoringFutureReservesResult.BEGIN_SPONSORING_FUTURE_RESERVES_RECURSIVE"
+     },
+     {
+      "path": "v2.txProcessing[0].result.result.result.results[2].tr.endSponsoringFutureReservesResult.code",
+      "value": "END_SPONSORING_FUTURE_RESERVES_NOT_SPONSORED",
+      "note": "cell arm:EndSponsoringFutureReservesResult.END_SPONSORING_FUTURE_RESERVES_NOT_SPONSORED"
+     }
+    ]
+   },
+   "validation": {
+    "independent_decoder": "not_run",
+    "rs_stellar_xdr_roundtrip": "not_run",
+    "stellar_core": {
+     "version": "30.0.0",
+     "command": "",
+     "result": "not_run"
+    },
+    "core_golden": "pass"
+   },
+   "sightings": []
+  },
+  {
+   "id": "golden-invokehostfunction-e296f7c5-7",
+   "title": "stellar-core golden: basic contract invocation|protocol version 30|incorrect invocation parameters|too few parameters",
+   "xdr_type": "LedgerCloseMeta",
+   "file": "entries/golden-invokehostfunction-e296f7c5-7.LedgerCloseMeta.xdr.b64",
+   "sha256": "0e9979a5dbbe546cc08b7b7b61797a743a43c3545e4b6881bbc4ced3c62a9062",
+   "size_bytes": 3740,
+   "protocol_version": 30,
+   "caps": [],
+   "synthetic": false,
+   "source": {
+    "kind": "stellar_core_golden",
+    "stellar_core_commit": "f2b91947fb20fc8174cca38bf320eda7baa3edbb",
+    "golden_file": "test-lcm-current/InvokeHostFunctionTests/e296f7c5675ebc90.xdr",
+    "record": 7,
+    "test": "basic contract invocation|protocol version 30|incorrect invocation parameters|too few parameters",
+    "network_passphrase": "(V) (;,,;) (V)"
+   },
+   "shape": "Selected because it exercises 2 schema cell(s) that no other entry reaches.",
+   "patterns": {
+    "failed-transaction": "v2.txProcessing[0].result.result.result"
+   },
+   "designated": {
+    "patterns": [],
+    "cells": [
+     "arm:SCError.SCE_WASM_VM",
+     "enum:SCErrorCode.SCEC_UNEXPECTED_SIZE"
+    ]
+   },
+   "cells": [
+    "arm:AccountEntryExt.1",
+    "arm:AccountEntryExtensionV1Ext.2",
+    "arm:AccountEntryExtensionV2Ext.3",
+    "arm:ContractEventBody.0",
+    "arm:ExtensionPoint.0",
+    "arm:GeneralizedTransactionSet.1",
+    "arm:HostFunction.HOST_FUNCTION_TYPE_INVOKE_CONTRACT",
+    "arm:InvokeHostFunctionResult.INVOKE_HOST_FUNCTION_TRAPPED",
+    "arm:LedgerCloseMeta.2",
+    "arm:LedgerCloseMetaExt.0",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_STATE",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_UPDATED",
+    "arm:LedgerEntryData.ACCOUNT",
+    "arm:LedgerEntryExt.0",
+    "arm:LedgerHeaderExt.0",
+    "arm:LedgerHeaderHistoryEntryExt.0",
+    "arm:LedgerKey.CONTRACT_CODE",
+    "arm:LedgerKey.CONTRACT_DATA",
+    "arm:Memo.MEMO_NONE",
+    "arm:MuxedAccount.KEY_TYPE_ED25519",
+    "arm:OperationBody.INVOKE_HOST_FUNCTION",
+    "arm:OperationResult.opINNER",
+    "arm:OperationResultTr.INVOKE_HOST_FUNCTION",
+    "arm:Preconditions.PRECOND_NONE",
+    "arm:PublicKey.PUBLIC_KEY_TYPE_ED25519",
+    "arm:SCAddress.SC_ADDRESS_TYPE_CONTRACT",
+    "arm:SCError.SCE_WASM_VM",
+    "arm:SCVal.SCV_BYTES",
+    "arm:SCVal.SCV_ERROR",
+    "arm:SCVal.SCV_I32",
+    "arm:SCVal.SCV_LEDGER_KEY_CONTRACT_INSTANCE",
+    "arm:SCVal.SCV_STRING",
+    "arm:SCVal.SCV_SYMBOL",
+    "arm:SCVal.SCV_U64",
+    "arm:SCVal.SCV_VEC",
+    "arm:SCVal.SCV_VOID",
+    "arm:SorobanTransactionDataExt.0",
+    "arm:StellarValueExt.STELLAR_VALUE_SIGNED_MS",
+    "arm:TransactionEnvelope.ENVELOPE_TYPE_TX",
+    "arm:TransactionExt.1",
+    "arm:TransactionMeta.4",
+    "arm:TransactionPhase.0",
+    "arm:TransactionPhase.1",
+    "arm:TransactionResultExt.0",
+    "arm:TransactionResultResult.txFAILED",
+    "enum:ContractDataDurability.PERSISTENT",
+    "enum:ContractEventType.DIAGNOSTIC",
+    "enum:SCErrorCode.SCEC_UNEXPECTED_SIZE"
+   ],
+   "cells_new_in_protocol": [
+    "arm:StellarValueExt.STELLAR_VALUE_SIGNED_MS"
+   ],
+   "expected": {
+    "decoded": [
+     {
+      "path": "v",
+      "value": 2
+     },
+     {
+      "path": "v2.ledgerHeader.header.ledgerSeq",
+      "value": 9
+     },
+     {
+      "path": "v2.ledgerHeader.header.ledgerVersion",
+      "value": 30
+     },
+     {
+      "path": "v2.ledgerHeader.hash",
+      "value": "577210f59ce0227373987d1884d880977b56b78f4a699d85724103dd4df03082"
+     },
+     {
+      "path": "v2.ledgerHeader.header.scpValue.closeTime",
+      "value": 1451692801
+     },
+     {
+      "path": "v2.txProcessing[0].txApplyProcessing.v4.diagnosticEvents[1].event.body.v0.topics[1].error.type",
+      "value": "SCE_WASM_VM",
+      "note": "cell arm:SCError.SCE_WASM_VM"
+     },
+     {
+      "path": "v2.txProcessing[0].txApplyProcessing.v4.diagnosticEvents[1].event.body.v0.topics[1].error.code",
+      "value": "SCEC_UNEXPECTED_SIZE",
+      "note": "cell enum:SCErrorCode.SCEC_UNEXPECTED_SIZE"
+     }
+    ]
+   },
+   "validation": {
+    "independent_decoder": "not_run",
+    "rs_stellar_xdr_roundtrip": "not_run",
+    "stellar_core": {
+     "version": "30.0.0",
+     "command": "",
+     "result": "not_run"
+    },
+    "core_golden": "pass"
+   },
+   "sightings": []
+  },
+  {
+   "id": "golden-invokehostfunction-182fa281-1",
+   "title": "stellar-core golden: settings upgrade|from min settings",
+   "xdr_type": "LedgerCloseMeta",
+   "file": "entries/golden-invokehostfunction-182fa281-1.LedgerCloseMeta.xdr.b64",
+   "sha256": "264a953208c79dbcefaaa60a929a4abfc2eef3cf829e0bc09b010c3d6eb12bce",
+   "size_bytes": 636,
+   "protocol_version": 30,
+   "caps": [],
+   "synthetic": false,
+   "source": {
+    "kind": "stellar_core_golden",
+    "stellar_core_commit": "f2b91947fb20fc8174cca38bf320eda7baa3edbb",
+    "golden_file": "test-lcm-current/InvokeHostFunctionTests/182fa2818edaf743.xdr",
+    "record": 1,
+    "test": "settings upgrade|from min settings",
+    "network_passphrase": "(V) (;,,;) (V)"
+   },
+   "shape": "Selected because it exercises 1 schema cell(s) that no other entry reaches.",
+   "patterns": {},
+   "designated": {
+    "patterns": [],
+    "cells": [
+     "arm:LedgerUpgrade.LEDGER_UPGRADE_MAX_SOROBAN_TX_SET_SIZE"
+    ]
+   },
+   "cells": [
+    "arm:ConfigSettingEntry.CONFIG_SETTING_CONTRACT_EXECUTION_LANES",
+    "arm:GeneralizedTransactionSet.1",
+    "arm:LedgerCloseMeta.2",
+    "arm:LedgerCloseMetaExt.0",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_STATE",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_UPDATED",
+    "arm:LedgerEntryData.CONFIG_SETTING",
+    "arm:LedgerEntryExt.0",
+    "arm:LedgerHeaderExt.0",
+    "arm:LedgerHeaderHistoryEntryExt.0",
+    "arm:LedgerUpgrade.LEDGER_UPGRADE_MAX_SOROBAN_TX_SET_SIZE",
+    "arm:PublicKey.PUBLIC_KEY_TYPE_ED25519",
+    "arm:StellarValueExt.STELLAR_VALUE_SIGNED_MS",
+    "arm:TransactionPhase.0",
+    "arm:TransactionPhase.1"
+   ],
+   "cells_new_in_protocol": [
+    "arm:StellarValueExt.STELLAR_VALUE_SIGNED_MS"
+   ],
+   "expected": {
+    "decoded": [
+     {
+      "path": "v",
+      "value": 2
+     },
+     {
+      "path": "v2.ledgerHeader.header.ledgerSeq",
+      "value": 3
+     },
+     {
+      "path": "v2.ledgerHeader.header.ledgerVersion",
+      "value": 30
+     },
+     {
+      "path": "v2.ledgerHeader.hash",
+      "value": "b93af55d49dec768d1b9b946affe6aeb3f09c50a80c845417e455c14c9103cc2"
+     },
+     {
+      "path": "v2.ledgerHeader.header.scpValue.closeTime",
+      "value": 0
+     },
+     {
+      "path": "v2.upgradesProcessing[0].upgrade.type",
+      "value": "LEDGER_UPGRADE_MAX_SOROBAN_TX_SET_SIZE",
+      "note": "cell arm:LedgerUpgrade.LEDGER_UPGRADE_MAX_SOROBAN_TX_SET_SIZE"
+     }
+    ]
+   },
+   "validation": {
+    "independent_decoder": "not_run",
+    "rs_stellar_xdr_roundtrip": "not_run",
+    "stellar_core": {
+     "version": "30.0.0",
+     "command": "",
+     "result": "not_run"
+    },
+    "core_golden": "pass"
+   },
+   "sightings": []
+  },
+  {
+   "id": "golden-beginsponsoringfuturereserves-24cec2c5-1",
+   "title": "stellar-core golden: sponsor future reserves|protocol version 30|bad sponsorship",
+   "xdr_type": "LedgerCloseMeta",
+   "file": "entries/golden-beginsponsoringfuturereserves-24cec2c5-1.LedgerCloseMeta.xdr.b64",
+   "sha256": "0724cba47a6cad873c71f19c47400c24422e887e0b694cfab32187c5f161d6b9",
+   "size_bytes": 1492,
+   "protocol_version": 30,
+   "caps": [],
+   "synthetic": false,
+   "source": {
+    "kind": "stellar_core_golden",
+    "stellar_core_commit": "f2b91947fb20fc8174cca38bf320eda7baa3edbb",
+    "golden_file": "test-lcm-current/BeginSponsoringFutureReservesTests/24cec2c5f1acf638.xdr",
+    "record": 1,
+    "test": "sponsor future reserves|protocol version 30|bad sponsorship",
+    "network_passphrase": "(V) (;,,;) (V)"
+   },
+   "shape": "Selected because it exercises 1 schema cell(s) that no other entry reaches.",
+   "patterns": {
+    "failed-transaction": "v2.txProcessing[0].result.result.result"
+   },
+   "designated": {
+    "patterns": [],
+    "cells": [
+     "arm:TransactionResultResult.txBAD_SPONSORSHIP"
+    ]
+   },
+   "cells": [
+    "arm:AccountEntryExt.1",
+    "arm:AccountEntryExtensionV1Ext.2",
+    "arm:AccountEntryExtensionV2Ext.3",
+    "arm:ExtensionPoint.0",
+    "arm:GeneralizedTransactionSet.1",
+    "arm:LedgerCloseMeta.2",
+    "arm:LedgerCloseMetaExt.0",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_STATE",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_UPDATED",
+    "arm:LedgerEntryData.ACCOUNT",
+    "arm:LedgerEntryExt.0",
+    "arm:LedgerHeaderExt.0",
+    "arm:LedgerHeaderHistoryEntryExt.0",
+    "arm:Memo.MEMO_NONE",
+    "arm:MuxedAccount.KEY_TYPE_ED25519",
+    "arm:OperationBody.BEGIN_SPONSORING_FUTURE_RESERVES",
+    "arm:Preconditions.PRECOND_NONE",
+    "arm:PublicKey.PUBLIC_KEY_TYPE_ED25519",
+    "arm:StellarValueExt.STELLAR_VALUE_SIGNED_MS",
+    "arm:TransactionEnvelope.ENVELOPE_TYPE_TX",
+    "arm:TransactionExt.0",
+    "arm:TransactionMeta.4",
+    "arm:TransactionPhase.0",
+    "arm:TransactionPhase.1",
+    "arm:TransactionResultExt.0",
+    "arm:TransactionResultResult.txBAD_SPONSORSHIP",
+    "arm:TxSetComponent.TXSET_COMP_TXS_MAYBE_DISCOUNTED_FEE"
+   ],
+   "cells_new_in_protocol": [
+    "arm:StellarValueExt.STELLAR_VALUE_SIGNED_MS"
+   ],
+   "expected": {
+    "decoded": [
+     {
+      "path": "v",
+      "value": 2
+     },
+     {
+      "path": "v2.ledgerHeader.header.ledgerSeq",
+      "value": 3
+     },
+     {
+      "path": "v2.ledgerHeader.header.ledgerVersion",
+      "value": 30
+     },
+     {
+      "path": "v2.ledgerHeader.hash",
+      "value": "95cbd3f3f0d53393375a4c6a2755c891e613b7ae3aa66fe57d8ba30505467906"
+     },
+     {
+      "path": "v2.ledgerHeader.header.scpValue.closeTime",
+      "value": 0
+     },
+     {
+      "path": "v2.txProcessing[0].result.result.result.code",
+      "value": "txBAD_SPONSORSHIP",
+      "note": "cell arm:TransactionResultResult.txBAD_SPONSORSHIP"
+     }
+    ]
+   },
+   "validation": {
+    "independent_decoder": "not_run",
+    "rs_stellar_xdr_roundtrip": "not_run",
+    "stellar_core": {
+     "version": "30.0.0",
+     "command": "",
+     "result": "not_run"
+    },
+    "core_golden": "pass"
+   },
+   "sightings": []
+  },
+  {
+   "id": "golden-invokehostfunction-27003f6c-5",
+   "title": "stellar-core golden: Module cache",
+   "xdr_type": "LedgerCloseMeta",
+   "file": "entries/golden-invokehostfunction-27003f6c-5.LedgerCloseMeta.xdr.b64",
+   "sha256": "f3acc9e574abb51659841958ee74de3b9eb67d431468fe4dcb097bdbdd5e336d",
+   "size_bytes": 1524,
+   "protocol_version": 20,
+   "caps": [],
+   "synthetic": false,
+   "source": {
+    "kind": "stellar_core_golden",
+    "stellar_core_commit": "f2b91947fb20fc8174cca38bf320eda7baa3edbb",
+    "golden_file": "test-lcm-current/InvokeHostFunctionTests/27003f6cc5cdecc2.xdr",
+    "record": 5,
+    "test": "Module cache",
+    "network_passphrase": "(V) (;,,;) (V)"
+   },
+   "shape": "Selected because it exercises 1 schema cell(s) that no other entry reaches.",
+   "patterns": {},
+   "designated": {
+    "patterns": [],
+    "cells": [
+     "arm:LedgerUpgrade.LEDGER_UPGRADE_CONFIG"
+    ]
+   },
+   "cells": [
+    "arm:ConfigSettingEntry.CONFIG_SETTING_CONTRACT_BANDWIDTH_V0",
+    "arm:ConfigSettingEntry.CONFIG_SETTING_CONTRACT_COMPUTE_V0",
+    "arm:ConfigSettingEntry.CONFIG_SETTING_CONTRACT_DATA_ENTRY_SIZE_BYTES",
+    "arm:ConfigSettingEntry.CONFIG_SETTING_CONTRACT_DATA_KEY_SIZE_BYTES",
+    "arm:ConfigSettingEntry.CONFIG_SETTING_CONTRACT_EVENTS_V0",
+    "arm:ConfigSettingEntry.CONFIG_SETTING_CONTRACT_EXECUTION_LANES",
+    "arm:ConfigSettingEntry.CONFIG_SETTING_CONTRACT_HISTORICAL_DATA_V0",
+    "arm:ConfigSettingEntry.CONFIG_SETTING_CONTRACT_LEDGER_COST_V0",
+    "arm:ConfigSettingEntry.CONFIG_SETTING_CONTRACT_MAX_SIZE_BYTES",
+    "arm:ConfigSettingEntry.CONFIG_SETTING_STATE_ARCHIVAL",
+    "arm:GeneralizedTransactionSet.1",
+    "arm:LedgerCloseMeta.1",
+    "arm:LedgerCloseMetaExt.0",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_STATE",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_UPDATED",
+    "arm:LedgerEntryData.CONFIG_SETTING",
+    "arm:LedgerEntryExt.0",
+    "arm:LedgerHeaderExt.0",
+    "arm:LedgerHeaderHistoryEntryExt.0",
+    "arm:LedgerUpgrade.LEDGER_UPGRADE_CONFIG",
+    "arm:PublicKey.PUBLIC_KEY_TYPE_ED25519",
+    "arm:StellarValueExt.STELLAR_VALUE_SIGNED",
+    "arm:TransactionPhase.0"
+   ],
+   "cells_new_in_protocol": [],
+   "expected": {
+    "decoded": [
+     {
+      "path": "v",
+      "value": 1
+     },
+     {
+      "path": "v1.ledgerHeader.header.ledgerSeq",
+      "value": 7
+     },
+     {
+      "path": "v1.ledgerHeader.header.ledgerVersion",
+      "value": 20
+     },
+     {
+      "path": "v1.ledgerHeader.hash",
+      "value": "441e5f91918c5b9ae2eb8a60142f7fe8709a9cd2981a133895755841b8b9101f"
+     },
+     {
+      "path": "v1.ledgerHeader.header.scpValue.closeTime",
+      "value": 1451692801
+     },
+     {
+      "path": "v1.upgradesProcessing[0].upgrade.type",
+      "value": "LEDGER_UPGRADE_CONFIG",
+      "note": "cell arm:LedgerUpgrade.LEDGER_UPGRADE_CONFIG"
+     }
+    ]
+   },
+   "validation": {
+    "independent_decoder": "not_run",
+    "rs_stellar_xdr_roundtrip": "not_run",
+    "stellar_core": {
+     "version": "30.0.0",
+     "command": "",
+     "result": "not_run"
+    },
+    "core_golden": "pass"
+   },
+   "sightings": []
+  },
+  {
+   "id": "golden-beginsponsoringfuturereserves-16ca002d-1",
+   "title": "stellar-core golden: sponsor future reserves|protocol version 30|already sponsored",
+   "xdr_type": "LedgerCloseMeta",
+   "file": "entries/golden-beginsponsoringfuturereserves-16ca002d-1.LedgerCloseMeta.xdr.b64",
+   "sha256": "cd2bc812b16c2ebf5c9aa02b136d3a90932b23a2108a397f002831c9f169c675",
+   "size_bytes": 1600,
+   "protocol_version": 30,
+   "caps": [],
+   "synthetic": false,
+   "source": {
+    "kind": "stellar_core_golden",
+    "stellar_core_commit": "f2b91947fb20fc8174cca38bf320eda7baa3edbb",
+    "golden_file": "test-lcm-current/BeginSponsoringFutureReservesTests/16ca002da0d1fd67.xdr",
+    "record": 1,
+    "test": "sponsor future reserves|protocol version 30|already sponsored",
+    "network_passphrase": "(V) (;,,;) (V)"
+   },
+   "shape": "Selected because it exercises 1 schema cell(s) that no other entry reaches.",
+   "patterns": {
+    "failed-transaction": "v2.txProcessing[0].result.result.result"
+   },
+   "designated": {
+    "patterns": [],
+    "cells": [
+     "arm:BeginSponsoringFutureReservesResult.BEGIN_SPONSORING_FUTURE_RESERVES_ALREADY_SPONSORED"
+    ]
+   },
+   "cells": [
+    "arm:AccountEntryExt.1",
+    "arm:AccountEntryExtensionV1Ext.2",
+    "arm:AccountEntryExtensionV2Ext.3",
+    "arm:BeginSponsoringFutureReservesResult.BEGIN_SPONSORING_FUTURE_RESERVES_ALREADY_SPONSORED",
+    "arm:BeginSponsoringFutureReservesResult.BEGIN_SPONSORING_FUTURE_RESERVES_SUCCESS",
+    "arm:ExtensionPoint.0",
+    "arm:GeneralizedTransactionSet.1",
+    "arm:LedgerCloseMeta.2",
+    "arm:LedgerCloseMetaExt.0",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_STATE",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_UPDATED",
+    "arm:LedgerEntryData.ACCOUNT",
+    "arm:LedgerEntryExt.0",
+    "arm:LedgerHeaderExt.0",
+    "arm:LedgerHeaderHistoryEntryExt.0",
+    "arm:Memo.MEMO_NONE",
+    "arm:MuxedAccount.KEY_TYPE_ED25519",
+    "arm:OperationBody.BEGIN_SPONSORING_FUTURE_RESERVES",
+    "arm:OperationResult.opINNER",
+    "arm:OperationResultTr.BEGIN_SPONSORING_FUTURE_RESERVES",
+    "arm:Preconditions.PRECOND_NONE",
+    "arm:PublicKey.PUBLIC_KEY_TYPE_ED25519",
+    "arm:StellarValueExt.STELLAR_VALUE_SIGNED_MS",
+    "arm:TransactionEnvelope.ENVELOPE_TYPE_TX",
+    "arm:TransactionExt.0",
+    "arm:TransactionMeta.4",
+    "arm:TransactionPhase.0",
+    "arm:TransactionPhase.1",
+    "arm:TransactionResultExt.0",
+    "arm:TransactionResultResult.txFAILED",
+    "arm:TxSetComponent.TXSET_COMP_TXS_MAYBE_DISCOUNTED_FEE"
+   ],
+   "cells_new_in_protocol": [
+    "arm:StellarValueExt.STELLAR_VALUE_SIGNED_MS"
+   ],
+   "expected": {
+    "decoded": [
+     {
+      "path": "v",
+      "value": 2
+     },
+     {
+      "path": "v2.ledgerHeader.header.ledgerSeq",
+      "value": 3
+     },
+     {
+      "path": "v2.ledgerHeader.header.ledgerVersion",
+      "value": 30
+     },
+     {
+      "path": "v2.ledgerHeader.hash",
+      "value": "fcc2362b2daf6573dd4448e357a3adac430986623e1cbc40671cf48e4951b3cf"
+     },
+     {
+      "path": "v2.ledgerHeader.header.scpValue.closeTime",
+      "value": 0
+     },
+     {
+      "path": "v2.txProcessing[0].result.result.result.results[1].tr.beginSponsoringFutureReservesResult.code",
+      "value": "BEGIN_SPONSORING_FUTURE_RESERVES_ALREADY_SPONSORED",
+      "note": "cell arm:BeginSponsoringFutureReservesResult.BEGIN_SPONSORING_FUTURE_RESERVES_ALREADY_SPONSORED"
+     }
+    ]
+   },
+   "validation": {
+    "independent_decoder": "not_run",
+    "rs_stellar_xdr_roundtrip": "not_run",
+    "stellar_core": {
+     "version": "30.0.0",
+     "command": "",
+     "result": "not_run"
+    },
+    "core_golden": "pass"
+   },
+   "sightings": []
+  },
+  {
+   "id": "golden-invokehostfunction-8299635e-27",
+   "title": "stellar-core golden: ledger entry size limit enforced|contract code limits",
+   "xdr_type": "LedgerCloseMeta",
+   "file": "entries/golden-invokehostfunction-8299635e-27.LedgerCloseMeta.xdr.b64",
+   "sha256": "aa23f9fdce0a4d5974671129aca644df1cf63fad298ecd64a1048f2ba8cbd4c6",
+   "size_bytes": 1952,
+   "protocol_version": 30,
+   "caps": [],
+   "synthetic": false,
+   "source": {
+    "kind": "stellar_core_golden",
+    "stellar_core_commit": "f2b91947fb20fc8174cca38bf320eda7baa3edbb",
+    "golden_file": "test-lcm-current/InvokeHostFunctionTests/8299635e181e651c.xdr",
+    "record": 27,
+    "test": "ledger entry size limit enforced|contract code limits",
+    "network_passphrase": "(V) (;,,;) (V)"
+   },
+   "shape": "Selected because it exercises 1 schema cell(s) that no other entry reaches.",
+   "patterns": {
+    "failed-transaction": "v2.txProcessing[0].result.result.result"
+   },
+   "designated": {
+    "patterns": [],
+    "cells": [
+     "arm:RestoreFootprintResult.RESTORE_FOOTPRINT_RESOURCE_LIMIT_EXCEEDED"
+    ]
+   },
+   "cells": [
+    "arm:AccountEntryExt.1",
+    "arm:AccountEntryExtensionV1Ext.2",
+    "arm:AccountEntryExtensionV2Ext.3",
+    "arm:ContractEventBody.0",
+    "arm:ExtensionPoint.0",
+    "arm:GeneralizedTransactionSet.1",
+    "arm:LedgerCloseMeta.2",
+    "arm:LedgerCloseMetaExt.0",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_STATE",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_UPDATED",
+    "arm:LedgerEntryData.ACCOUNT",
+    "arm:LedgerEntryExt.0",
+    "arm:LedgerHeaderExt.0",
+    "arm:LedgerHeaderHistoryEntryExt.0",
+    "arm:LedgerKey.CONTRACT_CODE",
+    "arm:Memo.MEMO_NONE",
+    "arm:MuxedAccount.KEY_TYPE_ED25519",
+    "arm:OperationBody.RESTORE_FOOTPRINT",
+    "arm:OperationResult.opINNER",
+    "arm:OperationResultTr.RESTORE_FOOTPRINT",
+    "arm:Preconditions.PRECOND_NONE",
+    "arm:PublicKey.PUBLIC_KEY_TYPE_ED25519",
+    "arm:RestoreFootprintResult.RESTORE_FOOTPRINT_RESOURCE_LIMIT_EXCEEDED",
+    "arm:SCError.SCE_BUDGET",
+    "arm:SCVal.SCV_ERROR",
+    "arm:SCVal.SCV_STRING",
+    "arm:SCVal.SCV_SYMBOL",
+    "arm:SCVal.SCV_U64",
+    "arm:SCVal.SCV_VEC",
+    "arm:SorobanTransactionDataExt.0",
+    "arm:StellarValueExt.STELLAR_VALUE_SIGNED_MS",
+    "arm:TransactionEnvelope.ENVELOPE_TYPE_TX",
+    "arm:TransactionExt.1",
+    "arm:TransactionMeta.4",
+    "arm:TransactionPhase.0",
+    "arm:TransactionPhase.1",
+    "arm:TransactionResultExt.0",
+    "arm:TransactionResultResult.txFAILED",
+    "enum:ContractEventType.DIAGNOSTIC",
+    "enum:SCErrorCode.SCEC_EXCEEDED_LIMIT"
+   ],
+   "cells_new_in_protocol": [
+    "arm:StellarValueExt.STELLAR_VALUE_SIGNED_MS"
+   ],
+   "expected": {
+    "decoded": [
+     {
+      "path": "v",
+      "value": 2
+     },
+     {
+      "path": "v2.ledgerHeader.header.ledgerSeq",
+      "value": 29
+     },
+     {
+      "path": "v2.ledgerHeader.header.ledgerVersion",
+      "value": 30
+     },
+     {
+      "path": "v2.ledgerHeader.hash",
+      "value": "f941b45186c412f123856ea5b84b93eed128e549efe8115f332d102efa50e354"
+     },
+     {
+      "path": "v2.ledgerHeader.header.scpValue.closeTime",
+      "value": 1451692802
+     },
+     {
+      "path": "v2.txProcessing[0].result.result.result.results[0].tr.restoreFootprintResult.code",
+      "value": "RESTORE_FOOTPRINT_RESOURCE_LIMIT_EXCEEDED",
+      "note": "cell arm:RestoreFootprintResult.RESTORE_FOOTPRINT_RESOURCE_LIMIT_EXCEEDED"
+     }
+    ]
+   },
+   "validation": {
+    "independent_decoder": "not_run",
+    "rs_stellar_xdr_roundtrip": "not_run",
+    "stellar_core": {
+     "version": "30.0.0",
+     "command": "",
+     "result": "not_run"
+    },
+    "core_golden": "pass"
+   },
+   "sightings": []
+  },
+  {
+   "id": "golden-invokehostfunction-8299635e-11",
+   "title": "stellar-core golden: ledger entry size limit enforced|contract code limits",
+   "xdr_type": "LedgerCloseMeta",
+   "file": "entries/golden-invokehostfunction-8299635e-11.LedgerCloseMeta.xdr.b64",
+   "sha256": "7e2100abee5deb8e7fcaa5344ecfb14101c1bbf2246bdf9ef237eebbd6e3fc8f",
+   "size_bytes": 1956,
+   "protocol_version": 30,
+   "caps": [],
+   "synthetic": false,
+   "source": {
+    "kind": "stellar_core_golden",
+    "stellar_core_commit": "f2b91947fb20fc8174cca38bf320eda7baa3edbb",
+    "golden_file": "test-lcm-current/InvokeHostFunctionTests/8299635e181e651c.xdr",
+    "record": 11,
+    "test": "ledger entry size limit enforced|contract code limits",
+    "network_passphrase": "(V) (;,,;) (V)"
+   },
+   "shape": "Selected because it exercises 1 schema cell(s) that no other entry reaches.",
+   "patterns": {
+    "failed-transaction": "v2.txProcessing[0].result.result.result"
+   },
+   "designated": {
+    "patterns": [],
+    "cells": [
+     "arm:ExtendFootprintTTLResult.EXTEND_FOOTPRINT_TTL_RESOURCE_LIMIT_EXCEEDED"
+    ]
+   },
+   "cells": [
+    "arm:AccountEntryExt.1",
+    "arm:AccountEntryExtensionV1Ext.2",
+    "arm:AccountEntryExtensionV2Ext.3",
+    "arm:ContractEventBody.0",
+    "arm:ExtendFootprintTTLResult.EXTEND_FOOTPRINT_TTL_RESOURCE_LIMIT_EXCEEDED",
+    "arm:ExtensionPoint.0",
+    "arm:GeneralizedTransactionSet.1",
+    "arm:LedgerCloseMeta.2",
+    "arm:LedgerCloseMetaExt.0",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_STATE",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_UPDATED",
+    "arm:LedgerEntryData.ACCOUNT",
+    "arm:LedgerEntryExt.0",
+    "arm:LedgerHeaderExt.0",
+    "arm:LedgerHeaderHistoryEntryExt.0",
+    "arm:LedgerKey.CONTRACT_CODE",
+    "arm:Memo.MEMO_NONE",
+    "arm:MuxedAccount.KEY_TYPE_ED25519",
+    "arm:OperationBody.EXTEND_FOOTPRINT_TTL",
+    "arm:OperationResult.opINNER",
+    "arm:OperationResultTr.EXTEND_FOOTPRINT_TTL",
+    "arm:Preconditions.PRECOND_NONE",
+    "arm:PublicKey.PUBLIC_KEY_TYPE_ED25519",
+    "arm:SCError.SCE_BUDGET",
+    "arm:SCVal.SCV_ERROR",
+    "arm:SCVal.SCV_STRING",
+    "arm:SCVal.SCV_SYMBOL",
+    "arm:SCVal.SCV_U64",
+    "arm:SCVal.SCV_VEC",
+    "arm:SorobanTransactionDataExt.0",
+    "arm:StellarValueExt.STELLAR_VALUE_SIGNED_MS",
+    "arm:TransactionEnvelope.ENVELOPE_TYPE_TX",
+    "arm:TransactionExt.1",
+    "arm:TransactionMeta.4",
+    "arm:TransactionPhase.0",
+    "arm:TransactionPhase.1",
+    "arm:TransactionResultExt.0",
+    "arm:TransactionResultResult.txFAILED",
+    "enum:ContractEventType.DIAGNOSTIC",
+    "enum:SCErrorCode.SCEC_EXCEEDED_LIMIT"
+   ],
+   "cells_new_in_protocol": [
+    "arm:StellarValueExt.STELLAR_VALUE_SIGNED_MS"
+   ],
+   "expected": {
+    "decoded": [
+     {
+      "path": "v",
+      "value": 2
+     },
+     {
+      "path": "v2.ledgerHeader.header.ledgerSeq",
+      "value": 13
+     },
+     {
+      "path": "v2.ledgerHeader.header.ledgerVersion",
+      "value": 30
+     },
+     {
+      "path": "v2.ledgerHeader.hash",
+      "value": "a02cb2a060ef5f73bd83d76db7ce39389eb288cb2f87b2c84d348bfae2175007"
+     },
+     {
+      "path": "v2.ledgerHeader.header.scpValue.closeTime",
+      "value": 1451692802
+     },
+     {
+      "path": "v2.txProcessing[0].result.result.result.results[0].tr.extendFootprintTTLResult.code",
+      "value": "EXTEND_FOOTPRINT_TTL_RESOURCE_LIMIT_EXCEEDED",
+      "note": "cell arm:ExtendFootprintTTLResult.EXTEND_FOOTPRINT_TTL_RESOURCE_LIMIT_EXCEEDED"
+     }
+    ]
+   },
+   "validation": {
+    "independent_decoder": "not_run",
+    "rs_stellar_xdr_roundtrip": "not_run",
+    "stellar_core": {
+     "version": "30.0.0",
+     "command": "",
+     "result": "not_run"
+    },
+    "core_golden": "pass"
+   },
+   "sightings": []
+  },
+  {
+   "id": "golden-invokehostfunction-568d5125-9",
+   "title": "stellar-core golden: state archival operation errors|protocol version 30|extend operation|insufficient refundable fee",
+   "xdr_type": "LedgerCloseMeta",
+   "file": "entries/golden-invokehostfunction-568d5125-9.LedgerCloseMeta.xdr.b64",
+   "sha256": "927644078b9de946209ac7b0593f39f066cd64478ddea55f44be1070c5cd63f7",
+   "size_bytes": 2060,
+   "protocol_version": 30,
+   "caps": [],
+   "synthetic": false,
+   "source": {
+    "kind": "stellar_core_golden",
+    "stellar_core_commit": "f2b91947fb20fc8174cca38bf320eda7baa3edbb",
+    "golden_file": "test-lcm-current/InvokeHostFunctionTests/568d51258ccf9080.xdr",
+    "record": 9,
+    "test": "state archival operation errors|protocol version 30|extend operation|insufficient refundable fee",
+    "network_passphrase": "(V) (;,,;) (V)"
+   },
+   "shape": "Selected because it exercises 1 schema cell(s) that no other entry reaches.",
+   "patterns": {
+    "failed-transaction": "v2.txProcessing[0].result.result.result"
+   },
+   "designated": {
+    "patterns": [],
+    "cells": [
+     "arm:ExtendFootprintTTLResult.EXTEND_FOOTPRINT_TTL_INSUFFICIENT_REFUNDABLE_FEE"
+    ]
+   },
+   "cells": [
+    "arm:AccountEntryExt.1",
+    "arm:AccountEntryExtensionV1Ext.2",
+    "arm:AccountEntryExtensionV2Ext.3",
+    "arm:ContractEventBody.0",
+    "arm:ExtendFootprintTTLResult.EXTEND_FOOTPRINT_TTL_INSUFFICIENT_REFUNDABLE_FEE",
+    "arm:ExtensionPoint.0",
+    "arm:GeneralizedTransactionSet.1",
+    "arm:LedgerCloseMeta.2",
+    "arm:LedgerCloseMetaExt.0",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_STATE",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_UPDATED",
+    "arm:LedgerEntryData.ACCOUNT",
+    "arm:LedgerEntryExt.0",
+    "arm:LedgerHeaderExt.0",
+    "arm:LedgerHeaderHistoryEntryExt.0",
+    "arm:LedgerKey.CONTRACT_DATA",
+    "arm:Memo.MEMO_NONE",
+    "arm:MuxedAccount.KEY_TYPE_ED25519",
+    "arm:OperationBody.EXTEND_FOOTPRINT_TTL",
+    "arm:OperationResult.opINNER",
+    "arm:OperationResultTr.EXTEND_FOOTPRINT_TTL",
+    "arm:Preconditions.PRECOND_NONE",
+    "arm:PublicKey.PUBLIC_KEY_TYPE_ED25519",
+    "arm:SCAddress.SC_ADDRESS_TYPE_CONTRACT",
+    "arm:SCError.SCE_BUDGET",
+    "arm:SCVal.SCV_ERROR",
+    "arm:SCVal.SCV_STRING",
+    "arm:SCVal.SCV_SYMBOL",
+    "arm:SCVal.SCV_U64",
+    "arm:SCVal.SCV_VEC",
+    "arm:SorobanTransactionDataExt.0",
+    "arm:StellarValueExt.STELLAR_VALUE_SIGNED_MS",
+    "arm:TransactionEnvelope.ENVELOPE_TYPE_TX",
+    "arm:TransactionExt.1",
+    "arm:TransactionMeta.4",
+    "arm:TransactionPhase.0",
+    "arm:TransactionPhase.1",
+    "arm:TransactionResultExt.0",
+    "arm:TransactionResultResult.txFAILED",
+    "enum:ContractDataDurability.PERSISTENT",
+    "enum:ContractEventType.DIAGNOSTIC",
+    "enum:SCErrorCode.SCEC_EXCEEDED_LIMIT"
+   ],
+   "cells_new_in_protocol": [
+    "arm:StellarValueExt.STELLAR_VALUE_SIGNED_MS"
+   ],
+   "expected": {
+    "decoded": [
+     {
+      "path": "v",
+      "value": 2
+     },
+     {
+      "path": "v2.ledgerHeader.header.ledgerSeq",
+      "value": 11
+     },
+     {
+      "path": "v2.ledgerHeader.header.ledgerVersion",
+      "value": 30
+     },
+     {
+      "path": "v2.ledgerHeader.hash",
+      "value": "5ae9ef8db4cbd2a1046acb4b56e098e20db2ccf8742cef48cbf793d272590aca"
+     },
+     {
+      "path": "v2.ledgerHeader.header.scpValue.closeTime",
+      "value": 1451692801
+     },
+     {
+      "path": "v2.txProcessing[0].result.result.result.results[0].tr.extendFootprintTTLResult.code",
+      "value": "EXTEND_FOOTPRINT_TTL_INSUFFICIENT_REFUNDABLE_FEE",
+      "note": "cell arm:ExtendFootprintTTLResult.EXTEND_FOOTPRINT_TTL_INSUFFICIENT_REFUNDABLE_FEE"
+     }
+    ]
+   },
+   "validation": {
+    "independent_decoder": "not_run",
+    "rs_stellar_xdr_roundtrip": "not_run",
+    "stellar_core": {
+     "version": "30.0.0",
+     "command": "",
+     "result": "not_run"
+    },
+    "core_golden": "pass"
+   },
+   "sightings": []
+  },
+  {
+   "id": "golden-invokehostfunction-fad872f3-12",
+   "title": "stellar-core golden: merge account then SAC payment scenarios|protocol version 30|SAC payment with merged account as source",
+   "xdr_type": "LedgerCloseMeta",
+   "file": "entries/golden-invokehostfunction-fad872f3-12.LedgerCloseMeta.xdr.b64",
+   "sha256": "0f1ecd706952136c07945348b3d18b82758342838f9dcff1e925cb020907d45d",
+   "size_bytes": 2728,
+   "protocol_version": 30,
+   "caps": [],
+   "synthetic": false,
+   "source": {
+    "kind": "stellar_core_golden",
+    "stellar_core_commit": "f2b91947fb20fc8174cca38bf320eda7baa3edbb",
+    "golden_file": "test-lcm-current/InvokeHostFunctionTests/fad872f357f20fe9.xdr",
+    "record": 12,
+    "test": "merge account then SAC payment scenarios|protocol version 30|SAC payment with merged account as source",
+    "network_passphrase": "(V) (;,,;) (V)"
+   },
+   "shape": "Selected because it exercises 1 schema cell(s) that no other entry reaches.",
+   "patterns": {
+    "failed-transaction": "v2.txProcessing[1].result.result.result",
+    "scval-wide-integer": "v2.txSet.v1TxSet.phases[1].parallelTxsComponent.executionStages[0][0][0].v1.tx.operations[0].body.invokeHostFunctionOp.hostFunction.invokeContract.args[2]"
+   },
+   "designated": {
+    "patterns": [],
+    "cells": [
+     "arm:TransactionResultResult.txNO_ACCOUNT"
+    ]
+   },
+   "cells": [
+    "arm:AccountEntryExt.0",
+    "arm:AccountEntryExt.1",
+    "arm:AccountEntryExtensionV1Ext.2",
+    "arm:AccountEntryExtensionV2Ext.3",
+    "arm:AccountMergeResult.ACCOUNT_MERGE_SUCCESS",
+    "arm:ExtensionPoint.0",
+    "arm:GeneralizedTransactionSet.1",
+    "arm:HostFunction.HOST_FUNCTION_TYPE_INVOKE_CONTRACT",
+    "arm:LedgerCloseMeta.2",
+    "arm:LedgerCloseMetaExt.0",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_REMOVED",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_STATE",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_UPDATED",
+    "arm:LedgerEntryData.ACCOUNT",
+    "arm:LedgerEntryExt.0",
+    "arm:LedgerHeaderExt.0",
+    "arm:LedgerHeaderHistoryEntryExt.0",
+    "arm:LedgerKey.ACCOUNT",
+    "arm:LedgerKey.CONTRACT_DATA",
+    "arm:Memo.MEMO_NONE",
+    "arm:MuxedAccount.KEY_TYPE_ED25519",
+    "arm:OperationBody.ACCOUNT_MERGE",
+    "arm:OperationBody.INVOKE_HOST_FUNCTION",
+    "arm:OperationResult.opINNER",
+    "arm:OperationResultTr.ACCOUNT_MERGE",
+    "arm:Preconditions.PRECOND_NONE",
+    "arm:PublicKey.PUBLIC_KEY_TYPE_ED25519",
+    "arm:SCAddress.SC_ADDRESS_TYPE_ACCOUNT",
+    "arm:SCAddress.SC_ADDRESS_TYPE_CONTRACT",
+    "arm:SCVal.SCV_ADDRESS",
+    "arm:SCVal.SCV_I128",
+    "arm:SCVal.SCV_LEDGER_KEY_CONTRACT_INSTANCE",
+    "arm:SorobanAuthorizedFunction.SOROBAN_AUTHORIZED_FUNCTION_TYPE_CONTRACT_FN",
+    "arm:SorobanCredentials.SOROBAN_CREDENTIALS_SOURCE_ACCOUNT",
+    "arm:SorobanTransactionDataExt.0",
+    "arm:StellarValueExt.STELLAR_VALUE_SIGNED_MS",
+    "arm:TransactionEnvelope.ENVELOPE_TYPE_TX",
+    "arm:TransactionExt.0",
+    "arm:TransactionExt.1",
+    "arm:TransactionMeta.4",
+    "arm:TransactionPhase.0",
+    "arm:TransactionPhase.1",
+    "arm:TransactionResultExt.0",
+    "arm:TransactionResultResult.txNO_ACCOUNT",
+    "arm:TransactionResultResult.txSUCCESS",
+    "arm:TxSetComponent.TXSET_COMP_TXS_MAYBE_DISCOUNTED_FEE",
+    "enum:ContractDataDurability.PERSISTENT"
+   ],
+   "cells_new_in_protocol": [
+    "arm:StellarValueExt.STELLAR_VALUE_SIGNED_MS"
+   ],
+   "expected": {
+    "decoded": [
+     {
+      "path": "v",
+      "value": 2
+     },
+     {
+      "path": "v2.ledgerHeader.header.ledgerSeq",
+      "value": 14
+     },
+     {
+      "path": "v2.ledgerHeader.header.ledgerVersion",
+      "value": 30
+     },
+     {
+      "path": "v2.ledgerHeader.hash",
+      "value": "5374bc706f970ee1440bfa1d0d2316a0c3a7fc1267cd708b115233591b97b921"
+     },
+     {
+      "path": "v2.ledgerHeader.header.scpValue.closeTime",
+      "value": 1451692802
+     },
+     {
+      "path": "v2.txProcessing[1].result.result.result.code",
+      "value": "txNO_ACCOUNT",
+      "note": "cell arm:TransactionResultResult.txNO_ACCOUNT"
+     }
+    ]
+   },
+   "validation": {
+    "independent_decoder": "not_run",
+    "rs_stellar_xdr_roundtrip": "not_run",
+    "stellar_core": {
+     "version": "30.0.0",
+     "command": "",
+     "result": "not_run"
+    },
+    "core_golden": "pass"
+   },
+   "sightings": []
+  },
+  {
+   "id": "golden-invokehostfunction-04667ce6-23",
+   "title": "stellar-core golden: persistent entry archival|eviction|key accessible after restore|restore op",
+   "xdr_type": "LedgerCloseMeta",
+   "file": "entries/golden-invokehostfunction-04667ce6-23.LedgerCloseMeta.xdr.b64",
+   "sha256": "466d23bb33b3a524a435498c6d0ca90ae3238038136b78ca67169edfd85dc62f",
+   "size_bytes": 3656,
+   "protocol_version": 30,
+   "caps": [],
+   "synthetic": false,
+   "source": {
+    "kind": "stellar_core_golden",
+    "stellar_core_commit": "f2b91947fb20fc8174cca38bf320eda7baa3edbb",
+    "golden_file": "test-lcm-current/InvokeHostFunctionTests/04667ce620bffee7.xdr",
+    "record": 23,
+    "test": "persistent entry archival|eviction|key accessible after restore|restore op",
+    "network_passphrase": "(V) (;,,;) (V)"
+   },
+   "shape": "Selected because it exercises 1 schema cell(s) that no other entry reaches.",
+   "patterns": {
+    "failed-transaction": "v2.txProcessing[0].result.result.result"
+   },
+   "designated": {
+    "patterns": [],
+    "cells": [
+     "arm:InvokeHostFunctionResult.INVOKE_HOST_FUNCTION_ENTRY_ARCHIVED"
+    ]
+   },
+   "cells": [
+    "arm:AccountEntryExt.1",
+    "arm:AccountEntryExtensionV1Ext.2",
+    "arm:AccountEntryExtensionV2Ext.3",
+    "arm:ContractEventBody.0",
+    "arm:ExtensionPoint.0",
+    "arm:GeneralizedTransactionSet.1",
+    "arm:HostFunction.HOST_FUNCTION_TYPE_INVOKE_CONTRACT",
+    "arm:InvokeHostFunctionResult.INVOKE_HOST_FUNCTION_ENTRY_ARCHIVED",
+    "arm:LedgerCloseMeta.2",
+    "arm:LedgerCloseMetaExt.0",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_STATE",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_UPDATED",
+    "arm:LedgerEntryData.ACCOUNT",
+    "arm:LedgerEntryExt.0",
+    "arm:LedgerHeaderExt.0",
+    "arm:LedgerHeaderHistoryEntryExt.0",
+    "arm:LedgerKey.CONTRACT_CODE",
+    "arm:LedgerKey.CONTRACT_DATA",
+    "arm:Memo.MEMO_NONE",
+    "arm:MuxedAccount.KEY_TYPE_ED25519",
+    "arm:OperationBody.INVOKE_HOST_FUNCTION",
+    "arm:OperationResult.opINNER",
+    "arm:OperationResultTr.INVOKE_HOST_FUNCTION",
+    "arm:Preconditions.PRECOND_NONE",
+    "arm:PublicKey.PUBLIC_KEY_TYPE_ED25519",
+    "arm:SCAddress.SC_ADDRESS_TYPE_CONTRACT",
+    "arm:SCError.SCE_VALUE",
+    "arm:SCVal.SCV_ADDRESS",
+    "arm:SCVal.SCV_ERROR",
+    "arm:SCVal.SCV_LEDGER_KEY_CONTRACT_INSTANCE",
+    "arm:SCVal.SCV_STRING",
+    "arm:SCVal.SCV_SYMBOL",
+    "arm:SCVal.SCV_U64",
+    "arm:SCVal.SCV_VEC",
+    "arm:SorobanTransactionDataExt.0",
+    "arm:StellarValueExt.STELLAR_VALUE_SIGNED_MS",
+    "arm:TransactionEnvelope.ENVELOPE_TYPE_TX",
+    "arm:TransactionExt.1",
+    "arm:TransactionMeta.4",
+    "arm:TransactionPhase.0",
+    "arm:TransactionPhase.1",
+    "arm:TransactionResultExt.0",
+    "arm:TransactionResultResult.txFAILED",
+    "enum:ContractDataDurability.PERSISTENT",
+    "enum:ContractEventType.DIAGNOSTIC",
+    "enum:SCErrorCode.SCEC_INVALID_INPUT"
+   ],
+   "cells_new_in_protocol": [
+    "arm:StellarValueExt.STELLAR_VALUE_SIGNED_MS"
+   ],
+   "expected": {
+    "decoded": [
+     {
+      "path": "v",
+      "value": 2
+     },
+     {
+      "path": "v2.ledgerHeader.header.ledgerSeq",
+      "value": 25
+     },
+     {
+      "path": "v2.ledgerHeader.header.ledgerVersion",
+      "value": 30
+     },
+     {
+      "path": "v2.ledgerHeader.hash",
+      "value": "8a2172a91911fd76bc786f43f8b72f39685b2b84a7eab6ababbb47d3009acb29"
+     },
+     {
+      "path": "v2.ledgerHeader.header.scpValue.closeTime",
+      "value": 1451692802
+     },
+     {
+      "path": "v2.txProcessing[0].result.result.result.results[0].tr.invokeHostFunctionResult.code",
+      "value": "INVOKE_HOST_FUNCTION_ENTRY_ARCHIVED",
+      "note": "cell arm:InvokeHostFunctionResult.INVOKE_HOST_FUNCTION_ENTRY_ARCHIVED"
+     }
+    ]
+   },
+   "validation": {
+    "independent_decoder": "not_run",
+    "rs_stellar_xdr_roundtrip": "not_run",
+    "stellar_core": {
+     "version": "30.0.0",
+     "command": "",
+     "result": "not_run"
+    },
+    "core_golden": "pass"
+   },
+   "sightings": []
+  },
+  {
+   "id": "golden-invokehostfunction-8e3126c5-10",
+   "title": "stellar-core golden: classic phase sets master weight of soroban source account to 0|protocol version 30",
+   "xdr_type": "LedgerCloseMeta",
+   "file": "entries/golden-invokehostfunction-8e3126c5-10.LedgerCloseMeta.xdr.b64",
+   "sha256": "c226aecc8e88af42008d5505cd4c5db2ae0015b811060bbd464ebe338ed45b0f",
+   "size_bytes": 3684,
+   "protocol_version": 30,
+   "caps": [],
+   "synthetic": false,
+   "source": {
+    "kind": "stellar_core_golden",
+    "stellar_core_commit": "f2b91947fb20fc8174cca38bf320eda7baa3edbb",
+    "golden_file": "test-lcm-current/InvokeHostFunctionTests/8e3126c525875c96.xdr",
+    "record": 10,
+    "test": "classic phase sets master weight of soroban source account to 0|protocol version 30",
+    "network_passphrase": "(V) (;,,;) (V)"
+   },
+   "shape": "Selected because it exercises 1 schema cell(s) that no other entry reaches.",
+   "patterns": {
+    "failed-transaction": "v2.txProcessing[1].result.result.result",
+    "scval-wide-integer": "v2.txProcessing[0].txApplyProcessing.v4.events[0].event.body.v0.data"
+   },
+   "designated": {
+    "patterns": [],
+    "cells": [
+     "arm:TransactionResultResult.txBAD_AUTH"
+    ]
+   },
+   "cells": [
+    "arm:AccountEntryExt.0",
+    "arm:AccountEntryExt.1",
+    "arm:AccountEntryExtensionV1Ext.2",
+    "arm:AccountEntryExtensionV2Ext.3",
+    "arm:ContractEventBody.0",
+    "arm:ExtensionPoint.0",
+    "arm:GeneralizedTransactionSet.1",
+    "arm:HostFunction.HOST_FUNCTION_TYPE_UPLOAD_CONTRACT_WASM",
+    "arm:LedgerCloseMeta.2",
+    "arm:LedgerCloseMetaExt.0",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_STATE",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_UPDATED",
+    "arm:LedgerEntryData.ACCOUNT",
+    "arm:LedgerEntryExt.0",
+    "arm:LedgerHeaderExt.0",
+    "arm:LedgerHeaderHistoryEntryExt.0",
+    "arm:LedgerKey.CONTRACT_CODE",
+    "arm:Memo.MEMO_NONE",
+    "arm:MuxedAccount.KEY_TYPE_ED25519",
+    "arm:OperationBody.INVOKE_HOST_FUNCTION",
+    "arm:OperationBody.SET_OPTIONS",
+    "arm:OperationResult.opINNER",
+    "arm:OperationResultTr.SET_OPTIONS",
+    "arm:Preconditions.PRECOND_NONE",
+    "arm:PublicKey.PUBLIC_KEY_TYPE_ED25519",
+    "arm:SCAddress.SC_ADDRESS_TYPE_ACCOUNT",
+    "arm:SCVal.SCV_ADDRESS",
+    "arm:SCVal.SCV_I128",
+    "arm:SCVal.SCV_SYMBOL",
+    "arm:SetOptionsResult.SET_OPTIONS_SUCCESS",
+    "arm:SorobanTransactionDataExt.0",
+    "arm:StellarValueExt.STELLAR_VALUE_SIGNED_MS",
+    "arm:TransactionEnvelope.ENVELOPE_TYPE_TX",
+    "arm:TransactionExt.0",
+    "arm:TransactionExt.1",
+    "arm:TransactionMeta.4",
+    "arm:TransactionPhase.0",
+    "arm:TransactionPhase.1",
+    "arm:TransactionResultExt.0",
+    "arm:TransactionResultResult.txBAD_AUTH",
+    "arm:TransactionResultResult.txSUCCESS",
+    "arm:TxSetComponent.TXSET_COMP_TXS_MAYBE_DISCOUNTED_FEE",
+    "enum:ContractEventType.CONTRACT",
+    "enum:TransactionEventStage.TRANSACTION_EVENT_STAGE_AFTER_ALL_TXS",
+    "enum:TransactionEventStage.TRANSACTION_EVENT_STAGE_BEFORE_ALL_TXS"
+   ],
+   "cells_new_in_protocol": [
+    "arm:StellarValueExt.STELLAR_VALUE_SIGNED_MS"
+   ],
+   "expected": {
+    "decoded": [
+     {
+      "path": "v",
+      "value": 2
+     },
+     {
+      "path": "v2.ledgerHeader.header.ledgerSeq",
+      "value": 12
+     },
+     {
+      "path": "v2.ledgerHeader.header.ledgerVersion",
+      "value": 30
+     },
+     {
+      "path": "v2.ledgerHeader.hash",
+      "value": "1dcf57a22aea4069109b34c10afedade0e4fcd695ba1cdd9764006a4839d4650"
+     },
+     {
+      "path": "v2.ledgerHeader.header.scpValue.closeTime",
+      "value": 1451692802
+     },
+     {
+      "path": "v2.txProcessing[1].result.result.result.code",
+      "value": "txBAD_AUTH",
+      "note": "cell arm:TransactionResultResult.txBAD_AUTH"
+     }
+    ]
+   },
+   "validation": {
+    "independent_decoder": "not_run",
+    "rs_stellar_xdr_roundtrip": "not_run",
+    "stellar_core": {
+     "version": "30.0.0",
+     "command": "",
+     "result": "not_run"
+    },
+    "core_golden": "pass"
+   },
+   "sightings": []
+  },
+  {
+   "id": "golden-invokehostfunction-27003f6c-3",
+   "title": "stellar-core golden: Module cache",
+   "xdr_type": "LedgerCloseMeta",
+   "file": "entries/golden-invokehostfunction-27003f6c-3.LedgerCloseMeta.xdr.b64",
+   "sha256": "ca97b0afb0d9f55c73d4deb8c292efe2dab46b772d43c199fc8e2827c31f4554",
+   "size_bytes": 3820,
+   "protocol_version": 20,
+   "caps": [],
+   "synthetic": false,
+   "source": {
+    "kind": "stellar_core_golden",
+    "stellar_core_commit": "f2b91947fb20fc8174cca38bf320eda7baa3edbb",
+    "golden_file": "test-lcm-current/InvokeHostFunctionTests/27003f6cc5cdecc2.xdr",
+    "record": 3,
+    "test": "Module cache",
+    "network_passphrase": "(V) (;,,;) (V)"
+   },
+   "shape": "Selected because it exercises 1 schema cell(s) that no other entry reaches.",
+   "patterns": {},
+   "designated": {
+    "patterns": [],
+    "cells": [
+     "arm:SorobanAuthorizedFunction.SOROBAN_AUTHORIZED_FUNCTION_TYPE_CREATE_CONTRACT_HOST_FN"
+    ]
+   },
+   "cells": [
+    "arm:AccountEntryExt.1",
+    "arm:AccountEntryExtensionV1Ext.2",
+    "arm:AccountEntryExtensionV2Ext.3",
+    "arm:ContractEventBody.0",
+    "arm:ContractExecutable.CONTRACT_EXECUTABLE_WASM",
+    "arm:ContractIDPreimage.CONTRACT_ID_PREIMAGE_FROM_ADDRESS",
+    "arm:ExtensionPoint.0",
+    "arm:GeneralizedTransactionSet.1",
+    "arm:HostFunction.HOST_FUNCTION_TYPE_CREATE_CONTRACT",
+    "arm:InvokeHostFunctionResult.INVOKE_HOST_FUNCTION_SUCCESS",
+    "arm:LedgerCloseMeta.1",
+    "arm:LedgerCloseMetaExt.0",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_CREATED",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_STATE",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_UPDATED",
+    "arm:LedgerEntryData.ACCOUNT",
+    "arm:LedgerEntryData.CONTRACT_DATA",
+    "arm:LedgerEntryData.TTL",
+    "arm:LedgerEntryExt.0",
+    "arm:LedgerHeaderExt.0",
+    "arm:LedgerHeaderHistoryEntryExt.0",
+    "arm:LedgerKey.CONTRACT_CODE",
+    "arm:LedgerKey.CONTRACT_DATA",
+    "arm:Memo.MEMO_NONE",
+    "arm:MuxedAccount.KEY_TYPE_ED25519",
+    "arm:OperationBody.INVOKE_HOST_FUNCTION",
+    "arm:OperationResult.opINNER",
+    "arm:OperationResultTr.INVOKE_HOST_FUNCTION",
+    "arm:Preconditions.PRECOND_NONE",
+    "arm:PublicKey.PUBLIC_KEY_TYPE_ED25519",
+    "arm:SCAddress.SC_ADDRESS_TYPE_ACCOUNT",
+    "arm:SCAddress.SC_ADDRESS_TYPE_CONTRACT",
+    "arm:SCVal.SCV_ADDRESS",
+    "arm:SCVal.SCV_CONTRACT_INSTANCE",
+    "arm:SCVal.SCV_LEDGER_KEY_CONTRACT_INSTANCE",
+    "arm:SCVal.SCV_SYMBOL",
+    "arm:SCVal.SCV_U64",
+    "arm:SorobanAuthorizedFunction.SOROBAN_AUTHORIZED_FUNCTION_TYPE_CREATE_CONTRACT_HOST_FN",
+    "arm:SorobanCredentials.SOROBAN_CREDENTIALS_SOURCE_ACCOUNT",
+    "arm:SorobanTransactionDataExt.0",
+    "arm:SorobanTransactionMetaExt.0",
+    "arm:StellarValueExt.STELLAR_VALUE_SIGNED",
+    "arm:TransactionEnvelope.ENVELOPE_TYPE_TX",
+    "arm:TransactionExt.1",
+    "arm:TransactionMeta.3",
+    "arm:TransactionPhase.0",
+    "arm:TransactionResultExt.0",
+    "arm:TransactionResultResult.txSUCCESS",
+    "arm:TxSetComponent.TXSET_COMP_TXS_MAYBE_DISCOUNTED_FEE",
+    "enum:ContractDataDurability.PERSISTENT",
+    "enum:ContractEventType.DIAGNOSTIC"
+   ],
+   "cells_new_in_protocol": [],
+   "expected": {
+    "decoded": [
+     {
+      "path": "v",
+      "value": 1
+     },
+     {
+      "path": "v1.ledgerHeader.header.ledgerSeq",
+      "value": 5
+     },
+     {
+      "path": "v1.ledgerHeader.header.ledgerVersion",
+      "value": 20
+     },
+     {
+      "path": "v1.ledgerHeader.hash",
+      "value": "e672f16dbebd1fdbf626a61eaa2bbbf3362a5e12a5676b1ded96eeec1938f93f"
+     },
+     {
+      "path": "v1.ledgerHeader.header.scpValue.closeTime",
+      "value": 1451692800
+     },
+     {
+      "path": "v1.txSet.v1TxSet.phases[1].v0Components[0].txsMaybeDiscountedFee.txs[0].v1.tx.operations[0].body.invokeHostFunctionOp.auth[0].rootInvocation.function.type",
+      "value": "SOROBAN_AUTHORIZED_FUNCTION_TYPE_CREATE_CONTRACT_HOST_FN",
+      "note": "cell arm:SorobanAuthorizedFunction.SOROBAN_AUTHORIZED_FUNCTION_TYPE_CREATE_CONTRACT_HOST_FN"
+     }
+    ]
+   },
+   "validation": {
+    "independent_decoder": "not_run",
+    "rs_stellar_xdr_roundtrip": "not_run",
+    "stellar_core": {
+     "version": "30.0.0",
+     "command": "",
+     "result": "not_run"
+    },
+    "core_golden": "pass"
+   },
+   "sightings": []
+  },
+  {
+   "id": "golden-frozenledgerkeys-12c04cf7-20",
+   "title": "stellar-core golden: frozen ledger keys DEX offer operations|second offer active [create-passive-sell][credit-native][buying-frozen]",
+   "xdr_type": "LedgerCloseMeta",
+   "file": "entries/golden-frozenledgerkeys-12c04cf7-20.LedgerCloseMeta.xdr.b64",
+   "sha256": "cd33523782c6dc0c9576daa8fc5a1d88c4c9e87d6054481a8a67e8e581adfcfd",
+   "size_bytes": 3876,
+   "protocol_version": 30,
+   "caps": [],
+   "synthetic": false,
+   "source": {
+    "kind": "stellar_core_golden",
+    "stellar_core_commit": "f2b91947fb20fc8174cca38bf320eda7baa3edbb",
+    "golden_file": "test-lcm-current/FrozenLedgerKeysTests/12c04cf739c52eac.xdr",
+    "record": 20,
+    "test": "frozen ledger keys DEX offer operations|second offer active [create-passive-sell][credit-native][buying-frozen]",
+    "network_passphrase": "(V) (;,,;) (V)"
+   },
+   "shape": "Selected because it exercises 1 schema cell(s) that no other entry reaches.",
+   "patterns": {},
+   "designated": {
+    "patterns": [],
+    "cells": [
+     "arm:OperationBody.CREATE_PASSIVE_SELL_OFFER"
+    ]
+   },
+   "cells": [
+    "arm:AccountEntryExt.1",
+    "arm:AccountEntryExtensionV1Ext.2",
+    "arm:AccountEntryExtensionV2Ext.3",
+    "arm:Asset.ASSET_TYPE_CREDIT_ALPHANUM4",
+    "arm:Asset.ASSET_TYPE_NATIVE",
+    "arm:ClaimAtom.CLAIM_ATOM_TYPE_ORDER_BOOK",
+    "arm:ExtensionPoint.0",
+    "arm:GeneralizedTransactionSet.1",
+    "arm:LedgerCloseMeta.2",
+    "arm:LedgerCloseMetaExt.0",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_REMOVED",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_STATE",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_UPDATED",
+    "arm:LedgerEntryData.ACCOUNT",
+    "arm:LedgerEntryData.OFFER",
+    "arm:LedgerEntryData.TRUSTLINE",
+    "arm:LedgerEntryExt.0",
+    "arm:LedgerHeaderExt.0",
+    "arm:LedgerHeaderHistoryEntryExt.0",
+    "arm:LedgerKey.OFFER",
+    "arm:ManageOfferSuccessResultOffer.MANAGE_OFFER_DELETED",
+    "arm:ManageSellOfferResult.MANAGE_SELL_OFFER_SUCCESS",
+    "arm:Memo.MEMO_NONE",
+    "arm:MuxedAccount.KEY_TYPE_ED25519",
+    "arm:OfferEntryExt.0",
+    "arm:OperationBody.CREATE_PASSIVE_SELL_OFFER",
+    "arm:OperationResult.opINNER",
+    "arm:OperationResultTr.MANAGE_SELL_OFFER",
+    "arm:Preconditions.PRECOND_NONE",
+    "arm:PublicKey.PUBLIC_KEY_TYPE_ED25519",
+    "arm:StellarValueExt.STELLAR_VALUE_SIGNED_MS",
+    "arm:TransactionEnvelope.ENVELOPE_TYPE_TX",
+    "arm:TransactionExt.0",
+    "arm:TransactionMeta.4",
+    "arm:TransactionPhase.0",
+    "arm:TransactionPhase.1",
+    "arm:TransactionResultExt.0",
+    "arm:TransactionResultResult.txSUCCESS",
+    "arm:TrustLineAsset.ASSET_TYPE_CREDIT_ALPHANUM4",
+    "arm:TrustLineEntryExt.0",
+    "arm:TrustLineEntryExt.1",
+    "arm:TrustLineEntryV1Ext.0",
+    "arm:TxSetComponent.TXSET_COMP_TXS_MAYBE_DISCOUNTED_FEE"
+   ],
+   "cells_new_in_protocol": [
+    "arm:StellarValueExt.STELLAR_VALUE_SIGNED_MS"
+   ],
+   "expected": {
+    "decoded": [
+     {
+      "path": "v",
+      "value": 2
+     },
+     {
+      "path": "v2.ledgerHeader.header.ledgerSeq",
+      "value": 22
+     },
+     {
+      "path": "v2.ledgerHeader.header.ledgerVersion",
+      "value": 30
+     },
+     {
+      "path": "v2.ledgerHeader.hash",
+      "value": "2b05422a3928620b2b2e474d0424cdae3432b05d7633c78b5e182b308c87e98a"
+     },
+     {
+      "path": "v2.ledgerHeader.header.scpValue.closeTime",
+      "value": 1451692801
+     },
+     {
+      "path": "v2.txSet.v1TxSet.phases[0].v0Components[0].txsMaybeDiscountedFee.txs[0].v1.tx.operations[0].body.type",
+      "value": "CREATE_PASSIVE_SELL_OFFER",
+      "note": "cell arm:OperationBody.CREATE_PASSIVE_SELL_OFFER"
+     }
+    ]
+   },
+   "validation": {
+    "independent_decoder": "not_run",
+    "rs_stellar_xdr_roundtrip": "not_run",
+    "stellar_core": {
+     "version": "30.0.0",
+     "command": "",
+     "result": "not_run"
+    },
+    "core_golden": "pass"
+   },
+   "sightings": []
+  },
+  {
+   "id": "golden-invokehostfunction-27003f6c-2",
+   "title": "stellar-core golden: Module cache",
+   "xdr_type": "LedgerCloseMeta",
+   "file": "entries/golden-invokehostfunction-27003f6c-2.LedgerCloseMeta.xdr.b64",
+   "sha256": "33ff18981c12d6fa611b572014771d913d12020bd6164120360db986af29234a",
+   "size_bytes": 4408,
+   "protocol_version": 20,
+   "caps": [],
+   "synthetic": false,
+   "source": {
+    "kind": "stellar_core_golden",
+    "stellar_core_commit": "f2b91947fb20fc8174cca38bf320eda7baa3edbb",
+    "golden_file": "test-lcm-current/InvokeHostFunctionTests/27003f6cc5cdecc2.xdr",
+    "record": 2,
+    "test": "Module cache",
+    "network_passphrase": "(V) (;,,;) (V)"
+   },
+   "shape": "Selected because it exercises 1 schema cell(s) that no other entry reaches.",
+   "patterns": {},
+   "designated": {
+    "patterns": [],
+    "cells": [
+     "arm:ContractCodeEntryExt.0"
+    ]
+   },
+   "cells": [
+    "arm:AccountEntryExt.1",
+    "arm:AccountEntryExtensionV1Ext.2",
+    "arm:AccountEntryExtensionV2Ext.3",
+    "arm:ContractCodeEntryExt.0",
+    "arm:ContractEventBody.0",
+    "arm:ExtensionPoint.0",
+    "arm:GeneralizedTransactionSet.1",
+    "arm:HostFunction.HOST_FUNCTION_TYPE_UPLOAD_CONTRACT_WASM",
+    "arm:InvokeHostFunctionResult.INVOKE_HOST_FUNCTION_SUCCESS",
+    "arm:LedgerCloseMeta.1",
+    "arm:LedgerCloseMetaExt.0",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_CREATED",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_STATE",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_UPDATED",
+    "arm:LedgerEntryData.ACCOUNT",
+    "arm:LedgerEntryData.CONTRACT_CODE",
+    "arm:LedgerEntryData.TTL",
+    "arm:LedgerEntryExt.0",
+    "arm:LedgerHeaderExt.0",
+    "arm:LedgerHeaderHistoryEntryExt.0",
+    "arm:LedgerKey.CONTRACT_CODE",
+    "arm:Memo.MEMO_NONE",
+    "arm:MuxedAccount.KEY_TYPE_ED25519",
+    "arm:OperationBody.INVOKE_HOST_FUNCTION",
+    "arm:OperationResult.opINNER",
+    "arm:OperationResultTr.INVOKE_HOST_FUNCTION",
+    "arm:Preconditions.PRECOND_NONE",
+    "arm:PublicKey.PUBLIC_KEY_TYPE_ED25519",
+    "arm:SCVal.SCV_BYTES",
+    "arm:SCVal.SCV_SYMBOL",
+    "arm:SCVal.SCV_U64",
+    "arm:SorobanTransactionDataExt.0",
+    "arm:SorobanTransactionMetaExt.0",
+    "arm:StellarValueExt.STELLAR_VALUE_SIGNED",
+    "arm:TransactionEnvelope.ENVELOPE_TYPE_TX",
+    "arm:TransactionExt.1",
+    "arm:TransactionMeta.3",
+    "arm:TransactionPhase.0",
+    "arm:TransactionResultExt.0",
+    "arm:TransactionResultResult.txSUCCESS",
+    "arm:TxSetComponent.TXSET_COMP_TXS_MAYBE_DISCOUNTED_FEE",
+    "enum:ContractEventType.DIAGNOSTIC"
+   ],
+   "cells_new_in_protocol": [],
+   "expected": {
+    "decoded": [
+     {
+      "path": "v",
+      "value": 1
+     },
+     {
+      "path": "v1.ledgerHeader.header.ledgerSeq",
+      "value": 4
+     },
+     {
+      "path": "v1.ledgerHeader.header.ledgerVersion",
+      "value": 20
+     },
+     {
+      "path": "v1.ledgerHeader.hash",
+      "value": "274cbad2718130b1bdf7d5e50ed08308d493a305b01ac98cf7fbb127680f9cf0"
+     },
+     {
+      "path": "v1.ledgerHeader.header.scpValue.closeTime",
+      "value": 1451692800
+     },
+     {
+      "path": "v1.txProcessing[0].txApplyProcessing.v3.operations[0].changes[1].created.data.contractCode.ext.v",
+      "value": 0,
+      "note": "cell arm:ContractCodeEntryExt.0"
+     }
+    ]
+   },
+   "validation": {
+    "independent_decoder": "not_run",
+    "rs_stellar_xdr_roundtrip": "not_run",
+    "stellar_core": {
+     "version": "30.0.0",
+     "command": "",
+     "result": "not_run"
+    },
+    "core_golden": "pass"
+   },
+   "sightings": []
+  },
+  {
+   "id": "golden-invokehostfunction-897493fc-17",
+   "title": "stellar-core golden: Soroban authorization|default classic account|single call|incorrect signature payload",
+   "xdr_type": "LedgerCloseMeta",
+   "file": "entries/golden-invokehostfunction-897493fc-17.LedgerCloseMeta.xdr.b64",
+   "sha256": "80adbfc34a4b19ce05572eab48bdf972b05c0fee78e1f2ebeebbda4d1896cecd",
+   "size_bytes": 5264,
+   "protocol_version": 30,
+   "caps": [],
+   "synthetic": false,
+   "source": {
+    "kind": "stellar_core_golden",
+    "stellar_core_commit": "f2b91947fb20fc8174cca38bf320eda7baa3edbb",
+    "golden_file": "test-lcm-current/InvokeHostFunctionTests/897493fc26f0ff7b.xdr",
+    "record": 17,
+    "test": "Soroban authorization|default classic account|single call|incorrect signature payload",
+    "network_passphrase": "(V) (;,,;) (V)"
+   },
+   "shape": "Selected because it exercises 1 schema cell(s) that no other entry reaches.",
+   "patterns": {
+    "failed-transaction": "v2.txProcessing[0].result.result.result"
+   },
+   "designated": {
+    "patterns": [],
+    "cells": [
+     "arm:SCError.SCE_CRYPTO"
+    ]
+   },
+   "cells": [
+    "arm:AccountEntryExt.1",
+    "arm:AccountEntryExtensionV1Ext.2",
+    "arm:AccountEntryExtensionV2Ext.3",
+    "arm:ContractEventBody.0",
+    "arm:ExtensionPoint.0",
+    "arm:GeneralizedTransactionSet.1",
+    "arm:HostFunction.HOST_FUNCTION_TYPE_INVOKE_CONTRACT",
+    "arm:InvokeHostFunctionResult.INVOKE_HOST_FUNCTION_TRAPPED",
+    "arm:LedgerCloseMeta.2",
+    "arm:LedgerCloseMetaExt.0",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_STATE",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_UPDATED",
+    "arm:LedgerEntryData.ACCOUNT",
+    "arm:LedgerEntryExt.0",
+    "arm:LedgerHeaderExt.0",
+    "arm:LedgerHeaderHistoryEntryExt.0",
+    "arm:LedgerKey.ACCOUNT",
+    "arm:LedgerKey.CONTRACT_CODE",
+    "arm:LedgerKey.CONTRACT_DATA",
+    "arm:Memo.MEMO_NONE",
+    "arm:MuxedAccount.KEY_TYPE_ED25519",
+    "arm:OperationBody.INVOKE_HOST_FUNCTION",
+    "arm:OperationResult.opINNER",
+    "arm:OperationResultTr.INVOKE_HOST_FUNCTION",
+    "arm:Preconditions.PRECOND_NONE",
+    "arm:PublicKey.PUBLIC_KEY_TYPE_ED25519",
+    "arm:SCAddress.SC_ADDRESS_TYPE_ACCOUNT",
+    "arm:SCAddress.SC_ADDRESS_TYPE_CONTRACT",
+    "arm:SCError.SCE_AUTH",
+    "arm:SCError.SCE_CRYPTO",
+    "arm:SCVal.SCV_ADDRESS",
+    "arm:SCVal.SCV_BOOL",
+    "arm:SCVal.SCV_BYTES",
+    "arm:SCVal.SCV_ERROR",
+    "arm:SCVal.SCV_LEDGER_KEY_CONTRACT_INSTANCE",
+    "arm:SCVal.SCV_LEDGER_KEY_NONCE",
+    "arm:SCVal.SCV_MAP",
+    "arm:SCVal.SCV_STRING",
+    "arm:SCVal.SCV_SYMBOL",
+    "arm:SCVal.SCV_U64",
+    "arm:SCVal.SCV_VEC",
+    "arm:SCVal.SCV_VOID",
+    "arm:SorobanAuthorizedFunction.SOROBAN_AUTHORIZED_FUNCTION_TYPE_CONTRACT_FN",
+    "arm:SorobanCredentials.SOROBAN_CREDENTIALS_ADDRESS_V2",
+    "arm:SorobanTransactionDataExt.0",
+    "arm:StellarValueExt.STELLAR_VALUE_SIGNED_MS",
+    "arm:TransactionEnvelope.ENVELOPE_TYPE_TX",
+    "arm:TransactionExt.1",
+    "arm:TransactionMeta.4",
+    "arm:TransactionPhase.0",
+    "arm:TransactionPhase.1",
+    "arm:TransactionResultExt.0",
+    "arm:TransactionResultResult.txFAILED",
+    "enum:ContractDataDurability.PERSISTENT",
+    "enum:ContractDataDurability.TEMPORARY",
+    "enum:ContractEventType.DIAGNOSTIC",
+    "enum:SCErrorCode.SCEC_INVALID_ACTION",
+    "enum:SCErrorCode.SCEC_INVALID_INPUT"
+   ],
+   "cells_new_in_protocol": [
+    "arm:StellarValueExt.STELLAR_VALUE_SIGNED_MS"
+   ],
+   "expected": {
+    "decoded": [
+     {
+      "path": "v",
+      "value": 2
+     },
+     {
+      "path": "v2.ledgerHeader.header.ledgerSeq",
+      "value": 19
+     },
+     {
+      "path": "v2.ledgerHeader.header.ledgerVersion",
+      "value": 30
+     },
+     {
+      "path": "v2.ledgerHeader.hash",
+      "value": "dce21f47e891265f1b2ff1ed2c5a4e15009eb52595baaafdac2be28d47bbe36b"
+     },
+     {
+      "path": "v2.ledgerHeader.header.scpValue.closeTime",
+      "value": 1451692801
+     },
+     {
+      "path": "v2.txProcessing[0].txApplyProcessing.v4.diagnosticEvents[1].event.body.v0.topics[1].error.type",
+      "value": "SCE_CRYPTO",
+      "note": "cell arm:SCError.SCE_CRYPTO"
+     }
+    ]
+   },
+   "validation": {
+    "independent_decoder": "not_run",
+    "rs_stellar_xdr_roundtrip": "not_run",
+    "stellar_core": {
+     "version": "30.0.0",
+     "command": "",
+     "result": "not_run"
+    },
+    "core_golden": "pass"
+   },
+   "sightings": []
+  },
+  {
+   "id": "golden-invokehostfunction-e0e11e1f-32",
+   "title": "stellar-core golden: parallel txs|internal error",
+   "xdr_type": "LedgerCloseMeta",
+   "file": "entries/golden-invokehostfunction-e0e11e1f-32.LedgerCloseMeta.xdr.b64",
+   "sha256": "11f6fc783a2082c27cf48254d1e7283f451748dda02f302f5bbbaf72210b7442",
+   "size_bytes": 6928,
+   "protocol_version": 23,
+   "caps": [],
+   "synthetic": false,
+   "source": {
+    "kind": "stellar_core_golden",
+    "stellar_core_commit": "f2b91947fb20fc8174cca38bf320eda7baa3edbb",
+    "golden_file": "test-lcm-current/InvokeHostFunctionTests/e0e11e1fb450f676.xdr",
+    "record": 32,
+    "test": "parallel txs|internal error",
+    "network_passphrase": "(V) (;,,;) (V)"
+   },
+   "shape": "Selected because it exercises 1 schema cell(s) that no other entry reaches.",
+   "patterns": {
+    "failed-transaction": "v2.txProcessing[1].result.result.result"
+   },
+   "designated": {
+    "patterns": [],
+    "cells": [
+     "arm:TransactionResultResult.txINTERNAL_ERROR"
+    ]
+   },
+   "cells": [
+    "arm:AccountEntryExt.0",
+    "arm:AccountEntryExt.1",
+    "arm:AccountEntryExtensionV1Ext.2",
+    "arm:AccountEntryExtensionV2Ext.3",
+    "arm:ContractEventBody.0",
+    "arm:ExtensionPoint.0",
+    "arm:GeneralizedTransactionSet.1",
+    "arm:HostFunction.HOST_FUNCTION_TYPE_INVOKE_CONTRACT",
+    "arm:InvokeHostFunctionResult.INVOKE_HOST_FUNCTION_SUCCESS",
+    "arm:LedgerCloseMeta.2",
+    "arm:LedgerCloseMetaExt.0",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_STATE",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_UPDATED",
+    "arm:LedgerEntryData.ACCOUNT",
+    "arm:LedgerEntryData.CONTRACT_DATA",
+    "arm:LedgerEntryData.TTL",
+    "arm:LedgerEntryExt.0",
+    "arm:LedgerHeaderExt.0",
+    "arm:LedgerHeaderHistoryEntryExt.0",
+    "arm:LedgerKey.CONTRACT_CODE",
+    "arm:LedgerKey.CONTRACT_DATA",
+    "arm:Memo.MEMO_NONE",
+    "arm:Memo.MEMO_TEXT",
+    "arm:MuxedAccount.KEY_TYPE_ED25519",
+    "arm:OperationBody.INVOKE_HOST_FUNCTION",
+    "arm:OperationResult.opINNER",
+    "arm:OperationResultTr.INVOKE_HOST_FUNCTION",
+    "arm:Preconditions.PRECOND_NONE",
+    "arm:PublicKey.PUBLIC_KEY_TYPE_ED25519",
+    "arm:SCAddress.SC_ADDRESS_TYPE_CONTRACT",
+    "arm:SCVal.SCV_BYTES",
+    "arm:SCVal.SCV_LEDGER_KEY_CONTRACT_INSTANCE",
+    "arm:SCVal.SCV_SYMBOL",
+    "arm:SCVal.SCV_U32",
+    "arm:SCVal.SCV_U64",
+    "arm:SCVal.SCV_VEC",
+    "arm:SCVal.SCV_VOID",
+    "arm:SorobanTransactionDataExt.0",
+    "arm:SorobanTransactionMetaExt.0",
+    "arm:StellarValueExt.STELLAR_VALUE_SIGNED",
+    "arm:TransactionEnvelope.ENVELOPE_TYPE_TX",
+    "arm:TransactionExt.1",
+    "arm:TransactionMeta.4",
+    "arm:TransactionPhase.0",
+    "arm:TransactionPhase.1",
+    "arm:TransactionResultExt.0",
+    "arm:TransactionResultResult.txINTERNAL_ERROR",
+    "arm:TransactionResultResult.txSUCCESS",
+    "enum:ContractDataDurability.PERSISTENT",
+    "enum:ContractDataDurability.TEMPORARY",
+    "enum:ContractEventType.DIAGNOSTIC"
+   ],
+   "cells_new_in_protocol": [],
+   "expected": {
+    "decoded": [
+     {
+      "path": "v",
+      "value": 2
+     },
+     {
+      "path": "v2.ledgerHeader.header.ledgerSeq",
+      "value": 34
+     },
+     {
+      "path": "v2.ledgerHeader.header.ledgerVersion",
+      "value": 23
+     },
+     {
+      "path": "v2.ledgerHeader.hash",
+      "value": "250edaef43e6a75014ec11f43bca218a9977e40692a360060877fae5a792177f"
+     },
+     {
+      "path": "v2.ledgerHeader.header.scpValue.closeTime",
+      "value": 1451692802
+     },
+     {
+      "path": "v2.txProcessing[1].result.result.result.code",
+      "value": "txINTERNAL_ERROR",
+      "note": "cell arm:TransactionResultResult.txINTERNAL_ERROR"
+     }
+    ]
+   },
+   "validation": {
+    "independent_decoder": "not_run",
+    "rs_stellar_xdr_roundtrip": "not_run",
+    "stellar_core": {
+     "version": "30.0.0",
+     "command": "",
+     "result": "not_run"
+    },
+    "core_golden": "pass"
+   },
+   "sightings": []
   }
  ]
 }
