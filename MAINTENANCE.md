@@ -8,6 +8,7 @@ plan for protocol upgrades.
 | | |
 |---|---|
 | **Maintainer** | ABS - Alternative Bold Solutions UG (haftungsbeschränkt), Göttingen, Germany, through the GitHub organisation `ABS-gmbh`. |
+| **Project leads** | Abdallah Abdelnaby (`abdallah-abdelnaby`), Mohamed Basuony (`mohamedbasuony`) and Salaheldin Soliman (`salaheldinsoliman`). They own the repository and review every change (`CODEOWNERS`). |
 | **Team** | Six software engineers: Abdallah Abdelnaby (PhD candidate in computer science), Mohamed Basuony (PhD candidate in digital humanities), Salaheldin Soliman (infrastructure and security), Omar ElSayed (blockchain and smart contracts), Ahmed Abdallah (systems and compilers), Islam Imad (compilers). The team is listed at https://absolution-gmbh.com/#team. |
 | **Period** | From the production release through the **first Stellar protocol upgrade after delivery**, as the RFP requires. That period ends when the corpus, harness, conformance runner, linter and guide cover the new protocol and CI passes on it. |
 | **Contact** | GitHub issues on this repository. Security reports: contact@absolution-gmbh.com. |
