@@ -122,9 +122,16 @@ jobs:
       - name: Go runner
         run: docker run --rm -v "$PWD/runners/go:/work" golang:1.26 sh /work/build.sh
       - name: Java runner
-        run: >
-          docker run --rm -v "$PWD/runners/java:/work" -w /work maven:3.9-eclipse-temurin-21
-          sh -c "mvn -q dependency:copy-dependencies -DoutputDirectory=lib && javac -cp 'lib/*' Runner.java"
+        # The plugin is named in full so Maven need not resolve the "dependency" prefix, a lookup
+        # that failed once on a Maven Central hiccup; three attempts cover the rest.
+        run: |
+          for attempt in 1 2 3; do
+            docker run --rm -v "$PWD/runners/java:/work" -w /work maven:3.9-eclipse-temurin-21 \
+              sh -c "mvn -q org.apache.maven.plugins:maven-dependency-plugin:3.8.1:copy-dependencies -DoutputDirectory=lib && javac -cp 'lib/*' Runner.java" \
+              && exit 0
+            echo "attempt $attempt failed"; sleep 20
+          done
+          exit 1
       - name: stellar-core 30.0.0
         run: docker pull --platform linux/amd64 stellar/stellar-core:30.0.0-3642.0e49751aa.noble
       - name: Pinned-SDK checks (the js-stellar-sdk sightings on their pre-fix and fixed releases)
