@@ -15,14 +15,14 @@
    "file": "internal/indexer/processors/participants.go",
    "message_contains": "participants is filled from the transaction envelope",
    "upstream": null,
-   "reason": "Real, a design choice: GetOperationsParticipants takes participants from the envelope for every transaction, failed ones included, and its doc comment says so. No upstream issue covers it; #677 is the related meta side. A question for the tracker is drafted, not posted."
+   "reason": "A false positive for failed transactions, accepted as such. The finding is in GetOperationsParticipants (line 146), but the success check it asks for is one call down: since 9538b3ca (25 September 2026) GetOperationParticipants (lines 166-176 at the pin) returns only the source and the fee-bump account for a failed transaction. SC003 looks for the check in the function and its callers, not in the function it calls (linter/README.md, Known false positives). For a successful transaction the participants come from the operation body, which is what the rule describes; the meta shows those accounts changed."
   },
   {
    "rule": "SC003",
    "file": "internal/indexer/processors/participants.go",
    "message_contains": "operationsParticipants is filled from the transaction envelope",
    "upstream": null,
-   "reason": "Same site as the entry above: the same envelope participants written into the per-operation map."
+   "reason": "Same site and same reason as the entry above: the same participants written into the per-operation map (line 155)."
   },
   {
    "rule": "SC001",

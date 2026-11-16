@@ -851,10 +851,10 @@
   {
    "id": "L2",
    "kind": "linter",
-   "title": "Participants taken from the envelope for failed transactions",
-   "component": "wallet-backend: participants (GetOperationsParticipants)",
-   "severity": "S2",
-   "severity_note": "a documented design choice: an account named only in a failed transaction's envelope is recorded as a participant",
+   "title": "SC003 flags GetOperationsParticipants, whose failed-transaction check is in the function it calls: a false positive",
+   "component": "wallet-backend: participants (GetOperationsParticipants, GetOperationParticipants)",
+   "severity": "S4",
+   "severity_note": "no defect: since 9538b3ca (25 September 2026) a failed transaction contributes only its source and fee-bump account; the linter's rule does not follow the check into the called function",
    "caps": [],
    "caps_none_reason": "an indexer design rule (participants from the meta), not a protocol shape",
    "reproduction": {
@@ -867,7 +867,7 @@
    "upstream": [],
    "first_reported_by": "ShapeCov",
    "reported": "2026-11-15",
-   "status": "accepted in linter/accepted/wallet-backend.json; not filed, because it is a design choice",
+   "status": "accepted in linter/accepted/wallet-backend.json as a false positive; nothing to file",
    "labels": []
   },
   {

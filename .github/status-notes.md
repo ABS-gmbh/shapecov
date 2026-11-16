@@ -9,7 +9,8 @@ makes no promise of dates.
 
 - Review of the indexer-hardening guide by a stellar-core or platform engineer, which the RFP
   requires before publication (`VERIFY.md`, check 4).
-- The linter's 4 findings on wallet-backend are real and triaged, so RFP check 3 is partly met. The
+- The linter's 4 findings on wallet-backend are triaged (2 real, 2 a false positive at one site), so
+  RFP check 3 is partly met. The
   fix prepared for wallet-backend #820 waits for the issue to be accepted (`VERIFY.md`, check 3).
 - The fix prepared for stellar-etl #512 waits for the issue to be accepted.
 - The detection backtest's misses, each with what would catch it (`harness/replay/BACKTEST.md`):

@@ -242,10 +242,15 @@ a failed transaction is a participant is a choice your API makes, and both answe
 Horizon says yes: it lists a failed transaction under every account its envelope names, so that an
 account's history with `include_failed=true` shows, for example, a failed payment to it
 (`ParticipantsForTransaction` adds `operation.Participants()` for every operation with no success
-check, `internal/ingest/processors/participants_processor.go` at v30.0.1). wallet-backend says no:
-a failed transaction changes nothing but the fee, so only its source and fee source are
-participants. Pick one, say which in your API's documentation, and test it. The replay harness
-checks either, declared per adapter (`FAILED_TX_PARTICIPANTS`); on the corpus, Horizon lists 1,106
+check, `internal/ingest/processors/participants_processor.go` at v30.0.1), and keeps failed
+transactions out of the default listings: they appear only with `include_failed=true`
+(`internal/db2/history/transaction.go`, the `successful = true` filter). wallet-backend says no: a
+failed transaction changes nothing but the fee, and the addresses it names are, in its own words,
+"unverified submitter input" (`internal/indexer/processors/participants.go:166-170` at `3e22515a`),
+so only its source and fee source are participants. That is the trade-off: listing them lets any
+submitter, for the price of a fee, put an entry into another account's history; Horizon accepts
+that behind an opt-in flag, wallet-backend does not. Neither is a defect. Pick one, say which in
+your API's documentation, and test it. The replay harness checks either, declared per adapter (`FAILED_TX_PARTICIPANTS`); on the corpus, Horizon lists 1,106
 envelope-named addresses on 965 failed transactions, wallet-backend none, and each meets its own
 declaration.
 

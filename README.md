@@ -33,9 +33,9 @@ python3 quickcheck.py
 ```
 
 Python only, with no Docker and no network. It reruns, in parallel, the 14 fast checks that work from
-the repository alone, and checks the recorded results of the rest against their verdicts: 6 seconds
-on a laptop. `python3 quickcheck.py --full` adds the unit tests and the mutation testing, 16 checks in
-18 seconds; CI runs it on every push, and reruns everything else.
+the repository alone, and checks the recorded results of the rest against their verdicts, in about
+6 seconds on an idle laptop. `python3 quickcheck.py --full` adds the unit tests and the mutation
+testing, 16 checks in about 18 seconds there; CI runs it on every push, and reruns everything else.
 
 ## Results
 
@@ -240,7 +240,8 @@ every other job passed, or was skipped on purpose.
   stellar-xdr has no v29 tag, so cells added in protocols 29 and 30 are dated together.
 - Review of the hardening guide by a stellar-core or platform engineer, which the RFP requires
   before publication.
-- The linter does not run clean on wallet-backend `main` (4 findings, all real) or on stellar-etl
+- The linter does not run clean on wallet-backend `main` (4 findings: 2 real, and 2 at one site that
+  are a false positive, the success check being in the function it calls) or on stellar-etl
   (13, all real, 12 of them in uncalled code). CI fails on any finding outside the accepted lists
   in `linter/accepted/` (see `linter/README.md`).
 

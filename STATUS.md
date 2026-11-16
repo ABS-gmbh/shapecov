@@ -12,7 +12,8 @@ What the repository itself lists as open.
 
 - Review of the indexer-hardening guide by a stellar-core or platform engineer, which the RFP
   requires before publication (`VERIFY.md`, check 4).
-- The linter's 4 findings on wallet-backend are real and triaged, so RFP check 3 is partly met. The
+- The linter's 4 findings on wallet-backend are triaged (2 real, 2 a false positive at one site), so
+  RFP check 3 is partly met. The
   fix prepared for wallet-backend #820 waits for the issue to be accepted (`VERIFY.md`, check 3).
 - The fix prepared for stellar-etl #512 waits for the issue to be accepted.
 - The detection backtest's misses, each with what would catch it (`harness/replay/BACKTEST.md`):
@@ -35,6 +36,13 @@ backtest, packaging for other repositories' CI, findings kept as checked records
 
 Commits:
 
+- Backtest: 666a64d4 out of scope; corpus caps field described as it is ([`966a561`](https://github.com/ABS-gmbh/shapecov/commit/966a561269b05880c49497b54de3cbb777657c39))
+- README and VERIFY: three replayed indexers in the remaining two-adapter lines ([`69d7726`](https://github.com/ABS-gmbh/shapecov/commit/69d7726ee2f3f5937fae3e19bafd1f0ab1de3ac3))
+- Backtest: the starting state ba821579's detection depends on ([`735accf`](https://github.com/ABS-gmbh/shapecov/commit/735accf1a0115d83dfab9ea493aa2c755220c639))
+- Horizon v30.0.1 on every corpus ledger: #259, #513 and #514 reproduced; failed-transaction participants declared per adapter ([`55b91e3`](https://github.com/ABS-gmbh/shapecov/commit/55b91e35e1890aa706770813563d7b22414ea7b6))
+- Backtest: 666a64d4 has the same cause as the four protocol-contract misses ([`8047e18`](https://github.com/ABS-gmbh/shapecov/commit/8047e18a958985e49c3606cee008e0aa571981bd))
+- Detects wallet-backend ba821579: a pool-share balance whose pool row is missing ([`48dfd2b`](https://github.com/ABS-gmbh/shapecov/commit/48dfd2b458ce9e8ad50a9a63a3c5b5b15ef19ad2))
+- Detects wallet-backend 7b7ee5f0: a claim that fails on a frozen trustline ([`d9757a1`](https://github.com/ABS-gmbh/shapecov/commit/d9757a1fe4c58197a767de60d2806441666a366c))
 - CI: Maven's local repository cached for the Java runner ([`d6e9559`](https://github.com/ABS-gmbh/shapecov/commit/d6e9559eaa8c5ef7578b7a3a544b646b6c42e34f))
 - CI: one green check over every job; the replay called from ci; quick check job; release refuses a commit that was not green ([`37964cb`](https://github.com/ABS-gmbh/shapecov/commit/37964cb2bad397106e364af040980ef91009bb69))
 - stellar-etl #452 checked: contract events exported twice, and failed transactions' events flagged as successful calls ([`6045cf7`](https://github.com/ABS-gmbh/shapecov/commit/6045cf73a214316e2c69368c0a0314cfd8a4c96f))
