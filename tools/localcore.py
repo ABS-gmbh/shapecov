@@ -49,6 +49,15 @@ Scenarios (one per run):
                      trustline with no ChangeTrust operation and no contract event
                      (stellar/wallet-backend#731). Protocol 28 so that wallet-backend commits that
                      pin go-stellar-sdk v0.7.3 can read the ledger.
+  participants-p28   Protocol 28, stellar-core 30.0.0. Deploy the native Stellar Asset Contract, then,
+                     in two ledgers, a transfer of 1 XLM by a caller who authorizes it, carrying one
+                     more authorization entry that no require_auth matches, signed by nobody:
+                     planted-auth: an address credential for an account that declares a transfer
+                       from itself; the host never checks it, so the account appears only in the
+                       envelope (stellar/wallet-backend 9538b3c).
+                     declared-deploy: an address credential that declares creating a contract from
+                       its address; no contract is created (stellar/wallet-backend 80121f3).
+                     Protocol 28 so that commits pinning go-stellar-sdk v0.7.3 can read the ledger.
   muxed-source-refused-p24
                      Protocol 24, stellar-core 30.0.0. The same transaction must be refused by the
                      queue with txSOROBAN_INVALID. Recorded as evidence, not a ledger.
@@ -82,7 +91,7 @@ IMAGE = "stellar/stellar-core:30.0.0-3642.0e49751aa.noble"
 IMAGE_V22 = "stellar/stellar-core:22.2.1-2429.e70f0aed8.focal"
 SCENARIOS = {"muxed-source-p22": IMAGE_V22, "classic-p22": IMAGE_V22, "pools-sponsorship-p30": IMAGE,
              "flags-preauth-p30": IMAGE, "muxed-source-refused-p24": IMAGE, "memo-and-offer-p30": IMAGE,
-             "sac-trust-p28": IMAGE}
+             "sac-trust-p28": IMAGE, "participants-p28": IMAGE}
 NAME = "shapecov-localcore-gen"
 PASSPHRASES = {"testnet": "Test SDF Network ; September 2015",
                "pubnet": "Public Global Stellar Network ; September 2015"}
@@ -296,6 +305,8 @@ def main():
             pools_sponsorship_p30(core, enc, dec, root, step, run)
         elif a.scenario == "sac-trust-p28":
             sac_trust_p28(core, enc, dec, root, step, run)
+        elif a.scenario == "participants-p28":
+            participants_p28(core, enc, root, step, run)
         elif a.scenario == "muxed-source-refused-p24":
             muxed_source(core, enc, root, step, run, 24, accepted=False)
         else:
@@ -592,6 +603,94 @@ def sac_trust_p28(core, enc, dec, root, step, run):
     if step("sac-trust-p28: trust(trustor)", 28, blob, h, "PENDING, applied")["status"] != "PENDING":
         raise SystemExit("trust() was refused; see the diagnostics above")
     run["ledger_sac_trust_p28"] = core.close()
+
+
+
+def participants_p28(core, enc, root, step, run):
+    """Authorization entries that name addresses the ledger never touches."""
+    core.upgrade(28)
+    preimage = {"type": "CONTRACT_ID_PREIMAGE_FROM_ASSET", "fromAsset": {"type": "ASSET_TYPE_NATIVE"}}
+    native = hashlib.sha256(enc.encode("HashIDPreimage", {
+        "type": "ENVELOPE_TYPE_CONTRACT_ID",
+        "contractID": {"networkID": core.network_id.hex(), "contractIDPreimage": preimage}})).hexdigest()
+    run["native_sac"] = strkey.contract(native)
+    instance = {"type": "CONTRACT_DATA", "contractData": {
+        "contract": {"type": "SC_ADDRESS_TYPE_CONTRACT", "contractId": native},
+        "key": {"type": "SCV_LEDGER_KEY_CONTRACT_INSTANCE"}, "durability": "PERSISTENT"}}
+
+    def soroban(read_only, read_write):
+        return {"ext": {"v": 0}, "resources": {"footprint": {"readOnly": read_only, "readWrite": read_write},
+                "instructions": 5_000_000, "diskReadBytes": 20_000, "writeBytes": 5_000},
+                "resourceFee": 50_000_000}
+
+    caller = Keys("participants caller")
+    planted = Keys("participants planted")    # named by an auth entry, never touched
+    deployer = Keys("participants deployer")  # declares a deploy that never runs
+    for name, k in (("caller", caller), ("planted", planted), ("deployer", deployer)):
+        run[name] = strkey.account(k.pub)
+    # 1. the caller account, and the native asset contract
+    t = tx(root.muxed(), 1, [{"sourceAccount": None, "body": {"type": "CREATE_ACCOUNT", "createAccountOp": {
+        "destination": caller.account(), "startingBalance": 1000_0000000}}}])
+    blob, h = envelope(enc, core, t, root)
+    step("participants-p28: create caller", 28, blob, h, "PENDING, applied")
+    created = core.close()
+    op = {"sourceAccount": None, "body": {"type": "INVOKE_HOST_FUNCTION", "invokeHostFunctionOp": {
+        "hostFunction": {"type": "HOST_FUNCTION_TYPE_CREATE_CONTRACT", "createContract": {
+            "contractIDPreimage": preimage, "executable": {"type": "CONTRACT_EXECUTABLE_STELLAR_ASSET"}}},
+        "auth": []}}}
+    t = tx(root.muxed(), 2, [op], fee=50_010_000, soroban=soroban([], [instance]))
+    blob, h = envelope(enc, core, t, root)
+    if step("participants-p28: deploy native asset contract", 28, blob, h, "PENDING, applied")["status"] != "PENDING":
+        raise SystemExit("the native asset contract deploy was refused; see the diagnostics above")
+    core.close()
+
+    # 2. two transfers of 1 XLM from the caller to the root account, each in a ledger of its own and
+    # each carrying, besides the caller's own source-account authorization, one entry nothing matches.
+    # The transfer emits an event, so the meta shows the contract; only the extra entry's addresses
+    # are envelope-only.
+    def addr(k):
+        return {"type": "SC_ADDRESS_TYPE_ACCOUNT", "accountId": k.account()}
+
+    def amount(n):
+        return {"type": "SCV_I128", "i128": {"hi": 0, "lo": n}}
+
+    def transfer_call(frm, to):
+        return {"contractAddress": {"type": "SC_ADDRESS_TYPE_CONTRACT", "contractId": native},
+                "functionName": "transfer",
+                "args": [{"type": "SCV_ADDRESS", "address": addr(frm)}, {"type": "SCV_ADDRESS", "address": addr(to)},
+                         amount(1_0000000)]}
+
+    def unsigned(k, function):
+        return {"credentials": {"type": "SOROBAN_CREDENTIALS_ADDRESS", "address": {
+            "address": addr(k), "nonce": 7, "signatureExpirationLedger": 1_000_000,
+            "signature": {"type": "SCV_VOID"}}},
+            "rootInvocation": {"function": function, "subInvocations": []}}
+
+    call = transfer_call(caller, root)
+    own = {"credentials": {"type": "SOROBAN_CREDENTIALS_SOURCE_ACCOUNT"},
+           "rootInvocation": {"function": {"type": "SOROBAN_AUTHORIZED_FUNCTION_TYPE_CONTRACT_FN", "contractFn": call},
+                              "subInvocations": []}}
+    planted_fn = {"type": "SOROBAN_AUTHORIZED_FUNCTION_TYPE_CONTRACT_FN", "contractFn": transfer_call(planted, caller)}
+    salt = hashlib.sha256(b"shapecov declared deploy").hexdigest()
+    declared = {"type": "CONTRACT_ID_PREIMAGE_FROM_ADDRESS", "fromAddress": {"address": addr(deployer), "salt": salt}}
+    run["declared_contract"] = strkey.contract(hashlib.sha256(enc.encode("HashIDPreimage", {
+        "type": "ENVELOPE_TYPE_CONTRACT_ID",
+        "contractID": {"networkID": core.network_id.hex(), "contractIDPreimage": declared}})).hexdigest())
+    deploy_fn = {"type": "SOROBAN_AUTHORIZED_FUNCTION_TYPE_CREATE_CONTRACT_HOST_FN", "createContractHostFn": {
+        "contractIDPreimage": declared, "executable": {"type": "CONTRACT_EXECUTABLE_WASM", "wasm_hash": "00" * 32}}}
+    footprint_rw = [{"type": "ACCOUNT", "account": {"accountID": caller.account()}},
+                    {"type": "ACCOUNT", "account": {"accountID": root.account()}}]
+    for n, (name, extra) in enumerate((("planted-auth", unsigned(planted, planted_fn)),
+                                       ("declared-deploy", unsigned(deployer, deploy_fn)))):
+        op = {"sourceAccount": None, "body": {"type": "INVOKE_HOST_FUNCTION", "invokeHostFunctionOp": {
+            "hostFunction": {"type": "HOST_FUNCTION_TYPE_INVOKE_CONTRACT", "invokeContract": call},
+            "auth": [own, extra]}}}
+        t = tx(caller.muxed(), (created << 32) + 1 + n, [op], fee=50_010_000, soroban=soroban([instance], footprint_rw))
+        blob, h = envelope(enc, core, t, caller)
+        run["tx_" + name.replace("-", "_")] = h
+        if step("participants-p28: " + name, 28, blob, h, "PENDING, applied")["status"] != "PENDING":
+            raise SystemExit("%s was refused; see the diagnostics above" % name)
+        run["ledger_" + name.replace("-", "_")] = core.close()
 
 
 if __name__ == "__main__":

@@ -1,7 +1,7 @@
 """Mine real network ledgers for rare shapes.
 
   mine.py scan  <testnet|pubnet> <first-seq> <last-seq> [--stride N] [--cache DIR] [--index FILE] [--jobs N]
-  mine.py goldens <stellar-core checkout> [--index FILE] [--jobs N]
+  mine.py goldens <stellar-core checkout> [--index FILE] [--jobs N] [--tree test-lcm-current|test-lcm-next]
   mine.py pick  <index.jsonl> [<index.jsonl> ...] [--max N] [--require PATTERN,...]
 
 `scan` downloads ledgers from Stellar's public ledger archive (Galexie layout), decodes each with
@@ -295,7 +295,7 @@ def _init_golden():
 
 def goldens(a):
     root = Path(a.checkout)
-    files = sorted(str(f.relative_to(root)) for f in (root / "test-lcm-current").rglob("*.xdr"))
+    files = sorted(str(f.relative_to(root)) for f in (root / a.tree).rglob("*.xdr"))
     n = 0
     with open(a.index, "w") as out, cf.ProcessPoolExecutor(a.jobs, initializer=_init_golden) as ex:
         for rows in ex.map(golden_one, [(str(root), f) for f in files], chunksize=8):
@@ -345,6 +345,7 @@ def main():
     p.add_argument("--min-cells", type=int, default=3); p.add_argument("--require", default="")
     g = sub.add_parser("goldens")
     g.add_argument("checkout"); g.add_argument("--index", default="goldens-index.jsonl")
+    g.add_argument("--tree", default="test-lcm-current", help="test-lcm-current, or test-lcm-next (the next protocol)")
     g.add_argument("--jobs", type=int, default=8)
     a = ap.parse_args()
     {"scan": scan, "pick": pick, "goldens": goldens}[a.cmd](a)

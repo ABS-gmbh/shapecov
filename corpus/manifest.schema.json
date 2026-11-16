@@ -1,7 +1,7 @@
 {
  "$schema": "https://json-schema.org/draft/2020-12/schema",
  "$id": "https://shapecov.invalid/manifest.schema.json",
- "title": "ShapeCov corpus manifest (draft 0.1)",
+ "title": "ShapeCov corpus manifest, version 0.1",
  "description": "One record per corpus entry. An entry is one XDR value, stored base64-encoded in its own file. Every field a consumer needs to judge an indexer or SDK against the entry is here, and none of it comes from the software under test.",
  "type": "object",
  "required": [
@@ -12,7 +12,7 @@
  "additionalProperties": false,
  "properties": {
   "manifest_version": {
-   "const": "0.1-draft"
+   "const": "0.1"
   },
   "xdr_schema": {
    "description": "The XDR definitions the corpus is checked against. Cells and paths in the entries refer to these.",

@@ -1,13 +1,13 @@
 # Corpus
 
-88 entries, each one XDR value with a manifest record: 85 real ledgers (LedgerCloseMeta) and 3
+90 entries, each one XDR value with a manifest record: 87 real ledgers (LedgerCloseMeta) and 3
 generated values. The real ledgers come from three sources:
 
 | Source | Entries | `source.kind` |
 |---|---|---|
 | stellar-core's golden LedgerCloseMeta (`test-lcm-current`, the `--check-lcm` files), byte-identical | 46 | `stellar_core_golden` |
 | testnet (19) and pubnet (11) history, from Stellar's public ledger archive | 30 | `network_ledger` |
-| a local stellar-core running fixed scenarios (`tools/localcore.py`): 30.0.0, and 22.2.1 for the two protocol 22 scenarios; each regenerates identically on the testnet and mainnet passphrases | 9 | `local_stellar_core` |
+| a local stellar-core running fixed scenarios (`tools/localcore.py`): 30.0.0, and 22.2.1 for the two protocol 22 scenarios; each regenerates identically on the testnet and mainnet passphrases | 11 | `local_stellar_core` |
 | generated from a readable value (`values/`) | 3 | `generated` |
 
 Every entry is checked in CI (RFP check 1) and by `quickcheck.py`; see "How an entry is checked"
@@ -84,7 +84,49 @@ path can be looked up in what stellar-core prints.
    `expected.decoded`.
 
 With `--goldens`, each golden entry is also compared byte for byte with its record in
-stellar-core's `test-lcm-current` files. All checks pass for all 88 entries in CI.
+stellar-core's `test-lcm-current` files. All checks pass for all 90 entries in CI.
+
+## Adding an entry
+
+The corpus grows as new CAPs ship: a new shape comes in as a ledger from one of the three
+sources, through one tool, `tools/corpus_add.py`, which derives every checkable field from the
+bytes. These are the steps used for `localcore-planted-auth-5` and `localcore-declared-deploy-6`.
+
+1. **Get the ledger.**
+   - A ledger on the network: index a range of Stellar's public archive with
+     `tools/mine.py scan <testnet|pubnet> <first> <last> --stride N --cache DIR --index F.jsonl`,
+     then `corpus_add.py --network-index F.jsonl --cache DIR --min-cells N` picks the fewest
+     ledgers that bring a named pattern or N schema cells no entry has yet.
+   - A shape the network does not have yet (a new protocol, a rare combination): write a scenario
+     in `tools/localcore.py` (a function plus a line in `SCENARIOS` and in the docstring). Record each
+     ledger that holds the shape as `run["ledger_<name>"] = core.close()`. Run it with
+     `python3 tools/localcore.py --scenario <s> --out DIR`, check in `DIR/run.json` that every step
+     was applied, and add the scenario to `SCENARIOS` in `tools/localcore_repro.py`.
+   - stellar-core golden files: `corpus_add.py --goldens-index F --goldens-checkout DIR`.
+2. **Add it.** `python3 tools/corpus_add.py --local-run DIR` (or the network and golden forms
+   above), first with `--dry-run`. This writes `entries/<id>.LedgerCloseMeta.xdr.b64` and the
+   manifest record: hash, size, protocol, source, cells, patterns with their paths, CAP tags from
+   `cap-map.json` for the cells it is designated for, and expected decoded values. It never
+   rewrites an existing entry.
+3. **Write the two hand fields.** `title` and `shape` say what the ledger shows and why an indexer
+   could get it wrong, naming the upstream issue or commit if there is one.
+4. **Validate and record.** `python3 tools/corpus_check.py --sdks rust,js,python,python-xdr,go,java --core --record`
+   (Docker): the independent decoder, the byte-identical re-encode, the expected values, the
+   source record, rs-stellar-xdr and five SDK decoders, and stellar-core's own decode. Every check
+   must pass (`CORPUS OK`).
+5. **Local ledgers only: pin reproducibility.** Run the scenario on both passphrases
+   (`localcore_repro.py run --passphrase testnet|pubnet --out D/<net> --scenario <s>`), record with
+   `localcore_repro.py check --run D/testnet --run D/pubnet --update`, then check again without
+   `--update` (`REPRODUCIBLE`).
+6. **Update what is derived from the corpus.**
+   - `python3 tools/cap_coverage.py` rewrites `CAP-COVERAGE.md`; `--check` must pass.
+   - `python3 guide/check_guide.py` names any guide row whose Entries column changed.
+   - `python3 .github/scripts/check_counts.py` names each sentence that states the entry count.
+   - Replay the new entries (`harness/replay/replay.py run --entries <ids> --refs <commit> ...`)
+     and run `replay.py check --oracle`. A failure no known issue explains is a candidate finding.
+
+CI repeats the checks of steps 4 and 5, the guide and count checks, and the oracle check on the
+committed replay results, on every push.
 
 ## Limits
 

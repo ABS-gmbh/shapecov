@@ -24,6 +24,18 @@
     "seq": 3
    }
   },
+  "declared-deploy": {
+   "pubnet": {
+    "normalized_sha256": "a18df69ce05b3002761ac5bc85c9497a1b3dda5143ac82243ac297eec8385463",
+    "raw_sha256": "099b76ae94ff288d60fd15c0b7f5f8569ebe825dfa51b147796acebb6d7d6cfd",
+    "seq": 6
+   },
+   "testnet": {
+    "normalized_sha256": "1b0d8617832eaf061227de664d628afadcfca15b251d8ff7cf269d29ec4884f9",
+    "raw_sha256": "e25b68a29d711b7216607b19bd86767893be4879cb57dbac8dcf8108793396ec",
+    "seq": 6
+   }
+  },
   "maintain-liabilities": {
    "pubnet": {
     "normalized_sha256": "92251a27d3fb756c736fb3a2f3d970f0db4fa6885fc7859ce35379b557ca2f7b",
@@ -58,6 +70,18 @@
     "normalized_sha256": "68bd534e57d9b8ae84ec5172a3f6e281fffa59140f11bfc72fda6f961d859ae8",
     "raw_sha256": "7a9717906714c2654480c85892e5b9aae1c16dad796531fc182ba0ddd10f4248",
     "seq": 3
+   }
+  },
+  "planted-auth": {
+   "pubnet": {
+    "normalized_sha256": "33219ea389044b66a16a6cf30c9070a44e26a960b58cb51aa3feaaa182bfbf69",
+    "raw_sha256": "97b57725a2fa9c86c5929c4307353802abff81490a866d624a98392c75031276",
+    "seq": 5
+   },
+   "testnet": {
+    "normalized_sha256": "f92539d9c8742857a0ea4584131478a4a61cfd5c2d3dace8272fbab10274a170",
+    "raw_sha256": "910e922b0c384ba0a6fc0487772167e208c9419de4c6ad0e480b507e25a0058c",
+    "seq": 5
    }
   },
   "pool-revoke-two-pools": {

@@ -30,7 +30,7 @@ An entry passes when the harness's result is `pass` and the ledger-state oracle 
 | `scmap-mixed-key-types` | 2 | 2 | 2 | pass |
 | `scval-int64-beyond-f64` | 11 | 11 | 9 | oracle: stellar/wallet-backend#815 (2): `testnet-5707122`, `testnet-5711641` |
 | `scval-nested-5-deep` | 21 | 21 | 17 | oracle: stellar/wallet-backend#815 (3): `testnet-5707122`, `testnet-5711641`, `testnet-5726002`; oracle: stellar/wallet-backend#816 (1): `pubnet-65480300` |
-| `scval-wide-integer` | 43 | 39 | 32 | oracle: stellar/wallet-backend#815 (3): `testnet-5707122`, `testnet-5711641`, `testnet-5726002`; oracle: stellar/wallet-backend#816 (3): `golden-invokehostfunction-692fdd0e-17`, `pubnet-65480300`, `testnet-5709224`; oracle: stellar/wallet-backend#817 (1): `localcore-pool-revoke-two-pools-7` |
+| `scval-wide-integer` | 45 | 39 | 32 | oracle: stellar/wallet-backend#815 (3): `testnet-5707122`, `testnet-5711641`, `testnet-5726002`; oracle: stellar/wallet-backend#816 (3): `golden-invokehostfunction-692fdd0e-17`, `pubnet-65480300`, `testnet-5709224`; oracle: stellar/wallet-backend#817 (1): `localcore-pool-revoke-two-pools-7` |
 | `signatures-at-max-20` | 3 | 3 | 3 | pass |
 | `signed-payload-max-length` | 1 | 1 | 1 | pass |
 | `signed-payload-needs-padding` | 1 | 1 | 1 | pass |
@@ -65,7 +65,7 @@ An entry passes when the harness's result is `pass` and the ledger-state oracle 
 | `scmap-mixed-key-types` | 2 | 1 | 1 | pass |
 | `scval-int64-beyond-f64` | 11 | 10 | 6 | oracle: stellar/stellar-etl#450 (4): `pubnet-61240000`, `pubnet-65460000`, `pubnet-65479774`, `pubnet-65480264` |
 | `scval-nested-5-deep` | 21 | 20 | 9 | oracle: stellar/stellar-etl#450 (10): `pubnet-59220000`, `pubnet-60280000`, `pubnet-61240000`, `pubnet-65460000`, `pubnet-65479774`, `pubnet-65480264`, `testnet-5710719`, `testnet-5711238`, `testnet-5716828`, `testnet-5719527`; oracle: stellar/stellar-etl#450, stellar/stellar-etl#460 (1): `pubnet-65480300` |
-| `scval-wide-integer` | 43 | 36 | 16 | oracle: stellar/stellar-etl#450 (15): `localcore-memo-and-offer-p30-4`, `pubnet-59220000`, `pubnet-60280000`, `pubnet-61240000`, `pubnet-65280000`, `pubnet-65460000`, `pubnet-65479774`, `pubnet-65480264`, `pubnet-65480508`, `pubnet-65480598`, `testnet-5600000`, `testnet-5710719`, `testnet-5711238`, `testnet-5716828`, `testnet-5719527`; oracle: stellar/stellar-etl#450, stellar/stellar-etl#460 (2): `pubnet-63920000`, `pubnet-65480300`; oracle: stellar/stellar-etl#460 (2): `localcore-sac-trust-p28-5`, `testnet-5709224`; oracle: stellar/stellar-etl#513, stellar/stellar-etl#514 (1): `localcore-pool-revoke-two-pools-7` |
+| `scval-wide-integer` | 45 | 36 | 16 | oracle: stellar/stellar-etl#450 (15): `localcore-memo-and-offer-p30-4`, `pubnet-59220000`, `pubnet-60280000`, `pubnet-61240000`, `pubnet-65280000`, `pubnet-65460000`, `pubnet-65479774`, `pubnet-65480264`, `pubnet-65480508`, `pubnet-65480598`, `testnet-5600000`, `testnet-5710719`, `testnet-5711238`, `testnet-5716828`, `testnet-5719527`; oracle: stellar/stellar-etl#450, stellar/stellar-etl#460 (2): `pubnet-63920000`, `pubnet-65480300`; oracle: stellar/stellar-etl#460 (2): `localcore-sac-trust-p28-5`, `testnet-5709224`; oracle: stellar/stellar-etl#513, stellar/stellar-etl#514 (1): `localcore-pool-revoke-two-pools-7` |
 | `signatures-at-max-20` | 3 | 3 | 0 | oracle: stellar/stellar-etl#450 (3): `pubnet-65460000`, `pubnet-65480264`, `pubnet-65480598` |
 | `signed-payload-max-length` | 1 | 1 | 1 | pass |
 | `signed-payload-needs-padding` | 1 | 1 | 1 | pass |

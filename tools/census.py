@@ -193,7 +193,9 @@ def main():
         share = "%.3f%%" % (100.0 * v["transactions"] / s["transactions"]) if s["transactions"] else "—"
         lines.append("| `%s` | %d | %d | %s | %s |" % (p, v["ledgers"], v["transactions"], share, by or "not seen"))
     notes = {"scval-wide-integer": "From protocol 23 every transaction emits a CAP-67 fee event whose amount is an "
-                                   "i128, so every transaction in this sample carries one.",
+                                   "i128, so every transaction in this sample carries one. The pattern is therefore no "
+                                   "measure of rarity; the finding is the reverse: a reader of protocol 23+ meta meets "
+                                   "a 128-bit amount in every transaction, so i128 handling is on the hot path.",
              "soroban-created-trustline": "The shape behind wallet-backend#731 and stellar-etl#460: one transaction in "
                                           "the whole sample, which is why the corpus keeps such shapes on purpose."}
     lines += [""] + ["- `%s`: %s" % (p, n) for p, n in notes.items()]
