@@ -756,6 +756,6 @@
   "unclassified": "Not classified yet.",
   "upgrade": "Only in a ledger that applies a network upgrade; producible by a local scenario that arms it."
  },
- "note": "A class and a reason for every cell reachable from LedgerCloseMeta that no corpus entry has. Built from stellar-core f2b91947fb20fc8174cca38bf320eda7baa3edbb (src/transactions): the function that sets each result code. Checked by tools/coverage.py.",
+ "note": "A class and a reason for every cell reachable from LedgerCloseMeta that no corpus entry has. Built from stellar-core f2b91947fb20fc8174cca38bf320eda7baa3edbb (src/transactions): the function that sets each result code. Checked by tools/cell_coverage.py.",
  "stellar_core_commit": "f2b91947fb20fc8174cca38bf320eda7baa3edbb"
 }

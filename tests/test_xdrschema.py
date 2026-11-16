@@ -1,7 +1,6 @@
 """tools/xdrschema.py: a small .x file parses into the schema written out below; the committed
-protocol 30 schema is what the parser makes of schema/x and has the cell count the README states."""
+protocol 30 schema is what the parser makes of schema/x, and the coverage report counts its cells."""
 import json
-import re
 import sys
 import unittest
 
@@ -68,10 +67,17 @@ class Protocol30(unittest.TestCase):
         self.assertEqual(self.parsed["types"], self.committed["types"])
         self.assertEqual(self.parsed["consts"], self.committed["consts"])
 
-    def test_cell_count_matches_the_readme(self):
-        readme = (ROOT / "README.md").read_text()
-        stated = {int(n.replace(",", "")) for n in re.findall(r"of ([\d,]+) schema cells", readme)}
-        self.assertEqual(stated, {len(all_cells(self.committed))})
+    def test_cell_counts_match_the_coverage_report(self):
+        """corpus/coverage.json states the cell counts that the documents quote (check_counts.py
+        compares them); here they must follow from the schema the parser makes."""
+        import importlib.util
+        spec = importlib.util.spec_from_file_location("cell_coverage", ROOT / "tools" / "cell_coverage.py")
+        cc = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(cc)
+        every, reach, _ = cc.cells(self.committed)
+        report = json.load(open(ROOT / "corpus" / "coverage.json"))
+        self.assertEqual(report["schema_cells_old_definition"], len(all_cells(self.committed)))
+        self.assertEqual((report["schema_cells"], report["reachable_cells"]), (len(every), len(reach)))
 
 
 if __name__ == "__main__":

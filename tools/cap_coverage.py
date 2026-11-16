@@ -112,7 +112,7 @@ def main():
     if dated.exists():
         cp = json.load(open(dated))
         have = set(by_cell)
-        import coverage
+        import cell_coverage as coverage
         every, reach, _ = coverage.cells(json.load(open(ROOT / "schema" / "schema.json")))
         classes = json.load(open(CORPUS / "cell-classes.json"))["cells"]
         order = list(cp["tags"])

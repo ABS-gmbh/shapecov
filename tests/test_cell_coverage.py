@@ -1,9 +1,9 @@
-"""tools/coverage.py: which cells count, which are reachable, and the repository's report is current."""
+"""tools/cell_coverage.py: which cells count, which are reachable, and the repository's report is current."""
 import unittest
 
 from tests.helpers import call_main, load_module
 
-coverage = load_module("coverage_under_test", "tools/coverage.py")
+coverage = load_module("cell_coverage_under_test", "tools/cell_coverage.py")
 
 INT = {"r": "int"}
 SCHEMA = {"types": {
