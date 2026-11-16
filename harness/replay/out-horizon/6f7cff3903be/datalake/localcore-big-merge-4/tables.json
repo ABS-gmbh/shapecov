@@ -1,0 +1,130 @@
+{
+ "history_transactions": [
+  {
+   "id": 17179873280,
+   "transaction_hash": "8d18cf2b62648653730c2d8566d6400814e688dab5d3050f18c5d447c7b7c1ac",
+   "application_order": 1,
+   "successful": true,
+   "account": "GBRPYHIL2CI3FNQ4BXLFMNDLFJUNPU2HY3ZMFSHONUCEOASW7QC7OX2H",
+   "fee_account": null,
+   "account_muxed": null,
+   "fee_account_muxed": null,
+   "fee_charged": 200,
+   "operation_count": 2
+  }
+ ],
+ "history_operations": [
+  {
+   "id": 17179873281,
+   "transaction_id": 17179873280,
+   "application_order": 1,
+   "type": 1,
+   "source_account": "GBRPYHIL2CI3FNQ4BXLFMNDLFJUNPU2HY3ZMFSHONUCEOASW7QC7OX2H",
+   "source_account_muxed": null,
+   "details": {
+    "to": "GBXO226V2LSQRQWPUCM4GZORRRGTEZZ3OVB5OYB3LXURMHVXZX5NJDNL",
+    "from": "GBRPYHIL2CI3FNQ4BXLFMNDLFJUNPU2HY3ZMFSHONUCEOASW7QC7OX2H",
+    "amount": "900719925.4740993",
+    "asset_type": "native"
+   }
+  },
+  {
+   "id": 17179873282,
+   "transaction_id": 17179873280,
+   "application_order": 2,
+   "type": 8,
+   "source_account": "GBXO226V2LSQRQWPUCM4GZORRRGTEZZ3OVB5OYB3LXURMHVXZX5NJDNL",
+   "source_account_muxed": null,
+   "details": {
+    "into": "GDLTRT22NVFUCX6A6GSBF5UFBYOSFXFODLWWANZKF2RSFCYZ4LF74WPW",
+    "account": "GBXO226V2LSQRQWPUCM4GZORRRGTEZZ3OVB5OYB3LXURMHVXZX5NJDNL"
+   }
+  }
+ ],
+ "history_effects": [
+  {
+   "op_id": 17179873281,
+   "order": 1,
+   "type": 2,
+   "address": "GBXO226V2LSQRQWPUCM4GZORRRGTEZZ3OVB5OYB3LXURMHVXZX5NJDNL",
+   "address_muxed": null,
+   "details": {
+    "amount": "900719925.4740993",
+    "asset_type": "native"
+   }
+  },
+  {
+   "op_id": 17179873281,
+   "order": 2,
+   "type": 3,
+   "address": "GBRPYHIL2CI3FNQ4BXLFMNDLFJUNPU2HY3ZMFSHONUCEOASW7QC7OX2H",
+   "address_muxed": null,
+   "details": {
+    "amount": "900719925.4740993",
+    "asset_type": "native"
+   }
+  },
+  {
+   "op_id": 17179873282,
+   "order": 1,
+   "type": 3,
+   "address": "GBXO226V2LSQRQWPUCM4GZORRRGTEZZ3OVB5OYB3LXURMHVXZX5NJDNL",
+   "address_muxed": null,
+   "details": {
+    "amount": "900720025.4740993",
+    "asset_type": "native"
+   }
+  },
+  {
+   "op_id": 17179873282,
+   "order": 2,
+   "type": 2,
+   "address": "GDLTRT22NVFUCX6A6GSBF5UFBYOSFXFODLWWANZKF2RSFCYZ4LF74WPW",
+   "address_muxed": null,
+   "details": {
+    "amount": "900720025.4740993",
+    "asset_type": "native"
+   }
+  },
+  {
+   "op_id": 17179873282,
+   "order": 3,
+   "type": 1,
+   "address": "GBXO226V2LSQRQWPUCM4GZORRRGTEZZ3OVB5OYB3LXURMHVXZX5NJDNL",
+   "address_muxed": null,
+   "details": {}
+  }
+ ],
+ "history_transaction_participants": [
+  {
+   "tx_id": 17179873280,
+   "address": "GBRPYHIL2CI3FNQ4BXLFMNDLFJUNPU2HY3ZMFSHONUCEOASW7QC7OX2H"
+  },
+  {
+   "tx_id": 17179873280,
+   "address": "GBXO226V2LSQRQWPUCM4GZORRRGTEZZ3OVB5OYB3LXURMHVXZX5NJDNL"
+  },
+  {
+   "tx_id": 17179873280,
+   "address": "GDLTRT22NVFUCX6A6GSBF5UFBYOSFXFODLWWANZKF2RSFCYZ4LF74WPW"
+  }
+ ],
+ "history_operation_participants": [
+  {
+   "op_id": 17179873281,
+   "address": "GBRPYHIL2CI3FNQ4BXLFMNDLFJUNPU2HY3ZMFSHONUCEOASW7QC7OX2H"
+  },
+  {
+   "op_id": 17179873282,
+   "address": "GBXO226V2LSQRQWPUCM4GZORRRGTEZZ3OVB5OYB3LXURMHVXZX5NJDNL"
+  },
+  {
+   "op_id": 17179873281,
+   "address": "GBXO226V2LSQRQWPUCM4GZORRRGTEZZ3OVB5OYB3LXURMHVXZX5NJDNL"
+  },
+  {
+   "op_id": 17179873282,
+   "address": "GDLTRT22NVFUCX6A6GSBF5UFBYOSFXFODLWWANZKF2RSFCYZ4LF74WPW"
+  }
+ ]
+}

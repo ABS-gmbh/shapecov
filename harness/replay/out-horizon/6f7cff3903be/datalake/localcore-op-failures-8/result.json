@@ -1,0 +1,41 @@
+{
+ "adapter": "horizon",
+ "checks": [],
+ "commit": "6f7cff3903be1df4fb980a12910a1313c5d7d8dd",
+ "dropped": [],
+ "entry_id": "localcore-op-failures-8",
+ "evidence": "out-horizon/6f7cff3903be/datalake/localcore-op-failures-8",
+ "expectations": 0,
+ "expectations_source": "none (implicit checks only)",
+ "feeder_requests": 4,
+ "ingested": true,
+ "input": "datalake",
+ "ledger": {
+  "close_time": 4070000000,
+  "hash": "ece964d7684708b970217437959a4258924030b8d6302bdb067ebda47e07a36b",
+  "protocol": 30,
+  "seq": 8
+ },
+ "mishandled": [],
+ "mode": "unmodified",
+ "oracle": {
+  "verdict": "pass",
+  "rows_expected": 62,
+  "rows_met": 62,
+  "known": {},
+  "unexplained": []
+ },
+ "process": null,
+ "protocol_version": 30,
+ "ref": "v30.0.1",
+ "result": "pass",
+ "row_counts": {
+  "history_effects": 0,
+  "history_operation_participants": 86,
+  "history_operations": 59,
+  "history_transaction_participants": 92,
+  "history_transactions": 59
+ },
+ "sdk_pin": "v0.9.0",
+ "seconds": null
+}

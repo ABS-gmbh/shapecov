@@ -1,0 +1,50 @@
+{
+ "history_transactions": [
+  {
+   "id": 12884905984,
+   "transaction_hash": "f5dde809e797615bba199daef509b3a461b2be1a93cad98ed42c74970c273329",
+   "application_order": 1,
+   "successful": false,
+   "account": "GC4EFXBN6BEENDAX7PBW5PGIIIVH3INMD3OEPQASXOLGOHVVP7ZEMG7X",
+   "fee_account": null,
+   "account_muxed": null,
+   "fee_account_muxed": null,
+   "fee_charged": 100,
+   "operation_count": 1
+  }
+ ],
+ "history_operations": [
+  {
+   "id": 12884905985,
+   "transaction_id": 12884905984,
+   "application_order": 1,
+   "type": 16,
+   "source_account": "GC4EFXBN6BEENDAX7PBW5PGIIIVH3INMD3OEPQASXOLGOHVVP7ZEMG7X",
+   "source_account_muxed": null,
+   "details": {
+    "sponsored_id": "GCE4HENKZ3ZIHQY4VEYCVX5ZE5LNDIN3FH4MHZCWFKXQZGQIOGAO77CN"
+   }
+  }
+ ],
+ "history_effects": [],
+ "history_transaction_participants": [
+  {
+   "tx_id": 12884905984,
+   "address": "GC4EFXBN6BEENDAX7PBW5PGIIIVH3INMD3OEPQASXOLGOHVVP7ZEMG7X"
+  },
+  {
+   "tx_id": 12884905984,
+   "address": "GCE4HENKZ3ZIHQY4VEYCVX5ZE5LNDIN3FH4MHZCWFKXQZGQIOGAO77CN"
+  }
+ ],
+ "history_operation_participants": [
+  {
+   "op_id": 12884905985,
+   "address": "GC4EFXBN6BEENDAX7PBW5PGIIIVH3INMD3OEPQASXOLGOHVVP7ZEMG7X"
+  },
+  {
+   "op_id": 12884905985,
+   "address": "GCE4HENKZ3ZIHQY4VEYCVX5ZE5LNDIN3FH4MHZCWFKXQZGQIOGAO77CN"
+  }
+ ]
+}

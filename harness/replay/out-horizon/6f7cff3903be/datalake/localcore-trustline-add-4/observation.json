@@ -1,0 +1,62 @@
+{
+ "observation_version": 1,
+ "adapter": "horizon",
+ "commit": "6f7cff3903be1df4fb980a12910a1313c5d7d8dd",
+ "input": "datalake",
+ "entry_id": "localcore-trustline-add-4",
+ "ledger_seq": 4,
+ "ingested": true,
+ "error": null,
+ "adapter_failure": false,
+ "transactions": [
+  {
+   "hash": "f05ca527641f5986a88d9ca148f40382f5c4ce3e022ad0c1a3d3e20ea4368369",
+   "tx_order": 1,
+   "successful": true,
+   "result_code": null,
+   "participants": [
+    "GBPPIB5KFOJ3AX3JZPXWGY5FUYAQHWFRJ34WR3MWNPTRCF5UCT4JRHPE"
+   ]
+  }
+ ],
+ "operations": [
+  {
+   "tx_hash": "f05ca527641f5986a88d9ca148f40382f5c4ce3e022ad0c1a3d3e20ea4368369",
+   "tx_order": 1,
+   "op_order": 1,
+   "type": "change_trust",
+   "participants": [
+    "GBPPIB5KFOJ3AX3JZPXWGY5FUYAQHWFRJ34WR3MWNPTRCF5UCT4JRHPE"
+   ]
+  }
+ ],
+ "state_changes": [
+  {
+   "tx_hash": "f05ca527641f5986a88d9ca148f40382f5c4ce3e022ad0c1a3d3e20ea4368369",
+   "tx_order": 1,
+   "op_order": 1,
+   "category": "EFFECT",
+   "reason": "trustline_created",
+   "account": "GBPPIB5KFOJ3AX3JZPXWGY5FUYAQHWFRJ34WR3MWNPTRCF5UCT4JRHPE",
+   "signer_key": null,
+   "token": "USD:GBRPYHIL2CI3FNQ4BXLFMNDLFJUNPU2HY3ZMFSHONUCEOASW7QC7OX2H",
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "op_order": 1
+   }
+  }
+ ],
+ "unreadable": [],
+ "row_counts": {
+  "history_transactions": 1,
+  "history_operations": 1,
+  "history_effects": 1,
+  "history_transaction_participants": 1,
+  "history_operation_participants": 1
+ },
+ "command": "horizon db reingest range 4 4 --ledgerbackend datastore --datastore-config /cfg/datastore.toml --parallel-workers 1 --retries 0",
+ "exit_code": 0,
+ "seconds_to_outcome": 2.7
+}

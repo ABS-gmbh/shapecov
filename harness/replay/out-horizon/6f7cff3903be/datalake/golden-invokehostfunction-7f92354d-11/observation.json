@@ -1,0 +1,45 @@
+{
+ "observation_version": 1,
+ "adapter": "horizon",
+ "commit": "6f7cff3903be1df4fb980a12910a1313c5d7d8dd",
+ "input": "datalake",
+ "entry_id": "golden-invokehostfunction-7f92354d-11",
+ "ledger_seq": 13,
+ "ingested": true,
+ "error": null,
+ "adapter_failure": false,
+ "transactions": [
+  {
+   "hash": "f8ef05004101238ecaa0ef1ecc0173048349622c7f3c4a705497598274b15559",
+   "tx_order": 1,
+   "successful": false,
+   "result_code": null,
+   "participants": [
+    "GC4EFXBN6BEENDAX7PBW5PGIIIVH3INMD3OEPQASXOLGOHVVP7ZEMG7X"
+   ]
+  }
+ ],
+ "operations": [
+  {
+   "tx_hash": "f8ef05004101238ecaa0ef1ecc0173048349622c7f3c4a705497598274b15559",
+   "tx_order": 1,
+   "op_order": 1,
+   "type": "invoke_host_function",
+   "participants": [
+    "GC4EFXBN6BEENDAX7PBW5PGIIIVH3INMD3OEPQASXOLGOHVVP7ZEMG7X"
+   ]
+  }
+ ],
+ "state_changes": [],
+ "unreadable": [],
+ "row_counts": {
+  "history_transactions": 1,
+  "history_operations": 1,
+  "history_effects": 0,
+  "history_transaction_participants": 1,
+  "history_operation_participants": 1
+ },
+ "command": "horizon db reingest range 13 13 --ledgerbackend datastore --datastore-config /cfg/datastore.toml --parallel-workers 1 --retries 0",
+ "exit_code": 0,
+ "seconds_to_outcome": 2.3
+}

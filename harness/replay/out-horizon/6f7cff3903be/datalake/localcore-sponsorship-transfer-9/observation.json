@@ -1,0 +1,112 @@
+{
+ "observation_version": 1,
+ "adapter": "horizon",
+ "commit": "6f7cff3903be1df4fb980a12910a1313c5d7d8dd",
+ "input": "datalake",
+ "entry_id": "localcore-sponsorship-transfer-9",
+ "ledger_seq": 9,
+ "ingested": true,
+ "error": null,
+ "adapter_failure": false,
+ "transactions": [
+  {
+   "hash": "16c45d92535e613c49fc7a992db90eb6a041c0b101a4b3a2784f78176bb9f451",
+   "tx_order": 1,
+   "successful": true,
+   "result_code": null,
+   "participants": [
+    "GACVQGW3XRXDGPPF3CHMV5RERCQTQ2O7WX5JSQPMMPDWDA2CETTLA2NP",
+    "GDQFJ7EL7KAIJUDN6CIDOAISBLLDOWUTAWRTQ5JJUSDGLLYGFFV5XJBR",
+    "GDWBM46HAGMUUL2WFEHLQ6LG6LOATVY5ZXX3KI6NEMGQCSHS577MRZRD"
+   ]
+  }
+ ],
+ "operations": [
+  {
+   "tx_hash": "16c45d92535e613c49fc7a992db90eb6a041c0b101a4b3a2784f78176bb9f451",
+   "tx_order": 1,
+   "op_order": 1,
+   "type": "begin_sponsoring_future_reserves",
+   "participants": [
+    "GACVQGW3XRXDGPPF3CHMV5RERCQTQ2O7WX5JSQPMMPDWDA2CETTLA2NP",
+    "GDWBM46HAGMUUL2WFEHLQ6LG6LOATVY5ZXX3KI6NEMGQCSHS577MRZRD"
+   ]
+  },
+  {
+   "tx_hash": "16c45d92535e613c49fc7a992db90eb6a041c0b101a4b3a2784f78176bb9f451",
+   "tx_order": 1,
+   "op_order": 2,
+   "type": "revoke_sponsorship",
+   "participants": [
+    "GACVQGW3XRXDGPPF3CHMV5RERCQTQ2O7WX5JSQPMMPDWDA2CETTLA2NP",
+    "GDQFJ7EL7KAIJUDN6CIDOAISBLLDOWUTAWRTQ5JJUSDGLLYGFFV5XJBR"
+   ]
+  },
+  {
+   "tx_hash": "16c45d92535e613c49fc7a992db90eb6a041c0b101a4b3a2784f78176bb9f451",
+   "tx_order": 1,
+   "op_order": 3,
+   "type": "revoke_sponsorship",
+   "participants": [
+    "GACVQGW3XRXDGPPF3CHMV5RERCQTQ2O7WX5JSQPMMPDWDA2CETTLA2NP",
+    "GDQFJ7EL7KAIJUDN6CIDOAISBLLDOWUTAWRTQ5JJUSDGLLYGFFV5XJBR"
+   ]
+  },
+  {
+   "tx_hash": "16c45d92535e613c49fc7a992db90eb6a041c0b101a4b3a2784f78176bb9f451",
+   "tx_order": 1,
+   "op_order": 4,
+   "type": "end_sponsoring_future_reserves",
+   "participants": [
+    "GACVQGW3XRXDGPPF3CHMV5RERCQTQ2O7WX5JSQPMMPDWDA2CETTLA2NP",
+    "GDWBM46HAGMUUL2WFEHLQ6LG6LOATVY5ZXX3KI6NEMGQCSHS577MRZRD"
+   ]
+  }
+ ],
+ "state_changes": [
+  {
+   "tx_hash": "16c45d92535e613c49fc7a992db90eb6a041c0b101a4b3a2784f78176bb9f451",
+   "tx_order": 1,
+   "op_order": 2,
+   "category": "EFFECT",
+   "reason": "data_sponsorship_updated",
+   "account": "GACVQGW3XRXDGPPF3CHMV5RERCQTQ2O7WX5JSQPMMPDWDA2CETTLA2NP",
+   "signer_key": null,
+   "token": null,
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "op_order": 2,
+    "data_name": "shapecov"
+   }
+  },
+  {
+   "tx_hash": "16c45d92535e613c49fc7a992db90eb6a041c0b101a4b3a2784f78176bb9f451",
+   "tx_order": 1,
+   "op_order": 3,
+   "category": "EFFECT",
+   "reason": "signer_sponsorship_updated",
+   "account": "GDQFJ7EL7KAIJUDN6CIDOAISBLLDOWUTAWRTQ5JJUSDGLLYGFFV5XJBR",
+   "signer_key": "GDWBM46HAGMUUL2WFEHLQ6LG6LOATVY5ZXX3KI6NEMGQCSHS577MRZRD",
+   "token": null,
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "op_order": 3
+   }
+  }
+ ],
+ "unreadable": [],
+ "row_counts": {
+  "history_transactions": 1,
+  "history_operations": 4,
+  "history_effects": 2,
+  "history_transaction_participants": 3,
+  "history_operation_participants": 8
+ },
+ "command": "horizon db reingest range 9 9 --ledgerbackend datastore --datastore-config /cfg/datastore.toml --parallel-workers 1 --retries 0",
+ "exit_code": 0,
+ "seconds_to_outcome": 2.7
+}

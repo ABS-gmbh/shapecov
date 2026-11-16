@@ -1,0 +1,40 @@
+{
+ "history_transactions": [
+  {
+   "id": 124554055680,
+   "transaction_hash": "986620767814a8cfa128a754ea44c0145fef69e615a8a63706b47b2da8c20172",
+   "application_order": 1,
+   "successful": false,
+   "account": "GC4EFXBN6BEENDAX7PBW5PGIIIVH3INMD3OEPQASXOLGOHVVP7ZEMG7X",
+   "fee_account": null,
+   "account_muxed": null,
+   "fee_account_muxed": null,
+   "fee_charged": 575590,
+   "operation_count": 1
+  }
+ ],
+ "history_operations": [
+  {
+   "id": 124554055681,
+   "transaction_id": 124554055680,
+   "application_order": 1,
+   "type": 26,
+   "source_account": "GC4EFXBN6BEENDAX7PBW5PGIIIVH3INMD3OEPQASXOLGOHVVP7ZEMG7X",
+   "source_account_muxed": null,
+   "details": {}
+  }
+ ],
+ "history_effects": [],
+ "history_transaction_participants": [
+  {
+   "tx_id": 124554055680,
+   "address": "GC4EFXBN6BEENDAX7PBW5PGIIIVH3INMD3OEPQASXOLGOHVVP7ZEMG7X"
+  }
+ ],
+ "history_operation_participants": [
+  {
+   "op_id": 124554055681,
+   "address": "GC4EFXBN6BEENDAX7PBW5PGIIIVH3INMD3OEPQASXOLGOHVVP7ZEMG7X"
+  }
+ ]
+}

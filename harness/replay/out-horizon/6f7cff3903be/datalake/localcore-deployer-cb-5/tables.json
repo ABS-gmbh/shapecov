@@ -1,0 +1,138 @@
+{
+ "history_transactions": [
+  {
+   "id": 21474840576,
+   "transaction_hash": "9cdb61533a043e6f7680223c43fa667fb56460342726f9f8bc07b2fee046cf83",
+   "application_order": 1,
+   "successful": true,
+   "account": "GAEJJJJYZMH67FDBU4ZAKACAEEJBC3N5RYV2JRWOEYZ2LBIU5IJYXJ66",
+   "fee_account": null,
+   "account_muxed": null,
+   "fee_account_muxed": null,
+   "fee_charged": 181958,
+   "operation_count": 1
+  },
+  {
+   "id": 21474844672,
+   "transaction_hash": "66e1e40289a2540054bc45a831d93a89d490b99d6839abaa546e3a8b7aa039f6",
+   "application_order": 2,
+   "successful": false,
+   "account": "GBRPYHIL2CI3FNQ4BXLFMNDLFJUNPU2HY3ZMFSHONUCEOASW7QC7OX2H",
+   "fee_account": null,
+   "account_muxed": null,
+   "fee_account_muxed": null,
+   "fee_charged": 107548,
+   "operation_count": 1
+  }
+ ],
+ "history_operations": [
+  {
+   "id": 21474840577,
+   "transaction_id": 21474840576,
+   "application_order": 1,
+   "type": 24,
+   "source_account": "GAEJJJJYZMH67FDBU4ZAKACAEEJBC3N5RYV2JRWOEYZ2LBIU5IJYXJ66",
+   "source_account_muxed": null,
+   "details": {
+    "function": "HostFunctionTypeHostFunctionTypeInvokeContract",
+    "parameters": [
+     {
+      "type": "Address",
+      "value": "AAAAEgAAAAHXkotywnA8z+r365/0701QSlWouXn8m0UOoshCtNHOYQ=="
+     },
+     {
+      "type": "Sym",
+      "value": "AAAADwAAAAh0cmFuc2Zlcg=="
+     },
+     {
+      "type": "Address",
+      "value": "AAAAEgAAAAAAAAAACJSlOMsP75RhpzIFAEAhEhFtvY4rpMbOJjOlhRTqE4s="
+     },
+     {
+      "type": "Address",
+      "value": "AAAAEgAAAAAAAAAAYvwdC9CRsrYcDdZWNGsqaNfTR8bywsjubQRHAlb8Bfc="
+     },
+     {
+      "type": "I128",
+      "value": "AAAACgAAAAAAAAAAAAAAAACYloA="
+     }
+    ],
+    "asset_balance_changes": [
+     {
+      "to": "GBRPYHIL2CI3FNQ4BXLFMNDLFJUNPU2HY3ZMFSHONUCEOASW7QC7OX2H",
+      "from": "GAEJJJJYZMH67FDBU4ZAKACAEEJBC3N5RYV2JRWOEYZ2LBIU5IJYXJ66",
+      "type": "transfer",
+      "amount": "1.0000000",
+      "asset_type": "native"
+     }
+    ]
+   }
+  },
+  {
+   "id": 21474844673,
+   "transaction_id": 21474844672,
+   "application_order": 1,
+   "type": 24,
+   "source_account": "GBRPYHIL2CI3FNQ4BXLFMNDLFJUNPU2HY3ZMFSHONUCEOASW7QC7OX2H",
+   "source_account_muxed": null,
+   "details": {
+    "from": "address",
+    "salt": "36560273470635299145555694302715581972554212077222380211331562853811639665911",
+    "address": "BAAJR22XRCW7WPT7SNT5NX5WDCBJDYCL6BLJRHUKAPCVTAVUGKJBM7ALNM",
+    "function": "HostFunctionTypeHostFunctionTypeCreateContract"
+   }
+  }
+ ],
+ "history_effects": [
+  {
+   "op_id": 21474840577,
+   "order": 1,
+   "type": 3,
+   "address": "GAEJJJJYZMH67FDBU4ZAKACAEEJBC3N5RYV2JRWOEYZ2LBIU5IJYXJ66",
+   "address_muxed": null,
+   "details": {
+    "amount": "1.0000000",
+    "asset_type": "native"
+   }
+  },
+  {
+   "op_id": 21474840577,
+   "order": 2,
+   "type": 2,
+   "address": "GBRPYHIL2CI3FNQ4BXLFMNDLFJUNPU2HY3ZMFSHONUCEOASW7QC7OX2H",
+   "address_muxed": null,
+   "details": {
+    "amount": "1.0000000",
+    "asset_type": "native"
+   }
+  }
+ ],
+ "history_transaction_participants": [
+  {
+   "tx_id": 21474840576,
+   "address": "GAEJJJJYZMH67FDBU4ZAKACAEEJBC3N5RYV2JRWOEYZ2LBIU5IJYXJ66"
+  },
+  {
+   "tx_id": 21474844672,
+   "address": "GBRPYHIL2CI3FNQ4BXLFMNDLFJUNPU2HY3ZMFSHONUCEOASW7QC7OX2H"
+  },
+  {
+   "tx_id": 21474840576,
+   "address": "GBRPYHIL2CI3FNQ4BXLFMNDLFJUNPU2HY3ZMFSHONUCEOASW7QC7OX2H"
+  }
+ ],
+ "history_operation_participants": [
+  {
+   "op_id": 21474840577,
+   "address": "GAEJJJJYZMH67FDBU4ZAKACAEEJBC3N5RYV2JRWOEYZ2LBIU5IJYXJ66"
+  },
+  {
+   "op_id": 21474844673,
+   "address": "GBRPYHIL2CI3FNQ4BXLFMNDLFJUNPU2HY3ZMFSHONUCEOASW7QC7OX2H"
+  },
+  {
+   "op_id": 21474840577,
+   "address": "GBRPYHIL2CI3FNQ4BXLFMNDLFJUNPU2HY3ZMFSHONUCEOASW7QC7OX2H"
+  }
+ ]
+}

@@ -1,0 +1,121 @@
+{
+ "history_transactions": [
+  {
+   "id": 60129546240,
+   "transaction_hash": "26a20d50145df86d856808d825cbb2a56df236ce19610b219d28365322fcb1e5",
+   "application_order": 1,
+   "successful": true,
+   "account": "GDCIJUICLYOMBXWFH6TYMVWNKUGQJVXAWPL2SJM3ABJALDNQ4ZB23MMF",
+   "fee_account": "GA4UIPYPWIOKSKTXTFGNICYVUEGNM4NG3YF323HPSROHUPXV4FK7QWLE",
+   "account_muxed": null,
+   "fee_account_muxed": null,
+   "fee_charged": 200,
+   "operation_count": 1
+  },
+  {
+   "id": 60129550336,
+   "transaction_hash": "1d1018a817e5a581d170c2d531c828aabf7ae2ef8278bc0d452c5e5b380cf40a",
+   "application_order": 2,
+   "successful": false,
+   "account": "GC5XVI7LSDS4ISIDFMY6BCOXP4QWWHNJXCQXFXB7B5DMDNGRMDA357PX",
+   "fee_account": "GBPPIXIXE2FQGUK73BB2ZXF4IZ6JDXKAP452N6KR6OLHGARB5KEN7UIE",
+   "account_muxed": null,
+   "fee_account_muxed": null,
+   "fee_charged": 59589,
+   "operation_count": 1
+  }
+ ],
+ "history_operations": [
+  {
+   "id": 60129546241,
+   "transaction_id": 60129546240,
+   "application_order": 1,
+   "type": 8,
+   "source_account": "GC5XVI7LSDS4ISIDFMY6BCOXP4QWWHNJXCQXFXB7B5DMDNGRMDA357PX",
+   "source_account_muxed": null,
+   "details": {
+    "into": "GDCIJUICLYOMBXWFH6TYMVWNKUGQJVXAWPL2SJM3ABJALDNQ4ZB23MMF",
+    "account": "GC5XVI7LSDS4ISIDFMY6BCOXP4QWWHNJXCQXFXB7B5DMDNGRMDA357PX"
+   }
+  },
+  {
+   "id": 60129550337,
+   "transaction_id": 60129550336,
+   "application_order": 1,
+   "type": 24,
+   "source_account": "GC5XVI7LSDS4ISIDFMY6BCOXP4QWWHNJXCQXFXB7B5DMDNGRMDA357PX",
+   "source_account_muxed": null,
+   "details": {
+    "function": "HostFunctionTypeHostFunctionTypeUploadContractWasm"
+   }
+  }
+ ],
+ "history_effects": [
+  {
+   "op_id": 60129546241,
+   "order": 1,
+   "type": 3,
+   "address": "GC5XVI7LSDS4ISIDFMY6BCOXP4QWWHNJXCQXFXB7B5DMDNGRMDA357PX",
+   "address_muxed": null,
+   "details": {
+    "amount": "520.0000000",
+    "asset_type": "native"
+   }
+  },
+  {
+   "op_id": 60129546241,
+   "order": 2,
+   "type": 2,
+   "address": "GDCIJUICLYOMBXWFH6TYMVWNKUGQJVXAWPL2SJM3ABJALDNQ4ZB23MMF",
+   "address_muxed": null,
+   "details": {
+    "amount": "520.0000000",
+    "asset_type": "native"
+   }
+  },
+  {
+   "op_id": 60129546241,
+   "order": 3,
+   "type": 1,
+   "address": "GC5XVI7LSDS4ISIDFMY6BCOXP4QWWHNJXCQXFXB7B5DMDNGRMDA357PX",
+   "address_muxed": null,
+   "details": {}
+  }
+ ],
+ "history_transaction_participants": [
+  {
+   "tx_id": 60129546240,
+   "address": "GA4UIPYPWIOKSKTXTFGNICYVUEGNM4NG3YF323HPSROHUPXV4FK7QWLE"
+  },
+  {
+   "tx_id": 60129550336,
+   "address": "GBPPIXIXE2FQGUK73BB2ZXF4IZ6JDXKAP452N6KR6OLHGARB5KEN7UIE"
+  },
+  {
+   "tx_id": 60129550336,
+   "address": "GC5XVI7LSDS4ISIDFMY6BCOXP4QWWHNJXCQXFXB7B5DMDNGRMDA357PX"
+  },
+  {
+   "tx_id": 60129546240,
+   "address": "GC5XVI7LSDS4ISIDFMY6BCOXP4QWWHNJXCQXFXB7B5DMDNGRMDA357PX"
+  },
+  {
+   "tx_id": 60129546240,
+   "address": "GDCIJUICLYOMBXWFH6TYMVWNKUGQJVXAWPL2SJM3ABJALDNQ4ZB23MMF"
+  }
+ ],
+ "history_operation_participants": [
+  {
+   "op_id": 60129550337,
+   "address": "GC5XVI7LSDS4ISIDFMY6BCOXP4QWWHNJXCQXFXB7B5DMDNGRMDA357PX"
+  },
+  {
+   "op_id": 60129546241,
+   "address": "GC5XVI7LSDS4ISIDFMY6BCOXP4QWWHNJXCQXFXB7B5DMDNGRMDA357PX"
+  },
+  {
+   "op_id": 60129546241,
+   "address": "GDCIJUICLYOMBXWFH6TYMVWNKUGQJVXAWPL2SJM3ABJALDNQ4ZB23MMF"
+  }
+ ]
+}

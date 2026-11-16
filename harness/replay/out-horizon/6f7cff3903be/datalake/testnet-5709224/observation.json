@@ -1,0 +1,411 @@
+{
+ "observation_version": 1,
+ "adapter": "horizon",
+ "commit": "6f7cff3903be1df4fb980a12910a1313c5d7d8dd",
+ "input": "datalake",
+ "entry_id": "testnet-5709224",
+ "ledger_seq": 5709224,
+ "ingested": true,
+ "error": null,
+ "adapter_failure": false,
+ "transactions": [
+  {
+   "hash": "74b3c81d093e393e3e29ed39a6aae9f0152d2c581fd89053d348daca75fad341",
+   "tx_order": 1,
+   "successful": false,
+   "result_code": null,
+   "participants": [
+    "GA45X2ZEFGTCKMORBEGG3G4RC7AFQB4PGQ5UBH73IQF4MAPHBUQ6BBGO",
+    "GAYF33NNNMI2Z6VNRFXQ64D4E4SF77PM46NW3ZUZEEU5X7FCHAZCMHKU"
+   ]
+  },
+  {
+   "hash": "314f5c3a505fdd15ca49de979a6fddd4459171518359b255f302e2cb035b7317",
+   "tx_order": 2,
+   "successful": true,
+   "result_code": null,
+   "participants": [
+    "GA676RMWMHDUSU5YSU6LKQOYANT6GHDVRDEJQLZHCX3OHS3NAJP2PE2A",
+    "GAIH3ULLFQ4DGSECF2AR555KZ4KNDGEKN4AFI4SU2M7B43MGK3QJZNSR",
+    "GDVOPJEG5LZYV7NNNNXVTDFSYXXWG2B3DQPLW3OFVUNWQZ5XFSLUGXYP"
+   ]
+  },
+  {
+   "hash": "c971d700f91321a48d30eb94127d03644cbf010bf2fcf8ba882efb1fc522a781",
+   "tx_order": 3,
+   "successful": true,
+   "result_code": null,
+   "participants": [
+    "GBVQ5F3APBVNYMEGJHFU3ZAOFKA7OLGWZ5ECLRU62HZLTKBKYSE4XNLR"
+   ]
+  },
+  {
+   "hash": "40f35759b6e0f75c577025a6b1cdc900e510b7b1a999a727b6ebc985f9b0a8a8",
+   "tx_order": 4,
+   "successful": false,
+   "result_code": null,
+   "participants": [
+    "GCEYWSY5EVGUL4TZ46ZGOMAYYERFYGSOHNKNK4UE36EPVDU3EZ4LAWE7",
+    "GDY6QWVCUPISKJ2T6ZB3N6HLD4ABBNQDL3Y63E7M5B4UJCZVHVPBXQSZ"
+   ]
+  },
+  {
+   "hash": "837200fc4bf7e76085fe42c3307d153fab6775cf24bd102e5267faa1f934f279",
+   "tx_order": 5,
+   "successful": false,
+   "result_code": null,
+   "participants": [
+    "GDD6SE5TQFQGCESB3ILEIY4ETWMHZKDXTSRZTJW2E6N5I34F4C27SJDJ"
+   ]
+  },
+  {
+   "hash": "b2b123b2048d4b6624604deeee71415c9fdd0802826a7156c51f3e0773af9fab",
+   "tx_order": 6,
+   "successful": true,
+   "result_code": null,
+   "participants": [
+    "GAGVZMODPYFTULIVSY3RGFADIC5LF4LLSN37N4MFWGNZ57TYBXL2LQQX"
+   ]
+  },
+  {
+   "hash": "a5ec8bbd20ea1eef42e5221702ea662ae21a417730b2943aa6b1ae8ce5d9c618",
+   "tx_order": 7,
+   "successful": true,
+   "result_code": null,
+   "participants": [
+    "GBF5XWE5SWHROB764GW6NWOVPBUTSM7ENTLO2ILBBBNYMKKILPIJQWJ3"
+   ]
+  },
+  {
+   "hash": "c2545da3823273b7437dea6043e1376dc2bd2b5672592247d48eaf4a9246dacb",
+   "tx_order": 8,
+   "successful": true,
+   "result_code": null,
+   "participants": [
+    "GATXNSF6EYWZ6S752V65MH35T5YP4HVKQ2JDCVCAIYM5FYNBTXFEYFJZ"
+   ]
+  },
+  {
+   "hash": "34cf059b23bd428254bc15fd75f2e1aa8556c2d0338fb2b3b40d2c2074fd67ba",
+   "tx_order": 9,
+   "successful": true,
+   "result_code": null,
+   "participants": [
+    "GAT2EJVXJVXXZ42MLBNNY2Q2UPX4I7OD5ZSR6WTR26BZZIH7DTTD2YYF",
+    "GC3Q7U33GUNWMKWUJPGLZMRKNZLHVQOFBZPGBRZTQ3Y2ZICK3FAAXWSG",
+    "GCQ2ABQOF5CAUWNXGRVLVTOZ2TOTT4UZFN2THIM64PCYE5TCWDONI3VE"
+   ]
+  }
+ ],
+ "operations": [
+  {
+   "tx_hash": "74b3c81d093e393e3e29ed39a6aae9f0152d2c581fd89053d348daca75fad341",
+   "tx_order": 1,
+   "op_order": 1,
+   "type": "payment",
+   "participants": [
+    "GA45X2ZEFGTCKMORBEGG3G4RC7AFQB4PGQ5UBH73IQF4MAPHBUQ6BBGO",
+    "GAYF33NNNMI2Z6VNRFXQ64D4E4SF77PM46NW3ZUZEEU5X7FCHAZCMHKU"
+   ]
+  },
+  {
+   "tx_hash": "314f5c3a505fdd15ca49de979a6fddd4459171518359b255f302e2cb035b7317",
+   "tx_order": 2,
+   "op_order": 1,
+   "type": "create_account",
+   "participants": [
+    "GA676RMWMHDUSU5YSU6LKQOYANT6GHDVRDEJQLZHCX3OHS3NAJP2PE2A",
+    "GAIH3ULLFQ4DGSECF2AR555KZ4KNDGEKN4AFI4SU2M7B43MGK3QJZNSR"
+   ]
+  },
+  {
+   "tx_hash": "c971d700f91321a48d30eb94127d03644cbf010bf2fcf8ba882efb1fc522a781",
+   "tx_order": 3,
+   "op_order": 1,
+   "type": "set_options",
+   "participants": [
+    "GBVQ5F3APBVNYMEGJHFU3ZAOFKA7OLGWZ5ECLRU62HZLTKBKYSE4XNLR"
+   ]
+  },
+  {
+   "tx_hash": "40f35759b6e0f75c577025a6b1cdc900e510b7b1a999a727b6ebc985f9b0a8a8",
+   "tx_order": 4,
+   "op_order": 1,
+   "type": "payment",
+   "participants": [
+    "GCEYWSY5EVGUL4TZ46ZGOMAYYERFYGSOHNKNK4UE36EPVDU3EZ4LAWE7",
+    "GDY6QWVCUPISKJ2T6ZB3N6HLD4ABBNQDL3Y63E7M5B4UJCZVHVPBXQSZ"
+   ]
+  },
+  {
+   "tx_hash": "837200fc4bf7e76085fe42c3307d153fab6775cf24bd102e5267faa1f934f279",
+   "tx_order": 5,
+   "op_order": 1,
+   "type": "manage_data",
+   "participants": [
+    "GDD6SE5TQFQGCESB3ILEIY4ETWMHZKDXTSRZTJW2E6N5I34F4C27SJDJ"
+   ]
+  },
+  {
+   "tx_hash": "b2b123b2048d4b6624604deeee71415c9fdd0802826a7156c51f3e0773af9fab",
+   "tx_order": 6,
+   "op_order": 1,
+   "type": "invoke_host_function",
+   "participants": [
+    "GAGVZMODPYFTULIVSY3RGFADIC5LF4LLSN37N4MFWGNZ57TYBXL2LQQX"
+   ]
+  },
+  {
+   "tx_hash": "a5ec8bbd20ea1eef42e5221702ea662ae21a417730b2943aa6b1ae8ce5d9c618",
+   "tx_order": 7,
+   "op_order": 1,
+   "type": "invoke_host_function",
+   "participants": [
+    "GBF5XWE5SWHROB764GW6NWOVPBUTSM7ENTLO2ILBBBNYMKKILPIJQWJ3"
+   ]
+  },
+  {
+   "tx_hash": "c2545da3823273b7437dea6043e1376dc2bd2b5672592247d48eaf4a9246dacb",
+   "tx_order": 8,
+   "op_order": 1,
+   "type": "invoke_host_function",
+   "participants": [
+    "GATXNSF6EYWZ6S752V65MH35T5YP4HVKQ2JDCVCAIYM5FYNBTXFEYFJZ"
+   ]
+  },
+  {
+   "tx_hash": "34cf059b23bd428254bc15fd75f2e1aa8556c2d0338fb2b3b40d2c2074fd67ba",
+   "tx_order": 9,
+   "op_order": 1,
+   "type": "invoke_host_function",
+   "participants": [
+    "GAT2EJVXJVXXZ42MLBNNY2Q2UPX4I7OD5ZSR6WTR26BZZIH7DTTD2YYF",
+    "GC3Q7U33GUNWMKWUJPGLZMRKNZLHVQOFBZPGBRZTQ3Y2ZICK3FAAXWSG",
+    "GCQ2ABQOF5CAUWNXGRVLVTOZ2TOTT4UZFN2THIM64PCYE5TCWDONI3VE"
+   ]
+  }
+ ],
+ "state_changes": [
+  {
+   "tx_hash": "314f5c3a505fdd15ca49de979a6fddd4459171518359b255f302e2cb035b7317",
+   "tx_order": 2,
+   "op_order": 1,
+   "category": "EFFECT",
+   "reason": "account_created",
+   "account": "GA676RMWMHDUSU5YSU6LKQOYANT6GHDVRDEJQLZHCX3OHS3NAJP2PE2A",
+   "signer_key": null,
+   "token": null,
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "op_order": 1
+   }
+  },
+  {
+   "tx_hash": "314f5c3a505fdd15ca49de979a6fddd4459171518359b255f302e2cb035b7317",
+   "tx_order": 2,
+   "op_order": 1,
+   "category": "EFFECT",
+   "reason": "account_debited",
+   "account": "GAIH3ULLFQ4DGSECF2AR555KZ4KNDGEKN4AFI4SU2M7B43MGK3QJZNSR",
+   "signer_key": null,
+   "token": "native",
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "op_order": 1
+   }
+  },
+  {
+   "tx_hash": "314f5c3a505fdd15ca49de979a6fddd4459171518359b255f302e2cb035b7317",
+   "tx_order": 2,
+   "op_order": 1,
+   "category": "EFFECT",
+   "reason": "signer_created",
+   "account": "GA676RMWMHDUSU5YSU6LKQOYANT6GHDVRDEJQLZHCX3OHS3NAJP2PE2A",
+   "signer_key": "GA676RMWMHDUSU5YSU6LKQOYANT6GHDVRDEJQLZHCX3OHS3NAJP2PE2A",
+   "token": null,
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "op_order": 1,
+    "weight": 1
+   }
+  },
+  {
+   "tx_hash": "c971d700f91321a48d30eb94127d03644cbf010bf2fcf8ba882efb1fc522a781",
+   "tx_order": 3,
+   "op_order": 1,
+   "category": "EFFECT",
+   "reason": "account_flags_updated",
+   "account": "GBVQ5F3APBVNYMEGJHFU3ZAOFKA7OLGWZ5ECLRU62HZLTKBKYSE4XNLR",
+   "signer_key": null,
+   "token": null,
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "op_order": 1
+   }
+  },
+  {
+   "tx_hash": "34cf059b23bd428254bc15fd75f2e1aa8556c2d0338fb2b3b40d2c2074fd67ba",
+   "tx_order": 9,
+   "op_order": 1,
+   "category": "EFFECT",
+   "reason": "account_debited",
+   "account": "GC3Q7U33GUNWMKWUJPGLZMRKNZLHVQOFBZPGBRZTQ3Y2ZICK3FAAXWSG",
+   "signer_key": null,
+   "token": "native",
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "op_order": 1
+   }
+  },
+  {
+   "tx_hash": "34cf059b23bd428254bc15fd75f2e1aa8556c2d0338fb2b3b40d2c2074fd67ba",
+   "tx_order": 9,
+   "op_order": 1,
+   "category": "EFFECT",
+   "reason": "account_credited",
+   "account": "GAT2EJVXJVXXZ42MLBNNY2Q2UPX4I7OD5ZSR6WTR26BZZIH7DTTD2YYF",
+   "signer_key": null,
+   "token": "native",
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "op_order": 1
+   }
+  },
+  {
+   "tx_hash": "34cf059b23bd428254bc15fd75f2e1aa8556c2d0338fb2b3b40d2c2074fd67ba",
+   "tx_order": 9,
+   "op_order": 1,
+   "category": "EFFECT",
+   "reason": "contract_debited",
+   "account": "GCQ2ABQOF5CAUWNXGRVLVTOZ2TOTT4UZFN2THIM64PCYE5TCWDONI3VE",
+   "signer_key": null,
+   "token": "USDC:GBBD47IF6LWK7P7MDEVSCWR7DPUWV3NY3DTQEVFL4NAT4AQH3ZLLFLA5",
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "op_order": 1
+   }
+  },
+  {
+   "tx_hash": "34cf059b23bd428254bc15fd75f2e1aa8556c2d0338fb2b3b40d2c2074fd67ba",
+   "tx_order": 9,
+   "op_order": 1,
+   "category": "EFFECT",
+   "reason": "account_credited",
+   "account": "GAT2EJVXJVXXZ42MLBNNY2Q2UPX4I7OD5ZSR6WTR26BZZIH7DTTD2YYF",
+   "signer_key": null,
+   "token": "USDC:GBBD47IF6LWK7P7MDEVSCWR7DPUWV3NY3DTQEVFL4NAT4AQH3ZLLFLA5",
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "op_order": 1
+   }
+  },
+  {
+   "tx_hash": "34cf059b23bd428254bc15fd75f2e1aa8556c2d0338fb2b3b40d2c2074fd67ba",
+   "tx_order": 9,
+   "op_order": 1,
+   "category": "EFFECT",
+   "reason": "contract_debited",
+   "account": "GCQ2ABQOF5CAUWNXGRVLVTOZ2TOTT4UZFN2THIM64PCYE5TCWDONI3VE",
+   "signer_key": null,
+   "token": "USDC:GBBD47IF6LWK7P7MDEVSCWR7DPUWV3NY3DTQEVFL4NAT4AQH3ZLLFLA5",
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "op_order": 1
+   }
+  },
+  {
+   "tx_hash": "34cf059b23bd428254bc15fd75f2e1aa8556c2d0338fb2b3b40d2c2074fd67ba",
+   "tx_order": 9,
+   "op_order": 1,
+   "category": "EFFECT",
+   "reason": "account_credited",
+   "account": "GC3Q7U33GUNWMKWUJPGLZMRKNZLHVQOFBZPGBRZTQ3Y2ZICK3FAAXWSG",
+   "signer_key": null,
+   "token": "USDC:GBBD47IF6LWK7P7MDEVSCWR7DPUWV3NY3DTQEVFL4NAT4AQH3ZLLFLA5",
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "op_order": 1
+   }
+  },
+  {
+   "tx_hash": "34cf059b23bd428254bc15fd75f2e1aa8556c2d0338fb2b3b40d2c2074fd67ba",
+   "tx_order": 9,
+   "op_order": 1,
+   "category": "EFFECT",
+   "reason": "trustline_created",
+   "account": "GAT2EJVXJVXXZ42MLBNNY2Q2UPX4I7OD5ZSR6WTR26BZZIH7DTTD2YYF",
+   "signer_key": null,
+   "token": "USDC:GBBD47IF6LWK7P7MDEVSCWR7DPUWV3NY3DTQEVFL4NAT4AQH3ZLLFLA5",
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "op_order": 1
+   }
+  },
+  {
+   "tx_hash": "34cf059b23bd428254bc15fd75f2e1aa8556c2d0338fb2b3b40d2c2074fd67ba",
+   "tx_order": 9,
+   "op_order": 1,
+   "category": "EFFECT",
+   "reason": "account_created",
+   "account": "GAT2EJVXJVXXZ42MLBNNY2Q2UPX4I7OD5ZSR6WTR26BZZIH7DTTD2YYF",
+   "signer_key": null,
+   "token": null,
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "op_order": 1
+   }
+  },
+  {
+   "tx_hash": "34cf059b23bd428254bc15fd75f2e1aa8556c2d0338fb2b3b40d2c2074fd67ba",
+   "tx_order": 9,
+   "op_order": 1,
+   "category": "EFFECT",
+   "reason": "signer_created",
+   "account": "GAT2EJVXJVXXZ42MLBNNY2Q2UPX4I7OD5ZSR6WTR26BZZIH7DTTD2YYF",
+   "signer_key": "GAT2EJVXJVXXZ42MLBNNY2Q2UPX4I7OD5ZSR6WTR26BZZIH7DTTD2YYF",
+   "token": null,
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "op_order": 1,
+    "weight": 1
+   }
+  }
+ ],
+ "unreadable": [],
+ "row_counts": {
+  "history_transactions": 9,
+  "history_operations": 9,
+  "history_effects": 13,
+  "history_transaction_participants": 15,
+  "history_operation_participants": 14
+ },
+ "command": "horizon db reingest range 5709224 5709224 --ledgerbackend datastore --datastore-config /cfg/datastore.toml --parallel-workers 1 --retries 0",
+ "exit_code": 0,
+ "seconds_to_outcome": 3.9
+}

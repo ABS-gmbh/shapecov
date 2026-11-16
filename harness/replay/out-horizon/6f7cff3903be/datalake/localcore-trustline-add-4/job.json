@@ -1,0 +1,28 @@
+{
+ "job_version": 1,
+ "entry_id": "localcore-trustline-add-4",
+ "ref": "v30.0.1",
+ "commit": "6f7cff3903be1df4fb980a12910a1313c5d7d8dd",
+ "input": "datalake",
+ "network_passphrase": "Test SDF Network ; September 2015",
+ "ledger": {
+  "seq": 4,
+  "hash": "1e0483f78864e66e0e4d835fa67724dad3492f50bd4386854e3907153e77d030",
+  "close_time": 4030000000,
+  "protocol": 28
+ },
+ "rpc": {
+  "url": "http://shapecov-hz-feeder:8000/rpc/localcore-trustline-add-4"
+ },
+ "datalake": {
+  "s3_endpoint": "http://shapecov-hz-feeder:9000",
+  "bucket_path": "shapecov-lake/localcore-trustline-add-4",
+  "region": "us-east-1"
+ },
+ "history_archive": {
+  "url": "http://shapecov-hz-feeder:8000/archive/localcore-trustline-add-4"
+ },
+ "docker_network": "shapecov-hz-net",
+ "timeout_seconds": 120,
+ "work_dir": "$REPLAY_WORK"
+}

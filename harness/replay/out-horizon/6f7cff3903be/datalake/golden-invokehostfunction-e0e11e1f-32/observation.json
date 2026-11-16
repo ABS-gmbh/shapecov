@@ -1,0 +1,63 @@
+{
+ "observation_version": 1,
+ "adapter": "horizon",
+ "commit": "6f7cff3903be1df4fb980a12910a1313c5d7d8dd",
+ "input": "datalake",
+ "entry_id": "golden-invokehostfunction-e0e11e1f-32",
+ "ledger_seq": 34,
+ "ingested": true,
+ "error": null,
+ "adapter_failure": false,
+ "transactions": [
+  {
+   "hash": "543fd9bd516b85b1841f1fd9024e1a9b65db21ccc2c194eda99ea1217357a3af",
+   "tx_order": 1,
+   "successful": true,
+   "result_code": null,
+   "participants": [
+    "GCE4HENKZ3ZIHQY4VEYCVX5ZE5LNDIN3FH4MHZCWFKXQZGQIOGAO77CN"
+   ]
+  },
+  {
+   "hash": "6eefefedaa4b9bea283529805e2a49ece2bb0ecdf223646e360b66a899912bd9",
+   "tx_order": 2,
+   "successful": false,
+   "result_code": null,
+   "participants": [
+    "GBUSVINSYSCZ2U3IVAEDO6HJ3U3T7XKJMP2XAGPALOWOGHEL7KZKIF5I"
+   ]
+  }
+ ],
+ "operations": [
+  {
+   "tx_hash": "543fd9bd516b85b1841f1fd9024e1a9b65db21ccc2c194eda99ea1217357a3af",
+   "tx_order": 1,
+   "op_order": 1,
+   "type": "invoke_host_function",
+   "participants": [
+    "GCE4HENKZ3ZIHQY4VEYCVX5ZE5LNDIN3FH4MHZCWFKXQZGQIOGAO77CN"
+   ]
+  },
+  {
+   "tx_hash": "6eefefedaa4b9bea283529805e2a49ece2bb0ecdf223646e360b66a899912bd9",
+   "tx_order": 2,
+   "op_order": 1,
+   "type": "invoke_host_function",
+   "participants": [
+    "GBUSVINSYSCZ2U3IVAEDO6HJ3U3T7XKJMP2XAGPALOWOGHEL7KZKIF5I"
+   ]
+  }
+ ],
+ "state_changes": [],
+ "unreadable": [],
+ "row_counts": {
+  "history_transactions": 2,
+  "history_operations": 2,
+  "history_effects": 0,
+  "history_transaction_participants": 2,
+  "history_operation_participants": 2
+ },
+ "command": "horizon db reingest range 34 34 --ledgerbackend datastore --datastore-config /cfg/datastore.toml --parallel-workers 1 --retries 0",
+ "exit_code": 0,
+ "seconds_to_outcome": 3.6
+}

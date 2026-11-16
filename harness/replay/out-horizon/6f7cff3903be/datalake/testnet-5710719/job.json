@@ -1,0 +1,28 @@
+{
+ "job_version": 1,
+ "entry_id": "testnet-5710719",
+ "ref": "v30.0.1",
+ "commit": "6f7cff3903be1df4fb980a12910a1313c5d7d8dd",
+ "input": "datalake",
+ "network_passphrase": "Test SDF Network ; September 2015",
+ "ledger": {
+  "seq": 5710719,
+  "hash": "33e402660d58624986384827324fa69fa1ebe05abdf585935dc5f8a6c90703cf",
+  "close_time": 1794577239,
+  "protocol": 30
+ },
+ "rpc": {
+  "url": "http://shapecov-hz-feeder:8000/rpc/testnet-5710719"
+ },
+ "datalake": {
+  "s3_endpoint": "http://shapecov-hz-feeder:9000",
+  "bucket_path": "shapecov-lake/testnet-5710719",
+  "region": "us-east-1"
+ },
+ "history_archive": {
+  "url": "http://shapecov-hz-feeder:8000/archive/testnet-5710719"
+ },
+ "docker_network": "shapecov-hz-net",
+ "timeout_seconds": 120,
+ "work_dir": "$REPLAY_WORK"
+}

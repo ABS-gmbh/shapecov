@@ -1,0 +1,57 @@
+{
+ "history_transactions": [
+  {
+   "id": 38654709760,
+   "transaction_hash": "ef2580ce1563b4ee43e9ffd9b87af9a2172783354425969ad32b7dedb7ddba85",
+   "application_order": 1,
+   "successful": false,
+   "account": "GC4EFXBN6BEENDAX7PBW5PGIIIVH3INMD3OEPQASXOLGOHVVP7ZEMG7X",
+   "fee_account": null,
+   "account_muxed": null,
+   "fee_account_muxed": null,
+   "fee_charged": 22765,
+   "operation_count": 1
+  }
+ ],
+ "history_operations": [
+  {
+   "id": 38654709761,
+   "transaction_id": 38654709760,
+   "application_order": 1,
+   "type": 24,
+   "source_account": "GC4EFXBN6BEENDAX7PBW5PGIIIVH3INMD3OEPQASXOLGOHVVP7ZEMG7X",
+   "source_account_muxed": null,
+   "details": {
+    "function": "HostFunctionTypeHostFunctionTypeInvokeContract",
+    "parameters": [
+     {
+      "type": "Address",
+      "value": "AAAAEgAAAAEBuCkP1Jtb0TMPDqcYvepnKTIGIPZc4adjZXxXY4xYCw=="
+     },
+     {
+      "type": "Sym",
+      "value": "AAAADwAAAANhZGQA"
+     },
+     {
+      "type": "I32",
+      "value": "AAAABAAAAAc="
+     }
+    ],
+    "asset_balance_changes": null
+   }
+  }
+ ],
+ "history_effects": [],
+ "history_transaction_participants": [
+  {
+   "tx_id": 38654709760,
+   "address": "GC4EFXBN6BEENDAX7PBW5PGIIIVH3INMD3OEPQASXOLGOHVVP7ZEMG7X"
+  }
+ ],
+ "history_operation_participants": [
+  {
+   "op_id": 38654709761,
+   "address": "GC4EFXBN6BEENDAX7PBW5PGIIIVH3INMD3OEPQASXOLGOHVVP7ZEMG7X"
+  }
+ ]
+}

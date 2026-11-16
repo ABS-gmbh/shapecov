@@ -1,0 +1,88 @@
+{
+ "history_transactions": [
+  {
+   "id": 51539611648,
+   "transaction_hash": "b804360db5c7e2e0510bb53703b6601a08a7f7465e6c0f066f518829cb363530",
+   "application_order": 1,
+   "successful": true,
+   "account": "GBUXPCT3RN3GEHVVBOD5H32TZ6F3LZ7XNI2JSHBH7XOLEGKMMH4T2RZX",
+   "fee_account": null,
+   "account_muxed": null,
+   "fee_account_muxed": null,
+   "fee_charged": 100,
+   "operation_count": 1
+  },
+  {
+   "id": 51539615744,
+   "transaction_hash": "60b5b665fa46886a7ea97d7e83c58fb8ede7e78aa1aba9cf5fb658decb23571f",
+   "application_order": 2,
+   "successful": false,
+   "account": "GDOUGA3K7OY4LVVLLG6VEERNVNWUWSXUEFJFYB3QHD7HOY2EFCP3E4GE",
+   "fee_account": null,
+   "account_muxed": null,
+   "fee_account_muxed": null,
+   "fee_charged": 59489,
+   "operation_count": 1
+  }
+ ],
+ "history_operations": [
+  {
+   "id": 51539611649,
+   "transaction_id": 51539611648,
+   "application_order": 1,
+   "type": 5,
+   "source_account": "GDOUGA3K7OY4LVVLLG6VEERNVNWUWSXUEFJFYB3QHD7HOY2EFCP3E4GE",
+   "source_account_muxed": null,
+   "details": {
+    "master_key_weight": 0
+   }
+  },
+  {
+   "id": 51539615745,
+   "transaction_id": 51539615744,
+   "application_order": 1,
+   "type": 24,
+   "source_account": "GDOUGA3K7OY4LVVLLG6VEERNVNWUWSXUEFJFYB3QHD7HOY2EFCP3E4GE",
+   "source_account_muxed": null,
+   "details": {
+    "function": "HostFunctionTypeHostFunctionTypeUploadContractWasm"
+   }
+  }
+ ],
+ "history_effects": [
+  {
+   "op_id": 51539611649,
+   "order": 1,
+   "type": 11,
+   "address": "GDOUGA3K7OY4LVVLLG6VEERNVNWUWSXUEFJFYB3QHD7HOY2EFCP3E4GE",
+   "address_muxed": null,
+   "details": {
+    "public_key": "GDOUGA3K7OY4LVVLLG6VEERNVNWUWSXUEFJFYB3QHD7HOY2EFCP3E4GE"
+   }
+  }
+ ],
+ "history_transaction_participants": [
+  {
+   "tx_id": 51539611648,
+   "address": "GBUXPCT3RN3GEHVVBOD5H32TZ6F3LZ7XNI2JSHBH7XOLEGKMMH4T2RZX"
+  },
+  {
+   "tx_id": 51539615744,
+   "address": "GDOUGA3K7OY4LVVLLG6VEERNVNWUWSXUEFJFYB3QHD7HOY2EFCP3E4GE"
+  },
+  {
+   "tx_id": 51539611648,
+   "address": "GDOUGA3K7OY4LVVLLG6VEERNVNWUWSXUEFJFYB3QHD7HOY2EFCP3E4GE"
+  }
+ ],
+ "history_operation_participants": [
+  {
+   "op_id": 51539615745,
+   "address": "GDOUGA3K7OY4LVVLLG6VEERNVNWUWSXUEFJFYB3QHD7HOY2EFCP3E4GE"
+  },
+  {
+   "op_id": 51539611649,
+   "address": "GDOUGA3K7OY4LVVLLG6VEERNVNWUWSXUEFJFYB3QHD7HOY2EFCP3E4GE"
+  }
+ ]
+}

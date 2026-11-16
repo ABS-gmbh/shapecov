@@ -231,11 +231,23 @@ So derive participants from:
 | Authorization entries | address-credential entries whose nonce entry the meta shows being created; source-account entries are the transaction source, already counted | successful transactions |
 
 **What goes wrong otherwise.** stellar/wallet-backend took Soroban participants from the declared
-authorization tree until commit `9538b3ca` ("derive Soroban participants from executed meta, not
-the auth tree"). It still records envelope-derived operation participants for failed
-transactions (introduced by #474). In a failed transaction, that lets any submitter put any
-account into another account's history at the cost of one fee. The [linter](../linter/README.md)
-rule **SC003** reports this pattern in Go code.
+authorization tree, and recorded every address a failed transaction's envelope names, until commit
+`9538b3ca` ("derive Soroban participants from executed meta, not the auth tree", 25 September
+2026). Without such a rule, any submitter can put any account into another account's history at
+the cost of one fee. The [linter](../linter/README.md) rule **SC003** reports this pattern in Go
+code.
+
+**Failed transactions: decide, document, test.** Whether an account named only in the envelope of
+a failed transaction is a participant is a choice your API makes, and both answers are in use.
+Horizon says yes: it lists a failed transaction under every account its envelope names, so that an
+account's history with `include_failed=true` shows, for example, a failed payment to it
+(`ParticipantsForTransaction` adds `operation.Participants()` for every operation with no success
+check, `internal/ingest/processors/participants_processor.go` at v30.0.1). wallet-backend says no:
+a failed transaction changes nothing but the fee, so only its source and fee source are
+participants. Pick one, say which in your API's documentation, and test it. The replay harness
+checks either, declared per adapter (`FAILED_TX_PARTICIPANTS`); on the corpus, Horizon lists 1,106
+envelope-named addresses on 965 failed transactions, wallet-backend none, and each meets its own
+declaration.
 
 ## 4. Muxed and signed-payload addresses
 
@@ -326,7 +338,7 @@ indexer once the corpus has an entry with that shape and expectations for it.
 | 5 | Every recursive walk over contract values or authorization trees has a depth counter and a cap, and truncates instead of failing. | 2 | SC002 | — |
 | 6 | The XDR decoder's depth limit is set explicitly, not left at an unbounded or untested default. | 2 | — | — |
 | 7 | Size limits come from the ledger's network configuration, not constants. | 2 | — | — |
-| 8 | Participants come from the meta. A failed transaction contributes only its source and fee source. | 3 | SC003 | yes |
+| 8 | Participants come from the meta. A failed transaction contributes only its source and fee source, unless the API lists failed transactions under the accounts their envelope names (Horizon's choice); either way the choice is documented and tested. | 3 | SC003 | yes |
 | 9 | Authorization entries count only when the meta shows their nonce consumed. | 1, 3 | SC001, SC003 | yes |
 | 10 | Trustlines and accounts are tracked from ledger changes, so contract-created ones appear. | 3 | — | yes |
 | 11 | Liquidity-pool asset pairs are ordered by XDR bytes, not by strkey text. | 1 | — | yes |

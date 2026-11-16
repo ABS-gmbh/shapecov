@@ -1,0 +1,111 @@
+{
+ "history_transactions": [
+  {
+   "id": 55834578944,
+   "transaction_hash": "9bab2b1450bff041ddf537598dae6ffb4f03734de33cb91f352cb332ca920519",
+   "application_order": 1,
+   "successful": true,
+   "account": "GBIFX2QKGC6J4VRBEQDJZJSFZA43IQK2CYR3BF473UFC7VMSOOM2Z7SX",
+   "fee_account": null,
+   "account_muxed": null,
+   "fee_account_muxed": null,
+   "fee_charged": 100,
+   "operation_count": 1
+  }
+ ],
+ "history_operations": [
+  {
+   "id": 55834578945,
+   "transaction_id": 55834578944,
+   "application_order": 1,
+   "type": 22,
+   "source_account": "GBIFX2QKGC6J4VRBEQDJZJSFZA43IQK2CYR3BF473UFC7VMSOOM2Z7SX",
+   "source_account_muxed": null,
+   "details": {
+    "max_price": "1.0000000",
+    "min_price": "1.0000000",
+    "max_price_r": {
+     "d": 1,
+     "n": 1
+    },
+    "min_price_r": {
+     "d": 1,
+     "n": 1
+    },
+    "reserves_max": [
+     {
+      "asset": "EUR:GCGE27HU2VYQANKL2VZWLCAOJYMEFST5DXPBWQ7BRRPOHUPK626DNG4Q",
+      "amount": "0.0001000"
+     },
+     {
+      "asset": "USD:GCGE27HU2VYQANKL2VZWLCAOJYMEFST5DXPBWQ7BRRPOHUPK626DNG4Q",
+      "amount": "0.0001000"
+     }
+    ],
+    "shares_received": "0.0001000",
+    "liquidity_pool_id": "01fe897f55062bb2a1bf91e2e60c78cf6176a5bd8a847d10c56df0a6839731d8",
+    "reserves_deposited": [
+     {
+      "asset": "EUR:GCGE27HU2VYQANKL2VZWLCAOJYMEFST5DXPBWQ7BRRPOHUPK626DNG4Q",
+      "amount": "0.0001000"
+     },
+     {
+      "asset": "USD:GCGE27HU2VYQANKL2VZWLCAOJYMEFST5DXPBWQ7BRRPOHUPK626DNG4Q",
+      "amount": "0.0001000"
+     }
+    ]
+   }
+  }
+ ],
+ "history_effects": [
+  {
+   "op_id": 55834578945,
+   "order": 1,
+   "type": 90,
+   "address": "GBIFX2QKGC6J4VRBEQDJZJSFZA43IQK2CYR3BF473UFC7VMSOOM2Z7SX",
+   "address_muxed": null,
+   "details": {
+    "liquidity_pool": {
+     "id": "01fe897f55062bb2a1bf91e2e60c78cf6176a5bd8a847d10c56df0a6839731d8",
+     "type": "constant_product",
+     "fee_bp": 30,
+     "reserves": [
+      {
+       "asset": "EUR:GCGE27HU2VYQANKL2VZWLCAOJYMEFST5DXPBWQ7BRRPOHUPK626DNG4Q",
+       "amount": "0.0001000"
+      },
+      {
+       "asset": "USD:GCGE27HU2VYQANKL2VZWLCAOJYMEFST5DXPBWQ7BRRPOHUPK626DNG4Q",
+       "amount": "0.0001000"
+      }
+     ],
+     "total_shares": "0.0001000",
+     "total_trustlines": "1"
+    },
+    "shares_received": "0.0001000",
+    "reserves_deposited": [
+     {
+      "asset": "EUR:GCGE27HU2VYQANKL2VZWLCAOJYMEFST5DXPBWQ7BRRPOHUPK626DNG4Q",
+      "amount": "0.0001000"
+     },
+     {
+      "asset": "USD:GCGE27HU2VYQANKL2VZWLCAOJYMEFST5DXPBWQ7BRRPOHUPK626DNG4Q",
+      "amount": "0.0001000"
+     }
+    ]
+   }
+  }
+ ],
+ "history_transaction_participants": [
+  {
+   "tx_id": 55834578944,
+   "address": "GBIFX2QKGC6J4VRBEQDJZJSFZA43IQK2CYR3BF473UFC7VMSOOM2Z7SX"
+  }
+ ],
+ "history_operation_participants": [
+  {
+   "op_id": 55834578945,
+   "address": "GBIFX2QKGC6J4VRBEQDJZJSFZA43IQK2CYR3BF473UFC7VMSOOM2Z7SX"
+  }
+ ]
+}

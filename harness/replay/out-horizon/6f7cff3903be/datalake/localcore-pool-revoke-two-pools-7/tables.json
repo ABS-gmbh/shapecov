@@ -1,0 +1,286 @@
+{
+ "history_transactions": [
+  {
+   "id": 30064775168,
+   "transaction_hash": "bf42f546abf271d32c8a7dd8e06a26aa5ab305a5426431f13d3e136f961885a5",
+   "application_order": 1,
+   "successful": true,
+   "account": "GABRX6PWKY2PY7RRVPZC4QGCCATGRBV2F2YIIN5R6S7ETFPTBEQCRALU",
+   "fee_account": null,
+   "account_muxed": null,
+   "fee_account_muxed": null,
+   "fee_charged": 100,
+   "operation_count": 1
+  }
+ ],
+ "history_operations": [
+  {
+   "id": 30064775169,
+   "transaction_id": 30064775168,
+   "application_order": 1,
+   "type": 21,
+   "source_account": "GABRX6PWKY2PY7RRVPZC4QGCCATGRBV2F2YIIN5R6S7ETFPTBEQCRALU",
+   "source_account_muxed": null,
+   "details": {
+    "sponsor": "GDDPY7RVTJM7BKT7UVOEALJH43XJIEO4ACVGLWXFFT2AQUGM27CBZMTU",
+    "trustor": "GDDPY7RVTJM7BKT7UVOEALJH43XJIEO4ACVGLWXFFT2AQUGM27CBZMTU",
+    "asset_code": "AAA",
+    "asset_type": "credit_alphanum4",
+    "clear_flags": [
+     1
+    ],
+    "asset_issuer": "GABRX6PWKY2PY7RRVPZC4QGCCATGRBV2F2YIIN5R6S7ETFPTBEQCRALU",
+    "clear_flags_s": [
+     "authorized"
+    ]
+   }
+  }
+ ],
+ "history_effects": [
+  {
+   "op_id": 30064775169,
+   "order": 1,
+   "type": 26,
+   "address": "GABRX6PWKY2PY7RRVPZC4QGCCATGRBV2F2YIIN5R6S7ETFPTBEQCRALU",
+   "address_muxed": null,
+   "details": {
+    "trustor": "GDDPY7RVTJM7BKT7UVOEALJH43XJIEO4ACVGLWXFFT2AQUGM27CBZMTU",
+    "asset_code": "AAA",
+    "asset_type": "credit_alphanum4",
+    "asset_issuer": "GABRX6PWKY2PY7RRVPZC4QGCCATGRBV2F2YIIN5R6S7ETFPTBEQCRALU",
+    "authorized_flag": false
+   }
+  },
+  {
+   "op_id": 30064775169,
+   "order": 2,
+   "type": 50,
+   "address": "GABRX6PWKY2PY7RRVPZC4QGCCATGRBV2F2YIIN5R6S7ETFPTBEQCRALU",
+   "address_muxed": null,
+   "details": {
+    "asset": "BBB:GABRX6PWKY2PY7RRVPZC4QGCCATGRBV2F2YIIN5R6S7ETFPTBEQCRALU",
+    "amount": "100.0000000",
+    "balance_id": "0000000023ce43e904bf2f5d4b8e53e9f300acdad3279dd03f98cf10439129baa90663ae"
+   }
+  },
+  {
+   "op_id": 30064775169,
+   "order": 3,
+   "type": 51,
+   "address": "GDDPY7RVTJM7BKT7UVOEALJH43XJIEO4ACVGLWXFFT2AQUGM27CBZMTU",
+   "address_muxed": null,
+   "details": {
+    "asset": "BBB:GABRX6PWKY2PY7RRVPZC4QGCCATGRBV2F2YIIN5R6S7ETFPTBEQCRALU",
+    "amount": "100.0000000",
+    "predicate": {
+     "unconditional": true
+    },
+    "balance_id": "0000000023ce43e904bf2f5d4b8e53e9f300acdad3279dd03f98cf10439129baa90663ae"
+   }
+  },
+  {
+   "op_id": 30064775169,
+   "order": 4,
+   "type": 50,
+   "address": "GABRX6PWKY2PY7RRVPZC4QGCCATGRBV2F2YIIN5R6S7ETFPTBEQCRALU",
+   "address_muxed": null,
+   "details": {
+    "asset": "AAA:GABRX6PWKY2PY7RRVPZC4QGCCATGRBV2F2YIIN5R6S7ETFPTBEQCRALU",
+    "amount": "100.0000000",
+    "balance_id": "000000008827dfb22d8716cb1b819db50028e39962f51a932fb8762bf544e24774c20836"
+   }
+  },
+  {
+   "op_id": 30064775169,
+   "order": 5,
+   "type": 51,
+   "address": "GDDPY7RVTJM7BKT7UVOEALJH43XJIEO4ACVGLWXFFT2AQUGM27CBZMTU",
+   "address_muxed": null,
+   "details": {
+    "asset": "AAA:GABRX6PWKY2PY7RRVPZC4QGCCATGRBV2F2YIIN5R6S7ETFPTBEQCRALU",
+    "amount": "100.0000000",
+    "predicate": {
+     "unconditional": true
+    },
+    "balance_id": "000000008827dfb22d8716cb1b819db50028e39962f51a932fb8762bf544e24774c20836"
+   }
+  },
+  {
+   "op_id": 30064775169,
+   "order": 6,
+   "type": 50,
+   "address": "GABRX6PWKY2PY7RRVPZC4QGCCATGRBV2F2YIIN5R6S7ETFPTBEQCRALU",
+   "address_muxed": null,
+   "details": {
+    "asset": "CCC:GABRX6PWKY2PY7RRVPZC4QGCCATGRBV2F2YIIN5R6S7ETFPTBEQCRALU",
+    "amount": "100.0000000",
+    "balance_id": "00000000b9b4d0b5a755310988a73ccdd7723067a2f71258c6958a0e58e856a72fb6b0d6"
+   }
+  },
+  {
+   "op_id": 30064775169,
+   "order": 7,
+   "type": 51,
+   "address": "GDDPY7RVTJM7BKT7UVOEALJH43XJIEO4ACVGLWXFFT2AQUGM27CBZMTU",
+   "address_muxed": null,
+   "details": {
+    "asset": "CCC:GABRX6PWKY2PY7RRVPZC4QGCCATGRBV2F2YIIN5R6S7ETFPTBEQCRALU",
+    "amount": "100.0000000",
+    "predicate": {
+     "unconditional": true
+    },
+    "balance_id": "00000000b9b4d0b5a755310988a73ccdd7723067a2f71258c6958a0e58e856a72fb6b0d6"
+   }
+  },
+  {
+   "op_id": 30064775169,
+   "order": 8,
+   "type": 50,
+   "address": "GABRX6PWKY2PY7RRVPZC4QGCCATGRBV2F2YIIN5R6S7ETFPTBEQCRALU",
+   "address_muxed": null,
+   "details": {
+    "asset": "AAA:GABRX6PWKY2PY7RRVPZC4QGCCATGRBV2F2YIIN5R6S7ETFPTBEQCRALU",
+    "amount": "100.0000000",
+    "balance_id": "00000000e4bbf033f497f8b89364b001b5dee111bfc9c3ed4010352c4254a288c8052141"
+   }
+  },
+  {
+   "op_id": 30064775169,
+   "order": 9,
+   "type": 51,
+   "address": "GDDPY7RVTJM7BKT7UVOEALJH43XJIEO4ACVGLWXFFT2AQUGM27CBZMTU",
+   "address_muxed": null,
+   "details": {
+    "asset": "AAA:GABRX6PWKY2PY7RRVPZC4QGCCATGRBV2F2YIIN5R6S7ETFPTBEQCRALU",
+    "amount": "100.0000000",
+    "predicate": {
+     "unconditional": true
+    },
+    "balance_id": "00000000e4bbf033f497f8b89364b001b5dee111bfc9c3ed4010352c4254a288c8052141"
+   }
+  },
+  {
+   "op_id": 30064775169,
+   "order": 10,
+   "type": 95,
+   "address": "GABRX6PWKY2PY7RRVPZC4QGCCATGRBV2F2YIIN5R6S7ETFPTBEQCRALU",
+   "address_muxed": null,
+   "details": {
+    "liquidity_pool": {
+     "id": "aaef7e292ee44bb91766e10c9d5a2c63261a95ffc2a295e397c16f0449d918e8",
+     "type": "constant_product",
+     "fee_bp": 30,
+     "reserves": [
+      {
+       "asset": "AAA:GABRX6PWKY2PY7RRVPZC4QGCCATGRBV2F2YIIN5R6S7ETFPTBEQCRALU",
+       "amount": "100.0000000"
+      },
+      {
+       "asset": "CCC:GABRX6PWKY2PY7RRVPZC4QGCCATGRBV2F2YIIN5R6S7ETFPTBEQCRALU",
+       "amount": "100.0000000"
+      }
+     ],
+     "total_shares": "100.0000000",
+     "total_trustlines": "1"
+    },
+    "shares_revoked": "100.0000000",
+    "reserves_revoked": [
+     {
+      "asset": "AAA:GABRX6PWKY2PY7RRVPZC4QGCCATGRBV2F2YIIN5R6S7ETFPTBEQCRALU",
+      "amount": "100.0000000",
+      "claimable_balance_id": "00000000e4bbf033f497f8b89364b001b5dee111bfc9c3ed4010352c4254a288c8052141"
+     },
+     {
+      "asset": "CCC:GABRX6PWKY2PY7RRVPZC4QGCCATGRBV2F2YIIN5R6S7ETFPTBEQCRALU",
+      "amount": "100.0000000",
+      "claimable_balance_id": "00000000b9b4d0b5a755310988a73ccdd7723067a2f71258c6958a0e58e856a72fb6b0d6"
+     }
+    ]
+   }
+  },
+  {
+   "op_id": 30064775169,
+   "order": 11,
+   "type": 69,
+   "address": "GABRX6PWKY2PY7RRVPZC4QGCCATGRBV2F2YIIN5R6S7ETFPTBEQCRALU",
+   "address_muxed": null,
+   "details": {
+    "sponsor": "GDDPY7RVTJM7BKT7UVOEALJH43XJIEO4ACVGLWXFFT2AQUGM27CBZMTU",
+    "balance_id": "0000000023ce43e904bf2f5d4b8e53e9f300acdad3279dd03f98cf10439129baa90663ae"
+   }
+  },
+  {
+   "op_id": 30064775169,
+   "order": 12,
+   "type": 69,
+   "address": "GABRX6PWKY2PY7RRVPZC4QGCCATGRBV2F2YIIN5R6S7ETFPTBEQCRALU",
+   "address_muxed": null,
+   "details": {
+    "sponsor": "GDDPY7RVTJM7BKT7UVOEALJH43XJIEO4ACVGLWXFFT2AQUGM27CBZMTU",
+    "balance_id": "000000008827dfb22d8716cb1b819db50028e39962f51a932fb8762bf544e24774c20836"
+   }
+  },
+  {
+   "op_id": 30064775169,
+   "order": 13,
+   "type": 69,
+   "address": "GABRX6PWKY2PY7RRVPZC4QGCCATGRBV2F2YIIN5R6S7ETFPTBEQCRALU",
+   "address_muxed": null,
+   "details": {
+    "sponsor": "GDDPY7RVTJM7BKT7UVOEALJH43XJIEO4ACVGLWXFFT2AQUGM27CBZMTU",
+    "balance_id": "00000000b9b4d0b5a755310988a73ccdd7723067a2f71258c6958a0e58e856a72fb6b0d6"
+   }
+  },
+  {
+   "op_id": 30064775169,
+   "order": 14,
+   "type": 69,
+   "address": "GABRX6PWKY2PY7RRVPZC4QGCCATGRBV2F2YIIN5R6S7ETFPTBEQCRALU",
+   "address_muxed": null,
+   "details": {
+    "sponsor": "GDDPY7RVTJM7BKT7UVOEALJH43XJIEO4ACVGLWXFFT2AQUGM27CBZMTU",
+    "balance_id": "00000000e4bbf033f497f8b89364b001b5dee111bfc9c3ed4010352c4254a288c8052141"
+   }
+  },
+  {
+   "op_id": 30064775169,
+   "order": 15,
+   "type": 94,
+   "address": "GABRX6PWKY2PY7RRVPZC4QGCCATGRBV2F2YIIN5R6S7ETFPTBEQCRALU",
+   "address_muxed": null,
+   "details": {
+    "liquidity_pool_id": "aaef7e292ee44bb91766e10c9d5a2c63261a95ffc2a295e397c16f0449d918e8"
+   }
+  },
+  {
+   "op_id": 30064775169,
+   "order": 16,
+   "type": 94,
+   "address": "GABRX6PWKY2PY7RRVPZC4QGCCATGRBV2F2YIIN5R6S7ETFPTBEQCRALU",
+   "address_muxed": null,
+   "details": {
+    "liquidity_pool_id": "ca2932b765a72504591568d7e1638279fc83774e65c0408800488b19e8a1334f"
+   }
+  }
+ ],
+ "history_transaction_participants": [
+  {
+   "tx_id": 30064775168,
+   "address": "GABRX6PWKY2PY7RRVPZC4QGCCATGRBV2F2YIIN5R6S7ETFPTBEQCRALU"
+  },
+  {
+   "tx_id": 30064775168,
+   "address": "GDDPY7RVTJM7BKT7UVOEALJH43XJIEO4ACVGLWXFFT2AQUGM27CBZMTU"
+  }
+ ],
+ "history_operation_participants": [
+  {
+   "op_id": 30064775169,
+   "address": "GABRX6PWKY2PY7RRVPZC4QGCCATGRBV2F2YIIN5R6S7ETFPTBEQCRALU"
+  },
+  {
+   "op_id": 30064775169,
+   "address": "GDDPY7RVTJM7BKT7UVOEALJH43XJIEO4ACVGLWXFFT2AQUGM27CBZMTU"
+  }
+ ]
+}

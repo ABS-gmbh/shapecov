@@ -1,0 +1,4 @@
+{"http": "GET", "keys": 1, "path": "/shapecov-lake?list-type=2&max-keys=1&prefix=testnet-4437357-signed-payload-signer%2F", "port": "s3", "status": 200, "t": 1794866593.961}
+{"http": "GET", "keys": 2, "path": "/shapecov-lake?fetch-owner=false&list-type=2&max-keys=1000&prefix=testnet-4437357-signed-payload-signer%2F&start-after=", "port": "s3", "status": 200, "t": 1794866594.028}
+{"http": "GET", "path": "/shapecov-lake/testnet-4437357-signed-payload-signer/.config.json?x-id=GetObject", "port": "s3", "size": 142, "status": 200, "t": 1794866594.075}
+{"http": "GET", "path": "/shapecov-lake/testnet-4437357-signed-payload-signer/FFBC9DFF--4416000-4479999/FFBC4A92--4437357.xdr.zst?x-id=GetObject", "port": "s3", "size": 9620, "status": 200, "t": 1794866594.127}

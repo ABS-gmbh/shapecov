@@ -1,0 +1,41 @@
+{
+ "adapter": "horizon",
+ "checks": [],
+ "commit": "6f7cff3903be1df4fb980a12910a1313c5d7d8dd",
+ "dropped": [],
+ "entry_id": "golden-frozenledgerkeys-a0fb94c3-10",
+ "evidence": "out-horizon/6f7cff3903be/datalake/golden-frozenledgerkeys-a0fb94c3-10",
+ "expectations": 0,
+ "expectations_source": "none (implicit checks only)",
+ "feeder_requests": 4,
+ "ingested": true,
+ "input": "datalake",
+ "ledger": {
+  "close_time": 0,
+  "hash": "bec5d521fee706c20571bc054b645c4a7c38a113ca057effee93aabc27fd2642",
+  "protocol": 30,
+  "seq": 12
+ },
+ "mishandled": [],
+ "mode": "unmodified",
+ "oracle": {
+  "verdict": "pass",
+  "rows_expected": 5,
+  "rows_met": 5,
+  "known": {},
+  "unexplained": []
+ },
+ "process": null,
+ "protocol_version": 30,
+ "ref": "v30.0.1",
+ "result": "pass",
+ "row_counts": {
+  "history_effects": 4,
+  "history_operation_participants": 2,
+  "history_operations": 1,
+  "history_transaction_participants": 2,
+  "history_transactions": 1
+ },
+ "sdk_pin": "v0.9.0",
+ "seconds": null
+}

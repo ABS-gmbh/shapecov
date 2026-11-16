@@ -118,7 +118,7 @@
    "id": "E2",
    "kind": "found",
    "title": "A revocation that redeems pool shares in two pools gets one liquidity_pool_revoked, citing the other pool's balance",
-   "component": "stellar-etl: export_effects (addLiquidityPoolRevokedEffect); Horizon has the same code",
+   "component": "stellar-etl: export_effects (addLiquidityPoolRevokedEffect); reproduced in stellar-horizon v30.0.1 itself on localcore-pool-revoke-two-pools-7, whose 16 effects Horizon stores identically to stellar-etl's",
    "severity": "S2",
    "caps": [
     "CAP-0038"
@@ -140,7 +140,7 @@
    "id": "E3",
    "kind": "found",
    "title": "Pool-share trustlines removed by a revocation get no trustline_removed effect",
-   "component": "stellar-etl: export_effects; Horizon has the same code",
+   "component": "stellar-etl: export_effects; reproduced in stellar-horizon v30.0.1 itself on localcore-pool-revoke-two-pools-7, whose 16 effects Horizon stores identically to stellar-etl's",
    "severity": "S2",
    "caps": [
     "CAP-0038"
@@ -368,14 +368,36 @@
     ]
    },
    "upstream": [
-    "https://github.com/stellar/wallet-backend/issues/677",
-    "https://github.com/stellar/stellar-horizon/issues/259"
+    "https://github.com/stellar/wallet-backend/issues/677"
    ],
-   "first_reported_by": "JakeUrban (SDF, #677); ErenTopaal added a sponsor case on 15 November; tolgayayci filed the Horizon counterpart, stellar-horizon#259",
+   "first_reported_by": "JakeUrban (SDF, #677); ErenTopaal added a sponsor case on 15 November; tolgayayci filed the Horizon counterpart, stellar-horizon#259 (record H1)",
    "reported": "2026-08-03",
    "status": "open; the oracle's participant rule flags it at main: 89 missed participants in 78 transactions of the 611-ledger sweep (88 in 77 of 97,973 pubnet transactions), all sponsors whose sponsorship ended; our measured volume is on the issue (comment of 2026-11-16, https://github.com/stellar/wallet-backend/issues/677#issuecomment-6928536393)",
    "labels": [
     "stellar/wallet-backend#677"
+   ]
+  },
+  {
+   "id": "H1",
+   "kind": "confirmed",
+   "title": "Transaction participants from operation meta are never recorded: participantsForMeta reads only the TransactionMeta v0 arm",
+   "component": "stellar-horizon v30.0.1: participants (participantsForMeta, internal/ingest/processors/participants_processor.go)",
+   "severity": "S2",
+   "severity_note": "data is missing; nothing is stored wrong",
+   "caps": [],
+   "caps_none_reason": "an indexer rule (participants come from the meta), not a protocol shape",
+   "reproduction": {
+    "corpus_entry": "pubnet-60280000",
+    "command": "python3 harness/replay/replay.py run --adapter horizon --refs v30.0.1 --inputs datalake --entries pubnet-60280000"
+   },
+   "upstream": [
+    "https://github.com/stellar/stellar-horizon/issues/259"
+   ],
+   "first_reported_by": "tolgayayci (stellar-horizon#259); the Horizon counterpart of stellar/wallet-backend#677 (record C10)",
+   "reported": "2026-11-14",
+   "status": "open; reproduced, not found blind (the participant rule was written for wallet-backend, and #259 was known when the adapter was written): 179 missed transaction participants on 15 of the 95 corpus ledgers at ShapeCov d6e9559; on pubnet-60280000, 4 in 4 transactions: makers of offers crossed by a path payment or a sell offer, and sponsors whose sponsorship ended",
+   "labels": [
+    "stellar/stellar-horizon#259"
    ]
   },
   {

@@ -1,0 +1,119 @@
+{
+ "history_transactions": [
+  {
+   "id": 21474840576,
+   "transaction_hash": "e98d24ffd42354ef6d38a5a44095872de9e19b4df145b03c04393d3bcd71bc60",
+   "application_order": 1,
+   "successful": true,
+   "account": "GC377LSPINW527GV5P75Z323MLNR7XIB646TWYXMYFEBXTSDKDBAWVOD",
+   "fee_account": null,
+   "account_muxed": null,
+   "fee_account_muxed": null,
+   "fee_charged": 300,
+   "operation_count": 3
+  }
+ ],
+ "history_operations": [
+  {
+   "id": 21474840577,
+   "transaction_id": 21474840576,
+   "application_order": 1,
+   "type": 16,
+   "source_account": "GC377LSPINW527GV5P75Z323MLNR7XIB646TWYXMYFEBXTSDKDBAWVOD",
+   "source_account_muxed": null,
+   "details": {
+    "sponsored_id": "GCGGR2QLVC3JO7SPKF3E2N4BM5ET4OTBQ325T2B4KMD4AKXOS7VWLCQE"
+   }
+  },
+  {
+   "id": 21474840578,
+   "transaction_id": 21474840576,
+   "application_order": 2,
+   "type": 6,
+   "source_account": "GCGGR2QLVC3JO7SPKF3E2N4BM5ET4OTBQ325T2B4KMD4AKXOS7VWLCQE",
+   "source_account_muxed": null,
+   "details": {
+    "limit": "922337203685.4775807",
+    "sponsor": "GC377LSPINW527GV5P75Z323MLNR7XIB646TWYXMYFEBXTSDKDBAWVOD",
+    "trustee": "GCGE27HU2VYQANKL2VZWLCAOJYMEFST5DXPBWQ7BRRPOHUPK626DNG4Q",
+    "trustor": "GCGGR2QLVC3JO7SPKF3E2N4BM5ET4OTBQ325T2B4KMD4AKXOS7VWLCQE",
+    "asset_code": "USD",
+    "asset_type": "credit_alphanum4",
+    "asset_issuer": "GCGE27HU2VYQANKL2VZWLCAOJYMEFST5DXPBWQ7BRRPOHUPK626DNG4Q"
+   }
+  },
+  {
+   "id": 21474840579,
+   "transaction_id": 21474840576,
+   "application_order": 3,
+   "type": 17,
+   "source_account": "GCGGR2QLVC3JO7SPKF3E2N4BM5ET4OTBQ325T2B4KMD4AKXOS7VWLCQE",
+   "source_account_muxed": null,
+   "details": {
+    "begin_sponsor": "GC377LSPINW527GV5P75Z323MLNR7XIB646TWYXMYFEBXTSDKDBAWVOD"
+   }
+  }
+ ],
+ "history_effects": [
+  {
+   "op_id": 21474840578,
+   "order": 1,
+   "type": 20,
+   "address": "GCGGR2QLVC3JO7SPKF3E2N4BM5ET4OTBQ325T2B4KMD4AKXOS7VWLCQE",
+   "address_muxed": null,
+   "details": {
+    "limit": "922337203685.4775807",
+    "asset_code": "USD",
+    "asset_type": "credit_alphanum4",
+    "asset_issuer": "GCGE27HU2VYQANKL2VZWLCAOJYMEFST5DXPBWQ7BRRPOHUPK626DNG4Q"
+   }
+  },
+  {
+   "op_id": 21474840578,
+   "order": 2,
+   "type": 63,
+   "address": "GCGGR2QLVC3JO7SPKF3E2N4BM5ET4OTBQ325T2B4KMD4AKXOS7VWLCQE",
+   "address_muxed": null,
+   "details": {
+    "asset": "USD:GCGE27HU2VYQANKL2VZWLCAOJYMEFST5DXPBWQ7BRRPOHUPK626DNG4Q",
+    "sponsor": "GC377LSPINW527GV5P75Z323MLNR7XIB646TWYXMYFEBXTSDKDBAWVOD"
+   }
+  }
+ ],
+ "history_transaction_participants": [
+  {
+   "tx_id": 21474840576,
+   "address": "GC377LSPINW527GV5P75Z323MLNR7XIB646TWYXMYFEBXTSDKDBAWVOD"
+  },
+  {
+   "tx_id": 21474840576,
+   "address": "GCGGR2QLVC3JO7SPKF3E2N4BM5ET4OTBQ325T2B4KMD4AKXOS7VWLCQE"
+  }
+ ],
+ "history_operation_participants": [
+  {
+   "op_id": 21474840579,
+   "address": "GC377LSPINW527GV5P75Z323MLNR7XIB646TWYXMYFEBXTSDKDBAWVOD"
+  },
+  {
+   "op_id": 21474840578,
+   "address": "GC377LSPINW527GV5P75Z323MLNR7XIB646TWYXMYFEBXTSDKDBAWVOD"
+  },
+  {
+   "op_id": 21474840577,
+   "address": "GC377LSPINW527GV5P75Z323MLNR7XIB646TWYXMYFEBXTSDKDBAWVOD"
+  },
+  {
+   "op_id": 21474840579,
+   "address": "GCGGR2QLVC3JO7SPKF3E2N4BM5ET4OTBQ325T2B4KMD4AKXOS7VWLCQE"
+  },
+  {
+   "op_id": 21474840578,
+   "address": "GCGGR2QLVC3JO7SPKF3E2N4BM5ET4OTBQ325T2B4KMD4AKXOS7VWLCQE"
+  },
+  {
+   "op_id": 21474840577,
+   "address": "GCGGR2QLVC3JO7SPKF3E2N4BM5ET4OTBQ325T2B4KMD4AKXOS7VWLCQE"
+  }
+ ]
+}

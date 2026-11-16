@@ -13,9 +13,10 @@ makes no promise of dates.
   fix prepared for wallet-backend #820 waits for the issue to be accepted (`VERIFY.md`, check 3).
 - The fix prepared for stellar-etl #512 waits for the issue to be accepted.
 - The detection backtest's misses, each with what would catch it (`harness/replay/BACKTEST.md`):
-  oracle rules for stellar-etl #456, #457 and #462, whose shapes the corpus already has; for
-  wallet-backend, reading its current-state tables and new local stellar-core scenarios.
-- Replay adapters beyond wallet-backend and stellar-etl, for example Horizon (`README.md`, Limits).
+  stellar-etl's `export_trades` and `export_ledger_entry_changes` in its adapter (#451, #459), and a
+  fee rule with a new entry (#453); for wallet-backend, reading its current-state tables and new
+  local stellar-core scenarios.
+- Replay adapters beyond wallet-backend, stellar-etl and Horizon (`README.md`, Limits).
 - Schema cells that no corpus entry carries yet, listed by protocol in `corpus/CAP-COVERAGE.md`.
 
 ## 16 November 2026

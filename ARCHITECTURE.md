@@ -120,7 +120,7 @@ printing one JSON object:
 - `down`: remove everything it started.
 
 Expectations never come from the indexer. The full contract is in `harness/replay/ADAPTER.md`.
-Two adapters exist: wallet-backend (the reference) and stellar-etl. Others are planned. A third,
+Three adapters exist: wallet-backend (the reference), stellar-etl and Horizon. A fourth,
 `adapters/example/`, wraps a toy indexer of about 100 lines in two variants, participants from the
 envelope and from the meta, to show the interface and the participant rule by example.
 
@@ -151,7 +151,7 @@ replay network has no route to the internet (`security/`).
 
 ## Planned, not built
 
-- Replay adapters beyond wallet-backend and stellar-etl, for example Horizon.
+- Replay adapters beyond wallet-backend, stellar-etl and Horizon.
 - Review and publication of the guide.
 - Whole-ledger generation from the generator's cases. Today generated cases are checked by
   decoders only, and whole ledgers come from fixed local-core scenarios.

@@ -1,0 +1,17 @@
+[datastore_config]
+type = "S3"
+
+[datastore_config.params]
+destination_bucket_path = "shapecov-lake/localcore-trustline-churn-5"
+region = "us-east-1"
+endpoint_url = "http://shapecov-hz-feeder:9000"
+
+[datastore_config.schema]
+ledgers_per_file = 1
+files_per_partition = 64000
+
+[buffered_storage_backend_config]
+buffer_size = 2
+num_workers = 1
+retry_limit = 2
+retry_wait = "1s"

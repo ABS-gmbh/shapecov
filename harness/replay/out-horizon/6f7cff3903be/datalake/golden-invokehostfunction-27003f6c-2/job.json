@@ -1,0 +1,28 @@
+{
+ "job_version": 1,
+ "entry_id": "golden-invokehostfunction-27003f6c-2",
+ "ref": "v30.0.1",
+ "commit": "6f7cff3903be1df4fb980a12910a1313c5d7d8dd",
+ "input": "datalake",
+ "network_passphrase": "(V) (;,,;) (V)",
+ "ledger": {
+  "seq": 4,
+  "hash": "274cbad2718130b1bdf7d5e50ed08308d493a305b01ac98cf7fbb127680f9cf0",
+  "close_time": 1451692800,
+  "protocol": 20
+ },
+ "rpc": {
+  "url": "http://shapecov-hz-feeder:8000/rpc/golden-invokehostfunction-27003f6c-2"
+ },
+ "datalake": {
+  "s3_endpoint": "http://shapecov-hz-feeder:9000",
+  "bucket_path": "shapecov-lake/golden-invokehostfunction-27003f6c-2",
+  "region": "us-east-1"
+ },
+ "history_archive": {
+  "url": "http://shapecov-hz-feeder:8000/archive/golden-invokehostfunction-27003f6c-2"
+ },
+ "docker_network": "shapecov-hz-net",
+ "timeout_seconds": 120,
+ "work_dir": "$REPLAY_WORK"
+}

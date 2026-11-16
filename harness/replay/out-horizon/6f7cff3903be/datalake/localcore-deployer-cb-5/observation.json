@@ -1,0 +1,98 @@
+{
+ "observation_version": 1,
+ "adapter": "horizon",
+ "commit": "6f7cff3903be1df4fb980a12910a1313c5d7d8dd",
+ "input": "datalake",
+ "entry_id": "localcore-deployer-cb-5",
+ "ledger_seq": 5,
+ "ingested": true,
+ "error": null,
+ "adapter_failure": false,
+ "transactions": [
+  {
+   "hash": "9cdb61533a043e6f7680223c43fa667fb56460342726f9f8bc07b2fee046cf83",
+   "tx_order": 1,
+   "successful": true,
+   "result_code": null,
+   "participants": [
+    "GAEJJJJYZMH67FDBU4ZAKACAEEJBC3N5RYV2JRWOEYZ2LBIU5IJYXJ66",
+    "GBRPYHIL2CI3FNQ4BXLFMNDLFJUNPU2HY3ZMFSHONUCEOASW7QC7OX2H"
+   ]
+  },
+  {
+   "hash": "66e1e40289a2540054bc45a831d93a89d490b99d6839abaa546e3a8b7aa039f6",
+   "tx_order": 2,
+   "successful": false,
+   "result_code": null,
+   "participants": [
+    "GBRPYHIL2CI3FNQ4BXLFMNDLFJUNPU2HY3ZMFSHONUCEOASW7QC7OX2H"
+   ]
+  }
+ ],
+ "operations": [
+  {
+   "tx_hash": "9cdb61533a043e6f7680223c43fa667fb56460342726f9f8bc07b2fee046cf83",
+   "tx_order": 1,
+   "op_order": 1,
+   "type": "invoke_host_function",
+   "participants": [
+    "GAEJJJJYZMH67FDBU4ZAKACAEEJBC3N5RYV2JRWOEYZ2LBIU5IJYXJ66",
+    "GBRPYHIL2CI3FNQ4BXLFMNDLFJUNPU2HY3ZMFSHONUCEOASW7QC7OX2H"
+   ]
+  },
+  {
+   "tx_hash": "66e1e40289a2540054bc45a831d93a89d490b99d6839abaa546e3a8b7aa039f6",
+   "tx_order": 2,
+   "op_order": 1,
+   "type": "invoke_host_function",
+   "participants": [
+    "GBRPYHIL2CI3FNQ4BXLFMNDLFJUNPU2HY3ZMFSHONUCEOASW7QC7OX2H"
+   ]
+  }
+ ],
+ "state_changes": [
+  {
+   "tx_hash": "9cdb61533a043e6f7680223c43fa667fb56460342726f9f8bc07b2fee046cf83",
+   "tx_order": 1,
+   "op_order": 1,
+   "category": "EFFECT",
+   "reason": "account_debited",
+   "account": "GAEJJJJYZMH67FDBU4ZAKACAEEJBC3N5RYV2JRWOEYZ2LBIU5IJYXJ66",
+   "signer_key": null,
+   "token": "native",
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "op_order": 1
+   }
+  },
+  {
+   "tx_hash": "9cdb61533a043e6f7680223c43fa667fb56460342726f9f8bc07b2fee046cf83",
+   "tx_order": 1,
+   "op_order": 1,
+   "category": "EFFECT",
+   "reason": "account_credited",
+   "account": "GBRPYHIL2CI3FNQ4BXLFMNDLFJUNPU2HY3ZMFSHONUCEOASW7QC7OX2H",
+   "signer_key": null,
+   "token": "native",
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "op_order": 1
+   }
+  }
+ ],
+ "unreadable": [],
+ "row_counts": {
+  "history_transactions": 2,
+  "history_operations": 2,
+  "history_effects": 2,
+  "history_transaction_participants": 3,
+  "history_operation_participants": 3
+ },
+ "command": "horizon db reingest range 5 5 --ledgerbackend datastore --datastore-config /cfg/datastore.toml --parallel-workers 1 --retries 0",
+ "exit_code": 0,
+ "seconds_to_outcome": 2.9
+}

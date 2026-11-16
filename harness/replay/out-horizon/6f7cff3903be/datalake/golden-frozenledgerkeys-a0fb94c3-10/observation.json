@@ -1,0 +1,115 @@
+{
+ "observation_version": 1,
+ "adapter": "horizon",
+ "commit": "6f7cff3903be1df4fb980a12910a1313c5d7d8dd",
+ "input": "datalake",
+ "entry_id": "golden-frozenledgerkeys-a0fb94c3-10",
+ "ledger_seq": 12,
+ "ingested": true,
+ "error": null,
+ "adapter_failure": false,
+ "transactions": [
+  {
+   "hash": "58acd92a9c9e0fb0e78b4a3c1caa6d1a48520004a7cd2c53c58ac25ffb1ee179",
+   "tx_order": 1,
+   "successful": true,
+   "result_code": null,
+   "participants": [
+    "GBIFX2QKGC6J4VRBEQDJZJSFZA43IQK2CYR3BF473UFC7VMSOOM2Z7SX",
+    "GCLO7ZAKQZIK2VS3DRVWFGCYLILXF7Q3SJEUV5WHTTZ7KHFDFXHJMOVJ"
+   ]
+  }
+ ],
+ "operations": [
+  {
+   "tx_hash": "58acd92a9c9e0fb0e78b4a3c1caa6d1a48520004a7cd2c53c58ac25ffb1ee179",
+   "tx_order": 1,
+   "op_order": 1,
+   "type": "create_claimable_balance",
+   "participants": [
+    "GBIFX2QKGC6J4VRBEQDJZJSFZA43IQK2CYR3BF473UFC7VMSOOM2Z7SX",
+    "GCLO7ZAKQZIK2VS3DRVWFGCYLILXF7Q3SJEUV5WHTTZ7KHFDFXHJMOVJ"
+   ]
+  }
+ ],
+ "state_changes": [
+  {
+   "tx_hash": "58acd92a9c9e0fb0e78b4a3c1caa6d1a48520004a7cd2c53c58ac25ffb1ee179",
+   "tx_order": 1,
+   "op_order": 1,
+   "category": "EFFECT",
+   "reason": "claimable_balance_created",
+   "account": "GBIFX2QKGC6J4VRBEQDJZJSFZA43IQK2CYR3BF473UFC7VMSOOM2Z7SX",
+   "signer_key": null,
+   "token": "USD:GCGE27HU2VYQANKL2VZWLCAOJYMEFST5DXPBWQ7BRRPOHUPK626DNG4Q",
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "op_order": 1,
+    "balance_id": "000000001da94a495496a5f1565e98d2a3ba83c798ddc43a94ecc81c29b43c764a233fa0"
+   }
+  },
+  {
+   "tx_hash": "58acd92a9c9e0fb0e78b4a3c1caa6d1a48520004a7cd2c53c58ac25ffb1ee179",
+   "tx_order": 1,
+   "op_order": 1,
+   "category": "EFFECT",
+   "reason": "claimable_balance_claimant_created",
+   "account": "GCLO7ZAKQZIK2VS3DRVWFGCYLILXF7Q3SJEUV5WHTTZ7KHFDFXHJMOVJ",
+   "signer_key": null,
+   "token": "USD:GCGE27HU2VYQANKL2VZWLCAOJYMEFST5DXPBWQ7BRRPOHUPK626DNG4Q",
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "op_order": 1,
+    "balance_id": "000000001da94a495496a5f1565e98d2a3ba83c798ddc43a94ecc81c29b43c764a233fa0"
+   }
+  },
+  {
+   "tx_hash": "58acd92a9c9e0fb0e78b4a3c1caa6d1a48520004a7cd2c53c58ac25ffb1ee179",
+   "tx_order": 1,
+   "op_order": 1,
+   "category": "EFFECT",
+   "reason": "account_debited",
+   "account": "GBIFX2QKGC6J4VRBEQDJZJSFZA43IQK2CYR3BF473UFC7VMSOOM2Z7SX",
+   "signer_key": null,
+   "token": "USD:GCGE27HU2VYQANKL2VZWLCAOJYMEFST5DXPBWQ7BRRPOHUPK626DNG4Q",
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "op_order": 1
+   }
+  },
+  {
+   "tx_hash": "58acd92a9c9e0fb0e78b4a3c1caa6d1a48520004a7cd2c53c58ac25ffb1ee179",
+   "tx_order": 1,
+   "op_order": 1,
+   "category": "EFFECT",
+   "reason": "claimable_balance_sponsorship_created",
+   "account": "GBIFX2QKGC6J4VRBEQDJZJSFZA43IQK2CYR3BF473UFC7VMSOOM2Z7SX",
+   "signer_key": null,
+   "token": null,
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "op_order": 1,
+    "balance_id": "000000001da94a495496a5f1565e98d2a3ba83c798ddc43a94ecc81c29b43c764a233fa0"
+   }
+  }
+ ],
+ "unreadable": [],
+ "row_counts": {
+  "history_transactions": 1,
+  "history_operations": 1,
+  "history_effects": 4,
+  "history_transaction_participants": 2,
+  "history_operation_participants": 2
+ },
+ "command": "horizon db reingest range 12 12 --ledgerbackend datastore --datastore-config /cfg/datastore.toml --parallel-workers 1 --retries 0",
+ "exit_code": 0,
+ "seconds_to_outcome": 2.4
+}

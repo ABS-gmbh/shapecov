@@ -1,0 +1,82 @@
+{
+ "observation_version": 1,
+ "adapter": "horizon",
+ "commit": "6f7cff3903be1df4fb980a12910a1313c5d7d8dd",
+ "input": "datalake",
+ "entry_id": "golden-frozenledgerkeys-3f24be68-4",
+ "ledger_seq": 6,
+ "ingested": true,
+ "error": null,
+ "adapter_failure": false,
+ "transactions": [
+  {
+   "hash": "0b31cc9e2768310382ecbcc4840bdd4e3f35de9fe5cddc5ebdd1c2cd09f3176d",
+   "tx_order": 1,
+   "successful": true,
+   "result_code": null,
+   "participants": [
+    "GCGE27HU2VYQANKL2VZWLCAOJYMEFST5DXPBWQ7BRRPOHUPK626DNG4Q",
+    "GCWM7PDTJC2J5QOYDJAIVXUMCW4K5A26BNJBZ5GS2OB4SKABJSC3XJBW"
+   ]
+  }
+ ],
+ "operations": [
+  {
+   "tx_hash": "0b31cc9e2768310382ecbcc4840bdd4e3f35de9fe5cddc5ebdd1c2cd09f3176d",
+   "tx_order": 1,
+   "op_order": 1,
+   "type": "allow_trust",
+   "participants": [
+    "GCGE27HU2VYQANKL2VZWLCAOJYMEFST5DXPBWQ7BRRPOHUPK626DNG4Q",
+    "GCWM7PDTJC2J5QOYDJAIVXUMCW4K5A26BNJBZ5GS2OB4SKABJSC3XJBW"
+   ]
+  }
+ ],
+ "state_changes": [
+  {
+   "tx_hash": "0b31cc9e2768310382ecbcc4840bdd4e3f35de9fe5cddc5ebdd1c2cd09f3176d",
+   "tx_order": 1,
+   "op_order": 1,
+   "category": "EFFECT",
+   "reason": "trustline_authorized",
+   "account": "GCGE27HU2VYQANKL2VZWLCAOJYMEFST5DXPBWQ7BRRPOHUPK626DNG4Q",
+   "signer_key": null,
+   "token": "USD:GCGE27HU2VYQANKL2VZWLCAOJYMEFST5DXPBWQ7BRRPOHUPK626DNG4Q",
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "op_order": 1,
+    "trustor": "GCWM7PDTJC2J5QOYDJAIVXUMCW4K5A26BNJBZ5GS2OB4SKABJSC3XJBW"
+   }
+  },
+  {
+   "tx_hash": "0b31cc9e2768310382ecbcc4840bdd4e3f35de9fe5cddc5ebdd1c2cd09f3176d",
+   "tx_order": 1,
+   "op_order": 1,
+   "category": "EFFECT",
+   "reason": "trustline_flags_updated",
+   "account": "GCGE27HU2VYQANKL2VZWLCAOJYMEFST5DXPBWQ7BRRPOHUPK626DNG4Q",
+   "signer_key": null,
+   "token": "USD:GCGE27HU2VYQANKL2VZWLCAOJYMEFST5DXPBWQ7BRRPOHUPK626DNG4Q",
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "op_order": 1,
+    "trustor": "GCWM7PDTJC2J5QOYDJAIVXUMCW4K5A26BNJBZ5GS2OB4SKABJSC3XJBW"
+   }
+  }
+ ],
+ "unreadable": [],
+ "row_counts": {
+  "history_transactions": 1,
+  "history_operations": 1,
+  "history_effects": 2,
+  "history_transaction_participants": 2,
+  "history_operation_participants": 2
+ },
+ "command": "horizon db reingest range 6 6 --ledgerbackend datastore --datastore-config /cfg/datastore.toml --parallel-workers 1 --retries 0",
+ "exit_code": 0,
+ "seconds_to_outcome": 2.3
+}

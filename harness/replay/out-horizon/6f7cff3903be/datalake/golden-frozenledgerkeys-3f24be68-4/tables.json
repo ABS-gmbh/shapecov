@@ -1,0 +1,83 @@
+{
+ "history_transactions": [
+  {
+   "id": 25769807872,
+   "transaction_hash": "0b31cc9e2768310382ecbcc4840bdd4e3f35de9fe5cddc5ebdd1c2cd09f3176d",
+   "application_order": 1,
+   "successful": true,
+   "account": "GCGE27HU2VYQANKL2VZWLCAOJYMEFST5DXPBWQ7BRRPOHUPK626DNG4Q",
+   "fee_account": null,
+   "account_muxed": null,
+   "fee_account_muxed": null,
+   "fee_charged": 100,
+   "operation_count": 1
+  }
+ ],
+ "history_operations": [
+  {
+   "id": 25769807873,
+   "transaction_id": 25769807872,
+   "application_order": 1,
+   "type": 7,
+   "source_account": "GCGE27HU2VYQANKL2VZWLCAOJYMEFST5DXPBWQ7BRRPOHUPK626DNG4Q",
+   "source_account_muxed": null,
+   "details": {
+    "trustee": "GCGE27HU2VYQANKL2VZWLCAOJYMEFST5DXPBWQ7BRRPOHUPK626DNG4Q",
+    "trustor": "GCWM7PDTJC2J5QOYDJAIVXUMCW4K5A26BNJBZ5GS2OB4SKABJSC3XJBW",
+    "authorize": true,
+    "asset_code": "USD",
+    "asset_type": "credit_alphanum4",
+    "asset_issuer": "GCGE27HU2VYQANKL2VZWLCAOJYMEFST5DXPBWQ7BRRPOHUPK626DNG4Q"
+   }
+  }
+ ],
+ "history_effects": [
+  {
+   "op_id": 25769807873,
+   "order": 1,
+   "type": 23,
+   "address": "GCGE27HU2VYQANKL2VZWLCAOJYMEFST5DXPBWQ7BRRPOHUPK626DNG4Q",
+   "address_muxed": null,
+   "details": {
+    "trustor": "GCWM7PDTJC2J5QOYDJAIVXUMCW4K5A26BNJBZ5GS2OB4SKABJSC3XJBW",
+    "asset_code": "USD",
+    "asset_type": "credit_alphanum4",
+    "asset_issuer": "GCGE27HU2VYQANKL2VZWLCAOJYMEFST5DXPBWQ7BRRPOHUPK626DNG4Q"
+   }
+  },
+  {
+   "op_id": 25769807873,
+   "order": 2,
+   "type": 26,
+   "address": "GCGE27HU2VYQANKL2VZWLCAOJYMEFST5DXPBWQ7BRRPOHUPK626DNG4Q",
+   "address_muxed": null,
+   "details": {
+    "trustor": "GCWM7PDTJC2J5QOYDJAIVXUMCW4K5A26BNJBZ5GS2OB4SKABJSC3XJBW",
+    "asset_code": "USD",
+    "asset_type": "credit_alphanum4",
+    "asset_issuer": "GCGE27HU2VYQANKL2VZWLCAOJYMEFST5DXPBWQ7BRRPOHUPK626DNG4Q",
+    "authorized_flag": true
+   }
+  }
+ ],
+ "history_transaction_participants": [
+  {
+   "tx_id": 25769807872,
+   "address": "GCGE27HU2VYQANKL2VZWLCAOJYMEFST5DXPBWQ7BRRPOHUPK626DNG4Q"
+  },
+  {
+   "tx_id": 25769807872,
+   "address": "GCWM7PDTJC2J5QOYDJAIVXUMCW4K5A26BNJBZ5GS2OB4SKABJSC3XJBW"
+  }
+ ],
+ "history_operation_participants": [
+  {
+   "op_id": 25769807873,
+   "address": "GCGE27HU2VYQANKL2VZWLCAOJYMEFST5DXPBWQ7BRRPOHUPK626DNG4Q"
+  },
+  {
+   "op_id": 25769807873,
+   "address": "GCWM7PDTJC2J5QOYDJAIVXUMCW4K5A26BNJBZ5GS2OB4SKABJSC3XJBW"
+  }
+ ]
+}

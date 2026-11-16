@@ -1,0 +1,201 @@
+{
+ "history_transactions": [
+  {
+   "id": 154618826752,
+   "transaction_hash": "20c4e6cc96484904be563701a1e514f535ffa2c2e15035dcfda0fb0b976a1110",
+   "application_order": 1,
+   "successful": true,
+   "account": "GC4EFXBN6BEENDAX7PBW5PGIIIVH3INMD3OEPQASXOLGOHVVP7ZEMG7X",
+   "fee_account": null,
+   "account_muxed": null,
+   "fee_account_muxed": null,
+   "fee_charged": 100,
+   "operation_count": 1
+  }
+ ],
+ "history_operations": [
+  {
+   "id": 154618826753,
+   "transaction_id": 154618826752,
+   "application_order": 1,
+   "type": 13,
+   "source_account": "GCKIH3E6K3DT2MGAPATKDZ7SEM3T5LMUPAS33NEQDZMMFBLHVLCDRNC5",
+   "source_account_muxed": null,
+   "details": {
+    "to": "GDCIJUICLYOMBXWFH6TYMVWNKUGQJVXAWPL2SJM3ABJALDNQ4ZB23MMF",
+    "from": "GCKIH3E6K3DT2MGAPATKDZ7SEM3T5LMUPAS33NEQDZMMFBLHVLCDRNC5",
+    "path": [
+     {
+      "asset_code": "USD",
+      "asset_type": "credit_alphanum4",
+      "asset_issuer": "GCDY2RU4JVG57UQ7ZB5D6XL6QLRBAADANGJWWVLAF5FCJQCEDF6ABHVN"
+     },
+     {
+      "asset_code": "EUR",
+      "asset_type": "credit_alphanum4",
+      "asset_issuer": "GAFHZ2KTRFXAYRKKLKEEJE6U55YOJ7QUO5R6DQ64UPBKCW52ZTQRMTLB"
+     }
+    ],
+    "amount": "0.0000200",
+    "asset_type": "native",
+    "source_amount": "0.0000400",
+    "destination_min": "0.0000001",
+    "source_asset_type": "native"
+   }
+  }
+ ],
+ "history_effects": [
+  {
+   "op_id": 154618826753,
+   "order": 1,
+   "type": 2,
+   "address": "GDCIJUICLYOMBXWFH6TYMVWNKUGQJVXAWPL2SJM3ABJALDNQ4ZB23MMF",
+   "address_muxed": null,
+   "details": {
+    "amount": "0.0000200",
+    "asset_type": "native"
+   }
+  },
+  {
+   "op_id": 154618826753,
+   "order": 2,
+   "type": 3,
+   "address": "GCKIH3E6K3DT2MGAPATKDZ7SEM3T5LMUPAS33NEQDZMMFBLHVLCDRNC5",
+   "address_muxed": null,
+   "details": {
+    "amount": "0.0000400",
+    "asset_type": "native"
+   }
+  },
+  {
+   "op_id": 154618826753,
+   "order": 3,
+   "type": 33,
+   "address": "GCKIH3E6K3DT2MGAPATKDZ7SEM3T5LMUPAS33NEQDZMMFBLHVLCDRNC5",
+   "address_muxed": null,
+   "details": {
+    "seller": "GAAYCVX3AHHC7R7SUUDWDLAFWEL4E6V7SGKKQU3GMXYGJS6PBM5A5SRS",
+    "offer_id": 1,
+    "sold_amount": "0.0000400",
+    "bought_amount": "0.0000400",
+    "sold_asset_type": "native",
+    "bought_asset_code": "USD",
+    "bought_asset_type": "credit_alphanum4",
+    "bought_asset_issuer": "GCDY2RU4JVG57UQ7ZB5D6XL6QLRBAADANGJWWVLAF5FCJQCEDF6ABHVN"
+   }
+  },
+  {
+   "op_id": 154618826753,
+   "order": 4,
+   "type": 33,
+   "address": "GAAYCVX3AHHC7R7SUUDWDLAFWEL4E6V7SGKKQU3GMXYGJS6PBM5A5SRS",
+   "address_muxed": null,
+   "details": {
+    "seller": "GCKIH3E6K3DT2MGAPATKDZ7SEM3T5LMUPAS33NEQDZMMFBLHVLCDRNC5",
+    "offer_id": 1,
+    "sold_amount": "0.0000400",
+    "bought_amount": "0.0000400",
+    "sold_asset_code": "USD",
+    "sold_asset_type": "credit_alphanum4",
+    "bought_asset_type": "native",
+    "sold_asset_issuer": "GCDY2RU4JVG57UQ7ZB5D6XL6QLRBAADANGJWWVLAF5FCJQCEDF6ABHVN"
+   }
+  },
+  {
+   "op_id": 154618826753,
+   "order": 5,
+   "type": 33,
+   "address": "GCKIH3E6K3DT2MGAPATKDZ7SEM3T5LMUPAS33NEQDZMMFBLHVLCDRNC5",
+   "address_muxed": null,
+   "details": {
+    "seller": "GCVVGVODDGWVCDDG6FTQR5F5VCYKNDEWPZQRUZAV4I53ZFUVIVGCJ5U3",
+    "offer_id": 3,
+    "sold_amount": "0.0000400",
+    "bought_amount": "0.0000400",
+    "sold_asset_code": "USD",
+    "sold_asset_type": "credit_alphanum4",
+    "bought_asset_code": "EUR",
+    "bought_asset_type": "credit_alphanum4",
+    "sold_asset_issuer": "GCDY2RU4JVG57UQ7ZB5D6XL6QLRBAADANGJWWVLAF5FCJQCEDF6ABHVN",
+    "bought_asset_issuer": "GAFHZ2KTRFXAYRKKLKEEJE6U55YOJ7QUO5R6DQ64UPBKCW52ZTQRMTLB"
+   }
+  },
+  {
+   "op_id": 154618826753,
+   "order": 6,
+   "type": 33,
+   "address": "GCVVGVODDGWVCDDG6FTQR5F5VCYKNDEWPZQRUZAV4I53ZFUVIVGCJ5U3",
+   "address_muxed": null,
+   "details": {
+    "seller": "GCKIH3E6K3DT2MGAPATKDZ7SEM3T5LMUPAS33NEQDZMMFBLHVLCDRNC5",
+    "offer_id": 3,
+    "sold_amount": "0.0000400",
+    "bought_amount": "0.0000400",
+    "sold_asset_code": "EUR",
+    "sold_asset_type": "credit_alphanum4",
+    "bought_asset_code": "USD",
+    "bought_asset_type": "credit_alphanum4",
+    "sold_asset_issuer": "GAFHZ2KTRFXAYRKKLKEEJE6U55YOJ7QUO5R6DQ64UPBKCW52ZTQRMTLB",
+    "bought_asset_issuer": "GCDY2RU4JVG57UQ7ZB5D6XL6QLRBAADANGJWWVLAF5FCJQCEDF6ABHVN"
+   }
+  },
+  {
+   "op_id": 154618826753,
+   "order": 7,
+   "type": 33,
+   "address": "GCKIH3E6K3DT2MGAPATKDZ7SEM3T5LMUPAS33NEQDZMMFBLHVLCDRNC5",
+   "address_muxed": null,
+   "details": {
+    "seller": "GB2WCOPKOJAPJM4CZ45YRWCEFAKM2XWUESO56BKWFTMTGQPC7TEBD3FO",
+    "offer_id": 6,
+    "sold_amount": "0.0000400",
+    "bought_amount": "0.0000200",
+    "sold_asset_code": "EUR",
+    "sold_asset_type": "credit_alphanum4",
+    "bought_asset_type": "native",
+    "sold_asset_issuer": "GAFHZ2KTRFXAYRKKLKEEJE6U55YOJ7QUO5R6DQ64UPBKCW52ZTQRMTLB"
+   }
+  },
+  {
+   "op_id": 154618826753,
+   "order": 8,
+   "type": 33,
+   "address": "GB2WCOPKOJAPJM4CZ45YRWCEFAKM2XWUESO56BKWFTMTGQPC7TEBD3FO",
+   "address_muxed": null,
+   "details": {
+    "seller": "GCKIH3E6K3DT2MGAPATKDZ7SEM3T5LMUPAS33NEQDZMMFBLHVLCDRNC5",
+    "offer_id": 6,
+    "sold_amount": "0.0000200",
+    "bought_amount": "0.0000400",
+    "sold_asset_type": "native",
+    "bought_asset_code": "EUR",
+    "bought_asset_type": "credit_alphanum4",
+    "bought_asset_issuer": "GAFHZ2KTRFXAYRKKLKEEJE6U55YOJ7QUO5R6DQ64UPBKCW52ZTQRMTLB"
+   }
+  }
+ ],
+ "history_transaction_participants": [
+  {
+   "tx_id": 154618826752,
+   "address": "GC4EFXBN6BEENDAX7PBW5PGIIIVH3INMD3OEPQASXOLGOHVVP7ZEMG7X"
+  },
+  {
+   "tx_id": 154618826752,
+   "address": "GCKIH3E6K3DT2MGAPATKDZ7SEM3T5LMUPAS33NEQDZMMFBLHVLCDRNC5"
+  },
+  {
+   "tx_id": 154618826752,
+   "address": "GDCIJUICLYOMBXWFH6TYMVWNKUGQJVXAWPL2SJM3ABJALDNQ4ZB23MMF"
+  }
+ ],
+ "history_operation_participants": [
+  {
+   "op_id": 154618826753,
+   "address": "GCKIH3E6K3DT2MGAPATKDZ7SEM3T5LMUPAS33NEQDZMMFBLHVLCDRNC5"
+  },
+  {
+   "op_id": 154618826753,
+   "address": "GDCIJUICLYOMBXWFH6TYMVWNKUGQJVXAWPL2SJM3ABJALDNQ4ZB23MMF"
+  }
+ ]
+}

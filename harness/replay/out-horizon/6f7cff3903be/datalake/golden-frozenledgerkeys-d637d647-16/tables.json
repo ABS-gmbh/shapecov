@@ -1,0 +1,69 @@
+{
+ "history_transactions": [
+  {
+   "id": 77309415424,
+   "transaction_hash": "7ee092b05ffe93417d51ae237dd8868886de92d72d76777cebbaab642f9d8892",
+   "application_order": 1,
+   "successful": false,
+   "account": "GBIFX2QKGC6J4VRBEQDJZJSFZA43IQK2CYR3BF473UFC7VMSOOM2Z7SX",
+   "fee_account": null,
+   "account_muxed": null,
+   "fee_account_muxed": null,
+   "fee_charged": 100,
+   "operation_count": 1
+  }
+ ],
+ "history_operations": [
+  {
+   "id": 77309415425,
+   "transaction_id": 77309415424,
+   "application_order": 1,
+   "type": 22,
+   "source_account": "GBIFX2QKGC6J4VRBEQDJZJSFZA43IQK2CYR3BF473UFC7VMSOOM2Z7SX",
+   "source_account_muxed": null,
+   "details": {
+    "max_price": "1.0000000",
+    "min_price": "1.0000000",
+    "max_price_r": {
+     "d": 1,
+     "n": 1
+    },
+    "min_price_r": {
+     "d": 1,
+     "n": 1
+    },
+    "reserves_max": [
+     {
+      "amount": "0.0000100"
+     },
+     {
+      "amount": "0.0000100"
+     }
+    ],
+    "shares_received": "0.0000000",
+    "liquidity_pool_id": "01fe897f55062bb2a1bf91e2e60c78cf6176a5bd8a847d10c56df0a6839731d8",
+    "reserves_deposited": [
+     {
+      "amount": "0.0000000"
+     },
+     {
+      "amount": "0.0000000"
+     }
+    ]
+   }
+  }
+ ],
+ "history_effects": [],
+ "history_transaction_participants": [
+  {
+   "tx_id": 77309415424,
+   "address": "GBIFX2QKGC6J4VRBEQDJZJSFZA43IQK2CYR3BF473UFC7VMSOOM2Z7SX"
+  }
+ ],
+ "history_operation_participants": [
+  {
+   "op_id": 77309415425,
+   "address": "GBIFX2QKGC6J4VRBEQDJZJSFZA43IQK2CYR3BF473UFC7VMSOOM2Z7SX"
+  }
+ ]
+}

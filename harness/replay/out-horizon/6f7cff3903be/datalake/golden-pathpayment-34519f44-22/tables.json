@@ -1,0 +1,266 @@
+{
+ "history_transactions": [
+  {
+   "id": 103079219200,
+   "transaction_hash": "ca554a576e402935d7393a6b6c24f66f4477aa3b1498ef321cffd23c3db60c98",
+   "application_order": 1,
+   "successful": true,
+   "account": "GAZSW4CCE7N5PZ37LHCKLCM3W7BGXHDIGPUMFT4PRYO7VO4HD7M77HSF",
+   "fee_account": null,
+   "account_muxed": null,
+   "fee_account_muxed": null,
+   "fee_charged": 100,
+   "operation_count": 1
+  }
+ ],
+ "history_operations": [
+  {
+   "id": 103079219201,
+   "transaction_id": 103079219200,
+   "application_order": 1,
+   "type": 2,
+   "source_account": "GAZSW4CCE7N5PZ37LHCKLCM3W7BGXHDIGPUMFT4PRYO7VO4HD7M77HSF",
+   "source_account_muxed": null,
+   "details": {
+    "to": "GDCIJUICLYOMBXWFH6TYMVWNKUGQJVXAWPL2SJM3ABJALDNQ4ZB23MMF",
+    "from": "GAZSW4CCE7N5PZ37LHCKLCM3W7BGXHDIGPUMFT4PRYO7VO4HD7M77HSF",
+    "path": [
+     {
+      "asset_code": "CUR1",
+      "asset_type": "credit_alphanum4",
+      "asset_issuer": "GAGZ4K2WWCF6VNVZOP2L4H34SZG7Y2AJOUQDB5QIWBQ2WRLNLX6SEQC2"
+     },
+     {
+      "asset_code": "CUR2",
+      "asset_type": "credit_alphanum4",
+      "asset_issuer": "GAGZ4K2WWCF6VNVZOP2L4H34SZG7Y2AJOUQDB5QIWBQ2WRLNLX6SEQC2"
+     },
+     {
+      "asset_code": "CUR3",
+      "asset_type": "credit_alphanum4",
+      "asset_issuer": "GBKEWF56QMCTQAAKDMADOET5H6D7GLPTTVKQYBUFTDUURYSHPO4HAGHJ"
+     },
+     {
+      "asset_code": "CUR1",
+      "asset_type": "credit_alphanum4",
+      "asset_issuer": "GAGZ4K2WWCF6VNVZOP2L4H34SZG7Y2AJOUQDB5QIWBQ2WRLNLX6SEQC2"
+     },
+     {
+      "asset_code": "CUR2",
+      "asset_type": "credit_alphanum4",
+      "asset_issuer": "GAGZ4K2WWCF6VNVZOP2L4H34SZG7Y2AJOUQDB5QIWBQ2WRLNLX6SEQC2"
+     }
+    ],
+    "amount": "0.0000010",
+    "asset_code": "CUR2",
+    "asset_type": "credit_alphanum4",
+    "source_max": "0.0002000",
+    "asset_issuer": "GAGZ4K2WWCF6VNVZOP2L4H34SZG7Y2AJOUQDB5QIWBQ2WRLNLX6SEQC2",
+    "source_amount": "0.0000160",
+    "source_asset_code": "CUR1",
+    "source_asset_type": "credit_alphanum4",
+    "source_asset_issuer": "GAGZ4K2WWCF6VNVZOP2L4H34SZG7Y2AJOUQDB5QIWBQ2WRLNLX6SEQC2"
+   }
+  }
+ ],
+ "history_effects": [
+  {
+   "op_id": 103079219201,
+   "order": 1,
+   "type": 2,
+   "address": "GDCIJUICLYOMBXWFH6TYMVWNKUGQJVXAWPL2SJM3ABJALDNQ4ZB23MMF",
+   "address_muxed": null,
+   "details": {
+    "amount": "0.0000010",
+    "asset_code": "CUR2",
+    "asset_type": "credit_alphanum4",
+    "asset_issuer": "GAGZ4K2WWCF6VNVZOP2L4H34SZG7Y2AJOUQDB5QIWBQ2WRLNLX6SEQC2"
+   }
+  },
+  {
+   "op_id": 103079219201,
+   "order": 2,
+   "type": 3,
+   "address": "GAZSW4CCE7N5PZ37LHCKLCM3W7BGXHDIGPUMFT4PRYO7VO4HD7M77HSF",
+   "address_muxed": null,
+   "details": {
+    "amount": "0.0000160",
+    "asset_code": "CUR1",
+    "asset_type": "credit_alphanum4",
+    "asset_issuer": "GAGZ4K2WWCF6VNVZOP2L4H34SZG7Y2AJOUQDB5QIWBQ2WRLNLX6SEQC2"
+   }
+  },
+  {
+   "op_id": 103079219201,
+   "order": 3,
+   "type": 33,
+   "address": "GAZSW4CCE7N5PZ37LHCKLCM3W7BGXHDIGPUMFT4PRYO7VO4HD7M77HSF",
+   "address_muxed": null,
+   "details": {
+    "seller": "GAWAG5R7JSQ6X2G3VI3HBRE2XPNZZEJYHJIGJPJ5YLZAXUORLB4T5EWW",
+    "offer_id": 1,
+    "sold_amount": "0.0000160",
+    "bought_amount": "0.0000080",
+    "sold_asset_code": "CUR1",
+    "sold_asset_type": "credit_alphanum4",
+    "bought_asset_code": "CUR2",
+    "bought_asset_type": "credit_alphanum4",
+    "sold_asset_issuer": "GAGZ4K2WWCF6VNVZOP2L4H34SZG7Y2AJOUQDB5QIWBQ2WRLNLX6SEQC2",
+    "bought_asset_issuer": "GAGZ4K2WWCF6VNVZOP2L4H34SZG7Y2AJOUQDB5QIWBQ2WRLNLX6SEQC2"
+   }
+  },
+  {
+   "op_id": 103079219201,
+   "order": 4,
+   "type": 33,
+   "address": "GAWAG5R7JSQ6X2G3VI3HBRE2XPNZZEJYHJIGJPJ5YLZAXUORLB4T5EWW",
+   "address_muxed": null,
+   "details": {
+    "seller": "GAZSW4CCE7N5PZ37LHCKLCM3W7BGXHDIGPUMFT4PRYO7VO4HD7M77HSF",
+    "offer_id": 1,
+    "sold_amount": "0.0000080",
+    "bought_amount": "0.0000160",
+    "sold_asset_code": "CUR2",
+    "sold_asset_type": "credit_alphanum4",
+    "bought_asset_code": "CUR1",
+    "bought_asset_type": "credit_alphanum4",
+    "sold_asset_issuer": "GAGZ4K2WWCF6VNVZOP2L4H34SZG7Y2AJOUQDB5QIWBQ2WRLNLX6SEQC2",
+    "bought_asset_issuer": "GAGZ4K2WWCF6VNVZOP2L4H34SZG7Y2AJOUQDB5QIWBQ2WRLNLX6SEQC2"
+   }
+  },
+  {
+   "op_id": 103079219201,
+   "order": 5,
+   "type": 33,
+   "address": "GAZSW4CCE7N5PZ37LHCKLCM3W7BGXHDIGPUMFT4PRYO7VO4HD7M77HSF",
+   "address_muxed": null,
+   "details": {
+    "seller": "GDMBKNWMSGQFMOZUUGG2OA53643L7BBHY3YVC2QMBMVTHBWCTTYXCRUF",
+    "offer_id": 2,
+    "sold_amount": "0.0000080",
+    "bought_amount": "0.0000040",
+    "sold_asset_code": "CUR2",
+    "sold_asset_type": "credit_alphanum4",
+    "bought_asset_code": "CUR3",
+    "bought_asset_type": "credit_alphanum4",
+    "sold_asset_issuer": "GAGZ4K2WWCF6VNVZOP2L4H34SZG7Y2AJOUQDB5QIWBQ2WRLNLX6SEQC2",
+    "bought_asset_issuer": "GBKEWF56QMCTQAAKDMADOET5H6D7GLPTTVKQYBUFTDUURYSHPO4HAGHJ"
+   }
+  },
+  {
+   "op_id": 103079219201,
+   "order": 6,
+   "type": 33,
+   "address": "GDMBKNWMSGQFMOZUUGG2OA53643L7BBHY3YVC2QMBMVTHBWCTTYXCRUF",
+   "address_muxed": null,
+   "details": {
+    "seller": "GAZSW4CCE7N5PZ37LHCKLCM3W7BGXHDIGPUMFT4PRYO7VO4HD7M77HSF",
+    "offer_id": 2,
+    "sold_amount": "0.0000040",
+    "bought_amount": "0.0000080",
+    "sold_asset_code": "CUR3",
+    "sold_asset_type": "credit_alphanum4",
+    "bought_asset_code": "CUR2",
+    "bought_asset_type": "credit_alphanum4",
+    "sold_asset_issuer": "GBKEWF56QMCTQAAKDMADOET5H6D7GLPTTVKQYBUFTDUURYSHPO4HAGHJ",
+    "bought_asset_issuer": "GAGZ4K2WWCF6VNVZOP2L4H34SZG7Y2AJOUQDB5QIWBQ2WRLNLX6SEQC2"
+   }
+  },
+  {
+   "op_id": 103079219201,
+   "order": 7,
+   "type": 33,
+   "address": "GAZSW4CCE7N5PZ37LHCKLCM3W7BGXHDIGPUMFT4PRYO7VO4HD7M77HSF",
+   "address_muxed": null,
+   "details": {
+    "seller": "GASQZAPINLN43TERXSXSNI4O54E7SQQ45ET3CECDK42WYZVRX5EPTMDV",
+    "offer_id": 3,
+    "sold_amount": "0.0000040",
+    "bought_amount": "0.0000020",
+    "sold_asset_code": "CUR3",
+    "sold_asset_type": "credit_alphanum4",
+    "bought_asset_code": "CUR1",
+    "bought_asset_type": "credit_alphanum4",
+    "sold_asset_issuer": "GBKEWF56QMCTQAAKDMADOET5H6D7GLPTTVKQYBUFTDUURYSHPO4HAGHJ",
+    "bought_asset_issuer": "GAGZ4K2WWCF6VNVZOP2L4H34SZG7Y2AJOUQDB5QIWBQ2WRLNLX6SEQC2"
+   }
+  },
+  {
+   "op_id": 103079219201,
+   "order": 8,
+   "type": 33,
+   "address": "GASQZAPINLN43TERXSXSNI4O54E7SQQ45ET3CECDK42WYZVRX5EPTMDV",
+   "address_muxed": null,
+   "details": {
+    "seller": "GAZSW4CCE7N5PZ37LHCKLCM3W7BGXHDIGPUMFT4PRYO7VO4HD7M77HSF",
+    "offer_id": 3,
+    "sold_amount": "0.0000020",
+    "bought_amount": "0.0000040",
+    "sold_asset_code": "CUR1",
+    "sold_asset_type": "credit_alphanum4",
+    "bought_asset_code": "CUR3",
+    "bought_asset_type": "credit_alphanum4",
+    "sold_asset_issuer": "GAGZ4K2WWCF6VNVZOP2L4H34SZG7Y2AJOUQDB5QIWBQ2WRLNLX6SEQC2",
+    "bought_asset_issuer": "GBKEWF56QMCTQAAKDMADOET5H6D7GLPTTVKQYBUFTDUURYSHPO4HAGHJ"
+   }
+  },
+  {
+   "op_id": 103079219201,
+   "order": 9,
+   "type": 33,
+   "address": "GAZSW4CCE7N5PZ37LHCKLCM3W7BGXHDIGPUMFT4PRYO7VO4HD7M77HSF",
+   "address_muxed": null,
+   "details": {
+    "seller": "GAWAG5R7JSQ6X2G3VI3HBRE2XPNZZEJYHJIGJPJ5YLZAXUORLB4T5EWW",
+    "offer_id": 1,
+    "sold_amount": "0.0000020",
+    "bought_amount": "0.0000010",
+    "sold_asset_code": "CUR1",
+    "sold_asset_type": "credit_alphanum4",
+    "bought_asset_code": "CUR2",
+    "bought_asset_type": "credit_alphanum4",
+    "sold_asset_issuer": "GAGZ4K2WWCF6VNVZOP2L4H34SZG7Y2AJOUQDB5QIWBQ2WRLNLX6SEQC2",
+    "bought_asset_issuer": "GAGZ4K2WWCF6VNVZOP2L4H34SZG7Y2AJOUQDB5QIWBQ2WRLNLX6SEQC2"
+   }
+  },
+  {
+   "op_id": 103079219201,
+   "order": 10,
+   "type": 33,
+   "address": "GAWAG5R7JSQ6X2G3VI3HBRE2XPNZZEJYHJIGJPJ5YLZAXUORLB4T5EWW",
+   "address_muxed": null,
+   "details": {
+    "seller": "GAZSW4CCE7N5PZ37LHCKLCM3W7BGXHDIGPUMFT4PRYO7VO4HD7M77HSF",
+    "offer_id": 1,
+    "sold_amount": "0.0000010",
+    "bought_amount": "0.0000020",
+    "sold_asset_code": "CUR2",
+    "sold_asset_type": "credit_alphanum4",
+    "bought_asset_code": "CUR1",
+    "bought_asset_type": "credit_alphanum4",
+    "sold_asset_issuer": "GAGZ4K2WWCF6VNVZOP2L4H34SZG7Y2AJOUQDB5QIWBQ2WRLNLX6SEQC2",
+    "bought_asset_issuer": "GAGZ4K2WWCF6VNVZOP2L4H34SZG7Y2AJOUQDB5QIWBQ2WRLNLX6SEQC2"
+   }
+  }
+ ],
+ "history_transaction_participants": [
+  {
+   "tx_id": 103079219200,
+   "address": "GAZSW4CCE7N5PZ37LHCKLCM3W7BGXHDIGPUMFT4PRYO7VO4HD7M77HSF"
+  },
+  {
+   "tx_id": 103079219200,
+   "address": "GDCIJUICLYOMBXWFH6TYMVWNKUGQJVXAWPL2SJM3ABJALDNQ4ZB23MMF"
+  }
+ ],
+ "history_operation_participants": [
+  {
+   "op_id": 103079219201,
+   "address": "GAZSW4CCE7N5PZ37LHCKLCM3W7BGXHDIGPUMFT4PRYO7VO4HD7M77HSF"
+  },
+  {
+   "op_id": 103079219201,
+   "address": "GDCIJUICLYOMBXWFH6TYMVWNKUGQJVXAWPL2SJM3ABJALDNQ4ZB23MMF"
+  }
+ ]
+}

@@ -1,0 +1,56 @@
+{
+ "history_transactions": [
+  {
+   "id": 107374186496,
+   "transaction_hash": "28d3cb9ace47b144c9b76f84d8e4faa4dad45d6f6dc858c5c1405e75c3ed160a",
+   "application_order": 1,
+   "successful": true,
+   "account": "GC4EFXBN6BEENDAX7PBW5PGIIIVH3INMD3OEPQASXOLGOHVVP7ZEMG7X",
+   "fee_account": null,
+   "account_muxed": null,
+   "fee_account_muxed": null,
+   "fee_charged": 100,
+   "operation_count": 1
+  }
+ ],
+ "history_operations": [
+  {
+   "id": 107374186497,
+   "transaction_id": 107374186496,
+   "application_order": 1,
+   "type": 12,
+   "source_account": "GA2KBPUW3U473LPVII7HINQOVXJDWD64HX3ATWWOPMWKVAUCJ2BXEAER",
+   "source_account_muxed": null,
+   "details": {
+    "price": "2.0000000",
+    "amount": "0.0000300",
+    "price_r": {
+     "d": 1,
+     "n": 2
+    },
+    "offer_id": 0,
+    "buying_asset_code": "USD",
+    "buying_asset_type": "credit_alphanum4",
+    "selling_asset_type": "native",
+    "buying_asset_issuer": "GDLKBAI4DBVK7TJ56Z54U7DA4MTG63KNUIG63XLCTCTQ3HMAC5DDIKK6"
+   }
+  }
+ ],
+ "history_effects": [],
+ "history_transaction_participants": [
+  {
+   "tx_id": 107374186496,
+   "address": "GA2KBPUW3U473LPVII7HINQOVXJDWD64HX3ATWWOPMWKVAUCJ2BXEAER"
+  },
+  {
+   "tx_id": 107374186496,
+   "address": "GC4EFXBN6BEENDAX7PBW5PGIIIVH3INMD3OEPQASXOLGOHVVP7ZEMG7X"
+  }
+ ],
+ "history_operation_participants": [
+  {
+   "op_id": 107374186497,
+   "address": "GA2KBPUW3U473LPVII7HINQOVXJDWD64HX3ATWWOPMWKVAUCJ2BXEAER"
+  }
+ ]
+}

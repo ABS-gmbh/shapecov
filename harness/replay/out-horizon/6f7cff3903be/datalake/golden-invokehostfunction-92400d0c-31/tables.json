@@ -1,0 +1,90 @@
+{
+ "history_transactions": [
+  {
+   "id": 141733924864,
+   "transaction_hash": "ab19214e96a918b912f2ce3f9e2f8e669323adb783dda2a6f941e4a558422bf6",
+   "application_order": 1,
+   "successful": false,
+   "account": "GCV3QDNDWUYHHSAU2A4EXZETQHIZ2M3A6OAJ4DM7HVH3EATSLLV2HSKH",
+   "fee_account": null,
+   "account_muxed": null,
+   "fee_account_muxed": null,
+   "fee_charged": 79184,
+   "operation_count": 1
+  },
+  {
+   "id": 141733928960,
+   "transaction_hash": "c14fd4d2f499688bef0a942b9e6579507e75f522de4b08fd378bc049836f00c1",
+   "application_order": 2,
+   "successful": false,
+   "account": "GAKYSKHJTXM6S4LCGVBOTOVTNYZXW25KRVGU5W6CEXYMBAMYGRKTOP2F",
+   "fee_account": null,
+   "account_muxed": null,
+   "fee_account_muxed": null,
+   "fee_charged": 69577,
+   "operation_count": 1
+  }
+ ],
+ "history_operations": [
+  {
+   "id": 141733924865,
+   "transaction_id": 141733924864,
+   "application_order": 1,
+   "type": 24,
+   "source_account": "GCV3QDNDWUYHHSAU2A4EXZETQHIZ2M3A6OAJ4DM7HVH3EATSLLV2HSKH",
+   "source_account_muxed": null,
+   "details": {
+    "function": "HostFunctionTypeHostFunctionTypeInvokeContract",
+    "parameters": [
+     {
+      "type": "Address",
+      "value": "AAAAEgAAAAEBuCkP1Jtb0TMPDqcYvepnKTIGIPZc4adjZXxXY4xYCw=="
+     },
+     {
+      "type": "Sym",
+      "value": "AAAADwAAAA5wdXRfcGVyc2lzdGVudAAA"
+     },
+     {
+      "type": "Sym",
+      "value": "AAAADwAAAANrZXkA"
+     },
+     {
+      "type": "U64",
+      "value": "AAAABQAAAAAAAAHI"
+     }
+    ],
+    "asset_balance_changes": null
+   }
+  },
+  {
+   "id": 141733928961,
+   "transaction_id": 141733928960,
+   "application_order": 1,
+   "type": 26,
+   "source_account": "GAKYSKHJTXM6S4LCGVBOTOVTNYZXW25KRVGU5W6CEXYMBAMYGRKTOP2F",
+   "source_account_muxed": null,
+   "details": {}
+  }
+ ],
+ "history_effects": [],
+ "history_transaction_participants": [
+  {
+   "tx_id": 141733928960,
+   "address": "GAKYSKHJTXM6S4LCGVBOTOVTNYZXW25KRVGU5W6CEXYMBAMYGRKTOP2F"
+  },
+  {
+   "tx_id": 141733924864,
+   "address": "GCV3QDNDWUYHHSAU2A4EXZETQHIZ2M3A6OAJ4DM7HVH3EATSLLV2HSKH"
+  }
+ ],
+ "history_operation_participants": [
+  {
+   "op_id": 141733928961,
+   "address": "GAKYSKHJTXM6S4LCGVBOTOVTNYZXW25KRVGU5W6CEXYMBAMYGRKTOP2F"
+  },
+  {
+   "op_id": 141733924865,
+   "address": "GCV3QDNDWUYHHSAU2A4EXZETQHIZ2M3A6OAJ4DM7HVH3EATSLLV2HSKH"
+  }
+ ]
+}

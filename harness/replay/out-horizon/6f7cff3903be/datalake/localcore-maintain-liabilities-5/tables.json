@@ -1,0 +1,81 @@
+{
+ "history_transactions": [
+  {
+   "id": 21474840576,
+   "transaction_hash": "9bde8161307c0d2908963dbefd80ae1889e79cc12d56fde1f46cd15d897d27e0",
+   "application_order": 1,
+   "successful": true,
+   "account": "GDIUVY5KQY72DQXCGJSKXFCGQ3QRAHVHI6SDCP7OQDE2VAZXKBRTNQTC",
+   "fee_account": null,
+   "account_muxed": null,
+   "fee_account_muxed": null,
+   "fee_charged": 100,
+   "operation_count": 1
+  }
+ ],
+ "history_operations": [
+  {
+   "id": 21474840577,
+   "transaction_id": 21474840576,
+   "application_order": 1,
+   "type": 21,
+   "source_account": "GDIUVY5KQY72DQXCGJSKXFCGQ3QRAHVHI6SDCP7OQDE2VAZXKBRTNQTC",
+   "source_account_muxed": null,
+   "details": {
+    "trustor": "GBQNFCPENSM4KN2YZGKEPPM2NMMKOFLTECEASM373VG2KHG7X4Z5W55E",
+    "set_flags": [
+     2
+    ],
+    "asset_code": "LIA",
+    "asset_type": "credit_alphanum4",
+    "clear_flags": [
+     1
+    ],
+    "set_flags_s": [
+     "authorized_to_maintain_liabilites"
+    ],
+    "asset_issuer": "GDIUVY5KQY72DQXCGJSKXFCGQ3QRAHVHI6SDCP7OQDE2VAZXKBRTNQTC",
+    "clear_flags_s": [
+     "authorized"
+    ]
+   }
+  }
+ ],
+ "history_effects": [
+  {
+   "op_id": 21474840577,
+   "order": 1,
+   "type": 26,
+   "address": "GDIUVY5KQY72DQXCGJSKXFCGQ3QRAHVHI6SDCP7OQDE2VAZXKBRTNQTC",
+   "address_muxed": null,
+   "details": {
+    "trustor": "GBQNFCPENSM4KN2YZGKEPPM2NMMKOFLTECEASM373VG2KHG7X4Z5W55E",
+    "asset_code": "LIA",
+    "asset_type": "credit_alphanum4",
+    "asset_issuer": "GDIUVY5KQY72DQXCGJSKXFCGQ3QRAHVHI6SDCP7OQDE2VAZXKBRTNQTC",
+    "authorized_flag": false,
+    "authorized_to_maintain_liabilites": true
+   }
+  }
+ ],
+ "history_transaction_participants": [
+  {
+   "tx_id": 21474840576,
+   "address": "GBQNFCPENSM4KN2YZGKEPPM2NMMKOFLTECEASM373VG2KHG7X4Z5W55E"
+  },
+  {
+   "tx_id": 21474840576,
+   "address": "GDIUVY5KQY72DQXCGJSKXFCGQ3QRAHVHI6SDCP7OQDE2VAZXKBRTNQTC"
+  }
+ ],
+ "history_operation_participants": [
+  {
+   "op_id": 21474840577,
+   "address": "GBQNFCPENSM4KN2YZGKEPPM2NMMKOFLTECEASM373VG2KHG7X4Z5W55E"
+  },
+  {
+   "op_id": 21474840577,
+   "address": "GDIUVY5KQY72DQXCGJSKXFCGQ3QRAHVHI6SDCP7OQDE2VAZXKBRTNQTC"
+  }
+ ]
+}

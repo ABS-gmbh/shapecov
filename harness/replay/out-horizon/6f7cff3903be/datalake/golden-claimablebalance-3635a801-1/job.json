@@ -1,0 +1,28 @@
+{
+ "job_version": 1,
+ "entry_id": "golden-claimablebalance-3635a801-1",
+ "ref": "v30.0.1",
+ "commit": "6f7cff3903be1df4fb980a12910a1313c5d7d8dd",
+ "input": "datalake",
+ "network_passphrase": "(V) (;,,;) (V)",
+ "ledger": {
+  "seq": 3,
+  "hash": "4241cdb5ff2e3554a2c4386713b18f8fc559bca36d27faf910efeee1357796be",
+  "close_time": 2,
+  "protocol": 30
+ },
+ "rpc": {
+  "url": "http://shapecov-hz-feeder:8000/rpc/golden-claimablebalance-3635a801-1"
+ },
+ "datalake": {
+  "s3_endpoint": "http://shapecov-hz-feeder:9000",
+  "bucket_path": "shapecov-lake/golden-claimablebalance-3635a801-1",
+  "region": "us-east-1"
+ },
+ "history_archive": {
+  "url": "http://shapecov-hz-feeder:8000/archive/golden-claimablebalance-3635a801-1"
+ },
+ "docker_network": "shapecov-hz-net",
+ "timeout_seconds": 120,
+ "work_dir": "$REPLAY_WORK"
+}

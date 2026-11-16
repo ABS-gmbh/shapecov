@@ -1,0 +1,41 @@
+{
+ "adapter": "horizon",
+ "checks": [],
+ "commit": "6f7cff3903be1df4fb980a12910a1313c5d7d8dd",
+ "dropped": [],
+ "entry_id": "testnet-5710719",
+ "evidence": "out-horizon/6f7cff3903be/datalake/testnet-5710719",
+ "expectations": 0,
+ "expectations_source": "none (implicit checks only)",
+ "feeder_requests": 4,
+ "ingested": true,
+ "input": "datalake",
+ "ledger": {
+  "close_time": 1794577239,
+  "hash": "33e402660d58624986384827324fa69fa1ebe05abdf585935dc5f8a6c90703cf",
+  "protocol": 30,
+  "seq": 5710719
+ },
+ "mishandled": [],
+ "mode": "unmodified",
+ "oracle": {
+  "verdict": "pass",
+  "rows_expected": 46,
+  "rows_met": 46,
+  "known": {},
+  "unexplained": []
+ },
+ "process": null,
+ "protocol_version": 30,
+ "ref": "v30.0.1",
+ "result": "pass",
+ "row_counts": {
+  "history_effects": 21,
+  "history_operation_participants": 28,
+  "history_operations": 21,
+  "history_transaction_participants": 29,
+  "history_transactions": 20
+ },
+ "sdk_pin": "v0.9.0",
+ "seconds": null
+}

@@ -1,0 +1,28 @@
+{
+ "job_version": 1,
+ "entry_id": "localcore-tx-failures-bumped-13",
+ "ref": "v30.0.1",
+ "commit": "6f7cff3903be1df4fb980a12910a1313c5d7d8dd",
+ "input": "datalake",
+ "network_passphrase": "Test SDF Network ; September 2015",
+ "ledger": {
+  "seq": 13,
+  "hash": "034dd68f2fd5f1fdad3ae130985626a30b6b356b0d7d4807e3c65a99f29b159a",
+  "close_time": 4120000000,
+  "protocol": 30
+ },
+ "rpc": {
+  "url": "http://shapecov-hz-feeder:8000/rpc/localcore-tx-failures-bumped-13"
+ },
+ "datalake": {
+  "s3_endpoint": "http://shapecov-hz-feeder:9000",
+  "bucket_path": "shapecov-lake/localcore-tx-failures-bumped-13",
+  "region": "us-east-1"
+ },
+ "history_archive": {
+  "url": "http://shapecov-hz-feeder:8000/archive/localcore-tx-failures-bumped-13"
+ },
+ "docker_network": "shapecov-hz-net",
+ "timeout_seconds": 120,
+ "work_dir": "$REPLAY_WORK"
+}

@@ -1,0 +1,127 @@
+{
+ "history_transactions": [
+  {
+   "id": 21474840576,
+   "transaction_hash": "8a3dd40d01e6909068dbddb6c2c94e0df816878fcdfedd9e2f8e111c9276a0a6",
+   "application_order": 1,
+   "successful": true,
+   "account": "GBPPIB5KFOJ3AX3JZPXWGY5FUYAQHWFRJ34WR3MWNPTRCF5UCT4JRHPE",
+   "fee_account": null,
+   "account_muxed": null,
+   "fee_account_muxed": null,
+   "fee_charged": 300,
+   "operation_count": 3
+  }
+ ],
+ "history_operations": [
+  {
+   "id": 21474840577,
+   "transaction_id": 21474840576,
+   "application_order": 1,
+   "type": 6,
+   "source_account": "GBPPIB5KFOJ3AX3JZPXWGY5FUYAQHWFRJ34WR3MWNPTRCF5UCT4JRHPE",
+   "source_account_muxed": null,
+   "details": {
+    "limit": "0.0000000",
+    "trustee": "GBRPYHIL2CI3FNQ4BXLFMNDLFJUNPU2HY3ZMFSHONUCEOASW7QC7OX2H",
+    "trustor": "GBPPIB5KFOJ3AX3JZPXWGY5FUYAQHWFRJ34WR3MWNPTRCF5UCT4JRHPE",
+    "asset_code": "USD",
+    "asset_type": "credit_alphanum4",
+    "asset_issuer": "GBRPYHIL2CI3FNQ4BXLFMNDLFJUNPU2HY3ZMFSHONUCEOASW7QC7OX2H"
+   }
+  },
+  {
+   "id": 21474840578,
+   "transaction_id": 21474840576,
+   "application_order": 2,
+   "type": 6,
+   "source_account": "GBPPIB5KFOJ3AX3JZPXWGY5FUYAQHWFRJ34WR3MWNPTRCF5UCT4JRHPE",
+   "source_account_muxed": null,
+   "details": {
+    "limit": "1000.0000000",
+    "trustee": "GBRPYHIL2CI3FNQ4BXLFMNDLFJUNPU2HY3ZMFSHONUCEOASW7QC7OX2H",
+    "trustor": "GBPPIB5KFOJ3AX3JZPXWGY5FUYAQHWFRJ34WR3MWNPTRCF5UCT4JRHPE",
+    "asset_code": "USD",
+    "asset_type": "credit_alphanum4",
+    "asset_issuer": "GBRPYHIL2CI3FNQ4BXLFMNDLFJUNPU2HY3ZMFSHONUCEOASW7QC7OX2H"
+   }
+  },
+  {
+   "id": 21474840579,
+   "transaction_id": 21474840576,
+   "application_order": 3,
+   "type": 6,
+   "source_account": "GBPPIB5KFOJ3AX3JZPXWGY5FUYAQHWFRJ34WR3MWNPTRCF5UCT4JRHPE",
+   "source_account_muxed": null,
+   "details": {
+    "limit": "0.0000000",
+    "trustee": "GBRPYHIL2CI3FNQ4BXLFMNDLFJUNPU2HY3ZMFSHONUCEOASW7QC7OX2H",
+    "trustor": "GBPPIB5KFOJ3AX3JZPXWGY5FUYAQHWFRJ34WR3MWNPTRCF5UCT4JRHPE",
+    "asset_code": "USD",
+    "asset_type": "credit_alphanum4",
+    "asset_issuer": "GBRPYHIL2CI3FNQ4BXLFMNDLFJUNPU2HY3ZMFSHONUCEOASW7QC7OX2H"
+   }
+  }
+ ],
+ "history_effects": [
+  {
+   "op_id": 21474840577,
+   "order": 1,
+   "type": 21,
+   "address": "GBPPIB5KFOJ3AX3JZPXWGY5FUYAQHWFRJ34WR3MWNPTRCF5UCT4JRHPE",
+   "address_muxed": null,
+   "details": {
+    "limit": "0.0000000",
+    "asset_code": "USD",
+    "asset_type": "credit_alphanum4",
+    "asset_issuer": "GBRPYHIL2CI3FNQ4BXLFMNDLFJUNPU2HY3ZMFSHONUCEOASW7QC7OX2H"
+   }
+  },
+  {
+   "op_id": 21474840578,
+   "order": 1,
+   "type": 20,
+   "address": "GBPPIB5KFOJ3AX3JZPXWGY5FUYAQHWFRJ34WR3MWNPTRCF5UCT4JRHPE",
+   "address_muxed": null,
+   "details": {
+    "limit": "1000.0000000",
+    "asset_code": "USD",
+    "asset_type": "credit_alphanum4",
+    "asset_issuer": "GBRPYHIL2CI3FNQ4BXLFMNDLFJUNPU2HY3ZMFSHONUCEOASW7QC7OX2H"
+   }
+  },
+  {
+   "op_id": 21474840579,
+   "order": 1,
+   "type": 21,
+   "address": "GBPPIB5KFOJ3AX3JZPXWGY5FUYAQHWFRJ34WR3MWNPTRCF5UCT4JRHPE",
+   "address_muxed": null,
+   "details": {
+    "limit": "0.0000000",
+    "asset_code": "USD",
+    "asset_type": "credit_alphanum4",
+    "asset_issuer": "GBRPYHIL2CI3FNQ4BXLFMNDLFJUNPU2HY3ZMFSHONUCEOASW7QC7OX2H"
+   }
+  }
+ ],
+ "history_transaction_participants": [
+  {
+   "tx_id": 21474840576,
+   "address": "GBPPIB5KFOJ3AX3JZPXWGY5FUYAQHWFRJ34WR3MWNPTRCF5UCT4JRHPE"
+  }
+ ],
+ "history_operation_participants": [
+  {
+   "op_id": 21474840579,
+   "address": "GBPPIB5KFOJ3AX3JZPXWGY5FUYAQHWFRJ34WR3MWNPTRCF5UCT4JRHPE"
+  },
+  {
+   "op_id": 21474840578,
+   "address": "GBPPIB5KFOJ3AX3JZPXWGY5FUYAQHWFRJ34WR3MWNPTRCF5UCT4JRHPE"
+  },
+  {
+   "op_id": 21474840577,
+   "address": "GBPPIB5KFOJ3AX3JZPXWGY5FUYAQHWFRJ34WR3MWNPTRCF5UCT4JRHPE"
+  }
+ ]
+}

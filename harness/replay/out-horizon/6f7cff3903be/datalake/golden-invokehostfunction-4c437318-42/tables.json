@@ -1,0 +1,71 @@
+{
+ "history_transactions": [
+  {
+   "id": 188978565120,
+   "transaction_hash": "eab3ffad35f024566020f85092cfccba8a11e496ef14d2625c8c8418322e5cfe",
+   "application_order": 1,
+   "successful": true,
+   "account": "GCQGMTQJF7M5SJVFSMXOCDO5RTLWDUGCVIISMQW6UMBHTGQZU7TJEQG7",
+   "fee_account": null,
+   "account_muxed": null,
+   "fee_account_muxed": null,
+   "fee_charged": 85168,
+   "operation_count": 1
+  }
+ ],
+ "history_operations": [
+  {
+   "id": 188978565121,
+   "transaction_id": 188978565120,
+   "application_order": 1,
+   "type": 24,
+   "source_account": "GCQGMTQJF7M5SJVFSMXOCDO5RTLWDUGCVIISMQW6UMBHTGQZU7TJEQG7",
+   "source_account_muxed": null,
+   "details": {
+    "function": "HostFunctionTypeHostFunctionTypeInvokeContract",
+    "parameters": [
+     {
+      "type": "Address",
+      "value": "AAAAEgAAAAE9X2iKLB3Qmabte0R+owyzKwh6GsF36eM8AbW5EoZ5Lw=="
+     },
+     {
+      "type": "Sym",
+      "value": "AAAADwAAAAV0cnVzdAAAAA=="
+     },
+     {
+      "type": "Address",
+      "value": "AAAAEgAAAAAAAAAAoGZOCS/Z2Salky7hDd2M12HQwqoRJkLeowJ5mhmn5pI="
+     }
+    ],
+    "asset_balance_changes": null
+   }
+  }
+ ],
+ "history_effects": [
+  {
+   "op_id": 188978565121,
+   "order": 1,
+   "type": 20,
+   "address": "GCQGMTQJF7M5SJVFSMXOCDO5RTLWDUGCVIISMQW6UMBHTGQZU7TJEQG7",
+   "address_muxed": null,
+   "details": {
+    "limit": "922337203685.4775807",
+    "asset_code": "IDR",
+    "asset_type": "credit_alphanum4",
+    "asset_issuer": "GCGE27HU2VYQANKL2VZWLCAOJYMEFST5DXPBWQ7BRRPOHUPK626DNG4Q"
+   }
+  }
+ ],
+ "history_transaction_participants": [
+  {
+   "tx_id": 188978565120,
+   "address": "GCQGMTQJF7M5SJVFSMXOCDO5RTLWDUGCVIISMQW6UMBHTGQZU7TJEQG7"
+  }
+ ],
+ "history_operation_participants": [
+  {
+   "op_id": 188978565121,
+   "address": "GCQGMTQJF7M5SJVFSMXOCDO5RTLWDUGCVIISMQW6UMBHTGQZU7TJEQG7"
+  }
+ ]
+}

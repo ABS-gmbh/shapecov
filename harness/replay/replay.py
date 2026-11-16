@@ -19,6 +19,7 @@ database and the indexer run in Docker on an internal network with no route to t
 """
 import argparse
 import datetime
+import inspect
 import json
 import os
 import subprocess
@@ -139,7 +140,13 @@ def oracle_verdict(entry, obs, mapping, value):
         if hasattr(mapping, "muxed_expectations"):
             exps += mapping.muxed_expectations(oracle.muxed_destinations(value), passphrase)
         if hasattr(mapping, "participant_expectations"):
-            exps += mapping.participant_expectations(oracle.participants(value, passphrase), passphrase)
+            records = oracle.participants(value, passphrase)
+            if "value" in inspect.signature(mapping.participant_expectations).parameters:
+                # A mapping that needs more than the meta (Horizon's participants of a failed
+                # transaction come from its envelope) gets the decoded ledger too.
+                exps += mapping.participant_expectations(records, passphrase, value=value)
+            else:
+                exps += mapping.participant_expectations(records, passphrase)
         if hasattr(mapping, "state_expectations"):
             exps += mapping.state_expectations(value, passphrase)
         if hasattr(mapping, "deploy_expectations"):
@@ -623,7 +630,10 @@ def cmd_report(a):
          "A cell is the entry's verdict: the worse of the indexer's result against the manifest's expectations and",
          "the oracle's check of every row the ledger implies (`pass`, `dropped`: a row or the ledger is missing,",
          "`mishandled`: an error or a wrong stored value). After the colon: the upstream issues or records that",
-         "explain the failures, or `unexplained` (a candidate new finding). The details below list each failure.",
+         "explain the failures, or `unexplained` (a candidate new finding). The details below list each failure."]
+    # REPORT_NOTES: what the adapter's mapping states about this indexer (coverage, declared choices).
+    notes = list(getattr(mapping, "REPORT_NOTES", None) or [])
+    L += ([""] + notes + [""] if notes else []) + [
          "## Commits", "", "| Commit | Date | Subject | go-stellar-sdk pin | Source or dependencies modified |",
          "|---|---|---|---|---|"]
     for c in order:
@@ -782,6 +792,16 @@ def cmd_check(a):
             print("%-9s %-40s %s at %s, %s: %s (claimed %s)" % ("ok" if ok else "DIFFERS", c["issue"], c["entry"],
                                                               c["commit"][:12], inp, res, c["expect"]))
     print("SIGHTINGS OK" if not bad else "%d SIGHTING CHECK(S) FAILED" % bad)
+    # Coverage: results for a ledger the manifest does not have fail; ledgers added to the corpus
+    # after the run are only counted, so a new entry does not fail the check until the next rerun.
+    with open(os.path.join(CORPUS, "manifest.json")) as f:
+        ledgers = {e["id"] for e in json.load(f)["entries"] if e.get("xdr_type") == "LedgerCloseMeta"}
+    covered = {k[0] for k in results}
+    for e in sorted(covered - ledgers):
+        print("NOT IN THE MANIFEST  %s has a recorded result but is no corpus ledger" % e)
+        bad += 1
+    print("coverage: %d of the manifest's %d ledgers have a recorded result here; %d have none yet"
+          % (len(covered & ledgers), len(ledgers), len(ledgers - covered)))
     if a.oracle:
         # An oracle failure that is neither a known open issue nor a claimed sighting is a candidate
         # new finding: fail, so CI raises it.

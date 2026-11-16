@@ -1,0 +1,216 @@
+{
+ "observation_version": 1,
+ "adapter": "horizon",
+ "commit": "6f7cff3903be1df4fb980a12910a1313c5d7d8dd",
+ "input": "datalake",
+ "entry_id": "golden-pathpayment-34519f44-22",
+ "ledger_seq": 24,
+ "ingested": true,
+ "error": null,
+ "adapter_failure": false,
+ "transactions": [
+  {
+   "hash": "ca554a576e402935d7393a6b6c24f66f4477aa3b1498ef321cffd23c3db60c98",
+   "tx_order": 1,
+   "successful": true,
+   "result_code": null,
+   "participants": [
+    "GAZSW4CCE7N5PZ37LHCKLCM3W7BGXHDIGPUMFT4PRYO7VO4HD7M77HSF",
+    "GDCIJUICLYOMBXWFH6TYMVWNKUGQJVXAWPL2SJM3ABJALDNQ4ZB23MMF"
+   ]
+  }
+ ],
+ "operations": [
+  {
+   "tx_hash": "ca554a576e402935d7393a6b6c24f66f4477aa3b1498ef321cffd23c3db60c98",
+   "tx_order": 1,
+   "op_order": 1,
+   "type": "path_payment_strict_receive",
+   "participants": [
+    "GAZSW4CCE7N5PZ37LHCKLCM3W7BGXHDIGPUMFT4PRYO7VO4HD7M77HSF",
+    "GDCIJUICLYOMBXWFH6TYMVWNKUGQJVXAWPL2SJM3ABJALDNQ4ZB23MMF"
+   ]
+  }
+ ],
+ "state_changes": [
+  {
+   "tx_hash": "ca554a576e402935d7393a6b6c24f66f4477aa3b1498ef321cffd23c3db60c98",
+   "tx_order": 1,
+   "op_order": 1,
+   "category": "EFFECT",
+   "reason": "account_credited",
+   "account": "GDCIJUICLYOMBXWFH6TYMVWNKUGQJVXAWPL2SJM3ABJALDNQ4ZB23MMF",
+   "signer_key": null,
+   "token": "CUR2:GAGZ4K2WWCF6VNVZOP2L4H34SZG7Y2AJOUQDB5QIWBQ2WRLNLX6SEQC2",
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "op_order": 1
+   }
+  },
+  {
+   "tx_hash": "ca554a576e402935d7393a6b6c24f66f4477aa3b1498ef321cffd23c3db60c98",
+   "tx_order": 1,
+   "op_order": 1,
+   "category": "EFFECT",
+   "reason": "account_debited",
+   "account": "GAZSW4CCE7N5PZ37LHCKLCM3W7BGXHDIGPUMFT4PRYO7VO4HD7M77HSF",
+   "signer_key": null,
+   "token": "CUR1:GAGZ4K2WWCF6VNVZOP2L4H34SZG7Y2AJOUQDB5QIWBQ2WRLNLX6SEQC2",
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "op_order": 1
+   }
+  },
+  {
+   "tx_hash": "ca554a576e402935d7393a6b6c24f66f4477aa3b1498ef321cffd23c3db60c98",
+   "tx_order": 1,
+   "op_order": 1,
+   "category": "EFFECT",
+   "reason": "trade",
+   "account": "GAZSW4CCE7N5PZ37LHCKLCM3W7BGXHDIGPUMFT4PRYO7VO4HD7M77HSF",
+   "signer_key": null,
+   "token": null,
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "op_order": 1,
+    "offer_id": 1
+   }
+  },
+  {
+   "tx_hash": "ca554a576e402935d7393a6b6c24f66f4477aa3b1498ef321cffd23c3db60c98",
+   "tx_order": 1,
+   "op_order": 1,
+   "category": "EFFECT",
+   "reason": "trade",
+   "account": "GAWAG5R7JSQ6X2G3VI3HBRE2XPNZZEJYHJIGJPJ5YLZAXUORLB4T5EWW",
+   "signer_key": null,
+   "token": null,
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "op_order": 1,
+    "offer_id": 1
+   }
+  },
+  {
+   "tx_hash": "ca554a576e402935d7393a6b6c24f66f4477aa3b1498ef321cffd23c3db60c98",
+   "tx_order": 1,
+   "op_order": 1,
+   "category": "EFFECT",
+   "reason": "trade",
+   "account": "GAZSW4CCE7N5PZ37LHCKLCM3W7BGXHDIGPUMFT4PRYO7VO4HD7M77HSF",
+   "signer_key": null,
+   "token": null,
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "op_order": 1,
+    "offer_id": 2
+   }
+  },
+  {
+   "tx_hash": "ca554a576e402935d7393a6b6c24f66f4477aa3b1498ef321cffd23c3db60c98",
+   "tx_order": 1,
+   "op_order": 1,
+   "category": "EFFECT",
+   "reason": "trade",
+   "account": "GDMBKNWMSGQFMOZUUGG2OA53643L7BBHY3YVC2QMBMVTHBWCTTYXCRUF",
+   "signer_key": null,
+   "token": null,
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "op_order": 1,
+    "offer_id": 2
+   }
+  },
+  {
+   "tx_hash": "ca554a576e402935d7393a6b6c24f66f4477aa3b1498ef321cffd23c3db60c98",
+   "tx_order": 1,
+   "op_order": 1,
+   "category": "EFFECT",
+   "reason": "trade",
+   "account": "GAZSW4CCE7N5PZ37LHCKLCM3W7BGXHDIGPUMFT4PRYO7VO4HD7M77HSF",
+   "signer_key": null,
+   "token": null,
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "op_order": 1,
+    "offer_id": 3
+   }
+  },
+  {
+   "tx_hash": "ca554a576e402935d7393a6b6c24f66f4477aa3b1498ef321cffd23c3db60c98",
+   "tx_order": 1,
+   "op_order": 1,
+   "category": "EFFECT",
+   "reason": "trade",
+   "account": "GASQZAPINLN43TERXSXSNI4O54E7SQQ45ET3CECDK42WYZVRX5EPTMDV",
+   "signer_key": null,
+   "token": null,
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "op_order": 1,
+    "offer_id": 3
+   }
+  },
+  {
+   "tx_hash": "ca554a576e402935d7393a6b6c24f66f4477aa3b1498ef321cffd23c3db60c98",
+   "tx_order": 1,
+   "op_order": 1,
+   "category": "EFFECT",
+   "reason": "trade",
+   "account": "GAZSW4CCE7N5PZ37LHCKLCM3W7BGXHDIGPUMFT4PRYO7VO4HD7M77HSF",
+   "signer_key": null,
+   "token": null,
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "op_order": 1,
+    "offer_id": 1
+   }
+  },
+  {
+   "tx_hash": "ca554a576e402935d7393a6b6c24f66f4477aa3b1498ef321cffd23c3db60c98",
+   "tx_order": 1,
+   "op_order": 1,
+   "category": "EFFECT",
+   "reason": "trade",
+   "account": "GAWAG5R7JSQ6X2G3VI3HBRE2XPNZZEJYHJIGJPJ5YLZAXUORLB4T5EWW",
+   "signer_key": null,
+   "token": null,
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "op_order": 1,
+    "offer_id": 1
+   }
+  }
+ ],
+ "unreadable": [],
+ "row_counts": {
+  "history_transactions": 1,
+  "history_operations": 1,
+  "history_effects": 10,
+  "history_transaction_participants": 2,
+  "history_operation_participants": 2
+ },
+ "command": "horizon db reingest range 24 24 --ledgerbackend datastore --datastore-config /cfg/datastore.toml --parallel-workers 1 --retries 0",
+ "exit_code": 0,
+ "seconds_to_outcome": 4.2
+}

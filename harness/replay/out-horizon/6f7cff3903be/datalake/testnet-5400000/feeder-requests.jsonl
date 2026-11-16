@@ -1,0 +1,4 @@
+{"http": "GET", "keys": 1, "path": "/shapecov-lake?list-type=2&max-keys=1&prefix=testnet-5400000%2F", "port": "s3", "status": 200, "t": 1794866791.716}
+{"http": "GET", "keys": 2, "path": "/shapecov-lake?fetch-owner=false&list-type=2&max-keys=1000&prefix=testnet-5400000%2F&start-after=", "port": "s3", "status": 200, "t": 1794866791.777}
+{"http": "GET", "path": "/shapecov-lake/testnet-5400000/.config.json?x-id=GetObject", "port": "s3", "size": 142, "status": 200, "t": 1794866791.828}
+{"http": "GET", "path": "/shapecov-lake/testnet-5400000/FFADF7FF--5376000-5439999/FFAD9A3F--5400000.xdr.zst?x-id=GetObject", "port": "s3", "size": 35011, "status": 200, "t": 1794866791.879}

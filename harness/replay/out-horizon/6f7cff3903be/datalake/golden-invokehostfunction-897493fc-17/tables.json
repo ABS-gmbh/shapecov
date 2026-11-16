@@ -1,0 +1,61 @@
+{
+ "history_transactions": [
+  {
+   "id": 81604382720,
+   "transaction_hash": "0b5fc202d1f7748513a77462a13692f840be82fa8fdf61e93e3d8c1b945260f1",
+   "application_order": 1,
+   "successful": false,
+   "account": "GC4EFXBN6BEENDAX7PBW5PGIIIVH3INMD3OEPQASXOLGOHVVP7ZEMG7X",
+   "fee_account": null,
+   "account_muxed": null,
+   "fee_account_muxed": null,
+   "fee_charged": 1597492,
+   "operation_count": 1
+  }
+ ],
+ "history_operations": [
+  {
+   "id": 81604382721,
+   "transaction_id": 81604382720,
+   "application_order": 1,
+   "type": 24,
+   "source_account": "GC4EFXBN6BEENDAX7PBW5PGIIIVH3INMD3OEPQASXOLGOHVVP7ZEMG7X",
+   "source_account_muxed": null,
+   "details": {
+    "function": "HostFunctionTypeHostFunctionTypeInvokeContract",
+    "parameters": [
+     {
+      "type": "Address",
+      "value": "AAAAEgAAAAHKQWfL2CVWM6UijlKrmSIG7PT7s19buYLjhRO1OmO3qw=="
+     },
+     {
+      "type": "Sym",
+      "value": "AAAADwAAAAd0cmVlX2ZuAA=="
+     },
+     {
+      "type": "Vec",
+      "value": "AAAAEAAAAAEAAAABAAAAEgAAAAAAAAAAicORqs7yg8McqTAq37knVtGhuyn4w+RWKq8MmghxgO8="
+     },
+     {
+      "type": "Map",
+      "value": "AAAAEQAAAAEAAAAEAAAADwAAAAhjaGlsZHJlbgAAABAAAAABAAAAAAAAAA8AAAAIY29udHJhY3QAAAASAAAAAcpBZ8vYJVYzpSKOUquZIgbs9PuzX1u5guOFE7U6Y7erAAAADwAAAAluZWVkX2F1dGgAAAAAAAAQAAAAAQAAAAEAAAAAAAAAAQAAAA8AAAAIdHJ5X2NhbGwAAAAAAAAAAA=="
+     }
+    ],
+    "asset_balance_changes": null
+   }
+  }
+ ],
+ "history_effects": [],
+ "history_transaction_participants": [
+  {
+   "tx_id": 81604382720,
+   "address": "GC4EFXBN6BEENDAX7PBW5PGIIIVH3INMD3OEPQASXOLGOHVVP7ZEMG7X"
+  }
+ ],
+ "history_operation_participants": [
+  {
+   "op_id": 81604382721,
+   "address": "GC4EFXBN6BEENDAX7PBW5PGIIIVH3INMD3OEPQASXOLGOHVVP7ZEMG7X"
+  }
+ ]
+}

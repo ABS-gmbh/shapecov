@@ -1,0 +1,112 @@
+{
+ "observation_version": 1,
+ "adapter": "horizon",
+ "commit": "6f7cff3903be1df4fb980a12910a1313c5d7d8dd",
+ "input": "datalake",
+ "entry_id": "localcore-trustline-churn-5",
+ "ledger_seq": 5,
+ "ingested": true,
+ "error": null,
+ "adapter_failure": false,
+ "transactions": [
+  {
+   "hash": "8a3dd40d01e6909068dbddb6c2c94e0df816878fcdfedd9e2f8e111c9276a0a6",
+   "tx_order": 1,
+   "successful": true,
+   "result_code": null,
+   "participants": [
+    "GBPPIB5KFOJ3AX3JZPXWGY5FUYAQHWFRJ34WR3MWNPTRCF5UCT4JRHPE"
+   ]
+  }
+ ],
+ "operations": [
+  {
+   "tx_hash": "8a3dd40d01e6909068dbddb6c2c94e0df816878fcdfedd9e2f8e111c9276a0a6",
+   "tx_order": 1,
+   "op_order": 1,
+   "type": "change_trust",
+   "participants": [
+    "GBPPIB5KFOJ3AX3JZPXWGY5FUYAQHWFRJ34WR3MWNPTRCF5UCT4JRHPE"
+   ]
+  },
+  {
+   "tx_hash": "8a3dd40d01e6909068dbddb6c2c94e0df816878fcdfedd9e2f8e111c9276a0a6",
+   "tx_order": 1,
+   "op_order": 2,
+   "type": "change_trust",
+   "participants": [
+    "GBPPIB5KFOJ3AX3JZPXWGY5FUYAQHWFRJ34WR3MWNPTRCF5UCT4JRHPE"
+   ]
+  },
+  {
+   "tx_hash": "8a3dd40d01e6909068dbddb6c2c94e0df816878fcdfedd9e2f8e111c9276a0a6",
+   "tx_order": 1,
+   "op_order": 3,
+   "type": "change_trust",
+   "participants": [
+    "GBPPIB5KFOJ3AX3JZPXWGY5FUYAQHWFRJ34WR3MWNPTRCF5UCT4JRHPE"
+   ]
+  }
+ ],
+ "state_changes": [
+  {
+   "tx_hash": "8a3dd40d01e6909068dbddb6c2c94e0df816878fcdfedd9e2f8e111c9276a0a6",
+   "tx_order": 1,
+   "op_order": 1,
+   "category": "EFFECT",
+   "reason": "trustline_removed",
+   "account": "GBPPIB5KFOJ3AX3JZPXWGY5FUYAQHWFRJ34WR3MWNPTRCF5UCT4JRHPE",
+   "signer_key": null,
+   "token": "USD:GBRPYHIL2CI3FNQ4BXLFMNDLFJUNPU2HY3ZMFSHONUCEOASW7QC7OX2H",
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "op_order": 1
+   }
+  },
+  {
+   "tx_hash": "8a3dd40d01e6909068dbddb6c2c94e0df816878fcdfedd9e2f8e111c9276a0a6",
+   "tx_order": 1,
+   "op_order": 2,
+   "category": "EFFECT",
+   "reason": "trustline_created",
+   "account": "GBPPIB5KFOJ3AX3JZPXWGY5FUYAQHWFRJ34WR3MWNPTRCF5UCT4JRHPE",
+   "signer_key": null,
+   "token": "USD:GBRPYHIL2CI3FNQ4BXLFMNDLFJUNPU2HY3ZMFSHONUCEOASW7QC7OX2H",
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "op_order": 2
+   }
+  },
+  {
+   "tx_hash": "8a3dd40d01e6909068dbddb6c2c94e0df816878fcdfedd9e2f8e111c9276a0a6",
+   "tx_order": 1,
+   "op_order": 3,
+   "category": "EFFECT",
+   "reason": "trustline_removed",
+   "account": "GBPPIB5KFOJ3AX3JZPXWGY5FUYAQHWFRJ34WR3MWNPTRCF5UCT4JRHPE",
+   "signer_key": null,
+   "token": "USD:GBRPYHIL2CI3FNQ4BXLFMNDLFJUNPU2HY3ZMFSHONUCEOASW7QC7OX2H",
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "op_order": 3
+   }
+  }
+ ],
+ "unreadable": [],
+ "row_counts": {
+  "history_transactions": 1,
+  "history_operations": 3,
+  "history_effects": 3,
+  "history_transaction_participants": 1,
+  "history_operation_participants": 3
+ },
+ "command": "horizon db reingest range 5 5 --ledgerbackend datastore --datastore-config /cfg/datastore.toml --parallel-workers 1 --retries 0",
+ "exit_code": 0,
+ "seconds_to_outcome": 2.8
+}

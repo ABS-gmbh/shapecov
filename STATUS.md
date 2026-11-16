@@ -16,9 +16,10 @@ What the repository itself lists as open.
   fix prepared for wallet-backend #820 waits for the issue to be accepted (`VERIFY.md`, check 3).
 - The fix prepared for stellar-etl #512 waits for the issue to be accepted.
 - The detection backtest's misses, each with what would catch it (`harness/replay/BACKTEST.md`):
-  oracle rules for stellar-etl #456, #457 and #462, whose shapes the corpus already has; for
-  wallet-backend, reading its current-state tables and new local stellar-core scenarios.
-- Replay adapters beyond wallet-backend and stellar-etl, for example Horizon (`README.md`, Limits).
+  stellar-etl's `export_trades` and `export_ledger_entry_changes` in its adapter (#451, #459), and a
+  fee rule with a new entry (#453); for wallet-backend, reading its current-state tables and new
+  local stellar-core scenarios.
+- Replay adapters beyond wallet-backend, stellar-etl and Horizon (`README.md`, Limits).
 - Schema cells that no corpus entry carries yet, listed by protocol in `corpus/CAP-COVERAGE.md`.
 
 ## 16 November 2026
@@ -34,6 +35,45 @@ backtest, packaging for other repositories' CI, findings kept as checked records
 
 Commits:
 
+- CI: Maven's local repository cached for the Java runner ([`d6e9559`](https://github.com/ABS-gmbh/shapecov/commit/d6e9559eaa8c5ef7578b7a3a544b646b6c42e34f))
+- CI: one green check over every job; the replay called from ci; quick check job; release refuses a commit that was not green ([`37964cb`](https://github.com/ABS-gmbh/shapecov/commit/37964cb2bad397106e364af040980ef91009bb69))
+- stellar-etl #452 checked: contract events exported twice, and failed transactions' events flagged as successful calls ([`6045cf7`](https://github.com/ABS-gmbh/shapecov/commit/6045cf73a214316e2c69368c0a0314cfd8a4c96f))
+- Backtest: what a muxed Soroban operation source shows at #693's fix ([`2457636`](https://github.com/ABS-gmbh/shapecov/commit/24576363f79003a43b6a6b692572248de5b37461))
+- Detects wallet-backend#745: a claimable balance as a contract's deployer ([`964ca9a`](https://github.com/ABS-gmbh/shapecov/commit/964ca9ab9ee8ceb2c8c15d4f535a53d9a04c4b43))
+- Sweep: rows not checked, by kind; failures mapped to five open issues ([`9ce46f2`](https://github.com/ABS-gmbh/shapecov/commit/9ce46f2e89adddff4822dcd701de0c64851b2440))
+- java-stellar-sdk #843 and the py-stellar-base #1264 comment recorded ([`d4ca3b4`](https://github.com/ABS-gmbh/shapecov/commit/d4ca3b45c1e5d82752f3a673663d22944407ee8a))
+- Backtest scope: decided by what a fix fixes; 490aab4 out, two batch fixes in ([`f6d1f2f`](https://github.com/ABS-gmbh/shapecov/commit/f6d1f2f147d5308b945e1347a27475c3897d4068))
+- Multi-ledger replay: sequences ingested into one database; detects wallet-backend#687 ([`43ed880`](https://github.com/ABS-gmbh/shapecov/commit/43ed880c1fa434347426a0050470f7d43d1b21f3))
+- Duplicate-row rule; a ledger for the float64 and account-merge mutants ([`8ecdbcf`](https://github.com/ABS-gmbh/shapecov/commit/8ecdbcfe419498d210696ea4fb8e2c4929684da5))
+- issues: shorter headers on the upstream fact sheets ([`51276ad`](https://github.com/ABS-gmbh/shapecov/commit/51276ad0c9fdbcaf20f30419384de3851acfc236))
+- Horizon adapter: v30.0.1 replayed from the data lake with its own db reingest range ([`54debf4`](https://github.com/ABS-gmbh/shapecov/commit/54debf4db5ff879f9bad919761af2767898c03ea))
+- stellar-etl #462: contract deploy details checked against the envelope ([`893452d`](https://github.com/ABS-gmbh/shapecov/commit/893452d7d20621fbb2822261ff1632938df2f28b))
+- Quick check: the 13 fast checks in parallel in 5 seconds; --full adds the unit tests and mutants, and CI runs it ([`6c93e82`](https://github.com/ABS-gmbh/shapecov/commit/6c93e824c36eb91dbb8cf35c92748d2c765c399f))
+- Oracle: master key weight, and what core does around a failed transaction ([`22387bf`](https://github.com/ABS-gmbh/shapecov/commit/22387bf9a42faa64e24d90e4532e27ea690f9daa))
+- README below the first screen brought up to date; NOTICE generated from the corpus manifest ([`10e1bc9`](https://github.com/ABS-gmbh/shapecov/commit/10e1bc9b2942a41727b10fdc423f4d9de6564e97))
+- Oracle: wallet-backend's current balances after each ledger (#641), stellar-etl #456 ([`c5a11c1`](https://github.com/ABS-gmbh/shapecov/commit/c5a11c1aa7e1e6e73f304ad285b2ebba706bd2e0))
+- Oracle review, part two: path payments, offers, clawback, pool deposits, pre-23 refunds pinned ([`42428be`](https://github.com/ABS-gmbh/shapecov/commit/42428bea2948c9ca2126ed2b3a77a7fa3ac2dc49))
+- Mutation testing of the oracle: 20 of 21 exercised mutants killed on 16 ledgers ([`ba2274b`](https://github.com/ABS-gmbh/shapecov/commit/ba2274b3e30f01ff73d566ffbb5deac976d632b4))
+- Oracle review: two holes as expected-failure tests, five behaviours pinned ([`bb4891a`](https://github.com/ABS-gmbh/shapecov/commit/bb4891af33a639a07308b8bbeec6c0246abb60b4))
+- SDK behaviour checks in Go, Java, Rust and Python: java-stellar-sdk 6.0.0 shares three JavaScript defects ([`40f0e2f`](https://github.com/ABS-gmbh/shapecov/commit/40f0e2f342cee2491dd01cf4fc21e057e9e02381))
+- Findings: C10 links our measured volume comment on wallet-backend#677 ([`7001bbe`](https://github.com/ABS-gmbh/shapecov/commit/7001bbe0782380b630527fd4abcc24987d23ca96))
+- Count check: the corpus source table (golden, network, testnet, pubnet, local, generated) ([`36e0ad4`](https://github.com/ABS-gmbh/shapecov/commit/36e0ad4f356316f4d32272af3feb8291d7ef71f4))
+- Reports: the per-entry verdict includes the oracle; ADAPTER.md from building the example ([`d930b39`](https://github.com/ABS-gmbh/shapecov/commit/d930b39a4e200f263c9637d5c5d466dcdc4949ef))
+- Guide: what stellar-core validates in the transaction itself (signatures, sequence numbers, fees, time bounds) ([`0636da5`](https://github.com/ABS-gmbh/shapecov/commit/0636da51b86c3ff45a6bad32e92efb03b53f9adf))
+- Corpus: failures at apply from a local stellar-core, coverage 352 -> 422 of 538 ([`8727451`](https://github.com/ABS-gmbh/shapecov/commit/87274512937645d0d174a28e216d57fd79d2bd7f))
+- Example adapter: a 100-line toy indexer in two variants, run through the real harness ([`a4b1d18`](https://github.com/ABS-gmbh/shapecov/commit/a4b1d18b3dbcd57349372b580c1ba74f1c7a6b5a))
+- Threat model and checkable security practice: images by digest, actions by SHA, an isolation test ([`4bdca06`](https://github.com/ABS-gmbh/shapecov/commit/4bdca068aa79dae2707450331ecca5bc6eed2e34))
+- Coverage: also report the cells that can occur in a closed ledger ([`7fd3a9c`](https://github.com/ABS-gmbh/shapecov/commit/7fd3a9cc1d7c8f041ec8d4eb08697c2d820e812a))
+- Backtest: a fix is detected only when the failures of its own kind are gone ([`a08f87c`](https://github.com/ABS-gmbh/shapecov/commit/a08f87cccf749602981806af5668a70d506c5e9b))
+- Linter on a second indexer, stellar-etl: 13 findings, all real; one false-positive class fixed in SC001 ([`519eaa7`](https://github.com/ABS-gmbh/shapecov/commit/519eaa7c72ec527c233a3b564498fd0c9cffcc8d))
+- README and the count check follow the new cell definition (corpus/coverage.json) ([`423d8f2`](https://github.com/ABS-gmbh/shapecov/commit/423d8f2b34fdcbf54ab7da5b815a0f837782ad48))
+- Rename tools/coverage.py to cell_coverage.py: it shadowed the coverage package ([`6e5a835`](https://github.com/ABS-gmbh/shapecov/commit/6e5a83598386c6a1ea0d08bc0ce4725fd944c487))
+- Coverage over the cells a ledger reader can meet, every missing cell classified ([`c6d7fe7`](https://github.com/ABS-gmbh/shapecov/commit/c6d7fe70bad3b05c843a230fcfd5e048bfafb3eb))
+- Replay oracle: participants come from the meta (the RFP's second rule) ([`e17c052`](https://github.com/ABS-gmbh/shapecov/commit/e17c052454b568327ee83e79c5153dfac1a87e4c))
+- Corpus: two local stellar-core entries for participants taken from the envelope ([`5b79fdd`](https://github.com/ABS-gmbh/shapecov/commit/5b79fdd5b0d219bd4f6af7c705a722ef85476204))
+- Per-shape roll-up of the replays: which corpus shapes each indexer mishandles or drops ([`418b669`](https://github.com/ABS-gmbh/shapecov/commit/418b66960a3b820e0e7a10e9b7977cbdc2b486d5))
+- Guide: 128-bit integers are in every transaction from protocol 23 in the public archive's ledgers ([`843b75a`](https://github.com/ABS-gmbh/shapecov/commit/843b75a589b9791c6f6b732d61ebd4f5d7038643))
+- STATUS.md: a summary of each day for someone using ShapeCov, and what is open next ([`3c50b9f`](https://github.com/ABS-gmbh/shapecov/commit/3c50b9f6064e66161907f50d7b0ae553c71f2ca8))
 - Detection backtest in VERIFY.md, FINDINGS.md and quickcheck; its numbers checked against backtest.json ([`b838d17`](https://github.com/ABS-gmbh/shapecov/commit/b838d173786e07029e715208298e425301413861))
 - Guide: the largest values seen in the 611-ledger sample, beside each recommended cap ([`777dbde`](https://github.com/ABS-gmbh/shapecov/commit/777dbdeb58d780ebe05efc49780ce4ad374712fa))
 - Unit tests for the checking scripts, one CI job with line and branch coverage ([`42a8930`](https://github.com/ABS-gmbh/shapecov/commit/42a8930c3ea828a975d38791db236f7bc4a781bb))

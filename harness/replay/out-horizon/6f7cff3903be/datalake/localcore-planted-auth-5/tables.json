@@ -1,0 +1,104 @@
+{
+ "history_transactions": [
+  {
+   "id": 21474840576,
+   "transaction_hash": "1aefdbd7032ef733aab72d4955d9f8f7e376b125cc55718c29b7464347345b7b",
+   "application_order": 1,
+   "successful": true,
+   "account": "GDFEUKR6QZGUILOMUICH5MXJBDV3EDYKTAD6XOZARQQJN25OOMNIM3AW",
+   "fee_account": null,
+   "account_muxed": null,
+   "fee_account_muxed": null,
+   "fee_charged": 182057,
+   "operation_count": 1
+  }
+ ],
+ "history_operations": [
+  {
+   "id": 21474840577,
+   "transaction_id": 21474840576,
+   "application_order": 1,
+   "type": 24,
+   "source_account": "GDFEUKR6QZGUILOMUICH5MXJBDV3EDYKTAD6XOZARQQJN25OOMNIM3AW",
+   "source_account_muxed": null,
+   "details": {
+    "function": "HostFunctionTypeHostFunctionTypeInvokeContract",
+    "parameters": [
+     {
+      "type": "Address",
+      "value": "AAAAEgAAAAHXkotywnA8z+r365/0701QSlWouXn8m0UOoshCtNHOYQ=="
+     },
+     {
+      "type": "Sym",
+      "value": "AAAADwAAAAh0cmFuc2Zlcg=="
+     },
+     {
+      "type": "Address",
+      "value": "AAAAEgAAAAAAAAAAykoqPoZNRC3MogR+sukI67IPCpgH67sgjCCW665zGoY="
+     },
+     {
+      "type": "Address",
+      "value": "AAAAEgAAAAAAAAAAYvwdC9CRsrYcDdZWNGsqaNfTR8bywsjubQRHAlb8Bfc="
+     },
+     {
+      "type": "I128",
+      "value": "AAAACgAAAAAAAAAAAAAAAACYloA="
+     }
+    ],
+    "asset_balance_changes": [
+     {
+      "to": "GBRPYHIL2CI3FNQ4BXLFMNDLFJUNPU2HY3ZMFSHONUCEOASW7QC7OX2H",
+      "from": "GDFEUKR6QZGUILOMUICH5MXJBDV3EDYKTAD6XOZARQQJN25OOMNIM3AW",
+      "type": "transfer",
+      "amount": "1.0000000",
+      "asset_type": "native"
+     }
+    ]
+   }
+  }
+ ],
+ "history_effects": [
+  {
+   "op_id": 21474840577,
+   "order": 1,
+   "type": 3,
+   "address": "GDFEUKR6QZGUILOMUICH5MXJBDV3EDYKTAD6XOZARQQJN25OOMNIM3AW",
+   "address_muxed": null,
+   "details": {
+    "amount": "1.0000000",
+    "asset_type": "native"
+   }
+  },
+  {
+   "op_id": 21474840577,
+   "order": 2,
+   "type": 2,
+   "address": "GBRPYHIL2CI3FNQ4BXLFMNDLFJUNPU2HY3ZMFSHONUCEOASW7QC7OX2H",
+   "address_muxed": null,
+   "details": {
+    "amount": "1.0000000",
+    "asset_type": "native"
+   }
+  }
+ ],
+ "history_transaction_participants": [
+  {
+   "tx_id": 21474840576,
+   "address": "GBRPYHIL2CI3FNQ4BXLFMNDLFJUNPU2HY3ZMFSHONUCEOASW7QC7OX2H"
+  },
+  {
+   "tx_id": 21474840576,
+   "address": "GDFEUKR6QZGUILOMUICH5MXJBDV3EDYKTAD6XOZARQQJN25OOMNIM3AW"
+  }
+ ],
+ "history_operation_participants": [
+  {
+   "op_id": 21474840577,
+   "address": "GBRPYHIL2CI3FNQ4BXLFMNDLFJUNPU2HY3ZMFSHONUCEOASW7QC7OX2H"
+  },
+  {
+   "op_id": 21474840577,
+   "address": "GDFEUKR6QZGUILOMUICH5MXJBDV3EDYKTAD6XOZARQQJN25OOMNIM3AW"
+  }
+ ]
+}

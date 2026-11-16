@@ -1,0 +1,41 @@
+{
+ "adapter": "horizon",
+ "checks": [],
+ "commit": "6f7cff3903be1df4fb980a12910a1313c5d7d8dd",
+ "dropped": [],
+ "entry_id": "golden-invokehostfunction-60000be2-10",
+ "evidence": "out-horizon/6f7cff3903be/datalake/golden-invokehostfunction-60000be2-10",
+ "expectations": 0,
+ "expectations_source": "none (implicit checks only)",
+ "feeder_requests": 4,
+ "ingested": true,
+ "input": "datalake",
+ "ledger": {
+  "close_time": 1451692802,
+  "hash": "c027db2eec1ab8f2adb85785188480cd0344a73c705a20eedc6528c96936c1da",
+  "protocol": 30,
+  "seq": 12
+ },
+ "mishandled": [],
+ "mode": "unmodified",
+ "oracle": {
+  "verdict": "pass",
+  "rows_expected": 4,
+  "rows_met": 4,
+  "known": {},
+  "unexplained": []
+ },
+ "process": null,
+ "protocol_version": 30,
+ "ref": "v30.0.1",
+ "result": "pass",
+ "row_counts": {
+  "history_effects": 1,
+  "history_operation_participants": 2,
+  "history_operations": 2,
+  "history_transaction_participants": 3,
+  "history_transactions": 2
+ },
+ "sdk_pin": "v0.9.0",
+ "seconds": null
+}

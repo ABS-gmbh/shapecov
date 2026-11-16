@@ -1,0 +1,42 @@
+{
+ "history_transactions": [
+  {
+   "id": 47244644352,
+   "transaction_hash": "62d17aaeac286e3a5d4d2cef9c8ecfccc885726e5bd33d3500cca2471f9a9285",
+   "application_order": 1,
+   "successful": false,
+   "account": "GC4EFXBN6BEENDAX7PBW5PGIIIVH3INMD3OEPQASXOLGOHVVP7ZEMG7X",
+   "fee_account": null,
+   "account_muxed": null,
+   "fee_account_muxed": null,
+   "fee_charged": 9543,
+   "operation_count": 1
+  }
+ ],
+ "history_operations": [
+  {
+   "id": 47244644353,
+   "transaction_id": 47244644352,
+   "application_order": 1,
+   "type": 25,
+   "source_account": "GC4EFXBN6BEENDAX7PBW5PGIIIVH3INMD3OEPQASXOLGOHVVP7ZEMG7X",
+   "source_account_muxed": null,
+   "details": {
+    "extend_to": 10000
+   }
+  }
+ ],
+ "history_effects": [],
+ "history_transaction_participants": [
+  {
+   "tx_id": 47244644352,
+   "address": "GC4EFXBN6BEENDAX7PBW5PGIIIVH3INMD3OEPQASXOLGOHVVP7ZEMG7X"
+  }
+ ],
+ "history_operation_participants": [
+  {
+   "op_id": 47244644353,
+   "address": "GC4EFXBN6BEENDAX7PBW5PGIIIVH3INMD3OEPQASXOLGOHVVP7ZEMG7X"
+  }
+ ]
+}

@@ -1,0 +1,90 @@
+{
+ "history_transactions": [
+  {
+   "id": 94489284608,
+   "transaction_hash": "bcda8b54060c6b58ce9e23f80ba64aa05891f1ecacd44c688b627748117f8f6d",
+   "application_order": 1,
+   "successful": true,
+   "account": "GC4EFXBN6BEENDAX7PBW5PGIIIVH3INMD3OEPQASXOLGOHVVP7ZEMG7X",
+   "fee_account": null,
+   "account_muxed": null,
+   "fee_account_muxed": null,
+   "fee_charged": 100,
+   "operation_count": 1
+  }
+ ],
+ "history_operations": [
+  {
+   "id": 94489284609,
+   "transaction_id": 94489284608,
+   "application_order": 1,
+   "type": 4,
+   "source_account": "GA2KBPUW3U473LPVII7HINQOVXJDWD64HX3ATWWOPMWKVAUCJ2BXEAER",
+   "source_account_muxed": null,
+   "details": {
+    "price": "0.0100000",
+    "amount": "0.0000300",
+    "price_r": {
+     "d": 100,
+     "n": 1
+    },
+    "buying_asset_code": "USD",
+    "buying_asset_type": "credit_alphanum4",
+    "selling_asset_type": "native",
+    "buying_asset_issuer": "GDLKBAI4DBVK7TJ56Z54U7DA4MTG63KNUIG63XLCTCTQ3HMAC5DDIKK6"
+   }
+  }
+ ],
+ "history_effects": [
+  {
+   "op_id": 94489284609,
+   "order": 1,
+   "type": 33,
+   "address": "GA2KBPUW3U473LPVII7HINQOVXJDWD64HX3ATWWOPMWKVAUCJ2BXEAER",
+   "address_muxed": null,
+   "details": {
+    "seller": "GDML5VADX2STNVOKGNC6ZNPJ3U4ZAPUECN7CJHN7Y6E2ZGOAWHJOMBMI",
+    "offer_id": 2,
+    "sold_amount": "0.0000300",
+    "bought_amount": "0.0000150",
+    "sold_asset_type": "native",
+    "bought_asset_code": "USD",
+    "bought_asset_type": "credit_alphanum4",
+    "bought_asset_issuer": "GDLKBAI4DBVK7TJ56Z54U7DA4MTG63KNUIG63XLCTCTQ3HMAC5DDIKK6"
+   }
+  },
+  {
+   "op_id": 94489284609,
+   "order": 2,
+   "type": 33,
+   "address": "GDML5VADX2STNVOKGNC6ZNPJ3U4ZAPUECN7CJHN7Y6E2ZGOAWHJOMBMI",
+   "address_muxed": null,
+   "details": {
+    "seller": "GA2KBPUW3U473LPVII7HINQOVXJDWD64HX3ATWWOPMWKVAUCJ2BXEAER",
+    "offer_id": 2,
+    "sold_amount": "0.0000150",
+    "bought_amount": "0.0000300",
+    "sold_asset_code": "USD",
+    "sold_asset_type": "credit_alphanum4",
+    "bought_asset_type": "native",
+    "sold_asset_issuer": "GDLKBAI4DBVK7TJ56Z54U7DA4MTG63KNUIG63XLCTCTQ3HMAC5DDIKK6"
+   }
+  }
+ ],
+ "history_transaction_participants": [
+  {
+   "tx_id": 94489284608,
+   "address": "GA2KBPUW3U473LPVII7HINQOVXJDWD64HX3ATWWOPMWKVAUCJ2BXEAER"
+  },
+  {
+   "tx_id": 94489284608,
+   "address": "GC4EFXBN6BEENDAX7PBW5PGIIIVH3INMD3OEPQASXOLGOHVVP7ZEMG7X"
+  }
+ ],
+ "history_operation_participants": [
+  {
+   "op_id": 94489284609,
+   "address": "GA2KBPUW3U473LPVII7HINQOVXJDWD64HX3ATWWOPMWKVAUCJ2BXEAER"
+  }
+ ]
+}

@@ -1,0 +1,78 @@
+{
+ "history_transactions": [
+  {
+   "id": 12884905984,
+   "transaction_hash": "6b6008c925d3a8f554f1654170d069d04b0f74919b1f2d353b6dd662fe9fed59",
+   "application_order": 1,
+   "successful": true,
+   "account": "GC4EFXBN6BEENDAX7PBW5PGIIIVH3INMD3OEPQASXOLGOHVVP7ZEMG7X",
+   "fee_account": null,
+   "account_muxed": null,
+   "fee_account_muxed": null,
+   "fee_charged": 100,
+   "operation_count": 1
+  }
+ ],
+ "history_operations": [
+  {
+   "id": 12884905985,
+   "transaction_id": 12884905984,
+   "application_order": 1,
+   "type": 15,
+   "source_account": "GC4EFXBN6BEENDAX7PBW5PGIIIVH3INMD3OEPQASXOLGOHVVP7ZEMG7X",
+   "source_account_muxed": null,
+   "details": {
+    "claimant": "GC4EFXBN6BEENDAX7PBW5PGIIIVH3INMD3OEPQASXOLGOHVVP7ZEMG7X",
+    "balance_id": "00000000cfb57d99a7a27840a262f480b8208ab74ebf726c0f093b50b0c3bef947e9a837"
+   }
+  }
+ ],
+ "history_effects": [
+  {
+   "op_id": 12884905985,
+   "order": 1,
+   "type": 52,
+   "address": "GC4EFXBN6BEENDAX7PBW5PGIIIVH3INMD3OEPQASXOLGOHVVP7ZEMG7X",
+   "address_muxed": null,
+   "details": {
+    "asset": "native",
+    "amount": "0.0000100",
+    "balance_id": "00000000cfb57d99a7a27840a262f480b8208ab74ebf726c0f093b50b0c3bef947e9a837"
+   }
+  },
+  {
+   "op_id": 12884905985,
+   "order": 2,
+   "type": 2,
+   "address": "GC4EFXBN6BEENDAX7PBW5PGIIIVH3INMD3OEPQASXOLGOHVVP7ZEMG7X",
+   "address_muxed": null,
+   "details": {
+    "amount": "0.0000100",
+    "asset_type": "native"
+   }
+  },
+  {
+   "op_id": 12884905985,
+   "order": 3,
+   "type": 71,
+   "address": "GC4EFXBN6BEENDAX7PBW5PGIIIVH3INMD3OEPQASXOLGOHVVP7ZEMG7X",
+   "address_muxed": null,
+   "details": {
+    "balance_id": "00000000cfb57d99a7a27840a262f480b8208ab74ebf726c0f093b50b0c3bef947e9a837",
+    "former_sponsor": "GC4EFXBN6BEENDAX7PBW5PGIIIVH3INMD3OEPQASXOLGOHVVP7ZEMG7X"
+   }
+  }
+ ],
+ "history_transaction_participants": [
+  {
+   "tx_id": 12884905984,
+   "address": "GC4EFXBN6BEENDAX7PBW5PGIIIVH3INMD3OEPQASXOLGOHVVP7ZEMG7X"
+  }
+ ],
+ "history_operation_participants": [
+  {
+   "op_id": 12884905985,
+   "address": "GC4EFXBN6BEENDAX7PBW5PGIIIVH3INMD3OEPQASXOLGOHVVP7ZEMG7X"
+  }
+ ]
+}

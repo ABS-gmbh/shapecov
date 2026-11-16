@@ -114,6 +114,14 @@ def balance_expectations(records, passphrase):
 CHECK_CHANGED = True
 
 
+# Who is a participant of a failed transaction. A failed transaction applies nothing but its fee
+# and sequence number, so wallet-backend records only what the meta shows: the source and any
+# fee-bump fee source (wallet-backend fixed this in three commits in September 2026, finding R11;
+# before them it recorded every address the envelope names). Horizon declares the other choice
+# (../horizon/expect.py).
+FAILED_TX_PARTICIPANTS = "meta"
+
+
 def participant_expectations(records, passphrase):
     """From oracle.participants(): the accounts whose account entry changed must be transaction
     participants, and nothing outside what the meta shows may be a transaction or operation

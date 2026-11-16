@@ -1,0 +1,119 @@
+{
+ "history_transactions": [
+  {
+   "id": 146028892160,
+   "transaction_hash": "543fd9bd516b85b1841f1fd9024e1a9b65db21ccc2c194eda99ea1217357a3af",
+   "application_order": 1,
+   "successful": true,
+   "account": "GCE4HENKZ3ZIHQY4VEYCVX5ZE5LNDIN3FH4MHZCWFKXQZGQIOGAO77CN",
+   "fee_account": null,
+   "account_muxed": null,
+   "fee_account_muxed": null,
+   "fee_charged": 94355,
+   "operation_count": 1
+  },
+  {
+   "id": 146028896256,
+   "transaction_hash": "6eefefedaa4b9bea283529805e2a49ece2bb0ecdf223646e360b66a899912bd9",
+   "application_order": 2,
+   "successful": false,
+   "account": "GBUSVINSYSCZ2U3IVAEDO6HJ3U3T7XKJMP2XAGPALOWOGHEL7KZKIF5I",
+   "fee_account": null,
+   "account_muxed": null,
+   "fee_account_muxed": null,
+   "fee_charged": 50799,
+   "operation_count": 1
+  }
+ ],
+ "history_operations": [
+  {
+   "id": 146028892161,
+   "transaction_id": 146028892160,
+   "application_order": 1,
+   "type": 24,
+   "source_account": "GCE4HENKZ3ZIHQY4VEYCVX5ZE5LNDIN3FH4MHZCWFKXQZGQIOGAO77CN",
+   "source_account_muxed": null,
+   "details": {
+    "function": "HostFunctionTypeHostFunctionTypeInvokeContract",
+    "parameters": [
+     {
+      "type": "Address",
+      "value": "AAAAEgAAAAEBuCkP1Jtb0TMPDqcYvepnKTIGIPZc4adjZXxXY4xYCw=="
+     },
+     {
+      "type": "Sym",
+      "value": "AAAADwAAABBleHRlbmRfdGVtcG9yYXJ5"
+     },
+     {
+      "type": "Sym",
+      "value": "AAAADwAAAARrZXky"
+     },
+     {
+      "type": "U32",
+      "value": "AAAAAwAAAZA="
+     },
+     {
+      "type": "U32",
+      "value": "AAAAAwAAAZA="
+     }
+    ],
+    "asset_balance_changes": null
+   }
+  },
+  {
+   "id": 146028896257,
+   "transaction_id": 146028896256,
+   "application_order": 1,
+   "type": 24,
+   "source_account": "GBUSVINSYSCZ2U3IVAEDO6HJ3U3T7XKJMP2XAGPALOWOGHEL7KZKIF5I",
+   "source_account_muxed": null,
+   "details": {
+    "function": "HostFunctionTypeHostFunctionTypeInvokeContract",
+    "parameters": [
+     {
+      "type": "Address",
+      "value": "AAAAEgAAAAEBuCkP1Jtb0TMPDqcYvepnKTIGIPZc4adjZXxXY4xYCw=="
+     },
+     {
+      "type": "Sym",
+      "value": "AAAADwAAABBleHRlbmRfdGVtcG9yYXJ5"
+     },
+     {
+      "type": "Sym",
+      "value": "AAAADwAAAARrZXky"
+     },
+     {
+      "type": "U32",
+      "value": "AAAAAwAAA+g="
+     },
+     {
+      "type": "U32",
+      "value": "AAAAAwAAA+g="
+     }
+    ],
+    "asset_balance_changes": null
+   }
+  }
+ ],
+ "history_effects": [],
+ "history_transaction_participants": [
+  {
+   "tx_id": 146028896256,
+   "address": "GBUSVINSYSCZ2U3IVAEDO6HJ3U3T7XKJMP2XAGPALOWOGHEL7KZKIF5I"
+  },
+  {
+   "tx_id": 146028892160,
+   "address": "GCE4HENKZ3ZIHQY4VEYCVX5ZE5LNDIN3FH4MHZCWFKXQZGQIOGAO77CN"
+  }
+ ],
+ "history_operation_participants": [
+  {
+   "op_id": 146028896257,
+   "address": "GBUSVINSYSCZ2U3IVAEDO6HJ3U3T7XKJMP2XAGPALOWOGHEL7KZKIF5I"
+  },
+  {
+   "op_id": 146028892161,
+   "address": "GCE4HENKZ3ZIHQY4VEYCVX5ZE5LNDIN3FH4MHZCWFKXQZGQIOGAO77CN"
+  }
+ ]
+}

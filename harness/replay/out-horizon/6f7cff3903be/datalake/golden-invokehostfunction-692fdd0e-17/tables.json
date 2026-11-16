@@ -1,0 +1,125 @@
+{
+ "history_transactions": [
+  {
+   "id": 81604382720,
+   "transaction_hash": "88f25cc7d51244c8c62b87b927a63e199248bd7f0ee287a20114e5a9251d1fb0",
+   "application_order": 1,
+   "successful": true,
+   "account": "GDYNRPVBGCK7JG7763OCCS7ZX3GRGZNOKSD67HMEZONGDC2CIL4QXWNF",
+   "fee_account": null,
+   "account_muxed": null,
+   "fee_account_muxed": null,
+   "fee_charged": 80296,
+   "operation_count": 1
+  }
+ ],
+ "history_operations": [
+  {
+   "id": 81604382721,
+   "transaction_id": 81604382720,
+   "application_order": 1,
+   "type": 24,
+   "source_account": "GDYNRPVBGCK7JG7763OCCS7ZX3GRGZNOKSD67HMEZONGDC2CIL4QXWNF",
+   "source_account_muxed": null,
+   "details": {
+    "function": "HostFunctionTypeHostFunctionTypeInvokeContract",
+    "parameters": [
+     {
+      "type": "Address",
+      "value": "AAAAEgAAAAG6o5MQXfdZaTAe2c6C7Mn+ONQGP5esCkHQentQXY6dQw=="
+     },
+     {
+      "type": "Sym",
+      "value": "AAAADwAAAAh0cmFuc2Zlcg=="
+     },
+     {
+      "type": "Address",
+      "value": "AAAAEgAAAAAAAAAA8Ni+oTCV9Jv/9twhS/m+zRNlrlSH752Ey5phi0JC+Qs="
+     },
+     {
+      "type": "Address",
+      "value": "AAAAEgAAAAAAAAAAWZAV0KSQekO8ivp4KN305go524pl/IrQVXxHhS1bFuU="
+     },
+     {
+      "type": "I128",
+      "value": "AAAACgAAAAAAAAAAAAAAAAvrwgA="
+     }
+    ],
+    "asset_balance_changes": [
+     {
+      "to": "GBMZAFOQUSIHUQ54RL5HQKG56TTAUOO3RJS7ZCWQKV6EPBJNLMLOKJPN",
+      "from": "GDYNRPVBGCK7JG7763OCCS7ZX3GRGZNOKSD67HMEZONGDC2CIL4QXWNF",
+      "type": "transfer",
+      "amount": "20.0000000",
+      "asset_type": "native"
+     }
+    ]
+   }
+  }
+ ],
+ "history_effects": [
+  {
+   "op_id": 81604382721,
+   "order": 1,
+   "type": 3,
+   "address": "GDYNRPVBGCK7JG7763OCCS7ZX3GRGZNOKSD67HMEZONGDC2CIL4QXWNF",
+   "address_muxed": null,
+   "details": {
+    "amount": "20.0000000",
+    "asset_type": "native"
+   }
+  },
+  {
+   "op_id": 81604382721,
+   "order": 2,
+   "type": 2,
+   "address": "GBMZAFOQUSIHUQ54RL5HQKG56TTAUOO3RJS7ZCWQKV6EPBJNLMLOKJPN",
+   "address_muxed": null,
+   "details": {
+    "amount": "20.0000000",
+    "asset_type": "native"
+   }
+  },
+  {
+   "op_id": 81604382721,
+   "order": 3,
+   "type": 0,
+   "address": "GBMZAFOQUSIHUQ54RL5HQKG56TTAUOO3RJS7ZCWQKV6EPBJNLMLOKJPN",
+   "address_muxed": null,
+   "details": {
+    "starting_balance": "20.0000000"
+   }
+  },
+  {
+   "op_id": 81604382721,
+   "order": 4,
+   "type": 10,
+   "address": "GBMZAFOQUSIHUQ54RL5HQKG56TTAUOO3RJS7ZCWQKV6EPBJNLMLOKJPN",
+   "address_muxed": null,
+   "details": {
+    "weight": 1,
+    "public_key": "GBMZAFOQUSIHUQ54RL5HQKG56TTAUOO3RJS7ZCWQKV6EPBJNLMLOKJPN"
+   }
+  }
+ ],
+ "history_transaction_participants": [
+  {
+   "tx_id": 81604382720,
+   "address": "GBMZAFOQUSIHUQ54RL5HQKG56TTAUOO3RJS7ZCWQKV6EPBJNLMLOKJPN"
+  },
+  {
+   "tx_id": 81604382720,
+   "address": "GDYNRPVBGCK7JG7763OCCS7ZX3GRGZNOKSD67HMEZONGDC2CIL4QXWNF"
+  }
+ ],
+ "history_operation_participants": [
+  {
+   "op_id": 81604382721,
+   "address": "GBMZAFOQUSIHUQ54RL5HQKG56TTAUOO3RJS7ZCWQKV6EPBJNLMLOKJPN"
+  },
+  {
+   "op_id": 81604382721,
+   "address": "GDYNRPVBGCK7JG7763OCCS7ZX3GRGZNOKSD67HMEZONGDC2CIL4QXWNF"
+  }
+ ]
+}

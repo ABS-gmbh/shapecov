@@ -1,0 +1,113 @@
+{
+ "observation_version": 1,
+ "adapter": "horizon",
+ "commit": "6f7cff3903be1df4fb980a12910a1313c5d7d8dd",
+ "input": "datalake",
+ "entry_id": "golden-invokehostfunction-692fdd0e-17",
+ "ledger_seq": 19,
+ "ingested": true,
+ "error": null,
+ "adapter_failure": false,
+ "transactions": [
+  {
+   "hash": "88f25cc7d51244c8c62b87b927a63e199248bd7f0ee287a20114e5a9251d1fb0",
+   "tx_order": 1,
+   "successful": true,
+   "result_code": null,
+   "participants": [
+    "GBMZAFOQUSIHUQ54RL5HQKG56TTAUOO3RJS7ZCWQKV6EPBJNLMLOKJPN",
+    "GDYNRPVBGCK7JG7763OCCS7ZX3GRGZNOKSD67HMEZONGDC2CIL4QXWNF"
+   ]
+  }
+ ],
+ "operations": [
+  {
+   "tx_hash": "88f25cc7d51244c8c62b87b927a63e199248bd7f0ee287a20114e5a9251d1fb0",
+   "tx_order": 1,
+   "op_order": 1,
+   "type": "invoke_host_function",
+   "participants": [
+    "GBMZAFOQUSIHUQ54RL5HQKG56TTAUOO3RJS7ZCWQKV6EPBJNLMLOKJPN",
+    "GDYNRPVBGCK7JG7763OCCS7ZX3GRGZNOKSD67HMEZONGDC2CIL4QXWNF"
+   ]
+  }
+ ],
+ "state_changes": [
+  {
+   "tx_hash": "88f25cc7d51244c8c62b87b927a63e199248bd7f0ee287a20114e5a9251d1fb0",
+   "tx_order": 1,
+   "op_order": 1,
+   "category": "EFFECT",
+   "reason": "account_debited",
+   "account": "GDYNRPVBGCK7JG7763OCCS7ZX3GRGZNOKSD67HMEZONGDC2CIL4QXWNF",
+   "signer_key": null,
+   "token": "native",
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "op_order": 1
+   }
+  },
+  {
+   "tx_hash": "88f25cc7d51244c8c62b87b927a63e199248bd7f0ee287a20114e5a9251d1fb0",
+   "tx_order": 1,
+   "op_order": 1,
+   "category": "EFFECT",
+   "reason": "account_credited",
+   "account": "GBMZAFOQUSIHUQ54RL5HQKG56TTAUOO3RJS7ZCWQKV6EPBJNLMLOKJPN",
+   "signer_key": null,
+   "token": "native",
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "op_order": 1
+   }
+  },
+  {
+   "tx_hash": "88f25cc7d51244c8c62b87b927a63e199248bd7f0ee287a20114e5a9251d1fb0",
+   "tx_order": 1,
+   "op_order": 1,
+   "category": "EFFECT",
+   "reason": "account_created",
+   "account": "GBMZAFOQUSIHUQ54RL5HQKG56TTAUOO3RJS7ZCWQKV6EPBJNLMLOKJPN",
+   "signer_key": null,
+   "token": null,
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "op_order": 1
+   }
+  },
+  {
+   "tx_hash": "88f25cc7d51244c8c62b87b927a63e199248bd7f0ee287a20114e5a9251d1fb0",
+   "tx_order": 1,
+   "op_order": 1,
+   "category": "EFFECT",
+   "reason": "signer_created",
+   "account": "GBMZAFOQUSIHUQ54RL5HQKG56TTAUOO3RJS7ZCWQKV6EPBJNLMLOKJPN",
+   "signer_key": "GBMZAFOQUSIHUQ54RL5HQKG56TTAUOO3RJS7ZCWQKV6EPBJNLMLOKJPN",
+   "token": null,
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "op_order": 1,
+    "weight": 1
+   }
+  }
+ ],
+ "unreadable": [],
+ "row_counts": {
+  "history_transactions": 1,
+  "history_operations": 1,
+  "history_effects": 4,
+  "history_transaction_participants": 2,
+  "history_operation_participants": 2
+ },
+ "command": "horizon db reingest range 19 19 --ledgerbackend datastore --datastore-config /cfg/datastore.toml --parallel-workers 1 --retries 0",
+ "exit_code": 0,
+ "seconds_to_outcome": 3.1
+}

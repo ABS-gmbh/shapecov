@@ -1,0 +1,96 @@
+{
+ "observation_version": 1,
+ "adapter": "horizon",
+ "commit": "6f7cff3903be1df4fb980a12910a1313c5d7d8dd",
+ "input": "datalake",
+ "entry_id": "golden-claimablebalance-3635a801-1",
+ "ledger_seq": 3,
+ "ingested": true,
+ "error": null,
+ "adapter_failure": false,
+ "transactions": [
+  {
+   "hash": "6b6008c925d3a8f554f1654170d069d04b0f74919b1f2d353b6dd662fe9fed59",
+   "tx_order": 1,
+   "successful": true,
+   "result_code": null,
+   "participants": [
+    "GC4EFXBN6BEENDAX7PBW5PGIIIVH3INMD3OEPQASXOLGOHVVP7ZEMG7X"
+   ]
+  }
+ ],
+ "operations": [
+  {
+   "tx_hash": "6b6008c925d3a8f554f1654170d069d04b0f74919b1f2d353b6dd662fe9fed59",
+   "tx_order": 1,
+   "op_order": 1,
+   "type": "claim_claimable_balance",
+   "participants": [
+    "GC4EFXBN6BEENDAX7PBW5PGIIIVH3INMD3OEPQASXOLGOHVVP7ZEMG7X"
+   ]
+  }
+ ],
+ "state_changes": [
+  {
+   "tx_hash": "6b6008c925d3a8f554f1654170d069d04b0f74919b1f2d353b6dd662fe9fed59",
+   "tx_order": 1,
+   "op_order": 1,
+   "category": "EFFECT",
+   "reason": "claimable_balance_claimed",
+   "account": "GC4EFXBN6BEENDAX7PBW5PGIIIVH3INMD3OEPQASXOLGOHVVP7ZEMG7X",
+   "signer_key": null,
+   "token": "native",
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "op_order": 1,
+    "balance_id": "00000000cfb57d99a7a27840a262f480b8208ab74ebf726c0f093b50b0c3bef947e9a837"
+   }
+  },
+  {
+   "tx_hash": "6b6008c925d3a8f554f1654170d069d04b0f74919b1f2d353b6dd662fe9fed59",
+   "tx_order": 1,
+   "op_order": 1,
+   "category": "EFFECT",
+   "reason": "account_credited",
+   "account": "GC4EFXBN6BEENDAX7PBW5PGIIIVH3INMD3OEPQASXOLGOHVVP7ZEMG7X",
+   "signer_key": null,
+   "token": "native",
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "op_order": 1
+   }
+  },
+  {
+   "tx_hash": "6b6008c925d3a8f554f1654170d069d04b0f74919b1f2d353b6dd662fe9fed59",
+   "tx_order": 1,
+   "op_order": 1,
+   "category": "EFFECT",
+   "reason": "claimable_balance_sponsorship_removed",
+   "account": "GC4EFXBN6BEENDAX7PBW5PGIIIVH3INMD3OEPQASXOLGOHVVP7ZEMG7X",
+   "signer_key": null,
+   "token": null,
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "op_order": 1,
+    "balance_id": "00000000cfb57d99a7a27840a262f480b8208ab74ebf726c0f093b50b0c3bef947e9a837"
+   }
+  }
+ ],
+ "unreadable": [],
+ "row_counts": {
+  "history_transactions": 1,
+  "history_operations": 1,
+  "history_effects": 3,
+  "history_transaction_participants": 1,
+  "history_operation_participants": 1
+ },
+ "command": "horizon db reingest range 3 3 --ledgerbackend datastore --datastore-config /cfg/datastore.toml --parallel-workers 1 --retries 0",
+ "exit_code": 0,
+ "seconds_to_outcome": 2.5
+}

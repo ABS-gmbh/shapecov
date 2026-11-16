@@ -1,0 +1,45 @@
+{
+ "observation_version": 1,
+ "adapter": "horizon",
+ "commit": "6f7cff3903be1df4fb980a12910a1313c5d7d8dd",
+ "input": "datalake",
+ "entry_id": "golden-frozenledgerkeys-a0fb94c3-15",
+ "ledger_seq": 17,
+ "ingested": true,
+ "error": null,
+ "adapter_failure": false,
+ "transactions": [
+  {
+   "hash": "21ac89ef9b4401d0a081419b2792c47effb71b8fe2f58d595f50c3b3e1b5cccb",
+   "tx_order": 1,
+   "successful": false,
+   "result_code": null,
+   "participants": [
+    "GCLO7ZAKQZIK2VS3DRVWFGCYLILXF7Q3SJEUV5WHTTZ7KHFDFXHJMOVJ"
+   ]
+  }
+ ],
+ "operations": [
+  {
+   "tx_hash": "21ac89ef9b4401d0a081419b2792c47effb71b8fe2f58d595f50c3b3e1b5cccb",
+   "tx_order": 1,
+   "op_order": 1,
+   "type": "claim_claimable_balance",
+   "participants": [
+    "GCLO7ZAKQZIK2VS3DRVWFGCYLILXF7Q3SJEUV5WHTTZ7KHFDFXHJMOVJ"
+   ]
+  }
+ ],
+ "state_changes": [],
+ "unreadable": [],
+ "row_counts": {
+  "history_transactions": 1,
+  "history_operations": 1,
+  "history_effects": 0,
+  "history_transaction_participants": 1,
+  "history_operation_participants": 1
+ },
+ "command": "horizon db reingest range 17 17 --ledgerbackend datastore --datastore-config /cfg/datastore.toml --parallel-workers 1 --retries 0",
+ "exit_code": 0,
+ "seconds_to_outcome": 2.6
+}

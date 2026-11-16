@@ -1,0 +1,99 @@
+{
+ "history_transactions": [
+  {
+   "id": 17179873280,
+   "transaction_hash": "0963ea7f88c349dc1c46290ae95e0f7736592921ee33229cafc5f045618a42a7",
+   "application_order": 1,
+   "successful": false,
+   "account": "GC4EFXBN6BEENDAX7PBW5PGIIIVH3INMD3OEPQASXOLGOHVVP7ZEMG7X",
+   "fee_account": null,
+   "account_muxed": null,
+   "fee_account_muxed": null,
+   "fee_charged": 400,
+   "operation_count": 4
+  }
+ ],
+ "history_operations": [
+  {
+   "id": 17179873281,
+   "transaction_id": 17179873280,
+   "application_order": 1,
+   "type": 16,
+   "source_account": "GC4EFXBN6BEENDAX7PBW5PGIIIVH3INMD3OEPQASXOLGOHVVP7ZEMG7X",
+   "source_account_muxed": null,
+   "details": {
+    "sponsored_id": "GCE4HENKZ3ZIHQY4VEYCVX5ZE5LNDIN3FH4MHZCWFKXQZGQIOGAO77CN"
+   }
+  },
+  {
+   "id": 17179873282,
+   "transaction_id": 17179873280,
+   "application_order": 2,
+   "type": 16,
+   "source_account": "GCE4HENKZ3ZIHQY4VEYCVX5ZE5LNDIN3FH4MHZCWFKXQZGQIOGAO77CN",
+   "source_account_muxed": null,
+   "details": {
+    "sponsored_id": "GBUSVINSYSCZ2U3IVAEDO6HJ3U3T7XKJMP2XAGPALOWOGHEL7KZKIF5I"
+   }
+  },
+  {
+   "id": 17179873283,
+   "transaction_id": 17179873280,
+   "application_order": 3,
+   "type": 17,
+   "source_account": "GBUSVINSYSCZ2U3IVAEDO6HJ3U3T7XKJMP2XAGPALOWOGHEL7KZKIF5I",
+   "source_account_muxed": null,
+   "details": {}
+  },
+  {
+   "id": 17179873284,
+   "transaction_id": 17179873280,
+   "application_order": 4,
+   "type": 17,
+   "source_account": "GCE4HENKZ3ZIHQY4VEYCVX5ZE5LNDIN3FH4MHZCWFKXQZGQIOGAO77CN",
+   "source_account_muxed": null,
+   "details": {}
+  }
+ ],
+ "history_effects": [],
+ "history_transaction_participants": [
+  {
+   "tx_id": 17179873280,
+   "address": "GBUSVINSYSCZ2U3IVAEDO6HJ3U3T7XKJMP2XAGPALOWOGHEL7KZKIF5I"
+  },
+  {
+   "tx_id": 17179873280,
+   "address": "GC4EFXBN6BEENDAX7PBW5PGIIIVH3INMD3OEPQASXOLGOHVVP7ZEMG7X"
+  },
+  {
+   "tx_id": 17179873280,
+   "address": "GCE4HENKZ3ZIHQY4VEYCVX5ZE5LNDIN3FH4MHZCWFKXQZGQIOGAO77CN"
+  }
+ ],
+ "history_operation_participants": [
+  {
+   "op_id": 17179873283,
+   "address": "GBUSVINSYSCZ2U3IVAEDO6HJ3U3T7XKJMP2XAGPALOWOGHEL7KZKIF5I"
+  },
+  {
+   "op_id": 17179873282,
+   "address": "GBUSVINSYSCZ2U3IVAEDO6HJ3U3T7XKJMP2XAGPALOWOGHEL7KZKIF5I"
+  },
+  {
+   "op_id": 17179873281,
+   "address": "GC4EFXBN6BEENDAX7PBW5PGIIIVH3INMD3OEPQASXOLGOHVVP7ZEMG7X"
+  },
+  {
+   "op_id": 17179873284,
+   "address": "GCE4HENKZ3ZIHQY4VEYCVX5ZE5LNDIN3FH4MHZCWFKXQZGQIOGAO77CN"
+  },
+  {
+   "op_id": 17179873282,
+   "address": "GCE4HENKZ3ZIHQY4VEYCVX5ZE5LNDIN3FH4MHZCWFKXQZGQIOGAO77CN"
+  },
+  {
+   "op_id": 17179873281,
+   "address": "GCE4HENKZ3ZIHQY4VEYCVX5ZE5LNDIN3FH4MHZCWFKXQZGQIOGAO77CN"
+  }
+ ]
+}

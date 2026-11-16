@@ -1,0 +1,85 @@
+{
+ "history_transactions": [
+  {
+   "id": 8589938688,
+   "transaction_hash": "a6f3a931dccdb245b78c9c7cdc7f3253700d68b7df677c9aec32ba465e5e3d21",
+   "application_order": 1,
+   "successful": true,
+   "account": "GC4EFXBN6BEENDAX7PBW5PGIIIVH3INMD3OEPQASXOLGOHVVP7ZEMG7X",
+   "fee_account": null,
+   "account_muxed": null,
+   "fee_account_muxed": null,
+   "fee_charged": 100,
+   "operation_count": 1
+  }
+ ],
+ "history_operations": [
+  {
+   "id": 8589938689,
+   "transaction_id": 8589938688,
+   "application_order": 1,
+   "type": 0,
+   "source_account": "GC4EFXBN6BEENDAX7PBW5PGIIIVH3INMD3OEPQASXOLGOHVVP7ZEMG7X",
+   "source_account_muxed": null,
+   "details": {
+    "funder": "GC4EFXBN6BEENDAX7PBW5PGIIIVH3INMD3OEPQASXOLGOHVVP7ZEMG7X",
+    "account": "GC6OLOMOOX5I4KKFOA6TO6IO4HBNLMSDTDFQPGHZ2TD6CNU5IOLB5OAL",
+    "starting_balance": "30.0000000"
+   }
+  }
+ ],
+ "history_effects": [
+  {
+   "op_id": 8589938689,
+   "order": 1,
+   "type": 0,
+   "address": "GC6OLOMOOX5I4KKFOA6TO6IO4HBNLMSDTDFQPGHZ2TD6CNU5IOLB5OAL",
+   "address_muxed": null,
+   "details": {
+    "starting_balance": "30.0000000"
+   }
+  },
+  {
+   "op_id": 8589938689,
+   "order": 2,
+   "type": 3,
+   "address": "GC4EFXBN6BEENDAX7PBW5PGIIIVH3INMD3OEPQASXOLGOHVVP7ZEMG7X",
+   "address_muxed": null,
+   "details": {
+    "amount": "30.0000000",
+    "asset_type": "native"
+   }
+  },
+  {
+   "op_id": 8589938689,
+   "order": 3,
+   "type": 10,
+   "address": "GC6OLOMOOX5I4KKFOA6TO6IO4HBNLMSDTDFQPGHZ2TD6CNU5IOLB5OAL",
+   "address_muxed": null,
+   "details": {
+    "weight": 1,
+    "public_key": "GC6OLOMOOX5I4KKFOA6TO6IO4HBNLMSDTDFQPGHZ2TD6CNU5IOLB5OAL"
+   }
+  }
+ ],
+ "history_transaction_participants": [
+  {
+   "tx_id": 8589938688,
+   "address": "GC4EFXBN6BEENDAX7PBW5PGIIIVH3INMD3OEPQASXOLGOHVVP7ZEMG7X"
+  },
+  {
+   "tx_id": 8589938688,
+   "address": "GC6OLOMOOX5I4KKFOA6TO6IO4HBNLMSDTDFQPGHZ2TD6CNU5IOLB5OAL"
+  }
+ ],
+ "history_operation_participants": [
+  {
+   "op_id": 8589938689,
+   "address": "GC4EFXBN6BEENDAX7PBW5PGIIIVH3INMD3OEPQASXOLGOHVVP7ZEMG7X"
+  },
+  {
+   "op_id": 8589938689,
+   "address": "GC6OLOMOOX5I4KKFOA6TO6IO4HBNLMSDTDFQPGHZ2TD6CNU5IOLB5OAL"
+  }
+ ]
+}

@@ -1,0 +1,117 @@
+{
+ "history_transactions": [
+  {
+   "id": 17179873280,
+   "transaction_hash": "d7f13aea2d65f8100761c57e55e5c41060df4701e5afe36a8e4c3eded542971f",
+   "application_order": 1,
+   "successful": false,
+   "account": "GBYOSWSKNHG2N2WAPP44KG5XUAAQX2GJQPG2BB5N4LNG4PODTATCK2IX",
+   "fee_account": null,
+   "account_muxed": null,
+   "fee_account_muxed": null,
+   "fee_charged": 100,
+   "operation_count": 1
+  },
+  {
+   "id": 17179877376,
+   "transaction_hash": "be633e1fa5e5da902a7fc85a2c9f3a13dd8de3b8bc66022f36e190d2a313a92b",
+   "application_order": 2,
+   "successful": true,
+   "account": "GBRPYHIL2CI3FNQ4BXLFMNDLFJUNPU2HY3ZMFSHONUCEOASW7QC7OX2H",
+   "fee_account": null,
+   "account_muxed": null,
+   "fee_account_muxed": null,
+   "fee_charged": 100,
+   "operation_count": 1
+  }
+ ],
+ "history_operations": [
+  {
+   "id": 17179873281,
+   "transaction_id": 17179873280,
+   "application_order": 1,
+   "type": 3,
+   "source_account": "GBYOSWSKNHG2N2WAPP44KG5XUAAQX2GJQPG2BB5N4LNG4PODTATCK2IX",
+   "source_account_muxed": null,
+   "details": {
+    "price": "1.0000000",
+    "amount": "1.0000000",
+    "price_r": {
+     "d": 1,
+     "n": 1
+    },
+    "offer_id": 9007199254740993,
+    "buying_asset_code": "USD",
+    "buying_asset_type": "credit_alphanum4",
+    "selling_asset_type": "native",
+    "buying_asset_issuer": "GBRPYHIL2CI3FNQ4BXLFMNDLFJUNPU2HY3ZMFSHONUCEOASW7QC7OX2H"
+   }
+  },
+  {
+   "id": 17179877377,
+   "transaction_id": 17179877376,
+   "application_order": 1,
+   "type": 1,
+   "source_account": "GBRPYHIL2CI3FNQ4BXLFMNDLFJUNPU2HY3ZMFSHONUCEOASW7QC7OX2H",
+   "source_account_muxed": null,
+   "details": {
+    "to": "GBYOSWSKNHG2N2WAPP44KG5XUAAQX2GJQPG2BB5N4LNG4PODTATCK2IX",
+    "from": "GBRPYHIL2CI3FNQ4BXLFMNDLFJUNPU2HY3ZMFSHONUCEOASW7QC7OX2H",
+    "amount": "1.0000000",
+    "asset_type": "native"
+   }
+  }
+ ],
+ "history_effects": [
+  {
+   "op_id": 17179877377,
+   "order": 1,
+   "type": 2,
+   "address": "GBYOSWSKNHG2N2WAPP44KG5XUAAQX2GJQPG2BB5N4LNG4PODTATCK2IX",
+   "address_muxed": null,
+   "details": {
+    "amount": "1.0000000",
+    "asset_type": "native"
+   }
+  },
+  {
+   "op_id": 17179877377,
+   "order": 2,
+   "type": 3,
+   "address": "GBRPYHIL2CI3FNQ4BXLFMNDLFJUNPU2HY3ZMFSHONUCEOASW7QC7OX2H",
+   "address_muxed": null,
+   "details": {
+    "amount": "1.0000000",
+    "asset_type": "native"
+   }
+  }
+ ],
+ "history_transaction_participants": [
+  {
+   "tx_id": 17179877376,
+   "address": "GBRPYHIL2CI3FNQ4BXLFMNDLFJUNPU2HY3ZMFSHONUCEOASW7QC7OX2H"
+  },
+  {
+   "tx_id": 17179877376,
+   "address": "GBYOSWSKNHG2N2WAPP44KG5XUAAQX2GJQPG2BB5N4LNG4PODTATCK2IX"
+  },
+  {
+   "tx_id": 17179873280,
+   "address": "GBYOSWSKNHG2N2WAPP44KG5XUAAQX2GJQPG2BB5N4LNG4PODTATCK2IX"
+  }
+ ],
+ "history_operation_participants": [
+  {
+   "op_id": 17179877377,
+   "address": "GBRPYHIL2CI3FNQ4BXLFMNDLFJUNPU2HY3ZMFSHONUCEOASW7QC7OX2H"
+  },
+  {
+   "op_id": 17179877377,
+   "address": "GBYOSWSKNHG2N2WAPP44KG5XUAAQX2GJQPG2BB5N4LNG4PODTATCK2IX"
+  },
+  {
+   "op_id": 17179873281,
+   "address": "GBYOSWSKNHG2N2WAPP44KG5XUAAQX2GJQPG2BB5N4LNG4PODTATCK2IX"
+  }
+ ]
+}

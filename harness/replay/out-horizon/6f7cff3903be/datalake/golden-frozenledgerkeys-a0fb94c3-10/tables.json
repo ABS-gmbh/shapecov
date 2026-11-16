@@ -1,0 +1,112 @@
+{
+ "history_transactions": [
+  {
+   "id": 51539611648,
+   "transaction_hash": "58acd92a9c9e0fb0e78b4a3c1caa6d1a48520004a7cd2c53c58ac25ffb1ee179",
+   "application_order": 1,
+   "successful": true,
+   "account": "GBIFX2QKGC6J4VRBEQDJZJSFZA43IQK2CYR3BF473UFC7VMSOOM2Z7SX",
+   "fee_account": null,
+   "account_muxed": null,
+   "fee_account_muxed": null,
+   "fee_charged": 100,
+   "operation_count": 1
+  }
+ ],
+ "history_operations": [
+  {
+   "id": 51539611649,
+   "transaction_id": 51539611648,
+   "application_order": 1,
+   "type": 14,
+   "source_account": "GBIFX2QKGC6J4VRBEQDJZJSFZA43IQK2CYR3BF473UFC7VMSOOM2Z7SX",
+   "source_account_muxed": null,
+   "details": {
+    "asset": "USD:GCGE27HU2VYQANKL2VZWLCAOJYMEFST5DXPBWQ7BRRPOHUPK626DNG4Q",
+    "amount": "0.0000100",
+    "sponsor": "GBIFX2QKGC6J4VRBEQDJZJSFZA43IQK2CYR3BF473UFC7VMSOOM2Z7SX",
+    "claimants": [
+     {
+      "predicate": {
+       "unconditional": true
+      },
+      "destination": "GCLO7ZAKQZIK2VS3DRVWFGCYLILXF7Q3SJEUV5WHTTZ7KHFDFXHJMOVJ"
+     }
+    ]
+   }
+  }
+ ],
+ "history_effects": [
+  {
+   "op_id": 51539611649,
+   "order": 1,
+   "type": 50,
+   "address": "GBIFX2QKGC6J4VRBEQDJZJSFZA43IQK2CYR3BF473UFC7VMSOOM2Z7SX",
+   "address_muxed": null,
+   "details": {
+    "asset": "USD:GCGE27HU2VYQANKL2VZWLCAOJYMEFST5DXPBWQ7BRRPOHUPK626DNG4Q",
+    "amount": "0.0000100",
+    "balance_id": "000000001da94a495496a5f1565e98d2a3ba83c798ddc43a94ecc81c29b43c764a233fa0"
+   }
+  },
+  {
+   "op_id": 51539611649,
+   "order": 2,
+   "type": 51,
+   "address": "GCLO7ZAKQZIK2VS3DRVWFGCYLILXF7Q3SJEUV5WHTTZ7KHFDFXHJMOVJ",
+   "address_muxed": null,
+   "details": {
+    "asset": "USD:GCGE27HU2VYQANKL2VZWLCAOJYMEFST5DXPBWQ7BRRPOHUPK626DNG4Q",
+    "amount": "0.0000100",
+    "predicate": {
+     "unconditional": true
+    },
+    "balance_id": "000000001da94a495496a5f1565e98d2a3ba83c798ddc43a94ecc81c29b43c764a233fa0"
+   }
+  },
+  {
+   "op_id": 51539611649,
+   "order": 3,
+   "type": 3,
+   "address": "GBIFX2QKGC6J4VRBEQDJZJSFZA43IQK2CYR3BF473UFC7VMSOOM2Z7SX",
+   "address_muxed": null,
+   "details": {
+    "amount": "0.0000100",
+    "asset_code": "USD",
+    "asset_type": "credit_alphanum4",
+    "asset_issuer": "GCGE27HU2VYQANKL2VZWLCAOJYMEFST5DXPBWQ7BRRPOHUPK626DNG4Q"
+   }
+  },
+  {
+   "op_id": 51539611649,
+   "order": 4,
+   "type": 69,
+   "address": "GBIFX2QKGC6J4VRBEQDJZJSFZA43IQK2CYR3BF473UFC7VMSOOM2Z7SX",
+   "address_muxed": null,
+   "details": {
+    "sponsor": "GBIFX2QKGC6J4VRBEQDJZJSFZA43IQK2CYR3BF473UFC7VMSOOM2Z7SX",
+    "balance_id": "000000001da94a495496a5f1565e98d2a3ba83c798ddc43a94ecc81c29b43c764a233fa0"
+   }
+  }
+ ],
+ "history_transaction_participants": [
+  {
+   "tx_id": 51539611648,
+   "address": "GBIFX2QKGC6J4VRBEQDJZJSFZA43IQK2CYR3BF473UFC7VMSOOM2Z7SX"
+  },
+  {
+   "tx_id": 51539611648,
+   "address": "GCLO7ZAKQZIK2VS3DRVWFGCYLILXF7Q3SJEUV5WHTTZ7KHFDFXHJMOVJ"
+  }
+ ],
+ "history_operation_participants": [
+  {
+   "op_id": 51539611649,
+   "address": "GBIFX2QKGC6J4VRBEQDJZJSFZA43IQK2CYR3BF473UFC7VMSOOM2Z7SX"
+  },
+  {
+   "op_id": 51539611649,
+   "address": "GCLO7ZAKQZIK2VS3DRVWFGCYLILXF7Q3SJEUV5WHTTZ7KHFDFXHJMOVJ"
+  }
+ ]
+}

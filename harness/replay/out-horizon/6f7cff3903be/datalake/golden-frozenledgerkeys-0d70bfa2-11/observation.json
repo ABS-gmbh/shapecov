@@ -1,0 +1,63 @@
+{
+ "observation_version": 1,
+ "adapter": "horizon",
+ "commit": "6f7cff3903be1df4fb980a12910a1313c5d7d8dd",
+ "input": "datalake",
+ "entry_id": "golden-frozenledgerkeys-0d70bfa2-11",
+ "ledger_seq": 13,
+ "ingested": true,
+ "error": null,
+ "adapter_failure": false,
+ "transactions": [
+  {
+   "hash": "9bab2b1450bff041ddf537598dae6ffb4f03734de33cb91f352cb332ca920519",
+   "tx_order": 1,
+   "successful": true,
+   "result_code": null,
+   "participants": [
+    "GBIFX2QKGC6J4VRBEQDJZJSFZA43IQK2CYR3BF473UFC7VMSOOM2Z7SX"
+   ]
+  }
+ ],
+ "operations": [
+  {
+   "tx_hash": "9bab2b1450bff041ddf537598dae6ffb4f03734de33cb91f352cb332ca920519",
+   "tx_order": 1,
+   "op_order": 1,
+   "type": "liquidity_pool_deposit",
+   "participants": [
+    "GBIFX2QKGC6J4VRBEQDJZJSFZA43IQK2CYR3BF473UFC7VMSOOM2Z7SX"
+   ]
+  }
+ ],
+ "state_changes": [
+  {
+   "tx_hash": "9bab2b1450bff041ddf537598dae6ffb4f03734de33cb91f352cb332ca920519",
+   "tx_order": 1,
+   "op_order": 1,
+   "category": "EFFECT",
+   "reason": "liquidity_pool_deposited",
+   "account": "GBIFX2QKGC6J4VRBEQDJZJSFZA43IQK2CYR3BF473UFC7VMSOOM2Z7SX",
+   "signer_key": null,
+   "token": null,
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "op_order": 1,
+    "liquidity_pool_id": "01fe897f55062bb2a1bf91e2e60c78cf6176a5bd8a847d10c56df0a6839731d8"
+   }
+  }
+ ],
+ "unreadable": [],
+ "row_counts": {
+  "history_transactions": 1,
+  "history_operations": 1,
+  "history_effects": 1,
+  "history_transaction_participants": 1,
+  "history_operation_participants": 1
+ },
+ "command": "horizon db reingest range 13 13 --ledgerbackend datastore --datastore-config /cfg/datastore.toml --parallel-workers 1 --retries 0",
+ "exit_code": 0,
+ "seconds_to_outcome": 2.9
+}

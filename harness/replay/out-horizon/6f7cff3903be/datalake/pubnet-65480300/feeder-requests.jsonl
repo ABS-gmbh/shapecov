@@ -1,0 +1,4 @@
+{"http": "GET", "keys": 1, "path": "/shapecov-lake?list-type=2&max-keys=1&prefix=pubnet-65480300%2F", "port": "s3", "status": 200, "t": 1794866749.828}
+{"http": "GET", "keys": 2, "path": "/shapecov-lake?fetch-owner=false&list-type=2&max-keys=1000&prefix=pubnet-65480300%2F&start-after=", "port": "s3", "status": 200, "t": 1794866749.881}
+{"http": "GET", "path": "/shapecov-lake/pubnet-65480300/.config.json?x-id=GetObject", "port": "s3", "size": 155, "status": 200, "t": 1794866749.925}
+{"http": "GET", "path": "/shapecov-lake/pubnet-65480300/FC18F9FF--65472000-65535999/FC18D993--65480300.xdr.zst?x-id=GetObject", "port": "s3", "size": 218928, "status": 200, "t": 1794866749.972}

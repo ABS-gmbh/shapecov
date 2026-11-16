@@ -1,0 +1,62 @@
+{
+ "observation_version": 1,
+ "adapter": "horizon",
+ "commit": "6f7cff3903be1df4fb980a12910a1313c5d7d8dd",
+ "input": "datalake",
+ "entry_id": "golden-invokehostfunction-4c437318-42",
+ "ledger_seq": 44,
+ "ingested": true,
+ "error": null,
+ "adapter_failure": false,
+ "transactions": [
+  {
+   "hash": "eab3ffad35f024566020f85092cfccba8a11e496ef14d2625c8c8418322e5cfe",
+   "tx_order": 1,
+   "successful": true,
+   "result_code": null,
+   "participants": [
+    "GCQGMTQJF7M5SJVFSMXOCDO5RTLWDUGCVIISMQW6UMBHTGQZU7TJEQG7"
+   ]
+  }
+ ],
+ "operations": [
+  {
+   "tx_hash": "eab3ffad35f024566020f85092cfccba8a11e496ef14d2625c8c8418322e5cfe",
+   "tx_order": 1,
+   "op_order": 1,
+   "type": "invoke_host_function",
+   "participants": [
+    "GCQGMTQJF7M5SJVFSMXOCDO5RTLWDUGCVIISMQW6UMBHTGQZU7TJEQG7"
+   ]
+  }
+ ],
+ "state_changes": [
+  {
+   "tx_hash": "eab3ffad35f024566020f85092cfccba8a11e496ef14d2625c8c8418322e5cfe",
+   "tx_order": 1,
+   "op_order": 1,
+   "category": "EFFECT",
+   "reason": "trustline_created",
+   "account": "GCQGMTQJF7M5SJVFSMXOCDO5RTLWDUGCVIISMQW6UMBHTGQZU7TJEQG7",
+   "signer_key": null,
+   "token": "IDR:GCGE27HU2VYQANKL2VZWLCAOJYMEFST5DXPBWQ7BRRPOHUPK626DNG4Q",
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "op_order": 1
+   }
+  }
+ ],
+ "unreadable": [],
+ "row_counts": {
+  "history_transactions": 1,
+  "history_operations": 1,
+  "history_effects": 1,
+  "history_transaction_participants": 1,
+  "history_operation_participants": 1
+ },
+ "command": "horizon db reingest range 44 44 --ledgerbackend datastore --datastore-config /cfg/datastore.toml --parallel-workers 1 --retries 0",
+ "exit_code": 0,
+ "seconds_to_outcome": 2.6
+}

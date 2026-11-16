@@ -1,0 +1,74 @@
+{
+ "history_transactions": [
+  {
+   "id": 55834578944,
+   "transaction_hash": "7f8569e42e4996f713649181e4308d8c1a7e2858bb9a52373db333949ba3ce24",
+   "application_order": 1,
+   "successful": true,
+   "account": "GCGE27HU2VYQANKL2VZWLCAOJYMEFST5DXPBWQ7BRRPOHUPK626DNG4Q",
+   "fee_account": null,
+   "account_muxed": null,
+   "fee_account_muxed": null,
+   "fee_charged": 100,
+   "operation_count": 1
+  }
+ ],
+ "history_operations": [
+  {
+   "id": 55834578945,
+   "transaction_id": 55834578944,
+   "application_order": 1,
+   "type": 21,
+   "source_account": "GCGE27HU2VYQANKL2VZWLCAOJYMEFST5DXPBWQ7BRRPOHUPK626DNG4Q",
+   "source_account_muxed": null,
+   "details": {
+    "trustor": "GCWM7PDTJC2J5QOYDJAIVXUMCW4K5A26BNJBZ5GS2OB4SKABJSC3XJBW",
+    "asset_code": "USD",
+    "asset_type": "credit_alphanum4",
+    "clear_flags": [
+     1
+    ],
+    "asset_issuer": "GCGE27HU2VYQANKL2VZWLCAOJYMEFST5DXPBWQ7BRRPOHUPK626DNG4Q",
+    "clear_flags_s": [
+     "authorized"
+    ]
+   }
+  }
+ ],
+ "history_effects": [
+  {
+   "op_id": 55834578945,
+   "order": 1,
+   "type": 26,
+   "address": "GCGE27HU2VYQANKL2VZWLCAOJYMEFST5DXPBWQ7BRRPOHUPK626DNG4Q",
+   "address_muxed": null,
+   "details": {
+    "trustor": "GCWM7PDTJC2J5QOYDJAIVXUMCW4K5A26BNJBZ5GS2OB4SKABJSC3XJBW",
+    "asset_code": "USD",
+    "asset_type": "credit_alphanum4",
+    "asset_issuer": "GCGE27HU2VYQANKL2VZWLCAOJYMEFST5DXPBWQ7BRRPOHUPK626DNG4Q",
+    "authorized_flag": false
+   }
+  }
+ ],
+ "history_transaction_participants": [
+  {
+   "tx_id": 55834578944,
+   "address": "GCGE27HU2VYQANKL2VZWLCAOJYMEFST5DXPBWQ7BRRPOHUPK626DNG4Q"
+  },
+  {
+   "tx_id": 55834578944,
+   "address": "GCWM7PDTJC2J5QOYDJAIVXUMCW4K5A26BNJBZ5GS2OB4SKABJSC3XJBW"
+  }
+ ],
+ "history_operation_participants": [
+  {
+   "op_id": 55834578945,
+   "address": "GCGE27HU2VYQANKL2VZWLCAOJYMEFST5DXPBWQ7BRRPOHUPK626DNG4Q"
+  },
+  {
+   "op_id": 55834578945,
+   "address": "GCWM7PDTJC2J5QOYDJAIVXUMCW4K5A26BNJBZ5GS2OB4SKABJSC3XJBW"
+  }
+ ]
+}

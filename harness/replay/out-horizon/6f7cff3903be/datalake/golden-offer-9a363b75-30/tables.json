@@ -1,0 +1,93 @@
+{
+ "history_transactions": [
+  {
+   "id": 137438957568,
+   "transaction_hash": "3fd44f31c6ae1d94bf43a8cfbb6a8596c628966c7b31fd486bb246efeb7b2226",
+   "application_order": 1,
+   "successful": true,
+   "account": "GBUSVINSYSCZ2U3IVAEDO6HJ3U3T7XKJMP2XAGPALOWOGHEL7KZKIF5I",
+   "fee_account": null,
+   "account_muxed": null,
+   "fee_account_muxed": null,
+   "fee_charged": 100,
+   "operation_count": 1
+  }
+ ],
+ "history_operations": [
+  {
+   "id": 137438957569,
+   "transaction_id": 137438957568,
+   "application_order": 1,
+   "type": 3,
+   "source_account": "GBUSVINSYSCZ2U3IVAEDO6HJ3U3T7XKJMP2XAGPALOWOGHEL7KZKIF5I",
+   "source_account_muxed": null,
+   "details": {
+    "price": "2.3333333",
+    "amount": "0.0000045",
+    "price_r": {
+     "d": 3,
+     "n": 7
+    },
+    "offer_id": 0,
+    "buying_asset_code": "CUR1",
+    "buying_asset_type": "credit_alphanum4",
+    "selling_asset_code": "CUR2",
+    "selling_asset_type": "credit_alphanum4",
+    "buying_asset_issuer": "GCGE27HU2VYQANKL2VZWLCAOJYMEFST5DXPBWQ7BRRPOHUPK626DNG4Q",
+    "selling_asset_issuer": "GCGE27HU2VYQANKL2VZWLCAOJYMEFST5DXPBWQ7BRRPOHUPK626DNG4Q"
+   }
+  }
+ ],
+ "history_effects": [
+  {
+   "op_id": 137438957569,
+   "order": 1,
+   "type": 33,
+   "address": "GBUSVINSYSCZ2U3IVAEDO6HJ3U3T7XKJMP2XAGPALOWOGHEL7KZKIF5I",
+   "address_muxed": null,
+   "details": {
+    "seller": "GCE4HENKZ3ZIHQY4VEYCVX5ZE5LNDIN3FH4MHZCWFKXQZGQIOGAO77CN",
+    "offer_id": 3,
+    "sold_amount": "0.0000043",
+    "bought_amount": "0.0000101",
+    "sold_asset_code": "CUR2",
+    "sold_asset_type": "credit_alphanum4",
+    "bought_asset_code": "CUR1",
+    "bought_asset_type": "credit_alphanum4",
+    "sold_asset_issuer": "GCGE27HU2VYQANKL2VZWLCAOJYMEFST5DXPBWQ7BRRPOHUPK626DNG4Q",
+    "bought_asset_issuer": "GCGE27HU2VYQANKL2VZWLCAOJYMEFST5DXPBWQ7BRRPOHUPK626DNG4Q"
+   }
+  },
+  {
+   "op_id": 137438957569,
+   "order": 2,
+   "type": 33,
+   "address": "GCE4HENKZ3ZIHQY4VEYCVX5ZE5LNDIN3FH4MHZCWFKXQZGQIOGAO77CN",
+   "address_muxed": null,
+   "details": {
+    "seller": "GBUSVINSYSCZ2U3IVAEDO6HJ3U3T7XKJMP2XAGPALOWOGHEL7KZKIF5I",
+    "offer_id": 3,
+    "sold_amount": "0.0000101",
+    "bought_amount": "0.0000043",
+    "sold_asset_code": "CUR1",
+    "sold_asset_type": "credit_alphanum4",
+    "bought_asset_code": "CUR2",
+    "bought_asset_type": "credit_alphanum4",
+    "sold_asset_issuer": "GCGE27HU2VYQANKL2VZWLCAOJYMEFST5DXPBWQ7BRRPOHUPK626DNG4Q",
+    "bought_asset_issuer": "GCGE27HU2VYQANKL2VZWLCAOJYMEFST5DXPBWQ7BRRPOHUPK626DNG4Q"
+   }
+  }
+ ],
+ "history_transaction_participants": [
+  {
+   "tx_id": 137438957568,
+   "address": "GBUSVINSYSCZ2U3IVAEDO6HJ3U3T7XKJMP2XAGPALOWOGHEL7KZKIF5I"
+  }
+ ],
+ "history_operation_participants": [
+  {
+   "op_id": 137438957569,
+   "address": "GBUSVINSYSCZ2U3IVAEDO6HJ3U3T7XKJMP2XAGPALOWOGHEL7KZKIF5I"
+  }
+ ]
+}

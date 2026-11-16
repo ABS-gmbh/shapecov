@@ -1,0 +1,100 @@
+{
+ "observation_version": 1,
+ "adapter": "horizon",
+ "commit": "6f7cff3903be1df4fb980a12910a1313c5d7d8dd",
+ "input": "datalake",
+ "entry_id": "golden-frozenledgerkeys-c8e33a7d-3",
+ "ledger_seq": 5,
+ "ingested": true,
+ "error": null,
+ "adapter_failure": false,
+ "transactions": [
+  {
+   "hash": "e98d24ffd42354ef6d38a5a44095872de9e19b4df145b03c04393d3bcd71bc60",
+   "tx_order": 1,
+   "successful": true,
+   "result_code": null,
+   "participants": [
+    "GC377LSPINW527GV5P75Z323MLNR7XIB646TWYXMYFEBXTSDKDBAWVOD",
+    "GCGGR2QLVC3JO7SPKF3E2N4BM5ET4OTBQ325T2B4KMD4AKXOS7VWLCQE"
+   ]
+  }
+ ],
+ "operations": [
+  {
+   "tx_hash": "e98d24ffd42354ef6d38a5a44095872de9e19b4df145b03c04393d3bcd71bc60",
+   "tx_order": 1,
+   "op_order": 1,
+   "type": "begin_sponsoring_future_reserves",
+   "participants": [
+    "GC377LSPINW527GV5P75Z323MLNR7XIB646TWYXMYFEBXTSDKDBAWVOD",
+    "GCGGR2QLVC3JO7SPKF3E2N4BM5ET4OTBQ325T2B4KMD4AKXOS7VWLCQE"
+   ]
+  },
+  {
+   "tx_hash": "e98d24ffd42354ef6d38a5a44095872de9e19b4df145b03c04393d3bcd71bc60",
+   "tx_order": 1,
+   "op_order": 2,
+   "type": "change_trust",
+   "participants": [
+    "GC377LSPINW527GV5P75Z323MLNR7XIB646TWYXMYFEBXTSDKDBAWVOD",
+    "GCGGR2QLVC3JO7SPKF3E2N4BM5ET4OTBQ325T2B4KMD4AKXOS7VWLCQE"
+   ]
+  },
+  {
+   "tx_hash": "e98d24ffd42354ef6d38a5a44095872de9e19b4df145b03c04393d3bcd71bc60",
+   "tx_order": 1,
+   "op_order": 3,
+   "type": "end_sponsoring_future_reserves",
+   "participants": [
+    "GC377LSPINW527GV5P75Z323MLNR7XIB646TWYXMYFEBXTSDKDBAWVOD",
+    "GCGGR2QLVC3JO7SPKF3E2N4BM5ET4OTBQ325T2B4KMD4AKXOS7VWLCQE"
+   ]
+  }
+ ],
+ "state_changes": [
+  {
+   "tx_hash": "e98d24ffd42354ef6d38a5a44095872de9e19b4df145b03c04393d3bcd71bc60",
+   "tx_order": 1,
+   "op_order": 2,
+   "category": "EFFECT",
+   "reason": "trustline_created",
+   "account": "GCGGR2QLVC3JO7SPKF3E2N4BM5ET4OTBQ325T2B4KMD4AKXOS7VWLCQE",
+   "signer_key": null,
+   "token": "USD:GCGE27HU2VYQANKL2VZWLCAOJYMEFST5DXPBWQ7BRRPOHUPK626DNG4Q",
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "op_order": 2
+   }
+  },
+  {
+   "tx_hash": "e98d24ffd42354ef6d38a5a44095872de9e19b4df145b03c04393d3bcd71bc60",
+   "tx_order": 1,
+   "op_order": 2,
+   "category": "EFFECT",
+   "reason": "trustline_sponsorship_created",
+   "account": "GCGGR2QLVC3JO7SPKF3E2N4BM5ET4OTBQ325T2B4KMD4AKXOS7VWLCQE",
+   "signer_key": null,
+   "token": "USD:GCGE27HU2VYQANKL2VZWLCAOJYMEFST5DXPBWQ7BRRPOHUPK626DNG4Q",
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "op_order": 2
+   }
+  }
+ ],
+ "unreadable": [],
+ "row_counts": {
+  "history_transactions": 1,
+  "history_operations": 3,
+  "history_effects": 2,
+  "history_transaction_participants": 2,
+  "history_operation_participants": 6
+ },
+ "command": "horizon db reingest range 5 5 --ledgerbackend datastore --datastore-config /cfg/datastore.toml --parallel-workers 1 --retries 0",
+ "exit_code": 0,
+ "seconds_to_outcome": 3.1
+}

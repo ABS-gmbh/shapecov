@@ -1,0 +1,85 @@
+{
+ "history_transactions": [
+  {
+   "id": 12884905984,
+   "transaction_hash": "de4fbfb564f56d44a1ff0e250363eac6baf605e45b2f1e1327c02537cd280642",
+   "application_order": 1,
+   "successful": true,
+   "account": "GBRPYHIL2CI3FNQ4BXLFMNDLFJUNPU2HY3ZMFSHONUCEOASW7QC7OX2H",
+   "fee_account": null,
+   "account_muxed": null,
+   "fee_account_muxed": null,
+   "fee_charged": 100,
+   "operation_count": 1
+  }
+ ],
+ "history_operations": [
+  {
+   "id": 12884905985,
+   "transaction_id": 12884905984,
+   "application_order": 1,
+   "type": 0,
+   "source_account": "GBRPYHIL2CI3FNQ4BXLFMNDLFJUNPU2HY3ZMFSHONUCEOASW7QC7OX2H",
+   "source_account_muxed": null,
+   "details": {
+    "funder": "GBRPYHIL2CI3FNQ4BXLFMNDLFJUNPU2HY3ZMFSHONUCEOASW7QC7OX2H",
+    "account": "GBYOSWSKNHG2N2WAPP44KG5XUAAQX2GJQPG2BB5N4LNG4PODTATCK2IX",
+    "starting_balance": "100.0000000"
+   }
+  }
+ ],
+ "history_effects": [
+  {
+   "op_id": 12884905985,
+   "order": 1,
+   "type": 0,
+   "address": "GBYOSWSKNHG2N2WAPP44KG5XUAAQX2GJQPG2BB5N4LNG4PODTATCK2IX",
+   "address_muxed": null,
+   "details": {
+    "starting_balance": "100.0000000"
+   }
+  },
+  {
+   "op_id": 12884905985,
+   "order": 2,
+   "type": 3,
+   "address": "GBRPYHIL2CI3FNQ4BXLFMNDLFJUNPU2HY3ZMFSHONUCEOASW7QC7OX2H",
+   "address_muxed": null,
+   "details": {
+    "amount": "100.0000000",
+    "asset_type": "native"
+   }
+  },
+  {
+   "op_id": 12884905985,
+   "order": 3,
+   "type": 10,
+   "address": "GBYOSWSKNHG2N2WAPP44KG5XUAAQX2GJQPG2BB5N4LNG4PODTATCK2IX",
+   "address_muxed": null,
+   "details": {
+    "weight": 1,
+    "public_key": "GBYOSWSKNHG2N2WAPP44KG5XUAAQX2GJQPG2BB5N4LNG4PODTATCK2IX"
+   }
+  }
+ ],
+ "history_transaction_participants": [
+  {
+   "tx_id": 12884905984,
+   "address": "GBRPYHIL2CI3FNQ4BXLFMNDLFJUNPU2HY3ZMFSHONUCEOASW7QC7OX2H"
+  },
+  {
+   "tx_id": 12884905984,
+   "address": "GBYOSWSKNHG2N2WAPP44KG5XUAAQX2GJQPG2BB5N4LNG4PODTATCK2IX"
+  }
+ ],
+ "history_operation_participants": [
+  {
+   "op_id": 12884905985,
+   "address": "GBRPYHIL2CI3FNQ4BXLFMNDLFJUNPU2HY3ZMFSHONUCEOASW7QC7OX2H"
+  },
+  {
+   "op_id": 12884905985,
+   "address": "GBYOSWSKNHG2N2WAPP44KG5XUAAQX2GJQPG2BB5N4LNG4PODTATCK2IX"
+  }
+ ]
+}

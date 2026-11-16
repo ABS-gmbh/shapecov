@@ -1,0 +1,71 @@
+{
+ "history_transactions": [
+  {
+   "id": 133143990272,
+   "transaction_hash": "f636408242881ab0a50c6a3711b1df69e8c969dd426030b2cada48b27aca722a",
+   "application_order": 1,
+   "successful": true,
+   "account": "GCE4HENKZ3ZIHQY4VEYCVX5ZE5LNDIN3FH4MHZCWFKXQZGQIOGAO77CN",
+   "fee_account": null,
+   "account_muxed": null,
+   "fee_account_muxed": null,
+   "fee_charged": 131002,
+   "operation_count": 1
+  },
+  {
+   "id": 133143994368,
+   "transaction_hash": "941908ce0629e399bf421409cb6a7c3f0f3e11294aa6f50e2cb97c7540da6c35",
+   "application_order": 2,
+   "successful": true,
+   "account": "GBUSVINSYSCZ2U3IVAEDO6HJ3U3T7XKJMP2XAGPALOWOGHEL7KZKIF5I",
+   "fee_account": null,
+   "account_muxed": null,
+   "fee_account_muxed": null,
+   "fee_charged": 265937,
+   "operation_count": 1
+  }
+ ],
+ "history_operations": [
+  {
+   "id": 133143990273,
+   "transaction_id": 133143990272,
+   "application_order": 1,
+   "type": 26,
+   "source_account": "GCE4HENKZ3ZIHQY4VEYCVX5ZE5LNDIN3FH4MHZCWFKXQZGQIOGAO77CN",
+   "source_account_muxed": null,
+   "details": {}
+  },
+  {
+   "id": 133143994369,
+   "transaction_id": 133143994368,
+   "application_order": 1,
+   "type": 25,
+   "source_account": "GBUSVINSYSCZ2U3IVAEDO6HJ3U3T7XKJMP2XAGPALOWOGHEL7KZKIF5I",
+   "source_account_muxed": null,
+   "details": {
+    "extend_to": 10000
+   }
+  }
+ ],
+ "history_effects": [],
+ "history_transaction_participants": [
+  {
+   "tx_id": 133143994368,
+   "address": "GBUSVINSYSCZ2U3IVAEDO6HJ3U3T7XKJMP2XAGPALOWOGHEL7KZKIF5I"
+  },
+  {
+   "tx_id": 133143990272,
+   "address": "GCE4HENKZ3ZIHQY4VEYCVX5ZE5LNDIN3FH4MHZCWFKXQZGQIOGAO77CN"
+  }
+ ],
+ "history_operation_participants": [
+  {
+   "op_id": 133143994369,
+   "address": "GBUSVINSYSCZ2U3IVAEDO6HJ3U3T7XKJMP2XAGPALOWOGHEL7KZKIF5I"
+  },
+  {
+   "op_id": 133143990273,
+   "address": "GCE4HENKZ3ZIHQY4VEYCVX5ZE5LNDIN3FH4MHZCWFKXQZGQIOGAO77CN"
+  }
+ ]
+}

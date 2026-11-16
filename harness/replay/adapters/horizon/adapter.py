@@ -39,6 +39,11 @@ PREFIX = os.environ.get("REPLAY_PREFIX", "shapecov-replay")
 DB = PREFIX + "-horizon-db"
 RUN = PREFIX + "-horizon"
 BUILD = PREFIX + "-horizon-build"
+# Go's module and build caches: Docker volumes, or, with REPLAY_GO_CACHE_DIR, two directories under
+# it, which CI keeps between runs so that a rebuild takes about a minute instead of nine.
+_GO_CACHE_DIR = os.environ.get("REPLAY_GO_CACHE_DIR")
+GO_CACHE = ((os.path.join(_GO_CACHE_DIR, "mod"), os.path.join(_GO_CACHE_DIR, "build")) if _GO_CACHE_DIR
+            else ("shapecov-replay-gomod", "shapecov-replay-gobuild"))
 DB_URL = "postgres://postgres@%s:5432/horizon?sslmode=disable" % DB
 # stellar-core's test networks and the local scenarios are on other passphrases; Horizon takes any.
 STRKEY = re.compile(r"^[GMCPTXLB][A-Z2-7]{55,}$")
@@ -111,9 +116,12 @@ def prepare(a):
     go_image = os.environ.get("REPLAY_HORIZON_GO_IMAGE", go_image)
     t0 = time.time()
     sh(["docker", "rm", "-f", BUILD], check=False)
+    if _GO_CACHE_DIR:
+        for d in GO_CACHE:
+            os.makedirs(d, exist_ok=True)
     # Network is needed here only: `go mod download` fetches the modules the commit pins.
     build = sh(["docker", "run", "--rm", "--name", BUILD, "-v", src + ":/src:ro", "-v", bindir + ":/out",
-                "-v", "shapecov-replay-gomod:/go/pkg/mod", "-v", "shapecov-replay-gobuild:/root/.cache/go-build",
+                "-v", GO_CACHE[0] + ":/go/pkg/mod", "-v", GO_CACHE[1] + ":/root/.cache/go-build",
                 "-w", "/src", "-e", "GOFLAGS=-buildvcs=false -mod=readonly", go_image, "sh", "-c",
                 "go version && go mod download && go build -o /out/%s ." % binary_name(commit)], check=False)
     with open(os.path.join(bindir, binary_name(commit) + ".build.log"), "w") as f:

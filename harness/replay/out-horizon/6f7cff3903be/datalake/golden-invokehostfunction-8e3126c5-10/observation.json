@@ -1,0 +1,81 @@
+{
+ "observation_version": 1,
+ "adapter": "horizon",
+ "commit": "6f7cff3903be1df4fb980a12910a1313c5d7d8dd",
+ "input": "datalake",
+ "entry_id": "golden-invokehostfunction-8e3126c5-10",
+ "ledger_seq": 12,
+ "ingested": true,
+ "error": null,
+ "adapter_failure": false,
+ "transactions": [
+  {
+   "hash": "b804360db5c7e2e0510bb53703b6601a08a7f7465e6c0f066f518829cb363530",
+   "tx_order": 1,
+   "successful": true,
+   "result_code": null,
+   "participants": [
+    "GBUXPCT3RN3GEHVVBOD5H32TZ6F3LZ7XNI2JSHBH7XOLEGKMMH4T2RZX",
+    "GDOUGA3K7OY4LVVLLG6VEERNVNWUWSXUEFJFYB3QHD7HOY2EFCP3E4GE"
+   ]
+  },
+  {
+   "hash": "60b5b665fa46886a7ea97d7e83c58fb8ede7e78aa1aba9cf5fb658decb23571f",
+   "tx_order": 2,
+   "successful": false,
+   "result_code": null,
+   "participants": [
+    "GDOUGA3K7OY4LVVLLG6VEERNVNWUWSXUEFJFYB3QHD7HOY2EFCP3E4GE"
+   ]
+  }
+ ],
+ "operations": [
+  {
+   "tx_hash": "b804360db5c7e2e0510bb53703b6601a08a7f7465e6c0f066f518829cb363530",
+   "tx_order": 1,
+   "op_order": 1,
+   "type": "set_options",
+   "participants": [
+    "GDOUGA3K7OY4LVVLLG6VEERNVNWUWSXUEFJFYB3QHD7HOY2EFCP3E4GE"
+   ]
+  },
+  {
+   "tx_hash": "60b5b665fa46886a7ea97d7e83c58fb8ede7e78aa1aba9cf5fb658decb23571f",
+   "tx_order": 2,
+   "op_order": 1,
+   "type": "invoke_host_function",
+   "participants": [
+    "GDOUGA3K7OY4LVVLLG6VEERNVNWUWSXUEFJFYB3QHD7HOY2EFCP3E4GE"
+   ]
+  }
+ ],
+ "state_changes": [
+  {
+   "tx_hash": "b804360db5c7e2e0510bb53703b6601a08a7f7465e6c0f066f518829cb363530",
+   "tx_order": 1,
+   "op_order": 1,
+   "category": "EFFECT",
+   "reason": "signer_removed",
+   "account": "GDOUGA3K7OY4LVVLLG6VEERNVNWUWSXUEFJFYB3QHD7HOY2EFCP3E4GE",
+   "signer_key": "GDOUGA3K7OY4LVVLLG6VEERNVNWUWSXUEFJFYB3QHD7HOY2EFCP3E4GE",
+   "token": null,
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "op_order": 1
+   }
+  }
+ ],
+ "unreadable": [],
+ "row_counts": {
+  "history_transactions": 2,
+  "history_operations": 2,
+  "history_effects": 1,
+  "history_transaction_participants": 3,
+  "history_operation_participants": 2
+ },
+ "command": "horizon db reingest range 12 12 --ledgerbackend datastore --datastore-config /cfg/datastore.toml --parallel-workers 1 --retries 0",
+ "exit_code": 0,
+ "seconds_to_outcome": 5.7
+}

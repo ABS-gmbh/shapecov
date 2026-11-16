@@ -1,0 +1,28 @@
+{
+ "job_version": 1,
+ "entry_id": "golden-pathpayment-34519f44-22",
+ "ref": "v30.0.1",
+ "commit": "6f7cff3903be1df4fb980a12910a1313c5d7d8dd",
+ "input": "datalake",
+ "network_passphrase": "(V) (;,,;) (V)",
+ "ledger": {
+  "seq": 24,
+  "hash": "5e593cdb56bf93660c1aebb7b0c7a6904d05d70a07201e9100bff7e378de6978",
+  "close_time": 0,
+  "protocol": 30
+ },
+ "rpc": {
+  "url": "http://shapecov-hz-feeder:8000/rpc/golden-pathpayment-34519f44-22"
+ },
+ "datalake": {
+  "s3_endpoint": "http://shapecov-hz-feeder:9000",
+  "bucket_path": "shapecov-lake/golden-pathpayment-34519f44-22",
+  "region": "us-east-1"
+ },
+ "history_archive": {
+  "url": "http://shapecov-hz-feeder:8000/archive/golden-pathpayment-34519f44-22"
+ },
+ "docker_network": "shapecov-hz-net",
+ "timeout_seconds": 120,
+ "work_dir": "$REPLAY_WORK"
+}
