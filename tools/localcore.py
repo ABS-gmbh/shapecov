@@ -62,6 +62,12 @@ Scenarios (one per run):
                      account 2^53 + 1 stroops, then that account (as its operation's source, signing
                      too) merges into a third, which receives a balance above 2^53. Amounts a reader
                      that keeps stroops in a float64 rounds, and a successful merge.
+  frozen-claim-p28   Protocol 28, stellar-core 30.0.0. A Soroban configuration upgrade freezes one
+                     account's trustline (CAP-77, from protocol 26); in the next ledger that account
+                     claims a claimable balance of the asset, which fails when applied with
+                     CLAIM_CLAIMABLE_BALANCE_TRUSTLINE_FROZEN. The upgrade's transactions come from
+                     stellar-core's own get-settings-upgrade-txs. Built after reading wallet-backend
+                     7b7ee5f0.
   deployer-cb-p28    Protocol 28, stellar-core 30.0.0. One ledger with two transactions naming a
                      claimable balance as the address that deploys a contract: a native-asset transfer
                      that succeeds and carries an unused authorization entry declaring such a deploy,
@@ -110,7 +116,8 @@ IMAGE_V22 = "stellar/stellar-core:22.2.1-2429.e70f0aed8.focal"
 SCENARIOS = {"muxed-source-p22": IMAGE_V22, "classic-p22": IMAGE_V22, "pools-sponsorship-p30": IMAGE,
              "flags-preauth-p30": IMAGE, "muxed-source-refused-p24": IMAGE, "memo-and-offer-p30": IMAGE,
              "sac-trust-p28": IMAGE, "participants-p28": IMAGE, "failures-p30": IMAGE, "big-merge-p30": IMAGE,
-             "trustline-churn-p28": IMAGE, "deployer-cb-p28": IMAGE}
+             "trustline-churn-p28": IMAGE, "deployer-cb-p28": IMAGE,
+             "frozen-claim-p28": IMAGE}
 NAME = "shapecov-localcore-gen"
 PASSPHRASES = {"testnet": "Test SDF Network ; September 2015",
                "pubnet": "Public Global Stellar Network ; September 2015"}
@@ -326,6 +333,8 @@ def main():
             sac_trust_p28(core, enc, dec, root, step, run)
         elif a.scenario == "big-merge-p30":
             big_merge_p30(core, enc, root, step, run)
+        elif a.scenario == "frozen-claim-p28":
+            frozen_claim_p28(core, enc, dec, root, step, run)
         elif a.scenario == "deployer-cb-p28":
             deployer_cb_p28(core, enc, root, step, run)
         elif a.scenario == "trustline-churn-p28":
@@ -740,6 +749,94 @@ def big_merge_p30(core, enc, root, step, run):
         raise SystemExit("the payment and merge were refused; see the diagnostics above")
     run["ledger_big_merge"] = core.close()
 
+
+
+def frozen_claim_p28(core, enc, dec, root, step, run):
+    """A claim that fails on a frozen trustline: CLAIM_CLAIMABLE_BALANCE_TRUSTLINE_FROZEN."""
+    core.upgrade(28)
+    holder = Keys("frozen claim holder")
+    run["holder"] = strkey.account(holder.pub)
+    frz = {"type": "ASSET_TYPE_CREDIT_ALPHANUM4", "alphaNum4": {"assetCode": b"FRZ\0".hex(), "issuer": root.account()}}
+    blob, h = envelope(enc, core, tx(root.muxed(), 1, [op("CREATE_ACCOUNT", "createAccountOp", {
+        "destination": holder.account(), "startingBalance": 100_0000000})]), root)
+    step("frozen-claim-p28: create holder", 28, blob, h, "PENDING, applied")
+    born = core.close() << 32
+    blob, h = envelope(enc, core, tx(holder.muxed(), born + 1, [op("CHANGE_TRUST", "changeTrustOp", {
+        "line": frz, "limit": 2 ** 63 - 1})]), holder)
+    step("frozen-claim-p28: trust FRZ", 28, blob, h, "PENDING, applied")
+    core.close()
+    claimant = {"type": "CLAIMANT_TYPE_V0", "v0": {"destination": holder.account(),
+                                                   "predicate": {"type": "CLAIM_PREDICATE_UNCONDITIONAL"}}}
+    blob, h = envelope(enc, core, tx(root.muxed(), 2, [op("CREATE_CLAIMABLE_BALANCE", "createClaimableBalanceOp", {
+        "asset": frz, "amount": 50_0000000, "claimants": [claimant]})]), root)
+    step("frozen-claim-p28: claimable balance of FRZ", 28, blob, h, "PENDING, applied")
+    core.close()
+    balance_id = {"type": "CLAIMABLE_BALANCE_ID_TYPE_V0", "v0": hashlib.sha256(enc.encode("HashIDPreimage", {
+        "type": "ENVELOPE_TYPE_OP_ID", "operationID": {"sourceAccount": root.account(), "seqNum": 2, "opNum": 0}})).hexdigest()}
+
+    # Freeze the holder's FRZ trustline through a configuration upgrade (CONFIG_SETTING_FROZEN_LEDGER_KEYS_DELTA).
+    tl_key = enc.encode("LedgerKey", {"type": "TRUSTLINE", "trustLine": {"accountID": holder.account(), "asset": frz}})
+    upgrade = enc.encode("ConfigUpgradeSet", {"updatedEntry": [{
+        "configSettingID": "CONFIG_SETTING_FROZEN_LEDGER_KEYS_DELTA",
+        "frozenLedgerKeysDelta": {"keysToFreeze": [tl_key.hex()], "keysToUnfreeze": []}}]})
+    out = sh(["docker", "exec", NAME, "stellar-core", "get-settings-upgrade-txs", strkey.account(root.pub), "2",
+              core.passphrase, "--xdr", base64.b64encode(upgrade).decode()]).split()
+    envs = [x for x in out if x.startswith("AAAAAg")]
+    key_b64 = out[-1]
+    if len(envs) != 3:
+        raise SystemExit("get-settings-upgrade-txs gave %d envelopes" % len(envs))
+    # stellar-core 30.0.0 prints the restore, upload and create transactions but not the invocation
+    # that writes the upgrade bytes; that one is built here from the key it prints.
+    txs = [dec.decode("TransactionEnvelope", base64.b64decode(raw))["v1"]["tx"] for raw in envs]
+    # The command picks a random salt for the upgrade contract; a fixed one keeps the ledgers reproducible.
+    create = txs[2]["operations"][0]["body"]["invokeHostFunctionOp"]["hostFunction"]["createContract"]
+    old_id = hashlib.sha256(enc.encode("HashIDPreimage", {"type": "ENVELOPE_TYPE_CONTRACT_ID", "contractID": {
+        "networkID": core.network_id.hex(), "contractIDPreimage": create["contractIDPreimage"]}})).hexdigest()
+    old_salt = create["contractIDPreimage"]["fromAddress"]["salt"]
+    new_salt = hashlib.sha256(b"shapecov frozen claim upgrade").hexdigest()
+    create["contractIDPreimage"]["fromAddress"]["salt"] = new_salt
+    new_id = hashlib.sha256(enc.encode("HashIDPreimage", {"type": "ENVELOPE_TYPE_CONTRACT_ID", "contractID": {
+        "networkID": core.network_id.hex(), "contractIDPreimage": create["contractIDPreimage"]}})).hexdigest()
+    # the salt is also in the operation's authorization entry, the contract ID in its footprint
+    txs[2] = json.loads(json.dumps(txs[2]).replace(old_id, new_id).replace(old_salt, new_salt))
+    create = txs[2]["operations"][0]["body"]["invokeHostFunctionOp"]["hostFunction"]["createContract"]
+    key_b64 = base64.b64encode(enc.encode("ConfigUpgradeSetKey", {
+        "contractID": new_id, "contentHash": hashlib.sha256(upgrade).hexdigest()})).decode()
+    for name, t in zip(("restore upgrade wasm", "upload upgrade wasm", "create upgrade contract"), txs):
+        blob, h = envelope(enc, core, t, root)
+        if step("frozen-claim-p28: " + name, 28, blob, h, "PENDING, applied")["status"] != "PENDING":
+            raise SystemExit("%s was refused; see the diagnostics above" % name)
+        core.close()
+    key = dec.decode("ConfigUpgradeSetKey", base64.b64decode(key_b64))
+    contract = {"type": "SC_ADDRESS_TYPE_CONTRACT", "contractId": key["contractID"]}
+    wasm_hash = create["executable"]["wasm_hash"]
+    write = {"sourceAccount": None, "body": {"type": "INVOKE_HOST_FUNCTION", "invokeHostFunctionOp": {
+        "hostFunction": {"type": "HOST_FUNCTION_TYPE_INVOKE_CONTRACT", "invokeContract": {
+            "contractAddress": contract, "functionName": "write",
+            "args": [{"type": "SCV_BYTES", "bytes": upgrade.hex()}]}},
+        "auth": []}}}
+    soroban = {"ext": {"v": 0}, "resources": {"footprint": {
+        "readOnly": [{"type": "CONTRACT_DATA", "contractData": {"contract": contract,
+                      "key": {"type": "SCV_LEDGER_KEY_CONTRACT_INSTANCE"}, "durability": "PERSISTENT"}},
+                     {"type": "CONTRACT_CODE", "contractCode": {"hash": wasm_hash}}],
+        "readWrite": [{"type": "CONTRACT_DATA", "contractData": {"contract": contract,
+                       "key": {"type": "SCV_BYTES", "bytes": key["contentHash"]}, "durability": "TEMPORARY"}}]},
+        "instructions": 10_000_000, "diskReadBytes": 20_000, "writeBytes": 5_000}, "resourceFee": 50_000_000}
+    blob, h = envelope(enc, core, tx(root.muxed(), 6, [write], fee=50_010_000, soroban=soroban), root)
+    if step("frozen-claim-p28: write upgrade bytes", 28, blob, h, "PENDING, applied")["status"] != "PENDING":
+        raise SystemExit("writing the upgrade bytes was refused; see the diagnostics above")
+    core.close()
+    answer = core.http("upgrades?mode=set&upgradetime=1970-01-01T00:00:00Z&configupgradesetkey="
+                       + urllib.parse.quote(key_b64, safe=""))
+    if "rror" in json.dumps(answer):
+        raise SystemExit("the configuration upgrade was not armed: %s" % answer)
+    run["freeze_upgrade_seq"] = core.close()  # the upgrade ledger; not a corpus entry
+    blob, h = envelope(enc, core, tx(holder.muxed(), born + 2, [op("CLAIM_CLAIMABLE_BALANCE", "claimClaimableBalanceOp", {
+        "balanceID": balance_id})]), holder)
+    run["tx_claim"] = h
+    if step("frozen-claim-p28: claim on a frozen trustline", 28, blob, h, "PENDING, fails when applied")["status"] != "PENDING":
+        raise SystemExit("the claim was refused; see the diagnostics above")
+    run["ledger_frozen_claim"] = core.close()
 
 
 def deployer_cb_p28(core, enc, root, step, run):

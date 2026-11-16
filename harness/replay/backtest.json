@@ -563,9 +563,20 @@
    "fix": "7b7ee5f0",
    "parent": "bb0b162b",
    "title": "map the three frozen-trustline operation result codes",
-   "verdict": "missed",
-   "entries": [],
-   "what_would_catch_it": "A claim, deposit or withdraw failing on a frozen trustline at protocol 26 to 28. The corpus has them only at protocol 30 (`golden-frozenledgerkeys-a0fb94c3-15`, `-d637d647-16`), which the commits before the fix cannot decode: a local-core scenario that freezes a trustline at protocol 26 to 28. The codes exist from protocol 26, but freezing a ledger key takes a Soroban configuration upgrade (a ConfigUpgradeSet written by a contract, then armed); not built, as it would give one detection made after reading the fix."
+   "verdict": "detected",
+   "entries": [
+    {
+     "entry": "localcore-frozen-claim-11",
+     "results": "pass1",
+     "blind": false,
+     "parent": {
+      "indexer: mishandled": 1,
+      "unexplained": 1
+     },
+     "fix": {}
+    }
+   ],
+   "what_would_catch_it": null
   },
   {
    "id": "ba821579",

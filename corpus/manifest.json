@@ -17443,6 +17443,113 @@
     "core_golden": "not_applicable"
    },
    "sightings": []
+  },
+  {
+   "id": "localcore-frozen-claim-11",
+   "title": "Local stellar-core, scenario frozen-claim-p28: a claim that fails on a frozen trustline",
+   "xdr_type": "LedgerCloseMeta",
+   "file": "entries/localcore-frozen-claim-11.LedgerCloseMeta.xdr.b64",
+   "sha256": "335a78b3751fe531116c205d67e0bb34a5ff474b761da3fde890c2e796f6ab07",
+   "size_bytes": 1596,
+   "protocol_version": 28,
+   "caps": [],
+   "synthetic": false,
+   "source": {
+    "kind": "local_stellar_core",
+    "stellar_core_version": "stellar-core 30.0.0 (0e49751aa9ddf892302cca02cea7f3f5d97df9f1)",
+    "image": "stellar/stellar-core:30.0.0-3642.0e49751aa.noble",
+    "network_passphrase": "Test SDF Network ; September 2015",
+    "ledger_seq": 11,
+    "ledger_hash": "ef25521a899d82af4dbcac63301f064c4efd8f0cec1b5c8b53c02b365e71271f",
+    "scenario": "frozen-claim",
+    "generator": "tools/localcore.py",
+    "notes": "Standalone network, manual close, fixed keys and close times; see the scenario in tools/localcore.py."
+   },
+   "shape": "Protocol 28. The previous ledger applied a Soroban configuration upgrade (CONFIG_SETTING_FROZEN_LEDGER_KEYS_DELTA, CAP-77) that freezes the claimant's FRZ trustline; here the claimant claims a claimable balance of FRZ, and the operation fails when applied with CLAIM_CLAIMABLE_BALANCE_TRUSTLINE_FROZEN, a result code that exists from protocol 26. An indexer with no mapping for the code cannot convert the operation (wallet-backend 7b7ee5f0).",
+   "patterns": {
+    "failed-transaction": "v2.txProcessing[0].result.result.result",
+    "scval-wide-integer": "v2.txProcessing[0].txApplyProcessing.v4.events[0].event.body.v0.data"
+   },
+   "designated": {
+    "patterns": [],
+    "cells": []
+   },
+   "cells": [
+    "arm:AccountEntryExt.1",
+    "arm:AccountEntryExtensionV1Ext.2",
+    "arm:AccountEntryExtensionV2Ext.3",
+    "arm:ClaimClaimableBalanceResult.CLAIM_CLAIMABLE_BALANCE_TRUSTLINE_FROZEN",
+    "arm:ClaimableBalanceID.CLAIMABLE_BALANCE_ID_TYPE_V0",
+    "arm:ContractEventBody.0",
+    "arm:ExtensionPoint.0",
+    "arm:GeneralizedTransactionSet.1",
+    "arm:LedgerCloseMeta.2",
+    "arm:LedgerCloseMetaExt.0",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_STATE",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_UPDATED",
+    "arm:LedgerEntryData.ACCOUNT",
+    "arm:LedgerEntryExt.0",
+    "arm:LedgerHeaderExt.0",
+    "arm:LedgerHeaderHistoryEntryExt.0",
+    "arm:Memo.MEMO_NONE",
+    "arm:MuxedAccount.KEY_TYPE_ED25519",
+    "arm:OperationBody.CLAIM_CLAIMABLE_BALANCE",
+    "arm:OperationResult.opINNER",
+    "arm:OperationResultTr.CLAIM_CLAIMABLE_BALANCE",
+    "arm:Preconditions.PRECOND_NONE",
+    "arm:PublicKey.PUBLIC_KEY_TYPE_ED25519",
+    "arm:SCAddress.SC_ADDRESS_TYPE_ACCOUNT",
+    "arm:SCVal.SCV_ADDRESS",
+    "arm:SCVal.SCV_I128",
+    "arm:SCVal.SCV_SYMBOL",
+    "arm:StellarValueExt.STELLAR_VALUE_SIGNED",
+    "arm:TransactionEnvelope.ENVELOPE_TYPE_TX",
+    "arm:TransactionExt.0",
+    "arm:TransactionMeta.4",
+    "arm:TransactionPhase.0",
+    "arm:TransactionPhase.1",
+    "arm:TransactionResultExt.0",
+    "arm:TransactionResultResult.txFAILED",
+    "arm:TxSetComponent.TXSET_COMP_TXS_MAYBE_DISCOUNTED_FEE",
+    "enum:ContractEventType.CONTRACT",
+    "enum:TransactionEventStage.TRANSACTION_EVENT_STAGE_BEFORE_ALL_TXS"
+   ],
+   "cells_new_in_protocol": [],
+   "expected": {
+    "decoded": [
+     {
+      "path": "v",
+      "value": 2
+     },
+     {
+      "path": "v2.ledgerHeader.header.ledgerSeq",
+      "value": 11
+     },
+     {
+      "path": "v2.ledgerHeader.header.ledgerVersion",
+      "value": 28
+     },
+     {
+      "path": "v2.ledgerHeader.hash",
+      "value": "ef25521a899d82af4dbcac63301f064c4efd8f0cec1b5c8b53c02b365e71271f"
+     },
+     {
+      "path": "v2.ledgerHeader.header.scpValue.closeTime",
+      "value": 4100000000
+     }
+    ]
+   },
+   "validation": {
+    "independent_decoder": "not_run",
+    "rs_stellar_xdr_roundtrip": "not_run",
+    "stellar_core": {
+     "version": "30.0.0",
+     "command": "",
+     "result": "not_run"
+    },
+    "core_golden": "not_applicable"
+   },
+   "sightings": []
   }
  ]
 }
