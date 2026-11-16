@@ -2,7 +2,7 @@
 
 Prototype for the SCF RFP "XDR/CAP-Coverage Audit Tool and Indexer-Hardening Guide".
 
-It generates XDR test cases from the Protocol 30 schema itself, runs each one through five decoders
+It generates XDR test cases from the Protocol 30 schema itself, runs each one through six decoders
 and stellar-core, and reports where they disagree. Nothing is hand-captured.
 
 Status on 16 November 2026: the SDK conformance half works end to end. For the indexer half there
@@ -40,6 +40,7 @@ the corpus manifest by `guide/check_guide.py`. See
 | rs-stellar-xdr (reference) | stellar-xdr 30.0.0 | local cargo build |
 | JavaScript | @stellar/stellar-sdk 17.4.0 | local node |
 | Python | stellar-sdk 17.0.1 | local venv |
+| Python, next major | stellar-xdr 0.2.1, stellar-strkey 0.2.0 (replacing `stellar_sdk.xdr` and `.strkey`) | local venv; see `runners/python-xdr/` |
 | Go | go-stellar-sdk v0.9.0 | Docker, `golang:1.26` |
 | Java | network.lightsail:stellar-sdk 6.0.0 | Docker, `maven:3.9-eclipse-temurin-21` |
 | stellar-core | 30.0.0 (0e49751aa) | Docker, `stellar/stellar-core`, amd64 |
@@ -51,6 +52,10 @@ the corpus manifest by `guide/check_guide.py`. See
 - 943 further cases for the seven core-decodable types. stellar-core accepts all 280 valid ones.
 - Valid cases exercise 837 of 1,188 schema cells (union arms plus enum members), 70.5%.
 - Confirmed disagreements are in `FINDINGS.md`. Full clusters are in `out/REPORT.md`.
+- stellar-xdr 0.2.1, the package replacing `stellar_sdk.xdr`, agrees with the reference on every
+  generated case and every corpus entry, and fixes P1 and P2; stellar-strkey 0.2.0 passes all of
+  SEP-23 1.4.0's 36 vectors and 136 generated mutations. Two API points for before 1.0 are drafted in
+  `issues/` (see `runners/python-xdr/README.md`).
 
 Accepted cases per decoder, core-decodable types only (from the stellar-core run; its raw
 results are not in the repository):
@@ -80,7 +85,7 @@ results are not in the repository):
   schema as the generator. The decoder accepts all 3,816 valid generated cases, rejects all 3,576
   faulty ones, and re-encodes every valid case and the real ledger byte for byte.
 - `tools/corpus_check.py` re-verifies the manifest and every entry: schema, hashes, expected
-  decoded values, source record, CAP and protocol tags, then the five SDKs and stellar-core.
+  decoded values, source record, CAP and protocol tags, then the six SDKs and stellar-core.
 - `harness/replay/` replays LedgerCloseMeta entries through a real indexer and its database, over
   a mock stellar-rpc `getLedgers` or the Galexie data-lake layout, and reports pass, mishandled or
   dropped per entry and commit. The adapter contract is in `harness/replay/ADAPTER.md`.

@@ -8,17 +8,17 @@ Schema cells exercised by valid cases (union arms and enum members): 837 of 1188
 
 Each cell is `disagreements / cases run` for that SDK. `valid` rows are values the reference decodes and re-encodes byte-for-byte; the other rows carry one injected fault.
 
-| Case kind | js (@stellar/stellar-sdk 17.4.0) | python (stellar-sdk 17.0.1) | go (go-stellar-sdk v0.9.0) | java (network.lightsail:stellar-sdk 6.0.0) |
-|---|---|---|---|---|
-| valid | 0 / 3624 | 0 / 3808 | 8 / 3808 | 0 / 3808 |
-| bool_not_01 | 26 / 26 | 26 / 26 | 26 / 26 | 26 / 26 |
-| enum_unknown | 0 / 738 | 0 / 748 | 0 / 748 | 0 / 748 |
-| len_huge | 0 / 336 | 0 / 364 | 0 / 364 | 0 / 364 |
-| len_over_max | 0 / 204 | 0 / 218 | 0 / 218 | 0 / 218 |
-| opt_flag_not_01 | 0 / 136 | 145 / 145 | 0 / 145 | 0 / 145 |
-| pad_nonzero | 0 / 151 | 160 / 160 | 0 / 160 | 0 / 160 |
-| trailing | 0 / 914 | 0 / 952 | 222 / 952 | 952 / 952 |
-| truncated | 0 / 914 | 0 / 952 | 0 / 952 | 0 / 952 |
+| Case kind | js (@stellar/stellar-sdk 17.4.0) | python (stellar-sdk 17.0.1) | python-xdr (stellar-xdr (Python) 0.2.1) | go (go-stellar-sdk v0.9.0) | java (network.lightsail:stellar-sdk 6.0.0) |
+|---|---|---|---|---|---|
+| valid | 0 / 3624 | 0 / 3808 | 0 / 3768 | 8 / 3808 | 0 / 3808 |
+| bool_not_01 | 26 / 26 | 26 / 26 | 26 / 26 | 26 / 26 | 26 / 26 |
+| enum_unknown | 0 / 738 | 0 / 748 | 0 / 747 | 0 / 748 | 0 / 748 |
+| len_huge | 0 / 336 | 0 / 364 | 0 / 364 | 0 / 364 | 0 / 364 |
+| len_over_max | 0 / 204 | 0 / 218 | 0 / 218 | 0 / 218 | 0 / 218 |
+| opt_flag_not_01 | 0 / 136 | 145 / 145 | 0 / 143 | 0 / 145 | 0 / 145 |
+| pad_nonzero | 0 / 151 | 160 / 160 | 0 / 160 | 0 / 160 | 0 / 160 |
+| trailing | 0 / 914 | 0 / 952 | 0 / 942 | 222 / 952 | 952 / 952 |
+| truncated | 0 / 914 | 0 / 952 | 0 / 942 | 0 / 952 | 0 / 952 |
 
 ## Reference notes
 
@@ -105,3 +105,4 @@ Disagreements grouped by SDK, class, case kind and message or fault site. A clus
 | python | reencodes_differently | bool_not_01 | `AAAAAwAAAAAAAAAENZXuTlMSToylMniHgNkUkmNAqvdpEfNPNxtAI+gquaNnanbkMMmeQgr+Nky/VnK/xUGGoMtdJdcNBpCNLjdowAAAAEAAAA` | 1 | `InvokeHostFunctionOp/bool_not_010` |
 | python | reencodes_differently | bool_not_01 | `AAAACtzoKensIZIANwxlpNgB+qxUWRCeHQ/XANXnhGqdDIqMgAAAAAAAAAAAAAABAAAAAAAAAAAejDsQNjitNRNsnbHknsMdForTNMmHDANAQc` | 1 | `HashIDPreimage/bool_not_011` |
 | python | reencodes_differently | bool_not_01 | `zUyqKPdHSNGRmPSMFfTi+/WFfN+OhNDNXINAvsSLNsAAAAFAAAAADNpaN+EAVbbNdzffjInCRRwZpALmNRVdK+GwKkZNAAAAAAAAAAEAAAACAA` | 1 | `TransactionSignaturePayload/bool_not_011` |
+| python-xdr | rejects_valid | bool_not_01 | `XdrDecodeError: invalid bool N at offset N` | 26 | `EvictionIterator/bool_not_010` |

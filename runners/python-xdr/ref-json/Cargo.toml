@@ -1,0 +1,12 @@
+[package]
+name = "ref-json"
+version = "0.1.0"
+edition = "2021"
+
+# rs-stellar-xdr with its SEP-51 JSON support. Same crate version as runners/rust.
+[dependencies]
+stellar-xdr = { version = "=30.0.0", default-features = false, features = ["std", "base64", "type_enum", "serde", "serde_json"] }
+serde_json = "1"
+
+[profile.release]
+opt-level = 2

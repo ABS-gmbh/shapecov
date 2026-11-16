@@ -15,7 +15,8 @@ from strkey import crc16_xmodem  # noqa: E402
 # version byte -> (letter, name)
 KINDS = {6 << 3: ("G", "account"), 12 << 3: ("M", "muxed_account"), 19 << 3: ("T", "pre_auth_tx"),
          23 << 3: ("X", "hash_x"), 15 << 3: ("P", "signed_payload"), 2 << 3: ("C", "contract"),
-         11 << 3: ("L", "liquidity_pool"), 1 << 3: ("B", "claimable_balance")}
+         11 << 3: ("L", "liquidity_pool"), 1 << 3: ("B", "claimable_balance"),
+         22 << 3: ("W", "muxed_contract"), 18 << 3: ("S", "private_key")}
 
 
 def payload_problem(version, payload):
@@ -27,8 +28,14 @@ def payload_problem(version, payload):
         return None if n == 32 else "%s key must be 32 bytes, has %d" % (name, n)
     if name == "muxed_account":
         return None if n == 40 else "muxed account must be 32-byte key + 8-byte id, has %d bytes" % n
+    if name == "muxed_contract":  # CAP-84, SEP-23 1.4.0
+        return None if n == 40 else "muxed contract must be 32-byte hash + 8-byte id, has %d bytes" % n
+    if name == "private_key":
+        return None if n == 32 else "private key must be 32 bytes, has %d" % n
     if name == "claimable_balance":
-        return None if n == 33 else "claimable balance must be 1 + 32 bytes, has %d" % n
+        if n != 33:
+            return "claimable balance must be 1 + 32 bytes, has %d" % n
+        return None if payload[0] == 0 else "claimable balance type byte must be 0 (v0), is %d" % payload[0]
     # signed payload: ed25519 (32) + length (4) + payload (1..64) padded to 4
     if n < 32 + 4 + 4:
         return "signed payload must be 32-byte key + 4-byte length + padded payload, has %d bytes" % n

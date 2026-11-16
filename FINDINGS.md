@@ -178,10 +178,30 @@ A sweep of 611 further network ledgers (100,676 transactions, protocols 23 to 30
 `harness/replay/README.md`, "Sweep") found no new defect in either indexer: its only failures are
 wallet-backend#815 (42 rows) and stellar-etl#460 (1 row).
 
-For wallet-backend, no other row is missing for any of the 63 ledgers. That now includes balances: all 4057 net balance
-checks per input (every account's XLM and trustline balance per operation, and every net fee) match,
-and no balance row is stored where the ledger shows no change. See `harness/replay/RESULTS.md`,
+For wallet-backend, no other row is missing for any of the 63 ledgers: 8,919 of 8,930 checks per
+input pass, and the 11 that fail are the rows above. The checks include balances (every account's
+XLM and trustline balance per operation, and every net fee), and no balance row is stored where the
+ledger shows no change. See `harness/replay/RESULTS.md`,
 "Oracle checks".
+
+## The Python packages replacing `stellar_sdk.xdr` and `.strkey`
+
+The py-stellar-base maintainer asks that XDR and strkey problems be tried against `stellar-xdr` and
+`stellar-strkey` first, and welcomes API feedback before 1.0 (StellarCN/py-stellar-base#1264).
+`runners/python-xdr/` runs them (stellar-xdr 0.2.1, stellar-strkey 0.2.0, 16 November):
+
+- XDR: every one of the 7,392 generated cases matches the reference except 26 `bool` values of 2,
+  which stellar-xdr rightly rejects (rs-stellar-xdr #622). P1 and P2 do not occur. All 67 corpus
+  entries round-trip identically.
+- SEP-51 JSON: round-trips on all 3,808 valid cases and interoperates with rs-stellar-xdr, except in
+  15 overlay types where rs-stellar-xdr writes inline fixed-length opaque fields as integer arrays
+  instead of SEP-51's hex: rs-stellar-xdr #618 (open), confirmed here; stellar-xdr conforms.
+- Strkeys: agrees with SEP-23 1.4.0 on all 172 cases, including CAP-84 muxed contracts. The same
+  cases find 8 differences in stellar-sdk 17.0.1's `StrKey`.
+- Not defects, API feedback (drafts, not filed): the decode depth limit moves with the caller's
+  stack, so a valid 240-level envelope argument fails when the caller is more than 501 frames deep
+  (`issues/X1-py-stellar-xdr-depth.md`); `SponsorshipDescriptor` and the bare integer types have no
+  codec (`issues/X2-py-stellar-xdr-typedef-codecs.md`).
 
 ## Rediscovered (already reported by others)
 

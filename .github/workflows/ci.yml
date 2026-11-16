@@ -73,6 +73,10 @@ jobs:
         run: |
           python -m venv runners/python/.venv
           runners/python/.venv/bin/pip install stellar-sdk==17.0.1
+      - name: Python runner for stellar-xdr, the package replacing stellar_sdk.xdr
+        run: |
+          python -m venv runners/python-xdr/.venv
+          runners/python-xdr/.venv/bin/pip install -r runners/python-xdr/requirements.txt
       - name: Go runner
         run: docker run --rm -v "$PWD/runners/go:/work" golang:1.26 sh /work/build.sh
       - name: Java runner
@@ -84,5 +88,5 @@ jobs:
       - name: Pinned-SDK checks
         working-directory: harness/sdk-semantic
         run: npm install --no-audit --no-fund
-      - name: Every entry through five SDKs, stellar-core and the pinned-SDK checks
-        run: python tools/corpus_check.py --sdks rust,js,python,go,java --core --sdk-checks --quiet
+      - name: Every entry through six SDKs, stellar-core and the pinned-SDK checks
+        run: python tools/corpus_check.py --sdks rust,js,python,python-xdr,go,java --core --sdk-checks --quiet

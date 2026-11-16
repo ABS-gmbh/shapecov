@@ -16,6 +16,8 @@ RUNNERS = {
     "rust": {"cmd": [str(R / "rust/target/release/runner-rust")], "version": "stellar-xdr 30.0.0 (reference)"},
     "js": {"cmd": ["node", str(R / "js/run.mjs")], "version": "@stellar/stellar-sdk 17.4.0"},
     "python": {"cmd": [str(R / "python/.venv/bin/python"), str(R / "python/run.py")], "version": "stellar-sdk 17.0.1"},
+    "python-xdr": {"cmd": [str(R / "python-xdr/.venv/bin/python"), str(R / "python-xdr/run.py")],
+                   "version": "stellar-xdr (Python) 0.2.1"},
     "go": {"cmd": DOCKER + ["-v", f"{R / 'go'}:/work:ro", "golang:1.26", "/work/runner-go"],
            "version": "go-stellar-sdk v0.9.0"},
     "java": {"cmd": DOCKER + ["-v", f"{R / 'java'}:/work:ro", "-w", "/work", "maven:3.9-eclipse-temurin-21",
