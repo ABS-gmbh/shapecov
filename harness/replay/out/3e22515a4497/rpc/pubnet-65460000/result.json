@@ -1,46 +1,46 @@
 {
- "entry_id": "pubnet-65460000",
  "adapter": "wallet-backend",
- "ref": "3e22515a44979fdc3a558fda3991ca2b48e38cef",
- "commit": "3e22515a44979fdc3a558fda3991ca2b48e38cef",
- "input": "rpc",
- "protocol_version": 29,
- "sdk_pin": "v0.8.0",
- "mode": "unmodified",
- "result": "pass",
- "mishandled": [],
- "dropped": [],
  "checks": [],
+ "commit": "3e22515a44979fdc3a558fda3991ca2b48e38cef",
+ "dropped": [],
+ "entry_id": "pubnet-65460000",
+ "evidence": "out/3e22515a4497/rpc/pubnet-65460000",
  "expectations": 0,
  "expectations_source": "none (implicit checks only)",
- "ledger": {
-  "seq": 65460000,
-  "hash": "ac251088eb5e0cdd97a3b8ee79cfa26fa26cf8994c28baeffa1746395cffcb70",
-  "close_time": 1794586042,
-  "protocol": 29
- },
- "ingested": true,
- "row_counts": {
-  "transactions": 494,
-  "transactions_accounts": 690,
-  "operations": 871,
-  "operations_accounts": 1073,
-  "state_changes": 1212
- },
- "process": {
-  "outcome": "stopped by the adapter after the ledger was ingested",
-  "exit_code": 0,
-  "oom_killed": false,
-  "started_finished": "2026-11-16T08:25:58.904194674Z 2026-11-16T08:26:00.487577091Z"
- },
- "seconds": 3.2,
  "feeder_requests": 4,
- "evidence": "out/3e22515a4497/rpc/pubnet-65460000",
+ "ingested": true,
+ "input": "rpc",
+ "ledger": {
+  "close_time": 1794586042,
+  "hash": "ac251088eb5e0cdd97a3b8ee79cfa26fa26cf8994c28baeffa1746395cffcb70",
+  "protocol": 29,
+  "seq": 65460000
+ },
+ "mishandled": [],
+ "mode": "unmodified",
  "oracle": {
   "verdict": "pass",
-  "rows_expected": 831,
-  "rows_met": 831,
+  "rows_expected": 1946,
+  "rows_met": 1946,
   "known": {},
   "unexplained": []
- }
+ },
+ "process": {
+  "exit_code": 0,
+  "oom_killed": false,
+  "outcome": "stopped by the adapter after the ledger was ingested",
+  "started_finished": "2026-11-16T08:25:58.904194674Z 2026-11-16T08:26:00.487577091Z"
+ },
+ "protocol_version": 29,
+ "ref": "3e22515a44979fdc3a558fda3991ca2b48e38cef",
+ "result": "pass",
+ "row_counts": {
+  "operations": 871,
+  "operations_accounts": 1073,
+  "state_changes": 1212,
+  "transactions": 494,
+  "transactions_accounts": 690
+ },
+ "sdk_pin": "v0.8.0",
+ "seconds": 3.2
 }

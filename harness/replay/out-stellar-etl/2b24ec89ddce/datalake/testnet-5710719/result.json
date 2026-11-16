@@ -20,9 +20,10 @@
  "mode": "unmodified",
  "oracle": {
   "verdict": "known issues only",
-  "rows_expected": 32,
+  "rows_expected": 33,
   "rows_met": 31,
   "known": {
+   "stellar/stellar-etl#457": 1,
    "stellar/stellar-etl#450": 1
   },
   "unexplained": []

@@ -22,8 +22,8 @@
  "ingested": true,
  "input": "rpc",
  "ledger": {
-  "close_time": 1600179017,
-  "hash": "eaac425a0adb592eac85fa14850d05781d90d754c0df2abe212bfd1e3e251d52",
+  "close_time": 4020000000,
+  "hash": "01bd4117bc2281d4f43c8ddfd9e5b9a689f8fedca70ef64d9636c3dcebe536d7",
   "protocol": 22,
   "seq": 3
  },
@@ -34,18 +34,22 @@
  "mode": "unmodified",
  "oracle": {
   "verdict": "known issues only",
-  "rows_expected": 2,
-  "rows_met": 1,
+  "rows_expected": 4,
+  "rows_met": 2,
   "known": {
-   "stellar/wallet-backend#815": 1
+   "stellar/wallet-backend#815": 1,
+   "record:R11": 1
   },
-  "unexplained": []
+  "unexplained": [],
+  "fixed_upstream": {
+   "record:R11": 1
+  }
  },
  "process": {
   "exit_code": 0,
   "oom_killed": false,
   "outcome": "stopped by the adapter after the ledger was ingested",
-  "started_finished": "2026-11-15T21:43:56.188760219Z 2026-11-15T21:43:57.318922803Z"
+  "started_finished": "2026-11-16T17:31:47.16476788Z 2026-11-16T17:31:48.398787255Z"
  },
  "protocol_version": 22,
  "ref": "79ea2acd1dc65a07166133cc04b12e76db314db0",
@@ -58,5 +62,5 @@
   "transactions_accounts": 3
  },
  "sdk_pin": "v0.7.3",
- "seconds": 2.2
+ "seconds": 2.5
 }

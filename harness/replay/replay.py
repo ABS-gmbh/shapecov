@@ -117,16 +117,29 @@ def adapter_mapping(name):
     return mod
 
 
+_EXPS = {}
+
+
 def oracle_verdict(entry, obs, mapping, value):
     """Check every row the oracle derives from the ledger; label each failure as a known upstream
     issue (adapters/<name>/known.json) or unexplained."""
+    import copy
     import oracle
     passphrase = entry["source"]["network_passphrase"]
-    exps = mapping.expectations(oracle.changes(value), passphrase)
-    if hasattr(mapping, "balance_expectations"):
-        exps += mapping.balance_expectations(oracle.balances(value), passphrase)
-    if hasattr(mapping, "muxed_expectations"):
-        exps += mapping.muxed_expectations(oracle.muxed_destinations(value), passphrase)
+    key = (entry["id"], id(value), id(mapping))
+    if key not in _EXPS:
+        # The rows depend only on the ledger: derive them once per decoded ledger (rejudge judges
+        # every commit's replay of the same ledger in a row).
+        exps = mapping.expectations(oracle.changes(value), passphrase)
+        if hasattr(mapping, "balance_expectations"):
+            exps += mapping.balance_expectations(oracle.balances(value), passphrase)
+        if hasattr(mapping, "muxed_expectations"):
+            exps += mapping.muxed_expectations(oracle.muxed_destinations(value), passphrase)
+        if hasattr(mapping, "participant_expectations"):
+            exps += mapping.participant_expectations(oracle.participants(value, passphrase), passphrase)
+        _EXPS.clear()
+        _EXPS[key] = (value, exps)  # holding the value keeps id(value) from being reused
+    exps = copy.deepcopy(_EXPS[key][1])
     c = classify.classify(exps, obs)
     known, unexplained = {}, []
     if not obs.get("ingested"):
@@ -135,7 +148,7 @@ def oracle_verdict(entry, obs, mapping, value):
         failure = {"expect": "ingested", "error": obs.get("error") or "", "via": {}}
         what = ("the indexer did not ingest this ledger: %s" % obs["error"]) if obs.get("error") else \
                "the indexer did not ingest this ledger and raised no error"
-        issue = mapping.known_issue(failure)
+        issue = _known(mapping, failure, obs)
         if issue:
             known.setdefault(issue, []).append(what)
         else:
@@ -156,7 +169,7 @@ def oracle_verdict(entry, obs, mapping, value):
     for ch in c["checks"]:
         if ch["outcome"] in ("met", "not_checked"):
             continue
-        issue = mapping.known_issue(ch["expect"])
+        issue = _known(mapping, ch["expect"], obs)
         if issue:
             known.setdefault(issue, []).append(ch["detail"])
         else:
@@ -165,12 +178,23 @@ def oracle_verdict(entry, obs, mapping, value):
     if not obs.get("ingested"):
         verdict = c["result"]
     elif unexplained:
-        verdict = "mishandled" if any(ch["outcome"] == "wrong_value" and not mapping.known_issue(ch["expect"])
+        verdict = "mishandled" if any(ch["outcome"] == "wrong_value" and not _known(mapping, ch["expect"], obs)
                                       for ch in c["checks"]) else "dropped"
     else:
         verdict = "pass" if not known else "known issues only"
-    return {"verdict": verdict, "rows_expected": len(exps), "rows_met": met,
-            "known": {k: len(v) for k, v in known.items()}, "unexplained": unexplained}
+    out = {"verdict": verdict, "rows_expected": len(exps), "rows_met": met,
+           "known": {k: len(v) for k, v in known.items()}, "unexplained": unexplained}
+    fixed = mapping.fixed_upstream() if hasattr(mapping, "fixed_upstream") else set()
+    if any(k in fixed for k in known):
+        out["fixed_upstream"] = {k: len(v) for k, v in known.items() if k in fixed}
+    return out
+
+
+def _known(mapping, expectation, obs):
+    import inspect
+    if "commit" in inspect.signature(mapping.known_issue).parameters:
+        return mapping.known_issue(expectation, commit=obs.get("commit"))
+    return mapping.known_issue(expectation)
 
 
 def use_corpus(a):
@@ -334,7 +358,8 @@ def cmd_rejudge(a):
         entries = {e["id"]: e for e in json.load(f)["entries"]}
     dec = Decoder(json.load(open(os.path.join(REPO, "schema", "schema.json"))))
     results, n = load_results(out), 0
-    for k, r in results.items():
+    decoded = {}
+    for k, r in sorted(results.items(), key=lambda kv: kv[0][0]):  # by entry: decode each ledger once
         path = os.path.join(HERE, r.get("evidence") or "-", "observation.json")
         if not os.path.isfile(path) or k[0] not in entries:
             continue
@@ -343,8 +368,9 @@ def cmd_rejudge(a):
         if obs.get("adapter_failure"):
             continue
         e = entries[k[0]]
-        value = dec.decode("LedgerCloseMeta", base64.b64decode(open(os.path.join(CORPUS, e["file"])).read()))
-        r["oracle"] = oracle_verdict(e, obs, mapping, value)
+        if e["id"] not in decoded:
+            decoded = {e["id"]: dec.decode("LedgerCloseMeta", base64.b64decode(open(os.path.join(CORPUS, e["file"])).read()))}
+        r["oracle"] = oracle_verdict(e, obs, mapping, decoded[e["id"]])
         with open(os.path.join(HERE, r["evidence"], "result.json"), "w") as f:
             json.dump(r, f, indent=1)
         n += 1
@@ -555,13 +581,40 @@ def cmd_check(a):
 
 def _failing(r):
     """A replay counts as failing when the indexer mishandled or dropped the ledger, or the oracle has
-    a failure that no known issue explains."""
-    return r["result"] in ("mishandled", "dropped") or bool((r.get("oracle") or {}).get("unexplained"))
+    a failure that no known issue explains, or one labelled as a defect wallet-backend later fixed
+    (known.json `fixed_by`; the label maps it to a record, it is still a failure at that commit)."""
+    return bool(_failures(r))
+
+
+def _failures(r):
+    """The failures of one replay, counted by kind: the indexer's own result when it is not `pass`,
+    the unexplained oracle failures, and the oracle failures under each fixed-upstream label."""
+    o = r.get("oracle") or {}
+    out = {}
+    if r["result"] in ("mishandled", "dropped"):
+        out["indexer: " + r["result"]] = 1
+    n = o.get("unexplained_count", len(o.get("unexplained") or []))
+    if n:
+        out["unexplained"] = n
+    for label, k in (o.get("fixed_upstream") or {}).items():
+        out[label] = k
+    return out
+
+
+def _fixed_by(parent, fix):
+    """A fix removes a failure when some kind of failure at the parent is gone, or fewer, at the fix.
+    (Comparing counts, not just failing or passing, matters when one label spans several fixes, and
+    when a later fix's failure is present on both sides.)"""
+    if parent.get("ingested", True) and not fix.get("ingested", True):
+        return False  # the fix halts where the parent ingested: the failure changed form, and the
+        #               fix's oracle failures are unknown, not gone
+    p, f = _failures(parent), _failures(fix)
+    return any(n > f.get(k, 0) for k, n in p.items())
 
 
 def cmd_backtest(a):
     """Verify backtest.json against recorded results: every "detected" claim must show each named
-    entry failing at the parent and passing at the fix (or, for an open issue with no fix, flagged
+    entry with a failure at the parent that the fix removes (_fixed_by) (or, for an open issue with no fix, flagged
     with that issue at the commit named in "at"); every "missed" claim must have no recorded entry
     that does. Prints the table and K of N per pipeline; exits 1 on any claim that does not hold."""
     spec = json.load(open(os.path.join(HERE, "backtest.json")))
@@ -584,7 +637,7 @@ def cmd_backtest(a):
         else:
             p, f = it["parent"][:8], it["fix"][:8]
             flips = sorted("%s:%s" % (src, e) for (src, c, e), r in results.items()
-                           if c == p and _failing(r) and (src, f, e) in results and not _failing(results[(src, f, e)]))
+                           if c == p and (src, f, e) in results and _fixed_by(r, results[(src, f, e)]))
         if it["verdict"] == "detected":
             for claim in it["entries"]:
                 key = "%s:%s" % (claim["results"], claim["entry"])

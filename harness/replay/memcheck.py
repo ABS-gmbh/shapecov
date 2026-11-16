@@ -87,6 +87,12 @@ def build_corpus(dst, target_bytes):
     return len(entries), total
 
 
+def verdict(peak_mb, budget_mb, served, n):
+    """Pass when the feeder's peak resident memory stayed within the budget and every ledger was served
+    in full through the mock RPC and through S3 (GCS is counted where the network allows it)."""
+    return peak_mb <= budget_mb and served.get("rpc") == n and served.get("s3") == n
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--corpus-mb", type=int, default=600)
@@ -131,7 +137,7 @@ def main():
               "served": served, "feeder_peak_rss_mb": round(peak_mb, 1), "budget_mb": a.budget_mb,
               "seconds": round(time.time() - t0)}
     print(json.dumps(result))
-    ok = (peak_mb <= a.budget_mb and served["rpc"] == n and served["s3"] == n)
+    ok = verdict(peak_mb, a.budget_mb, served, n)
     print("MEMORY OK: peak %.1f MB for %d MB of ledgers (budget %d MB)" % (peak_mb, result["corpus_mb"], a.budget_mb)
           if ok else "MEMORY CHECK FAILED")
     shutil.rmtree(work, ignore_errors=True)

@@ -39,12 +39,20 @@ Only the implicit checks apply: the ledger is ingested without an error and ever
 
 | Entry | Protocol | Input | `79ea2acd` | `6e5a5910` | `2a0a84ea` | `2c873353` | `764a4f5b` | `c152783c` | `f8e5786d` | `bb0b162b` | `3e22515a` |
 |---|---|---|---|---|---|---|---|---|---|---|---|
+| `golden-beginsponsoringfuturereserves-16ca002d-1` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `golden-beginsponsoringfuturereserves-16ca002d-1` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `golden-beginsponsoringfuturereserves-24cec2c5-1` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `golden-beginsponsoringfuturereserves-24cec2c5-1` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `golden-beginsponsoringfuturereserves-5a03a46b-2` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `golden-beginsponsoringfuturereserves-5a03a46b-2` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `golden-claimablebalance-3635a801-1` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `golden-claimablebalance-3635a801-1` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `golden-frozenledgerkeys-0d70bfa2-11` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `golden-frozenledgerkeys-0d70bfa2-11` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `golden-frozenledgerkeys-0d70bfa2-16` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `golden-frozenledgerkeys-0d70bfa2-16` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `golden-frozenledgerkeys-12c04cf7-20` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `golden-frozenledgerkeys-12c04cf7-20` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `golden-frozenledgerkeys-1cd53aa0-23` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `golden-frozenledgerkeys-1cd53aa0-23` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `golden-frozenledgerkeys-3f24be68-11` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
@@ -55,18 +63,34 @@ Only the implicit checks apply: the ledger is ingested without an error and ever
 | `golden-frozenledgerkeys-7a27fd53-34` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `golden-frozenledgerkeys-a0fb94c3-10` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `golden-frozenledgerkeys-a0fb94c3-10` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `golden-frozenledgerkeys-a0fb94c3-15` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `golden-frozenledgerkeys-a0fb94c3-15` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `golden-frozenledgerkeys-c8e33a7d-3` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `golden-frozenledgerkeys-c8e33a7d-3` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `golden-frozenledgerkeys-d637d647-16` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `golden-frozenledgerkeys-d637d647-16` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `golden-invokehostfunction-04667ce6-23` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `golden-invokehostfunction-04667ce6-23` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `golden-invokehostfunction-1373c067-11` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `golden-invokehostfunction-1373c067-11` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `golden-invokehostfunction-182fa281-1` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `golden-invokehostfunction-182fa281-1` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `golden-invokehostfunction-1dd4c042-10` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `golden-invokehostfunction-1dd4c042-10` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `golden-invokehostfunction-27003f6c-2` | 20 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `golden-invokehostfunction-27003f6c-2` | 20 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `golden-invokehostfunction-27003f6c-3` | 20 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `golden-invokehostfunction-27003f6c-3` | 20 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `golden-invokehostfunction-27003f6c-5` | 20 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `golden-invokehostfunction-27003f6c-5` | 20 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `golden-invokehostfunction-41088f6e-29` | 23 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `golden-invokehostfunction-41088f6e-29` | 23 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `golden-invokehostfunction-49190109-10` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `golden-invokehostfunction-49190109-10` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `golden-invokehostfunction-4c437318-42` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `golden-invokehostfunction-4c437318-42` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `golden-invokehostfunction-568d5125-9` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `golden-invokehostfunction-568d5125-9` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `golden-invokehostfunction-57a486ab-17` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `golden-invokehostfunction-57a486ab-17` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `golden-invokehostfunction-60000be2-10` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
@@ -75,12 +99,24 @@ Only the implicit checks apply: the ledger is ingested without an error and ever
 | `golden-invokehostfunction-692fdd0e-17` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `golden-invokehostfunction-7f92354d-11` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `golden-invokehostfunction-7f92354d-11` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `golden-invokehostfunction-8299635e-11` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `golden-invokehostfunction-8299635e-11` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `golden-invokehostfunction-8299635e-27` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `golden-invokehostfunction-8299635e-27` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `golden-invokehostfunction-897493fc-17` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `golden-invokehostfunction-897493fc-17` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `golden-invokehostfunction-8e3126c5-10` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `golden-invokehostfunction-8e3126c5-10` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `golden-invokehostfunction-92400d0c-31` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `golden-invokehostfunction-92400d0c-31` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `golden-invokehostfunction-938fb779-18` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `golden-invokehostfunction-938fb779-18` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `golden-invokehostfunction-a8df5d4d-2` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `golden-invokehostfunction-a8df5d4d-2` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `golden-invokehostfunction-e0e11e1f-32` | 23 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `golden-invokehostfunction-e0e11e1f-32` | 23 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `golden-invokehostfunction-e296f7c5-7` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `golden-invokehostfunction-e296f7c5-7` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `golden-invokehostfunction-e6b26f2a-0` | 0 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `golden-invokehostfunction-e6b26f2a-0` | 0 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `golden-invokehostfunction-e6b26f2a-1` | 29 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
@@ -89,16 +125,28 @@ Only the implicit checks apply: the ledger is ingested without an error and ever
 | `golden-invokehostfunction-f2fc9bf3-12` | 20 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `golden-invokehostfunction-f5fa0a4b-12` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `golden-invokehostfunction-f5fa0a4b-12` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `golden-invokehostfunction-fad872f3-12` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `golden-invokehostfunction-fad872f3-12` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `golden-offer-9a363b75-30` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `golden-offer-9a363b75-30` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `golden-pathpayment-34519f44-22` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `golden-pathpayment-34519f44-22` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `localcore-claim-and-sponsor-8` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `localcore-claim-and-sponsor-8` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `localcore-classic-p22-3` | 22 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `localcore-classic-p22-3` | 22 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `localcore-declared-deploy-6` | 28 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `localcore-declared-deploy-6` | 28 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `localcore-maintain-liabilities-5` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `localcore-maintain-liabilities-5` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `localcore-memo-and-offer-p30-4` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `localcore-memo-and-offer-p30-4` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `localcore-planted-auth-5` | 28 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `localcore-planted-auth-5` | 28 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `localcore-pool-revoke-two-pools-7` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `localcore-pool-revoke-two-pools-7` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `localcore-preauth-failed-6` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `localcore-preauth-failed-6` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `localcore-sponsorship-transfer-9` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `localcore-sponsorship-transfer-9` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `pubnet-59220000` | 23 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
@@ -180,8 +228,8 @@ Only the implicit checks apply: the ledger is ingested without an error and ever
 | `f8e5786d` | datalake | 0 | 1 | 0 | 0 |
 | `bb0b162b` | rpc | 1 | 0 | 0 | 0 |
 | `bb0b162b` | datalake | 1 | 0 | 0 | 0 |
-| `3e22515a` | rpc | 63 | 0 | 0 | 0 |
-| `3e22515a` | datalake | 63 | 0 | 0 | 0 |
+| `3e22515a` | rpc | 87 | 0 | 0 | 0 |
+| `3e22515a` | datalake | 87 | 0 | 0 | 0 |
 
 ## Oracle checks
 
@@ -192,24 +240,24 @@ checked. A failure is labelled with the open upstream issue that explains it
 
 | Commit | Input | Replays | Rows expected | Rows met | Known issues | Unexplained |
 |---|---|---|---|---|---|---|
-| `79ea2acd` | rpc | 2 | 19 | 17 | wallet-backend#815 (1) | 1 |
-| `79ea2acd` | datalake | 2 | 19 | 17 | wallet-backend#815 (1) | 1 |
-| `6e5a5910` | rpc | 2 | 19 | 0 | none | 2 |
-| `6e5a5910` | datalake | 2 | 19 | 0 | none | 2 |
-| `2a0a84ea` | rpc | 1 | 17 | 0 | none | 1 |
-| `2a0a84ea` | datalake | 1 | 17 | 0 | none | 1 |
-| `2c873353` | rpc | 1 | 17 | 17 | none | 0 |
-| `2c873353` | datalake | 1 | 17 | 17 | none | 0 |
-| `764a4f5b` | rpc | 1 | 3 | 1 | none | 2 |
-| `764a4f5b` | datalake | 1 | 3 | 1 | none | 2 |
-| `c152783c` | rpc | 1 | 3 | 3 | none | 0 |
-| `c152783c` | datalake | 1 | 3 | 3 | none | 0 |
-| `f8e5786d` | rpc | 1 | 2 | 0 | none | 1 |
-| `f8e5786d` | datalake | 1 | 2 | 0 | none | 1 |
-| `bb0b162b` | rpc | 1 | 2 | 1 | wallet-backend#815 (1) | 0 |
-| `bb0b162b` | datalake | 1 | 2 | 1 | wallet-backend#815 (1) | 0 |
-| `3e22515a` | rpc | 63 | 8930 | 8919 | wallet-backend#815 (6), wallet-backend#816 (3), wallet-backend#817 (2) | 0 |
-| `3e22515a` | datalake | 63 | 8930 | 8919 | wallet-backend#815 (6), wallet-backend#816 (3), wallet-backend#817 (2) | 0 |
+| `79ea2acd` | rpc | 2 | 47 | 42 | record:R11 (3), wallet-backend#815 (1) | 1 |
+| `79ea2acd` | datalake | 2 | 47 | 42 | record:R11 (3), wallet-backend#815 (1) | 1 |
+| `6e5a5910` | rpc | 2 | 47 | 0 | none | 2 |
+| `6e5a5910` | datalake | 2 | 47 | 0 | none | 2 |
+| `2a0a84ea` | rpc | 1 | 43 | 0 | none | 1 |
+| `2a0a84ea` | datalake | 1 | 43 | 0 | none | 1 |
+| `2c873353` | rpc | 1 | 43 | 41 | record:R11 (2) | 0 |
+| `2c873353` | datalake | 1 | 43 | 41 | record:R11 (2) | 0 |
+| `764a4f5b` | rpc | 1 | 5 | 2 | record:R11 (1) | 2 |
+| `764a4f5b` | datalake | 1 | 5 | 2 | record:R11 (1) | 2 |
+| `c152783c` | rpc | 1 | 5 | 4 | record:R11 (1) | 0 |
+| `c152783c` | datalake | 1 | 5 | 4 | record:R11 (1) | 0 |
+| `f8e5786d` | rpc | 1 | 4 | 0 | none | 1 |
+| `f8e5786d` | datalake | 1 | 4 | 0 | none | 1 |
+| `bb0b162b` | rpc | 1 | 4 | 3 | wallet-backend#815 (1) | 0 |
+| `bb0b162b` | datalake | 1 | 4 | 3 | wallet-backend#815 (1) | 0 |
+| `3e22515a` | rpc | 87 | 18929 | 18912 | wallet-backend#677 (6), wallet-backend#815 (6), wallet-backend#816 (3), wallet-backend#817 (2) | 0 |
+| `3e22515a` | datalake | 87 | 18929 | 18912 | wallet-backend#677 (6), wallet-backend#815 (6), wallet-backend#816 (3), wallet-backend#817 (2) | 0 |
 
 Failures that are a claimed sighting (found by the oracle alone, without the manifest's expectation):
 
@@ -362,3 +410,8 @@ Failures that are a claimed sighting (found by the oracle alone, without the man
 | 2026-11-15T21:44:21+00:00 | `3e22515a` | rpc, datalake | 51 | 242.6 | 36204 | 51 | 102 |
 | 2026-11-15T22:58:09+00:00 | `3e22515a` | rpc, datalake | 3 | 18.0 | 37028 | 3 | 6 |
 | 2026-11-16T08:25:55+00:00 | `3e22515a` | rpc, datalake | 9 | 64.3 | 37512 | 9 | 18 |
+| 2026-11-16T17:29:50+00:00 | `79ea2acd`, `6e5a5910`, `2a0a84ea`, `2c873353` | rpc, datalake | 1 | 95.9 | 36892 | 4 | 8 |
+| 2026-11-16T17:31:27+00:00 | `764a4f5b`, `c152783c` | rpc, datalake | 1 | 16.9 | 36696 | 2 | 4 |
+| 2026-11-16T17:31:44+00:00 | `79ea2acd`, `6e5a5910`, `f8e5786d`, `bb0b162b` | rpc, datalake | 1 | 30.7 | 36728 | 4 | 8 |
+| 2026-11-16T17:32:15+00:00 | `3e22515a` | rpc, datalake | 28 | 147.6 | 36864 | 28 | 56 |
+| 2026-11-16T17:44:48+00:00 | `3e22515a` | rpc, datalake | 2 | 18.7 | 36276 | 2 | 4 |

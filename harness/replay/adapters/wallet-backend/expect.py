@@ -107,19 +107,73 @@ def balance_expectations(records, passphrase):
     return out
 
 
+# The other direction: every account whose account entry the transaction changed is a transaction
+# participant. wallet-backend misses it (stellar/wallet-backend#677: participantsForMeta reads
+# TransactionMeta's v0 arm, which is nil for meta v1 to v4); known.json labels those failures.
+CHECK_CHANGED = True
+
+
+def participant_expectations(records, passphrase):
+    """From oracle.participants(): the accounts whose account entry changed must be transaction
+    participants, and nothing outside what the meta shows may be a transaction or operation
+    participant. wallet-backend stores participants in transactions_accounts and
+    operations_accounts; the adapter reads both back."""
+    out = []
+    for r in records:
+        out.append({"expect": "participants_within", "tx_hash": r["tx_hash"], "allowed": r["shown"],
+                    "success": r["success"],
+                    "derived_from": "oracle: addresses the %s transaction's meta shows" % ("successful" if r["success"] else "failed"),
+                    "via": {"what": "participant", "how": "outside meta", "success": r["success"]}})
+        for a in (r["changed"] if CHECK_CHANGED else []):
+            out.append({"expect": "participant", "account": a, "tx_hash": r["tx_hash"],
+                        "derived_from": "oracle: the transaction changes this account's entry",
+                        "via": {"what": "participant", "how": "account changed"}})
+    return out
+
+
 _KNOWN = {}
 
 
-def known_issue(expectation):
-    """The open upstream issue that explains this expectation failing, from known.json, or None."""
+def _before(commit, fix):
+    """True when `commit` is a strict ancestor of `fix` in the wallet-backend clone the harness
+    builds from. Without the clone, or for an unknown commit, False: the failure stays unexplained."""
+    if not commit:
+        return False
+    work = os.environ.get("REPLAY_WORK", os.path.join(HERE, "..", "..", ".work"))
+    clone = os.path.join(work, "wallet-backend")
+    key = (commit, fix)
+    if key not in _ANCESTRY:
+        import subprocess
+        r = subprocess.run(["git", "-C", clone, "merge-base", "--is-ancestor", commit, fix], capture_output=True)
+        _ANCESTRY[key] = r.returncode == 0 and not fix.startswith(commit) and not commit.startswith(fix)
+    return _ANCESTRY[key]
+
+
+_ANCESTRY = {}
+
+
+def fixed_upstream():
+    """Labels of the rules for defects wallet-backend has fixed: at the commits before the fix they
+    are real failures, mapped to a record, and the backtest still counts them as failures."""
+    if "rules" not in _KNOWN:
+        with open(os.path.join(HERE, "known.json")) as f:
+            _KNOWN["rules"] = json.load(f)["rules"]
+    return {r["issue"] for r in _KNOWN["rules"] if r.get("fixed_by")}
+
+
+def known_issue(expectation, commit=None):
+    """The upstream issue or finding record that explains this expectation failing at `commit`,
+    from known.json, or None."""
     if "rules" not in _KNOWN:
         with open(os.path.join(HERE, "known.json")) as f:
             _KNOWN["rules"] = json.load(f)["rules"]
     via = expectation.get("via") or {}
     facts = {"category": expectation.get("category"), "reason": expectation.get("reason"),
              "account_kind": (expectation.get("account") or "?")[0], "op_type": via.get("op_type"),
-             "where": via.get("where")}
+             "where": via.get("where"), "what": via.get("what"), "how": via.get("how")}
     for rule in _KNOWN["rules"]:
+        if rule.get("fixed_by") and not _before(commit, rule["fixed_by"]):
+            continue  # a defect wallet-backend has fixed labels only the commits before its fix
         ok = True
         for k, want in rule["match"].items():
             got = facts.get(k)

@@ -202,7 +202,38 @@ def expectations(changes, passphrase):
         else:
             merged[key] = dict(e, derived_from="oracle: %s %s (op %d %s)" % (c["what"], c["how"], c["where"], c["op_type"]),
                                via={"where": c["where"], "op_type": c["op_type"], "what": c["what"], "how": c["how"]})
+    for e in allow_trust_types(changes):
+        merged[json.dumps(e, sort_keys=True)] = e
     return list(merged.values())
+
+
+def allow_trust_types(changes):
+    """Horizon's model gives an AllowTrust operation, before its trustline_flags_updated effect, an
+    effect whose type says the trustline's new authorization: trustline_authorized (23),
+    trustline_authorized_to_maintain_liabilities (25) or trustline_deauthorized (24). The ledger
+    gives that state: the flags the operation set and cleared on the trustline."""
+    ops = {}
+    for c in changes:
+        if c["success"] and c["what"] == "trustauth" and c["op_type"] == "ALLOW_TRUST" and isinstance(c["where"], int):
+            k = (c["tx_hash"], c["where"], c["account"], json.dumps(c["holding"], sort_keys=True))
+            ops.setdefault(k, {"set": set(), "cleared": set(), "c": c})[c["how"]].update(c.get("flags") or [])
+    out = []
+    for (tx, where, account, _), d in sorted(ops.items()):
+        if "authorized" in d["set"]:
+            effect = "trustline_authorized"
+        elif "authorized_to_maintain_liabilities" in d["set"]:
+            effect = "trustline_authorized_to_maintain_liabilities"
+        else:
+            effect = "trustline_deauthorized"
+        e = {"expect": "state_change", "category": "EFFECT", "reason": effect, "tx_hash": tx,
+             "fields": {"op_order": where + 1, "trustor": account}}
+        kind, value = d["c"]["holding"]
+        if kind == "asset":
+            e["token"] = asset_text(value)
+        out.append(dict(e, derived_from="oracle: trustauth %s by ALLOW_TRUST (op %d), Horizon's effect type" % (
+            ", ".join(sorted(["set " + f for f in d["set"]] + ["cleared " + f for f in d["cleared"]])), where),
+            via={"where": where, "op_type": "ALLOW_TRUST", "what": "trustauth", "how": "allow_trust effect type"}))
+    return out
 
 
 def balance_expectations(records, passphrase):

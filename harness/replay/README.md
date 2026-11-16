@@ -110,6 +110,20 @@ transaction and operation must add up to the ledger's net change (CREDIT counts 
 native one for XLM. The fee goes at operation position 0. The harness also reports stored balance
 movements for an account where the ledger shows none.
 
+For participants, the check is the RFP's second rule: who a transaction affected comes from the
+meta, not the envelope. Every participant wallet-backend stores for a transaction or one of its
+operations, and the account of every state change it stores for it, must be an address the
+transaction's meta shows (an entry created, changed or removed, with its key, so a nonce or a token
+holder's balance entry names its address; a contract or system event, including an address written
+in an asset name), the transaction's own source or fee-bump source, or, in a successful
+transaction, an operation's own source (it signed for that operation). A failed transaction's meta
+shows only its fee and sequence changes, so a failed payment's destination is outside it. An address
+only an authorization entry names, and a contract a declared deploy would have created, are too.
+The other direction is checked too: every account whose account entry the transaction changed must
+be a transaction participant. wallet-backend misses the ones no operation names (a sponsor whose
+sponsorship ends, the maker of an offer taken whole), because its `participantsForMeta` reads
+TransactionMeta's v0 arm: stellar/wallet-backend#677, open, labelled in `known.json`.
+
 Each replay then gets a second verdict, `oracle`. A row the indexer did not store is either labelled
 with an open upstream issue that explains it (`adapters/wallet-backend/known.json`) or reported as
 **unexplained**, a candidate new finding. RESULTS.md lists both.
@@ -150,13 +164,18 @@ on 16 November 2026:
 
 | Indexer | Ledgers ingested | Oracle rows checked | Met | Known open issues | Unexplained |
 |---|---|---|---|---|---|
-| wallet-backend `main` (`3e22515a`), data lake | 611 | 270,507 | 270,465 | 42: wallet-backend#815 | 0 |
-| stellar-etl `master` (`2b24ec89`) | 611 | 321,072 | 321,071 | 1: stellar-etl#460 | 0 |
+| wallet-backend `main` (`3e22515a`), data lake | 611 | 544,445 | 544,314 | 89: wallet-backend#677; 42: wallet-backend#815 | 0 |
+| stellar-etl `master` (`2b24ec89`) | 611 | 321,142 | 321,071 | 69: stellar-etl#457; 1: stellar-etl#450; 1: stellar-etl#460 | 0 |
 
-No new defect turned up, and no check failed for a reason the oracle could not name, so the
-oracle produced no false alarm in 591,579 checks of real traffic. The 9 sweep ledgers that bring
-schema cells or patterns the corpus lacked were added to `corpus/` (`tools/corpus_add.py`), one per
-protocol era from 23 to 30.
+No check failed for a reason the oracle could not name, so the oracle produced no false alarm in
+865,587 checks of real traffic. The wallet-backend checks include the participant rule (both
+directions); its first sweep found 94 false alarms of the "only what the meta shows" direction
+(operation-level sources of successful Soroban operations, which signed but appear only in the
+envelope), and the rule was corrected to allow them before these numbers. stellar-etl's sweep
+observations were recorded before its adapter reported muxed destinations, so its 39,257 muxed
+destination checks are not counted (the corpus replay runs them: `RESULTS-stellar-etl.md`).
+The 9 sweep ledgers that bring schema cells or patterns the corpus lacked were added to `corpus/`
+(`tools/corpus_add.py`), one per protocol era from 23 to 30.
 
 ```sh
 W=/tmp/sweep

@@ -48,6 +48,7 @@ Everything comes from the bytes through tools/decode.py; no SDK and no indexer i
 import argparse
 import base64
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -443,6 +444,167 @@ def muxed_destinations(value):
                 out.append({"tx_hash": res["transactionHash"], "where": k, "account": account, "kind": kind,
                             "amount": amount,
                             "muxed": strkey.muxed(to["accountId"]["ed25519"], mid["u64"]) if kind == "id" else None})
+    return out
+
+
+_STRKEY = re.compile(r"(?<![A-Z2-7])[GC][A-Z2-7]{55}(?![A-Z2-7])")
+
+
+def _strkey_in(text):
+    """G... and C... addresses written out as text (a Stellar Asset Contract's events name the asset as
+    CODE:ISSUER), checksum verified."""
+    for m in _STRKEY.findall(text):
+        raw = base64.b32decode(m + "=" * (-len(m) % 8))
+        if strkey.crc16_xmodem(raw[:-2]).to_bytes(2, "little") == raw[-2:]:
+            yield m
+
+
+def _addresses(x, out):
+    """Every account or contract address in a decoded value, skipping diagnostic events (which echo
+    the invocation's arguments, i.e. the envelope)."""
+    if isinstance(x, str):
+        if len(x) >= 56:
+            out.update(_strkey_in(x))
+        return
+    if isinstance(x, dict):
+        if x.get("type") == "DIAGNOSTIC":
+            return
+        h = x.get("ed25519")
+        if isinstance(h, str) and len(h) == 64:
+            out.add(strkey.account(h))
+        for key in ("contractId", "contractID"):  # an SCAddress; a contract event's emitter
+            h = x.get(key)
+            if isinstance(h, str) and len(h) == 64:
+                out.add(strkey.contract(h))
+        for k, v in x.items():
+            if k not in ("diagnosticEvents",):
+                _addresses(v, out)
+    elif isinstance(x, list):
+        for v in x:
+            _addresses(v, out)
+
+
+def _changed_accounts(changes, out):
+    for ch in changes or []:
+        t = ch["type"]
+        if t in ("LEDGER_ENTRY_CREATED", "LEDGER_ENTRY_UPDATED"):
+            d = ch[t.split("_")[-1].lower()]["data"]
+            if d["type"] == "ACCOUNT":
+                out.add(account_of(d["account"]["accountID"]))
+        elif t == "LEDGER_ENTRY_REMOVED" and ch["removed"]["type"] == "ACCOUNT":
+            out.add(account_of(ch["removed"]["account"]["accountID"]))
+
+
+_ENCODER = {}
+
+
+def _envelopes(x):
+    if isinstance(x, dict):
+        if x.get("type") in ("ENVELOPE_TYPE_TX", "ENVELOPE_TYPE_TX_V0", "ENVELOPE_TYPE_TX_FEE_BUMP") and \
+                any(k in x for k in ("v0", "v1", "feeBump")):
+            yield x
+            return
+        for v in x.values():
+            yield from _envelopes(v)
+    elif isinstance(x, list):
+        for v in x:
+            yield from _envelopes(v)
+
+
+def envelopes_by_hash(value, passphrase):
+    """{transaction hash: (envelope, the signed transaction body, [source, fee-bump fee source])} for
+    every envelope in the ledger's transaction set. The hash is the one stellar-core reports in the
+    result: SHA-256 of the signature payload for this network."""
+    import hashlib
+    from encode import Encoder
+    if "e" not in _ENCODER:
+        _ENCODER["e"] = Encoder(json.load(open(ROOT / "schema" / "schema.json")))
+    enc = _ENCODER["e"]
+    network = hashlib.sha256(passphrase.encode()).hexdigest()
+    body = value["v%d" % value["v"]]
+    out = {}
+    for env in _envelopes(body.get("txSet")):
+        t = env["type"]
+        if t == "ENVELOPE_TYPE_TX_FEE_BUMP":
+            fb = env["feeBump"]["tx"]
+            tagged = {"type": t, "feeBump": fb}
+            inner = fb["innerTx"]["v1"]["tx"]
+            who = [fb["feeSource"], inner["sourceAccount"]]
+        elif t == "ENVELOPE_TYPE_TX":
+            inner = env["v1"]["tx"]
+            tagged = {"type": t, "tx": inner}
+            who = [inner["sourceAccount"]]
+        else:  # a v0 envelope is hashed as the equivalent v1 transaction
+            v0 = env["v0"]["tx"]
+            src = {"type": "KEY_TYPE_ED25519", "ed25519": v0["sourceAccountEd25519"]}
+            tb = v0.get("timeBounds")
+            inner = {"sourceAccount": src, "fee": v0["fee"], "seqNum": v0["seqNum"],
+                     "cond": {"type": "PRECOND_TIME", "timeBounds": tb} if tb else {"type": "PRECOND_NONE"},
+                     "memo": v0["memo"], "operations": v0["operations"], "ext": v0["ext"]}
+            tagged = {"type": "ENVELOPE_TYPE_TX", "tx": inner}
+            who = [src]
+        h = hashlib.sha256(enc.encode("TransactionSignaturePayload", {"networkId": network, "taggedTransaction": tagged})).hexdigest()
+        out[h] = (env, inner, who)
+    return out
+
+
+def tx_sources(value, passphrase):
+    """{transaction hash: the source account and any fee-bump fee source, as G addresses}. These
+    signed the transaction, so no submitter can name them falsely."""
+    out = {}
+    for h, (_, _, who) in envelopes_by_hash(value, passphrase).items():
+        found = set()
+        _addresses(who, found)
+        out[h] = sorted(found)
+    return out
+
+
+def participants(value, passphrase=None):
+    """Who each transaction affected, read from its meta and never from its envelope (the RFP's
+    second rule). One record per transaction:
+      shown    every account or contract address the transaction's meta carries: ledger entries
+               created, changed or removed (with their keys, so a token holder's balance entry or a
+               nonce entry names its address), and contract and system events. For a failed
+               transaction only the fee processing and the changes around the operations count:
+               its operations applied nothing.
+               With a network passphrase, also the transaction's source and fee-bump fee source from
+               its envelope: they signed it (a fee bump whose inner transaction fails before it
+               applies can leave the inner source's entry untouched); and, for a successful
+               transaction, each operation's own source, which signed for its operation.
+      changed  the accounts whose account entry the transaction created, changed or removed, the
+               source and any fee-bump fee source among them (fee and sequence number).
+    An indexer's stored participants should include `changed` and stay within `shown`. An address
+    only the envelope names (a payment destination of a failed transaction, an authorization entry
+    no require_auth matched, a declared deploy that never ran) is outside `shown`."""
+    body = value["v%d" % value["v"]]
+    envs = envelopes_by_hash(value, passphrase) if passphrase else {}
+    signers = tx_sources(value, passphrase) if passphrase else {}
+    out = []
+    for tp in body["txProcessing"]:
+        res = tp["result"]
+        ok = res["result"]["result"]["code"] in SUCCESS
+        meta = tp["txApplyProcessing"]
+        mv = meta.get("v%d" % meta["v"]) or {}
+        if "v%d" % meta["v"] not in meta:
+            mv = {"operations": meta.get("operations") or []}
+        shown, changed = set(), set()
+        fee_lists = [tp.get("feeProcessing"), tp.get("postTxApplyFeeProcessing"), mv.get("txChanges"),
+                     mv.get("txChangesBefore"), mv.get("txChangesAfter")]
+        for lst in fee_lists:
+            _addresses(lst, shown)
+            _changed_accounts(lst, changed)
+        _addresses(mv.get("events"), shown)  # protocol 23+: the transaction's fee events
+        if ok:
+            _addresses({k: v for k, v in mv.items() if k not in ("txChanges", "txChangesBefore", "txChangesAfter", "events")}, shown)
+            for op in mv.get("operations") or []:
+                _changed_accounts(op.get("changes"), changed)
+        shown.update(signers.get(res["transactionHash"], []))
+        if ok and res["transactionHash"] in envs:
+            # An operation of a successful transaction ran with its source's authorization, so that
+            # source signed. In a failed transaction it may not have: that can be why it failed.
+            _addresses([op.get("sourceAccount") for op in envs[res["transactionHash"]][1]["operations"]], shown)
+        out.append({"tx_hash": res["transactionHash"], "success": ok, "shown": sorted(shown | changed),
+                    "changed": sorted(changed)})
     return out
 
 

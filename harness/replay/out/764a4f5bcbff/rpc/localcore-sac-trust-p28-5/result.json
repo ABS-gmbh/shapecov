@@ -38,8 +38,8 @@
  "ingested": true,
  "input": "rpc",
  "ledger": {
-  "close_time": 1600543824,
-  "hash": "a37ccdb643f320480a1bef8dbe7319e7f236cb3b263a0de29de79ba9b30c9449",
+  "close_time": 4040000000,
+  "hash": "f390bd159bd718fd0288a44969cb71c50ef2ec7185675c33bf9ec2004103f4ab",
   "protocol": 28,
   "seq": 5
  },
@@ -47,19 +47,24 @@
  "mode": "unmodified",
  "oracle": {
   "verdict": "dropped",
-  "rows_expected": 3,
-  "rows_met": 1,
-  "known": {},
+  "rows_expected": 5,
+  "rows_met": 2,
+  "known": {
+   "record:R11": 1
+  },
   "unexplained": [
    "TRUSTLINE/ADD state change account=GAKLOY2E7ZEJMCPGH74PVRHMRIDZGSKVOWJEDLWCOJUYS7ME5GXPOSFS, token=CBVGR4WEKIDDTOYOWYGY2FWP7BMRSNLKUZAJAOPJGHLSTPGD2JYXTWKV, tx_hash=3739928234a57a2e5899da59d1e0ac7128d3c681f53f7c5c23d2a96dbe7a57ba: 0 row(s) stored, 1 expected",
    "BALANCE_AUTHORIZATION/SET state change account=GAKLOY2E7ZEJMCPGH74PVRHMRIDZGSKVOWJEDLWCOJUYS7ME5GXPOSFS, token=CBVGR4WEKIDDTOYOWYGY2FWP7BMRSNLKUZAJAOPJGHLSTPGD2JYXTWKV, tx_hash=3739928234a57a2e5899da59d1e0ac7128d3c681f53f7c5c23d2a96dbe7a57ba: 0 row(s) stored, 1 expected"
-  ]
+  ],
+  "fixed_upstream": {
+   "record:R11": 1
+  }
  },
  "process": {
   "exit_code": 0,
   "oom_killed": false,
   "outcome": "stopped by the adapter after the ledger was ingested",
-  "started_finished": "2026-11-15T21:43:40.273304253Z 2026-11-15T21:43:41.385690004Z"
+  "started_finished": "2026-11-16T17:31:30.112106636Z 2026-11-16T17:31:31.282042053Z"
  },
  "protocol_version": 28,
  "ref": "764a4f5bcbff5abb0949d93da37f769063013ea0",
@@ -72,5 +77,5 @@
   "transactions_accounts": 2
  },
  "sdk_pin": "v0.7.3",
- "seconds": 2.3
+ "seconds": 2.4
 }

@@ -351,6 +351,55 @@
    "labels": []
   },
   {
+   "id": "C10",
+   "kind": "confirmed",
+   "title": "Participants from operation meta are never recorded: participantsForMeta reads only the TransactionMeta v0 arm",
+   "component": "wallet-backend: participants (participantsForMeta)",
+   "severity": "S2",
+   "severity_note": "data is missing; nothing is stored wrong",
+   "caps": [],
+   "caps_none_reason": "an indexer rule (participants come from the meta), not a protocol shape",
+   "reproduction": {
+    "corpus_entry": "pubnet-60280000",
+    "also": [
+     "golden-frozenledgerkeys-1cd53aa0-23",
+     "golden-frozenledgerkeys-12c04cf7-20"
+    ]
+   },
+   "upstream": [
+    "https://github.com/stellar/wallet-backend/issues/677",
+    "https://github.com/stellar/stellar-horizon/issues/259"
+   ],
+   "first_reported_by": "JakeUrban (SDF, #677); ErenTopaal added a sponsor case on 15 November; tolgayayci filed the Horizon counterpart, stellar-horizon#259",
+   "reported": "2026-08-03",
+   "status": "open; the oracle's participant rule flags it at main: 89 missed participants in 78 transactions of the 611-ledger sweep (88 in 77 of 97,973 pubnet transactions), all sponsors whose sponsorship ended",
+   "labels": [
+    "stellar/wallet-backend#677"
+   ]
+  },
+  {
+   "id": "C11",
+   "kind": "confirmed",
+   "title": "allow_trust exports trustline_flags_updated instead of trustline_authorized, deauthorized or authorized_to_maintain_liabilities",
+   "component": "stellar-etl: export_effects (allow_trust)",
+   "severity": "S2",
+   "severity_note": "confirmed after reading the issue, not found blind",
+   "caps": [],
+   "caps_none_reason": "an effect-type contract with Horizon's model, not a protocol shape",
+   "reproduction": {
+    "corpus_entry": "testnet-5710719"
+   },
+   "upstream": [
+    "https://github.com/stellar/stellar-etl/issues/457"
+   ],
+   "first_reported_by": "chowbao (stellar-etl maintainer)",
+   "reported": "2026-07-04",
+   "status": "open; the oracle flags it on testnet-5710719 and on 69 rows of the 611-ledger sweep",
+   "labels": [
+    "stellar/stellar-etl#457"
+   ]
+  },
+  {
    "id": "R1",
    "kind": "sighting",
    "title": "Signed-payload signers halt ingestion",
@@ -584,7 +633,11 @@
    "caps": [],
    "caps_none_reason": "an indexer rule (participants come from the meta), not a protocol shape",
    "reproduction": {
-    "corpus_entry": "pubnet-61240000"
+    "corpus_entry": "pubnet-61240000",
+    "also": [
+     "localcore-planted-auth-5",
+     "localcore-declared-deploy-6"
+    ]
    },
    "upstream": [
     "https://github.com/stellar/wallet-backend/commit/9538b3caeaebfeb3d034146c0ce9643c3066cf8a",

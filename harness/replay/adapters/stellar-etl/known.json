@@ -55,6 +55,14 @@
      "hash"
     ]
    }
+  },
+  {
+   "issue": "stellar/stellar-etl#457",
+   "note": "allow_trust emits trustline_flags_updated (26) in every branch; Horizon emits trustline_authorized (23), trustline_deauthorized (24) or trustline_authorized_to_maintain_liabilities (25) first, and those types do not exist in stellar-etl's schema. Rule written after reading the issue.",
+   "match": {
+    "what": "trustauth",
+    "how": "allow_trust effect type"
+   }
   }
  ]
 }

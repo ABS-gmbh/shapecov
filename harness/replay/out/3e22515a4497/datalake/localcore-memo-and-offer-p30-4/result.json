@@ -11,8 +11,8 @@
  "ingested": true,
  "input": "datalake",
  "ledger": {
-  "close_time": 1600392989,
-  "hash": "8c05d21ccf2b44566dfb920c2e8b8939f52d29780ffe582d6afae52cfc295701",
+  "close_time": 4030000000,
+  "hash": "92e773ea688672510394221d2a4bba2a8c703101d903c291e8d765fbb8c0703c",
   "protocol": 30,
   "seq": 4
  },
@@ -20,8 +20,8 @@
  "mode": "unmodified",
  "oracle": {
   "verdict": "pass",
-  "rows_expected": 4,
-  "rows_met": 4,
+  "rows_expected": 9,
+  "rows_met": 9,
   "known": {},
   "unexplained": []
  },
@@ -29,7 +29,7 @@
   "exit_code": 0,
   "oom_killed": false,
   "outcome": "stopped by the adapter after the ledger was ingested",
-  "started_finished": "2026-11-15T21:48:17.114172382Z 2026-11-15T21:48:18.226693049Z"
+  "started_finished": "2026-11-16T17:33:25.034825967Z 2026-11-16T17:33:26.565174384Z"
  },
  "protocol_version": 30,
  "ref": "3e22515a44979fdc3a558fda3991ca2b48e38cef",
@@ -42,5 +42,5 @@
   "transactions_accounts": 3
  },
  "sdk_pin": "v0.8.0",
- "seconds": 2.2
+ "seconds": 2.7
 }

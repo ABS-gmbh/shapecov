@@ -17,7 +17,9 @@ goes to `RESULTS-<name>.md`.
 2. Expectations never come from the indexer. The adapter reports what was stored; the harness
    compares it with `expected.indexer` from `corpus/manifest.json`.
 3. Third-party code runs in Docker, on the network the harness names. That network is created
-   with `--internal`, so the indexer has no route to the internet during a run.
+   with `--internal`, so the indexer has no route to the internet during a run. An adapter whose
+   indexer is the adapter's own code (an example or a test double, standard library only) may run
+   it in-process and ignore `--network`; anything fetched or built from elsewhere goes in Docker.
 4. Container and volume names start with `shapecov-replay-`.
 
 ## Calling convention
@@ -152,6 +154,7 @@ give the stored bytes as hex, so that a damaged value can be shown exactly.
 | `adapter_failure` | `true` when the adapter, not the indexer, failed, for example the indexer's migrations did not run. The harness then reports `error`, not a verdict. |
 | `unreadable` | Every stored address that does not decode as a valid SEP-23 address. |
 | `transactions`, `operations`, `state_changes` | What the indexer stored for this ledger, read back from its own storage. An indexer without one of these concepts leaves the list empty. `state_changes` rows use the indexer's own vocabulary in `category` and `reason`: stellar-etl's adapter writes each effect as category `EFFECT` with the effect type as reason. |
+| `transactions[].participants`, `operations[].participants` | The addresses the indexer records as involved in each transaction and operation, as strkeys (`operations[]` carries `tx_hash` and the 1-based `op_order`). The participant checks read these; an indexer with no such concept leaves them empty, and then only the implicit checks apply to participants. |
 | `balance_movements` (optional) | Signed balance movements, `{tx_hash, op_order, account, token, delta, token_kind}`, for an indexer that does not store wallet-backend `BALANCE` rows. `op_order` 0 is the fee. `token_kind` is `asset` for a Stellar Asset Contract and `contract` for any other token contract, whose balances the oracle cannot see. |
 
 Write any logs you have (`ingest.log`, `migrate.log`, …) next to `observation.json`. The
@@ -166,18 +169,24 @@ contract instances created; offers and the trades that cross them; claimable bal
 pools; and sponsorship of entries and signers. `oracle.balances()` adds the net change of every account's XLM and
 credit-asset trustline balance per operation, plus each transaction's net fee.
 
+`oracle.participants()` gives, per transaction, who it affected: every
+address its meta carries (entries created, changed or removed, with their keys; contract and system
+events, never diagnostic events; a strkey written in an event string), plus its source and
+fee-bump source and, when it succeeded, each operation's source. A failed transaction's operations count for nothing. An indexer may record any
+subset of that set as participants; recording an address outside it is mishandling.
+
 An adapter can opt in to having every such change checked, not only the manifest's expectations,
 by providing two files next to `adapter.py`:
 
 | File | Contains |
 |---|---|
-| `expect.py` | `expectations(changes, network_passphrase)`: the row the indexer should store for each oracle change, as expectations in the format below (`state_change`, `participant`, …), each with a `via` field saying where the oracle saw the change. Also `known_issue(expectation)`. |
-| `known.json` | Open upstream issues that explain a failing oracle expectation, as match rules on the row and on where the change happened. |
-| `expect.py` (optional) | `balance_expectations(records, network_passphrase)`: one `balance_net` expectation per balance record, naming the indexer's token and operation position. The harness then also reports stored balance movements for an account where the ledger shows none (asset contracts only). |
-| `expect.py` (optional) | `manifest_expectations(exps)`: the manifest's hand-written expectations are in wallet-backend's vocabulary; this keeps or rewrites the ones that apply to this indexer. `REPORT_INTRO`: the lines that describe a cell at the top of the report. |
+| `expect.py` | **Required**, even when it derives nothing: `expectations(changes, network_passphrase)`, the row the indexer should store for each oracle change, as expectations in the format below (`state_change`, `participant`, …), each with a `via` field saying where the oracle saw the change (return `[]` if the indexer stores none of them); and `known_issue(expectation)` (return `None` if nothing is known). **Optional**, used when present: `balance_expectations(records, network_passphrase)`, one `balance_net` expectation per balance record naming the indexer's token and operation position (the harness then also reports stored balance movements for an account where the ledger shows none, asset contracts only); `muxed_expectations(records, network_passphrase)`; `participant_expectations(records, network_passphrase)`, from `oracle.participants()`, a `participants_within` expectation per transaction and, if the indexer promises it, a `participant` expectation per account whose entry the transaction changed; `manifest_expectations(exps)`, which keeps or rewrites the manifest's hand-written expectations (written in wallet-backend's vocabulary); `REPORT_INTRO`, the lines that describe a cell at the top of the report. |
+| `known.json` | Upstream issues (or `record:<ID>` findings) that explain a failing oracle expectation, as match rules on the row and on where the change happened. |
 
 `expect.py` only names rows in the indexer's own vocabulary; whether a row is expected always comes
-from the ledger. A ledger the indexer did not ingest is itself an oracle failure: `known_issue` is
+from the ledger. A `known.json` rule with `"fixed_by": "<commit>"` labels a defect the indexer has since fixed, and
+only at commits that are git ancestors of that fix; the label maps the failure to a record, and the
+backtest still counts it as a failure. A ledger the indexer did not ingest is itself an oracle failure: `known_issue` is
 asked about `{"expect": "ingested", "error": ...}`, and a `known.json` rule can match the error text
 with `"error_contains"`. After changing `expect.py` or `known.json`, `replay.py rejudge --out <dir>`
 recomputes every oracle verdict from the stored observations without running the indexer again. The harness then gives every replay a second verdict, `oracle`, beside the
@@ -207,6 +216,7 @@ Expectation kinds the classifier understands (`expected.indexer[].expect` in the
 | `no_state_change` | same selectors | no matching row is stored |
 | `participant` | `account`, optional `tx_hash` | the account is recorded on the transaction, or on any transaction of the ledger |
 | `no_participant` | `account`, optional `tx_hash` | it is not |
+| `participants_within` | `tx_hash`, `allowed` | every participant stored for the transaction or its operations, and the account of every state change stored for it, is in `allowed`; otherwise mishandled |
 | `transaction` | `hash` | the transaction is stored |
 | `balance_net` | `account`, `token`, `tx_hash`, `op_order`, `delta` | the account's stored BALANCE rows for that token, transaction and operation (`op_order` 0: the fee row) add up to `delta`: CREDIT +amount, DEBIT −amount; MINT and BURN rows mark the issuer's side and do not count |
 

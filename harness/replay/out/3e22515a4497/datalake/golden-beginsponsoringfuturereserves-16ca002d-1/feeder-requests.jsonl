@@ -1,0 +1,6 @@
+{"http": "GET", "keys": 1, "path": "/shapecov-lake?list-type=2&max-keys=1&prefix=golden-beginsponsoringfuturereserves-16ca002d-1%2F", "port": "s3", "status": 200, "t": 1794850449.085}
+{"http": "GET", "keys": 2, "path": "/shapecov-lake?fetch-owner=false&list-type=2&max-keys=1000&prefix=golden-beginsponsoringfuturereserves-16ca002d-1%2F&start-after=", "port": "s3", "status": 200, "t": 1794850449.249}
+{"http": "GET", "path": "/shapecov-lake/golden-beginsponsoringfuturereserves-16ca002d-1/.config.json?x-id=GetObject", "port": "s3", "size": 123, "status": 200, "t": 1794850449.296}
+{"http": "GET", "path": "/shapecov-lake/golden-beginsponsoringfuturereserves-16ca002d-1/FFFFFFFF--0-63999/FFFFFFFB--4.xdr.zst?x-id=GetObject", "port": "s3", "status": 404, "t": 1794850449.349}
+{"http": "GET", "path": "/shapecov-lake/golden-beginsponsoringfuturereserves-16ca002d-1/FFFFFFFF--0-63999/FFFFFFFC--3.xdr.zst?x-id=GetObject", "port": "s3", "size": 635, "status": 200, "t": 1794850449.351}
+{"http": "GET", "path": "/shapecov-lake/golden-beginsponsoringfuturereserves-16ca002d-1/FFFFFFFF--0-63999/FFFFFFFA--5.xdr.zst?x-id=GetObject", "port": "s3", "status": 404, "t": 1794850449.351}

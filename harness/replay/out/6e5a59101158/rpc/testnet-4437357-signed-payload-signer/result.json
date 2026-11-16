@@ -32,7 +32,7 @@
  "mode": "unmodified",
  "oracle": {
   "verdict": "mishandled",
-  "rows_expected": 17,
+  "rows_expected": 43,
   "rows_met": 0,
   "known": {},
   "unexplained": [
@@ -43,7 +43,7 @@
   "exit_code": 2,
   "oom_killed": false,
   "outcome": "exited by itself before the ledger was ingested",
-  "started_finished": "2026-11-15T21:42:18.480486424Z 2026-11-15T21:42:33.828702875Z"
+  "started_finished": "2026-11-16T17:30:05.913413055Z 2026-11-16T17:30:21.67214284Z"
  },
  "protocol_version": 28,
  "ref": "6e5a59101158dc2996295450190142366062cd05",
@@ -56,5 +56,5 @@
   "transactions_accounts": 0
  },
  "sdk_pin": "v0.7.3",
- "seconds": 16.9
+ "seconds": 17.7
 }

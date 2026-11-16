@@ -1,13 +1,72 @@
 {
- "note": "Open upstream issues that explain an oracle expectation wallet-backend does not meet. A failing oracle check that matches a rule is labelled with the issue; one that matches none is reported as unexplained, which is a candidate new finding. Rules match on the expected row and on where the oracle saw the change; they never hide a failure. A rule's earlier_reports lists issues filed before the labelled one that describe the same defect or part of it (#806: factory deploys only; #805: failed transactions only); the label is the issue whose scope covers every case the rule matches.",
+ "note": "Open upstream issues that explain an oracle expectation wallet-backend does not meet. A failing oracle check that matches a rule is labelled with the issue; one that matches none is reported as unexplained, which is a candidate new finding. Rules match on the expected row and on where the oracle saw the change; they never hide a failure. A rule's earlier_reports lists issues filed before the labelled one that describe the same defect or part of it (#806: factory deploys only; #805: failed transactions only); the label is the issue whose scope covers every case the rule matches. A rule with `fixed_by` labels a defect wallet-backend has since fixed, and only at commits that are git ancestors of that fix (in the clone the harness builds from), so the same failure at a later commit stays unexplained; the backtest still counts such a failure as a failure (`fixed_upstream` in the oracle verdict).",
  "rules": [
-  {"issue": "stellar/wallet-backend#816", "earlier_reports": ["stellar/wallet-backend#804"], "title": "An XLM transfer through the native asset contract that creates the destination account gets no ACCOUNT CREATE state change",
-   "match": {"category": "ACCOUNT", "reason": "CREATE", "account_kind": "G", "op_type": "INVOKE_HOST_FUNCTION"}},
-  {"issue": "stellar/wallet-backend#815", "earlier_reports": ["stellar/wallet-backend#806"], "title": "Contract deployments that no auth entry declares get no ACCOUNT CREATE state change (factory deploys, Stellar Asset Contracts)",
-   "match": {"category": "ACCOUNT", "reason": "CREATE", "account_kind": "C", "op_type": "INVOKE_HOST_FUNCTION"}},
-  {"issue": "stellar/wallet-backend#818", "earlier_reports": ["stellar/wallet-backend#805"], "title": "A pre-authorized transaction signer that core removes in txChangesBefore never gets a SIGNER REMOVE state change",
-   "match": {"category": "SIGNER", "reason": "REMOVE", "where": "before"}},
-  {"issue": "stellar/wallet-backend#817", "title": "A pool-share trustline removed by an authorization revocation gets no TRUSTLINE REMOVE state change",
-   "match": {"category": "TRUSTLINE", "reason": "REMOVE", "op_type": ["SET_TRUST_LINE_FLAGS", "ALLOW_TRUST"]}}
+  {
+   "issue": "stellar/wallet-backend#816",
+   "earlier_reports": [
+    "stellar/wallet-backend#804"
+   ],
+   "title": "An XLM transfer through the native asset contract that creates the destination account gets no ACCOUNT CREATE state change",
+   "match": {
+    "category": "ACCOUNT",
+    "reason": "CREATE",
+    "account_kind": "G",
+    "op_type": "INVOKE_HOST_FUNCTION"
+   }
+  },
+  {
+   "issue": "stellar/wallet-backend#815",
+   "earlier_reports": [
+    "stellar/wallet-backend#806"
+   ],
+   "title": "Contract deployments that no auth entry declares get no ACCOUNT CREATE state change (factory deploys, Stellar Asset Contracts)",
+   "match": {
+    "category": "ACCOUNT",
+    "reason": "CREATE",
+    "account_kind": "C",
+    "op_type": "INVOKE_HOST_FUNCTION"
+   }
+  },
+  {
+   "issue": "stellar/wallet-backend#818",
+   "earlier_reports": [
+    "stellar/wallet-backend#805"
+   ],
+   "title": "A pre-authorized transaction signer that core removes in txChangesBefore never gets a SIGNER REMOVE state change",
+   "match": {
+    "category": "SIGNER",
+    "reason": "REMOVE",
+    "where": "before"
+   }
+  },
+  {
+   "issue": "stellar/wallet-backend#817",
+   "title": "A pool-share trustline removed by an authorization revocation gets no TRUSTLINE REMOVE state change",
+   "match": {
+    "category": "TRUSTLINE",
+    "reason": "REMOVE",
+    "op_type": [
+     "SET_TRUST_LINE_FLAGS",
+     "ALLOW_TRUST"
+    ]
+   }
+  },
+  {
+   "issue": "record:R11",
+   "fixed_by": "e2da4cadf2689380e9fc2dd0e1bce64191f411b8",
+   "title": "Participants taken from the envelope (failed-transaction destinations, unmatched authorization entries, declared-only deploys, invoked contracts); fixed upstream in 9538b3c, 80121f3 and e2da4ca with no issue",
+   "match": {
+    "what": "participant",
+    "how": "outside meta"
+   }
+  },
+  {
+   "issue": "stellar/wallet-backend#677",
+   "title": "Transaction meta participants are silently dropped: participantsForMeta reads only TransactionMeta's v0 arm, so an account an operation changes but does not name (a sponsor whose sponsorship ends, the maker of an offer taken whole) is not a transaction participant",
+   "match": {
+    "what": "participant",
+    "how": "account changed"
+   }
+  }
  ]
 }

@@ -17,6 +17,9 @@ Expectation kinds (`expect`):
   no_state_change      same selectors; no stored row may match
   participant          {account, tx_hash?}                the account is recorded on the transaction
   no_participant       {account, tx_hash?}                the address must not be recorded
+  participants_within  {tx_hash, allowed: [address]}      every participant stored for the transaction
+                       or any of its operations, and the account of every state change stored for
+                       it, is in `allowed` (the addresses its meta shows)
   transaction          {hash}                             the transaction is stored
   balance_net          {account, token, tx_hash, op_order, delta}
                        the account's BALANCE rows for that token in that transaction and
@@ -106,6 +109,9 @@ def _muxed(exp, obs):
         # The same account can receive several times in one operation: compare the receipt of this amount.
         rows = [m for m in rows if m.get("delta") == exp["amount"]]
     label = "receipt of %s in tx %s, operation %d" % (exp["account"], exp["tx_hash"][:12], exp["op_order"])
+    if rows and not any("to_muxed" in m for m in rows):
+        # An observation recorded before its adapter reported muxed destinations says nothing about them.
+        return "not_checked", "%s: the observation does not report muxed destinations" % label
     if not rows:
         return "missing", "%s: no stored transfer to it" % label
     got = {m.get("to_muxed") for m in rows}
@@ -118,7 +124,32 @@ def _muxed(exp, obs):
         label, ", ".join(sorted(str(g) for g in got)), exp["muxed"] or "none (its to_muxed_id is a memo, not an ID)")
 
 
+def _within(exp, obs):
+    allowed = set(exp["allowed"])
+    stored = {}
+    for t in obs.get("transactions") or []:
+        if t.get("hash") == exp["tx_hash"]:
+            for p in t.get("participants") or []:
+                stored.setdefault(p, "the transaction")
+    for o in obs.get("operations") or []:
+        if o.get("tx_hash") == exp["tx_hash"]:
+            for p in o.get("participants") or []:
+                stored.setdefault(p, "operation %s" % o.get("op_order"))
+    for r in obs.get("state_changes") or []:
+        if r.get("tx_hash") == exp["tx_hash"] and r.get("account"):
+            stored.setdefault(r["account"], "a %s/%s state change" % (r.get("category"), r.get("reason")))
+    extra = sorted(p for p in stored if p not in allowed)
+    label = "addresses recorded for tx %s" % exp["tx_hash"][:12]
+    if extra:
+        return "wrong_value", "%s: %s recorded, which the transaction's meta does not show it affected%s" % (
+            label, ", ".join("%s (on %s)" % (p, stored[p]) for p in extra),
+            "" if exp.get("success", True) else " (the transaction failed: only its fee and sequence number applied)")
+    return "met", "%s: %d stored, all shown by the meta" % (label, len(stored))
+
+
 def _check(exp, obs):
+    if exp.get("expect") == "participants_within":
+        return _within(exp, obs)
     if exp.get("expect") == "muxed_destination":
         return _muxed(exp, obs)
     if exp.get("expect") == "balance_net":

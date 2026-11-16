@@ -6,7 +6,7 @@ Run date: 14 November 2026, updated 16 November 2026. Versions are in `README.md
 
 <!-- findings-table:begin (generated from FINDINGS.json by .github/scripts/check_findings.py --write; do not edit by hand) -->
 
-29 findings in `FINDINGS.json`, one record each. Severity: **S1** halts or rejects valid data; **S2** wrong or missing data; **S3** accepts non-canonical input; **S4** hardening. Dates are UTC.
+31 findings in `FINDINGS.json`, one record each. Severity: **S1** halts or rejects valid data; **S2** wrong or missing data; **S3** accepts non-canonical input; **S4** hardening. Dates are UTC.
 
 **Found by ShapeCov and filed by us** (6)
 
@@ -19,7 +19,7 @@ Run date: 14 November 2026, updated 16 November 2026. Versions are in `README.md
 | E2 | A revocation that redeems pool shares in two pools gets one liquidity_pool_revoked, citing the other pool's balance | stellar-etl: export_effects (addLiquidityPoolRevokedEffect); Horizon has the same code | S2 | CAP-0038 | entry `localcore-pool-revoke-two-pools-7` | [stellar/stellar-etl#513](https://github.com/stellar/stellar-etl/issues/513) | ShapeCov, 2026-11-15 | open |
 | E3 | Pool-share trustlines removed by a revocation get no trustline_removed effect | stellar-etl: export_effects; Horizon has the same code | S2 | CAP-0038 | entry `localcore-pool-revoke-two-pools-7` | [stellar/stellar-etl#514](https://github.com/stellar/stellar-etl/issues/514) | ShapeCov, 2026-11-15 | open |
 
-**Reported first by others; ShapeCov's tools reproduce it** (9)
+**Reported first by others; ShapeCov's tools reproduce it** (11)
 
 | ID | Finding | Component | Severity | CAPs | Reproduction | Upstream | First reported | Status |
 |---|---|---|---|---|---|---|---|---|
@@ -32,6 +32,8 @@ Run date: 14 November 2026, updated 16 November 2026. Versions are in `README.md
 | C7 | SafeUnmarshalBase64 accepts 1 or 2 trailing bytes | go-stellar-sdk: xdr | S3 | none: codec level, an RFC 4506 rule, not a CAP | case `Value/trailing1` | [stellar/go-stellar-sdk#6039](https://github.com/stellar/go-stellar-sdk/issues/6039) | kasbsquall, 2026-11-13 | open; fix PR #6041 open |
 | C8 | Out-of-range offer and muxed IDs are serialized modulo 2^64 | py-stellar-base 17.0.1: transaction building | S2 | none: SDK input conversion, not a protocol shape | entry `synthetic-ids-beyond-f64` | [StellarCN/py-stellar-base#1251](https://github.com/StellarCN/py-stellar-base/issues/1251) | kasbsquall, 2026-11-13 | fixed on main by #1253 (2026-11-14), not released; 17.0.1 still has it |
 | C9 | scval.to_native drops map entries whose keys collide (u32 1 and i64 1 in a host-written map) | py-stellar-base 17.0.1: scval | S2 | CAP-0046-01 | entry `testnet-5712621` | [StellarCN/py-stellar-base#1250](https://github.com/StellarCN/py-stellar-base/issues/1250) | kasbsquall, 2026-11-13 | fixed on main by #1252 (2026-11-16), not released; 17.0.1 still has it |
+| C10 | Participants from operation meta are never recorded: participantsForMeta reads only the TransactionMeta v0 arm | wallet-backend: participants (participantsForMeta) | S2; data is missing; nothing is stored wrong | none: an indexer rule (participants come from the meta), not a protocol shape | entry `pubnet-60280000` | [stellar/wallet-backend#677](https://github.com/stellar/wallet-backend/issues/677), [stellar/stellar-horizon#259](https://github.com/stellar/stellar-horizon/issues/259) | JakeUrban (SDF, #677); ErenTopaal added a sponsor case on 15 November; tolgayayci filed the Horizon counterpart, stellar-horizon#259, 2026-08-03 | open; the oracle's participant rule flags it at main: 89 missed participants in 78 transactions of the 611-ledger sweep (88 in 77 of 97,973 pubnet transactions), all sponsors whose sponsorship ended |
+| C11 | allow_trust exports trustline_flags_updated instead of trustline_authorized, deauthorized or authorized_to_maintain_liabilities | stellar-etl: export_effects (allow_trust) | S2; confirmed after reading the issue, not found blind | none: an effect-type contract with Horizon's model, not a protocol shape | entry `testnet-5710719` | [stellar/stellar-etl#457](https://github.com/stellar/stellar-etl/issues/457) | chowbao (stellar-etl maintainer), 2026-07-04 | open; the oracle flags it on testnet-5710719 and on 69 rows of the 611-ledger sweep |
 
 **One of the RFP's sightings, reproduced before its fix and passing after** (10)
 
@@ -311,8 +313,8 @@ The py-stellar-base maintainer asks that XDR and strkey problems be tried agains
 ## Detection backtest
 
 Would the harness have caught defects that were already fixed or reported upstream? Replayed at the
-commit before and after each in-scope fix, it detects 4 of wallet-backend's 17 in-scope fixes (2 on
-ledgers not chosen for the bug) and flags 2 of stellar-etl's 9 in-scope issues (1 blind). The
+commit before and after each in-scope fix, it detects 7 of wallet-backend's 17 in-scope fixes (4 on
+ledgers not chosen for the bug) and flags 3 of stellar-etl's 9 in-scope issues (1 blind). The
 measurement is incomplete: `harness/replay/BACKTEST.md` lists every fix, and for each miss the
 shape, oracle rule or export that would catch it. `python3 harness/replay/replay.py backtest`
 checks every claim against the recorded replays.

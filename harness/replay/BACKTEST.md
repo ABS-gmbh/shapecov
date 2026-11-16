@@ -11,9 +11,13 @@ verifies every row of `backtest.json` against the recorded results.
 
 ## Method
 
-- **What counts as a detection.** A fix is detected when at least one ledger fails at the parent
-  (the indexer mishandles or drops it, or the oracle reports a failure no known issue explains) and
-  passes at the fix. A fix whose failure changes form but persists is not a detection.
+- **What counts as a detection.** A fix is detected when a ledger has a failure at the parent that
+  is gone, or smaller, at the fix. The failures compared are the indexer's own result
+  (`mishandled` or `dropped`), the number of oracle failures no known issue explains, and the number
+  under each label of a defect the indexer fixed later (R11). Counting matters twice: R11 spans
+  three fixes, so 9538b3c removes only part of it; and a ledger can carry a later fix's failure at
+  both the parent and the fix of an earlier one. A fix whose failure changes form but persists
+  is not a detection.
 - **Blind or not.** A detection is *blind* when the ledger that shows it was not chosen or built
   with knowledge of that fix: network ledgers picked by stride or by schema-cell cover. A detection
   on an entry built or selected after reading the fix or its issue is labelled "confirmed after
@@ -27,6 +31,18 @@ verifies every row of `backtest.json` against the recorded results.
   #687), whose commits take about 25 seconds per ledger and whose fixes change tables the adapter
   does not read, so pass 2 could not change their result. Their pass-2 column shows "—".
 - **One input.** The data lake (`datalake`); both inputs agree on every sighting.
+- **The oracle's participant rule** (the RFP's second rule: who a transaction affected comes from the
+  meta, not the envelope) was added after the first run. Every recorded replay of both passes was
+  judged again with it (`replay.py rejudge`, which does not run the indexer again). The rule:
+  every participant and state-change account stored for a transaction is an address its meta shows
+  (an entry created, changed or removed, a nonce, a contract or system event), the transaction's
+  source or fee-bump source, or an operation source of a successful transaction. A failed transaction's meta shows only its fee and sequence number.
+  Failures that wallet-backend later fixed are labelled with record R11 at the commits before the
+  fix and still count as failures here.
+- **Built after reading the fix.** `localcore-planted-auth-5` and `localcore-declared-deploy-6`
+  (scenario `participants-p28` in `tools/localcore.py`) were built after reading 9538b3c and
+  80121f3: an authorization entry no `require_auth` matches, and one declaring a deploy that never
+  runs.
 
 ## Scope
 
@@ -43,7 +59,7 @@ per run).
 
 ## wallet-backend: 17 in-scope fixes
 
-**Detected 4 of 17 in-scope fixes; 2 with a blind ledger.** Each row: the fix, the replays at its parent (pass 1 corpus / pass 2 sweep ledgers), and either the ledgers that fail at the parent and pass at the fix, or what would catch it.
+**Detected 7 of 17 in-scope fixes; 4 with a blind ledger.** Each row: the fix, the replays at its parent (pass 1 corpus / pass 2 sweep ledgers), and either the ledgers with a failure at the parent that the fix removes, or what would catch it.
 
 | Fix | Issue | Subject | Replays at parent | Result | Ledgers, or what would catch it |
 |---|---|---|---|---|---|
@@ -59,9 +75,9 @@ per run).
 | `7b7ee5f0` | — | map the three frozen-trustline operation result codes | 12 / 59 | missed | A claim, deposit or withdraw failing on a frozen trustline at protocol 26 to 28. The corpus has them only at protocol 30 (`golden-frozenledgerkeys-a0fb94c3-15`, `-d637d647-16`), which the commits before the fix cannot decode: a local-core scenario that freezes a trustline at protocol 26 to 28. |
 | `ba821579` | — | drop pool-share balances whose pool row is missing | 12 / 59 | missed | A ledger that changes a pool-share balance whose pool entry the ledger does not touch, replayed into an empty database (no such pass-2 ledger halted the parent). |
 | `666a64d4` | — | skip events whose address kind an account column cannot store | 12 / 59 | missed | A SEP-41 or SAC event whose address topic is a claimable balance or a liquidity pool (protocol 23 or later): a local-core scenario with a token contract that emits one. |
-| `9538b3ca` | — | derive Soroban participants from executed meta, not the auth tree | 12 / 59 | missed | An auth entry naming an account that no require_auth matched, plus an oracle rule: every participant is the source, an account whose nonce entry the host created, or an account whose ledger state changed. |
-| `80121f3a` | — | record a declared nested deploy only when the meta shows it happened | 12 / 59 | missed | An auth tree declaring a CreateContract that never runs, plus an oracle rule that reports a stored ACCOUNT CREATE for a contract the meta does not create. |
-| `e2da4cad` | — | a Soroban participant is an address that authorised the operation | 12 / 59 | missed | The participant rule above, on any contract invocation: the invoked contract and event emitters stop being participants. Soroban invocations are in the corpus; the rule is what is missing. |
+| `9538b3ca` | — | derive Soroban participants from executed meta, not the auth tree | 14 / 59 | **detected, blind** | pass 1: `localcore-planted-auth-5` (chosen or built after reading the fix), `pubnet-59220000`, `pubnet-60280000`, `pubnet-61240000`, `pubnet-63920000`, `testnet-4437357-signed-payload-signer`; pass 2: 55 of 59 sweep ledgers |
+| `80121f3a` | — | record a declared nested deploy only when the meta shows it happened | 14 / 59 | **detected, confirmed after reading the fix** | pass 1: `localcore-declared-deploy-6` (chosen or built after reading the fix) |
+| `e2da4cad` | — | a Soroban participant is an address that authorised the operation | 14 / 59 | **detected, blind** | pass 1: `localcore-sac-trust-p28-5`, `pubnet-59220000`, `pubnet-60280000`, `pubnet-61240000`, `pubnet-63920000`, `testnet-4437357-signed-payload-signer`; pass 2: 51 of 59 sweep ledgers |
 | `ff73ff46` | wallet-backend#803 | validate Blend pool name bytes and length on decode | 64 / 59 | missed | A Blend pool whose name is not valid UTF-8 or longer than the cap. Blend state is outside the oracle's model; needs a Blend deployment in a local-core scenario. |
 | `3e22515a` | wallet-backend#802 | cap Blend decimals at 70 | 64 / 59 | missed | A Blend pool whose reserve config has decimals above 70; same as above. |
 
@@ -81,7 +97,7 @@ rows from ledger data.
 | #454 amounts as float64 | no: a representation contract, not a ledger shape (the adapter reads `amount_raw`) | — | — |
 | #455 path-payment amount JSON type varies with success | no: serialization type stability | — | — |
 | #456 trade claims emit spurious offer effects | yes | **missed**: the oracle does not report extra effects | report effects with no matching ledger change; the 319 crossed offers in the corpus already show it |
-| #457 allow_trust effect types | yes | **missed**: the oracle's effect vocabulary was taken from stellar-etl's own output, so it cannot flag that choice | map `AllowTrust` to Horizon's `trustline_authorized` / `deauthorized` types; `ALLOW_TRUST` ledgers exist in the corpus (`testnet-5710719`) |
+| #457 allow_trust effect types | yes | **flagged, confirmed after reading the issue**: 1 row in `testnet-5710719`, an AllowTrust that clears AUTHORIZED; stellar-etl exports two `trustline_flags_updated` effects and no `trustline_deauthorized`. The rule takes the effect type from the flags the operation set and cleared on the trustline (Horizon's model: `trustline_authorized`, `trustline_authorized_to_maintain_liabilities` or `trustline_deauthorized` before `trustline_flags_updated`) | — |
 | #458 effect index off by one | no: numbering convention | — | — |
 | #459 forked SAC helpers in contract_data | yes | not run: the adapter does not run `export_ledger_entry_changes` | that export in the adapter; native-asset balance entries are in the Soroban corpus ledgers |
 | #460 CAP-73 effect gaps | yes | **flagged, blind**: 5 rows in 4 ledgers (`testnet-5709224`, `pubnet-65480300`, `pubnet-63920000`, `localcore-sac-trust-p28-5`); the oracle reported them as unexplained before the issue was found | — |
@@ -90,13 +106,12 @@ rows from ledger data.
 | #463 dead code | no | — | — |
 | #464 fee-bump inner signers captured nowhere | no: a schema omission by design | — | — |
 
-**stellar-etl: 2 of 9 in-scope issues flagged (1 blind).** Three are in exports the adapter does not
-run yet (#451, #452, #459). Of the other four, three (#456, #457, #462) are misses whose shapes the
-corpus already has, so each needs an oracle rule, not a new ledger; #453 needs both a rule and a new
-entry (none of the corpus's 1,005 fee bumps has a muxed fee source on a Soroban transaction). Of the
-three the RFP's background names, #450 is now flagged on 928 rows from ledger data, #454 is a
-precision contract rather than a ledger shape, and #457 needs the oracle to use Horizon's effect
-vocabulary instead of stellar-etl's.
+**stellar-etl: 3 of 9 in-scope issues flagged (1 blind).** Three are in exports the adapter does not
+run yet (#451, #452, #459). Of the other three, two (#456, #462) are misses whose shapes the corpus
+already has, so each needs an oracle rule, not a new ledger; #453 needs both a rule and a new entry
+(none of the corpus's 1,005 fee bumps has a muxed fee source on a Soroban transaction). All three
+the RFP's background names are now settled: #450 and #457 are flagged from ledger data, and #454 is
+a precision contract rather than a ledger shape.
 
 ## Reproduce
 

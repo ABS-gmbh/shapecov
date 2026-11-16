@@ -1,0 +1,7 @@
+{"http": "GET", "keys": 1, "path": "/shapecov-lake?list-type=2&max-keys=1&prefix=localcore-declared-deploy-6%2F", "port": "s3", "status": 200, "t": 1794851098.048}
+{"http": "GET", "keys": 2, "path": "/shapecov-lake?fetch-owner=false&list-type=2&max-keys=1000&prefix=localcore-declared-deploy-6%2F&start-after=", "port": "s3", "status": 200, "t": 1794851098.508}
+{"http": "GET", "path": "/shapecov-lake/localcore-declared-deploy-6/.config.json?x-id=GetObject", "port": "s3", "size": 142, "status": 200, "t": 1794851098.556}
+{"entry": "localcore-declared-deploy-6", "method": "getLedgerEntries", "params": {"keys": ["AAAABgAAAAFNIuPNj2chQSfpDVYIszryEQHfw9Fua9aQ+eruZJPBugAAABQAAAAB", "AAAABgAAAAFHW1583t8azo1nfC2mJC7OjJ4hB7jQ6FsOqNEpEvdzgQAAABQAAAAB"], "pagination": {"limit": 0}, "resourceConfig": {}}, "port": "rpc", "status": "ok", "t": 1794851098.614}
+{"http": "GET", "path": "/shapecov-lake/localcore-declared-deploy-6/FFFFFFFF--0-63999/FFFFFFF8--7.xdr.zst?x-id=GetObject", "port": "s3", "status": 404, "t": 1794851098.622}
+{"http": "GET", "path": "/shapecov-lake/localcore-declared-deploy-6/FFFFFFFF--0-63999/FFFFFFF9--6.xdr.zst?x-id=GetObject", "port": "s3", "size": 1407, "status": 200, "t": 1794851098.623}
+{"http": "GET", "path": "/shapecov-lake/localcore-declared-deploy-6/FFFFFFFF--0-63999/FFFFFFF7--8.xdr.zst?x-id=GetObject", "port": "s3", "status": 404, "t": 1794851098.671}

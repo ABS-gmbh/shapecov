@@ -1,0 +1,46 @@
+{
+ "adapter": "wallet-backend",
+ "checks": [],
+ "commit": "3e22515a44979fdc3a558fda3991ca2b48e38cef",
+ "dropped": [],
+ "entry_id": "localcore-preauth-failed-6",
+ "evidence": "out/3e22515a4497/rpc/localcore-preauth-failed-6",
+ "expectations": 0,
+ "expectations_source": "none (implicit checks only)",
+ "feeder_requests": 4,
+ "ingested": true,
+ "input": "rpc",
+ "ledger": {
+  "close_time": 4050000000,
+  "hash": "59baefbe4f6cd2230b56dab0c399628b3d07c5c3137bdf3e32fa20f405ae6ed4",
+  "protocol": 30,
+  "seq": 6
+ },
+ "mishandled": [],
+ "mode": "unmodified",
+ "oracle": {
+  "verdict": "pass",
+  "rows_expected": 3,
+  "rows_met": 3,
+  "known": {},
+  "unexplained": []
+ },
+ "process": {
+  "exit_code": 0,
+  "oom_killed": false,
+  "outcome": "stopped by the adapter after the ledger was ingested",
+  "started_finished": "2026-11-16T17:32:37.349458Z 2026-11-16T17:32:38.475905251Z"
+ },
+ "protocol_version": 30,
+ "ref": "3e22515a44979fdc3a558fda3991ca2b48e38cef",
+ "result": "pass",
+ "row_counts": {
+  "operations": 1,
+  "operations_accounts": 1,
+  "state_changes": 1,
+  "transactions": 1,
+  "transactions_accounts": 1
+ },
+ "sdk_pin": "v0.8.0",
+ "seconds": 2.3
+}

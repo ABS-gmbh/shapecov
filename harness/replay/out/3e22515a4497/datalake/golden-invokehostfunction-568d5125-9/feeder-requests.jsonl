@@ -1,0 +1,6 @@
+{"http": "GET", "keys": 1, "path": "/shapecov-lake?list-type=2&max-keys=1&prefix=golden-invokehostfunction-568d5125-9%2F", "port": "s3", "status": 200, "t": 1794850456.731}
+{"http": "GET", "keys": 2, "path": "/shapecov-lake?fetch-owner=false&list-type=2&max-keys=1000&prefix=golden-invokehostfunction-568d5125-9%2F&start-after=", "port": "s3", "status": 200, "t": 1794850456.89}
+{"http": "GET", "path": "/shapecov-lake/golden-invokehostfunction-568d5125-9/.config.json?x-id=GetObject", "port": "s3", "size": 123, "status": 200, "t": 1794850456.937}
+{"http": "GET", "path": "/shapecov-lake/golden-invokehostfunction-568d5125-9/FFFFFFFF--0-63999/FFFFFFF3--12.xdr.zst?x-id=GetObject", "port": "s3", "status": 404, "t": 1794850456.99}
+{"http": "GET", "path": "/shapecov-lake/golden-invokehostfunction-568d5125-9/FFFFFFFF--0-63999/FFFFFFF4--11.xdr.zst?x-id=GetObject", "port": "s3", "size": 856, "status": 200, "t": 1794850456.993}
+{"http": "GET", "path": "/shapecov-lake/golden-invokehostfunction-568d5125-9/FFFFFFFF--0-63999/FFFFFFF2--13.xdr.zst?x-id=GetObject", "port": "s3", "status": 404, "t": 1794850457.038}
