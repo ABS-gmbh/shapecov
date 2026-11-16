@@ -1,0 +1,46 @@
+{
+ "entry_id": "testnet-5600000",
+ "adapter": "wallet-backend",
+ "ref": "3e22515a44979fdc3a558fda3991ca2b48e38cef",
+ "commit": "3e22515a44979fdc3a558fda3991ca2b48e38cef",
+ "input": "datalake",
+ "protocol_version": 30,
+ "sdk_pin": "v0.8.0",
+ "mode": "unmodified",
+ "result": "pass",
+ "mishandled": [],
+ "dropped": [],
+ "checks": [],
+ "expectations": 0,
+ "expectations_source": "none (implicit checks only)",
+ "ledger": {
+  "seq": 5600000,
+  "hash": "f769877f13f65e11bda1bfe73e8c4e080897f759873ffba9ca40a29207551e1e",
+  "close_time": 1794023641,
+  "protocol": 30
+ },
+ "ingested": true,
+ "row_counts": {
+  "transactions": 12,
+  "transactions_accounts": 16,
+  "operations": 33,
+  "operations_accounts": 36,
+  "state_changes": 20
+ },
+ "process": {
+  "outcome": "stopped by the adapter after the ledger was ingested",
+  "exit_code": 0,
+  "oom_killed": false,
+  "started_finished": "2026-11-16T08:26:56.377837339Z 2026-11-16T08:26:57.936493715Z"
+ },
+ "seconds": 2.9,
+ "feeder_requests": 7,
+ "evidence": "out/3e22515a4497/datalake/testnet-5600000",
+ "oracle": {
+  "verdict": "pass",
+  "rows_expected": 18,
+  "rows_met": 18,
+  "known": {},
+  "unexplained": []
+ }
+}

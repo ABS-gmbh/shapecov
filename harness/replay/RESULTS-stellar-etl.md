@@ -55,12 +55,21 @@ Only the implicit checks apply: the ledger is ingested without an error and ever
 | `localcore-pool-revoke-two-pools-7` | 30 | datalake | pass |
 | `localcore-sac-trust-p28-5` | 28 | datalake | pass |
 | `localcore-sponsorship-transfer-9` | 30 | datalake | pass |
+| `pubnet-59220000` | 23 | datalake | pass |
+| `pubnet-60280000` | 24 | datalake | pass |
+| `pubnet-61240000` | 25 | datalake | pass |
+| `pubnet-63920000` | 27 | datalake | pass |
+| `pubnet-65280000` | 29 | datalake | pass |
+| `pubnet-65460000` | 29 | datalake | pass |
 | `pubnet-65479774` | 29 | datalake | pass |
 | `pubnet-65480264` | 29 | datalake | pass |
 | `pubnet-65480300` | 29 | datalake | pass |
 | `pubnet-65480508` | 29 | datalake | pass |
 | `pubnet-65480598` | 29 | datalake | pass |
+| `testnet-1780000` | 25 | datalake | pass |
 | `testnet-4437357-signed-payload-signer` | 28 | datalake | pass |
+| `testnet-5400000` | 29 | datalake | pass |
+| `testnet-5600000` | 30 | datalake | pass |
 | `testnet-5681488` | 30 | datalake | pass |
 | `testnet-5692653` | 30 | datalake | pass |
 | `testnet-5707122` | 30 | datalake | pass |
@@ -81,7 +90,7 @@ Only the implicit checks apply: the ledger is ingested without an error and ever
 
 | Commit | Input | pass | mishandled | dropped | error | not applicable |
 |---|---|---|---|---|---|---|
-| `2b24ec89` | datalake | 26 | 2 | 0 | 0 | 27 |
+| `2b24ec89` | datalake | 35 | 2 | 0 | 0 | 27 |
 
 ## Oracle checks
 
@@ -92,7 +101,7 @@ checked. A failure is labelled with the open upstream issue that explains it
 
 | Commit | Input | Replays | Rows expected | Rows met | Known issues | Unexplained |
 |---|---|---|---|---|---|---|
-| `2b24ec89` | datalake | 28 | 5000 | 4988 | stellar-etl#460 (4), stellar-etl#512 (2), stellar-etl#513 (1), stellar-etl#514 (2) | 0 |
+| `2b24ec89` | datalake | 37 | 10456 | 10443 | stellar-etl#460 (5), stellar-etl#512 (2), stellar-etl#513 (1), stellar-etl#514 (2) | 0 |
 
 
 
@@ -125,3 +134,4 @@ checked. A failure is labelled with the open upstream issue that explains it
 | 2026-11-15T22:16:44+00:00 | `2b24ec89` | datalake | 52 | 34.6 | 36396 | 0 | 0 |
 | 2026-11-15T22:52:33+00:00 | `2b24ec89` | datalake | 52 | 35.1 | 36468 | 0 | 0 |
 | 2026-11-15T22:57:21+00:00 | `2b24ec89` | datalake | 3 | 4.3 | 36320 | 0 | 0 |
+| 2026-11-16T08:25:31+00:00 | `2b24ec89` | datalake | 9 | 23.7 | 36684 | 0 | 0 |

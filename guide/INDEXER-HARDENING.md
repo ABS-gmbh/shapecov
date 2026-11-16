@@ -43,9 +43,9 @@ Bracketed numbers point to the [sources](#sources) at the end of this section.
 |---|---|---|---|---|---|
 | Memo text | At most 28 bytes (XDR). From protocol 25, a contract-invocation transaction may not carry a memo. [1] | The bytes: no UTF-8, NUL or printable check. For a payment to a plain account, the bytes are also copied as an `SCV_STRING` into the `to_muxed_id` field of the transfer event. [2] | `memo-text-not-utf8` | none | 1 |
 | Memo ID, hash, return | XDR shape only. | Any value. | — | — | — |
-| Muxed account (source, destination, fee source) | Allowed from protocol 13. [3] | The 64-bit ID: any value, never checked. Ledger state belongs to the base account; the ID survives only in the envelope and in events. [3] | `muxed-account`, `muxed-id-zero`, `muxed-id-beyond-f64`, `muxed-id-max` | CAP-0027 | 4, 2, 3, 1 |
+| Muxed account (source, destination, fee source) | Allowed from protocol 13. [3] | The 64-bit ID: any value, never checked. Ledger state belongs to the base account; the ID survives only in the envelope and in events. [3] | `muxed-account`, `muxed-id-zero`, `muxed-id-beyond-f64`, `muxed-id-max` | CAP-0027 | 6, 2, 3, 1 |
 | Muxed source of a contract invocation | Invalid from protocol 25 (`txSOROBAN_INVALID`). [1] Before that, only the transaction queue refuses it: from stellar-core 23.0.0 always, in 22.x only when the call carries non-source-account authorization. [18] | Consensus accepts it before protocol 25, so ledgers closed while validators ran stellar-core 22.x or older can contain it. The rule covers `InvokeHostFunction` only: `ExtendFootprintTtl` and `RestoreFootprint` may run as a muxed account at any protocol. [1] | `soroban-op-muxed-source` | CAP-0027, CAP-0046 | 1 |
-| Signed-payload signer (`SetOptions` signer, `extraSigners`) | Payload not empty, at most 64 bytes, from protocol 19. At most two `extraSigners`, not the same key twice. [4] | The payload's content. | `signed-payload-signer`, `signed-payload-max-length`, `signed-payload-needs-padding` | CAP-0040 | 3, 1, 1 |
+| Signed-payload signer (`SetOptions` signer, `extraSigners`) | Payload not empty, at most 64 bytes, from protocol 19. At most two `extraSigners`, not the same key twice. [4] | The payload's content. | `signed-payload-signer`, `signed-payload-max-length`, `signed-payload-needs-padding` | CAP-0040 | 4, 1, 1 |
 | `ManageData` name | 1 to 64 bytes, each printable ASCII (0x20 to 0x7E). [5] | — | — | — | — |
 | `ManageData` value | At most 64 bytes (XDR). | Any bytes. [5] | — | — | — |
 | Home domain | At most 32 bytes, each printable ASCII (0x20 to 0x7E). [5] | Domain syntax; an empty string is accepted. | — | — | — |
@@ -53,24 +53,24 @@ Bracketed numbers point to the [sources](#sources) at the end of this section.
 | Liquidity-pool asset pair | `assetA < assetB`, compared as XDR values: asset type, then code bytes, then issuer key bytes. [7] | It is **not** strkey text order. | `pool-issuers-order-differs-strkey-vs-bytes` | CAP-0038 | 1 |
 | Claim predicates and claimants | At most 4 levels; `AND`/`OR` have exactly two children; times are not negative; 1 to 10 claimants, no repeated destination. [8] | Whether claimant accounts exist. | — | — | — |
 | Path payment path | At most 5 hops (XDR), each a valid asset. [8] | Repeated hops. | — | — | — |
-| Operations per transaction | 1 to 100 (the maximum is the XDR limit). [9] | — | `operations-at-max-100`, `operations-50-or-more` | none | 6, 5 |
-| Signatures per envelope | At most 20 (XDR). [9] | — | `signatures-at-max-20` | none | 2 |
+| Operations per transaction | 1 to 100 (the maximum is the XDR limit). [9] | — | `operations-at-max-100`, `operations-50-or-more` | none | 10, 9 |
+| Signatures per envelope | At most 20 (XDR). [9] | — | `signatures-at-max-20` | none | 3 |
 | Offer ID | Not negative, from protocol 15. [10] | No upper bound: any value up to 2^63-1. | `offer-id-beyond-f64` | none | 1 |
-| Destination and operation-source accounts | Checked when the transaction is applied, not when it is accepted. [9] | A transaction that fails then is still in the ledger, with its fee charged. [11] | `failed-transaction` | none | 31 |
+| Destination and operation-source accounts | Checked when the transaction is applied, not when it is accepted. [9] | A transaction that fails then is still in the ledger, with its fee charged. [11] | `failed-transaction` | none | 39 |
 
 ### Contract data (Soroban)
 
 | Field | Checked | Not checked | Corpus shape | CAP | Entries |
 |---|---|---|---|---|---|
-| Nesting of contract values (`ScVal`) | Every value the host reads from arguments or writes to storage, events or return values: at most 100 levels. Host XDR reads and writes: depth 500. Whole envelope from protocol 28: depth 1000. [12] | Arguments of a transaction that fails before the host converts them are bounded only by the envelope limit. Ledgers before protocol 28 had different limits. | `scval-nested-5-deep` | CAP-0046-01 | 16 |
+| Nesting of contract values (`ScVal`) | Every value the host reads from arguments or writes to storage, events or return values: at most 100 levels. Host XDR reads and writes: depth 500. Whole envelope from protocol 28: depth 1000. [12] | Arguments of a transaction that fails before the host converts them are bounded only by the envelope limit. Ledgers before protocol 28 had different limits. | `scval-nested-5-deep` | CAP-0046-01 | 21 |
 | Contract strings (`ScString`) | Length only. [13] | UTF-8 and NUL, in arguments, storage and events alike. | — | — | — |
 | Symbols (`ScSymbol`) | At most 32 bytes from `[_0-9A-Za-z]`, for every value the host converts. [13] | — | — | — | — |
 | Maps (`ScMap`) | Keys strictly ascending, so sorted and unique, in the host's order: by value type first, then value. Mixed key types are allowed. [14] | Text order. Keys are not sorted as text, and distinct keys can render as the same text. | `scmap-keys-collide-as-text`, `scmap-mixed-key-types` | CAP-0046-01 | 1, 2 |
-| Integers | XDR shape. | Size relative to your language: 64-bit values above 2^53 and 128- or 256-bit values are common. | `scval-int64-beyond-f64`, `scval-wide-integer` | CAP-0046-01 | 8, 30 |
-| Authorization entries | Every entry is decoded. An entry a `require_auth` call matches has its signature checked and its nonce consumed, which creates a temporary contract-data entry keyed `LedgerKeyNonce`. [15] | Entries no `require_auth` call matches: they are not verified, and we found no code that rejects them. There is no limit on the number or depth of sub-invocations beyond XDR depth and transaction size. [15] | `auth-nested-invocations`, `auth-tree-4-deep` | CAP-0046-11 | 21, 3 |
+| Integers | XDR shape. | Size relative to your language: 64-bit values above 2^53 and 128- or 256-bit values are common. | `scval-int64-beyond-f64`, `scval-wide-integer` | CAP-0046-01 | 11, 39 |
+| Authorization entries | Every entry is decoded. An entry a `require_auth` call matches has its signature checked and its nonce consumed, which creates a temporary contract-data entry keyed `LedgerKeyNonce`. [15] | Entries no `require_auth` call matches: they are not verified, and we found no code that rejects them. There is no limit on the number or depth of sub-invocations beyond XDR depth and transaction size. [15] | `auth-nested-invocations`, `auth-tree-4-deep` | CAP-0046-11 | 28, 4 |
 | Addresses in contract values | A muxed account (CAP-67) or a muxed contract (protocol 30) may appear as a value but not in a storage key. [16] | — | `scaddress-muxed-account`, `scaddress-muxed-id-beyond-f64`, `scaddress-muxed-contract` | CAP-0067, CAP-0084 | 3, 2, 2 |
-| Accounts and trustlines created by a contract | The Stellar Asset Contract's `trust()` creates a trustline and **emits no event**. [17] | No operation names the new entry; only the ledger changes show it. | `soroban-created-trustline`, `soroban-created-account` | CAP-0073 | 3, 3 |
-| Failed contract invocation | The fee is charged; no ledger change is applied; transaction-level events and diagnostics are still written. [11] | — | `failed-soroban-transaction` | CAP-0046 | 8 |
+| Accounts and trustlines created by a contract | The Stellar Asset Contract's `trust()` creates a trustline and **emits no event**. [17] | No operation names the new entry; only the ledger changes show it. | `soroban-created-trustline`, `soroban-created-account` | CAP-0073 | 4, 3 |
+| Failed contract invocation | The fee is charged; no ledger change is applied; transaction-level events and diagnostics are still written. [11] | — | `failed-soroban-transaction` | CAP-0046 | 10 |
 
 ### Sources
 

@@ -101,6 +101,18 @@ Only the implicit checks apply: the ledger is ingested without an error and ever
 | `localcore-pool-revoke-two-pools-7` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `localcore-sponsorship-transfer-9` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `localcore-sponsorship-transfer-9` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `pubnet-59220000` | 23 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `pubnet-59220000` | 23 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `pubnet-60280000` | 24 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `pubnet-60280000` | 24 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `pubnet-61240000` | 25 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `pubnet-61240000` | 25 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `pubnet-63920000` | 27 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `pubnet-63920000` | 27 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `pubnet-65280000` | 29 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `pubnet-65280000` | 29 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `pubnet-65460000` | 29 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `pubnet-65460000` | 29 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `pubnet-65479774` | 29 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `pubnet-65479774` | 29 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `pubnet-65480264` | 29 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
@@ -111,6 +123,12 @@ Only the implicit checks apply: the ledger is ingested without an error and ever
 | `pubnet-65480508` | 29 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `pubnet-65480598` | 29 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `pubnet-65480598` | 29 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `testnet-1780000` | 25 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `testnet-1780000` | 25 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `testnet-5400000` | 29 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `testnet-5400000` | 29 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `testnet-5600000` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `testnet-5600000` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `testnet-5681488` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `testnet-5681488` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `testnet-5692653` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
@@ -162,8 +180,8 @@ Only the implicit checks apply: the ledger is ingested without an error and ever
 | `f8e5786d` | datalake | 0 | 1 | 0 | 0 |
 | `bb0b162b` | rpc | 1 | 0 | 0 | 0 |
 | `bb0b162b` | datalake | 1 | 0 | 0 | 0 |
-| `3e22515a` | rpc | 54 | 0 | 0 | 0 |
-| `3e22515a` | datalake | 54 | 0 | 0 | 0 |
+| `3e22515a` | rpc | 63 | 0 | 0 | 0 |
+| `3e22515a` | datalake | 63 | 0 | 0 | 0 |
 
 ## Oracle checks
 
@@ -190,8 +208,8 @@ checked. A failure is labelled with the open upstream issue that explains it
 | `f8e5786d` | datalake | 1 | 2 | 0 | none | 1 |
 | `bb0b162b` | rpc | 1 | 2 | 1 | wallet-backend#815 (1) | 0 |
 | `bb0b162b` | datalake | 1 | 2 | 1 | wallet-backend#815 (1) | 0 |
-| `3e22515a` | rpc | 54 | 4196 | 4185 | wallet-backend#815 (6), wallet-backend#816 (3), wallet-backend#817 (2) | 0 |
-| `3e22515a` | datalake | 54 | 4196 | 4185 | wallet-backend#815 (6), wallet-backend#816 (3), wallet-backend#817 (2) | 0 |
+| `3e22515a` | rpc | 63 | 8930 | 8919 | wallet-backend#815 (6), wallet-backend#816 (3), wallet-backend#817 (2) | 0 |
+| `3e22515a` | datalake | 63 | 8930 | 8919 | wallet-backend#815 (6), wallet-backend#816 (3), wallet-backend#817 (2) | 0 |
 
 Failures that are a claimed sighting (found by the oracle alone, without the manifest's expectation):
 
@@ -343,3 +361,4 @@ Failures that are a claimed sighting (found by the oracle alone, without the man
 | 2026-11-15T21:43:52+00:00 | `79ea2acd`, `6e5a5910`, `f8e5786d`, `bb0b162b` | rpc, datalake | 1 | 27.8 | 35972 | 4 | 8 |
 | 2026-11-15T21:44:21+00:00 | `3e22515a` | rpc, datalake | 51 | 242.6 | 36204 | 51 | 102 |
 | 2026-11-15T22:58:09+00:00 | `3e22515a` | rpc, datalake | 3 | 18.0 | 37028 | 3 | 6 |
+| 2026-11-16T08:25:55+00:00 | `3e22515a` | rpc, datalake | 9 | 64.3 | 37512 | 9 | 18 |

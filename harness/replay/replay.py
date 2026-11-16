@@ -30,6 +30,7 @@ sys.path.insert(0, HERE)
 sys.path.insert(0, os.path.join(REPO, "tools"))
 import classify  # noqa: E402
 
+CORPUS = os.path.join(REPO, "corpus")  # --corpus replaces it, e.g. with a sweep of mined ledgers
 NET = "shapecov-replay-net"
 FEEDER = "shapecov-replay-feeder"
 FEEDER_IMAGE = os.environ.get("REPLAY_FEEDER_IMAGE", "python:3.14-slim")
@@ -61,8 +62,8 @@ def start_feeder(work):
         sh(["docker", "network", "create", "--internal", NET])
     sh(["docker", "rm", "-f", FEEDER], check=False)
     sh(["docker", "run", "-d", "--name", FEEDER, "--network", NET, "--memory", "256m",
-        "-v", REPO + ":/repo:ro", "-e", "SHAPECOV_REPO=/repo", "-v", fw + ":/work", FEEDER_IMAGE,
-        "python3", "/repo/harness/replay/feeder/feeder.py", "--corpus", "/repo/corpus", "--work", "/work"])
+        "-v", REPO + ":/repo:ro", "-v", CORPUS + ":/corpus:ro", "-e", "SHAPECOV_REPO=/repo", "-v", fw + ":/work",
+        FEEDER_IMAGE, "python3", "/repo/harness/replay/feeder/feeder.py", "--corpus", "/corpus", "--work", "/work"])
     for _ in range(240):
         logs = sh(["docker", "logs", FEEDER], check=False).stdout
         if "rpc on" in logs:
@@ -169,12 +170,19 @@ def oracle_verdict(entry, obs, mapping, value):
             "known": {k: len(v) for k, v in known.items()}, "unexplained": unexplained}
 
 
+def use_corpus(a):
+    global CORPUS
+    if getattr(a, "corpus", None):
+        CORPUS = os.path.abspath(a.corpus)
+
+
 def cmd_run(a):
+    use_corpus(a)
     work, out = os.path.abspath(a.work), os.path.abspath(a.out)
     os.makedirs(work, exist_ok=True)
     os.makedirs(out, exist_ok=True)
     t_start = time.time()
-    with open(os.path.join(REPO, "corpus", "manifest.json")) as f:
+    with open(os.path.join(CORPUS, "manifest.json")) as f:
         manifest = json.load(f)
     proposed = {}
     if a.proposed:
@@ -279,7 +287,7 @@ def cmd_run(a):
                         from decode import Decoder
                         dec = Decoder(json.load(open(os.path.join(REPO, "schema", "schema.json"))))
                         value = dec.decode("LedgerCloseMeta", base64.b64decode(
-                            open(os.path.join(REPO, "corpus", e["file"])).read()))
+                            open(os.path.join(CORPUS, e["file"])).read()))
                         r["oracle"] = oracle_verdict(e, obs, mapping, value)
                     with open(os.path.join(jdir, "result.json"), "w") as f:
                         json.dump(r, f, indent=1)
@@ -314,11 +322,12 @@ def cmd_rejudge(a):
     import base64
     import oracle
     from decode import Decoder
+    use_corpus(a)
     out = os.path.abspath(a.out)
     mapping = adapter_mapping(adapter_of(out))
     if mapping is None:
         raise SystemExit("the adapter has no oracle mapping")
-    with open(os.path.join(REPO, "corpus", "manifest.json")) as f:
+    with open(os.path.join(CORPUS, "manifest.json")) as f:
         entries = {e["id"]: e for e in json.load(f)["entries"]}
     dec = Decoder(json.load(open(os.path.join(REPO, "schema", "schema.json"))))
     results, n = load_results(out), 0
@@ -331,7 +340,7 @@ def cmd_rejudge(a):
         if obs.get("adapter_failure"):
             continue
         e = entries[k[0]]
-        value = dec.decode("LedgerCloseMeta", base64.b64decode(open(os.path.join(REPO, "corpus", e["file"])).read()))
+        value = dec.decode("LedgerCloseMeta", base64.b64decode(open(os.path.join(CORPUS, e["file"])).read()))
         r["oracle"] = oracle_verdict(e, obs, mapping, value)
         with open(os.path.join(HERE, r["evidence"], "result.json"), "w") as f:
             json.dump(r, f, indent=1)
@@ -485,7 +494,14 @@ def cmd_report(a):
                 run["started"], ", ".join("`%s`" % i["commit"][:8] for i in run["refs"]), ", ".join(run["inputs"]),
                 len(run["entries"]), run.get("seconds"), s.get("maxrss_kb"), s.get("ledgers_served_rpc"),
                 s.get("objects_served_s3")))
-    with open(os.path.join(HERE, "RESULTS.md" if name == "wallet-backend" else "RESULTS-%s.md" % name), "w") as f:
+    # The committed reports belong to the default output directories; any other (a sweep) keeps its
+    # report next to its results.
+    default = os.path.join(HERE, "out" if name == "wallet-backend" else "out-" + name)
+    if os.path.abspath(out) == default:
+        report = os.path.join(HERE, "RESULTS.md" if name == "wallet-backend" else "RESULTS-%s.md" % name)
+    else:
+        report = os.path.join(out, "RESULTS.md")
+    with open(report, "w") as f:
         f.write("\n".join(L) + "\n")
 
 
@@ -549,10 +565,12 @@ def main():
     p.add_argument("--keep", action="store_true", help="leave the containers running")
     p.add_argument("--work", default=os.environ.get("REPLAY_WORK", os.path.join(HERE, ".work")))
     p.add_argument("--out", default=os.path.join(HERE, "out"))
+    p.add_argument("--corpus", help="a corpus directory (manifest.json, entries/) other than corpus/")
     p = sub.add_parser("report")
     p.add_argument("--out", default=os.path.join(HERE, "out"))
     p = sub.add_parser("rejudge")
     p.add_argument("--out", default=os.path.join(HERE, "out"))
+    p.add_argument("--corpus", help="the corpus directory the results were run from")
     p = sub.add_parser("check")
     p.add_argument("--out", default=os.path.join(HERE, "out"))
     p.add_argument("--oracle", action="store_true", help="also fail on unexplained oracle failures")

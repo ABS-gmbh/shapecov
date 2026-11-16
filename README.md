@@ -5,10 +5,11 @@ Prototype for the SCF RFP "XDR/CAP-Coverage Audit Tool and Indexer-Hardening Gui
 It generates XDR test cases from the Protocol 30 schema itself, runs each one through five decoders
 and stellar-core, and reports where they disagree. Nothing is hand-captured.
 
-Status on 15 November 2026: the SDK conformance half works end to end. For the indexer half there
-is a corpus of 51 entries (48 real ledgers from testnet, pubnet and stellar-core's golden test data),
-and a replay harness that runs wallet-backend's own `ingest` command against TimescaleDB, fed
-through a mock stellar-rpc or a Galexie data lake. It reproduces wallet-backend #729, #731 and both
+Status on 16 November 2026: the SDK conformance half works end to end. For the indexer half there
+is a corpus of 67 entries (64 real ledgers from testnet, pubnet, stellar-core's golden test data and
+a local stellar-core), and a replay harness that runs wallet-backend's own `ingest` command against
+TimescaleDB, fed through a mock stellar-rpc or a Galexie data lake, and stellar-etl's own export
+commands, with every ledger checked by a ledger-derived oracle. It reproduces wallet-backend #729, #731 and both
 halves of #716 before their fixes and passes on the fixes; see `harness/replay/RESULTS.md`. A Go linter (`linter/`) checks indexer source for the
 three ingestion mistakes the RFP names. A draft indexer-hardening guide (`guide/`) is checked against
 the corpus manifest by `guide/check_guide.py`. See
@@ -66,8 +67,8 @@ results are not in the repository):
 
 ## Corpus
 
-`corpus/` holds the draft manifest format and three sample entries. `corpus/README.md` describes
-every field; `corpus/evidence/` records the two reproduced sightings.
+`corpus/` holds 67 entries and their manifest. `corpus/README.md` describes every field;
+`corpus/evidence/` records the reproduced sightings and our findings. Three examples:
 
 | Entry | Type | Source | Shows |
 |---|---|---|---|
@@ -149,7 +150,8 @@ Two GitHub Actions workflows in `.github/workflows/`:
 - CAP tags are assigned by hand. Only "new in protocol 30" is computed, from the difference
   between the v28.0 and v30.0 XDR.
 - Review of the hardening guide by a stellar-core or platform engineer, which the RFP requires
-  before publication. Three shapes it describes have no corpus entry yet.
+  before publication. Every shape it describes has a corpus entry; three come from a local
+  stellar-core (see the guide's appendix).
 - The linter does not run clean on wallet-backend `main`: it reports 4 findings, all real and none
   of them a bug to file as is (see `linter/README.md`).
 

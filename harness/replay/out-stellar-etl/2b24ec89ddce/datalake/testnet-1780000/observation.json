@@ -1,0 +1,509 @@
+{
+ "observation_version": 1,
+ "adapter": "stellar-etl",
+ "commit": "2b24ec89ddce7fc0beb7795de982c93e6895eaf3",
+ "input": "datalake",
+ "entry_id": "testnet-1780000",
+ "ledger_seq": 1780000,
+ "ingested": true,
+ "error": null,
+ "adapter_failure": false,
+ "transactions": [
+  {
+   "hash": "24f9c52dd814a9a95e8fe787201c095d6216a01644233b83e9144446b2846edc",
+   "tx_order": 1,
+   "result_code": "TransactionResultCodeTxSuccess",
+   "successful": true,
+   "participants": []
+  },
+  {
+   "hash": "99d4c65d8f57a1c0b17c0ecbef5652f81f8962ea2a82b3f583c89a3ed7b95d59",
+   "tx_order": 2,
+   "result_code": "TransactionResultCodeTxSuccess",
+   "successful": true,
+   "participants": []
+  },
+  {
+   "hash": "ce305bde13efd72b678975445110da260466179ae73d46bc5098658e6305ade0",
+   "tx_order": 3,
+   "result_code": "TransactionResultCodeTxSuccess",
+   "successful": true,
+   "participants": []
+  }
+ ],
+ "operations": [
+  {
+   "tx_hash": "24f9c52dd814a9a95e8fe787201c095d6216a01644233b83e9144446b2846edc",
+   "tx_order": 1,
+   "op_order": 1,
+   "type": "change_trust",
+   "participants": []
+  },
+  {
+   "tx_hash": "99d4c65d8f57a1c0b17c0ecbef5652f81f8962ea2a82b3f583c89a3ed7b95d59",
+   "tx_order": 2,
+   "op_order": 1,
+   "type": "payment",
+   "participants": []
+  },
+  {
+   "tx_hash": "ce305bde13efd72b678975445110da260466179ae73d46bc5098658e6305ade0",
+   "tx_order": 3,
+   "op_order": 1,
+   "type": "manage_sell_offer",
+   "participants": []
+  },
+  {
+   "tx_hash": "ce305bde13efd72b678975445110da260466179ae73d46bc5098658e6305ade0",
+   "tx_order": 3,
+   "op_order": 2,
+   "type": "manage_sell_offer",
+   "participants": []
+  },
+  {
+   "tx_hash": "ce305bde13efd72b678975445110da260466179ae73d46bc5098658e6305ade0",
+   "tx_order": 3,
+   "op_order": 3,
+   "type": "manage_sell_offer",
+   "participants": []
+  },
+  {
+   "tx_hash": "ce305bde13efd72b678975445110da260466179ae73d46bc5098658e6305ade0",
+   "tx_order": 3,
+   "op_order": 4,
+   "type": "manage_sell_offer",
+   "participants": []
+  },
+  {
+   "tx_hash": "ce305bde13efd72b678975445110da260466179ae73d46bc5098658e6305ade0",
+   "tx_order": 3,
+   "op_order": 5,
+   "type": "manage_sell_offer",
+   "participants": []
+  },
+  {
+   "tx_hash": "ce305bde13efd72b678975445110da260466179ae73d46bc5098658e6305ade0",
+   "tx_order": 3,
+   "op_order": 6,
+   "type": "manage_sell_offer",
+   "participants": []
+  },
+  {
+   "tx_hash": "ce305bde13efd72b678975445110da260466179ae73d46bc5098658e6305ade0",
+   "tx_order": 3,
+   "op_order": 7,
+   "type": "manage_sell_offer",
+   "participants": []
+  },
+  {
+   "tx_hash": "ce305bde13efd72b678975445110da260466179ae73d46bc5098658e6305ade0",
+   "tx_order": 3,
+   "op_order": 8,
+   "type": "manage_sell_offer",
+   "participants": []
+  },
+  {
+   "tx_hash": "ce305bde13efd72b678975445110da260466179ae73d46bc5098658e6305ade0",
+   "tx_order": 3,
+   "op_order": 9,
+   "type": "manage_sell_offer",
+   "participants": []
+  },
+  {
+   "tx_hash": "ce305bde13efd72b678975445110da260466179ae73d46bc5098658e6305ade0",
+   "tx_order": 3,
+   "op_order": 10,
+   "type": "manage_sell_offer",
+   "participants": []
+  },
+  {
+   "tx_hash": "ce305bde13efd72b678975445110da260466179ae73d46bc5098658e6305ade0",
+   "tx_order": 3,
+   "op_order": 11,
+   "type": "manage_sell_offer",
+   "participants": []
+  },
+  {
+   "tx_hash": "ce305bde13efd72b678975445110da260466179ae73d46bc5098658e6305ade0",
+   "tx_order": 3,
+   "op_order": 12,
+   "type": "manage_sell_offer",
+   "participants": []
+  },
+  {
+   "tx_hash": "ce305bde13efd72b678975445110da260466179ae73d46bc5098658e6305ade0",
+   "tx_order": 3,
+   "op_order": 13,
+   "type": "manage_sell_offer",
+   "participants": []
+  },
+  {
+   "tx_hash": "ce305bde13efd72b678975445110da260466179ae73d46bc5098658e6305ade0",
+   "tx_order": 3,
+   "op_order": 14,
+   "type": "manage_sell_offer",
+   "participants": []
+  },
+  {
+   "tx_hash": "ce305bde13efd72b678975445110da260466179ae73d46bc5098658e6305ade0",
+   "tx_order": 3,
+   "op_order": 15,
+   "type": "manage_buy_offer",
+   "participants": []
+  },
+  {
+   "tx_hash": "ce305bde13efd72b678975445110da260466179ae73d46bc5098658e6305ade0",
+   "tx_order": 3,
+   "op_order": 16,
+   "type": "manage_buy_offer",
+   "participants": []
+  },
+  {
+   "tx_hash": "ce305bde13efd72b678975445110da260466179ae73d46bc5098658e6305ade0",
+   "tx_order": 3,
+   "op_order": 17,
+   "type": "manage_buy_offer",
+   "participants": []
+  },
+  {
+   "tx_hash": "ce305bde13efd72b678975445110da260466179ae73d46bc5098658e6305ade0",
+   "tx_order": 3,
+   "op_order": 18,
+   "type": "manage_buy_offer",
+   "participants": []
+  },
+  {
+   "tx_hash": "ce305bde13efd72b678975445110da260466179ae73d46bc5098658e6305ade0",
+   "tx_order": 3,
+   "op_order": 19,
+   "type": "manage_sell_offer",
+   "participants": []
+  },
+  {
+   "tx_hash": "ce305bde13efd72b678975445110da260466179ae73d46bc5098658e6305ade0",
+   "tx_order": 3,
+   "op_order": 20,
+   "type": "manage_buy_offer",
+   "participants": []
+  },
+  {
+   "tx_hash": "ce305bde13efd72b678975445110da260466179ae73d46bc5098658e6305ade0",
+   "tx_order": 3,
+   "op_order": 21,
+   "type": "manage_buy_offer",
+   "participants": []
+  },
+  {
+   "tx_hash": "ce305bde13efd72b678975445110da260466179ae73d46bc5098658e6305ade0",
+   "tx_order": 3,
+   "op_order": 22,
+   "type": "manage_buy_offer",
+   "participants": []
+  },
+  {
+   "tx_hash": "ce305bde13efd72b678975445110da260466179ae73d46bc5098658e6305ade0",
+   "tx_order": 3,
+   "op_order": 23,
+   "type": "manage_buy_offer",
+   "participants": []
+  },
+  {
+   "tx_hash": "ce305bde13efd72b678975445110da260466179ae73d46bc5098658e6305ade0",
+   "tx_order": 3,
+   "op_order": 24,
+   "type": "manage_buy_offer",
+   "participants": []
+  },
+  {
+   "tx_hash": "ce305bde13efd72b678975445110da260466179ae73d46bc5098658e6305ade0",
+   "tx_order": 3,
+   "op_order": 25,
+   "type": "manage_buy_offer",
+   "participants": []
+  },
+  {
+   "tx_hash": "ce305bde13efd72b678975445110da260466179ae73d46bc5098658e6305ade0",
+   "tx_order": 3,
+   "op_order": 26,
+   "type": "manage_buy_offer",
+   "participants": []
+  },
+  {
+   "tx_hash": "ce305bde13efd72b678975445110da260466179ae73d46bc5098658e6305ade0",
+   "tx_order": 3,
+   "op_order": 27,
+   "type": "manage_buy_offer",
+   "participants": []
+  },
+  {
+   "tx_hash": "ce305bde13efd72b678975445110da260466179ae73d46bc5098658e6305ade0",
+   "tx_order": 3,
+   "op_order": 28,
+   "type": "manage_buy_offer",
+   "participants": []
+  },
+  {
+   "tx_hash": "ce305bde13efd72b678975445110da260466179ae73d46bc5098658e6305ade0",
+   "tx_order": 3,
+   "op_order": 29,
+   "type": "manage_buy_offer",
+   "participants": []
+  },
+  {
+   "tx_hash": "ce305bde13efd72b678975445110da260466179ae73d46bc5098658e6305ade0",
+   "tx_order": 3,
+   "op_order": 30,
+   "type": "manage_buy_offer",
+   "participants": []
+  },
+  {
+   "tx_hash": "ce305bde13efd72b678975445110da260466179ae73d46bc5098658e6305ade0",
+   "tx_order": 3,
+   "op_order": 31,
+   "type": "manage_sell_offer",
+   "participants": []
+  },
+  {
+   "tx_hash": "ce305bde13efd72b678975445110da260466179ae73d46bc5098658e6305ade0",
+   "tx_order": 3,
+   "op_order": 32,
+   "type": "manage_buy_offer",
+   "participants": []
+  },
+  {
+   "tx_hash": "ce305bde13efd72b678975445110da260466179ae73d46bc5098658e6305ade0",
+   "tx_order": 3,
+   "op_order": 33,
+   "type": "manage_sell_offer",
+   "participants": []
+  },
+  {
+   "tx_hash": "ce305bde13efd72b678975445110da260466179ae73d46bc5098658e6305ade0",
+   "tx_order": 3,
+   "op_order": 34,
+   "type": "manage_buy_offer",
+   "participants": []
+  },
+  {
+   "tx_hash": "ce305bde13efd72b678975445110da260466179ae73d46bc5098658e6305ade0",
+   "tx_order": 3,
+   "op_order": 35,
+   "type": "manage_sell_offer",
+   "participants": []
+  },
+  {
+   "tx_hash": "ce305bde13efd72b678975445110da260466179ae73d46bc5098658e6305ade0",
+   "tx_order": 3,
+   "op_order": 36,
+   "type": "manage_buy_offer",
+   "participants": []
+  },
+  {
+   "tx_hash": "ce305bde13efd72b678975445110da260466179ae73d46bc5098658e6305ade0",
+   "tx_order": 3,
+   "op_order": 37,
+   "type": "manage_sell_offer",
+   "participants": []
+  },
+  {
+   "tx_hash": "ce305bde13efd72b678975445110da260466179ae73d46bc5098658e6305ade0",
+   "tx_order": 3,
+   "op_order": 38,
+   "type": "manage_buy_offer",
+   "participants": []
+  },
+  {
+   "tx_hash": "ce305bde13efd72b678975445110da260466179ae73d46bc5098658e6305ade0",
+   "tx_order": 3,
+   "op_order": 39,
+   "type": "manage_sell_offer",
+   "participants": []
+  },
+  {
+   "tx_hash": "ce305bde13efd72b678975445110da260466179ae73d46bc5098658e6305ade0",
+   "tx_order": 3,
+   "op_order": 40,
+   "type": "manage_buy_offer",
+   "participants": []
+  },
+  {
+   "tx_hash": "ce305bde13efd72b678975445110da260466179ae73d46bc5098658e6305ade0",
+   "tx_order": 3,
+   "op_order": 41,
+   "type": "manage_sell_offer",
+   "participants": []
+  },
+  {
+   "tx_hash": "ce305bde13efd72b678975445110da260466179ae73d46bc5098658e6305ade0",
+   "tx_order": 3,
+   "op_order": 42,
+   "type": "manage_buy_offer",
+   "participants": []
+  },
+  {
+   "tx_hash": "ce305bde13efd72b678975445110da260466179ae73d46bc5098658e6305ade0",
+   "tx_order": 3,
+   "op_order": 43,
+   "type": "manage_sell_offer",
+   "participants": []
+  },
+  {
+   "tx_hash": "ce305bde13efd72b678975445110da260466179ae73d46bc5098658e6305ade0",
+   "tx_order": 3,
+   "op_order": 44,
+   "type": "manage_buy_offer",
+   "participants": []
+  },
+  {
+   "tx_hash": "ce305bde13efd72b678975445110da260466179ae73d46bc5098658e6305ade0",
+   "tx_order": 3,
+   "op_order": 45,
+   "type": "manage_sell_offer",
+   "participants": []
+  },
+  {
+   "tx_hash": "ce305bde13efd72b678975445110da260466179ae73d46bc5098658e6305ade0",
+   "tx_order": 3,
+   "op_order": 46,
+   "type": "manage_buy_offer",
+   "participants": []
+  },
+  {
+   "tx_hash": "ce305bde13efd72b678975445110da260466179ae73d46bc5098658e6305ade0",
+   "tx_order": 3,
+   "op_order": 47,
+   "type": "manage_sell_offer",
+   "participants": []
+  },
+  {
+   "tx_hash": "ce305bde13efd72b678975445110da260466179ae73d46bc5098658e6305ade0",
+   "tx_order": 3,
+   "op_order": 48,
+   "type": "manage_buy_offer",
+   "participants": []
+  },
+  {
+   "tx_hash": "ce305bde13efd72b678975445110da260466179ae73d46bc5098658e6305ade0",
+   "tx_order": 3,
+   "op_order": 49,
+   "type": "manage_sell_offer",
+   "participants": []
+  },
+  {
+   "tx_hash": "ce305bde13efd72b678975445110da260466179ae73d46bc5098658e6305ade0",
+   "tx_order": 3,
+   "op_order": 50,
+   "type": "manage_buy_offer",
+   "participants": []
+  }
+ ],
+ "state_changes": [
+  {
+   "tx_hash": "24f9c52dd814a9a95e8fe787201c095d6216a01644233b83e9144446b2846edc",
+   "tx_order": 1,
+   "op_order": 1,
+   "category": "EFFECT",
+   "reason": "trustline_created",
+   "account": "GA2H6RMRHG7WBJ6IEG6DVPDLPEJSH7CDS45N5KK67MFHMKX2V76I46CD",
+   "signer_key": null,
+   "token": "USDC:GBBD47IF6LWK7P7MDEVSCWR7DPUWV3NY3DTQEVFL4NAT4AQH3ZLLFLA5",
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "op_order": 1
+   }
+  },
+  {
+   "tx_hash": "99d4c65d8f57a1c0b17c0ecbef5652f81f8962ea2a82b3f583c89a3ed7b95d59",
+   "tx_order": 2,
+   "op_order": 1,
+   "category": "EFFECT",
+   "reason": "account_credited",
+   "account": "GB5FCYPSK4ET44OVBXLJHWFW5LNG3ZLPUFSJTJBCGIM43JIU4RGYRLCH",
+   "signer_key": null,
+   "token": "native",
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "op_order": 1
+   }
+  },
+  {
+   "tx_hash": "99d4c65d8f57a1c0b17c0ecbef5652f81f8962ea2a82b3f583c89a3ed7b95d59",
+   "tx_order": 2,
+   "op_order": 1,
+   "category": "EFFECT",
+   "reason": "account_debited",
+   "account": "GBTORQK3ZR3RPJF4WTTSH5KVDOAZ4BJI7PD2ECLSBDNHRG4ICNC4JJZV",
+   "signer_key": null,
+   "token": "native",
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "op_order": 1
+   }
+  }
+ ],
+ "balance_movements": [
+  {
+   "tx_hash": "24f9c52dd814a9a95e8fe787201c095d6216a01644233b83e9144446b2846edc",
+   "op_order": 0,
+   "account": "GA2H6RMRHG7WBJ6IEG6DVPDLPEJSH7CDS45N5KK67MFHMKX2V76I46CD",
+   "token": "CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC",
+   "delta": -100,
+   "token_kind": "asset",
+   "event": "fee"
+  },
+  {
+   "tx_hash": "99d4c65d8f57a1c0b17c0ecbef5652f81f8962ea2a82b3f583c89a3ed7b95d59",
+   "op_order": 0,
+   "account": "GBTORQK3ZR3RPJF4WTTSH5KVDOAZ4BJI7PD2ECLSBDNHRG4ICNC4JJZV",
+   "token": "CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC",
+   "delta": -100,
+   "token_kind": "asset",
+   "event": "fee"
+  },
+  {
+   "tx_hash": "ce305bde13efd72b678975445110da260466179ae73d46bc5098658e6305ade0",
+   "op_order": 0,
+   "account": "GDYRSLJEIUOH5CM7M3QJWTLFFN7YLL7HSFW7EPMPK5FIOVSZYTGO44YR",
+   "token": "CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC",
+   "delta": -5000,
+   "token_kind": "asset",
+   "event": "fee"
+  },
+  {
+   "tx_hash": "99d4c65d8f57a1c0b17c0ecbef5652f81f8962ea2a82b3f583c89a3ed7b95d59",
+   "op_order": 1,
+   "account": "GBTORQK3ZR3RPJF4WTTSH5KVDOAZ4BJI7PD2ECLSBDNHRG4ICNC4JJZV",
+   "token": "CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC",
+   "delta": -20000000,
+   "token_kind": "asset",
+   "event": "transfer"
+  },
+  {
+   "tx_hash": "99d4c65d8f57a1c0b17c0ecbef5652f81f8962ea2a82b3f583c89a3ed7b95d59",
+   "op_order": 1,
+   "account": "GB5FCYPSK4ET44OVBXLJHWFW5LNG3ZLPUFSJTJBCGIM43JIU4RGYRLCH",
+   "token": "CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC",
+   "delta": 20000000,
+   "token_kind": "asset",
+   "event": "transfer"
+  }
+ ],
+ "unreadable": [],
+ "row_counts": {
+  "transactions": 3,
+  "operations": 52,
+  "effects": 3,
+  "token_transfer": 4
+ },
+ "seconds": 1.4,
+ "process": {
+  "outcome": "exited",
+  "exit_code": 0
+ }
+}

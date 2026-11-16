@@ -1,0 +1,45 @@
+{
+ "entry_id": "pubnet-63920000",
+ "adapter": "stellar-etl",
+ "ref": "master",
+ "commit": "2b24ec89ddce7fc0beb7795de982c93e6895eaf3",
+ "input": "datalake",
+ "protocol_version": 27,
+ "sdk_pin": "v0.8.1-0.20261106081502-e31e3b146d00",
+ "mode": "unmodified",
+ "result": "pass",
+ "mishandled": [],
+ "dropped": [],
+ "checks": [],
+ "expectations": 0,
+ "expectations_source": "none (implicit checks only)",
+ "ledger": {
+  "seq": 63920000,
+  "hash": "1973f280a77e7d05a83760b4e02df498ade10746c5bb61354f0123d381634819",
+  "close_time": 1786547691,
+  "protocol": 27
+ },
+ "ingested": true,
+ "row_counts": {
+  "transactions": 447,
+  "operations": 818,
+  "effects": 403,
+  "token_transfer": 1082
+ },
+ "process": {
+  "outcome": "exited",
+  "exit_code": 0
+ },
+ "seconds": 1.7,
+ "feeder_requests": 16,
+ "evidence": "out-stellar-etl/2b24ec89ddce/datalake/pubnet-63920000",
+ "oracle": {
+  "verdict": "known issues only",
+  "rows_expected": 831,
+  "rows_met": 830,
+  "known": {
+   "stellar/stellar-etl#460": 1
+  },
+  "unexplained": []
+ }
+}

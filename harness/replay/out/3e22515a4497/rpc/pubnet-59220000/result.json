@@ -1,0 +1,46 @@
+{
+ "entry_id": "pubnet-59220000",
+ "adapter": "wallet-backend",
+ "ref": "3e22515a44979fdc3a558fda3991ca2b48e38cef",
+ "commit": "3e22515a44979fdc3a558fda3991ca2b48e38cef",
+ "input": "rpc",
+ "protocol_version": 23,
+ "sdk_pin": "v0.8.0",
+ "mode": "unmodified",
+ "result": "pass",
+ "mishandled": [],
+ "dropped": [],
+ "checks": [],
+ "expectations": 0,
+ "expectations_source": "none (implicit checks only)",
+ "ledger": {
+  "seq": 59220000,
+  "hash": "ef507a4847796aeaf6773a59b5de172681bf25bf5bcde805a059e817192de222",
+  "close_time": 1759539942,
+  "protocol": 23
+ },
+ "ingested": true,
+ "row_counts": {
+  "transactions": 238,
+  "transactions_accounts": 789,
+  "operations": 1088,
+  "operations_accounts": 1810,
+  "state_changes": 1851
+ },
+ "process": {
+  "outcome": "stopped by the adapter after the ledger was ingested",
+  "exit_code": 0,
+  "oom_killed": false,
+  "started_finished": "2026-11-16T08:26:13.717406083Z 2026-11-16T08:26:14.849286375Z"
+ },
+ "seconds": 2.8,
+ "feeder_requests": 4,
+ "evidence": "out/3e22515a4497/rpc/pubnet-59220000",
+ "oracle": {
+  "verdict": "pass",
+  "rows_expected": 1566,
+  "rows_met": 1566,
+  "known": {},
+  "unexplained": []
+ }
+}

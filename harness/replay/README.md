@@ -114,13 +114,13 @@ Each replay then gets a second verdict, `oracle`. A row the indexer did not stor
 with an open upstream issue that explains it (`adapters/wallet-backend/known.json`) or reported as
 **unexplained**, a candidate new finding. RESULTS.md lists both.
 
-At wallet-backend `main` (`3e22515a`), for all 54 ledgers through both inputs:
+At wallet-backend `main` (`3e22515a`), for all 63 ledgers through both inputs:
 
 | Check | Rows expected per input | Met | Known open issues | Unexplained |
 |---|---|---|---|---|
-| State changes | 134 | 123 | 11: wallet-backend#815 (6 contract deploys with no `ACCOUNT CREATE`), #816 (3 accounts created by XLM sent through the native asset contract), #817 (2 pool-share trustlines removed by one revocation) | 0 |
-| Net balances | 4062 | 4062 | none | 0 |
-| Total | 4196 | 4185 | 11 | 0 |
+| State changes | 216 | 205 | 11: wallet-backend#815 (6 contract deploys with no `ACCOUNT CREATE`), #816 (3 accounts created by XLM sent through the native asset contract), #817 (2 pool-share trustlines removed by one revocation) | 0 |
+| Net balances | 8714 | 8714 | none | 0 |
+| Total | 8930 | 8919 | 11 | 0 |
 
 wallet-backend has no state-change categories for offers, claimable balances, pools or
 sponsorship, so those facts are checked for stellar-etl, whose effects model has them. They still
@@ -139,6 +139,37 @@ the manifest's expectations.
 share balances; the master key's weight, the taking side of a trade, and contract storage other
 than instances. A row the indexer writes that the oracle does not predict
 is not reported.
+
+## Sweep: 611 network ledgers
+
+The corpus keeps one ledger per shape. To check the indexers on ordinary traffic too, the sweep
+replays a broad sample of real ledgers that is not committed: every 20,000th ledger of pubnet from
+59,000,000 (protocol 23) to 65,480,000, and of testnet since its December 2025 reset, from Stellar's
+public ledger archive. That is 611 ledgers holding 100,676 transactions, protocols 23 to 30, run
+on 16 November 2026:
+
+| Indexer | Ledgers ingested | Oracle rows checked | Met | Known open issues | Unexplained |
+|---|---|---|---|---|---|
+| wallet-backend `main` (`3e22515a`), data lake | 611 | 270,507 | 270,465 | 42: wallet-backend#815 | 0 |
+| stellar-etl `master` (`2b24ec89`) | 611 | 321,072 | 321,071 | 1: stellar-etl#460 | 0 |
+
+No new defect turned up, and no check failed for a reason the oracle could not name, so the
+oracle produced no false alarm in 591,579 checks of real traffic. The 9 sweep ledgers that bring
+schema cells or patterns the corpus lacked were added to `corpus/` (`tools/corpus_add.py`), one per
+protocol era from 23 to 30.
+
+```sh
+W=/tmp/sweep
+python3 tools/mine.py scan pubnet 59000000 65480000 --stride 20000 --cache $W/lake --index $W/pubnet.jsonl
+python3 tools/mine.py scan testnet 20000 5720000 --stride 20000 --cache $W/lake --index $W/testnet.jsonl
+python3 harness/replay/sweep.py build --index $W/pubnet.jsonl --index $W/testnet.jsonl --cache $W/lake --out $W/corpus
+python3 harness/replay/replay.py run --corpus $W/corpus --all-entries --inputs datalake \
+        --refs main --out $W/out-wb
+python3 harness/replay/replay.py run --corpus $W/corpus --all-entries --inputs datalake \
+        --adapter stellar-etl --refs master --out $W/out-etl
+```
+
+The sweep corpus is about 750 MB of base64 and each report is written next to its results.
 
 ## Reproduced sightings
 
@@ -186,24 +217,25 @@ change should equal the net of its CAP-67 token transfer events (fees at positio
 negative fee events). The manifest's hand-written expectations name wallet-backend rows, so only
 their `transaction` checks apply here.
 
-At stellar-etl `master` (`2b24ec89`), all 55 ledgers (results in
-[`RESULTS-stellar-etl.md`](RESULTS-stellar-etl.md)); rows checked on the 26 it exports:
+At stellar-etl `master` (`2b24ec89`), all 64 ledgers (results in
+[`RESULTS-stellar-etl.md`](RESULTS-stellar-etl.md)); rows checked on the 35 it exports:
 
 | | Rows checked | Met | Known | Unexplained |
 |---|---|---|---|---|
-| Accounts, signers, thresholds, flags, data, trustlines | 102 | 96 | 4: stellar-etl#460; 2: stellar-etl#514 (E3) | 0 |
-| Trades (crossed offers) | 151 | 151 | none | 0 |
-| Liquidity pools | 705 | 704 | 1: stellar-etl#513 (E2) | 0 |
-| Claimable balances | 18 | 18 | none | 0 |
-| Sponsorship (entries and signers) | 21 | 21 | none | 0 |
-| Net balances (token transfers) | 3998 | 3998 | none | 0 |
-| Ledgers not exported | 2 of 28 | | 2: stellar-etl#512 (E1) | 0 |
+| Accounts, signers, thresholds, flags, data, trustlines | 171 | 164 | 5: stellar-etl#460; 2: stellar-etl#514 (E3) | 0 |
+| Trades (crossed offers) | 319 | 319 | none | 0 |
+| Liquidity pools | 1161 | 1160 | 1: stellar-etl#513 (E2) | 0 |
+| Claimable balances | 90 | 90 | none | 0 |
+| Sponsorship (entries and signers) | 60 | 60 | none | 0 |
+| Net balances (token transfers) | 8650 | 8650 | none | 0 |
+| Ledgers not exported | 2 of 37 | | 2: stellar-etl#512 (E1) | 0 |
 | Not applicable (stellar-core test network) | 27 ledgers | | | |
 
 - **stellar-etl#460** (open, filed by a maintainer in July): an account created by XLM sent through
   the native asset contract gets no `account_created` effect, and a trustline created by the asset
-  contract's `trust()` (CAP-73) gets no `trustline_created`. The oracle found all four rows from
-  ledger data alone: `testnet-5709224` (both shapes), `pubnet-65480300`, `localcore-sac-trust-p28-5`.
+  contract's `trust()` (CAP-73) gets no `trustline_created`. The oracle found all five rows from
+  ledger data alone: `testnet-5709224` (both shapes), `pubnet-65480300`, `pubnet-63920000`,
+  `localcore-sac-trust-p28-5`.
 - **E1, new, filed as stellar-etl#512:** `export_token_transfer` fails on every ledger before protocol 23 that holds a
   transaction (`localcore-classic-p22-3`, `localcore-muxed-source-p22-3`): stellar-etl builds the
   token transfer processor in unified-events mode, which requires `TransactionMeta` v4. The SDK's

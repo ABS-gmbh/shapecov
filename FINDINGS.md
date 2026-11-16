@@ -4,14 +4,14 @@ Run date: 14 November 2026, updated 16 November 2026. Versions are in `README.md
 
 Filed upstream:
 
-| Finding | Issue | Filed |
-|---|---|---|
-| J1 | https://github.com/lightsail-network/java-stellar-sdk/issues/833 | 14 November 2026 |
-| P1 | https://github.com/StellarCN/py-stellar-base/issues/1262 | 14 November 2026 |
-| P2 | https://github.com/StellarCN/py-stellar-base/issues/1263 | 14 November 2026 |
-| E1 | https://github.com/stellar/stellar-etl/issues/512 | 15 November 2026 |
-| E2 | https://github.com/stellar/stellar-etl/issues/513 | 16 November 2026 |
-| E3 | https://github.com/stellar/stellar-etl/issues/514 | 16 November 2026 |
+| Finding | Issue | Filed | Status, 16 November |
+|---|---|---|---|
+| J1 | https://github.com/lightsail-network/java-stellar-sdk/issues/833 | 14 November 2026 | open |
+| P1 | https://github.com/StellarCN/py-stellar-base/issues/1262 | 14 November 2026 | closed: fixed in the new `stellar-xdr` package; the released SDK 17.0.1 still has it |
+| P2 | https://github.com/StellarCN/py-stellar-base/issues/1263 | 14 November 2026 | closed: fixed in the new `stellar-xdr` package; the released SDK 17.0.1 still has it |
+| E1 | https://github.com/stellar/stellar-etl/issues/512 | 15 November 2026 | open |
+| E2 | https://github.com/stellar/stellar-etl/issues/513 | 16 November 2026 | open |
+| E3 | https://github.com/stellar/stellar-etl/issues/514 | 16 November 2026 | open |
 
 "Confirmed" means: reproduced outside the harness with a short script in `repro/`, root cause
 located in the SDK source, and stellar-core 30.0.0 checked on the same class of bytes.
@@ -43,7 +43,8 @@ That search can miss things; check again before filing.
 - Repro: `repro/python_noncanonical.py`.
 - Status, 14 November: the maintainer is replacing `stellar_sdk.xdr` with a new package,
   `stellar-xdr` (py-stellar-base #1264). Version 0.2.0 rejects this input. The finding holds for
-  the released SDK 17.0.1 only, and our reply on the issue says so.
+  the released SDK 17.0.1 only, and our reply on the issue says so. Closed by the maintainer on
+  16 November as fixed in the new package.
 
 ### P2. Python SDK treats any non-zero optional flag as "present"
 
@@ -54,7 +55,8 @@ That search can miss things; check again before filing.
 - Repro: `repro/python_noncanonical.py`. Flag value 2 decodes as present and re-encodes as 1.
 - Status, 14 November: the maintainer is replacing `stellar_sdk.xdr` with a new package,
   `stellar-xdr` (py-stellar-base #1264). Version 0.2.0 rejects this input. The finding holds for
-  the released SDK 17.0.1 only, and our reply on the issue says so.
+  the released SDK 17.0.1 only, and our reply on the issue says so. Closed by the maintainer on
+  16 November as fixed in the new package.
 
 ## Confirmed, filed 15 November
 
@@ -140,30 +142,43 @@ CI against `harness/replay/sightings.json` (see `harness/replay/RESULTS.md`).
 ## Confirmed by the oracle (reported by others)
 
 `tools/oracle.py` checks every row wallet-backend should store for each corpus ledger. At `main`
-(`3e22515a`) every missing row matches one of two issues filed by the shapekit project on
-15 November; the oracle derived them from ledger data alone:
+(`3e22515a`) every missing row matches a defect others had already reported, first by
+tolgayayci on 13 November and again, more broadly, by the shapekit project on 15 November; the
+oracle derived them from ledger data alone:
 
-- stellar/wallet-backend#815: 6 contract deployments (2 Stellar Asset Contract deploys, 4 contracts
-  created by factory calls `create_pair` and `launch`) get no `ACCOUNT CREATE` row.
-- stellar/wallet-backend#816: 3 accounts created by XLM sent through the native asset contract (once
-  directly, twice from inside another contract) get no `ACCOUNT CREATE` row.
+- 6 contract deployments (2 Stellar Asset Contract deploys, 4 contracts created by factory calls
+  `create_pair` and `launch`) get no `ACCOUNT CREATE` row: stellar/wallet-backend#806 (factory
+  deploys, 13 November) and #815 (factory and Stellar Asset Contract deploys, 15 November).
+- 3 accounts created by XLM sent through the native asset contract (once directly, twice from
+  inside another contract) get no `ACCOUNT CREATE` row: stellar/wallet-backend#804
+  (13 November) and #816 (15 November), which describe the same defect.
+
+The harness labels these rows #815 and #816, whose scope covers every case;
+`harness/replay/adapters/wallet-backend/known.json` records #804, #805 and #806 as the earlier
+reports.
 
 The same oracle, mapped to stellar-etl's effects and token transfer exports, confirms an open
 stellar-etl issue at `master` (`2b24ec89`):
 
 - stellar/stellar-etl#460 (filed by a maintainer in July): the effects export emits no
   `account_created` for an account created by XLM sent through the native asset contract, and no
-  `trustline_created` for a trustline created by the asset contract's `trust()` (CAP-73). Four
-  rows across three ledgers (`testnet-5709224`, `pubnet-65480300`, `localcore-sac-trust-p28-5`).
+  `trustline_created` for a trustline created by the asset contract's `trust()` (CAP-73). Five
+  rows across four ledgers (`testnet-5709224`, `pubnet-65480300`, `pubnet-63920000`,
+  `localcore-sac-trust-p28-5`).
 
-No other effect is missing and every net balance matches for the 25 ledgers stellar-etl can read.
+Apart from our own findings E2 and E3 (#513, #514), no other effect is missing and every net
+balance matches for the 35 ledgers stellar-etl exports.
 See `harness/replay/RESULTS-stellar-etl.md`.
 
 stellar/wallet-backend#817 (filed by the shapekit project) is also confirmed on a ledger of our
 own, `localcore-pool-revoke-two-pools-7`: the two pool-share trustlines one revocation removes get
 no `TRUSTLINE REMOVE`.
 
-For wallet-backend, no other row is missing for any of the 54 ledgers. That now includes balances: all 4057 net balance
+A sweep of 611 further network ledgers (100,676 transactions, protocols 23 to 30; see
+`harness/replay/README.md`, "Sweep") found no new defect in either indexer: its only failures are
+wallet-backend#815 (42 rows) and stellar-etl#460 (1 row).
+
+For wallet-backend, no other row is missing for any of the 63 ledgers. That now includes balances: all 4057 net balance
 checks per input (every account's XLM and trustline balance per operation, and every net fee) match,
 and no balance row is stored where the ledger shows no change. See `harness/replay/RESULTS.md`,
 "Oracle checks".
@@ -185,6 +200,14 @@ These validate the method: the generator found each within its first run, with n
   offer ID of -1 is accepted. Fixed on `main` by PR #1253 (commit `134c0e11`, 14 November); the
   same check passes there. **Not released:** 17.0.1, the latest on PyPI, still has it, five weeks
   after JavaScript fixed the same defect. Evidence: `corpus/evidence/js-stellar-sdk-1785.md`.
+
+Reported earlier by others, found again by the linter rather than the generator:
+
+- wallet-backend's `walkInvocation` (`internal/indexer/processors/contract_deploy.go:116`) walks
+  the declared authorization tree with no depth cap: stellar/wallet-backend#820, filed by the
+  shapekit project on 15 November at 00:17 UTC. `shapecov-lint` rule SC002 reports the same
+  line; its first recorded run on wallet-backend `main` was committed about ten hours later. See
+  `linter/README.md`, "Run on wallet-backend `main`".
 
 ## Issue texts
 
