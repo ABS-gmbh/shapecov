@@ -1,25 +1,73 @@
 # ShapeCov
 
-Prototype for the SCF RFP "XDR/CAP-Coverage Audit Tool and Indexer-Hardening Guide".
+[![ci](https://github.com/ABS-gmbh/shapecov/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/ABS-gmbh/shapecov/actions/workflows/ci.yml?query=branch%3Amain)
+[![replay](https://github.com/ABS-gmbh/shapecov/actions/workflows/replay.yml/badge.svg?branch=main)](https://github.com/ABS-gmbh/shapecov/actions/workflows/replay.yml?query=branch%3Amain)
+[![release](https://img.shields.io/github/v/release/ABS-gmbh/shapecov)](https://github.com/ABS-gmbh/shapecov/releases/latest)
 
-It generates XDR test cases from the Protocol 30 schema itself, runs each one through six decoders
-and stellar-core, and reports where they disagree. Nothing is hand-captured.
+ShapeCov tests software that reads the Stellar ledger against the rare but valid shapes the
+protocol allows. It is for maintainers of indexers and SDKs. It has a corpus of real ledgers that
+exercise those shapes, tagged by CAP, and a harness that replays them through an unmodified
+indexer and checks every stored row against an oracle derived from the ledger itself. A
+conformance runner feeds XDR generated from the protocol 30 schema to six SDK decoders and to
+stellar-core. A linter catches the three ingestion mistakes the RFP names, and an
+indexer-hardening guide has each rule checked against stellar-core. Built for the SCF RFP
+"XDR/CAP-Coverage Audit Tool and Indexer-Hardening Guide".
 
-Status on 16 November 2026: the SDK conformance half works end to end. For the indexer half there
-is a corpus of 88 entries (85 real ledgers from testnet, pubnet, stellar-core's golden test data and
-a local stellar-core), and a replay harness that runs wallet-backend's own `ingest` command against
-TimescaleDB, fed through a mock stellar-rpc or a Galexie data lake, and stellar-etl's own export
-commands, with every ledger checked by a ledger-derived oracle. It reproduces wallet-backend #729, #731 and both
-halves of #716 before their fixes and passes on the fixes; see `harness/replay/RESULTS.md`. A Go linter (`linter/`) checks indexer source for the
-three ingestion mistakes the RFP names. A draft indexer-hardening guide (`guide/`) is checked against
-the corpus manifest by `guide/check_guide.py`. See
-"Not built" below.
+| Deliverable | Where | The RFP's acceptance check | Status |
+|---|---|---|---|
+| Corpus: 88 entries, 85 of them real ledgers, with per-CAP coverage | [`corpus/`](corpus/), [`CAP-COVERAGE.md`](corpus/CAP-COVERAGE.md) | 1: entries round-trip through rs-stellar-xdr and match stellar-core's `--check-lcm` goldens | Met |
+| Replay harness: wallet-backend (reference adapter) and stellar-etl | [`harness/replay/`](harness/replay/) | 2: wallet-backend #729, #731 and #716 fail before their fixes and pass after | Met |
+| Linter for the three ingestion mistakes | [`linter/`](linter/) | 3: flags seeded violations, runs clean on wallet-backend | Partly met: 4 real findings on wallet-backend, each triaged with a reason |
+| Indexer-hardening guide | [`guide/`](guide/) | 4: tables agree with the manifest; publication gated on review | Tables met and probed against stellar-core 30.0.0; **unreviewed** |
+| Conformance runner: six SDK decoders and stellar-core | [`runners/`](runners/), [`sdk-matrix/`](sdk-matrix/MATRIX.md) | 5: js-stellar-sdk #1766, #1785 and #1789 fail on pre-fix tags | Met |
+| Findings | [`FINDINGS.md`](FINDINGS.md), [`FINDINGS.json`](FINDINGS.json) | 6: every failure maps to a filed issue | Met for the committed results |
 
-How the parts fit together, the adapter interface and the isolation design:
-[`ARCHITECTURE.md`](ARCHITECTURE.md). Each RFP acceptance check, with its CI job and command:
-[`VERIFY.md`](VERIFY.md). Which SDK release has which defect, from runs:
-[`sdk-matrix/MATRIX.md`](sdk-matrix/MATRIX.md). How an SDK or an indexer runs these checks in its own CI
-(a reusable workflow and a linter action): [`ADOPT.md`](ADOPT.md).
+Each check is a CI job of the same name. [`VERIFY.md`](VERIFY.md) gives every job and the command
+that runs it on your machine.
+
+## Check it in 10 seconds
+
+```bash
+pip install jsonschema
+python3 quickcheck.py
+```
+
+Python only, with no Docker and no network. It reruns the 8 checks that work from the repository
+alone and checks the recorded results of the rest against their verdicts. It took 10 seconds on a
+laptop. CI reruns everything else.
+
+## Results
+
+- **6 defects found and filed** in java-stellar-sdk, py-stellar-base and stellar-etl. The Java
+  maintainer fixed #833 two days after it was filed; py-stellar-base closed #1262 and #1263 as
+  fixed in its replacement XDR package. All 28 findings, with severity, CAPs and a reproducing
+  entry each: [`FINDINGS.md`](FINDINGS.md).
+- **12 of the RFP's 18 sightings reproduced**, all in CI, each failing before its fix and passing
+  after ([`harness/sightings/README.md`](harness/sightings/README.md)).
+- **Every corpus ledger is an indexer test.** The oracle derives the expected rows from the ledger;
+  every failure in wallet-backend and stellar-etl maps to a filed issue. A sweep of 611 further
+  network ledgers (100,676 transactions) found no new defect.
+- **Backtest on past fixes**: the harness detects 4 of wallet-backend's 17 in-scope fixes (2 on
+  ledgers not chosen for the bug) and flags 2 of stellar-etl's 9 in-scope issues (1 blind)
+  ([`BACKTEST.md`](harness/replay/BACKTEST.md)).
+- **7,392 generated cases across all 477 types**, run through six decoders and stellar-core
+  30.0.0; valid cases reach 837 of 1,188 schema cells.
+- **Usable from other repositories**: a reusable conformance workflow and a linter action
+  ([`ADOPT.md`](ADOPT.md)), and release assets with build provenance.
+
+## Limits
+
+- The hardening guide is **unreviewed**. The RFP requires review by a stellar-core or platform
+  engineer before publication, and that has not happened.
+- Two replay adapters exist, wallet-backend and stellar-etl. Others, such as Horizon, are not
+  built.
+- Whole ledgers are not generated. They come from network history, stellar-core's golden files and
+  fixed local stellar-core scenarios, so 836 of the 1,188 schema cells appear in no corpus entry
+  ([`CAP-COVERAGE.md`](corpus/CAP-COVERAGE.md), by protocol).
+
+More: [`ARCHITECTURE.md`](ARCHITECTURE.md) (how the parts fit, the adapter interface, isolation),
+[`STATUS.md`](STATUS.md) (dated log), [`MAINTENANCE.md`](MAINTENANCE.md) and
+[`INFRASTRUCTURE.md`](INFRASTRUCTURE.md).
 
 ## What it does
 
@@ -90,6 +138,11 @@ results are not in the repository):
 - `tools/decode.py` and `tools/encode.py` are a strict decoder and an encoder driven by the same
   schema as the generator. The decoder accepts all 3,816 valid generated cases, rejects all 3,576
   faulty ones, and re-encodes every valid case and the real ledger byte for byte.
+- Every schema cell is dated to the stellar-xdr release that introduced it: `tools/cell_protocols.py`
+  parses each tag from v19 to v30.0 with ShapeCov's own schema parser (`corpus/cell-protocols.json`).
+  The hand-assigned CAP tags are checked against those dates, and all 40 agree.
+  `corpus/CAP-COVERAGE.md` shows, per protocol, how many of the cells it introduced are in the
+  corpus.
 - `tools/corpus_check.py` re-verifies the manifest and every entry: schema, hashes, expected
   decoded values, source record, CAP and protocol tags, then the six SDKs and stellar-core.
 - `harness/replay/` replays LedgerCloseMeta entries through a real indexer and its database, over
@@ -160,8 +213,8 @@ Two GitHub Actions workflows in `.github/workflows/`. RFP check 2, the replay ha
 - Coverage of the 351 schema cells no valid case reaches yet.
 - Replay adapters beyond wallet-backend and stellar-etl. Three corpus entries have hand-written
   `expected.indexer` rows; the oracle checks every ledger. See `harness/replay/README.md`, "Limits".
-- CAP tags are assigned by hand. Only "new in protocol 30" is computed, from the difference
-  between the v28.0 and v30.0 XDR.
+- CAP tags are assigned by hand from the CAP texts, then checked against the XDR history.
+  stellar-xdr has no v29 tag, so cells added in protocols 29 and 30 are dated together.
 - Review of the hardening guide by a stellar-core or platform engineer, which the RFP requires
   before publication. Every shape it describes has a corpus entry; three come from a local
   stellar-core (see the guide's appendix).

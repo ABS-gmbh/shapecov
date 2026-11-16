@@ -8,7 +8,7 @@ Status as of 16 November 2026.
 
 | # | Sighting | Status | How | CI job |
 |---|---|---|---|---|
-| 1 | stellar-core#5435: `--check-lcm` golden LedgerCloseMeta | reproduced | 27 corpus entries are stellar-core's golden ledgers; CI compares each byte for byte with the golden files in a stellar-core checkout, and each decodes and re-encodes identically through the independent decoder, rs-stellar-xdr and stellar-core 30.0.0 | ci: "RFP check 1" |
+| 1 | stellar-core#5435: `--check-lcm` golden LedgerCloseMeta | reproduced | 46 corpus entries are stellar-core's golden ledgers; CI compares each byte for byte with the golden files in a stellar-core checkout, and each decodes and re-encodes identically through the independent decoder, rs-stellar-xdr and stellar-core 30.0.0 | ci: "RFP check 1" |
 | 2 | wallet-backend#731: SAC-created trustlines get no state change | reproduced | `dropped` at `764a4f5b`, `pass` at the fix (`localcore-sac-trust-p28-5`); the oracle also finds it blind in a pubnet ledger (`pubnet-63920000`, see `harness/replay/BACKTEST.md`) | replay: sightings |
 | 3 | wallet-backend#729: CAP-40 signed-payload signers | reproduced | `mishandled` (ingestion halts) at `2a0a84ea` and `6e5a5910`, `pass` at the fix | replay: sightings |
 | 4 | henyey#3941: validator dies during catchup on a bucket-entry parse failure | not reproduced | needs henyey and history-archive buckets during catchup; the corpus holds ledger-close meta, not buckets | — |

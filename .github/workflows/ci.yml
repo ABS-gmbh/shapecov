@@ -163,6 +163,18 @@ jobs:
       - name: FINDINGS.json records, and every failure in the committed replay results mapped to one
         run: python .github/scripts/check_findings.py
 
+  counts:
+    name: "Docs: headline numbers match the repository"
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Counts stated in README, VERIFY, ARCHITECTURE and the corpus and sightings READMEs
+        run: python .github/scripts/check_counts.py
+
   # The packaged forms other repositories use (ADOPT.md), exercised here on every push.
   reusable-conformance-js:
     name: "Reusable sdk-conformance workflow: js-stellar-sdk 17.4.0"

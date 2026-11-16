@@ -13,7 +13,9 @@ FINDINGS.json holds one record per finding, in the form the RFP asks for. This s
   file that is not in the repository;
 - an oracle failure in the committed replay results of either indexer (harness/replay/out*/
   results.jsonl) carries a label no record claims, or is unexplained and is not an RFP sighting
-  that harness/replay/sightings.json claims fails at that pre-fix commit;
+  that harness/replay/sightings.json claims fails at that pre-fix commit. A known.json rule may
+  label a failure `record:<ID>` to map it to a record that has no filed issue; those are counted
+  and printed apart from the failures that map to a filed issue;
 - a claimed sighting, a reproduced sighting in harness/sightings/README.md, or an accepted linter
   finding (linter/accepted/wallet-backend.json) maps to no record;
 - a label names an issue that is not among the record's upstream links;
@@ -151,8 +153,9 @@ def check_failures(doc, label_owner, bad):
         p = "harness/replay/adapters/%s/known.json" % adapter
         if os.path.exists(p):
             rule_labels |= {rule["issue"] for rule in load_json(p)["rules"]}
-    labelled = unexplained_claimed = 0
+    labelled = unexplained_claimed = unfiled = 0
     used = set()
+    record_ids = {r["id"] for r in doc["findings"]}
     for out in RESULTS:
         with open(out + "/results.jsonl") as f:
             for line in f:
@@ -162,8 +165,15 @@ def check_failures(doc, label_owner, bad):
                     continue
                 where = "%s at %s (%s, %s)" % (r["entry_id"], r["commit"][:12], r["adapter"], r["input"])
                 for label, n in o["known"].items():
-                    labelled += n
                     used.add(label)
+                    if label.startswith("record:"):
+                        # A failure explained by a record that has no filed issue (a design choice,
+                        # for example). Counted apart, so "maps to a filed issue" stays exact.
+                        if label[len("record:"):] not in record_ids:
+                            bad.append("%s: label %r names no record in FINDINGS.json" % (where, label))
+                        unfiled += n
+                        continue
+                    labelled += n
                     if not ISSUE.match(label):
                         bad.append("%s: label %r is not an issue reference" % (where, label))
                     elif label not in label_owner:
@@ -183,8 +193,8 @@ def check_failures(doc, label_owner, bad):
     for label, rid in label_owner.items():
         if label not in known_labels:
             bad.append("%s: label %r is neither a known.json rule nor a claimed sighting" % (rid, label))
-    unused_rules = sorted(rule_labels - used - set(label_owner))
-    return labelled, unexplained_claimed, unused_rules
+    unused_rules = sorted(rule_labels - used - set(label_owner) - {l for l in rule_labels if l.startswith("record:")})
+    return labelled, unexplained_claimed, unfiled, unused_rules
 
 
 def check_rfp_sightings(doc, bad):
@@ -266,7 +276,7 @@ def main():
     doc = load_json(FINDINGS_JSON)
     bad = []
     label_owner = validate_records(doc, bad)
-    labelled, claimed, unused_rules = check_failures(doc, label_owner, bad)
+    labelled, claimed, unfiled, unused_rules = check_failures(doc, label_owner, bad)
     n_sightings, n_exempt = check_rfp_sightings(doc, bad)
     n_accepted = check_linter(doc, bad)
 
@@ -291,6 +301,7 @@ def main():
         "%d %s" % (sum(1 for r in doc["findings"] if r["kind"] == k), k) for k in doc["kinds"])))
     print("oracle failures labelled with a filed issue that a record claims: %d" % labelled)
     print("failures that are a claimed RFP sighting at its pre-fix commit: %d" % claimed)
+    print("failures mapped to a record with no filed issue (label record:<ID>): %d" % unfiled)
     print("reproduced RFP sightings: %d, %d with a record, %d exempt with a reason (sightings_without_record)"
           % (n_sightings, n_sightings - n_exempt, n_exempt))
     print("accepted linter findings with a record: %d" % n_accepted)
