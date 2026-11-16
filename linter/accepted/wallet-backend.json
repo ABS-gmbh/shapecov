@@ -1,0 +1,35 @@
+{
+ "note": "Findings of the linter on stellar/wallet-backend that are accepted, one per entry, each with the reason it is accepted and the upstream issue that tracks it where one exists. scripts/check_accepted.py fails on any finding this file does not list. An entry matches a finding by rule, file and a substring of its message, not by line, so it survives unrelated edits. An entry that matches nothing is reported as resolved and should be removed. Accepting a finding records a triage decision; it does not mean the code is correct.",
+ "target": "https://github.com/stellar/wallet-backend",
+ "pinned_commit": "3e22515a44979fdc3a558fda3991ca2b48e38cef",
+ "accepted": [
+  {
+   "rule": "SC002",
+   "file": "internal/indexer/processors/contract_deploy.go",
+   "message_contains": "recursive closure walkInvocation",
+   "upstream": "https://github.com/stellar/wallet-backend/issues/820",
+   "reason": "Real, low severity: the walk of the declared authorization tree has no depth cap of its own. Reported first by the shapekit project as #820 (open, no maintainer reply on 16 November). A fix with a test is prepared on a local branch, awaiting issue acceptance."
+  },
+  {
+   "rule": "SC003",
+   "file": "internal/indexer/processors/participants.go",
+   "message_contains": "participants is filled from the transaction envelope",
+   "upstream": null,
+   "reason": "Real, a design choice: GetOperationsParticipants takes participants from the envelope for every transaction, failed ones included, and its doc comment says so. No upstream issue covers it; #677 is the related meta side. A question for the tracker is drafted, not posted."
+  },
+  {
+   "rule": "SC003",
+   "file": "internal/indexer/processors/participants.go",
+   "message_contains": "operationsParticipants is filled from the transaction envelope",
+   "upstream": null,
+   "reason": "Same site as the entry above: the same envelope participants written into the per-operation map."
+  },
+  {
+   "rule": "SC001",
+   "file": "internal/utils/ingestion_utils.go",
+   "message_contains": "memo text is read with GetText()",
+   "upstream": "https://github.com/stellar/wallet-backend/issues/800",
+   "reason": "Real, not reachable today: utils.Memo returns memo text without a UTF-8 check, but nothing calls it and no table stores memo text. #800 (open, by a maintainer) plans a memo column; once a memo is stored, the check matters, because stellar-core accepts any 28 bytes and PostgreSQL TEXT rejects invalid UTF-8 and NUL."
+  }
+ ]
+}

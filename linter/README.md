@@ -134,16 +134,30 @@ Commit `3e22515a44979fdc3a558fda3991ca2b48e38cef` (12 November 2026). The comman
 reported **4 findings**:
 [`results/wallet-backend-3e22515a4497.json`](results/wallet-backend-3e22515a4497.json).
 
-All four are real instances of the mistakes, and there are no false positives. **"Runs clean on
-current wallet-backend" is still not met**, because these are real. None is a bug to file as is:
-one is low severity, one is a design decision to raise, and one is in dead code.
+All four are real instances of the mistakes, and there are no false positives. **The linter does
+not run clean on wallet-backend**, because these are real. None is a bug to file as is: one is low
+severity and already reported (#820), one is a design decision, and one is in dead code.
+
+**What CI checks instead.** [`accepted/wallet-backend.json`](accepted/wallet-backend.json) lists
+the four findings, each with the reason it is accepted and the upstream issue that tracks it where
+one exists (#820 for the first, #800 for the memo helper). The `linter` job runs the linter on
+wallet-backend at the commit pinned in that file and runs
+[`scripts/check_accepted.py`](scripts/check_accepted.py). The job fails on any finding the file
+does not list. An entry that no longer matches a finding is printed as resolved. The weekly run
+does the same against wallet-backend `main`, so a new finding there turns the job red. This is a
+triage record, not a claim that the code is correct: "no finding outside the accepted list", not
+"clean".
+
+The fix for finding 1 is prepared on a local branch, awaiting acceptance of #820. With it, the
+linter reports 3 findings on that branch, and SC002 no longer fires. That is the first control
+in which a depth cap was *added* (see "SC002" below).
 
 | # | Rule | Location | Verdict | Reason |
 |---|---|---|---|---|
 | 1 | SC002 | `internal/indexer/processors/contract_deploy.go:116` | **true positive**, low severity; reported earlier as [stellar/wallet-backend#820](https://github.com/stellar/wallet-backend/issues/820) by the shapekit project | `walkInvocation` recurses into `SubInvocations` of the declared auth tree with no depth counter. The submitter chooses the nesting. The Go XDR decoder caps decode depth at 1500, so the walk cannot overflow, but it has no cap of its own. |
 | 2 | SC003 | `internal/indexer/processors/participants.go:146` | **true positive** (design) | `GetOperationsParticipants` takes participants from envelope operations for every transaction, including failed ones; its doc comment says so. In a failed transaction, a payment destination is recorded as a participant though nothing changed for it, so anyone can put an account into another account's history. This dates from #474. Related, not the same: [stellar/wallet-backend#677](https://github.com/stellar/wallet-backend/issues/677) (open) reports the meta side of the same rule, participants that the meta records but the indexer drops. |
 | 3 | SC003 | `internal/indexer/processors/participants.go:155` | **true positive** (same site) | The same participants written into the result map. |
-| 4 | SC001 | `internal/utils/ingestion_utils.go:17` | **true positive**, not reachable | `utils.Memo` returns memo text without a UTF-8 check. Nothing in wallet-backend calls it, and no table has a memo column, so it is dead code today. |
+| 4 | SC001 | `internal/utils/ingestion_utils.go:17` | **true positive**, not reachable | `utils.Memo` returns memo text without a UTF-8 check. Nothing in wallet-backend calls it, and no table has a memo column, so it is dead code today. [stellar/wallet-backend#800](https://github.com/stellar/wallet-backend/issues/800) (open, by a maintainer) plans a memo column; once memo text is stored, the check matters. |
 
 ### How the false positives were removed
 
@@ -181,7 +195,8 @@ One more pair shows that SC003 follows the success guard. #474 "store failed ope
 (`84959de0`) has no envelope-participant findings. #474 itself has 14, in `participants.go` and
 `transaction_operation_wrapper.go`.
 
-SC002 has no control in which a depth cap was *added*. In wallet-backend's history, the
+SC002 has no control in wallet-backend's history in which a depth cap was *added*; the only one is
+our own unmerged branch for #820, described above. In wallet-backend's history, the
 recursive walk was removed rather than capped. No such fix was found in a search of
 stellar-etl's commit messages either.
 
