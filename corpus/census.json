@@ -1,0 +1,1945 @@
+{
+ "maxima": {
+  "auth_tree_depth": {
+   "pubnet": {
+    "ledger": 61240000,
+    "protocol": 25,
+    "tx": "6885f3567b152417f168023634aa2e1c906e2cf839d58a1e547f3a2f785ebc5a",
+    "value": 4
+   },
+   "testnet": {
+    "ledger": 3860000,
+    "protocol": 27,
+    "tx": "9782e50cd11b0dce263f69a4a3ac1ced0617f8bd79360c3f8107d547ad703c31",
+    "value": 3
+   }
+  },
+  "memo_text_bytes": {
+   "pubnet": {
+    "ledger": 59140000,
+    "protocol": 23,
+    "tx": "b3532cc61c6280ac047087b31841d6e0891de704bbb2066cb6f1f3bc1cc265aa",
+    "value": 28
+   },
+   "testnet": {
+    "ledger": 620000,
+    "protocol": 25,
+    "tx": "0841623cf56e30b8a4f960f21049779adf5aa9984a12187704e43c79e186bab0",
+    "value": 28
+   }
+  },
+  "operations_per_tx": {
+   "pubnet": {
+    "ledger": 59020000,
+    "protocol": 23,
+    "tx": "f4fe87c5e967f3780a18afc05b2b62d74113cd922330fea2c6a562cad3b28984",
+    "value": 100
+   },
+   "testnet": {
+    "ledger": 5660000,
+    "protocol": 30,
+    "tx": "593f22b433b1e1edc25096bcc5eb820e6f124ca04f9f79c04d280d2e0c5b3683",
+    "value": 76
+   }
+  },
+  "scbytes_bytes": {
+   "pubnet": {
+    "ledger": 61620000,
+    "protocol": 25,
+    "tx": "19f76335974c948056e1d789f69aad0d22f61a1bc0ac921d1d8651e71d6979b4",
+    "value": 1568
+   },
+   "testnet": {
+    "ledger": 5400000,
+    "protocol": 29,
+    "tx": "a013004be3d2493a1e42884b9b5d5faaf29275cec0948587878ff3d1aa86616b",
+    "value": 26889
+   }
+  },
+  "scmap_length": {
+   "pubnet": {
+    "ledger": 59500000,
+    "protocol": 23,
+    "tx": "3bae9dff20876c1c78ccc5164794f9c7505732e4724ccb5f4bdb40aee3e5c435",
+    "value": 13
+   },
+   "testnet": {
+    "ledger": 760000,
+    "protocol": 25,
+    "tx": "1bdb913f2e170c142a34d7c0c081ae9084b37862b5f7319818ed19eec53ac5bc",
+    "value": 50
+   }
+  },
+  "scstring_bytes": {
+   "pubnet": {
+    "ledger": 62240000,
+    "protocol": 25,
+    "tx": "962e52b5823f1750bc2c515db29e60704a1ca8a14dd97c9c0e46d1373d263045",
+    "value": 258
+   },
+   "testnet": {
+    "ledger": 4620000,
+    "protocol": 28,
+    "tx": "808d595cc9ab9927b85a92ff5daa91247b95bf8b031fe63fdc75955e0887cdf1",
+    "value": 84
+   }
+  },
+  "scsymbol_bytes": {
+   "pubnet": {
+    "ledger": 59000000,
+    "protocol": 23,
+    "tx": "45fbc5b59e142b8594dd1053deb1489690c96037761572f451cd0750f307e3cd",
+    "value": 32
+   },
+   "testnet": {
+    "ledger": 1180000,
+    "protocol": 25,
+    "tx": "172cd2e6411b57bd32d245f193777a415e9f70ff83add76c724a83c83bea26c6",
+    "value": 32
+   }
+  },
+  "scval_depth": {
+   "pubnet": {
+    "ledger": 64980000,
+    "protocol": 29,
+    "tx": "46c25f78d7de497b8d8ac8496081df4a20732d24e55454859ceb71751f2c1d9d",
+    "value": 7
+   },
+   "testnet": {
+    "ledger": 2620000,
+    "protocol": 26,
+    "tx": "7f5db57ac4c473b6073026c9a55ec1ab5ac91d32487bed20580f3a0ad3897b0d",
+    "value": 11
+   }
+  },
+  "scvec_length": {
+   "pubnet": {
+    "ledger": 59560000,
+    "protocol": 24,
+    "tx": "7c4b3273097e96cd90d81baecfa7c32d75defe95e5e11413e70e996550537c21",
+    "value": 100
+   },
+   "testnet": {
+    "ledger": 60000,
+    "protocol": 24,
+    "tx": "47eebe5fd1ffca83eb747725eca5181076a10467983cd0d7f3b259ea453060f8",
+    "value": 255
+   }
+  },
+  "signatures_per_envelope": {
+   "pubnet": {
+    "ledger": 60120000,
+    "protocol": 24,
+    "tx": "d1fb27ffbba87018ea6059d6465f8f3f73ad2d28d1d9986b43c289eb6caab488",
+    "value": 20
+   },
+   "testnet": {
+    "ledger": 4100000,
+    "protocol": 27,
+    "tx": "21ad34b74c5be74bca4e840e88f720114b21808bb56215943b118d086bf96921",
+    "value": 13
+   }
+  }
+ },
+ "patterns": {
+  "auth-nested-invocations": {
+   "by": {
+    "pubnet p23": {
+     "ledgers": 19,
+     "transactions": 659
+    },
+    "pubnet p24": {
+     "ledgers": 27,
+     "transactions": 85
+    },
+    "pubnet p25": {
+     "ledgers": 62,
+     "transactions": 435
+    },
+    "pubnet p26": {
+     "ledgers": 37,
+     "transactions": 723
+    },
+    "pubnet p27": {
+     "ledgers": 38,
+     "transactions": 1022
+    },
+    "pubnet p28": {
+     "ledgers": 9,
+     "transactions": 87
+    },
+    "pubnet p29": {
+     "ledgers": 28,
+     "transactions": 149
+    },
+    "testnet p24": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p25": {
+     "ledgers": 9,
+     "transactions": 11
+    },
+    "testnet p26": {
+     "ledgers": 13,
+     "transactions": 34
+    },
+    "testnet p27": {
+     "ledgers": 18,
+     "transactions": 24
+    },
+    "testnet p28": {
+     "ledgers": 14,
+     "transactions": 23
+    },
+    "testnet p29": {
+     "ledgers": 27,
+     "transactions": 80
+    },
+    "testnet p30": {
+     "ledgers": 8,
+     "transactions": 18
+    }
+   },
+   "ledgers": 309,
+   "transactions": 3350
+  },
+  "auth-tree-4-deep": {
+   "by": {
+    "pubnet p23": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p24": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p25": {
+     "ledgers": 1,
+     "transactions": 1
+    },
+    "pubnet p26": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p27": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p28": {
+     "ledgers": 1,
+     "transactions": 1
+    },
+    "pubnet p29": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p24": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p25": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p26": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p27": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p28": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p29": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p30": {
+     "ledgers": 0,
+     "transactions": 0
+    }
+   },
+   "ledgers": 2,
+   "transactions": 2
+  },
+  "failed-soroban-transaction": {
+   "by": {
+    "pubnet p23": {
+     "ledgers": 11,
+     "transactions": 17
+    },
+    "pubnet p24": {
+     "ledgers": 24,
+     "transactions": 365
+    },
+    "pubnet p25": {
+     "ledgers": 29,
+     "transactions": 310
+    },
+    "pubnet p26": {
+     "ledgers": 32,
+     "transactions": 427
+    },
+    "pubnet p27": {
+     "ledgers": 35,
+     "transactions": 170
+    },
+    "pubnet p28": {
+     "ledgers": 8,
+     "transactions": 90
+    },
+    "pubnet p29": {
+     "ledgers": 16,
+     "transactions": 66
+    },
+    "testnet p24": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p25": {
+     "ledgers": 8,
+     "transactions": 9
+    },
+    "testnet p26": {
+     "ledgers": 10,
+     "transactions": 12
+    },
+    "testnet p27": {
+     "ledgers": 4,
+     "transactions": 5
+    },
+    "testnet p28": {
+     "ledgers": 2,
+     "transactions": 2
+    },
+    "testnet p29": {
+     "ledgers": 1,
+     "transactions": 1
+    },
+    "testnet p30": {
+     "ledgers": 0,
+     "transactions": 0
+    }
+   },
+   "ledgers": 180,
+   "transactions": 1474
+  },
+  "failed-transaction": {
+   "by": {
+    "pubnet p23": {
+     "ledgers": 26,
+     "transactions": 1604
+    },
+    "pubnet p24": {
+     "ledgers": 69,
+     "transactions": 5586
+    },
+    "pubnet p25": {
+     "ledgers": 78,
+     "transactions": 6910
+    },
+    "pubnet p26": {
+     "ledgers": 47,
+     "transactions": 3459
+    },
+    "pubnet p27": {
+     "ledgers": 53,
+     "transactions": 3792
+    },
+    "pubnet p28": {
+     "ledgers": 13,
+     "transactions": 1162
+    },
+    "pubnet p29": {
+     "ledgers": 39,
+     "transactions": 2714
+    },
+    "testnet p24": {
+     "ledgers": 10,
+     "transactions": 13
+    },
+    "testnet p25": {
+     "ledgers": 64,
+     "transactions": 111
+    },
+    "testnet p26": {
+     "ledgers": 40,
+     "transactions": 59
+    },
+    "testnet p27": {
+     "ledgers": 49,
+     "transactions": 88
+    },
+    "testnet p28": {
+     "ledgers": 17,
+     "transactions": 25
+    },
+    "testnet p29": {
+     "ledgers": 28,
+     "transactions": 54
+    },
+    "testnet p30": {
+     "ledgers": 8,
+     "transactions": 19
+    }
+   },
+   "ledgers": 541,
+   "transactions": 25596
+  },
+  "memo-text-not-utf8": {
+   "by": {
+    "pubnet p23": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p24": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p25": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p26": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p27": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p28": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p29": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p24": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p25": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p26": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p27": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p28": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p29": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p30": {
+     "ledgers": 0,
+     "transactions": 0
+    }
+   },
+   "ledgers": 0,
+   "transactions": 0
+  },
+  "muxed-account": {
+   "by": {
+    "pubnet p23": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p24": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p25": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p26": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p27": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p28": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p29": {
+     "ledgers": 7,
+     "transactions": 7
+    },
+    "testnet p24": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p25": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p26": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p27": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p28": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p29": {
+     "ledgers": 1,
+     "transactions": 1
+    },
+    "testnet p30": {
+     "ledgers": 2,
+     "transactions": 2
+    }
+   },
+   "ledgers": 10,
+   "transactions": 10
+  },
+  "muxed-id-beyond-f64": {
+   "by": {
+    "pubnet p23": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p24": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p25": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p26": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p27": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p28": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p29": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p24": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p25": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p26": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p27": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p28": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p29": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p30": {
+     "ledgers": 0,
+     "transactions": 0
+    }
+   },
+   "ledgers": 0,
+   "transactions": 0
+  },
+  "muxed-id-max": {
+   "by": {
+    "pubnet p23": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p24": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p25": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p26": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p27": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p28": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p29": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p24": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p25": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p26": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p27": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p28": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p29": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p30": {
+     "ledgers": 0,
+     "transactions": 0
+    }
+   },
+   "ledgers": 0,
+   "transactions": 0
+  },
+  "muxed-id-zero": {
+   "by": {
+    "pubnet p23": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p24": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p25": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p26": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p27": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p28": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p29": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p24": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p25": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p26": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p27": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p28": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p29": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p30": {
+     "ledgers": 0,
+     "transactions": 0
+    }
+   },
+   "ledgers": 0,
+   "transactions": 0
+  },
+  "offer-id-beyond-f64": {
+   "by": {
+    "pubnet p23": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p24": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p25": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p26": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p27": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p28": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p29": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p24": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p25": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p26": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p27": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p28": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p29": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p30": {
+     "ledgers": 0,
+     "transactions": 0
+    }
+   },
+   "ledgers": 0,
+   "transactions": 0
+  },
+  "operations-50-or-more": {
+   "by": {
+    "pubnet p23": {
+     "ledgers": 24,
+     "transactions": 44
+    },
+    "pubnet p24": {
+     "ledgers": 57,
+     "transactions": 109
+    },
+    "pubnet p25": {
+     "ledgers": 50,
+     "transactions": 87
+    },
+    "pubnet p26": {
+     "ledgers": 36,
+     "transactions": 54
+    },
+    "pubnet p27": {
+     "ledgers": 32,
+     "transactions": 50
+    },
+    "pubnet p28": {
+     "ledgers": 4,
+     "transactions": 5
+    },
+    "pubnet p29": {
+     "ledgers": 21,
+     "transactions": 27
+    },
+    "testnet p24": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p25": {
+     "ledgers": 2,
+     "transactions": 2
+    },
+    "testnet p26": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p27": {
+     "ledgers": 1,
+     "transactions": 1
+    },
+    "testnet p28": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p29": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p30": {
+     "ledgers": 1,
+     "transactions": 1
+    }
+   },
+   "ledgers": 228,
+   "transactions": 380
+  },
+  "operations-at-max-100": {
+   "by": {
+    "pubnet p23": {
+     "ledgers": 18,
+     "transactions": 52
+    },
+    "pubnet p24": {
+     "ledgers": 45,
+     "transactions": 109
+    },
+    "pubnet p25": {
+     "ledgers": 67,
+     "transactions": 100
+    },
+    "pubnet p26": {
+     "ledgers": 36,
+     "transactions": 99
+    },
+    "pubnet p27": {
+     "ledgers": 43,
+     "transactions": 55
+    },
+    "pubnet p28": {
+     "ledgers": 11,
+     "transactions": 31
+    },
+    "pubnet p29": {
+     "ledgers": 27,
+     "transactions": 52
+    },
+    "testnet p24": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p25": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p26": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p27": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p28": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p29": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p30": {
+     "ledgers": 0,
+     "transactions": 0
+    }
+   },
+   "ledgers": 247,
+   "transactions": 498
+  },
+  "pool-issuers-order-differs-strkey-vs-bytes": {
+   "by": {
+    "pubnet p23": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p24": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p25": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p26": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p27": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p28": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p29": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p24": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p25": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p26": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p27": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p28": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p29": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p30": {
+     "ledgers": 0,
+     "transactions": 0
+    }
+   },
+   "ledgers": 0,
+   "transactions": 0
+  },
+  "scaddress-muxed-account": {
+   "by": {
+    "pubnet p23": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p24": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p25": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p26": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p27": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p28": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p29": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p24": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p25": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p26": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p27": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p28": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p29": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p30": {
+     "ledgers": 0,
+     "transactions": 0
+    }
+   },
+   "ledgers": 0,
+   "transactions": 0
+  },
+  "scaddress-muxed-contract": {
+   "by": {
+    "pubnet p23": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p24": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p25": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p26": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p27": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p28": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p29": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p24": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p25": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p26": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p27": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p28": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p29": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p30": {
+     "ledgers": 0,
+     "transactions": 0
+    }
+   },
+   "ledgers": 0,
+   "transactions": 0
+  },
+  "scaddress-muxed-id-beyond-f64": {
+   "by": {
+    "pubnet p23": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p24": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p25": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p26": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p27": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p28": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p29": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p24": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p25": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p26": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p27": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p28": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p29": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p30": {
+     "ledgers": 0,
+     "transactions": 0
+    }
+   },
+   "ledgers": 0,
+   "transactions": 0
+  },
+  "scmap-keys-collide-as-text": {
+   "by": {
+    "pubnet p23": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p24": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p25": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p26": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p27": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p28": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p29": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p24": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p25": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p26": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p27": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p28": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p29": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p30": {
+     "ledgers": 0,
+     "transactions": 0
+    }
+   },
+   "ledgers": 0,
+   "transactions": 0
+  },
+  "scmap-mixed-key-types": {
+   "by": {
+    "pubnet p23": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p24": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p25": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p26": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p27": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p28": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p29": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p24": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p25": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p26": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p27": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p28": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p29": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p30": {
+     "ledgers": 0,
+     "transactions": 0
+    }
+   },
+   "ledgers": 0,
+   "transactions": 0
+  },
+  "scval-int64-beyond-f64": {
+   "by": {
+    "pubnet p23": {
+     "ledgers": 1,
+     "transactions": 1
+    },
+    "pubnet p24": {
+     "ledgers": 2,
+     "transactions": 2
+    },
+    "pubnet p25": {
+     "ledgers": 4,
+     "transactions": 4
+    },
+    "pubnet p26": {
+     "ledgers": 4,
+     "transactions": 16
+    },
+    "pubnet p27": {
+     "ledgers": 4,
+     "transactions": 7
+    },
+    "pubnet p28": {
+     "ledgers": 1,
+     "transactions": 1
+    },
+    "pubnet p29": {
+     "ledgers": 2,
+     "transactions": 5
+    },
+    "testnet p24": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p25": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p26": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p27": {
+     "ledgers": 6,
+     "transactions": 6
+    },
+    "testnet p28": {
+     "ledgers": 5,
+     "transactions": 5
+    },
+    "testnet p29": {
+     "ledgers": 10,
+     "transactions": 21
+    },
+    "testnet p30": {
+     "ledgers": 3,
+     "transactions": 4
+    }
+   },
+   "ledgers": 42,
+   "transactions": 72
+  },
+  "scval-nested-5-deep": {
+   "by": {
+    "pubnet p23": {
+     "ledgers": 13,
+     "transactions": 87
+    },
+    "pubnet p24": {
+     "ledgers": 38,
+     "transactions": 184
+    },
+    "pubnet p25": {
+     "ledgers": 39,
+     "transactions": 690
+    },
+    "pubnet p26": {
+     "ledgers": 21,
+     "transactions": 50
+    },
+    "pubnet p27": {
+     "ledgers": 13,
+     "transactions": 17
+    },
+    "pubnet p28": {
+     "ledgers": 5,
+     "transactions": 14
+    },
+    "pubnet p29": {
+     "ledgers": 8,
+     "transactions": 13
+    },
+    "testnet p24": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p25": {
+     "ledgers": 9,
+     "transactions": 12
+    },
+    "testnet p26": {
+     "ledgers": 15,
+     "transactions": 39
+    },
+    "testnet p27": {
+     "ledgers": 15,
+     "transactions": 22
+    },
+    "testnet p28": {
+     "ledgers": 4,
+     "transactions": 4
+    },
+    "testnet p29": {
+     "ledgers": 19,
+     "transactions": 91
+    },
+    "testnet p30": {
+     "ledgers": 5,
+     "transactions": 15
+    }
+   },
+   "ledgers": 204,
+   "transactions": 1238
+  },
+  "scval-wide-integer": {
+   "by": {
+    "pubnet p23": {
+     "ledgers": 26,
+     "transactions": 6780
+    },
+    "pubnet p24": {
+     "ledgers": 69,
+     "transactions": 18600
+    },
+    "pubnet p25": {
+     "ledgers": 78,
+     "transactions": 24316
+    },
+    "pubnet p26": {
+     "ledgers": 47,
+     "transactions": 15607
+    },
+    "pubnet p27": {
+     "ledgers": 53,
+     "transactions": 17687
+    },
+    "pubnet p28": {
+     "ledgers": 13,
+     "transactions": 4074
+    },
+    "pubnet p29": {
+     "ledgers": 39,
+     "transactions": 10909
+    },
+    "testnet p24": {
+     "ledgers": 18,
+     "transactions": 73
+    },
+    "testnet p25": {
+     "ledgers": 85,
+     "transactions": 463
+    },
+    "testnet p26": {
+     "ledgers": 54,
+     "transactions": 541
+    },
+    "testnet p27": {
+     "ledgers": 61,
+     "transactions": 663
+    },
+    "testnet p28": {
+     "ledgers": 28,
+     "transactions": 357
+    },
+    "testnet p29": {
+     "ledgers": 31,
+     "transactions": 461
+    },
+    "testnet p30": {
+     "ledgers": 9,
+     "transactions": 145
+    }
+   },
+   "ledgers": 611,
+   "transactions": 100676
+  },
+  "signatures-at-max-20": {
+   "by": {
+    "pubnet p23": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p24": {
+     "ledgers": 2,
+     "transactions": 2
+    },
+    "pubnet p25": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p26": {
+     "ledgers": 1,
+     "transactions": 1
+    },
+    "pubnet p27": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p28": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p29": {
+     "ledgers": 8,
+     "transactions": 43
+    },
+    "testnet p24": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p25": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p26": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p27": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p28": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p29": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p30": {
+     "ledgers": 0,
+     "transactions": 0
+    }
+   },
+   "ledgers": 11,
+   "transactions": 46
+  },
+  "signed-payload-max-length": {
+   "by": {
+    "pubnet p23": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p24": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p25": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p26": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p27": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p28": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p29": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p24": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p25": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p26": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p27": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p28": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p29": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p30": {
+     "ledgers": 0,
+     "transactions": 0
+    }
+   },
+   "ledgers": 0,
+   "transactions": 0
+  },
+  "signed-payload-needs-padding": {
+   "by": {
+    "pubnet p23": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p24": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p25": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p26": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p27": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p28": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p29": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p24": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p25": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p26": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p27": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p28": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p29": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p30": {
+     "ledgers": 0,
+     "transactions": 0
+    }
+   },
+   "ledgers": 0,
+   "transactions": 0
+  },
+  "signed-payload-signer": {
+   "by": {
+    "pubnet p23": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p24": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p25": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p26": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p27": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p28": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p29": {
+     "ledgers": 2,
+     "transactions": 14
+    },
+    "testnet p24": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p25": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p26": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p27": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p28": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p29": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p30": {
+     "ledgers": 0,
+     "transactions": 0
+    }
+   },
+   "ledgers": 2,
+   "transactions": 14
+  },
+  "soroban-created-account": {
+   "by": {
+    "pubnet p23": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p24": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p25": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p26": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p27": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p28": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p29": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p24": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p25": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p26": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p27": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p28": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p29": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p30": {
+     "ledgers": 0,
+     "transactions": 0
+    }
+   },
+   "ledgers": 0,
+   "transactions": 0
+  },
+  "soroban-created-trustline": {
+   "by": {
+    "pubnet p23": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p24": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p25": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p26": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p27": {
+     "ledgers": 1,
+     "transactions": 1
+    },
+    "pubnet p28": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p29": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p24": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p25": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p26": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p27": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p28": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p29": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p30": {
+     "ledgers": 0,
+     "transactions": 0
+    }
+   },
+   "ledgers": 1,
+   "transactions": 1
+  },
+  "soroban-op-muxed-source": {
+   "by": {
+    "pubnet p23": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p24": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p25": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p26": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p27": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p28": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "pubnet p29": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p24": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p25": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p26": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p27": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p28": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p29": {
+     "ledgers": 0,
+     "transactions": 0
+    },
+    "testnet p30": {
+     "ledgers": 0,
+     "transactions": 0
+    }
+   },
+   "ledgers": 0,
+   "transactions": 0
+  }
+ },
+ "sample": {
+  "by_network_protocol": {
+   "pubnet p23": {
+    "ledgers": 26,
+    "transactions": 6780
+   },
+   "pubnet p24": {
+    "ledgers": 69,
+    "transactions": 18600
+   },
+   "pubnet p25": {
+    "ledgers": 78,
+    "transactions": 24316
+   },
+   "pubnet p26": {
+    "ledgers": 47,
+    "transactions": 15607
+   },
+   "pubnet p27": {
+    "ledgers": 53,
+    "transactions": 17687
+   },
+   "pubnet p28": {
+    "ledgers": 13,
+    "transactions": 4074
+   },
+   "pubnet p29": {
+    "ledgers": 39,
+    "transactions": 10909
+   },
+   "testnet p24": {
+    "ledgers": 18,
+    "transactions": 73
+   },
+   "testnet p25": {
+    "ledgers": 85,
+    "transactions": 463
+   },
+   "testnet p26": {
+    "ledgers": 54,
+    "transactions": 541
+   },
+   "testnet p27": {
+    "ledgers": 61,
+    "transactions": 663
+   },
+   "testnet p28": {
+    "ledgers": 28,
+    "transactions": 357
+   },
+   "testnet p29": {
+    "ledgers": 31,
+    "transactions": 461
+   },
+   "testnet p30": {
+    "ledgers": 9,
+    "transactions": 145
+   }
+  },
+  "ledgers": 611,
+  "transactions": 100676,
+  "unmatched_envelopes": 0
+ }
+}
