@@ -85,15 +85,15 @@ Each cell a ledger reader can meet (a union arm, or a member of an enum that app
 
 | First tag | Protocol | Arms and members dated | Not cells: discriminant-only enum members | Not reachable | Cells introduced | In the corpus | Not in the corpus, classified | Not yet classified |
 |---|---|---|---|---|---|---|---|---|
-| v19 | 19 or earlier | 552 | 303 | 45 | 204 | 179 | 21 | 4 |
-| v20 | 20 | 462 | 128 | 49 | 285 | 209 | 70 | 6 |
+| v19 | 19 or earlier | 552 | 303 | 45 | 204 | 179 | 25 | 0 |
+| v20 | 20 | 462 | 128 | 49 | 285 | 209 | 76 | 0 |
 | v21.0 | 21 | 29 | 23 | 0 | 6 | 6 | 0 | 0 |
 | v22.0 | 22 | 52 | 31 | 19 | 2 | 2 | 0 | 0 |
-| v23.0 | 23 | 33 | 6 | 7 | 20 | 15 | 4 | 1 |
+| v23.0 | 23 | 33 | 6 | 7 | 20 | 15 | 5 | 0 |
 | v25.0 | 25 | 15 | 15 | 0 | 0 | 0 | 0 | 0 |
-| v26.0 | 26 | 18 | 5 | 0 | 13 | 5 | 6 | 2 |
+| v26.0 | 26 | 18 | 5 | 0 | 13 | 5 | 8 | 0 |
 | v27.0 | 27 | 6 | 3 | 1 | 2 | 2 | 0 | 0 |
-| v28.0 | 28 | 6 | 3 | 0 | 3 | 2 | 0 | 1 |
-| v30.0 | 29 or 30 | 15 | 12 | 0 | 3 | 2 | 0 | 1 |
+| v28.0 | 28 | 6 | 3 | 0 | 3 | 2 | 1 | 0 |
+| v30.0 | 29 or 30 | 15 | 12 | 0 | 3 | 2 | 1 | 0 |
 
 The hand-assigned CAP of each cell in `corpus/cap-map.json` was checked against these dates: 40 of 40 agree (a CAP's cells first appear in the protocol the CAP shipped in).

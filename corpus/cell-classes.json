@@ -53,12 +53,12 @@
    "why": "Set only in Clawback:doCheckValid, which depends on the operation and the protocol version alone. stellar-core runs it when it admits a transaction and when it validates a transaction set, so a transaction that fails it never reaches a ledger."
   },
   "arm:ConfigSettingEntry.CONFIG_SETTING_FREEZE_BYPASS_TXS_DELTA": {
-   "class": "config_upgrade",
-   "why": "Network configuration entries change only in a ledger that applies a Soroban configuration upgrade (a ConfigUpgradeSet stored in contract data and voted in); the corpus has no such ledger."
+   "class": "never_in_ledger",
+   "why": "Never in a closed ledger in this form: a delta exists only inside a ConfigUpgradeSet, which a ledger stores as opaque bytes in contract data (ConfigUpgradeSetKey); applying it writes the resulting CONFIG_SETTING_FROZEN_LEDGER_KEYS or CONFIG_SETTING_FREEZE_BYPASS_TXS entry, not the delta."
   },
   "arm:ConfigSettingEntry.CONFIG_SETTING_FROZEN_LEDGER_KEYS_DELTA": {
-   "class": "config_upgrade",
-   "why": "Network configuration entries change only in a ledger that applies a Soroban configuration upgrade (a ConfigUpgradeSet stored in contract data and voted in); the corpus has no such ledger."
+   "class": "never_in_ledger",
+   "why": "Never in a closed ledger in this form: a delta exists only inside a ConfigUpgradeSet, which a ledger stores as opaque bytes in contract data (ConfigUpgradeSetKey); applying it writes the resulting CONFIG_SETTING_FROZEN_LEDGER_KEYS or CONFIG_SETTING_FREEZE_BYPASS_TXS entry, not the delta."
   },
   "arm:CreateAccountResult.CREATE_ACCOUNT_MALFORMED": {
    "class": "never_in_ledger",
@@ -81,16 +81,16 @@
    "why": "Inflation ran until protocol 12 (CAP-0026); since then the operation is not supported."
   },
   "arm:InnerTransactionResultResult.txFROZEN_KEY_ACCESSED": {
-   "class": "unclassified",
-   "why": "Not yet classified: needs a reading of where stellar-core sets it (FeeBumpTransactionFrame.cpp:checkValidImpl, TransactionFrame.cpp:commonValidPreSeqNum)."
+   "class": "never_in_ledger",
+   "why": "Set in TransactionFrame::commonValidPreSeqNum (TransactionFrame.cpp:1488) and FeeBumpTransactionFrame::checkValidImpl (FeeBumpTransactionFrame.cpp:331), against the network configuration's frozen keys from the transaction and the ledger header or network configuration alone. stellar-core runs it when it admits a transaction, when it validates a transaction set (with the close time of the value being voted on) and again when the transaction applies (TransactionFrame::apply calls commonValid with the same close time and zero offsets); the header, the base fee and the Soroban network configuration cannot change in between, because upgrades apply after a ledger's transactions. A transaction that fails it never reaches a ledger."
   },
   "arm:InnerTransactionResultResult.txINSUFFICIENT_BALANCE": {
    "class": "local_core",
    "why": "TransactionFrame::commonValid runs again when the transaction applies, against the ledger as earlier transactions in the same ledger left it; a transaction whose source's sequence number, signers or balance an earlier one changed fails with this code."
   },
   "arm:InnerTransactionResultResult.txINSUFFICIENT_FEE": {
-   "class": "unclassified",
-   "why": "Not yet classified: needs a reading of where stellar-core sets it (FeeBumpTransactionFrame.cpp:commonValidPreSeqNum, MutableTransactionResult.cpp:setInsufficientFeeErrorWithFeeCharged, TransactionFrame.cpp:commonValidPreSeqNum)."
+   "class": "never_in_ledger",
+   "why": "Set in TransactionFrame::commonValidPreSeqNum (TransactionFrame.cpp:1461, 1467) and FeeBumpTransactionFrame::commonValidPreSeqNum (FeeBumpTransactionFrame.cpp:405), against the header's base fee from the transaction and the ledger header or network configuration alone. stellar-core runs it when it admits a transaction, when it validates a transaction set (with the close time of the value being voted on) and again when the transaction applies (TransactionFrame::apply calls commonValid with the same close time and zero offsets); the header, the base fee and the Soroban network configuration cannot change in between, because upgrades apply after a ledger's transactions. A transaction that fails it never reaches a ledger."
   },
   "arm:InnerTransactionResultResult.txINTERNAL_ERROR": {
    "class": "never_in_ledger",
@@ -109,24 +109,24 @@
    "why": "Set in TransactionFrame::commonValidPreSeqNum from the transaction's own form and the protocol version (FeeBumpTransactionFrame.cpp:commonValidPreSeqNum, TransactionFrame.cpp:commonValidPreSeqNum), which are the same at admission, at transaction-set validation and at apply."
   },
   "arm:InnerTransactionResultResult.txSOROBAN_INVALID": {
-   "class": "unclassified",
-   "why": "Not yet classified: needs a reading of where stellar-core sets it (TransactionFrame.cpp:commonValidPreSeqNum)."
+   "class": "never_in_ledger",
+   "why": "Set in TransactionFrame::commonValidPreSeqNum (TransactionFrame.cpp:1325-1402, the declared resources and footprint against the network's Soroban limits) from the transaction and the ledger header or network configuration alone. stellar-core runs it when it admits a transaction, when it validates a transaction set (with the close time of the value being voted on) and again when the transaction applies (TransactionFrame::apply calls commonValid with the same close time and zero offsets); the header, the base fee and the Soroban network configuration cannot change in between, because upgrades apply after a ledger's transactions. A transaction that fails it never reaches a ledger."
   },
   "arm:InnerTransactionResultResult.txTOO_EARLY": {
-   "class": "unclassified",
-   "why": "Not yet classified: needs a reading of where stellar-core sets it (TransactionFrame.cpp:commonValidPreSeqNum)."
+   "class": "never_in_ledger",
+   "why": "Set in TransactionFrame::commonValidPreSeqNum (TransactionFrame.cpp:1448, the transaction's lower time or ledger bound) from the transaction and the ledger header or network configuration alone. stellar-core runs it when it admits a transaction, when it validates a transaction set (with the close time of the value being voted on) and again when the transaction applies (TransactionFrame::apply calls commonValid with the same close time and zero offsets); the header, the base fee and the Soroban network configuration cannot change in between, because upgrades apply after a ledger's transactions. A transaction that fails it never reaches a ledger."
   },
   "arm:InnerTransactionResultResult.txTOO_LATE": {
-   "class": "unclassified",
-   "why": "Not yet classified: needs a reading of where stellar-core sets it (TransactionFrame.cpp:commonValidPreSeqNum)."
+   "class": "never_in_ledger",
+   "why": "Set in TransactionFrame::commonValidPreSeqNum (TransactionFrame.cpp:1454, the transaction's upper time or ledger bound) from the transaction and the ledger header or network configuration alone. stellar-core runs it when it admits a transaction, when it validates a transaction set (with the close time of the value being voted on) and again when the transaction applies (TransactionFrame::apply calls commonValid with the same close time and zero offsets); the header, the base fee and the Soroban network configuration cannot change in between, because upgrades apply after a ledger's transactions. A transaction that fails it never reaches a ledger."
   },
   "arm:InvokeHostFunctionResult.INVOKE_HOST_FUNCTION_MALFORMED": {
    "class": "never_in_ledger",
    "why": "stellar-core sets no INVOKE_HOST_FUNCTION_MALFORMED anywhere in src/transactions; a malformed invocation fails Soroban validation, which runs before admission."
   },
   "arm:LedgerKey.CONFIG_SETTING": {
-   "class": "config_upgrade",
-   "why": "Network configuration entries change only in a ledger that applies a Soroban configuration upgrade (a ConfigUpgradeSet stored in contract data and voted in); the corpus has no such ledger."
+   "class": "never_in_ledger",
+   "why": "Never in a closed ledger: a configuration setting appears in meta only as a LedgerEntry (its ConfigSettingEntry arm), never as a key. A LedgerKey of type CONFIG_SETTING would need a removed change or an evicted key (configuration entries are never deleted or evicted), a Soroban footprint (TransactionFrame.cpp:868-878 rejects it as an unsupported key type) or a RevokeSponsorship operation (RevokeSponsorshipOpFrame.cpp:447 rejects it as REVOKE_SPONSORSHIP_MALFORMED). A ledger that applies a Soroban configuration upgrade adds none of these cells."
   },
   "arm:LiquidityPoolDepositResult.LIQUIDITY_POOL_DEPOSIT_MALFORMED": {
    "class": "never_in_ledger",
@@ -189,8 +189,8 @@
    "why": "Set while an offer or path payment crosses more offers than the work limit allows (ManageOfferOpFrameBase.cpp:doApply, PathPaymentOpFrameBase.cpp:convert); a local scenario with enough resting offers can produce it."
   },
   "arm:OperationResult.opNOT_SUPPORTED": {
-   "class": "unclassified",
-   "why": "Not yet classified: needs a reading of where stellar-core sets it (OperationFrame.cpp:checkValid)."
+   "class": "never_in_ledger",
+   "why": "Set only in OperationFrame::checkValid (OperationFrame.cpp:308) when isOpSupported(header) is false, which depends on the operation type, the protocol version and the header's flags alone. stellar-core runs it when it admits a transaction, when it validates a transaction set (with the close time of the value being voted on) and again when the transaction applies (TransactionFrame::apply calls commonValid with the same close time and zero offsets); the header, the base fee and the Soroban network configuration cannot change in between, because upgrades apply after a ledger's transactions. A transaction that fails it never reaches a ledger."
   },
   "arm:OperationResult.opTOO_MANY_SPONSORING": {
    "class": "impractical",
@@ -301,16 +301,16 @@
    "why": "Set only in SetTrustLineFlags:doCheckValid, which depends on the operation and the protocol version alone. stellar-core runs it when it admits a transaction and when it validates a transaction set, so a transaction that fails it never reaches a ledger."
   },
   "arm:StellarValueExt.STELLAR_VALUE_BASIC": {
-   "class": "unclassified",
-   "why": "Not yet classified: needs a reading of where stellar-core sets it (no setter found in src/transactions)."
+   "class": "before_protocol",
+   "why": "Today's stellar-core builds only signed values (HerderImpl::makeStellarValue) and refuses an unsigned one (PendingEnvelopes.cpp:344, \"Unsigned values are not permitted\"); the public archive's early ledgers have it (pubnet ledger 1000000, protocol 1, and 20000000, protocol 10)."
   },
   "arm:StellarValueExt.STELLAR_VALUE_EMPTY_TX_SET": {
-   "class": "unclassified",
-   "why": "Not yet classified: needs a reading of where stellar-core sets it (no setter found in src/transactions)."
+   "class": "consensus",
+   "why": "Built only by HerderSCPDriver::makeEmptyTxSetValueFromValue (HerderSCPDriver.cpp:728-751): a node that votes before it has downloaded the transaction set (EXPERIMENTAL_PARALLEL_TX_SET_DOWNLOAD) proposes closing an empty ledger. A ledger closed that way carries it; a local single-node network never needs to."
   },
   "arm:StellarValueExt.STELLAR_VALUE_EMPTY_TX_SET_MS": {
-   "class": "unclassified",
-   "why": "Not yet classified: needs a reading of where stellar-core sets it (no setter found in src/transactions)."
+   "class": "consensus",
+   "why": "Built only by HerderSCPDriver::makeEmptyTxSetValueFromValue (the multi-signature form) (HerderSCPDriver.cpp:728-751): a node that votes before it has downloaded the transaction set (EXPERIMENTAL_PARALLEL_TX_SET_DOWNLOAD) proposes closing an empty ledger. A ledger closed that way carries it; a local single-node network never needs to."
   },
   "arm:TransactionMeta.0": {
    "class": "before_protocol",
@@ -325,16 +325,16 @@
    "why": "Set in TransactionFrame::applyOperations as well as at admission: a signature that no signer used once earlier transactions in the ledger changed the signers."
   },
   "arm:TransactionResultResult.txFROZEN_KEY_ACCESSED": {
-   "class": "unclassified",
-   "why": "Not yet classified: needs a reading of where stellar-core sets it (FeeBumpTransactionFrame.cpp:checkValidImpl, TransactionFrame.cpp:commonValidPreSeqNum)."
+   "class": "never_in_ledger",
+   "why": "Set in TransactionFrame::commonValidPreSeqNum (TransactionFrame.cpp:1488) and FeeBumpTransactionFrame::checkValidImpl (FeeBumpTransactionFrame.cpp:331), against the network configuration's frozen keys from the transaction and the ledger header or network configuration alone. stellar-core runs it when it admits a transaction, when it validates a transaction set (with the close time of the value being voted on) and again when the transaction applies (TransactionFrame::apply calls commonValid with the same close time and zero offsets); the header, the base fee and the Soroban network configuration cannot change in between, because upgrades apply after a ledger's transactions. A transaction that fails it never reaches a ledger."
   },
   "arm:TransactionResultResult.txINSUFFICIENT_BALANCE": {
    "class": "local_core",
    "why": "TransactionFrame::commonValid runs again when the transaction applies, against the ledger as earlier transactions in the same ledger left it; a transaction whose source's sequence number, signers or balance an earlier one changed fails with this code."
   },
   "arm:TransactionResultResult.txINSUFFICIENT_FEE": {
-   "class": "unclassified",
-   "why": "Not yet classified: needs a reading of where stellar-core sets it (FeeBumpTransactionFrame.cpp:commonValidPreSeqNum, MutableTransactionResult.cpp:setInsufficientFeeErrorWithFeeCharged, TransactionFrame.cpp:commonValidPreSeqNum)."
+   "class": "never_in_ledger",
+   "why": "Set in TransactionFrame::commonValidPreSeqNum (TransactionFrame.cpp:1461, 1467) and FeeBumpTransactionFrame::commonValidPreSeqNum (FeeBumpTransactionFrame.cpp:405), against the header's base fee from the transaction and the ledger header or network configuration alone. stellar-core runs it when it admits a transaction, when it validates a transaction set (with the close time of the value being voted on) and again when the transaction applies (TransactionFrame::apply calls commonValid with the same close time and zero offsets); the header, the base fee and the Soroban network configuration cannot change in between, because upgrades apply after a ledger's transactions. A transaction that fails it never reaches a ledger."
   },
   "arm:TransactionResultResult.txMALFORMED": {
    "class": "never_in_ledger",
@@ -349,104 +349,104 @@
    "why": "Set in TransactionFrame::commonValidPreSeqNum from the transaction's own form and the protocol version (FeeBumpTransactionFrame.cpp:commonValidPreSeqNum, TransactionFrame.cpp:commonValidPreSeqNum), which are the same at admission, at transaction-set validation and at apply."
   },
   "arm:TransactionResultResult.txSOROBAN_INVALID": {
-   "class": "unclassified",
-   "why": "Not yet classified: needs a reading of where stellar-core sets it (TransactionFrame.cpp:commonValidPreSeqNum)."
+   "class": "never_in_ledger",
+   "why": "Set in TransactionFrame::commonValidPreSeqNum (TransactionFrame.cpp:1325-1402, the declared resources and footprint against the network's Soroban limits) from the transaction and the ledger header or network configuration alone. stellar-core runs it when it admits a transaction, when it validates a transaction set (with the close time of the value being voted on) and again when the transaction applies (TransactionFrame::apply calls commonValid with the same close time and zero offsets); the header, the base fee and the Soroban network configuration cannot change in between, because upgrades apply after a ledger's transactions. A transaction that fails it never reaches a ledger."
   },
   "arm:TransactionResultResult.txTOO_EARLY": {
-   "class": "unclassified",
-   "why": "Not yet classified: needs a reading of where stellar-core sets it (TransactionFrame.cpp:commonValidPreSeqNum)."
+   "class": "never_in_ledger",
+   "why": "Set in TransactionFrame::commonValidPreSeqNum (TransactionFrame.cpp:1448, the transaction's lower time or ledger bound) from the transaction and the ledger header or network configuration alone. stellar-core runs it when it admits a transaction, when it validates a transaction set (with the close time of the value being voted on) and again when the transaction applies (TransactionFrame::apply calls commonValid with the same close time and zero offsets); the header, the base fee and the Soroban network configuration cannot change in between, because upgrades apply after a ledger's transactions. A transaction that fails it never reaches a ledger."
   },
   "arm:TransactionResultResult.txTOO_LATE": {
-   "class": "unclassified",
-   "why": "Not yet classified: needs a reading of where stellar-core sets it (TransactionFrame.cpp:commonValidPreSeqNum)."
+   "class": "never_in_ledger",
+   "why": "Set in TransactionFrame::commonValidPreSeqNum (TransactionFrame.cpp:1454, the transaction's upper time or ledger bound) from the transaction and the ledger header or network configuration alone. stellar-core runs it when it admits a transaction, when it validates a transaction set (with the close time of the value being voted on) and again when the transaction applies (TransactionFrame::apply calls commonValid with the same close time and zero offsets); the header, the base fee and the Soroban network configuration cannot change in between, because upgrades apply after a ledger's transactions. A transaction that fails it never reaches a ledger."
   },
   "arm:TrustLineAsset.ASSET_TYPE_NATIVE": {
    "class": "never_in_ledger",
    "why": "There is no trustline to the native asset: ChangeTrust's doCheckValid rejects a native line, so no trustline entry, key or operation in a ledger carries this arm."
   },
   "enum:ConfigSettingID.CONFIG_SETTING_CONTRACT_BANDWIDTH_V0": {
-   "class": "config_upgrade",
-   "why": "Network configuration entries change only in a ledger that applies a Soroban configuration upgrade (a ConfigUpgradeSet stored in contract data and voted in); the corpus has no such ledger."
+   "class": "never_in_ledger",
+   "why": "Never in a closed ledger: a configuration setting appears in meta only as a LedgerEntry (its ConfigSettingEntry arm), never as a key. A LedgerKey of type CONFIG_SETTING would need a removed change or an evicted key (configuration entries are never deleted or evicted), a Soroban footprint (TransactionFrame.cpp:868-878 rejects it as an unsupported key type) or a RevokeSponsorship operation (RevokeSponsorshipOpFrame.cpp:447 rejects it as REVOKE_SPONSORSHIP_MALFORMED). A ledger that applies a Soroban configuration upgrade adds none of these cells."
   },
   "enum:ConfigSettingID.CONFIG_SETTING_CONTRACT_COMPUTE_V0": {
-   "class": "config_upgrade",
-   "why": "Network configuration entries change only in a ledger that applies a Soroban configuration upgrade (a ConfigUpgradeSet stored in contract data and voted in); the corpus has no such ledger."
+   "class": "never_in_ledger",
+   "why": "Never in a closed ledger: a configuration setting appears in meta only as a LedgerEntry (its ConfigSettingEntry arm), never as a key. A LedgerKey of type CONFIG_SETTING would need a removed change or an evicted key (configuration entries are never deleted or evicted), a Soroban footprint (TransactionFrame.cpp:868-878 rejects it as an unsupported key type) or a RevokeSponsorship operation (RevokeSponsorshipOpFrame.cpp:447 rejects it as REVOKE_SPONSORSHIP_MALFORMED). A ledger that applies a Soroban configuration upgrade adds none of these cells."
   },
   "enum:ConfigSettingID.CONFIG_SETTING_CONTRACT_COST_PARAMS_CPU_INSTRUCTIONS": {
-   "class": "config_upgrade",
-   "why": "Network configuration entries change only in a ledger that applies a Soroban configuration upgrade (a ConfigUpgradeSet stored in contract data and voted in); the corpus has no such ledger."
+   "class": "never_in_ledger",
+   "why": "Never in a closed ledger: a configuration setting appears in meta only as a LedgerEntry (its ConfigSettingEntry arm), never as a key. A LedgerKey of type CONFIG_SETTING would need a removed change or an evicted key (configuration entries are never deleted or evicted), a Soroban footprint (TransactionFrame.cpp:868-878 rejects it as an unsupported key type) or a RevokeSponsorship operation (RevokeSponsorshipOpFrame.cpp:447 rejects it as REVOKE_SPONSORSHIP_MALFORMED). A ledger that applies a Soroban configuration upgrade adds none of these cells."
   },
   "enum:ConfigSettingID.CONFIG_SETTING_CONTRACT_COST_PARAMS_MEMORY_BYTES": {
-   "class": "config_upgrade",
-   "why": "Network configuration entries change only in a ledger that applies a Soroban configuration upgrade (a ConfigUpgradeSet stored in contract data and voted in); the corpus has no such ledger."
+   "class": "never_in_ledger",
+   "why": "Never in a closed ledger: a configuration setting appears in meta only as a LedgerEntry (its ConfigSettingEntry arm), never as a key. A LedgerKey of type CONFIG_SETTING would need a removed change or an evicted key (configuration entries are never deleted or evicted), a Soroban footprint (TransactionFrame.cpp:868-878 rejects it as an unsupported key type) or a RevokeSponsorship operation (RevokeSponsorshipOpFrame.cpp:447 rejects it as REVOKE_SPONSORSHIP_MALFORMED). A ledger that applies a Soroban configuration upgrade adds none of these cells."
   },
   "enum:ConfigSettingID.CONFIG_SETTING_CONTRACT_DATA_ENTRY_SIZE_BYTES": {
-   "class": "config_upgrade",
-   "why": "Network configuration entries change only in a ledger that applies a Soroban configuration upgrade (a ConfigUpgradeSet stored in contract data and voted in); the corpus has no such ledger."
+   "class": "never_in_ledger",
+   "why": "Never in a closed ledger: a configuration setting appears in meta only as a LedgerEntry (its ConfigSettingEntry arm), never as a key. A LedgerKey of type CONFIG_SETTING would need a removed change or an evicted key (configuration entries are never deleted or evicted), a Soroban footprint (TransactionFrame.cpp:868-878 rejects it as an unsupported key type) or a RevokeSponsorship operation (RevokeSponsorshipOpFrame.cpp:447 rejects it as REVOKE_SPONSORSHIP_MALFORMED). A ledger that applies a Soroban configuration upgrade adds none of these cells."
   },
   "enum:ConfigSettingID.CONFIG_SETTING_CONTRACT_DATA_KEY_SIZE_BYTES": {
-   "class": "config_upgrade",
-   "why": "Network configuration entries change only in a ledger that applies a Soroban configuration upgrade (a ConfigUpgradeSet stored in contract data and voted in); the corpus has no such ledger."
+   "class": "never_in_ledger",
+   "why": "Never in a closed ledger: a configuration setting appears in meta only as a LedgerEntry (its ConfigSettingEntry arm), never as a key. A LedgerKey of type CONFIG_SETTING would need a removed change or an evicted key (configuration entries are never deleted or evicted), a Soroban footprint (TransactionFrame.cpp:868-878 rejects it as an unsupported key type) or a RevokeSponsorship operation (RevokeSponsorshipOpFrame.cpp:447 rejects it as REVOKE_SPONSORSHIP_MALFORMED). A ledger that applies a Soroban configuration upgrade adds none of these cells."
   },
   "enum:ConfigSettingID.CONFIG_SETTING_CONTRACT_EVENTS_V0": {
-   "class": "config_upgrade",
-   "why": "Network configuration entries change only in a ledger that applies a Soroban configuration upgrade (a ConfigUpgradeSet stored in contract data and voted in); the corpus has no such ledger."
+   "class": "never_in_ledger",
+   "why": "Never in a closed ledger: a configuration setting appears in meta only as a LedgerEntry (its ConfigSettingEntry arm), never as a key. A LedgerKey of type CONFIG_SETTING would need a removed change or an evicted key (configuration entries are never deleted or evicted), a Soroban footprint (TransactionFrame.cpp:868-878 rejects it as an unsupported key type) or a RevokeSponsorship operation (RevokeSponsorshipOpFrame.cpp:447 rejects it as REVOKE_SPONSORSHIP_MALFORMED). A ledger that applies a Soroban configuration upgrade adds none of these cells."
   },
   "enum:ConfigSettingID.CONFIG_SETTING_CONTRACT_EXECUTION_LANES": {
-   "class": "config_upgrade",
-   "why": "Network configuration entries change only in a ledger that applies a Soroban configuration upgrade (a ConfigUpgradeSet stored in contract data and voted in); the corpus has no such ledger."
+   "class": "never_in_ledger",
+   "why": "Never in a closed ledger: a configuration setting appears in meta only as a LedgerEntry (its ConfigSettingEntry arm), never as a key. A LedgerKey of type CONFIG_SETTING would need a removed change or an evicted key (configuration entries are never deleted or evicted), a Soroban footprint (TransactionFrame.cpp:868-878 rejects it as an unsupported key type) or a RevokeSponsorship operation (RevokeSponsorshipOpFrame.cpp:447 rejects it as REVOKE_SPONSORSHIP_MALFORMED). A ledger that applies a Soroban configuration upgrade adds none of these cells."
   },
   "enum:ConfigSettingID.CONFIG_SETTING_CONTRACT_HISTORICAL_DATA_V0": {
-   "class": "config_upgrade",
-   "why": "Network configuration entries change only in a ledger that applies a Soroban configuration upgrade (a ConfigUpgradeSet stored in contract data and voted in); the corpus has no such ledger."
+   "class": "never_in_ledger",
+   "why": "Never in a closed ledger: a configuration setting appears in meta only as a LedgerEntry (its ConfigSettingEntry arm), never as a key. A LedgerKey of type CONFIG_SETTING would need a removed change or an evicted key (configuration entries are never deleted or evicted), a Soroban footprint (TransactionFrame.cpp:868-878 rejects it as an unsupported key type) or a RevokeSponsorship operation (RevokeSponsorshipOpFrame.cpp:447 rejects it as REVOKE_SPONSORSHIP_MALFORMED). A ledger that applies a Soroban configuration upgrade adds none of these cells."
   },
   "enum:ConfigSettingID.CONFIG_SETTING_CONTRACT_LEDGER_COST_EXT_V0": {
-   "class": "config_upgrade",
-   "why": "Network configuration entries change only in a ledger that applies a Soroban configuration upgrade (a ConfigUpgradeSet stored in contract data and voted in); the corpus has no such ledger."
+   "class": "never_in_ledger",
+   "why": "Never in a closed ledger: a configuration setting appears in meta only as a LedgerEntry (its ConfigSettingEntry arm), never as a key. A LedgerKey of type CONFIG_SETTING would need a removed change or an evicted key (configuration entries are never deleted or evicted), a Soroban footprint (TransactionFrame.cpp:868-878 rejects it as an unsupported key type) or a RevokeSponsorship operation (RevokeSponsorshipOpFrame.cpp:447 rejects it as REVOKE_SPONSORSHIP_MALFORMED). A ledger that applies a Soroban configuration upgrade adds none of these cells."
   },
   "enum:ConfigSettingID.CONFIG_SETTING_CONTRACT_LEDGER_COST_V0": {
-   "class": "config_upgrade",
-   "why": "Network configuration entries change only in a ledger that applies a Soroban configuration upgrade (a ConfigUpgradeSet stored in contract data and voted in); the corpus has no such ledger."
+   "class": "never_in_ledger",
+   "why": "Never in a closed ledger: a configuration setting appears in meta only as a LedgerEntry (its ConfigSettingEntry arm), never as a key. A LedgerKey of type CONFIG_SETTING would need a removed change or an evicted key (configuration entries are never deleted or evicted), a Soroban footprint (TransactionFrame.cpp:868-878 rejects it as an unsupported key type) or a RevokeSponsorship operation (RevokeSponsorshipOpFrame.cpp:447 rejects it as REVOKE_SPONSORSHIP_MALFORMED). A ledger that applies a Soroban configuration upgrade adds none of these cells."
   },
   "enum:ConfigSettingID.CONFIG_SETTING_CONTRACT_MAX_SIZE_BYTES": {
-   "class": "config_upgrade",
-   "why": "Network configuration entries change only in a ledger that applies a Soroban configuration upgrade (a ConfigUpgradeSet stored in contract data and voted in); the corpus has no such ledger."
+   "class": "never_in_ledger",
+   "why": "Never in a closed ledger: a configuration setting appears in meta only as a LedgerEntry (its ConfigSettingEntry arm), never as a key. A LedgerKey of type CONFIG_SETTING would need a removed change or an evicted key (configuration entries are never deleted or evicted), a Soroban footprint (TransactionFrame.cpp:868-878 rejects it as an unsupported key type) or a RevokeSponsorship operation (RevokeSponsorshipOpFrame.cpp:447 rejects it as REVOKE_SPONSORSHIP_MALFORMED). A ledger that applies a Soroban configuration upgrade adds none of these cells."
   },
   "enum:ConfigSettingID.CONFIG_SETTING_CONTRACT_PARALLEL_COMPUTE_V0": {
-   "class": "config_upgrade",
-   "why": "Network configuration entries change only in a ledger that applies a Soroban configuration upgrade (a ConfigUpgradeSet stored in contract data and voted in); the corpus has no such ledger."
+   "class": "never_in_ledger",
+   "why": "Never in a closed ledger: a configuration setting appears in meta only as a LedgerEntry (its ConfigSettingEntry arm), never as a key. A LedgerKey of type CONFIG_SETTING would need a removed change or an evicted key (configuration entries are never deleted or evicted), a Soroban footprint (TransactionFrame.cpp:868-878 rejects it as an unsupported key type) or a RevokeSponsorship operation (RevokeSponsorshipOpFrame.cpp:447 rejects it as REVOKE_SPONSORSHIP_MALFORMED). A ledger that applies a Soroban configuration upgrade adds none of these cells."
   },
   "enum:ConfigSettingID.CONFIG_SETTING_EVICTION_ITERATOR": {
-   "class": "config_upgrade",
-   "why": "Network configuration entries change only in a ledger that applies a Soroban configuration upgrade (a ConfigUpgradeSet stored in contract data and voted in); the corpus has no such ledger."
+   "class": "never_in_ledger",
+   "why": "Never in a closed ledger: a configuration setting appears in meta only as a LedgerEntry (its ConfigSettingEntry arm), never as a key. A LedgerKey of type CONFIG_SETTING would need a removed change or an evicted key (configuration entries are never deleted or evicted), a Soroban footprint (TransactionFrame.cpp:868-878 rejects it as an unsupported key type) or a RevokeSponsorship operation (RevokeSponsorshipOpFrame.cpp:447 rejects it as REVOKE_SPONSORSHIP_MALFORMED). A ledger that applies a Soroban configuration upgrade adds none of these cells."
   },
   "enum:ConfigSettingID.CONFIG_SETTING_FREEZE_BYPASS_TXS": {
-   "class": "config_upgrade",
-   "why": "Network configuration entries change only in a ledger that applies a Soroban configuration upgrade (a ConfigUpgradeSet stored in contract data and voted in); the corpus has no such ledger."
+   "class": "never_in_ledger",
+   "why": "Never in a closed ledger: a configuration setting appears in meta only as a LedgerEntry (its ConfigSettingEntry arm), never as a key. A LedgerKey of type CONFIG_SETTING would need a removed change or an evicted key (configuration entries are never deleted or evicted), a Soroban footprint (TransactionFrame.cpp:868-878 rejects it as an unsupported key type) or a RevokeSponsorship operation (RevokeSponsorshipOpFrame.cpp:447 rejects it as REVOKE_SPONSORSHIP_MALFORMED). A ledger that applies a Soroban configuration upgrade adds none of these cells."
   },
   "enum:ConfigSettingID.CONFIG_SETTING_FREEZE_BYPASS_TXS_DELTA": {
-   "class": "config_upgrade",
-   "why": "Network configuration entries change only in a ledger that applies a Soroban configuration upgrade (a ConfigUpgradeSet stored in contract data and voted in); the corpus has no such ledger."
+   "class": "never_in_ledger",
+   "why": "Never in a closed ledger: a configuration setting appears in meta only as a LedgerEntry (its ConfigSettingEntry arm), never as a key. A LedgerKey of type CONFIG_SETTING would need a removed change or an evicted key (configuration entries are never deleted or evicted), a Soroban footprint (TransactionFrame.cpp:868-878 rejects it as an unsupported key type) or a RevokeSponsorship operation (RevokeSponsorshipOpFrame.cpp:447 rejects it as REVOKE_SPONSORSHIP_MALFORMED). A ledger that applies a Soroban configuration upgrade adds none of these cells."
   },
   "enum:ConfigSettingID.CONFIG_SETTING_FROZEN_LEDGER_KEYS": {
-   "class": "config_upgrade",
-   "why": "Network configuration entries change only in a ledger that applies a Soroban configuration upgrade (a ConfigUpgradeSet stored in contract data and voted in); the corpus has no such ledger."
+   "class": "never_in_ledger",
+   "why": "Never in a closed ledger: a configuration setting appears in meta only as a LedgerEntry (its ConfigSettingEntry arm), never as a key. A LedgerKey of type CONFIG_SETTING would need a removed change or an evicted key (configuration entries are never deleted or evicted), a Soroban footprint (TransactionFrame.cpp:868-878 rejects it as an unsupported key type) or a RevokeSponsorship operation (RevokeSponsorshipOpFrame.cpp:447 rejects it as REVOKE_SPONSORSHIP_MALFORMED). A ledger that applies a Soroban configuration upgrade adds none of these cells."
   },
   "enum:ConfigSettingID.CONFIG_SETTING_FROZEN_LEDGER_KEYS_DELTA": {
-   "class": "config_upgrade",
-   "why": "Network configuration entries change only in a ledger that applies a Soroban configuration upgrade (a ConfigUpgradeSet stored in contract data and voted in); the corpus has no such ledger."
+   "class": "never_in_ledger",
+   "why": "Never in a closed ledger: a configuration setting appears in meta only as a LedgerEntry (its ConfigSettingEntry arm), never as a key. A LedgerKey of type CONFIG_SETTING would need a removed change or an evicted key (configuration entries are never deleted or evicted), a Soroban footprint (TransactionFrame.cpp:868-878 rejects it as an unsupported key type) or a RevokeSponsorship operation (RevokeSponsorshipOpFrame.cpp:447 rejects it as REVOKE_SPONSORSHIP_MALFORMED). A ledger that applies a Soroban configuration upgrade adds none of these cells."
   },
   "enum:ConfigSettingID.CONFIG_SETTING_LIVE_SOROBAN_STATE_SIZE_WINDOW": {
-   "class": "config_upgrade",
-   "why": "Network configuration entries change only in a ledger that applies a Soroban configuration upgrade (a ConfigUpgradeSet stored in contract data and voted in); the corpus has no such ledger."
+   "class": "never_in_ledger",
+   "why": "Never in a closed ledger: a configuration setting appears in meta only as a LedgerEntry (its ConfigSettingEntry arm), never as a key. A LedgerKey of type CONFIG_SETTING would need a removed change or an evicted key (configuration entries are never deleted or evicted), a Soroban footprint (TransactionFrame.cpp:868-878 rejects it as an unsupported key type) or a RevokeSponsorship operation (RevokeSponsorshipOpFrame.cpp:447 rejects it as REVOKE_SPONSORSHIP_MALFORMED). A ledger that applies a Soroban configuration upgrade adds none of these cells."
   },
   "enum:ConfigSettingID.CONFIG_SETTING_SCP_TIMING": {
-   "class": "config_upgrade",
-   "why": "Network configuration entries change only in a ledger that applies a Soroban configuration upgrade (a ConfigUpgradeSet stored in contract data and voted in); the corpus has no such ledger."
+   "class": "never_in_ledger",
+   "why": "Never in a closed ledger: a configuration setting appears in meta only as a LedgerEntry (its ConfigSettingEntry arm), never as a key. A LedgerKey of type CONFIG_SETTING would need a removed change or an evicted key (configuration entries are never deleted or evicted), a Soroban footprint (TransactionFrame.cpp:868-878 rejects it as an unsupported key type) or a RevokeSponsorship operation (RevokeSponsorshipOpFrame.cpp:447 rejects it as REVOKE_SPONSORSHIP_MALFORMED). A ledger that applies a Soroban configuration upgrade adds none of these cells."
   },
   "enum:ConfigSettingID.CONFIG_SETTING_STATE_ARCHIVAL": {
-   "class": "config_upgrade",
-   "why": "Network configuration entries change only in a ledger that applies a Soroban configuration upgrade (a ConfigUpgradeSet stored in contract data and voted in); the corpus has no such ledger."
+   "class": "never_in_ledger",
+   "why": "Never in a closed ledger: a configuration setting appears in meta only as a LedgerEntry (its ConfigSettingEntry arm), never as a key. A LedgerKey of type CONFIG_SETTING would need a removed change or an evicted key (configuration entries are never deleted or evicted), a Soroban footprint (TransactionFrame.cpp:868-878 rejects it as an unsupported key type) or a RevokeSponsorship operation (RevokeSponsorshipOpFrame.cpp:447 rejects it as REVOKE_SPONSORSHIP_MALFORMED). A ledger that applies a Soroban configuration upgrade adds none of these cells."
   },
   "enum:SCErrorCode.SCEC_ARITH_DOMAIN": {
    "class": "contract",
@@ -461,21 +461,21 @@
    "why": "Only a contract puts this value in a ledger (in storage, an event or a return value); a local scenario with a contract written to emit it can produce it."
   },
   "enum:TransactionEventStage.TRANSACTION_EVENT_STAGE_AFTER_TX": {
-   "class": "unclassified",
-   "why": "Not yet classified: needs a reading of where stellar-core sets it (TransactionFrame.cpp:processRefund)."
+   "class": "local_core",
+   "why": "The Soroban fee-refund event's stage before protocol 23 (TransactionFrame.cpp:2634; from 23 it is AFTER_ALL_TXS). Protocol 22 meta carries fee events only with BACKFILL_STELLAR_ASSET_EVENTS set (TransactionMeta.cpp:533), which no public network ledger had; a local protocol 22 core with that option and one Soroban transaction produces it."
   }
  },
  "classes": {
   "before_protocol": "Only in ledgers of an earlier protocol than the corpus samples (its network and local ledgers are protocol 20 to 30); addable by mining the public archive's early ledgers.",
   "config_upgrade": "Only in a ledger that applies a Soroban configuration upgrade.",
-  "consensus": "Only in meta from a node that records consensus messages.",
+  "consensus": "Only in meta from a node that records consensus messages, or in a value a validator builds only under a consensus option (an empty transaction set voted before download).",
   "contract": "Only from a contract written to produce it.",
   "impractical": "Possible in principle, only past a limit no real or local ledger reaches.",
   "local_core": "Producible by a local stellar-core scenario: a failure or shape that depends on ledger state.",
-  "never_in_ledger": "Cannot be in a closed ledger: set only by a check that a transaction failing it never gets past, or only on a stellar-core bug.",
+  "never_in_ledger": "Cannot be in a closed ledger: set only by a check that a transaction failing it never gets past, only on a stellar-core bug, or only in a form a ledger never stores.",
   "unclassified": "Not classified yet.",
   "upgrade": "Only in a ledger that applies a network upgrade; producible by a local scenario that arms it."
  },
- "note": "A class and a reason for every cell reachable from LedgerCloseMeta that no corpus entry has. Built from stellar-core f2b91947fb20fc8174cca38bf320eda7baa3edbb (src/transactions): the function that sets each result code. Checked by tools/coverage.py.",
+ "note": "A class and a reason for every cell reachable from LedgerCloseMeta that no corpus entry has. Built from stellar-core f2b91947fb20fc8174cca38bf320eda7baa3edbb (src/transactions): the function that sets each result code. Checked by tools/cell_coverage.py.",
  "stellar_core_commit": "f2b91947fb20fc8174cca38bf320eda7baa3edbb"
 }
