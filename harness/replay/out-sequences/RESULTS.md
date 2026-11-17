@@ -21,6 +21,8 @@ explain the failures, or `unexplained` (a candidate new finding). The details be
 | `blend-pool-name` | `localcore-blend-upload-3`, `localcore-blend-pool-4` | `e967ce8b` | rpc | 0 of 0 | none | 1 |
 | `blend-pool-name` | `localcore-blend-upload-3`, `localcore-blend-pool-4` | `ff73ff46` | datalake | 0 of 0 | none | 0 |
 | `blend-pool-name` | `localcore-blend-upload-3`, `localcore-blend-pool-4` | `ff73ff46` | rpc | 0 of 0 | none | 0 |
+| `contract-balances` | `localcore-contract-balances-a-8`, `localcore-contract-balances-b-9` | `3e22515a` | datalake | 0 of 0 | none | 0 |
+| `contract-balances` | `localcore-contract-balances-a-8`, `localcore-contract-balances-b-9` | `3e22515a` | rpc | 0 of 0 | none | 0 |
 | `token-rebind` | `localcore-token-rebind-upload-4`, `localcore-token-rebind-filler-5`, `localcore-token-rebind-deploy-6`, `localcore-token-rebind-mint-7`, `localcore-token-rebind-rebind-8` | `3e22515a` | datalake | 0 of 0 | none | 0 |
 | `token-rebind` | `localcore-token-rebind-upload-4`, `localcore-token-rebind-filler-5`, `localcore-token-rebind-deploy-6`, `localcore-token-rebind-mint-7`, `localcore-token-rebind-rebind-8` | `3e22515a` | rpc | 0 of 0 | none | 0 |
 | `token-rebind` | `localcore-token-rebind-upload-4`, `localcore-token-rebind-filler-5`, `localcore-token-rebind-deploy-6`, `localcore-token-rebind-mint-7`, `localcore-token-rebind-rebind-8` | `8ba290cd` | datalake | 0 of 0 | none | 1 |
@@ -60,6 +62,10 @@ Only the implicit checks apply: the ledger is ingested without an error and ever
 | `localcore-blend-pool-4@blend-pool-name` | 28 | datalake | not run | not run | not run | not run | not run | not run | mishandled: unexplained | pass | pass |
 | `localcore-blend-upload-3@blend-pool-name` | 28 | rpc | not run | not run | not run | not run | not run | not run | pass | pass | pass |
 | `localcore-blend-upload-3@blend-pool-name` | 28 | datalake | not run | not run | not run | not run | not run | not run | pass | pass | pass |
+| `localcore-contract-balances-a-8@contract-balances` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `localcore-contract-balances-a-8@contract-balances` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `localcore-contract-balances-b-9@contract-balances` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `localcore-contract-balances-b-9@contract-balances` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `localcore-token-rebind-deploy-6@token-rebind` | 28 | rpc | not run | not run | mishandled: unexplained | pass | not run | not run | not run | not run | pass |
 | `localcore-token-rebind-deploy-6@token-rebind` | 28 | datalake | not run | not run | mishandled: unexplained | pass | not run | not run | not run | not run | pass |
 | `localcore-token-rebind-deploy-6@token-rebind-history` | 28 | rpc | not run | not run | not run | not run | pass | pass | not run | not run | not run |
@@ -105,8 +111,8 @@ Only the implicit checks apply: the ledger is ingested without an error and ever
 | `e967ce8b` | datalake | 1 | 2 | 0 | 0 |
 | `ff73ff46` | rpc | 3 | 0 | 0 | 0 |
 | `ff73ff46` | datalake | 3 | 0 | 0 | 0 |
-| `3e22515a` | rpc | 9 | 0 | 0 | 0 |
-| `3e22515a` | datalake | 9 | 0 | 0 | 0 |
+| `3e22515a` | rpc | 12 | 0 | 0 | 0 |
+| `3e22515a` | datalake | 12 | 0 | 0 | 0 |
 
 ## Oracle checks
 
@@ -133,8 +139,8 @@ checked. A failure is labelled with the open upstream issue that explains it
 | `e967ce8b` | datalake | 3 | 13 | 5 | none | 2 |
 | `ff73ff46` | rpc | 3 | 13 | 12 | none | 0 |
 | `ff73ff46` | datalake | 3 | 13 | 12 | none | 0 |
-| `3e22515a` | rpc | 9 | 54 | 47 | none | 0 |
-| `3e22515a` | datalake | 9 | 54 | 47 | none | 0 |
+| `3e22515a` | rpc | 12 | 80 | 71 | none | 0 |
+| `3e22515a` | datalake | 12 | 80 | 71 | none | 0 |
 
 
 
@@ -256,3 +262,4 @@ checked. A failure is labelled with the open upstream issue that explains it
 | 2026-11-17T09:21:30+00:00 | `e967ce8b`, `ff73ff46` | rpc, datalake | 0 | 21.9 | 38192 | 4 | 6 |
 | 2026-11-17T09:23:16+00:00 | `e967ce8b`, `ff73ff46` | rpc, datalake | 0 | 20.5 | 38636 | 4 | 6 |
 | 2026-11-17T09:26:10+00:00 | `3e22515a` | rpc, datalake | 0 | 10.4 | 38116 | 2 | 3 |
+| 2026-11-17T09:31:23+00:00 | `3e22515a` | rpc, datalake | 0 | 12.7 | 38208 | 2 | 3 |

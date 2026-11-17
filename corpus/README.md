@@ -1,13 +1,13 @@
 # Corpus
 
-107 entries, each one XDR value with a manifest record: 104 real ledgers (LedgerCloseMeta) and 3
+109 entries, each one XDR value with a manifest record: 106 real ledgers (LedgerCloseMeta) and 3
 generated values. The real ledgers come from three sources:
 
 | Source | Entries | `source.kind` |
 |---|---|---|
 | stellar-core's golden LedgerCloseMeta (`test-lcm-current`, the `--check-lcm` files), byte-identical | 46 | `stellar_core_golden` |
 | testnet (19) and pubnet (11) history, from Stellar's public ledger archive | 30 | `network_ledger` |
-| a local stellar-core running fixed scenarios (`tools/localcore.py`): 30.0.0, and 22.2.1 for the two protocol 22 scenarios; each regenerates identically on the testnet and mainnet passphrases | 28 | `local_stellar_core` |
+| a local stellar-core running fixed scenarios (`tools/localcore.py`): 30.0.0, and 22.2.1 for the two protocol 22 scenarios; each regenerates identically on the testnet and mainnet passphrases | 30 | `local_stellar_core` |
 | generated from a readable value (`values/`) | 3 | `generated` |
 
 Every entry is checked in CI (RFP check 1) and by `quickcheck.py`; see "How an entry is checked"
@@ -25,6 +25,7 @@ below.
 | `patterns.json` | Named shapes the schema cannot express as one union case, such as a muxed ID beyond 2^53. |
 | `CENSUS.md`, `census.json` | The largest values seen in a sample of 611 network ledgers (`tools/census.py`). |
 | `localcore-reproducible.json` | The hash of each local stellar-core scenario per passphrase, checked in CI by regenerating. |
+| `third_party/` | Licence texts, verbatim, for third-party code that corpus ledgers carry (see an entry's `source.third_party` and NOTICE). |
 | `sequences.json` | Named runs of consecutive entries that the replay harness ingests into one database in one run (`replay.py run --sequence`), each with the fix it was built for and whether it is blind. |
 
 Three examples:
@@ -85,7 +86,7 @@ path can be looked up in what stellar-core prints.
    `expected.decoded`.
 
 With `--goldens`, each golden entry is also compared byte for byte with its record in
-stellar-core's `test-lcm-current` files. All checks pass for all 107 entries in CI.
+stellar-core's `test-lcm-current` files. All checks pass for all 109 entries in CI.
 
 ## Adding an entry
 

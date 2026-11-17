@@ -62,6 +62,12 @@ Scenarios (one per run):
                      account 2^53 + 1 stroops, then that account (as its operation's source, signing
                      too) merges into a third, which receives a balance above 2^53. Amounts a reader
                      that keeps stroops in a float64 rounds, and a successful merge.
+  contract-balances-p30
+                     Protocol 30, stellar-core 30.0.0. Two consecutive ledgers, replayed as the sequence
+                     contract-balances: a contract's balances in two asset contracts are created in the
+                     first and changed in the second. XLM through the native asset contract (an account
+                     transfers to the contract), and a credit asset through its asset contract (the
+                     issuer mints to the contract). For stellar-etl#459.
   blend-pool-name-p28
                      Protocol 28, stellar-core 30.0.0. Two ledgers, replayed as the sequence
                      blend-pool-name: Blend's pool wasm (v2), taken from pubnet ledger 56,615,381 where
@@ -134,7 +140,8 @@ SCENARIOS = {"muxed-source-p22": IMAGE_V22, "classic-p22": IMAGE_V22, "pools-spo
              "sac-trust-p28": IMAGE, "participants-p28": IMAGE, "failures-p30": IMAGE, "big-merge-p30": IMAGE,
              "trustline-churn-p28": IMAGE, "deployer-cb-p28": IMAGE,
              "frozen-claim-p28": IMAGE, "pool-share-unsponsor-p28": IMAGE,
-             "token-rebind-p28": IMAGE, "blend-pool-name-p28": IMAGE}
+             "token-rebind-p28": IMAGE, "blend-pool-name-p28": IMAGE,
+             "contract-balances-p30": IMAGE}
 NAME = "shapecov-localcore-gen"
 PASSPHRASES = {"testnet": "Test SDF Network ; September 2015",
                "pubnet": "Public Global Stellar Network ; September 2015"}
@@ -350,6 +357,8 @@ def main():
             sac_trust_p28(core, enc, dec, root, step, run)
         elif a.scenario == "big-merge-p30":
             big_merge_p30(core, enc, root, step, run)
+        elif a.scenario == "contract-balances-p30":
+            contract_balances_p30(core, enc, root, step, run)
         elif a.scenario == "blend-pool-name-p28":
             blend_pool_name_p28(core, enc, root, step, run, out)
         elif a.scenario == "token-rebind-p28":
@@ -801,6 +810,92 @@ def mine_envelopes(body):
             for stage in ph["parallelTxsComponent"]["executionStages"]:
                 for cluster in stage:
                     yield from cluster
+
+
+def contract_balances_p30(core, enc, root, step, run):
+    """A contract's balance entries in the native and a credit asset contract, created then changed."""
+    import rebind_token_wasm
+    core.upgrade(30)
+    holder = Keys("contract balances holder")
+    run["holder"] = strkey.account(holder.pub)
+    psb = {"type": "ASSET_TYPE_CREDIT_ALPHANUM4", "alphaNum4": {"assetCode": b"PSB\0".hex(), "issuer": root.account()}}
+
+    def contract_id(preimage):
+        return hashlib.sha256(enc.encode("HashIDPreimage", {"type": "ENVELOPE_TYPE_CONTRACT_ID", "contractID": {
+            "networkID": core.network_id.hex(), "contractIDPreimage": preimage}})).hexdigest()
+
+    def instance(cid):
+        return {"type": "CONTRACT_DATA", "contractData": {"contract": {"type": "SC_ADDRESS_TYPE_CONTRACT", "contractId": cid},
+                "key": {"type": "SCV_LEDGER_KEY_CONTRACT_INSTANCE"}, "durability": "PERSISTENT"}}
+
+    def balance(sac, holder_cid):
+        return {"type": "CONTRACT_DATA", "contractData": {"contract": {"type": "SC_ADDRESS_TYPE_CONTRACT", "contractId": sac},
+                "key": {"type": "SCV_VEC", "vec": [{"type": "SCV_SYMBOL", "sym": "Balance"},
+                        {"type": "SCV_ADDRESS", "address": {"type": "SC_ADDRESS_TYPE_CONTRACT", "contractId": holder_cid}}]},
+                "durability": "PERSISTENT"}}
+
+    def soroban(read_only, read_write, write_bytes=5_000):
+        return {"ext": {"v": 0}, "resources": {"footprint": {"readOnly": read_only, "readWrite": read_write},
+                "instructions": 10_000_000, "diskReadBytes": 20_000, "writeBytes": write_bytes}, "resourceFee": 50_000_000}
+
+    def hostfn(fn, auth=()):
+        return {"sourceAccount": None, "body": {"type": "INVOKE_HOST_FUNCTION", "invokeHostFunctionOp": {
+            "hostFunction": fn, "auth": list(auth)}}}
+
+    def send(name, source, seq, operation, sorob=None, fee=None):
+        t = tx(source.muxed(), seq, [operation], fee=fee or (50_010_000 if sorob else 1000), soroban=sorob)
+        blob, h = envelope(enc, core, t, source)
+        if step("contract-balances-p30: " + name, 30, blob, h, "PENDING, applied")["status"] != "PENDING":
+            raise SystemExit("%s was refused; see the diagnostics above" % name)
+
+    own = {"credentials": {"type": "SOROBAN_CREDENTIALS_SOURCE_ACCOUNT"}}
+
+    def invoke(sac, fn, args):
+        call = {"contractAddress": {"type": "SC_ADDRESS_TYPE_CONTRACT", "contractId": sac}, "functionName": fn, "args": args}
+        return hostfn({"type": "HOST_FUNCTION_TYPE_INVOKE_CONTRACT", "invokeContract": call},
+                      [dict(own, rootInvocation={"function": {"type": "SOROBAN_AUTHORIZED_FUNCTION_TYPE_CONTRACT_FN",
+                                                              "contractFn": call}, "subInvocations": []})])
+
+    # setup: the holder account; the two asset contracts; a contract to hold balances
+    send("create holder", root, 1, op("CREATE_ACCOUNT", "createAccountOp", {"destination": holder.account(),
+                                                                          "startingBalance": 1000_0000000}))
+    core.close()
+    native_pre = {"type": "CONTRACT_ID_PREIMAGE_FROM_ASSET", "fromAsset": {"type": "ASSET_TYPE_NATIVE"}}
+    psb_pre = {"type": "CONTRACT_ID_PREIMAGE_FROM_ASSET", "fromAsset": psb}
+    native, psb_sac = contract_id(native_pre), contract_id(psb_pre)
+    sac = lambda pre: {"type": "HOST_FUNCTION_TYPE_CREATE_CONTRACT", "createContract": {
+        "contractIDPreimage": pre, "executable": {"type": "CONTRACT_EXECUTABLE_STELLAR_ASSET"}}}
+    send("deploy the native asset contract", root, 2, hostfn(sac(native_pre)), soroban([], [instance(native)]))
+    core.close()
+    send("deploy the PSB asset contract", root, 3, hostfn(sac(psb_pre)), soroban([], [instance(psb_sac)]))
+    plain = rebind_token_wasm.build(sep41=False)
+    h_plain = hashlib.sha256(plain).hexdigest()
+    code = {"type": "CONTRACT_CODE", "contractCode": {"hash": h_plain}}
+    born = (core.close() - 2) << 32  # the holder was created two ledgers ago
+    send("upload a contract wasm", holder, born + 1, hostfn({"type": "HOST_FUNCTION_TYPE_UPLOAD_CONTRACT_WASM",
+                                                            "wasm": plain.hex()}), soroban([], [code], 10_000))
+    core.close()
+    holder_pre = {"type": "CONTRACT_ID_PREIMAGE_FROM_ADDRESS", "fromAddress": {
+        "address": {"type": "SC_ADDRESS_TYPE_ACCOUNT", "accountId": root.account()},
+        "salt": hashlib.sha256(b"shapecov contract balances holder").hexdigest()}}
+    cid = contract_id(holder_pre)
+    run["contract"], run["native_sac"], run["psb_sac"] = strkey.contract(cid), strkey.contract(native), strkey.contract(psb_sac)
+    create = {"contractIDPreimage": holder_pre, "executable": {"type": "CONTRACT_EXECUTABLE_WASM", "wasm_hash": h_plain}}
+    send("deploy the holding contract", root, 4, hostfn({"type": "HOST_FUNCTION_TYPE_CREATE_CONTRACT", "createContract": create},
+         [dict(own, rootInvocation={"function": {"type": "SOROBAN_AUTHORIZED_FUNCTION_TYPE_CREATE_CONTRACT_HOST_FN",
+                                                 "createContractHostFn": create}, "subInvocations": []})]),
+         soroban([code], [instance(cid)]))
+    core.close()
+
+    to_c = {"type": "SCV_ADDRESS", "address": {"type": "SC_ADDRESS_TYPE_CONTRACT", "contractId": cid}}
+    amount = lambda n: {"type": "SCV_I128", "i128": {"hi": 0, "lo": n}}
+    from_h = {"type": "SCV_ADDRESS", "address": {"type": "SC_ADDRESS_TYPE_ACCOUNT", "accountId": holder.account()}}
+    for n, (label, xlm, minted) in enumerate((("a", 10_0000000, 100_0000000), ("b", 5_0000000, 50_0000000))):
+        send("XLM to the contract (%s)" % label, holder, born + 2 + n, invoke(native, "transfer", [from_h, to_c, amount(xlm)]),
+             soroban([instance(native)], [{"type": "ACCOUNT", "account": {"accountID": holder.account()}}, balance(native, cid)]))
+        send("PSB minted to the contract (%s)" % label, root, 5 + n, invoke(psb_sac, "mint", [to_c, amount(minted)]),
+             soroban([instance(psb_sac), {"type": "ACCOUNT", "account": {"accountID": root.account()}}], [balance(psb_sac, cid)]))
+        run["ledger_contract_balances_" + label] = core.close()
 
 
 def blend_pool_name_p28(core, enc, root, step, run, out):

@@ -104,6 +104,16 @@
     "BLEND"
    ],
    "end_state": "With Blend production on, wallet-backend classifies the pool from the wasm uploaded in the first ledger and ingests the second; the name is dropped, the pool kept."
+  },
+  {
+   "id": "contract-balances",
+   "entries": [
+    "localcore-contract-balances-a-8",
+    "localcore-contract-balances-b-9"
+   ],
+   "built_for": "stellar-etl#459 (the native asset contract's balance entries for a contract)",
+   "blind": false,
+   "end_state": "A contract's Balance entries in the native asset contract and in a credit asset's contract, created in the first ledger and updated in the second."
   }
  ]
 }

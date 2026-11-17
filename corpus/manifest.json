@@ -18409,7 +18409,8 @@
       "sha256": "a41fc53d6753b6c04eb15b021c55052366a4c8e0e21bc72700f461264ec1350e",
       "licence": "MIT (blend-capital/blend-contracts-v2, LICENSE)",
       "source": "https://github.com/blend-capital/blend-contracts-v2; release v2.0.0_pool_cli22.0.1 publishes pool_v2.0.0.wasm of the same size, 57,328 bytes (GitHub publishes no digest for it, so the match by hash is not established)",
-      "provenance": "The scenario (tools/localcore.py, blend-pool-name-p28) takes the bytes from the upload in pubnet ledger 56,615,381 of Stellar's public ledger archive and checks their SHA-256. A public stellar-rpc (getLedgerEntries) confirms that pubnet's contract code with this hash was last written in that ledger; wallet-backend's internal/services/blend/testdata/blend_pool_v2.wasm at 3e22515a is the same bytes."
+      "provenance": "The scenario (tools/localcore.py, blend-pool-name-p28) takes the bytes from the upload in pubnet ledger 56,615,381 of Stellar's public ledger archive and checks their SHA-256. A public stellar-rpc (getLedgerEntries) confirms that pubnet's contract code with this hash was last written in that ledger; wallet-backend's internal/services/blend/testdata/blend_pool_v2.wasm at 3e22515a is the same bytes.",
+      "licence_file": "corpus/third_party/blend-contracts-v2.LICENSE"
      }
     ]
    },
@@ -18494,6 +18495,260 @@
      {
       "path": "v2.ledgerHeader.header.scpValue.closeTime",
       "value": 4020000000
+     }
+    ]
+   },
+   "validation": {
+    "independent_decoder": "not_run",
+    "rs_stellar_xdr_roundtrip": "not_run",
+    "stellar_core": {
+     "version": "30.0.0",
+     "command": "",
+     "result": "not_run"
+    },
+    "core_golden": "not_applicable"
+   },
+   "sightings": []
+  },
+  {
+   "id": "localcore-contract-balances-a-8",
+   "title": "Local stellar-core, scenario contract-balances-p30, first ledger: a contract's balances created in two asset contracts",
+   "xdr_type": "LedgerCloseMeta",
+   "file": "entries/localcore-contract-balances-a-8.LedgerCloseMeta.xdr.b64",
+   "sha256": "c1fc9f1a13c9840355b6859e2c231cfb6a243c154d4a2e934a7946f64e383ee4",
+   "size_bytes": 9952,
+   "protocol_version": 30,
+   "caps": [],
+   "synthetic": false,
+   "source": {
+    "kind": "local_stellar_core",
+    "stellar_core_version": "stellar-core 30.0.0 (0e49751aa9ddf892302cca02cea7f3f5d97df9f1)",
+    "image": "stellar/stellar-core:30.0.0-3642.0e49751aa.noble",
+    "network_passphrase": "Test SDF Network ; September 2015",
+    "ledger_seq": 8,
+    "ledger_hash": "14487e07d57bc7a5c408746a9059cf310a1baf1f2671346a9d31c5edf7eac9c1",
+    "scenario": "contract-balances-a",
+    "generator": "tools/localcore.py",
+    "notes": "Standalone network, manual close, fixed keys and close times; see the scenario in tools/localcore.py."
+   },
+   "shape": "An account transfers XLM to a contract (a C address) through the native asset contract, and the issuer of PSB mints PSB to the same contract through PSB's asset contract: each writes a PERSISTENT ContractData entry Vec[Balance, Address(C)] under its asset contract. The first ledger of the sequence contract-balances (corpus/sequences.json).",
+   "patterns": {
+    "scval-wide-integer": "v2.txSet.v1TxSet.phases[1].parallelTxsComponent.executionStages[0][0][0].v1.tx.operations[0].body.invokeHostFunctionOp.hostFunction.invokeContract.args[2]"
+   },
+   "designated": {
+    "patterns": [],
+    "cells": []
+   },
+   "cells": [
+    "arm:AccountEntryExt.1",
+    "arm:AccountEntryExtensionV1Ext.2",
+    "arm:AccountEntryExtensionV2Ext.3",
+    "arm:ContractEventBody.0",
+    "arm:ExtensionPoint.0",
+    "arm:GeneralizedTransactionSet.1",
+    "arm:HostFunction.HOST_FUNCTION_TYPE_INVOKE_CONTRACT",
+    "arm:InvokeHostFunctionResult.INVOKE_HOST_FUNCTION_SUCCESS",
+    "arm:LedgerCloseMeta.2",
+    "arm:LedgerCloseMetaExt.0",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_CREATED",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_STATE",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_UPDATED",
+    "arm:LedgerEntryData.ACCOUNT",
+    "arm:LedgerEntryData.CONTRACT_DATA",
+    "arm:LedgerEntryData.TTL",
+    "arm:LedgerEntryExt.0",
+    "arm:LedgerHeaderExt.0",
+    "arm:LedgerHeaderHistoryEntryExt.0",
+    "arm:LedgerKey.ACCOUNT",
+    "arm:LedgerKey.CONTRACT_DATA",
+    "arm:Memo.MEMO_NONE",
+    "arm:MuxedAccount.KEY_TYPE_ED25519",
+    "arm:OperationBody.INVOKE_HOST_FUNCTION",
+    "arm:OperationResult.opINNER",
+    "arm:OperationResultTr.INVOKE_HOST_FUNCTION",
+    "arm:Preconditions.PRECOND_NONE",
+    "arm:PublicKey.PUBLIC_KEY_TYPE_ED25519",
+    "arm:SCAddress.SC_ADDRESS_TYPE_ACCOUNT",
+    "arm:SCAddress.SC_ADDRESS_TYPE_CONTRACT",
+    "arm:SCVal.SCV_ADDRESS",
+    "arm:SCVal.SCV_BOOL",
+    "arm:SCVal.SCV_BYTES",
+    "arm:SCVal.SCV_I128",
+    "arm:SCVal.SCV_LEDGER_KEY_CONTRACT_INSTANCE",
+    "arm:SCVal.SCV_MAP",
+    "arm:SCVal.SCV_STRING",
+    "arm:SCVal.SCV_SYMBOL",
+    "arm:SCVal.SCV_U64",
+    "arm:SCVal.SCV_VEC",
+    "arm:SCVal.SCV_VOID",
+    "arm:SorobanAuthorizedFunction.SOROBAN_AUTHORIZED_FUNCTION_TYPE_CONTRACT_FN",
+    "arm:SorobanCredentials.SOROBAN_CREDENTIALS_SOURCE_ACCOUNT",
+    "arm:SorobanTransactionDataExt.0",
+    "arm:SorobanTransactionMetaExt.0",
+    "arm:StellarValueExt.STELLAR_VALUE_SIGNED_MS",
+    "arm:TransactionEnvelope.ENVELOPE_TYPE_TX",
+    "arm:TransactionExt.1",
+    "arm:TransactionMeta.4",
+    "arm:TransactionPhase.0",
+    "arm:TransactionPhase.1",
+    "arm:TransactionResultExt.0",
+    "arm:TransactionResultResult.txSUCCESS",
+    "enum:ContractDataDurability.PERSISTENT",
+    "enum:ContractEventType.CONTRACT",
+    "enum:ContractEventType.DIAGNOSTIC",
+    "enum:TransactionEventStage.TRANSACTION_EVENT_STAGE_AFTER_ALL_TXS",
+    "enum:TransactionEventStage.TRANSACTION_EVENT_STAGE_BEFORE_ALL_TXS"
+   ],
+   "cells_new_in_protocol": [
+    "arm:StellarValueExt.STELLAR_VALUE_SIGNED_MS"
+   ],
+   "expected": {
+    "decoded": [
+     {
+      "path": "v",
+      "value": 2
+     },
+     {
+      "path": "v2.ledgerHeader.header.ledgerSeq",
+      "value": 8
+     },
+     {
+      "path": "v2.ledgerHeader.header.ledgerVersion",
+      "value": 30
+     },
+     {
+      "path": "v2.ledgerHeader.hash",
+      "value": "14487e07d57bc7a5c408746a9059cf310a1baf1f2671346a9d31c5edf7eac9c1"
+     },
+     {
+      "path": "v2.ledgerHeader.header.scpValue.closeTime",
+      "value": 4070000000
+     }
+    ]
+   },
+   "validation": {
+    "independent_decoder": "not_run",
+    "rs_stellar_xdr_roundtrip": "not_run",
+    "stellar_core": {
+     "version": "30.0.0",
+     "command": "",
+     "result": "not_run"
+    },
+    "core_golden": "not_applicable"
+   },
+   "sightings": []
+  },
+  {
+   "id": "localcore-contract-balances-b-9",
+   "title": "Local stellar-core, scenario contract-balances-p30, second ledger: the same two balances changed",
+   "xdr_type": "LedgerCloseMeta",
+   "file": "entries/localcore-contract-balances-b-9.LedgerCloseMeta.xdr.b64",
+   "sha256": "a7c7e8cafe4ec3ec8abd9b2b75308f487d1f90b18aa237367a6a6cc99bf23ff2",
+   "size_bytes": 10096,
+   "protocol_version": 30,
+   "caps": [],
+   "synthetic": false,
+   "source": {
+    "kind": "local_stellar_core",
+    "stellar_core_version": "stellar-core 30.0.0 (0e49751aa9ddf892302cca02cea7f3f5d97df9f1)",
+    "image": "stellar/stellar-core:30.0.0-3642.0e49751aa.noble",
+    "network_passphrase": "Test SDF Network ; September 2015",
+    "ledger_seq": 9,
+    "ledger_hash": "ec75b70d1e0c457f613f583204b535840e9e07e3c18aaf6229aea6252b48a83c",
+    "scenario": "contract-balances-b",
+    "generator": "tools/localcore.py",
+    "notes": "Standalone network, manual close, fixed keys and close times; see the scenario in tools/localcore.py."
+   },
+   "shape": "The same transfer and mint again: both Balance entries of the contract are updated. Together with the ledger before, a two-ledger range in which a contract's native and credit-asset balances are created and then changed (stellar-etl#459).",
+   "patterns": {
+    "scval-wide-integer": "v2.txSet.v1TxSet.phases[1].parallelTxsComponent.executionStages[0][0][0].v1.tx.operations[0].body.invokeHostFunctionOp.hostFunction.invokeContract.args[1]"
+   },
+   "designated": {
+    "patterns": [],
+    "cells": []
+   },
+   "cells": [
+    "arm:AccountEntryExt.1",
+    "arm:AccountEntryExtensionV1Ext.2",
+    "arm:AccountEntryExtensionV2Ext.3",
+    "arm:ContractEventBody.0",
+    "arm:ExtensionPoint.0",
+    "arm:GeneralizedTransactionSet.1",
+    "arm:HostFunction.HOST_FUNCTION_TYPE_INVOKE_CONTRACT",
+    "arm:InvokeHostFunctionResult.INVOKE_HOST_FUNCTION_SUCCESS",
+    "arm:LedgerCloseMeta.2",
+    "arm:LedgerCloseMetaExt.0",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_STATE",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_UPDATED",
+    "arm:LedgerEntryData.ACCOUNT",
+    "arm:LedgerEntryData.CONTRACT_DATA",
+    "arm:LedgerEntryExt.0",
+    "arm:LedgerHeaderExt.0",
+    "arm:LedgerHeaderHistoryEntryExt.0",
+    "arm:LedgerKey.ACCOUNT",
+    "arm:LedgerKey.CONTRACT_DATA",
+    "arm:Memo.MEMO_NONE",
+    "arm:MuxedAccount.KEY_TYPE_ED25519",
+    "arm:OperationBody.INVOKE_HOST_FUNCTION",
+    "arm:OperationResult.opINNER",
+    "arm:OperationResultTr.INVOKE_HOST_FUNCTION",
+    "arm:Preconditions.PRECOND_NONE",
+    "arm:PublicKey.PUBLIC_KEY_TYPE_ED25519",
+    "arm:SCAddress.SC_ADDRESS_TYPE_ACCOUNT",
+    "arm:SCAddress.SC_ADDRESS_TYPE_CONTRACT",
+    "arm:SCVal.SCV_ADDRESS",
+    "arm:SCVal.SCV_BOOL",
+    "arm:SCVal.SCV_BYTES",
+    "arm:SCVal.SCV_I128",
+    "arm:SCVal.SCV_LEDGER_KEY_CONTRACT_INSTANCE",
+    "arm:SCVal.SCV_MAP",
+    "arm:SCVal.SCV_STRING",
+    "arm:SCVal.SCV_SYMBOL",
+    "arm:SCVal.SCV_U64",
+    "arm:SCVal.SCV_VEC",
+    "arm:SCVal.SCV_VOID",
+    "arm:SorobanAuthorizedFunction.SOROBAN_AUTHORIZED_FUNCTION_TYPE_CONTRACT_FN",
+    "arm:SorobanCredentials.SOROBAN_CREDENTIALS_SOURCE_ACCOUNT",
+    "arm:SorobanTransactionDataExt.0",
+    "arm:SorobanTransactionMetaExt.0",
+    "arm:StellarValueExt.STELLAR_VALUE_SIGNED_MS",
+    "arm:TransactionEnvelope.ENVELOPE_TYPE_TX",
+    "arm:TransactionExt.1",
+    "arm:TransactionMeta.4",
+    "arm:TransactionPhase.0",
+    "arm:TransactionPhase.1",
+    "arm:TransactionResultExt.0",
+    "arm:TransactionResultResult.txSUCCESS",
+    "enum:ContractDataDurability.PERSISTENT",
+    "enum:ContractEventType.CONTRACT",
+    "enum:ContractEventType.DIAGNOSTIC",
+    "enum:TransactionEventStage.TRANSACTION_EVENT_STAGE_AFTER_ALL_TXS",
+    "enum:TransactionEventStage.TRANSACTION_EVENT_STAGE_BEFORE_ALL_TXS"
+   ],
+   "cells_new_in_protocol": [
+    "arm:StellarValueExt.STELLAR_VALUE_SIGNED_MS"
+   ],
+   "expected": {
+    "decoded": [
+     {
+      "path": "v",
+      "value": 2
+     },
+     {
+      "path": "v2.ledgerHeader.header.ledgerSeq",
+      "value": 9
+     },
+     {
+      "path": "v2.ledgerHeader.header.ledgerVersion",
+      "value": 30
+     },
+     {
+      "path": "v2.ledgerHeader.hash",
+      "value": "ec75b70d1e0c457f613f583204b535840e9e07e3c18aaf6229aea6252b48a83c"
+     },
+     {
+      "path": "v2.ledgerHeader.header.scpValue.closeTime",
+      "value": 4080000000
      }
     ]
    },

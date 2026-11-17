@@ -63,7 +63,9 @@ def render():
         L += ["5. Third-party contract code inside corpus ledgers. A local stellar-core scenario uploads it, so the",
               "   ledger's transaction carries the bytes:"]
         for e, t in sorted(third, key=lambda x: x[0]["id"]):
+            open(t["licence_file"]).close()  # the licence text must be in the repository
             L += ["   - corpus/%s: %s, sha256 %s, %s." % (e["file"], t["what"], t["sha256"], t["licence"]),
+                  "     Licence text, with its copyright notice: %s." % t["licence_file"],
                   "     Source: %s." % t["source"], "     Provenance: %s" % t["provenance"]]
         L.append("")
 

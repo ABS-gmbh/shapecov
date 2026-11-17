@@ -361,7 +361,8 @@
            "sha256",
            "licence",
            "source",
-           "provenance"
+           "provenance",
+           "licence_file"
           ],
           "additionalProperties": false,
           "properties": {
@@ -379,6 +380,10 @@
             "type": "string"
            },
            "provenance": {
+            "type": "string"
+           },
+           "licence_file": {
+            "description": "The licence text, verbatim, as a file in the repository (path from the repository root).",
             "type": "string"
            }
           }

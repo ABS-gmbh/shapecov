@@ -14,7 +14,7 @@ indexer-hardening guide has each rule checked against stellar-core. Built for th
 
 | Deliverable | Where | The RFP's acceptance check | Status |
 |---|---|---|---|
-| Corpus: 107 entries, 104 of them real ledgers, with per-CAP coverage | [`corpus/`](corpus/), [`CAP-COVERAGE.md`](corpus/CAP-COVERAGE.md) | 1: entries round-trip through rs-stellar-xdr and match stellar-core's `--check-lcm` goldens | Met |
+| Corpus: 109 entries, 106 of them real ledgers, with per-CAP coverage | [`corpus/`](corpus/), [`CAP-COVERAGE.md`](corpus/CAP-COVERAGE.md) | 1: entries round-trip through rs-stellar-xdr and match stellar-core's `--check-lcm` goldens | Met |
 | Replay harness: wallet-backend (reference adapter), stellar-etl and Horizon | [`harness/replay/`](harness/replay/); shapes each indexer mishandles or drops: [`SHAPES.md`](harness/replay/SHAPES.md) | 2: wallet-backend #729, #731 and #716 fail before their fixes and pass after | Met |
 | Linter for the three ingestion mistakes | [`linter/`](linter/) | 3: flags seeded violations, runs clean on wallet-backend | Partly met: 2 findings on wallet-backend, both real, each with an open upstream issue; also run on stellar-etl |
 | Indexer-hardening guide | [`guide/`](guide/) | 4: tables agree with the manifest; publication gated on review | Tables met and probed against stellar-core 30.0.0; publication gate enforced by the export; **unreviewed** |
@@ -146,7 +146,7 @@ results are not in the repository):
 
 ## Corpus
 
-`corpus/` holds 107 entries and their manifest. `corpus/README.md` describes every field;
+`corpus/` holds 109 entries and their manifest. `corpus/README.md` describes every field;
 `corpus/evidence/` records the reproduced sightings and our findings. Three examples:
 
 | Entry | Type | Source | Shows |

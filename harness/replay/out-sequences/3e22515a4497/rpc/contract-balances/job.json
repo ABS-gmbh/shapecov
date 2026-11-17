@@ -1,0 +1,51 @@
+{
+ "job_version": 1,
+ "entry_id": "contract-balances",
+ "ref": "3e22515a4497",
+ "commit": "3e22515a44979fdc3a558fda3991ca2b48e38cef",
+ "input": "rpc",
+ "network_passphrase": "Test SDF Network ; September 2015",
+ "ledger": {
+  "seq": 9,
+  "hash": "ec75b70d1e0c457f613f583204b535840e9e07e3c18aaf6229aea6252b48a83c",
+  "close_time": 4080000000,
+  "protocol": 30
+ },
+ "sequence": {
+  "id": "contract-balances",
+  "ledgers": [
+   {
+    "entry_id": "localcore-contract-balances-a-8",
+    "seq": 8,
+    "hash": "14487e07d57bc7a5c408746a9059cf310a1baf1f2671346a9d31c5edf7eac9c1"
+   },
+   {
+    "entry_id": "localcore-contract-balances-b-9",
+    "seq": 9,
+    "hash": "ec75b70d1e0c457f613f583204b535840e9e07e3c18aaf6229aea6252b48a83c"
+   }
+  ]
+ },
+ "rpc": {
+  "url": "http://shapecov-cbal-feeder:8000/rpc/contract-balances"
+ },
+ "datalake": {
+  "s3_endpoint": "http://shapecov-cbal-feeder:9000",
+  "bucket_path": "shapecov-lake/contract-balances",
+  "region": "us-east-1"
+ },
+ "history_archive": {
+  "url": "http://shapecov-cbal-feeder:8000/archive/contract-balances"
+ },
+ "protocols": [],
+ "live_persist_max_batch_size": null,
+ "protocol_cursors": [
+  "history",
+  "current_state"
+ ],
+ "commits": [],
+ "feeder_container": "shapecov-cbal-feeder",
+ "docker_network": "shapecov-cbal-net",
+ "timeout_seconds": 240,
+ "work_dir": "$REPLAY_WORK"
+}
