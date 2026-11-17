@@ -188,29 +188,49 @@ The corpus keeps one ledger per shape. To check the indexers on ordinary traffic
 replays a broad sample of real ledgers that is not committed: every 20,000th ledger of pubnet from
 59,000,000 (protocol 23) to 65,480,000, and of testnet since its December 2025 reset, from Stellar's
 public ledger archive. That is 611 ledgers holding 100,676 transactions, protocols 23 to 30, run
-on 16 November 2026:
+on 16 and 17 November 2026:
 
 | Indexer | Ledgers ingested | Oracle rows checked | Met | Known open issues | Unexplained |
 |---|---|---|---|---|---|
-| wallet-backend `main` (`3e22515a`), data lake | 611 | 694,646 | 694,515 | 89: wallet-backend#677; 42: wallet-backend#815 | 0 |
-| stellar-etl `master` (`2b24ec89`) | 611 | 321,142 | 321,071 | 69: stellar-etl#457; 1: stellar-etl#450; 1: stellar-etl#460 | 0 |
+| wallet-backend `main` (`3e22515a`), data lake | 611 | 778,927 | 778,796 | 89: wallet-backend#677; 42: wallet-backend#815 | 0 |
+| stellar-etl `master` (`2b24ec89`), data lake | 611 | 985,927 | 886,679 | 52,879: stellar-etl#452; 38,959: stellar-etl#450; 7,321: stellar-etl#456; 69: stellar-etl#457; 19: stellar-etl#462; 1: stellar-etl#460 | 0 |
 
-wallet-backend: rows expected 778,927, of which 84,281 not checked. All 84,281 are the current
-XLM balance check (`native_balance`): the sweep's observations were recorded before the adapter read
-`native_balances`, so that check runs on the corpus only. stellar-etl: its 39,257 muxed-destination
-checks are not counted, for the same reason (its sweep observations predate the adapter reporting
-muxed destinations; the corpus replay runs them, `RESULTS-stellar-etl.md`).
+1,764,854 checks on real traffic (611 ledgers, protocols 23 to 30). 99,379 did not meet the
+oracle; every one maps to one of eight open upstream issues (two in wallet-backend, six in
+stellar-etl). None is unexplained. Every row the oracle derives is checked.
 
-1,015,788 checks on real traffic; the 202 that failed map to five open upstream issues (two in
-wallet-backend, three in stellar-etl); none unexplained. The wallet-backend checks include the
-participant rule (both directions); its first sweep found 94 false alarms of the "only what the
-meta shows" direction (operation-level sources of successful Soroban operations, which signed but
-appear only in the envelope), and the rule was corrected to allow them before these numbers. They
-also include the duplicate-row rule (a state-change row stored more than once fails): none of the
-611 ledgers has one. Its first version failed any count above the ledger's and raised 10 false
-alarms, all rows that record no change (8 thresholds set to their old value, 2 authorization flags
-cleared that were not set: wallet-backend writes a row for what the operation asked for); those now
-pass.
+stellar-etl's share is large because two issues are systematic rather than rare shapes: #452
+(52,879: contract events exported twice, and `in_successful_contract_call` true on failed
+transactions) and #450 (38,959: a muxed destination fabricated for payments carrying a text or hash
+memo) account for 92% of its failures.
+
+On the sweep's public-archive ledgers stellar-etl exports 25,844 operation-level contract events
+twice (8.7% of 296,278), a share that rises from about 4% in late 2025 to 14% in late 2026. The
+issue's 15.6% was measured on SDF's production feed for one hour in July 2026; the sweep's ledgers
+nearest that date give 6.8%. The two are not comparable one to one: different input (SDF's
+production feed against the public archive) and different windows (one hour against single ledgers
+20,000 apart). We have not established which accounts for the difference. It is not the volume of
+diagnostic events: the sweep's ledgers carry 3.28 diagnostic events per operation-level event, and
+the issue's daily figures give 3.17 (58.7 million diagnostic rows against 18.5 million contract
+rows).
+
+stellar-etl also exports 405 rows no meta event matches. All are contract events from the
+diagnostic list of failed transactions (a failed call's events appear only there): the loop #452
+names (`contract_events.go`, the diagnostic-list append) puts them in the output. No rule checks rows
+the meta lacks, so they are not among the failures above.
+
+The first run (16 November 2026) counted 1,015,788 checks, 202 failures and five issues; the rise
+comes from checks added since: wallet-backend's current XLM balances on every ledger, and
+stellar-etl's muxed destinations, contract events, effects of trades and contract-deploy details.
+
+The wallet-backend checks include the participant rule (both directions); its first sweep found 94
+false alarms of the "only what the meta shows" direction (operation-level sources of successful
+Soroban operations, which signed but appear only in the envelope), and the rule was corrected to
+allow them before these numbers. They also include the duplicate-row rule (a state-change row stored
+more than once fails): none of the 611 ledgers has one. Its first version failed any count above the
+ledger's and raised 10 false alarms, all rows that record no change (8 thresholds set to their old
+value, 2 authorization flags cleared that were not set: wallet-backend writes a row for what the
+operation asked for); those now pass.
 The 9 sweep ledgers that bring schema cells or patterns the corpus lacked were added to `corpus/`
 (`tools/corpus_add.py`), one per protocol era from 23 to 30.
 

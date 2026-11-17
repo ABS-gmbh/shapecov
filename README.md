@@ -46,7 +46,8 @@ testing, 16 checks in about 18 seconds there; CI runs it on every push, and reru
   after ([`harness/sightings/README.md`](harness/sightings/README.md)).
 - **Every corpus ledger is an indexer test.** The oracle derives the expected rows from the ledger;
   every failure in wallet-backend, stellar-etl and Horizon maps to a filed issue. A sweep of 611 further
-  network ledgers (100,676 transactions) found no new defect.
+  network ledgers (100,676 transactions) made 1,764,854 checks on real traffic: the 99,379 that did
+  not meet the oracle map to eight open upstream issues, and none is unexplained.
 - **Backtest on past fixes**, measured and incomplete: the harness detects 12 of wallet-backend's 17
   in-scope fixes (5 on ledgers not chosen for the bug) and flags 7 of stellar-etl's 9 in-scope issues
   (1 blind). Every miss names the shape, oracle rule or export that would catch it

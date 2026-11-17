@@ -292,8 +292,9 @@ own, `localcore-pool-revoke-two-pools-7`: the two pool-share trustlines one revo
 no `TRUSTLINE REMOVE`.
 
 A sweep of 611 further network ledgers (100,676 transactions, protocols 23 to 30; see
-`harness/replay/README.md`, "Sweep") found no new defect in either indexer: its only failures are
-wallet-backend#815 (42 rows) and stellar-etl#460 (1 row).
+`harness/replay/README.md`, "Sweep") made 1,764,854 checks on real traffic: the 99,379 that did not
+meet the oracle map to eight open upstream issues (wallet-backend #677 and #815; stellar-etl #450,
+#452, #456, #457, #460 and #462), and none is unexplained.
 
 For wallet-backend, no other row is missing for any of the 63 ledgers: 8,919 of 8,930 checks per
 input pass, and the 11 that fail are the rows above. The checks include balances (every account's
