@@ -30,13 +30,15 @@ The corpus reached 117 entries, and every schema cell a ledger reader can meet b
 is now classified from stellar-core's source. Replays run over sequences of consecutive ledgers, with
 wallet-backend's SEP-41 and Blend production on and its commit boundaries fixed; that detects
 wallet-backend ee82038d and #803 and stellar-etl #459. RFP sightings 6 (stellar-etl #454) and 17
-(js-xdr #165) are reproduced. The guide's checklist names, item by item, the ledgers that exercise it
-and the upstream fixes behind it, and its export to developers.stellar.org is gated on review. We
+(js-xdr #165) are reproduced. Of the guide's 26-item checklist, 22 items name the corpus ledgers
+that exercise them and 21 the upstream fix or issue where an indexer, SDK or exporter got it wrong,
+and its export to developers.stellar.org is gated on review. We
 filed stellar-etl #515 (a one-ledger range exports no entry changes) and posted counts for the
 members of stellar-etl's audit epic #448. The quick check runs in CI on Python 3.9 and 3.14.
 
 Commits:
 
+- stellar-etl#515 filed and the #448 comment posted: record E4, IssueTracker.md, counts ([`62c0444`](https://github.com/ABS-gmbh/shapecov/commit/62c0444b8c92d98bb826f3dc9eee9e90d7a47219))
 - FINDINGS: wallet-backend's checks at main restated for 114 ledgers, and under the count check ([`5795115`](https://github.com/ABS-gmbh/shapecov/commit/57951153f345958f50da67e01984c1c855e982fc))
 - README: coverage per CAP and per schema cell as the first result, under the count check ([`d4ba488`](https://github.com/ABS-gmbh/shapecov/commit/d4ba4883b7f8069a71d26ee895f0145dac84d02c))
 - README and v0.2.0 notes: the guide's checklist evidence, and the notes' figures under the count check ([`ce21598`](https://github.com/ABS-gmbh/shapecov/commit/ce21598f4ce0ec7a8deb42bc5c98ef07a5354ecc))

@@ -27,8 +27,9 @@ The corpus reached 117 entries, and every schema cell a ledger reader can meet b
 is now classified from stellar-core's source. Replays run over sequences of consecutive ledgers, with
 wallet-backend's SEP-41 and Blend production on and its commit boundaries fixed; that detects
 wallet-backend ee82038d and #803 and stellar-etl #459. RFP sightings 6 (stellar-etl #454) and 17
-(js-xdr #165) are reproduced. The guide's checklist names, item by item, the ledgers that exercise it
-and the upstream fixes behind it, and its export to developers.stellar.org is gated on review. We
+(js-xdr #165) are reproduced. Of the guide's 26-item checklist, 22 items name the corpus ledgers
+that exercise them and 21 the upstream fix or issue where an indexer, SDK or exporter got it wrong,
+and its export to developers.stellar.org is gated on review. We
 filed stellar-etl #515 (a one-ledger range exports no entry changes) and posted counts for the
 members of stellar-etl's audit epic #448. The quick check runs in CI on Python 3.9 and 3.14.
 
