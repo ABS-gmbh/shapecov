@@ -56,6 +56,21 @@ def cap_statuses():
     return out
 
 
+def wallet_backend_main_checks():
+    """Oracle checks of the recorded wallet-backend replays at main (the commit with the most single-ledger
+    results), per input: (ledgers, rows expected, rows met). Both inputs must agree."""
+    rows = [json.loads(line) for line in open("harness/replay/out/results.jsonl")]
+    single = [r for r in rows if not r.get("in_sequence") and r.get("oracle")]
+    main = max({r["commit"] for r in single}, key=lambda c: sum(1 for r in single if r["commit"] == c))
+    per = {}
+    for inp in ("rpc", "datalake"):
+        rs = [r for r in single if r["commit"] == main and r["input"] == inp]
+        per[inp] = (len(rs), sum(r["oracle"]["rows_expected"] for r in rs), sum(r["oracle"]["rows_met"] for r in rs))
+    if per["rpc"] != per["datalake"]:
+        raise SystemExit("wallet-backend results at main differ between inputs: %s" % per)
+    return per["rpc"]
+
+
 def counts():
     entries = load("corpus/manifest.json")["entries"]
     kinds = [e["source"]["kind"] for e in entries]
@@ -94,7 +109,12 @@ def counts():
             t["detected"] += 1
             t["blind"] += any(c.get("blind") for c in it["entries"])
     wb, etl = backtest.get("wallet-backend", {}), backtest.get("stellar-etl", {})
+    wb_ledgers, wb_checks, wb_met = wallet_backend_main_checks()
     return {
+        "wallet-backend ledgers replayed at main": wb_ledgers,
+        "wallet-backend oracle checks per input at main": wb_checks,
+        "wallet-backend oracle checks met per input at main": wb_met,
+        "wallet-backend oracle checks failed per input at main": wb_checks - wb_met,
         "corpus entries": len(entries),
         "real ledgers (not synthetic)": sum(1 for e in entries if not e["synthetic"]),
         "stellar-core golden entries": kinds.count("stellar_core_golden"),
@@ -162,6 +182,10 @@ def counts():
 
 # fact -> patterns; each pattern's first group is the number as written (commas allowed).
 PATTERNS = {
+    "wallet-backend ledgers replayed at main": [r"\bno other row is missing for any of the ([\d,]+) ledgers"],
+    "wallet-backend oracle checks per input at main": [r"\b[\d,]+ of ([\d,]+) checks per\s+input pass"],
+    "wallet-backend oracle checks met per input at main": [r"\b([\d,]+) of [\d,]+ checks per\s+input pass"],
+    "wallet-backend oracle checks failed per input at main": [r"\bThe ([\d,]+) that fail are the [\d,]+ rows above"],
     "corpus entries": [r"\bcorpus of ([\d,]+) entries", r"\bholds ([\d,]+) entries", r"Corpus: ([\d,]+) entries",
                        r"(?m)^([\d,]+) entries, each", r"\bfor all ([\d,]+) entries"],
     "real ledgers (not synthetic)": [r"\b([\d,]+) (?:of them )?real ledgers"],

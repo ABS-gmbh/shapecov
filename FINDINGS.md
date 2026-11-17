@@ -260,7 +260,7 @@ CI against `harness/replay/sightings.json` (see `harness/replay/RESULTS.md`).
 tolgayayci on 13 November and again, more broadly, by the shapekit project on 15 November; the
 oracle derived them from ledger data alone:
 
-- 6 contract deployments (2 Stellar Asset Contract deploys, 4 contracts created by factory calls
+- 7 contract deployments (3 Stellar Asset Contract deploys, 4 contracts created by factory calls
   `create_pair` and `launch`) get no `ACCOUNT CREATE` row: stellar/wallet-backend#806 (factory
   deploys, 13 November) and #815 (factory and Stellar Asset Contract deploys, 15 November).
 - 3 accounts created by XLM sent through the native asset contract (once directly, twice from
@@ -299,8 +299,10 @@ A sweep of 611 further network ledgers (100,676 transactions, protocols 23 to 30
 meet the oracle map to eight open upstream issues (wallet-backend #677 and #815; stellar-etl #450,
 #452, #456, #457, #460 and #462), and none is unexplained.
 
-For wallet-backend, no other row is missing for any of the 63 ledgers: 8,919 of 8,930 checks per
-input pass, and the 11 that fail are the rows above. The checks include balances (every account's
+For wallet-backend, no other row is missing for any of the 114 ledgers: 28,878 of 28,897 checks per
+input pass at `main`. The 19 that fail are the 10 rows above (#815 and #816), the 2 rows of #817, 6
+rows of stellar/wallet-backend#677 (record C10) and 1 row of stellar/wallet-backend#818 (record
+C13). The checks include balances (every account's
 XLM and trustline balance per operation, and every net fee), and no balance row is stored where the
 ledger shows no change. See `harness/replay/RESULTS.md`,
 "Oracle checks".
