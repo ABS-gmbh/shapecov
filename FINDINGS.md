@@ -321,7 +321,9 @@ The py-stellar-base maintainer asks that XDR and strkey problems be tried agains
   [StellarCN/py-stellar-base#1264](https://github.com/StellarCN/py-stellar-base/issues/1264#issuecomment-6930257881): the decode depth limit moves with the caller's
   stack, so a valid 240-level envelope argument fails when the caller is more than 501 frames deep
   (`issues/X1-py-stellar-xdr-depth.md`); `SponsorshipDescriptor` and the bare integer types have no
-  codec (`issues/X2-py-stellar-xdr-typedef-codecs.md`).
+  codec (`issues/X2-py-stellar-xdr-typedef-codecs.md`). Answered on 17 November 2026 in
+  [lightsail-network/py-stellar-xdr#24](https://github.com/lightsail-network/py-stellar-xdr/pull/24) (merged): the guide now explains the depth limit and
+  how to raise it, and says the aliases have no codec of their own by choice, kept for now.
 
 ## Detection backtest
 

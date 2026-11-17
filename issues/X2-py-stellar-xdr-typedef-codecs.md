@@ -2,6 +2,8 @@
 
 Posted on 16 November 2026 as a comment on StellarCN/py-stellar-base#1264: https://github.com/StellarCN/py-stellar-base/issues/1264#issuecomment-6930257881. This sheet records what was run and what it showed.
 
+Answered on 17 November 2026: documented in [lightsail-network/py-stellar-xdr#24](https://github.com/lightsail-network/py-stellar-xdr/pull/24) (merged). The maintainer keeps the aliases without their own codec, deliberately, for now; the guide now says so and shows how to read an integer with `struct.unpack`.
+
 **Kind: API completeness question, not a defect.** Every value that has a codec round-trips
 correctly; five schema types have no standalone codec. A fit for a comment on StellarCN/py-stellar-base#1264
 (which invites API feedback before 1.0) rather than a new issue.

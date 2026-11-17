@@ -2,6 +2,8 @@
 
 Posted on 16 November 2026 as a comment on StellarCN/py-stellar-base#1264: https://github.com/StellarCN/py-stellar-base/issues/1264#issuecomment-6930257881. This sheet records what was run and what it showed.
 
+Answered on 17 November 2026: documented in [lightsail-network/py-stellar-xdr#24](https://github.com/lightsail-network/py-stellar-xdr/pull/24) (merged). The guide now explains that the effective depth limit depends on the stack frames already in use, and says to raise `sys.setrecursionlimit` and `max_depth` to go deeper; the library does not change the recursion limit itself, since it applies to the whole interpreter.
+
 **Kind: design question, not a defect.** No valid data is decoded wrongly. Valid data can fail to
 decode depending on the caller's stack depth. A fit for a comment on StellarCN/py-stellar-base#1264
 (which invites API feedback before 1.0) rather than a new issue.

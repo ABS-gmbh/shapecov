@@ -40,7 +40,8 @@ testing, 18 checks in about 20 seconds on an idle laptop; CI runs it on every pu
 
 - **8 defects found, filed in 7 issues** in java-stellar-sdk, py-stellar-base and stellar-etl. The Java
   maintainer fixed #833 two days after it was filed; py-stellar-base closed #1262 and #1263 as
-  fixed in its replacement XDR package. All 42 findings, with severity, CAPs and a reproducing
+  fixed in its replacement XDR package, and feedback on that package's API led to a documentation
+  change about five hours later ([py-stellar-xdr#24](https://github.com/lightsail-network/py-stellar-xdr/pull/24)). All 42 findings, with severity, CAPs and a reproducing
   entry each: [`FINDINGS.md`](FINDINGS.md).
 - **13 of the RFP's 18 sightings reproduced**, all in CI, each failing before its fix and passing
   after ([`harness/sightings/README.md`](harness/sightings/README.md)).

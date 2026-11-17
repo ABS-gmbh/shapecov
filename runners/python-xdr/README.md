@@ -57,7 +57,11 @@ payload with non-zero padding, and has no `W` type), so the check does detect a 
   frames (default recursion limit 1000). rs-stellar-xdr takes the limit as an argument (`Limits`).
   Fact sheet (design question): `issues/X1-py-stellar-xdr-depth.md`; posted as a
   [comment on StellarCN/py-stellar-base#1264](https://github.com/StellarCN/py-stellar-base/issues/1264#issuecomment-6930257881).
+  Answered the next morning: the guide now explains the limit and how to raise it
+  ([py-stellar-xdr#24](https://github.com/lightsail-network/py-stellar-xdr/pull/24), merged); the library leaves the recursion limit to the caller.
 - **No codec for `SponsorshipDescriptor` and the bare integer types.** `SponsorshipDescriptor`
   (`typedef AccountID* SponsorshipDescriptor`) is a type alias without `from_xdr_base64`, and
   `uint32`, `int32`, `uint64`, `int64` have no class. stellar-sdk 17.0.1, rs-stellar-xdr, Go and
   Java decode all five on their own. Fact sheet (API question): `issues/X2-py-stellar-xdr-typedef-codecs.md`; posted in the same comment.
+  Answered in the same change ([py-stellar-xdr#24](https://github.com/lightsail-network/py-stellar-xdr/pull/24)): a deliberate choice the maintainer keeps for
+  now, now stated in the guide with how to read an integer with `struct.unpack`.
