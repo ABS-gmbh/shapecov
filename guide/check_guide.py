@@ -18,6 +18,9 @@ Checks, all against corpus/patterns.json and corpus/manifest.json:
    least one entry, or an explicit "citation_only" reason ("nothing_claimed" for an empty cell).
    Every probe names a row of the tables. The guide's verdict table, between the
    core-verdicts markers, is exactly what this script renders from those two files.
+6. The exported developers.stellar.org page agrees with the guide's review line (guide/review.py) and
+   was generated from the guide as it is now: the inputs digest its header records matches
+   (guide/export_docs.py). Its formatting is compared with prettier in CI.
 
   python3 guide/check_guide.py --write    regenerate the guide's verdict table, then check
 
@@ -31,6 +34,7 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import review  # noqa: E402
 import evidence as checklist_evidence  # noqa: E402
+import export_docs  # noqa: E402
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.dirname(HERE)
@@ -284,6 +288,12 @@ def main():
                 else:
                     errors.append("checklist evidence: the table under the checklist is out of date; run guide/check_guide.py --write")
     n_gate = len(errors)
+    # The exported page was generated from the guide as it is now: the inputs digest its header records
+    # (guide/export_docs.py). The formatting is compared with prettier in CI; this needs no node.
+    if os.path.exists(PAGE):
+        with open(PAGE) as f:
+            errors.extend("export: " + e for e in export_docs.stale_errors(text, f.read()))
+    n_export = len(errors)
     # The reviewer's brief: its list of citation-only rows is generated from verdicts.json and the guide.
     want = review.render_brief(verdicts, text, tables, side_status)
     brief = open(BRIEF).read() if os.path.exists(BRIEF) else ""
@@ -311,7 +321,7 @@ def main():
         print("ERROR: " + e)
     parts = [(name, n) for name, n in (("corpus tables", n_tables), ("verdicts", n_verdicts - n_tables),
                                         ("review gate", n_evidence0 - n_verdicts), ("checklist evidence", n_gate - n_evidence0),
-                                        ("reviewer's brief", len(errors) - n_gate)) if n]
+                                        ("export", n_export - n_gate), ("reviewer's brief", len(errors) - n_export)) if n]
     print("GUIDE OK" if not errors else "GUIDE FAILS: " + ", ".join("%s (%d)" % p for p in parts))
     return 1 if errors else 0
 

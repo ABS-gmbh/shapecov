@@ -45,6 +45,21 @@ class Export(unittest.TestCase):
         self.assertNotIn(rv.CAUTION_MARK, page)
         self.assertIn("Reviewed by A. Reviewer (stellar-core engineer) on 2026-12-01", page)
 
+    def test_page_records_the_digest_of_its_inputs(self):
+        text = guide(EMPTY)
+        self.assertIn("from inputs sha256 %s" % ex.inputs_digest(text), ex.raw(text))
+        self.assertEqual(ex.stale_errors(text, ex.raw(text)), [])
+
+    def test_any_change_to_the_inputs_makes_the_page_stale(self):
+        page = ex.raw(guide(EMPTY))
+        for changed in (guide(EMPTY).replace("Body text.", "Body text, changed."),
+                        guide(FILLED, status="**Status: reviewed.**\n\n")):
+            errors = ex.stale_errors(changed, page)
+            self.assertEqual(len(errors), 1, changed)
+            self.assertIn("generated from other inputs", errors[0])
+        # The status paragraph and HTML comments are not on the page, so they do not make it stale.
+        self.assertEqual(ex.stale_errors(guide(EMPTY) + "<!-- a note -->\n", page), [])
+
     def test_a_partial_line_stops_the_export(self):
         with self.assertRaises(ValueError):
             ex.raw(guide(EMPTY.replace("date: —", "date: 2026-12-01")))

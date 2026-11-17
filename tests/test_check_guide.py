@@ -76,7 +76,9 @@ class CheckGuide(unittest.TestCase):
             "REVIEW.md": "# Brief\n\n%s\n%s\n" % (cg.review.BRIEF_BEGIN, cg.review.BRIEF_END),
         })
         self.save()
-        rc, out = call_main(cg.main, "--write")
+        call_main(cg.main, "--write")  # writes the verdict table; the page is exported from the result
+        self.write_page()
+        rc, out = call_main(cg.main)
         self.assertEqual(rc, 0, out)
 
     def tearDown(self):
@@ -86,6 +88,10 @@ class CheckGuide(unittest.TestCase):
 
     def save(self):
         write_tree(self.paths["REPO"], {"verdicts.json": self.verdicts, "probes.json": self.probes})
+
+    def write_page(self):
+        """The page as guide/export_docs.py would write it from the guide as it is now (without prettier)."""
+        Path(self.paths["PAGE"]).write_text(cg.export_docs.raw(Path(self.paths["GUIDE"]).read_text()))
 
     def guide(self, old, new):
         p = Path(self.paths["GUIDE"])
@@ -106,6 +112,19 @@ class CheckGuide(unittest.TestCase):
         Path(self.paths["PAGE"]).write_text("---\n---\n\nReviewed by someone.\n")
         self.assertFails("review gate: the review line is empty, but the exported page does not open with the not-reviewed caution")
         self.assertFails("GUIDE FAILS: review gate (2)")  # the summary names what failed, not the corpus
+
+    def test_export_from_an_older_guide_fails(self):
+        self.guide("A muxed source appears in `testnet-1`.", "A muxed source appears in `testnet-1`, as a source.")
+        self.assertFails("export: the page was generated from other inputs than the guide as it is now")
+        self.assertFails("GUIDE FAILS: export (1)")
+        self.write_page()
+        rc, out = call_main(cg.main)
+        self.assertEqual(rc, 0, out)
+
+    def test_export_without_a_digest_fails(self):
+        page = Path(self.paths["PAGE"])
+        page.write_text(cg.export_docs.DIGEST_RE.sub("from inputs", page.read_text()))
+        self.assertFails("export: the page records no inputs digest")
 
     def test_stale_brief_fails(self):
         Path(self.paths["BRIEF"]).write_text("# Brief\n\n%s\nold list\n%s\n" % (cg.review.BRIEF_BEGIN, cg.review.BRIEF_END))
