@@ -9,7 +9,9 @@ exercise those shapes, tagged by CAP, and a harness that replays them through an
 indexer and checks every stored row against an oracle derived from the ledger itself. A
 conformance runner feeds XDR generated from the protocol 30 schema to six SDK decoders and to
 stellar-core. A linter catches the three ingestion mistakes the RFP names, and an
-indexer-hardening guide has each rule checked against stellar-core. Built for the SCF RFP
+indexer-hardening guide has each rule checked against stellar-core. Of its 26-item checklist, 22
+items name the corpus ledgers that exercise them and 21 the upstream fix or issue where an indexer,
+SDK or exporter got it wrong. Built for the SCF RFP
 "XDR/CAP-Coverage Audit Tool and Indexer-Hardening Guide".
 
 | Deliverable | Where | The RFP's acceptance check | Status |

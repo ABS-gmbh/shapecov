@@ -4,11 +4,12 @@
   python3 .github/scripts/check_counts.py
 
 Each count is computed from the files it describes (the corpus manifest, the generated cases, the
-schema, FINDINGS.json, the sightings table, quickcheck.py, the guide's probes, the detection
-backtest's claims in harness/replay/backtest.json), and every place a
+schema, FINDINGS.json, the sightings table, quickcheck.py, the guide's probes and its checklist
+evidence table, the detection backtest's claims in harness/replay/backtest.json), and every place a
 document states it, found by a pattern, must give the same number. A count that no document states
 any more is reported too, so a reworded sentence cannot silently drop out of the check. Dated
-documents (STATUS.md, release notes) are not checked: they record what was true on their date.
+documents (STATUS.md) are not checked: they record what was true on their date. The notes of the
+release being prepared are checked until it is tagged; then they are dated, and leave DOCS.
 Exit status 1 on any mismatch. Run from the repository root.
 """
 import importlib.util
@@ -19,7 +20,8 @@ import sys
 
 WORDS = {w: i for i, w in enumerate(["zero", "one", "two", "three", "four", "five", "six", "seven", "eight",
                                      "nine", "ten"])}
-DOCS = ("README.md", "VERIFY.md", "ARCHITECTURE.md", "FINDINGS.md", "corpus/README.md", "harness/sightings/README.md")
+DOCS = ("README.md", "VERIFY.md", "ARCHITECTURE.md", "FINDINGS.md", "corpus/README.md", "harness/sightings/README.md",
+        "releases/v0.2.0.md")
 
 
 def load(path):
@@ -31,6 +33,16 @@ def linter_findings(target):
     """Findings in the recorded linter report at the commit the accepted list pins."""
     pin = load("linter/accepted/%s.json" % target)["pinned_commit"][:12]
     return len(load("linter/results/%s-%s.json" % (target, pin))["findings"])
+
+
+def checklist_evidence():
+    """The rows of the guide's checklist evidence table (guide/check_guide.py keeps it current): [exercised by,
+    where an indexer, SDK or exporter got it wrong] per checklist item."""
+    with open("guide/INDEXER-HARDENING.md") as f:
+        text = f.read()
+    i, j = text.index("<!-- checklist-evidence:begin"), text.index("<!-- checklist-evidence:end")
+    rows = [[c.strip() for c in line.split("|")[1:-1]] for line in text[i:j].splitlines()]
+    return [r[1:] for r in rows if r and r[0].isdigit()]
 
 
 def counts():
@@ -58,6 +70,7 @@ def counts():
     qc = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(qc)
     probes = load("guide/probes.json")["probes"]
+    checklist = checklist_evidence()
     backtest = {}
     for it in load("harness/replay/backtest.json")["items"]:
         t = backtest.setdefault(it["pipeline"], {"detected": 0, "blind": 0, "in_scope": 0})
@@ -106,6 +119,9 @@ def counts():
         "quickcheck checks without --full": sum(1 for c in qc.CHECKS if c[0] not in qc.FULL_ONLY),
         "quickcheck time budget, seconds": qc.BUDGET_SECONDS,
         "guide probes (without the setup transaction)": sum(1 for p in probes if p["row"] != "(setup)"),
+        "guide checklist items": len(checklist),
+        "guide checklist items exercised by a corpus ledger": sum(1 for r in checklist if r[0] != "none in the corpus yet"),
+        "guide checklist items with an upstream fix or issue": sum(1 for r in checklist if r[1] != "none recorded yet"),
         "schema cells no valid case reaches": cov["schema_cells"] - cov["generator_covers"],
         "backtest: wallet-backend fixes detected": wb.get("detected", 0),
         "backtest: wallet-backend fixes in scope": wb.get("in_scope", 0),
@@ -166,6 +182,9 @@ PATTERNS = {
     "quickcheck checks": [r"--full` adds the unit tests and the mutation testing[,:] ([\d,]+) checks"],
     "quickcheck checks without --full": [r"\bthe ([\d,]+) fast checks"],
     "quickcheck time budget, seconds": [r"## Check it in under ([\d,]+) seconds"],
+    "guide checklist items": [r"\b([\d,]+)-item\s+checklist"],
+    "guide checklist items exercised by a corpus ledger": [r"-item\s+checklist,\s+([\d,]+)\s+(?:items\s+)?name\s+the\s+corpus\s+ledgers"],
+    "guide checklist items with an upstream fix or issue": [r"\bthat\s+exercise\s+them\s+and\s+([\d,]+)\s+the\s+upstream\s+fix"],
     "guide probes (without the setup transaction)": [r"\b([\d,]+) probes, plus one setup"],
 }
 

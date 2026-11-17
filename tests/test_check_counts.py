@@ -28,6 +28,19 @@ rejects all 1
 faulty ones. One GitHub Actions workflows run it.
 The harness detects 1 of wallet-backend's 2 in-scope fixes (1 on ledgers not chosen for the bug)
 and flags 0 of stellar-etl's 1 in-scope issues (0 blind).
+Of its 3-item checklist, 2 items name the corpus ledgers that exercise them and 1 the upstream fix or issue behind it.
+"""
+GUIDE = """# Guide
+
+<!-- checklist-evidence:begin: generated -->
+
+| # | Exercised by | Where an indexer, SDK or exporter got it wrong |
+|---|---|---|
+| 1 | `l` | [r #1](https://github.com/o/r/issues/1) |
+| 2 | `n` | none recorded yet |
+| 3 | none in the corpus yet | none recorded yet |
+
+<!-- checklist-evidence:end -->
 """
 VERIFY = "35 probes, plus one setup transaction.\n".replace("35", "1")
 SIGHTINGS = """**1 of 2 reproduced.**
@@ -77,6 +90,7 @@ class CheckCounts(unittest.TestCase):
             "corpus/README.md": "| a | 1 | `stellar_core_golden` |\n| testnet (1) and pubnet (0) history | 1 | "
                                 "`network_ledger` |\n| b | 1 | `local_stellar_core` |\n| c | 1 | `generated` |\n",
             "harness/sightings/README.md": SIGHTINGS,
+            "guide/INDEXER-HARDENING.md": GUIDE, "releases/v0.2.0.md": "",
         })
         write_jsonl(self.dir, "out/cases.jsonl", [{"id": i, "valid": i < 3} for i in range(4)])
 
@@ -96,6 +110,12 @@ class CheckCounts(unittest.TestCase):
         rc, out = self.run_check()
         self.assertEqual(rc, 1, out)
         self.assertIn("'Corpus: 71 entries' says 71, but corpus entries is 4", out)
+
+    def test_checklist_figures_come_from_the_guides_evidence_table(self):
+        write_tree(self.dir, {"README.md": README.replace("2 items name the corpus", "3 items name the corpus")})
+        rc, out = self.run_check()
+        self.assertEqual(rc, 1, out)
+        self.assertIn("but guide checklist items exercised by a corpus ledger is 2", out)
 
     def test_commas_in_numbers_are_read(self):
         write_tree(self.dir, {"README.md": README.replace("4 generated cases", "4,000 generated cases")})
