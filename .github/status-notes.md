@@ -13,12 +13,24 @@ makes no promise of dates.
   so RFP check 3 is partly met. The
   fix prepared for wallet-backend #820 waits for the issue to be accepted (`VERIFY.md`, check 3).
 - The fix prepared for stellar-etl #512 waits for the issue to be accepted.
-- The detection backtest's misses, each with what would catch it (`harness/replay/BACKTEST.md`):
-  stellar-etl's `export_trades` and `export_ledger_entry_changes` in its adapter (#451, #459), and a
-  fee rule with a new entry (#453); for wallet-backend, reading its current-state tables and new
-  local stellar-core scenarios.
+- The detection backtest's four misses, each with what is known about catching it
+  (`harness/replay/BACKTEST.md`): for stellar-etl, a fee rule and a new entry (#453); for
+  wallet-backend, `6e5a5910` (#693: the failure changes form at the fix), `f5b67b07` (no input found
+  yet reaches the drop the fix describes) and `3e22515a` (#802: Blend's own pool refuses the input
+  the fix guards against).
 - Replay adapters beyond wallet-backend, stellar-etl and Horizon (`README.md`, Limits).
 - Schema cells that no corpus entry carries yet, listed by protocol in `corpus/CAP-COVERAGE.md`.
+
+## 17 November 2026
+
+The corpus reached 117 entries, and every schema cell a ledger reader can meet but no entry carries
+is now classified from stellar-core's source. Replays run over sequences of consecutive ledgers, with
+wallet-backend's SEP-41 and Blend production on and its commit boundaries fixed; that detects
+wallet-backend ee82038d and #803 and stellar-etl #459. RFP sightings 6 (stellar-etl #454) and 17
+(js-xdr #165) are reproduced. The guide's checklist names, item by item, the ledgers that exercise it
+and the upstream fixes behind it, and its export to developers.stellar.org is gated on review. We
+filed stellar-etl #515 (a one-ledger range exports no entry changes) and posted counts for the
+members of stellar-etl's audit epic #448. The quick check runs in CI on Python 3.9 and 3.14.
 
 ## 16 November 2026
 

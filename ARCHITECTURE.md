@@ -133,7 +133,7 @@ The three indexer adapters:
 | Adapter | Runs | Reads | Inputs | Sequences | Results | CI |
 |---|---|---|---|---|---|---|
 | `wallet-backend` (the reference) | `ingest` at any commit, against TimescaleDB | transactions, operations, participants, state changes, balances, contract and protocol tables | rpc and data lake | yes | `out/`, `out-sequences/` | replay: sightings |
-| `stellar-etl` | its `export_*` commands at any commit | transactions, operations, effects, token transfers, contract events, trades, ledger entry changes | data lake over GCS (the only datastore it supports) | yes; entry changes are exported only over a range, so they are checked on sequences | `out-stellar-etl/`, `out-stellar-etl-sequences/` | replay: stellar-etl |
+| `stellar-etl` | its `export_*` commands at any commit | transactions, operations, effects, token transfers, contract events, trades, ledger entry changes | data lake over GCS (the only datastore it supports) | yes; entry changes are exported only over a range of two or more ledgers (stellar-etl#515), so they are checked on sequences | `out-stellar-etl/`, `out-stellar-etl-sequences/` | replay: stellar-etl |
 | `horizon` | `db reingest range` at a release tag, against PostgreSQL | history transactions, operations, effects, participants, trades | data lake over S3 | no; one ledger at a time | `out-horizon/` | replay: horizon (three ledgers, same verdicts as recorded) |
 
 A fourth, `adapters/example/`, wraps a toy indexer in two variants, participants from the envelope

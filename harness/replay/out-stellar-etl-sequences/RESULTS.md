@@ -7,8 +7,8 @@ stellar-etl reads them from the data lake through the GCS JSON and XML APIs, wit
 GCS client pointed at the feeder by `STORAGE_EMULATOR_HOST`. Every export runs once over the whole
 range: `export_transactions`, `export_operations`, `export_effects`, `export_token_transfer`,
 `export_contract_events`, `export_trades`, and `export_ledger_entry_changes` for accounts, trustlines,
-offers, liquidity pools, claimable balances and contract data, which writes nothing for a range of one ledger and
-so is checked on sequences only. Each member ledger is judged like a single-ledger replay; the
+offers, liquidity pools, claimable balances and contract data, which writes nothing for a range of one ledger
+(stellar-etl#515) and so is checked on sequences only. Each member ledger is judged like a single-ledger replay; the
 sequence's own end-state checks compare the exported entry changes with each ledger's net change.
 
 A cell is the entry's verdict: the worse of the indexer's result against the manifest's expectations and

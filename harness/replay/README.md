@@ -351,7 +351,7 @@ standard setting. No flag, source line or dependency is changed.
 trustlines, offers, liquidity pools, claimable balances and contract data each ledger changed. Given a range of one
 ledger it writes nothing and exits 0: `StreamChanges` (`internal/input/changes.go` 162-178 at
 `2b24ec89`) loops while `batchStart < batchEnd`, and `--start-ledger N --end-ledger N` makes them
-equal. So the harness runs it only on sequences of consecutive corpus ledgers
+equal (filed as stellar/stellar-etl#515, record E4). So the harness runs it only on sequences of consecutive corpus ledgers
 (`corpus/sequences.json`, `replay.py run --sequence`). It compacts each ledger's changes on their own
 (`ExtractBatch` makes a `ChangeCompactor` per ledger), so the oracle expects one row per entry and
 ledger with that ledger's net change (created, updated, removed, restored; none for an entry created

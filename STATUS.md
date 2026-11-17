@@ -16,12 +16,66 @@ What the repository itself lists as open.
   so RFP check 3 is partly met. The
   fix prepared for wallet-backend #820 waits for the issue to be accepted (`VERIFY.md`, check 3).
 - The fix prepared for stellar-etl #512 waits for the issue to be accepted.
-- The detection backtest's misses, each with what would catch it (`harness/replay/BACKTEST.md`):
-  stellar-etl's `export_trades` and `export_ledger_entry_changes` in its adapter (#451, #459), and a
-  fee rule with a new entry (#453); for wallet-backend, reading its current-state tables and new
-  local stellar-core scenarios.
+- The detection backtest's four misses, each with what is known about catching it
+  (`harness/replay/BACKTEST.md`): for stellar-etl, a fee rule and a new entry (#453); for
+  wallet-backend, `6e5a5910` (#693: the failure changes form at the fix), `f5b67b07` (no input found
+  yet reaches the drop the fix describes) and `3e22515a` (#802: Blend's own pool refuses the input
+  the fix guards against).
 - Replay adapters beyond wallet-backend, stellar-etl and Horizon (`README.md`, Limits).
 - Schema cells that no corpus entry carries yet, listed by protocol in `corpus/CAP-COVERAGE.md`.
+
+## 17 November 2026
+
+The corpus reached 117 entries, and every schema cell a ledger reader can meet but no entry carries
+is now classified from stellar-core's source. Replays run over sequences of consecutive ledgers, with
+wallet-backend's SEP-41 and Blend production on and its commit boundaries fixed; that detects
+wallet-backend ee82038d and #803 and stellar-etl #459. RFP sightings 6 (stellar-etl #454) and 17
+(js-xdr #165) are reproduced. The guide's checklist names, item by item, the ledgers that exercise it
+and the upstream fixes behind it, and its export to developers.stellar.org is gated on review. We
+filed stellar-etl #515 (a one-ledger range exports no entry changes) and posted counts for the
+members of stellar-etl's audit epic #448. The quick check runs in CI on Python 3.9 and 3.14.
+
+Commits:
+
+- FINDINGS: wallet-backend's checks at main restated for 114 ledgers, and under the count check ([`5795115`](https://github.com/ABS-gmbh/shapecov/commit/57951153f345958f50da67e01984c1c855e982fc))
+- README: coverage per CAP and per schema cell as the first result, under the count check ([`d4ba488`](https://github.com/ABS-gmbh/shapecov/commit/d4ba4883b7f8069a71d26ee895f0145dac84d02c))
+- README and v0.2.0 notes: the guide's checklist evidence, and the notes' figures under the count check ([`ce21598`](https://github.com/ABS-gmbh/shapecov/commit/ce21598f4ce0ec7a8deb42bc5c98ef07a5354ecc))
+- stellar-etl and Horizon on the final corpus: all 114 ledgers, and the sequences; figures restated ([`b7fd40b`](https://github.com/ABS-gmbh/shapecov/commit/b7fd40b2a549db6a0028ed819c67196a2dca4388))
+- Corpus: Timepoint, Duration and three SCE_EVENTS errors, put into a ledger on purpose ([`36daf3a`](https://github.com/ABS-gmbh/shapecov/commit/36daf3a23caaab1475cab6e03039093cb15a57d7))
+- Coverage: TransactionMeta v0 and v1 in their own class; the CAP-0083 gap row says what would close it ([`6b21346`](https://github.com/ABS-gmbh/shapecov/commit/6b213469816bc9c3d3bad36de056ac8aac3b4eeb))
+- Corpus: four pubnet ledgers of protocols 8 to 11 cover 8 cells only earlier protocols have ([`5fa1e15`](https://github.com/ABS-gmbh/shapecov/commit/5fa1e15cea197bbd77173f0ed06431ad71569505))
+- Replay adapter: protocol-setup decided in one tested function; coverage page states its basis ([`0a54c2e`](https://github.com/ABS-gmbh/shapecov/commit/0a54c2ec5c10bc6d049bc85673cad56a0b9ae7e6))
+- Guide item 26: a passive offer's result carries the MANAGE_SELL_OFFER arm ([`da3dfcf`](https://github.com/ABS-gmbh/shapecov/commit/da3dfcf603ed4602a2e200e861082b9fe643a0b9))
+- Coverage: three local scenarios cover the 10 local-core cells; 3 more classified from source ([`d3af9c4`](https://github.com/ABS-gmbh/shapecov/commit/d3af9c4143d0e5658a2054bf0115eec5a4939339))
+- Replay adapter: a commit without a protocol's validator replays with the protocols it has ([`0f25e57`](https://github.com/ABS-gmbh/shapecov/commit/0f25e57677f6c93d84970198800b3d0b65b48b1a))
+- Guide: a stale developers.stellar.org page fails check_guide, without node ([`0b80307`](https://github.com/ABS-gmbh/shapecov/commit/0b80307fdbdbcedf61a058e95fc83ee105808cde))
+- Release notes for v0.2.0, a draft without figures ([`2ed6320`](https://github.com/ABS-gmbh/shapecov/commit/2ed632042e2486d711b47594872ef19f132e131a))
+- Quick check on Python 3.9 and 3.14 in CI, and the range stated ([`4aaa5a0`](https://github.com/ABS-gmbh/shapecov/commit/4aaa5a0c8e22b3559da82962f29467437c15a57e))
+- Coverage: every uncovered cell classified from stellar-core's source ([`bef2c6c`](https://github.com/ABS-gmbh/shapecov/commit/bef2c6c6db846a66e790a828750ad0a02b0741a9))
+- Guide export: regenerate the developers.stellar.org page for checklist item 20's stellar-etl #459 row ([`8c1b1b1`](https://github.com/ABS-gmbh/shapecov/commit/8c1b1b1c4a8b90dcacf4c39dd95d16bb8b914ecc))
+- ARCHITECTURE: a current map of every part, what it reads and writes, and the check that proves it ([`6e0b6bc`](https://github.com/ABS-gmbh/shapecov/commit/6e0b6bcd699b2e8f2813a8372d22dc4777cd988c))
+- Backtest: #802 stays in scope as a miss; Blend's own pool refuses its input ([`cc0d149`](https://github.com/ABS-gmbh/shapecov/commit/cc0d149c46095df0e73b2bf970247dd6121e086b))
+- stellar-etl #459 shown on contract-balances: native asset-contract balances exported as balances ([`2d3d3a3`](https://github.com/ABS-gmbh/shapecov/commit/2d3d3a3410c5cd5fdc8b3d65d3ccbe82be47f9fc))
+- Guide: each checklist item with the incidents behind it; seven new items from detected fixes ([`4857671`](https://github.com/ABS-gmbh/shapecov/commit/4857671886fa5c8d254d5739dcbac65cb000f299))
+- wallet-backend replays run with SEP-41 and Blend production on by default ([`58e2327`](https://github.com/ABS-gmbh/shapecov/commit/58e23278b80e0413e173083f6b7720a3d15d1c51))
+- IssueTracker.md: the 7 upstream issues filed and the 5 comments posted, with state on 17 November ([`32aab4a`](https://github.com/ABS-gmbh/shapecov/commit/32aab4ae6a6c170530a6623dcb6075c862c30716))
+- Sightings row 17: the RFP's nine are js-xdr #162 to #170; the row reproduces #165's own seven cases ([`7b2365e`](https://github.com/ABS-gmbh/shapecov/commit/7b2365e9defbe878d71b1cfde51f1e13b1e222ba))
+- Sequence contract-balances for stellar-etl#459; Blend's MIT licence text in the corpus ([`6539d1d`](https://github.com/ABS-gmbh/shapecov/commit/6539d1d8b831e1b199790e60371545ab09661619))
+- stellar-etl entry changes on every corpus sequence: all met ([`6c380aa`](https://github.com/ABS-gmbh/shapecov/commit/6c380aa372733476e7b0c01b3b18de48808e53f6))
+- RFP sighting 17, js-xdr#165: reproduced from the issue's own cases on 5.0.0, the latest release ([`daefa3b`](https://github.com/ABS-gmbh/shapecov/commit/daefa3b8f6e418f124c6b0c1a399cf695d66f1b5))
+- Detects wallet-backend#803 on Blend's own pool wasm; sequence expectations follow the adapter ([`feb3b75`](https://github.com/ABS-gmbh/shapecov/commit/feb3b756a7f3af1eae88f821c4077bf1b02c578a))
+- replay.py check: a sequence member's result counts for its own ledger ([`ba67706`](https://github.com/ABS-gmbh/shapecov/commit/ba677064f8f3d7e807d3d2ed1e16223a38f268fc))
+- stellar-etl entry changes on the token-rebind sequence: 32 of 32 ([`5bedf94`](https://github.com/ABS-gmbh/shapecov/commit/5bedf94aa7e1064279b233f58df3fdd05cd9af50))
+- py-stellar-xdr#24 recorded: the API feedback on the replacement package was answered with a documentation change ([`c590160`](https://github.com/ABS-gmbh/shapecov/commit/c590160ca194b1c1ed0d751705ffafe0eef037e1))
+- First screen: every figure names its unit ([`2fff234`](https://github.com/ABS-gmbh/shapecov/commit/2fff234a516c1b7bd67cf53a54ef3cab12305976))
+- RFP sighting 6, stellar-etl#454: reproduced at master for amounts above 2^53 stroops ([`e2797b5`](https://github.com/ABS-gmbh/shapecov/commit/e2797b5df508db913d422d95dae87ce14061553a))
+- Replay report: a directory of sequence runs says so, and shows each sequence's end-state checks ([`e793de8`](https://github.com/ABS-gmbh/shapecov/commit/e793de80e70d1db3afd79ac88db01467d697079c))
+- Protocol production in replays, fixed commit boundaries; detects wallet-backend ee82038d ([`d84df54`](https://github.com/ABS-gmbh/shapecov/commit/d84df548e446144b95fb081aba9b1cee1a707125))
+- stellar-etl's entry changes checked on sequences of consecutive ledgers ([`0e1e893`](https://github.com/ABS-gmbh/shapecov/commit/0e1e893c8483d2ec22e1ad914bf77db0d19ebee6))
+- Sweep rerun: 1,764,854 checks on real traffic, every failure mapped to an open issue ([`091f987`](https://github.com/ABS-gmbh/shapecov/commit/091f987575f8506af3577cf06aae20ee91865924))
+- Backtest: stellar-etl #459 is out of reach of a one-ledger replay; check_guide names what failed ([`2006ae6`](https://github.com/ABS-gmbh/shapecov/commit/2006ae6f10767a70683f1bd25c0da8643239818b))
+- Backtest: the scope changes of 16 November as a table ([`034678b`](https://github.com/ABS-gmbh/shapecov/commit/034678bc9a7cc9c4dd613534e214c673c45c10b0))
+- Guide: the publication gate is enforced by the export; guide/REVIEW.md is the reviewer's brief ([`57cbebd`](https://github.com/ABS-gmbh/shapecov/commit/57cbebd4df93f64e4123eb734bd83e519dba0076))
 
 ## 16 November 2026
 
@@ -36,6 +90,9 @@ backtest, packaging for other repositories' CI, findings kept as checked records
 
 Commits:
 
+- stellar-etl #451 checked: rounding slippage of liquidity-pool trades, with Horizon as the reference ([`47994ec`](https://github.com/ABS-gmbh/shapecov/commit/47994ecafe280c36300d83c90ba18d1302879120))
+- README: the linter row says 2 findings on wallet-backend, both real; the replay badge goes ([`34ef5ce`](https://github.com/ABS-gmbh/shapecov/commit/34ef5ceb9d72e5b45bd58f0b06f603364b07652c))
+- SC003 follows a success check one level into a function of the same package; wallet-backend has 2 findings, both real ([`fc45ef8`](https://github.com/ABS-gmbh/shapecov/commit/fc45ef87e14ebf5d0f6413601ff97aa3189bec0c))
 - CI: the Java runner's Maven cache is saved as soon as it builds; longer waits between attempts ([`45b83be`](https://github.com/ABS-gmbh/shapecov/commit/45b83be2368dc3080860b32ddb60ccfa77fd777a))
 - Linter triage on wallet-backend: the two SC003 findings are a false positive for failed transactions ([`1dfbcb5`](https://github.com/ABS-gmbh/shapecov/commit/1dfbcb53b9ca13abd771910dc780243bf285a701))
 - Backtest: 666a64d4 out of scope; corpus caps field described as it is ([`966a561`](https://github.com/ABS-gmbh/shapecov/commit/966a561269b05880c49497b54de3cbb777657c39))

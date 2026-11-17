@@ -159,6 +159,27 @@
    ]
   },
   {
+   "id": "E4",
+   "kind": "found",
+   "title": "export_ledger_entry_changes writes nothing when --start-ledger equals --end-ledger",
+   "component": "stellar-etl: export_ledger_entry_changes (StreamChanges, internal/input/changes.go)",
+   "severity": "S2",
+   "severity_note": "impact low, as filed: only a range of one ledger; longer ranges are exported in full. The command exits 0, logs nothing and writes no file, so a one-ledger backfill or spot check silently produces nothing",
+   "caps": [],
+   "caps_none_reason": "the exporter's handling of its ledger range, a tooling defect, not a protocol shape",
+   "reproduction": {
+    "corpus_entry": "testnet-5711641",
+    "command": "stellar-etl export_ledger_entry_changes --start-ledger 5711641 --end-ledger 5711641 --export-contract-data --output out/ (at 2b24ec89, against a data lake holding the ledger: exits 0 and writes no file; a range of two ledgers is exported)"
+   },
+   "upstream": [
+    "https://github.com/stellar/stellar-etl/issues/515"
+   ],
+   "first_reported_by": "ShapeCov",
+   "reported": "2026-11-17",
+   "status": "open",
+   "labels": []
+  },
+  {
    "id": "C1",
    "kind": "confirmed",
    "title": "An account created by XLM sent through the native asset contract gets no ACCOUNT CREATE state change",
@@ -583,7 +604,7 @@
    ],
    "first_reported_by": "chowbao (stellar-etl maintainer)",
    "reported": "2026-07-04",
-   "status": "open; on the contract-balances sequence (two ledgers; the export writes nothing for one) the native asset contract's balance entry of a contract is exported with balance_holder and balance in both ledgers, as the issue's first point says; the same entry of a credit asset's contract, the control, is exported with its holder too, as expected. The issue's other two points (no durability guard, a dead native branch) are not exercised",
+   "status": "open; on the contract-balances sequence (two ledgers; the export writes nothing for one, stellar-etl#515) the native asset contract's balance entry of a contract is exported with balance_holder and balance in both ledgers, as the issue's first point says; the same entry of a credit asset's contract, the control, is exported with its holder too, as expected. The issue's other two points (no durability guard, a dead native branch) are not exercised",
    "labels": [
     "stellar/stellar-etl#459"
    ]

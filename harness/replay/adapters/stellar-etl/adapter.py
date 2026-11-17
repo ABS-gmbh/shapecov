@@ -298,7 +298,7 @@ def ledger_of(table, row):
 
 
 # export_ledger_entry_changes, sequences only: for a range of one ledger it writes nothing
-# (internal/input/changes.go, StreamChanges loops while batchStart < batchEnd). It compacts the
+# (stellar-etl#515: internal/input/changes.go, StreamChanges loops while batchStart < batchEnd). It compacts the
 # changes of each ledger separately (ExtractBatch makes a ChangeCompactor per ledger), so it gives one
 # row per entry per ledger with that ledger's net change: created, updated, removed or restored.
 CHANGES_EXPORT = ("export_ledger_entry_changes", "entry_changes")

@@ -21,7 +21,7 @@ import sys
 WORDS = {w: i for i, w in enumerate(["zero", "one", "two", "three", "four", "five", "six", "seven", "eight",
                                      "nine", "ten"])}
 DOCS = ("README.md", "VERIFY.md", "ARCHITECTURE.md", "FINDINGS.md", "corpus/README.md", "harness/sightings/README.md",
-        "releases/v0.2.0.md")
+        "releases/v0.2.0.md", "IssueTracker.md")
 
 
 def load(path):
@@ -126,6 +126,7 @@ def counts():
         "findings records": len(findings),
         "findings found and filed by ShapeCov": sum(1 for r in findings if r["kind"] == "found"),
         "issues filed for the defects found": len({u for r in findings if r["kind"] == "found" for u in r.get("upstream") or []}),
+        "findings first reported by others": sum(1 for r in findings if r.get("first_reported_by") != "ShapeCov"),
         "RFP sightings": len(rows),
         "RFP sightings reproduced": rows.count("reproduced"),
         "generated cases": cases,
@@ -199,8 +200,10 @@ PATTERNS = {
     "generated entries": [r"\| ([\d,]+) \| `generated` \|"],
     "findings records": [r"\b(?:All )?([\d,]+) findings(?: in `FINDINGS\.json`|, with severity)",
                          r"`FINDINGS\.json`: ([\d,]+) findings"],
-    "findings found and filed by ShapeCov": [r"\b([\d,]+) defects found(?: and filed|, filed in)"],
-    "issues filed for the defects found": [r"\bdefects found, filed in ([\d,]+) issues"],
+    "findings found and filed by ShapeCov": [r"\b([\d,]+) defects found(?: and filed|, filed in)",
+                                             r"\| Findings those issues cover \| ([\d,]+) \("],
+    "findings first reported by others": [r"\bincluding\s+the\s+([\d,]+)\s+that\s+others\s+reported\s+first"],
+    "issues filed for the defects found": [r"\bdefects found, filed in ([\d,]+) issues", r"\| Issues filed \| ([\d,]+) \("],
     "RFP sightings": [r"\b(?:of|of the RFP's) ([\d,]+) (?:public )?sightings", r"\b[\d,]+ of ([\d,]+) reproduced"],
     "RFP sightings reproduced": [r"\b([\d,]+) of the RFP's [\d,]+ sightings", r"\b([\d,]+) of [\d,]+ reproduced"],
     "generated cases": [r"\b([\d,]+) (?:generated )?cases across"],

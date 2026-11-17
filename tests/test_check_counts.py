@@ -30,6 +30,8 @@ The harness detects 1 of wallet-backend's 2 in-scope fixes (1 on ledgers not cho
 and flags 0 of stellar-etl's 1 in-scope issues (0 blind).
 Of its 3-item checklist, 2 items name the corpus ledgers that exercise them and 1 the upstream fix or issue behind it.
 The ledgers are pubnet and testnet history from protocol 25 to 25.
+For wallet-backend, no other row is missing for any of the 2 ledgers: 9 of 10 checks per input pass.
+The 1 that fail are the 1 rows above.
 All 4 live CAPs are accounted for: 3 have a shape in ledger data, and of those 1 are covered, 1 is covered except for
 one form and 1 is a gap; the other 1 have no shape in ledger data. 1 of the 2 cells a ledger reader can meet, and 1 of
 the 2 that can occur in a closed ledger. 3 can never be in a closed ledger, 1 predate protocol 20, 0 appear only in
@@ -106,8 +108,17 @@ class CheckCounts(unittest.TestCase):
                                 "`network_ledger` |\n| b | 1 | `local_stellar_core` |\n| c | 1 | `generated` |\n",
             "harness/sightings/README.md": SIGHTINGS,
             "guide/INDEXER-HARDENING.md": GUIDE, "releases/v0.2.0.md": "",
+            "IssueTracker.md": "The full list, including the 2 that others reported first.\n| Issues filed | 1 (1 open) |\n",
         })
         write_jsonl(self.dir, "out/cases.jsonl", [{"id": i, "valid": i < 3} for i in range(4)])
+        # wallet-backend's recorded replays: two ledgers at the commit with the most results, on both inputs,
+        # an older commit with one, and a sequence member, which is not counted.
+        wb = [{"entry_id": e, "commit": "main", "input": inp, "oracle": {"rows_expected": n, "rows_met": m}}
+              for inp in ("rpc", "datalake") for e, n, m in (("a", 6, 6), ("b", 4, 3))]
+        wb += [{"entry_id": "a", "commit": "old", "input": "rpc", "oracle": {"rows_expected": 6, "rows_met": 1}},
+               {"entry_id": "a", "commit": "main", "input": "rpc", "in_sequence": True,
+                "oracle": {"rows_expected": 6, "rows_met": 0}}]
+        write_jsonl(self.dir, "harness/replay/out/results.jsonl", wb)
 
     def tearDown(self):
         self.tmp.cleanup()
@@ -137,6 +148,12 @@ class CheckCounts(unittest.TestCase):
         rc, out = self.run_check()
         self.assertEqual(rc, 1, out)
         self.assertIn("but CAPs covered is 1", out)
+
+    def test_wallet_backend_figures_come_from_its_results_at_main(self):
+        write_tree(self.dir, {"README.md": README.replace("9 of 10 checks per input", "10 of 10 checks per input")})
+        rc, out = self.run_check()
+        self.assertEqual(rc, 1, out)
+        self.assertIn("but wallet-backend oracle checks met per input at main is 9", out)
 
     def test_commas_in_numbers_are_read(self):
         write_tree(self.dir, {"README.md": README.replace("4 generated cases", "4,000 generated cases")})
