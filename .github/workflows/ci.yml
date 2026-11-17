@@ -265,6 +265,16 @@ jobs:
         run: python tools/corpus_check.py --sdks rust,js,python,python-xdr,go,java --core --sdk-checks --quiet
       - name: The same behaviour checks in Go, Java, Rust and both Python SDKs (do they share the JavaScript defects?)
         run: python harness/sdk-semantic/siblings.py --check
+      - name: js-xdr#165 on 5.0.0, the latest release (harness/sightings/README.md, row 17)
+        working-directory: harness/sightings/js-xdr-165
+        run: npm ci --no-audit --no-fund && node check.cjs
+      # Weekly: the newest published js-xdr. Fails once a release rejects the issue's cases, so that row 17
+      # becomes a before-and-after pair; nothing is installed from a git commit.
+      - name: js-xdr#165 on the newest published js-xdr release (weekly)
+        if: github.event_name == 'schedule'
+        run: |
+          npm install --prefix "$RUNNER_TEMP/js-xdr-latest" --no-audit --no-fund --no-save @stellar/js-xdr@latest
+          node harness/sightings/js-xdr-165/check.cjs --dir "$RUNNER_TEMP/js-xdr-latest"
 
   findings:
     name: "RFP check 6: every replay failure maps to a complete finding record"

@@ -4,7 +4,7 @@ The RFP ("XDR/CAP-Coverage Audit Tool and Indexer-Hardening Guide", section 7) l
 sightings. This is each one's status: reproduced (and where it runs in CI), or why it cannot be.
 Status as of 17 November 2026.
 
-**13 of 18 reproduced, all 13 in CI.**
+**14 of 18 reproduced, all 14 in CI.**
 
 | # | Sighting | Status | How | CI job |
 |---|---|---|---|---|
@@ -24,7 +24,7 @@ Status as of 17 November 2026.
 | 14 | rs-stellar-xdr#604: xdr-json schemas omit feature-gated types | not reproduced | concerns the generated JSON Schema files, not decoding or encoding values | — |
 | 15 | js-stellar-sdk#1789: colliding map keys dropped | reproduced | `synthetic-scmap-colliding-keys`: 17.2.1 keeps one entry of two | ci: pinned-SDK checks |
 | 16 | js-stellar-sdk#1785: muxed and offer IDs beyond 2^53 | reproduced | `synthetic-ids-beyond-f64`: 17.2.1 encodes different IDs | ci: pinned-SDK checks |
-| 17 | js-xdr#165: nine XDR validation issues | not reproduced | the fixes make js-xdr's `Writer` reject invalid primitive inputs (out-of-range integers, fractional padding, forged lengths) when encoding; the generator produces bytes to decode, so a reproduction would only restate the issue's own snippet | — |
+| 17 | js-xdr#165: nine XDR validation issues | reproduced | from the issue's own cases on 5.0.0, the latest release: all seven are silently coerced as the issue shows (out-of-range, negative, fractional and NaN integers written as wrapped or truncated words, `writePadding(1.5)` leaving the offset at 2.5, a forged `{ length: -4 }` rewinding the writer so the next word overwrites the second). The fix (PR #173, merged 16 October) is not in a published release; a weekly run installs the newest published js-xdr and fails once it rejects the cases (`harness/sightings/js-xdr-165/`) | ci: RFP checks 1 and 5 |
 | 18 | js-stellar-sdk#1823: XDR string arms change non-UTF-8 bytes | reproduced | the memo of `localcore-memo-and-offer-p30-4` (bytes `ff fe`): rebuilt from `.value` it becomes 26 bytes with two U+FFFD in 17.2.1 and in 17.4.0, the latest; `Memo.fromXDRObject()` keeps the bytes. #1823 was closed with documentation (#1824), so the behaviour remains | ci: pinned-SDK checks |
 
 Rows 2, 3, 8 and 10 are checked against `harness/replay/sightings.json` by `replay.py check`.

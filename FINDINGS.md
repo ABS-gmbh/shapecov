@@ -6,7 +6,7 @@ Run date: 14 November 2026, updated 16 November 2026. Versions are in `README.md
 
 <!-- findings-table:begin (generated from FINDINGS.json by .github/scripts/check_findings.py --write; do not edit by hand) -->
 
-42 findings in `FINDINGS.json`, one record each. Severity: **S1** halts or rejects valid data; **S2** wrong or missing data; **S3** accepts non-canonical input; **S4** hardening. Dates are UTC.
+43 findings in `FINDINGS.json`, one record each. Severity: **S1** halts or rejects valid data; **S2** wrong or missing data; **S3** accepts non-canonical input; **S4** hardening. Dates are UTC.
 
 **Found by ShapeCov and filed by us** (8)
 
@@ -45,7 +45,7 @@ Run date: 14 November 2026, updated 16 November 2026. Versions are in `README.md
 | C17 | token_transfer.amount above 2^53 stroops reads back one stroop short: amounts exported as float64 | stellar-etl: export_token_transfer (amount) | S3; the exact amount_raw column is exported beside it; consumers of amount lose stroops above 2^53 | none: a representation contract (float64 columns), not a protocol shape | entry `localcore-big-merge-4` | [stellar/stellar-etl#454](https://github.com/stellar/stellar-etl/issues/454) | chowbao (stellar-etl maintainer), 2026-07-04 | open; reproduced at master (2b24ec89) for amounts above 2^53 stroops only: in localcore-big-merge-4 both transfers (2^53+1 and 9,007,200,254,740,993 stroops) read back one stroop short in token_transfer.amount; the payment's operation detail and the effects read back exact. Small amounts, the issue's other half, are not checked |
 | J2 | A liquidity-pool asset pair the network accepted is refused: issuers compared as strkey text | java-stellar-sdk 6.0.0: LiquidityPool and Asset.compareTo | S1 | CAP-0038 | entry `testnet-5708889` | [lightsail-network/java-stellar-sdk#832](https://github.com/lightsail-network/java-stellar-sdk/pull/832) | overcat (java-stellar-sdk maintainer, #832); the same defect as js-stellar-sdk #1766, 2026-11-05 | fixed on master by #832 (2026-11-05), not released; 6.0.0 refuses the pair (harness/sdk-semantic/siblings.py) |
 
-**One of the RFP's sightings, reproduced before its fix and passing after** (10)
+**One of the RFP's sightings, reproduced before its fix and passing after** (11)
 
 | ID | Finding | Component | Severity | CAPs | Reproduction | Upstream | First reported | Status |
 |---|---|---|---|---|---|---|---|---|
@@ -59,6 +59,7 @@ Run date: 14 November 2026, updated 16 November 2026. Versions are in `README.md
 | R8 | XDR string arms change bytes that are not UTF-8 | js-stellar-sdk: XDR string .value | S2 | none: a classic memo; SDK string conversion, not a protocol shape | entry `localcore-memo-and-offer-p30-4` | [stellar/js-stellar-sdk#1823](https://github.com/stellar/js-stellar-sdk/issues/1823) | quietbits (js-stellar-sdk maintainer), 2026-10-16 | closed 2026-10-20 by documenting the behaviour (#1824); 17.4.0 still changes the bytes |
 | R9 | Serde deserialization accepts a VecM over its maximum length | rs-stellar-xdr: serde (JSON) support | S3 | none: codec level, an XDR length limit, not a CAP | `harness/sightings/rs-stellar-xdr-598/acct21.json` | [stellar/rs-stellar-xdr#598](https://github.com/stellar/rs-stellar-xdr/pull/598) | leighmcculloch (SDF), 2026-09-29 | fixed in 28.0.1 and 30.0.0; 28.0.0 accepts 21 signers and emits XDR that 30.0.0 rejects |
 | R10 | MuxedAddress panics on a non-address ScVal | rs-soroban-sdk: MuxedAddress conversion | S1 | CAP-0067 | `harness/sightings/rs-soroban-sdk-2099` | [stellar/rs-soroban-sdk#2099](https://github.com/stellar/rs-soroban-sdk/pull/2099) | leighmcculloch (SDF), 2026-09-29 | fixed in 30.0.0-rc.1; the latest stable release, 29.0.1, does not have the fix |
+| R12 | js-xdr's Writer primitives coerce invalid inputs instead of throwing | js-xdr: Writer (writeInt32, writeUint32, writePadding, writeBytes) | S4; hardening: the built-in schemas validate before the writer; direct callers and custom schemas get wrapped, truncated or overwritten bytes with no error | none: an encoder's input checks, not a protocol shape | `harness/sightings/js-xdr-165/check.cjs` | [stellar/js-xdr#165](https://github.com/stellar/js-xdr/issues/165) | Ryang-21 (from an external security audit), 2026-10-12 | closed 2026-10-16 by PR #173 (merged), which is in no published release yet: on 5.0.0, the latest release, all seven of the issue's cases are silently coerced as the issue shows; a weekly run watches for a release that rejects them |
 
 **Fixed upstream before ShapeCov existed; the harness detects it at the commits before the fix** (1)
 

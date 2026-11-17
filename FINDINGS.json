@@ -871,6 +871,27 @@
    "labels": []
   },
   {
+   "id": "R12",
+   "kind": "sighting",
+   "title": "js-xdr's Writer primitives coerce invalid inputs instead of throwing",
+   "component": "js-xdr: Writer (writeInt32, writeUint32, writePadding, writeBytes)",
+   "severity": "S4",
+   "severity_note": "hardening: the built-in schemas validate before the writer; direct callers and custom schemas get wrapped, truncated or overwritten bytes with no error",
+   "caps": [],
+   "caps_none_reason": "an encoder's input checks, not a protocol shape",
+   "reproduction": {
+    "evidence_file": "harness/sightings/js-xdr-165/check.cjs"
+   },
+   "upstream": [
+    "https://github.com/stellar/js-xdr/issues/165"
+   ],
+   "first_reported_by": "Ryang-21 (from an external security audit)",
+   "reported": "2026-10-12",
+   "status": "closed 2026-10-16 by PR #173 (merged), which is in no published release yet: on 5.0.0, the latest release, all seven of the issue's cases are silently coerced as the issue shows; a weekly run watches for a release that rejects them",
+   "labels": [],
+   "rfp_sighting": 17
+  },
+  {
    "id": "L1",
    "kind": "linter",
    "title": "The declared authorization tree is walked with no depth cap of its own",
