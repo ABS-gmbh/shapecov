@@ -14,6 +14,7 @@ as filed is in [`issues/`](issues/).
 | Issues filed | 8 (5 open, 3 closed) |
 | Findings those issues cover | 9 (J3 and J4 share one issue) |
 | Comments posted | 6, on 6 issues |
+| Other requests filed | 1 (open): review of the indexer-hardening guide |
 
 ## Issues filed
 
@@ -34,6 +35,14 @@ as filed is in [`issues/`](issues/).
 | J1 | [lightsail-network/java-stellar-sdk#833](https://github.com/lightsail-network/java-stellar-sdk/issues/833) | 2026-11-14 | 2026-11-16 | XDR decoding accepts trailing bytes: `fromXdrBase64` and `fromXdrByteArray` do not check that the input is fully consumed. | Fixed on master by the maintainer in #842. Not released; 6.0.0 still accepts all 954 trailing-byte cases. |
 | P1 | [StellarCN/py-stellar-base#1262](https://github.com/StellarCN/py-stellar-base/issues/1262) | 2026-11-14 | 2026-11-16 | XDR decoding accepts non-zero padding bytes, which stellar-core rejects. | Fixed in the replacement package stellar-xdr. The released SDK 17.0.1 still has it. |
 | P2 | [StellarCN/py-stellar-base#1263](https://github.com/StellarCN/py-stellar-base/issues/1263) | 2026-11-14 | 2026-11-16 | XDR decoding treats any non-zero optional flag as "present"; stellar-core accepts only 0 or 1. | Fixed in the replacement package stellar-xdr. The released SDK 17.0.1 still has it. |
+
+## Other upstream requests
+
+Not defects: requests to an upstream project.
+
+| Issue | Filed | What it asks | Status |
+|---|---|---|---|
+| [stellar/stellar-docs#3165](https://github.com/stellar/stellar-docs/issues/3165) | 2026-11-17 | Proposes the indexer-hardening guide as a page under "Build your own indexer" on developers.stellar.org, linking the exported page, the Markdown guide and `guide/REVIEW.md` at `v0.2.0`. Asks whether the page is wanted there, and who should review it before publication, which the RFP requires. | Open, no reply yet. stellar-docs promises a first response within a week. |
 
 ## Comments posted
 
@@ -58,6 +67,7 @@ as filed is in [`issues/`](issues/).
 | P1 | [`issues/P1-python-nonzero-padding.md`](issues/P1-python-nonzero-padding.md) |
 | P2 | [`issues/P2-python-optional-flag.md`](issues/P2-python-optional-flag.md) |
 | P1, P2 replies | [`issues/P-python-replies-draft.md`](issues/P-python-replies-draft.md) |
+| stellar-docs#3165 | [`issues/D1-stellar-docs-indexer-hardening-page.md`](issues/D1-stellar-docs-indexer-hardening-page.md) |
 | stellar-etl#448 | [`issues/E-stellar-etl-448-comment.md`](issues/E-stellar-etl-448-comment.md) |
 | wallet-backend#677 | [`issues/W1-wallet-backend-meta-participants.md`](issues/W1-wallet-backend-meta-participants.md) |
 | py-stellar-base#1264 | [`issues/X1-py-stellar-xdr-depth.md`](issues/X1-py-stellar-xdr-depth.md), [`issues/X2-py-stellar-xdr-typedef-codecs.md`](issues/X2-py-stellar-xdr-typedef-codecs.md) |

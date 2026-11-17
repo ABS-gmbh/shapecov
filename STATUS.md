@@ -35,9 +35,15 @@ that exercise them and 21 the upstream fix or issue where an indexer, SDK or exp
 and its export to developers.stellar.org is gated on review. We
 filed stellar-etl #515 (a one-ledger range exports no entry changes) and posted counts for the
 members of stellar-etl's audit epic #448. The quick check runs in CI on Python 3.9 and 3.14.
+Release v0.2.0 was published, and the guide's review was requested in stellar/stellar-docs#3165.
 
 Commits:
 
+- Count check: the v0.2.0 notes leave it now the release is tagged ([`b3f3e48`](https://github.com/ABS-gmbh/shapecov/commit/b3f3e4866cebf5414af320fec7a9bc472bea5ff3))
+- **Release [v0.2.0](https://github.com/ABS-gmbh/shapecov/releases/tag/v0.2.0)**, at `906bc78`.
+- v0.2.0 release notes final; every documented command is python3 ([`906bc78`](https://github.com/ABS-gmbh/shapecov/commit/906bc78bd47da4bef477581005baa22eb38ecf51))
+- Replay README: the wallet-backend sweep rerun with protocol production on is identical ([`8a55779`](https://github.com/ABS-gmbh/shapecov/commit/8a55779bd269447822e4fe915877796c69ba32cd))
+- Status notes, 17 November: the checklist sentence says 22 and 21 of 26 items, as the README does ([`5c6ee4b`](https://github.com/ABS-gmbh/shapecov/commit/5c6ee4b10955510b9943edf0a77f79cdbb6a12b7))
 - stellar-etl#515 filed and the #448 comment posted: record E4, IssueTracker.md, counts ([`62c0444`](https://github.com/ABS-gmbh/shapecov/commit/62c0444b8c92d98bb826f3dc9eee9e90d7a47219))
 - FINDINGS: wallet-backend's checks at main restated for 114 ledgers, and under the count check ([`5795115`](https://github.com/ABS-gmbh/shapecov/commit/57951153f345958f50da67e01984c1c855e982fc))
 - README: coverage per CAP and per schema cell as the first result, under the count check ([`d4ba488`](https://github.com/ABS-gmbh/shapecov/commit/d4ba4883b7f8069a71d26ee895f0145dac84d02c))

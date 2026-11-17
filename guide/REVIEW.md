@@ -2,6 +2,8 @@
 
 The RFP gates publication of [`INDEXER-HARDENING.md`](INDEXER-HARDENING.md) on review by a
 stellar-core or platform engineer. This page says what that review is and how it is recorded.
+Review was requested on 17 November 2026 in [stellar/stellar-docs#3165](https://github.com/stellar/stellar-docs/issues/3165), which proposes the
+page for developers.stellar.org and asks who should review it.
 
 ## What is asked
 

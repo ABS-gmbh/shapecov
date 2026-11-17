@@ -2,7 +2,8 @@
 
 **Status: draft for review.** Publication is gated on review by a stellar-core or platform
 engineer. Written against protocol 30 and stellar-core 30.0.0. What a reviewer is asked to do, and
-how the review is recorded: [`REVIEW.md`](REVIEW.md).
+how the review is recorded: [`REVIEW.md`](REVIEW.md). Review was requested on 17 November 2026 in
+[stellar/stellar-docs#3165](https://github.com/stellar/stellar-docs/issues/3165).
 
 **Review:** reviewer: —; role: —; date: —; commit reviewed: —
 

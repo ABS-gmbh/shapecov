@@ -74,7 +74,8 @@ testing, 18 checks in about 20 seconds on an idle laptop; CI runs it on every pu
 ## Limits
 
 - The hardening guide is **unreviewed**. The RFP requires review by a stellar-core or platform
-  engineer before publication, and that has not happened. What the reviewer is asked to do, and the
+  engineer before publication, and that has not happened; it was requested on 17 November 2026 in
+  [stellar/stellar-docs#3165](https://github.com/stellar/stellar-docs/issues/3165). What the reviewer is asked to do, and the
   11 statements (sides of 10 rows) that rest on a source citation alone: [`guide/REVIEW.md`](guide/REVIEW.md). Until the
   guide's review line is filled, the page exported for developers.stellar.org opens with a caution
   that it is unreviewed, and the guide check fails if the two disagree.

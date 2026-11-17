@@ -32,6 +32,7 @@ that exercise them and 21 the upstream fix or issue where an indexer, SDK or exp
 and its export to developers.stellar.org is gated on review. We
 filed stellar-etl #515 (a one-ledger range exports no entry changes) and posted counts for the
 members of stellar-etl's audit epic #448. The quick check runs in CI on Python 3.9 and 3.14.
+Release v0.2.0 was published, and the guide's review was requested in stellar/stellar-docs#3165.
 
 ## 16 November 2026
 
