@@ -1,0 +1,65 @@
+{
+ "observation_version": 1,
+ "adapter": "horizon",
+ "commit": "6f7cff3903be1df4fb980a12910a1313c5d7d8dd",
+ "input": "datalake",
+ "entry_id": "localcore-token-rebind-upload-4",
+ "ledger_seq": 4,
+ "ingested": true,
+ "error": null,
+ "adapter_failure": false,
+ "transactions": [
+  {
+   "hash": "b69ffb7894ee833ae9c8593c9de3f37f8b4095796425559b6b655e94088b0cec",
+   "tx_order": 1,
+   "successful": true,
+   "result_code": null,
+   "participants": [
+    "GDKVIAZ5TWCUHJAGBUGQPXJY3NQQNC74XXX544CJRUXSJN3XHOZRETGH"
+   ]
+  },
+  {
+   "hash": "d1f87506a8643bf3427c445f851dbae2e04d70e3a26c24b248dd0f95b116020c",
+   "tx_order": 2,
+   "successful": true,
+   "result_code": null,
+   "participants": [
+    "GBRPYHIL2CI3FNQ4BXLFMNDLFJUNPU2HY3ZMFSHONUCEOASW7QC7OX2H"
+   ]
+  }
+ ],
+ "operations": [
+  {
+   "tx_hash": "b69ffb7894ee833ae9c8593c9de3f37f8b4095796425559b6b655e94088b0cec",
+   "tx_order": 1,
+   "op_order": 1,
+   "type": "invoke_host_function",
+   "participants": [
+    "GDKVIAZ5TWCUHJAGBUGQPXJY3NQQNC74XXX544CJRUXSJN3XHOZRETGH"
+   ]
+  },
+  {
+   "tx_hash": "d1f87506a8643bf3427c445f851dbae2e04d70e3a26c24b248dd0f95b116020c",
+   "tx_order": 2,
+   "op_order": 1,
+   "type": "invoke_host_function",
+   "participants": [
+    "GBRPYHIL2CI3FNQ4BXLFMNDLFJUNPU2HY3ZMFSHONUCEOASW7QC7OX2H"
+   ]
+  }
+ ],
+ "state_changes": [],
+ "unreadable": [],
+ "row_counts": {
+  "history_transactions": 2,
+  "history_operations": 2,
+  "history_effects": 0,
+  "history_transaction_participants": 2,
+  "history_operation_participants": 2,
+  "history_trades": 0
+ },
+ "command": "horizon db reingest range 4 4 --ledgerbackend datastore --datastore-config /cfg/datastore.toml --parallel-workers 1 --retries 0",
+ "exit_code": 0,
+ "trades": [],
+ "seconds_to_outcome": 1.7
+}

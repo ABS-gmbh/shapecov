@@ -1,0 +1,77 @@
+{
+ "history_trades": [],
+ "history_transactions": [
+  {
+   "id": 21474840576,
+   "transaction_hash": "90e254b91375dffa0d222c749b2c7e49777431c3d65140abd4b2e6eb83dd99e9",
+   "application_order": 1,
+   "successful": true,
+   "account": "GBRPYHIL2CI3FNQ4BXLFMNDLFJUNPU2HY3ZMFSHONUCEOASW7QC7OX2H",
+   "fee_account": null,
+   "account_muxed": null,
+   "fee_account_muxed": null,
+   "fee_charged": 100,
+   "operation_count": 1
+  }
+ ],
+ "history_operations": [
+  {
+   "id": 21474840577,
+   "transaction_id": 21474840576,
+   "application_order": 1,
+   "type": 1,
+   "source_account": "GBRPYHIL2CI3FNQ4BXLFMNDLFJUNPU2HY3ZMFSHONUCEOASW7QC7OX2H",
+   "source_account_muxed": null,
+   "details": {
+    "to": "GDKVIAZ5TWCUHJAGBUGQPXJY3NQQNC74XXX544CJRUXSJN3XHOZRETGH",
+    "from": "GBRPYHIL2CI3FNQ4BXLFMNDLFJUNPU2HY3ZMFSHONUCEOASW7QC7OX2H",
+    "amount": "1.0000000",
+    "asset_type": "native"
+   }
+  }
+ ],
+ "history_effects": [
+  {
+   "op_id": 21474840577,
+   "order": 1,
+   "type": 2,
+   "address": "GDKVIAZ5TWCUHJAGBUGQPXJY3NQQNC74XXX544CJRUXSJN3XHOZRETGH",
+   "address_muxed": null,
+   "details": {
+    "amount": "1.0000000",
+    "asset_type": "native"
+   }
+  },
+  {
+   "op_id": 21474840577,
+   "order": 2,
+   "type": 3,
+   "address": "GBRPYHIL2CI3FNQ4BXLFMNDLFJUNPU2HY3ZMFSHONUCEOASW7QC7OX2H",
+   "address_muxed": null,
+   "details": {
+    "amount": "1.0000000",
+    "asset_type": "native"
+   }
+  }
+ ],
+ "history_transaction_participants": [
+  {
+   "tx_id": 21474840576,
+   "address": "GBRPYHIL2CI3FNQ4BXLFMNDLFJUNPU2HY3ZMFSHONUCEOASW7QC7OX2H"
+  },
+  {
+   "tx_id": 21474840576,
+   "address": "GDKVIAZ5TWCUHJAGBUGQPXJY3NQQNC74XXX544CJRUXSJN3XHOZRETGH"
+  }
+ ],
+ "history_operation_participants": [
+  {
+   "op_id": 21474840577,
+   "address": "GBRPYHIL2CI3FNQ4BXLFMNDLFJUNPU2HY3ZMFSHONUCEOASW7QC7OX2H"
+  },
+  {
+   "op_id": 21474840577,
+   "address": "GDKVIAZ5TWCUHJAGBUGQPXJY3NQQNC74XXX544CJRUXSJN3XHOZRETGH"
+  }
+ ]
+}

@@ -1,17 +1,17 @@
-2026/11/16 22:44:46 Checking DB migrations...
-SDK 2026/11/16 22:44:47 WARN Response has no supported checksum. Not validating response payload.
-time="2026-11-16T22:44:47.313Z" level=info msg="Metrics server disabled" pid=1
-time="2026-11-16T22:44:47.313Z" level=info msg="Ingestion system initial state" current_state="reingestHistoryRange(fromLedger=4, toLedger=4, force=false)" pid=1 service=ingest
-time="2026-11-16T22:44:47.318Z" level=info msg="Preparing ledger backend to retrieve range" from=4 pid=1 service=ingest to=4
-time="2026-11-16T22:44:47.318Z" level=info msg="Range ready" duration=0.000399167 from=4 pid=1 service=ingest to=4
-SDK 2026/11/16 22:44:47 WARN Response has no supported checksum. Not validating response payload.
-time="2026-11-16T22:44:47.349Z" level=info msg="Waiting for ledger to be available in the backend..." pid=1 sequence=4 service=ingest
-time="2026-11-16T22:44:47.393Z" level=info msg="Ledger returned from the backend" duration=0.043317625 pid=1 sequence=4 service=ingest
-time="2026-11-16T22:44:47.393Z" level=info msg="expired filter config cache, refresh from db" filters=load pid=1
-time="2026-11-16T22:44:47.397Z" level=info msg="Running processors for batch of 1 ledgers" commit=false currentHeapSizeMB=10 ledger=true ledgerBatchSize=1 pid=1 service=ingest state=false systemHeapSizeMB=19
-time="2026-11-16T22:44:47.416Z" level=info msg="Transaction processors finished for ledger" commit=false duration=0.016585333 ledger=true pid=1 sequence=4 service=ingest state=false stats_count=0 stats_operations=2 stats_operations_account_merge=1 stats_operations_allow_trust=0 stats_operations_begin_sponsoring_future_reserves=0 stats_operations_bump_sequence=0 stats_operations_change_trust=0 stats_operations_claim_claimable_balance=0 stats_operations_clawback=0 stats_operations_clawback_claimable_balance=0 stats_operations_create_account=0 stats_operations_create_claimable_balance=0 stats_operations_create_passive_sell_offer=0 stats_operations_end_sponsoring_future_reserves=0 stats_operations_in_failed=0 stats_operations_in_successful=2 stats_operations_inflation=0 stats_operations_invoke_host_function=0 stats_operations_liquidity_pool_deposit=0 stats_operations_liquidity_pool_withdraw=0 stats_operations_manage_buy_offer=0 stats_operations_manage_data=0 stats_operations_manage_sell_offer=0 stats_operations_path_payment_strict_receive=0 stats_operations_path_payment_strict_send=0 stats_operations_payment=1 stats_operations_revoke_sponsorship=0 stats_operations_set_options=0 stats_transactions=1 stats_transactions_failed=0 stats_transactions_filtered=0 stats_transactions_successful=1
-time="2026-11-16T22:44:47.436Z" level=info msg="Flushed processors for batch of 1 ledgers" commit=false currentHeapSizeMB=10 duration=0.0397045 ledger=true ledgers=1 pid=1 service=ingest state=false systemHeapSizeMB=19
-time="2026-11-16T22:44:47.436Z" level=info msg="Reingestion done" duration=0.117298709 from=4 pid=1 service=ingest to=4
-time="2026-11-16T22:44:47.436Z" level=info msg="Shut down" pid=1 service=ingest
-time="2026-11-16T22:44:47.456Z" level=info msg="Range run successfully!" pid=1
-time="2026-11-16T22:44:47.456Z" level=info msg="Shutting down ingestion system..." pid=1 service=ingest
+2026/11/17 10:38:34 Checking DB migrations...
+SDK 2026/11/17 10:38:35 WARN Response has no supported checksum. Not validating response payload.
+time="2026-11-17T10:38:35.149Z" level=info msg="Metrics server disabled" pid=1
+time="2026-11-17T10:38:35.149Z" level=info msg="Ingestion system initial state" current_state="reingestHistoryRange(fromLedger=4, toLedger=4, force=false)" pid=1 service=ingest
+time="2026-11-17T10:38:35.151Z" level=info msg="Preparing ledger backend to retrieve range" from=4 pid=1 service=ingest to=4
+time="2026-11-17T10:38:35.152Z" level=info msg="Range ready" duration=0.00038125 from=4 pid=1 service=ingest to=4
+SDK 2026/11/17 10:38:35 WARN Response has no supported checksum. Not validating response payload.
+time="2026-11-17T10:38:35.156Z" level=info msg="Waiting for ledger to be available in the backend..." pid=1 sequence=4 service=ingest
+time="2026-11-17T10:38:35.196Z" level=info msg="Ledger returned from the backend" duration=0.040448709 pid=1 sequence=4 service=ingest
+time="2026-11-17T10:38:35.196Z" level=info msg="expired filter config cache, refresh from db" filters=load pid=1
+time="2026-11-17T10:38:35.198Z" level=info msg="Running processors for batch of 1 ledgers" commit=false currentHeapSizeMB=9 ledger=true ledgerBatchSize=1 pid=1 service=ingest state=false systemHeapSizeMB=19
+time="2026-11-17T10:38:35.200Z" level=info msg="Transaction processors finished for ledger" commit=false duration=0.001905917 ledger=true pid=1 sequence=4 service=ingest state=false stats_count=0 stats_operations=2 stats_operations_account_merge=1 stats_operations_allow_trust=0 stats_operations_begin_sponsoring_future_reserves=0 stats_operations_bump_sequence=0 stats_operations_change_trust=0 stats_operations_claim_claimable_balance=0 stats_operations_clawback=0 stats_operations_clawback_claimable_balance=0 stats_operations_create_account=0 stats_operations_create_claimable_balance=0 stats_operations_create_passive_sell_offer=0 stats_operations_end_sponsoring_future_reserves=0 stats_operations_in_failed=0 stats_operations_in_successful=2 stats_operations_inflation=0 stats_operations_invoke_host_function=0 stats_operations_liquidity_pool_deposit=0 stats_operations_liquidity_pool_withdraw=0 stats_operations_manage_buy_offer=0 stats_operations_manage_data=0 stats_operations_manage_sell_offer=0 stats_operations_path_payment_strict_receive=0 stats_operations_path_payment_strict_send=0 stats_operations_payment=1 stats_operations_revoke_sponsorship=0 stats_operations_set_options=0 stats_transactions=1 stats_transactions_failed=0 stats_transactions_filtered=0 stats_transactions_successful=1
+time="2026-11-17T10:38:35.205Z" level=info msg="Flushed processors for batch of 1 ledgers" commit=false currentHeapSizeMB=10 duration=0.007519 ledger=true ledgers=1 pid=1 service=ingest state=false systemHeapSizeMB=19
+time="2026-11-17T10:38:35.205Z" level=info msg="Reingestion done" duration=0.052828125 from=4 pid=1 service=ingest to=4
+time="2026-11-17T10:38:35.205Z" level=info msg="Shut down" pid=1 service=ingest
+time="2026-11-17T10:38:35.208Z" level=info msg="Range run successfully!" pid=1
+time="2026-11-17T10:38:35.208Z" level=info msg="Shutting down ingestion system..." pid=1 service=ingest

@@ -1,0 +1,45 @@
+{
+ "entry_id": "localcore-fee-refund-p22-3",
+ "adapter": "stellar-etl",
+ "ref": "2b24ec89ddce7fc0beb7795de982c93e6895eaf3",
+ "commit": "2b24ec89ddce7fc0beb7795de982c93e6895eaf3",
+ "input": "datalake",
+ "protocol_version": 22,
+ "sdk_pin": "v0.8.1-0.20261106081502-e31e3b146d00",
+ "mode": "unmodified",
+ "result": "pass",
+ "mishandled": [],
+ "dropped": [],
+ "checks": [],
+ "expectations": 0,
+ "expectations_source": "none (implicit checks only)",
+ "ledger": {
+  "seq": 3,
+  "hash": "a80d4de7fcd39ce94db9b2533cdb6c9285f26e8a52b117640805ce0091685147",
+  "close_time": 4020000000,
+  "protocol": 22
+ },
+ "ingested": true,
+ "row_counts": {
+  "transactions": 1,
+  "operations": 1,
+  "effects": 0,
+  "token_transfer": 2,
+  "contract_events": 23,
+  "trades": 0
+ },
+ "process": {
+  "outcome": "exited",
+  "exit_code": 0
+ },
+ "seconds": 2.2,
+ "feeder_requests": 24,
+ "evidence": "out-stellar-etl/2b24ec89ddce/datalake/localcore-fee-refund-p22-3",
+ "oracle": {
+  "verdict": "pass",
+  "rows_expected": 6,
+  "rows_met": 6,
+  "known": {},
+  "unexplained": []
+ }
+}

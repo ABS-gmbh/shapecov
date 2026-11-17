@@ -1,0 +1,42 @@
+{
+ "entry_id": "localcore-token-rebind-rebind-8",
+ "adapter": "horizon",
+ "ref": "v30.0.1",
+ "commit": "6f7cff3903be1df4fb980a12910a1313c5d7d8dd",
+ "input": "datalake",
+ "protocol_version": 28,
+ "sdk_pin": "v0.9.0",
+ "mode": "unmodified",
+ "result": "pass",
+ "mishandled": [],
+ "dropped": [],
+ "checks": [],
+ "expectations": 0,
+ "expectations_source": "none (implicit checks only)",
+ "ledger": {
+  "seq": 8,
+  "hash": "1f07f905d7e79857717eba9f671cd3d62bb168097707989294a6a84fa09fc9d3",
+  "close_time": 4070000000,
+  "protocol": 28
+ },
+ "ingested": true,
+ "row_counts": {
+  "history_transactions": 1,
+  "history_operations": 1,
+  "history_effects": 0,
+  "history_transaction_participants": 1,
+  "history_operation_participants": 1,
+  "history_trades": 0
+ },
+ "process": null,
+ "seconds": null,
+ "feeder_requests": 4,
+ "evidence": "out-horizon/6f7cff3903be/datalake/localcore-token-rebind-rebind-8",
+ "oracle": {
+  "verdict": "pass",
+  "rows_expected": 2,
+  "rows_met": 2,
+  "known": {},
+  "unexplained": []
+ }
+}

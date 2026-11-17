@@ -12,18 +12,18 @@
   "protocol": 30
  },
  "rpc": {
-  "url": "http://shapecov-sv2-feeder:8000/rpc/localcore-scval-values-5"
+  "url": "http://shapecov-etl-feeder:8000/rpc/localcore-scval-values-5"
  },
  "datalake": {
-  "s3_endpoint": "http://shapecov-sv2-feeder:9000",
+  "s3_endpoint": "http://shapecov-etl-feeder:9000",
   "bucket_path": "shapecov-lake/localcore-scval-values-5",
   "region": "us-east-1"
  },
  "history_archive": {
-  "url": "http://shapecov-sv2-feeder:8000/archive/localcore-scval-values-5"
+  "url": "http://shapecov-etl-feeder:8000/archive/localcore-scval-values-5"
  },
  "protocols": [],
- "docker_network": "shapecov-sv2-net",
- "timeout_seconds": 90,
+ "docker_network": "shapecov-etl-net",
+ "timeout_seconds": 120,
  "work_dir": "$REPLAY_WORK"
 }

@@ -1,0 +1,47 @@
+{
+ "observation_version": 1,
+ "adapter": "horizon",
+ "commit": "6f7cff3903be1df4fb980a12910a1313c5d7d8dd",
+ "input": "datalake",
+ "entry_id": "localcore-work-limit-7",
+ "ledger_seq": 7,
+ "ingested": true,
+ "error": null,
+ "adapter_failure": false,
+ "transactions": [
+  {
+   "hash": "61f0e57a6c247ad4a2d81431c070b3fa4fa9fd589c0fbed898a194134506ca8d",
+   "tx_order": 1,
+   "successful": false,
+   "result_code": null,
+   "participants": [
+    "GBRMRBPXOF3QGYVNF734T7K3WG3IYFTWBNEN4SCWBO673E3KK3IERQJX"
+   ]
+  }
+ ],
+ "operations": [
+  {
+   "tx_hash": "61f0e57a6c247ad4a2d81431c070b3fa4fa9fd589c0fbed898a194134506ca8d",
+   "tx_order": 1,
+   "op_order": 1,
+   "type": "manage_buy_offer",
+   "participants": [
+    "GBRMRBPXOF3QGYVNF734T7K3WG3IYFTWBNEN4SCWBO673E3KK3IERQJX"
+   ]
+  }
+ ],
+ "state_changes": [],
+ "unreadable": [],
+ "row_counts": {
+  "history_transactions": 1,
+  "history_operations": 1,
+  "history_effects": 0,
+  "history_transaction_participants": 1,
+  "history_operation_participants": 1,
+  "history_trades": 0
+ },
+ "command": "horizon db reingest range 7 7 --ledgerbackend datastore --datastore-config /cfg/datastore.toml --parallel-workers 1 --retries 0",
+ "exit_code": 0,
+ "trades": [],
+ "seconds_to_outcome": 1.8
+}

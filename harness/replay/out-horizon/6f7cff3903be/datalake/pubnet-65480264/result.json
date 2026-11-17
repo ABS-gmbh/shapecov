@@ -1,23 +1,37 @@
 {
- "adapter": "horizon",
- "checks": [],
- "commit": "6f7cff3903be1df4fb980a12910a1313c5d7d8dd",
- "dropped": [],
  "entry_id": "pubnet-65480264",
- "evidence": "out-horizon/6f7cff3903be/datalake/pubnet-65480264",
+ "adapter": "horizon",
+ "ref": "v30.0.1",
+ "commit": "6f7cff3903be1df4fb980a12910a1313c5d7d8dd",
+ "input": "datalake",
+ "protocol_version": 29,
+ "sdk_pin": "v0.9.0",
+ "mode": "unmodified",
+ "result": "pass",
+ "mishandled": [],
+ "dropped": [],
+ "checks": [],
  "expectations": 0,
  "expectations_source": "none (implicit checks only)",
- "feeder_requests": 4,
- "ingested": true,
- "input": "datalake",
  "ledger": {
-  "close_time": 1794687362,
+  "seq": 65480264,
   "hash": "f468da9af28868e2c3e415ef66e095c8b840c68b10fee9c2e756aff7190a41cb",
-  "protocol": 29,
-  "seq": 65480264
+  "close_time": 1794687362,
+  "protocol": 29
  },
- "mishandled": [],
- "mode": "unmodified",
+ "ingested": true,
+ "row_counts": {
+  "history_transactions": 575,
+  "history_operations": 974,
+  "history_effects": 555,
+  "history_transaction_participants": 1296,
+  "history_operation_participants": 1258,
+  "history_trades": 144
+ },
+ "process": null,
+ "seconds": null,
+ "feeder_requests": 4,
+ "evidence": "out-horizon/6f7cff3903be/datalake/pubnet-65480264",
  "oracle": {
   "verdict": "known issues only",
   "rows_expected": 1290,
@@ -29,19 +43,5 @@
   "known_outcome": {
    "stellar/stellar-horizon#259": "dropped"
   }
- },
- "process": null,
- "protocol_version": 29,
- "ref": "v30.0.1",
- "result": "pass",
- "row_counts": {
-  "history_effects": 555,
-  "history_operation_participants": 1258,
-  "history_operations": 974,
-  "history_trades": 144,
-  "history_transaction_participants": 1296,
-  "history_transactions": 575
- },
- "sdk_pin": "v0.9.0",
- "seconds": null
+ }
 }

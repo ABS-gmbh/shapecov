@@ -1,0 +1,29 @@
+{
+ "job_version": 1,
+ "entry_id": "localcore-blend-pool-4",
+ "ref": "2b24ec89ddce7fc0beb7795de982c93e6895eaf3",
+ "commit": "2b24ec89ddce7fc0beb7795de982c93e6895eaf3",
+ "input": "datalake",
+ "network_passphrase": "Test SDF Network ; September 2015",
+ "ledger": {
+  "seq": 4,
+  "hash": "d38739781888551522344e77ee80e6ddf8cfe32828a2bc3f26091910e0b5e98e",
+  "close_time": 4030000000,
+  "protocol": 28
+ },
+ "rpc": {
+  "url": "http://shapecov-etl-feeder:8000/rpc/localcore-blend-pool-4"
+ },
+ "datalake": {
+  "s3_endpoint": "http://shapecov-etl-feeder:9000",
+  "bucket_path": "shapecov-lake/localcore-blend-pool-4",
+  "region": "us-east-1"
+ },
+ "history_archive": {
+  "url": "http://shapecov-etl-feeder:8000/archive/localcore-blend-pool-4"
+ },
+ "protocols": [],
+ "docker_network": "shapecov-etl-net",
+ "timeout_seconds": 120,
+ "work_dir": "$REPLAY_WORK"
+}

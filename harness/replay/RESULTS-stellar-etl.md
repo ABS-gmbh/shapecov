@@ -73,10 +73,15 @@ Only the implicit checks apply: the ledger is ingested without an error and ever
 | `golden-offer-9a363b75-30` | 30 | datalake | n/a |
 | `golden-pathpayment-34519f44-22` | 30 | datalake | n/a |
 | `localcore-big-merge-4` | 30 | datalake | pass |
+| `localcore-blend-pool-4` | 28 | datalake | dropped: stellar-etl#462 |
+| `localcore-blend-upload-3` | 28 | datalake | pass |
 | `localcore-claim-and-sponsor-8` | 30 | datalake | pass |
 | `localcore-classic-p22-3` | 22 | datalake | mishandled: stellar-etl#512 |
+| `localcore-contract-balances-a-8` | 30 | datalake | mishandled: stellar-etl#452 |
+| `localcore-contract-balances-b-9` | 30 | datalake | mishandled: stellar-etl#452 |
 | `localcore-declared-deploy-6` | 28 | datalake | mishandled: stellar-etl#452 |
 | `localcore-deployer-cb-5` | 28 | datalake | mishandled: stellar-etl#452 |
+| `localcore-fee-refund-p22-3` | 22 | datalake | pass |
 | `localcore-frozen-claim-11` | 28 | datalake | mishandled: stellar-etl#452 |
 | `localcore-maintain-liabilities-5` | 30 | datalake | pass |
 | `localcore-memo-and-offer-p30-4` | 30 | datalake | mishandled: stellar-etl#450, stellar-etl#452 |
@@ -86,14 +91,21 @@ Only the implicit checks apply: the ledger is ingested without an error and ever
 | `localcore-pool-revoke-two-pools-7` | 30 | datalake | mishandled: stellar-etl#513, stellar-etl#514 |
 | `localcore-pool-share-unsponsor-6` | 28 | datalake | pass |
 | `localcore-preauth-failed-6` | 30 | datalake | mishandled: stellar-etl#452 |
+| `localcore-reserve-pool-failures-8` | 30 | datalake | mishandled: stellar-etl#452 |
 | `localcore-sac-trust-p28-5` | 28 | datalake | dropped: stellar-etl#460 |
 | `localcore-scval-values-5` | 30 | datalake | mishandled: stellar-etl#452 |
 | `localcore-sponsorship-transfer-9` | 30 | datalake | pass |
+| `localcore-token-rebind-deploy-6` | 28 | datalake | dropped: stellar-etl#462 |
+| `localcore-token-rebind-filler-5` | 28 | datalake | pass |
+| `localcore-token-rebind-mint-7` | 28 | datalake | mishandled: stellar-etl#452 |
+| `localcore-token-rebind-rebind-8` | 28 | datalake | mishandled: stellar-etl#452 |
+| `localcore-token-rebind-upload-4` | 28 | datalake | pass |
 | `localcore-trustline-add-4` | 28 | datalake | pass |
 | `localcore-trustline-churn-5` | 28 | datalake | pass |
 | `localcore-tx-failures-bumped-13` | 30 | datalake | mishandled: stellar-etl#452 |
 | `localcore-tx-failures-plain-12` | 30 | datalake | mishandled: stellar-etl#452 |
 | `localcore-upgrades-14` | 30 | datalake | pass |
+| `localcore-work-limit-7` | 30 | datalake | mishandled: stellar-etl#452 |
 | `pubnet-13000471` | 8 | datalake | mishandled: stellar-etl#452, stellar-etl#456 |
 | `pubnet-21069349` | 10 | datalake | mishandled: stellar-etl#452, stellar-etl#456 |
 | `pubnet-25001526` | 11 | datalake | mishandled: stellar-etl#450, stellar-etl#452, stellar-etl#456 |
@@ -133,7 +145,7 @@ Only the implicit checks apply: the ledger is ingested without an error and ever
 
 | Commit | Input | pass | mishandled | dropped | error | not applicable |
 |---|---|---|---|---|---|---|
-| `2b24ec89` | datalake | 9 | 46 | 1 | 0 | 46 |
+| `2b24ec89` | datalake | 13 | 52 | 3 | 0 | 46 |
 
 ## Oracle checks
 
@@ -144,7 +156,7 @@ checked. A failure is labelled with the open upstream issue that explains it
 
 | Commit | Input | Replays | Rows expected | Rows met | Known issues | Unexplained |
 |---|---|---|---|---|---|---|
-| `2b24ec89` | datalake | 56 | 37556 | 32840 | stellar-etl#450 (938), stellar-etl#451 (126), stellar-etl#452 (3406), stellar-etl#456 (228), stellar-etl#457 (1), stellar-etl#460 (5), stellar-etl#462 (3), stellar-etl#512 (2), stellar-etl#513 (1), stellar-etl#514 (2) | 0 |
+| `2b24ec89` | datalake | 68 | 37714 | 32980 | stellar-etl#450 (938), stellar-etl#451 (126), stellar-etl#452 (3422), stellar-etl#456 (228), stellar-etl#457 (1), stellar-etl#460 (5), stellar-etl#462 (5), stellar-etl#512 (2), stellar-etl#513 (1), stellar-etl#514 (2) | 0 |
 
 
 
@@ -158,14 +170,14 @@ checked. A failure is labelled with the open upstream issue that explains it
 
 ### `localcore-classic-p22-3` at `2b24ec89ddce`, input datalake: mishandled
 
-- mishandled: the indexer raised an error on this ledger and did not ingest it: token_transfer exited 1: time="2026-11-16T22:29:16.880Z" level=fatal msg="could not transform token transfers for ledger 3: error reading from unified events stream, expected version 4 got 3" pid=36
+- mishandled: the indexer raised an error on this ledger and did not ingest it: token_transfer exited 1: time="2026-11-17T10:35:48.488Z" level=fatal msg="could not transform token transfers for ledger 3: error reading from unified events stream, expected version 4 got 3" pid=38
 - expectations: 0, source: none (implicit checks only)
 - indexer process: exited (exit code 1)
 - evidence: `out-stellar-etl/2b24ec89ddce/datalake/localcore-classic-p22-3/` (job.json, observation.json, result.json, feeder-requests.jsonl, and exports/: each command's JSON lines (gzipped), log and exit code)
 
 ### `localcore-muxed-source-p22-3` at `2b24ec89ddce`, input datalake: mishandled
 
-- mishandled: the indexer raised an error on this ledger and did not ingest it: token_transfer exited 1: time="2026-11-16T22:29:09.271Z" level=fatal msg="could not transform token transfers for ledger 3: error reading from unified events stream, expected version 4 got 3" pid=35
+- mishandled: the indexer raised an error on this ledger and did not ingest it: token_transfer exited 1: time="2026-11-17T10:35:41.226Z" level=fatal msg="could not transform token transfers for ledger 3: error reading from unified events stream, expected version 4 got 3" pid=36
 - expectations: 0, source: none (implicit checks only)
 - indexer process: exited (exit code 1)
 - evidence: `out-stellar-etl/2b24ec89ddce/datalake/localcore-muxed-source-p22-3/` (job.json, observation.json, result.json, feeder-requests.jsonl, and exports/: each command's JSON lines (gzipped), log and exit code)
@@ -183,3 +195,4 @@ checked. A failure is labelled with the open upstream issue that explains it
 | 2026-11-16T22:27:38+00:00 | `2b24ec89` | datalake | 97 | 247.1 | 37352 | 0 | 0 |
 | 2026-11-17T10:23:26+00:00 | `2b24ec89` | datalake | 4 | 7.1 | 38244 | 0 | 0 |
 | 2026-11-17T10:30:57+00:00 | `2b24ec89` | datalake | 1 | 4.0 | 38016 | 0 | 0 |
+| 2026-11-17T10:34:28+00:00 | `2b24ec89` | datalake | 114 | 210.8 | 38152 | 0 | 0 |

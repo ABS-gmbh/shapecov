@@ -90,3 +90,4 @@ checked. A failure is labelled with the open upstream issue that explains it
 | Started (UTC) | Refs | Inputs | Entries | Seconds | Feeder peak RSS (kB) | Ledgers served by RPC | Objects served by S3 |
 |---|---|---|---|---|---|---|---|
 | 2026-11-17T09:39:47+00:00 | `2b24ec89` | datalake | 0 | 11.4 | 38120 | 0 | 0 |
+| 2026-11-17T10:39:20+00:00 | `2b24ec89` | datalake | 0 | 12.4 | 38144 | 0 | 0 |

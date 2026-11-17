@@ -1,0 +1,47 @@
+{
+ "observation_version": 1,
+ "adapter": "horizon",
+ "commit": "6f7cff3903be1df4fb980a12910a1313c5d7d8dd",
+ "input": "datalake",
+ "entry_id": "localcore-token-rebind-mint-7",
+ "ledger_seq": 7,
+ "ingested": true,
+ "error": null,
+ "adapter_failure": false,
+ "transactions": [
+  {
+   "hash": "172786f1144503e3350cc79ebfe32bebb4c79894e834a189941b144f1cceecc0",
+   "tx_order": 1,
+   "successful": true,
+   "result_code": null,
+   "participants": [
+    "GDKVIAZ5TWCUHJAGBUGQPXJY3NQQNC74XXX544CJRUXSJN3XHOZRETGH"
+   ]
+  }
+ ],
+ "operations": [
+  {
+   "tx_hash": "172786f1144503e3350cc79ebfe32bebb4c79894e834a189941b144f1cceecc0",
+   "tx_order": 1,
+   "op_order": 1,
+   "type": "invoke_host_function",
+   "participants": [
+    "GDKVIAZ5TWCUHJAGBUGQPXJY3NQQNC74XXX544CJRUXSJN3XHOZRETGH"
+   ]
+  }
+ ],
+ "state_changes": [],
+ "unreadable": [],
+ "row_counts": {
+  "history_transactions": 1,
+  "history_operations": 1,
+  "history_effects": 0,
+  "history_transaction_participants": 1,
+  "history_operation_participants": 1,
+  "history_trades": 0
+ },
+ "command": "horizon db reingest range 7 7 --ledgerbackend datastore --datastore-config /cfg/datastore.toml --parallel-workers 1 --retries 0",
+ "exit_code": 0,
+ "trades": [],
+ "seconds_to_outcome": 1.8
+}

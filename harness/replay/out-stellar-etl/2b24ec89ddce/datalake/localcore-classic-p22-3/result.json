@@ -9,7 +9,7 @@
  "mode": "unmodified",
  "result": "mishandled",
  "mishandled": [
-  "the indexer raised an error on this ledger and did not ingest it: token_transfer exited 1: time=\"2026-11-16T22:29:16.880Z\" level=fatal msg=\"could not transform token transfers for ledger 3: error reading from unified events stream, expected version 4 got 3\" pid=36"
+  "the indexer raised an error on this ledger and did not ingest it: token_transfer exited 1: time=\"2026-11-17T10:35:48.488Z\" level=fatal msg=\"could not transform token transfers for ledger 3: error reading from unified events stream, expected version 4 got 3\" pid=38"
  ],
  "dropped": [],
  "checks": [],
@@ -34,7 +34,7 @@
   "outcome": "exited",
   "exit_code": 1
  },
- "seconds": 3.2,
+ "seconds": 2.9,
  "feeder_requests": 24,
  "evidence": "out-stellar-etl/2b24ec89ddce/datalake/localcore-classic-p22-3",
  "oracle": {

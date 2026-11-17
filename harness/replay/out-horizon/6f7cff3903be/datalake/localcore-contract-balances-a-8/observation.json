@@ -1,0 +1,114 @@
+{
+ "observation_version": 1,
+ "adapter": "horizon",
+ "commit": "6f7cff3903be1df4fb980a12910a1313c5d7d8dd",
+ "input": "datalake",
+ "entry_id": "localcore-contract-balances-a-8",
+ "ledger_seq": 8,
+ "ingested": true,
+ "error": null,
+ "adapter_failure": false,
+ "transactions": [
+  {
+   "hash": "5b03a87ac125d384dbfdcc5204561b8af74791c65be0dad76c983405c3bfc4bf",
+   "tx_order": 1,
+   "successful": true,
+   "result_code": null,
+   "participants": [
+    "GAUKDIW3UDO6K6BMU4G4ZIOODE4BE7SNX47T532N75OBHKT6OKMWFIHF"
+   ]
+  },
+  {
+   "hash": "152cf74f9282f89870a16df52c0e0ba9a88e0a75959402e93c7580f5c572bfae",
+   "tx_order": 2,
+   "successful": true,
+   "result_code": null,
+   "participants": [
+    "GBRPYHIL2CI3FNQ4BXLFMNDLFJUNPU2HY3ZMFSHONUCEOASW7QC7OX2H"
+   ]
+  }
+ ],
+ "operations": [
+  {
+   "tx_hash": "5b03a87ac125d384dbfdcc5204561b8af74791c65be0dad76c983405c3bfc4bf",
+   "tx_order": 1,
+   "op_order": 1,
+   "type": "invoke_host_function",
+   "participants": [
+    "GAUKDIW3UDO6K6BMU4G4ZIOODE4BE7SNX47T532N75OBHKT6OKMWFIHF"
+   ]
+  },
+  {
+   "tx_hash": "152cf74f9282f89870a16df52c0e0ba9a88e0a75959402e93c7580f5c572bfae",
+   "tx_order": 2,
+   "op_order": 1,
+   "type": "invoke_host_function",
+   "participants": [
+    "GBRPYHIL2CI3FNQ4BXLFMNDLFJUNPU2HY3ZMFSHONUCEOASW7QC7OX2H"
+   ]
+  }
+ ],
+ "state_changes": [
+  {
+   "tx_hash": "5b03a87ac125d384dbfdcc5204561b8af74791c65be0dad76c983405c3bfc4bf",
+   "tx_order": 1,
+   "op_order": 1,
+   "category": "EFFECT",
+   "reason": "account_debited",
+   "account": "GAUKDIW3UDO6K6BMU4G4ZIOODE4BE7SNX47T532N75OBHKT6OKMWFIHF",
+   "signer_key": null,
+   "token": "native",
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "op_order": 1
+   }
+  },
+  {
+   "tx_hash": "5b03a87ac125d384dbfdcc5204561b8af74791c65be0dad76c983405c3bfc4bf",
+   "tx_order": 1,
+   "op_order": 1,
+   "category": "EFFECT",
+   "reason": "contract_credited",
+   "account": "GAUKDIW3UDO6K6BMU4G4ZIOODE4BE7SNX47T532N75OBHKT6OKMWFIHF",
+   "signer_key": null,
+   "token": "native",
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "op_order": 1
+   }
+  },
+  {
+   "tx_hash": "152cf74f9282f89870a16df52c0e0ba9a88e0a75959402e93c7580f5c572bfae",
+   "tx_order": 2,
+   "op_order": 1,
+   "category": "EFFECT",
+   "reason": "contract_credited",
+   "account": "GBRPYHIL2CI3FNQ4BXLFMNDLFJUNPU2HY3ZMFSHONUCEOASW7QC7OX2H",
+   "signer_key": null,
+   "token": "PSB:GBRPYHIL2CI3FNQ4BXLFMNDLFJUNPU2HY3ZMFSHONUCEOASW7QC7OX2H",
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "op_order": 1
+   }
+  }
+ ],
+ "unreadable": [],
+ "row_counts": {
+  "history_transactions": 2,
+  "history_operations": 2,
+  "history_effects": 3,
+  "history_transaction_participants": 2,
+  "history_operation_participants": 2,
+  "history_trades": 0
+ },
+ "command": "horizon db reingest range 8 8 --ledgerbackend datastore --datastore-config /cfg/datastore.toml --parallel-workers 1 --retries 0",
+ "exit_code": 0,
+ "trades": [],
+ "seconds_to_outcome": 2.0
+}

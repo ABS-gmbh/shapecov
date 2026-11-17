@@ -1,0 +1,43 @@
+{
+ "history_trades": [],
+ "history_transactions": [
+  {
+   "id": 12884905984,
+   "transaction_hash": "a3b63ac891e0b51d777f1731a01f62a51da92b82d79a0d0576df3d32263b1a01",
+   "application_order": 1,
+   "successful": true,
+   "account": "GBRPYHIL2CI3FNQ4BXLFMNDLFJUNPU2HY3ZMFSHONUCEOASW7QC7OX2H",
+   "fee_account": null,
+   "account_muxed": null,
+   "fee_account_muxed": null,
+   "fee_charged": 2976657,
+   "operation_count": 1
+  }
+ ],
+ "history_operations": [
+  {
+   "id": 12884905985,
+   "transaction_id": 12884905984,
+   "application_order": 1,
+   "type": 24,
+   "source_account": "GBRPYHIL2CI3FNQ4BXLFMNDLFJUNPU2HY3ZMFSHONUCEOASW7QC7OX2H",
+   "source_account_muxed": null,
+   "details": {
+    "function": "HostFunctionTypeHostFunctionTypeUploadContractWasm"
+   }
+  }
+ ],
+ "history_effects": [],
+ "history_transaction_participants": [
+  {
+   "tx_id": 12884905984,
+   "address": "GBRPYHIL2CI3FNQ4BXLFMNDLFJUNPU2HY3ZMFSHONUCEOASW7QC7OX2H"
+  }
+ ],
+ "history_operation_participants": [
+  {
+   "op_id": 12884905985,
+   "address": "GBRPYHIL2CI3FNQ4BXLFMNDLFJUNPU2HY3ZMFSHONUCEOASW7QC7OX2H"
+  }
+ ]
+}

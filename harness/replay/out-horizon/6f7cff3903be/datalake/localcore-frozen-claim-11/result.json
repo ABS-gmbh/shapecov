@@ -1,42 +1,42 @@
 {
- "adapter": "horizon",
- "checks": [],
- "commit": "6f7cff3903be1df4fb980a12910a1313c5d7d8dd",
- "dropped": [],
  "entry_id": "localcore-frozen-claim-11",
- "evidence": "out-horizon/6f7cff3903be/datalake/localcore-frozen-claim-11",
+ "adapter": "horizon",
+ "ref": "v30.0.1",
+ "commit": "6f7cff3903be1df4fb980a12910a1313c5d7d8dd",
+ "input": "datalake",
+ "protocol_version": 28,
+ "sdk_pin": "v0.9.0",
+ "mode": "unmodified",
+ "result": "pass",
+ "mishandled": [],
+ "dropped": [],
+ "checks": [],
  "expectations": 0,
  "expectations_source": "none (implicit checks only)",
- "feeder_requests": 4,
- "ingested": true,
- "input": "datalake",
  "ledger": {
-  "close_time": 4100000000,
+  "seq": 11,
   "hash": "ef25521a899d82af4dbcac63301f064c4efd8f0cec1b5c8b53c02b365e71271f",
-  "protocol": 28,
-  "seq": 11
+  "close_time": 4100000000,
+  "protocol": 28
  },
- "mishandled": [],
- "mode": "unmodified",
+ "ingested": true,
+ "row_counts": {
+  "history_transactions": 1,
+  "history_operations": 1,
+  "history_effects": 0,
+  "history_transaction_participants": 1,
+  "history_operation_participants": 1,
+  "history_trades": 0
+ },
+ "process": null,
+ "seconds": null,
+ "feeder_requests": 4,
+ "evidence": "out-horizon/6f7cff3903be/datalake/localcore-frozen-claim-11",
  "oracle": {
   "verdict": "pass",
   "rows_expected": 1,
   "rows_met": 1,
   "known": {},
   "unexplained": []
- },
- "process": null,
- "protocol_version": 28,
- "ref": "v30.0.1",
- "result": "pass",
- "row_counts": {
-  "history_effects": 0,
-  "history_operation_participants": 1,
-  "history_operations": 1,
-  "history_trades": 0,
-  "history_transaction_participants": 1,
-  "history_transactions": 1
- },
- "sdk_pin": "v0.9.0",
- "seconds": null
+ }
 }

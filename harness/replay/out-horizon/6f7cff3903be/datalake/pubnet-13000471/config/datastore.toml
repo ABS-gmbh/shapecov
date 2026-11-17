@@ -4,7 +4,7 @@ type = "S3"
 [datastore_config.params]
 destination_bucket_path = "shapecov-lake/pubnet-13000471"
 region = "us-east-1"
-endpoint_url = "http://shapecov-early3-feeder:9000"
+endpoint_url = "http://shapecov-hz-feeder:9000"
 
 [datastore_config.schema]
 ledgers_per_file = 1

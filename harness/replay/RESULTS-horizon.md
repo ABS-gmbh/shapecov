@@ -24,7 +24,7 @@ change to the harness and compares the verdicts with this run.
 ## Reproductions, not blind detections
 
 The participant rule is the one written for wallet-backend, and stellar/stellar-horizon#259 was known
-when this adapter was written, so its 179 missed transaction participants on 15 ledgers are a
+when this adapter was written, so its 194 missed transaction participants on 18 ledgers are a
 reproduction of an open issue on real ledgers (record H1), not a detection. stellar-etl #513 and #514
 (records E2 and E3) were filed saying Horizon has the same code; on `localcore-pool-revoke-two-pools-7`
 Horizon stores the same 16 effects as stellar-etl, so both reproduce in Horizon itself.
@@ -38,7 +38,7 @@ rule flag stellar-etl #451 (record C16).
 
 ## A difference by design
 
-On 965 failed transactions in 34 ledgers, Horizon records 1,106 addresses as participants that the
+On 970 failed transactions in 36 ledgers, Horizon records 1,113 addresses as participants that the
 transaction's meta does not show: every address its envelope names. wallet-backend records none of them.
 Each is right for its API. A failed transaction changes nothing but its fee and sequence number;
 wallet-backend therefore attributes it to its source and fee source only. Horizon lists a failed
@@ -109,10 +109,15 @@ Only the implicit checks apply: the ledger is ingested without an error and ever
 | `golden-offer-9a363b75-30` | 30 | datalake | dropped: stellar-horizon#259 |
 | `golden-pathpayment-34519f44-22` | 30 | datalake | pass |
 | `localcore-big-merge-4` | 30 | datalake | pass |
+| `localcore-blend-pool-4` | 28 | datalake | pass |
+| `localcore-blend-upload-3` | 28 | datalake | pass |
 | `localcore-claim-and-sponsor-8` | 30 | datalake | pass |
 | `localcore-classic-p22-3` | 22 | datalake | pass |
+| `localcore-contract-balances-a-8` | 30 | datalake | pass |
+| `localcore-contract-balances-b-9` | 30 | datalake | pass |
 | `localcore-declared-deploy-6` | 28 | datalake | pass |
 | `localcore-deployer-cb-5` | 28 | datalake | pass |
+| `localcore-fee-refund-p22-3` | 22 | datalake | pass |
 | `localcore-frozen-claim-11` | 28 | datalake | pass |
 | `localcore-maintain-liabilities-5` | 30 | datalake | pass |
 | `localcore-memo-and-offer-p30-4` | 30 | datalake | pass |
@@ -122,14 +127,21 @@ Only the implicit checks apply: the ledger is ingested without an error and ever
 | `localcore-pool-revoke-two-pools-7` | 30 | datalake | mishandled: stellar-etl#513, stellar-etl#514 |
 | `localcore-pool-share-unsponsor-6` | 28 | datalake | pass |
 | `localcore-preauth-failed-6` | 30 | datalake | pass |
+| `localcore-reserve-pool-failures-8` | 30 | datalake | pass |
 | `localcore-sac-trust-p28-5` | 28 | datalake | pass |
 | `localcore-scval-values-5` | 30 | datalake | pass |
 | `localcore-sponsorship-transfer-9` | 30 | datalake | pass |
+| `localcore-token-rebind-deploy-6` | 28 | datalake | pass |
+| `localcore-token-rebind-filler-5` | 28 | datalake | pass |
+| `localcore-token-rebind-mint-7` | 28 | datalake | pass |
+| `localcore-token-rebind-rebind-8` | 28 | datalake | pass |
+| `localcore-token-rebind-upload-4` | 28 | datalake | pass |
 | `localcore-trustline-add-4` | 28 | datalake | pass |
 | `localcore-trustline-churn-5` | 28 | datalake | pass |
 | `localcore-tx-failures-bumped-13` | 30 | datalake | pass |
 | `localcore-tx-failures-plain-12` | 30 | datalake | pass |
 | `localcore-upgrades-14` | 30 | datalake | pass |
+| `localcore-work-limit-7` | 30 | datalake | pass |
 | `pubnet-13000471` | 8 | datalake | dropped: stellar-horizon#259 |
 | `pubnet-21069349` | 10 | datalake | dropped: stellar-horizon#259 |
 | `pubnet-25001526` | 11 | datalake | dropped: stellar-horizon#259 |
@@ -169,7 +181,7 @@ Only the implicit checks apply: the ledger is ingested without an error and ever
 
 | Commit | Input | pass | mishandled | dropped | error |
 |---|---|---|---|---|---|
-| `6f7cff39` | datalake | 83 | 1 | 18 | 0 |
+| `6f7cff39` | datalake | 95 | 1 | 18 | 0 |
 
 ## Oracle checks
 
@@ -180,7 +192,7 @@ checked. A failure is labelled with the open upstream issue that explains it
 
 | Commit | Input | Replays | Rows expected | Rows met | Known issues | Unexplained |
 |---|---|---|---|---|---|---|
-| `6f7cff39` | datalake | 102 | 14305 | 14108 | stellar-etl#513 (1), stellar-etl#514 (2), stellar-horizon#259 (194) | 0 |
+| `6f7cff39` | datalake | 114 | 14380 | 14183 | stellar-etl#513 (1), stellar-etl#514 (2), stellar-horizon#259 (194) | 0 |
 
 
 
@@ -198,3 +210,4 @@ checked. A failure is labelled with the open upstream issue that explains it
 | 2026-11-16T22:32:45+00:00 | `6f7cff39` | datalake | 97 | 779.9 | 37080 | 0 | 194 |
 | 2026-11-17T10:23:33+00:00 | `6f7cff39` | datalake | 4 | 10.6 | 37788 | 0 | 8 |
 | 2026-11-17T10:31:01+00:00 | `6f7cff39` | datalake | 1 | 6.1 | 38144 | 0 | 2 |
+| 2026-11-17T10:34:28+00:00 | `6f7cff39` | datalake | 114 | 292.5 | 38200 | 0 | 228 |

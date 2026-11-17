@@ -1,0 +1,74 @@
+{
+ "history_trades": [],
+ "history_transactions": [
+  {
+   "id": 17179873280,
+   "transaction_hash": "b69ffb7894ee833ae9c8593c9de3f37f8b4095796425559b6b655e94088b0cec",
+   "application_order": 1,
+   "successful": true,
+   "account": "GDKVIAZ5TWCUHJAGBUGQPXJY3NQQNC74XXX544CJRUXSJN3XHOZRETGH",
+   "fee_account": null,
+   "account_muxed": null,
+   "fee_account_muxed": null,
+   "fee_charged": 222587,
+   "operation_count": 1
+  },
+  {
+   "id": 17179877376,
+   "transaction_hash": "d1f87506a8643bf3427c445f851dbae2e04d70e3a26c24b248dd0f95b116020c",
+   "application_order": 2,
+   "successful": true,
+   "account": "GBRPYHIL2CI3FNQ4BXLFMNDLFJUNPU2HY3ZMFSHONUCEOASW7QC7OX2H",
+   "fee_account": null,
+   "account_muxed": null,
+   "fee_account_muxed": null,
+   "fee_charged": 224690,
+   "operation_count": 1
+  }
+ ],
+ "history_operations": [
+  {
+   "id": 17179873281,
+   "transaction_id": 17179873280,
+   "application_order": 1,
+   "type": 24,
+   "source_account": "GDKVIAZ5TWCUHJAGBUGQPXJY3NQQNC74XXX544CJRUXSJN3XHOZRETGH",
+   "source_account_muxed": null,
+   "details": {
+    "function": "HostFunctionTypeHostFunctionTypeUploadContractWasm"
+   }
+  },
+  {
+   "id": 17179877377,
+   "transaction_id": 17179877376,
+   "application_order": 1,
+   "type": 24,
+   "source_account": "GBRPYHIL2CI3FNQ4BXLFMNDLFJUNPU2HY3ZMFSHONUCEOASW7QC7OX2H",
+   "source_account_muxed": null,
+   "details": {
+    "function": "HostFunctionTypeHostFunctionTypeUploadContractWasm"
+   }
+  }
+ ],
+ "history_effects": [],
+ "history_transaction_participants": [
+  {
+   "tx_id": 17179877376,
+   "address": "GBRPYHIL2CI3FNQ4BXLFMNDLFJUNPU2HY3ZMFSHONUCEOASW7QC7OX2H"
+  },
+  {
+   "tx_id": 17179873280,
+   "address": "GDKVIAZ5TWCUHJAGBUGQPXJY3NQQNC74XXX544CJRUXSJN3XHOZRETGH"
+  }
+ ],
+ "history_operation_participants": [
+  {
+   "op_id": 17179877377,
+   "address": "GBRPYHIL2CI3FNQ4BXLFMNDLFJUNPU2HY3ZMFSHONUCEOASW7QC7OX2H"
+  },
+  {
+   "op_id": 17179873281,
+   "address": "GDKVIAZ5TWCUHJAGBUGQPXJY3NQQNC74XXX544CJRUXSJN3XHOZRETGH"
+  }
+ ]
+}

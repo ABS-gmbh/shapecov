@@ -395,7 +395,7 @@
    ],
    "first_reported_by": "tolgayayci (stellar-horizon#259); the Horizon counterpart of stellar/wallet-backend#677 (record C10)",
    "reported": "2026-11-14",
-   "status": "open; reproduced, not found blind (the participant rule was written for wallet-backend, and #259 was known when the adapter was written): 179 missed transaction participants on 15 of the 97 corpus ledgers at ShapeCov 1dfbcb5; on pubnet-60280000, 4 in 4 transactions: makers of offers crossed by a path payment or a sell offer, and sponsors whose sponsorship ended",
+   "status": "open; reproduced, not found blind (the participant rule was written for wallet-backend, and #259 was known when the adapter was written): 194 missed transaction participants on 18 of the 114 corpus ledgers at ShapeCov 36daf3a; on pubnet-60280000, 4 in 4 transactions: makers of offers crossed by a path payment or a sell offer, and sponsors whose sponsorship ended",
    "labels": [
     "stellar/stellar-horizon#259"
    ]
@@ -439,7 +439,7 @@
    ],
    "first_reported_by": "chowbao (stellar-etl maintainer)",
    "reported": "2026-07-04",
-   "status": "open; the oracle flags 225 operations in 11 corpus ledgers",
+   "status": "open; the oracle flags 228 operations in 14 corpus ledgers",
    "labels": [
     "stellar/stellar-etl#456"
    ]
@@ -480,7 +480,9 @@
    "reproduction": {
     "corpus_entry": "testnet-5711641",
     "also": [
-     "testnet-5718650"
+     "testnet-5718650",
+     "localcore-blend-pool-4",
+     "localcore-token-rebind-deploy-6"
     ]
    },
    "upstream": [
@@ -488,7 +490,7 @@
    ],
    "first_reported_by": "chowbao (stellar-etl maintainer)",
    "reported": "2026-07-04",
-   "status": "open; the oracle flags the three address-preimage deploys in the corpus",
+   "status": "open; the oracle flags the five address-preimage deploys in the corpus, in four ledgers",
    "labels": [
     "stellar/stellar-etl#462"
    ]
@@ -510,7 +512,7 @@
    ],
    "first_reported_by": "chowbao (stellar-etl maintainer)",
    "reported": "2026-07-04",
-   "status": "open; the oracle flags 1,684 contract events exported twice in 500 transactions on 31 corpus ledgers, and 1,692 events of 1,655 failed transactions with in_successful_contract_call true on 34 ledgers",
+   "status": "open; the oracle flags 1,692 contract events exported twice in 508 transactions on 37 corpus ledgers, and 1,730 events of 1,692 failed transactions with in_successful_contract_call true on 42 ledgers",
    "labels": [
     "stellar/stellar-etl#452"
    ]

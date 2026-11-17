@@ -1,0 +1,53 @@
+{
+ "history_trades": [],
+ "history_transactions": [
+  {
+   "id": 30064775168,
+   "transaction_hash": "61f0e57a6c247ad4a2d81431c070b3fa4fa9fd589c0fbed898a194134506ca8d",
+   "application_order": 1,
+   "successful": false,
+   "account": "GBRMRBPXOF3QGYVNF734T7K3WG3IYFTWBNEN4SCWBO673E3KK3IERQJX",
+   "fee_account": null,
+   "account_muxed": null,
+   "fee_account_muxed": null,
+   "fee_charged": 100,
+   "operation_count": 1
+  }
+ ],
+ "history_operations": [
+  {
+   "id": 30064775169,
+   "transaction_id": 30064775168,
+   "application_order": 1,
+   "type": 12,
+   "source_account": "GBRMRBPXOF3QGYVNF734T7K3WG3IYFTWBNEN4SCWBO673E3KK3IERQJX",
+   "source_account_muxed": null,
+   "details": {
+    "price": "1.0000000",
+    "amount": "1100.0000000",
+    "price_r": {
+     "d": 1,
+     "n": 1
+    },
+    "offer_id": 0,
+    "buying_asset_code": "WLX",
+    "buying_asset_type": "credit_alphanum4",
+    "selling_asset_type": "native",
+    "buying_asset_issuer": "GBPQFFQHUU2GMUQBWDIBORBQ6ZZTGV7NWRL4CQLR3DFQDTPX74ZJ6BMC"
+   }
+  }
+ ],
+ "history_effects": [],
+ "history_transaction_participants": [
+  {
+   "tx_id": 30064775168,
+   "address": "GBRMRBPXOF3QGYVNF734T7K3WG3IYFTWBNEN4SCWBO673E3KK3IERQJX"
+  }
+ ],
+ "history_operation_participants": [
+  {
+   "op_id": 30064775169,
+   "address": "GBRMRBPXOF3QGYVNF734T7K3WG3IYFTWBNEN4SCWBO673E3KK3IERQJX"
+  }
+ ]
+}

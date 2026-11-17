@@ -254,8 +254,8 @@ failed transaction changes nothing but the fee, and the addresses it names are, 
 so only its source and fee source are participants. That is the trade-off: listing them lets any
 submitter, for the price of a fee, put an entry into another account's history; Horizon accepts
 that behind an opt-in flag, wallet-backend does not. Neither is a defect. Pick one, say which in
-your API's documentation, and test it. The replay harness checks either, declared per adapter (`FAILED_TX_PARTICIPANTS`); on the corpus, Horizon lists 1,106
-envelope-named addresses on 965 failed transactions, wallet-backend none, and each meets its own
+your API's documentation, and test it. The replay harness checks either, declared per adapter (`FAILED_TX_PARTICIPANTS`); on the corpus, Horizon lists 1,113
+envelope-named addresses on 970 failed transactions, wallet-backend none, and each meets its own
 declaration.
 
 ## 4. Muxed and signed-payload addresses
@@ -399,7 +399,7 @@ and fails if a detected fix maps to no item).
 | 21 | `token-rebind` | [wallet-backend `ee82038d`](https://github.com/stellar/wallet-backend/commit/ee82038d) |
 | 22 | `localcore-frozen-claim-11` | [wallet-backend `7b7ee5f0`](https://github.com/stellar/wallet-backend/commit/7b7ee5f0) |
 | 23 | `localcore-pool-share-unsponsor-6` | [wallet-backend `ba821579`](https://github.com/stellar/wallet-backend/commit/ba821579) |
-| 24 | `pubnet-59220000`, `pubnet-60280000`, `pubnet-61240000`, `pubnet-63920000` and 12 more | [stellar-etl #456](https://github.com/stellar/stellar-etl/issues/456), [stellar-etl #457](https://github.com/stellar/stellar-etl/issues/457), [stellar-etl #462](https://github.com/stellar/stellar-etl/issues/462), [stellar-etl #451](https://github.com/stellar/stellar-etl/issues/451), [wallet-backend #806](https://github.com/stellar/wallet-backend/issues/806), [wallet-backend #815](https://github.com/stellar/wallet-backend/issues/815), [stellar-etl #513](https://github.com/stellar/stellar-etl/issues/513) |
+| 24 | `pubnet-59220000`, `pubnet-60280000`, `pubnet-61240000`, `pubnet-63920000` and 14 more | [stellar-etl #456](https://github.com/stellar/stellar-etl/issues/456), [stellar-etl #457](https://github.com/stellar/stellar-etl/issues/457), [stellar-etl #462](https://github.com/stellar/stellar-etl/issues/462), [stellar-etl #451](https://github.com/stellar/stellar-etl/issues/451), [wallet-backend #806](https://github.com/stellar/wallet-backend/issues/806), [wallet-backend #815](https://github.com/stellar/wallet-backend/issues/815), [stellar-etl #513](https://github.com/stellar/stellar-etl/issues/513) |
 | 25 | `localcore-declared-deploy-6`, `localcore-memo-and-offer-p30-4`, `localcore-op-failures-8`, `localcore-planted-auth-5` and 32 more | [stellar-etl #452](https://github.com/stellar/stellar-etl/issues/452) |
 | 26 | `localcore-op-failures-8` | none recorded yet |
 

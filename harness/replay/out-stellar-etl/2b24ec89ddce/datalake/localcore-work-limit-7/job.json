@@ -1,0 +1,29 @@
+{
+ "job_version": 1,
+ "entry_id": "localcore-work-limit-7",
+ "ref": "2b24ec89ddce7fc0beb7795de982c93e6895eaf3",
+ "commit": "2b24ec89ddce7fc0beb7795de982c93e6895eaf3",
+ "input": "datalake",
+ "network_passphrase": "Test SDF Network ; September 2015",
+ "ledger": {
+  "seq": 7,
+  "hash": "a9da7c0f75195a6e2d78b09954175d063141c448631247af93909814f67fe9b3",
+  "close_time": 4060000000,
+  "protocol": 30
+ },
+ "rpc": {
+  "url": "http://shapecov-etl-feeder:8000/rpc/localcore-work-limit-7"
+ },
+ "datalake": {
+  "s3_endpoint": "http://shapecov-etl-feeder:9000",
+  "bucket_path": "shapecov-lake/localcore-work-limit-7",
+  "region": "us-east-1"
+ },
+ "history_archive": {
+  "url": "http://shapecov-etl-feeder:8000/archive/localcore-work-limit-7"
+ },
+ "protocols": [],
+ "docker_network": "shapecov-etl-net",
+ "timeout_seconds": 120,
+ "work_dir": "$REPLAY_WORK"
+}

@@ -12,18 +12,18 @@
   "protocol": 11
  },
  "rpc": {
-  "url": "http://shapecov-early2-feeder:8000/rpc/pubnet-25001526"
+  "url": "http://shapecov-etl-feeder:8000/rpc/pubnet-25001526"
  },
  "datalake": {
-  "s3_endpoint": "http://shapecov-early2-feeder:9000",
+  "s3_endpoint": "http://shapecov-etl-feeder:9000",
   "bucket_path": "shapecov-lake/pubnet-25001526",
   "region": "us-east-1"
  },
  "history_archive": {
-  "url": "http://shapecov-early2-feeder:8000/archive/pubnet-25001526"
+  "url": "http://shapecov-etl-feeder:8000/archive/pubnet-25001526"
  },
  "protocols": [],
- "docker_network": "shapecov-early2-net",
- "timeout_seconds": 90,
+ "docker_network": "shapecov-etl-net",
+ "timeout_seconds": 120,
  "work_dir": "$REPLAY_WORK"
 }

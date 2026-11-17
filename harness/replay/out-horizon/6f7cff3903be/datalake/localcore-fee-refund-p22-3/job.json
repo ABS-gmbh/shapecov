@@ -1,0 +1,29 @@
+{
+ "job_version": 1,
+ "entry_id": "localcore-fee-refund-p22-3",
+ "ref": "v30.0.1",
+ "commit": "6f7cff3903be1df4fb980a12910a1313c5d7d8dd",
+ "input": "datalake",
+ "network_passphrase": "Test SDF Network ; September 2015",
+ "ledger": {
+  "seq": 3,
+  "hash": "a80d4de7fcd39ce94db9b2533cdb6c9285f26e8a52b117640805ce0091685147",
+  "close_time": 4020000000,
+  "protocol": 22
+ },
+ "rpc": {
+  "url": "http://shapecov-hz-feeder:8000/rpc/localcore-fee-refund-p22-3"
+ },
+ "datalake": {
+  "s3_endpoint": "http://shapecov-hz-feeder:9000",
+  "bucket_path": "shapecov-lake/localcore-fee-refund-p22-3",
+  "region": "us-east-1"
+ },
+ "history_archive": {
+  "url": "http://shapecov-hz-feeder:8000/archive/localcore-fee-refund-p22-3"
+ },
+ "protocols": [],
+ "docker_network": "shapecov-hz-net",
+ "timeout_seconds": 120,
+ "work_dir": "$REPLAY_WORK"
+}

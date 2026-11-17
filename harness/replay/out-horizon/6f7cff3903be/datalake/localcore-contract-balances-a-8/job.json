@@ -1,0 +1,29 @@
+{
+ "job_version": 1,
+ "entry_id": "localcore-contract-balances-a-8",
+ "ref": "v30.0.1",
+ "commit": "6f7cff3903be1df4fb980a12910a1313c5d7d8dd",
+ "input": "datalake",
+ "network_passphrase": "Test SDF Network ; September 2015",
+ "ledger": {
+  "seq": 8,
+  "hash": "14487e07d57bc7a5c408746a9059cf310a1baf1f2671346a9d31c5edf7eac9c1",
+  "close_time": 4070000000,
+  "protocol": 30
+ },
+ "rpc": {
+  "url": "http://shapecov-hz-feeder:8000/rpc/localcore-contract-balances-a-8"
+ },
+ "datalake": {
+  "s3_endpoint": "http://shapecov-hz-feeder:9000",
+  "bucket_path": "shapecov-lake/localcore-contract-balances-a-8",
+  "region": "us-east-1"
+ },
+ "history_archive": {
+  "url": "http://shapecov-hz-feeder:8000/archive/localcore-contract-balances-a-8"
+ },
+ "protocols": [],
+ "docker_network": "shapecov-hz-net",
+ "timeout_seconds": 120,
+ "work_dir": "$REPLAY_WORK"
+}

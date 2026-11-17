@@ -27,15 +27,15 @@
   ]
  },
  "rpc": {
-  "url": "http://shapecov-etl-feeder:8000/rpc/contract-balances"
+  "url": "http://shapecov-etlseq-feeder:8000/rpc/contract-balances"
  },
  "datalake": {
-  "s3_endpoint": "http://shapecov-etl-feeder:9000",
+  "s3_endpoint": "http://shapecov-etlseq-feeder:9000",
   "bucket_path": "shapecov-lake/contract-balances",
   "region": "us-east-1"
  },
  "history_archive": {
-  "url": "http://shapecov-etl-feeder:8000/archive/contract-balances"
+  "url": "http://shapecov-etlseq-feeder:8000/archive/contract-balances"
  },
  "protocols": [],
  "live_persist_max_batch_size": null,
@@ -44,8 +44,8 @@
   "current_state"
  ],
  "commits": [],
- "feeder_container": "shapecov-etl-feeder",
- "docker_network": "shapecov-etl-net",
+ "feeder_container": "shapecov-etlseq-feeder",
+ "docker_network": "shapecov-etlseq-net",
  "timeout_seconds": 240,
  "work_dir": "$REPLAY_WORK"
 }

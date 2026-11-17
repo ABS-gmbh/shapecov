@@ -22,6 +22,7 @@
  "history_archive": {
   "url": "http://shapecov-etl-feeder:8000/archive/localcore-deployer-cb-5"
  },
+ "protocols": [],
  "docker_network": "shapecov-etl-net",
  "timeout_seconds": 120,
  "work_dir": "$REPLAY_WORK"

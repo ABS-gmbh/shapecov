@@ -43,5 +43,5 @@
  "command": "horizon db reingest range 17 17 --ledgerbackend datastore --datastore-config /cfg/datastore.toml --parallel-workers 1 --retries 0",
  "exit_code": 0,
  "trades": [],
- "seconds_to_outcome": 7.2
+ "seconds_to_outcome": 2.0
 }
