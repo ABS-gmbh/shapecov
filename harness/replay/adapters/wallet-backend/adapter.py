@@ -277,6 +277,36 @@ def cursor():
         return None
 
 
+def setup_protocols(run_setup, protocols):
+    """Run the commit's own protocol-setup for `protocols`; run_setup(ids) returns (exit status, output).
+
+    A commit can have protocol-setup and still lack a protocol added later (Blend's validator is newer
+    than SEP-41's): protocol-setup then refuses the whole call, naming that protocol. It is dropped and
+    setup runs again with the rest. Returns (verdict, protocols set up, protocols dropped, log):
+      "ok"              setup succeeded for the protocols returned (some may have been dropped)
+      "none_available"  the commit has a validator for none of them: replay without protocol production
+      "no_command"      the commit has no protocol-setup command at all
+      "failed"          any other failure: an adapter error, never a quiet pass
+    """
+    unavailable, log = [], ""
+    while True:
+        status, output = run_setup(protocols)
+        log += output
+        missing = re.search(r'no validator registered for protocol "([^"]+)"', output)
+        if status != 0 and missing and missing.group(1) in protocols:
+            unavailable.append(missing.group(1))
+            protocols = [p for p in protocols if p != missing.group(1)]
+            if protocols:
+                continue
+            return "none_available", [], unavailable, log
+        break
+    if status == 0:
+        return "ok", protocols, unavailable, log
+    if 'unknown command "protocol-setup"' in output:
+        return "no_command", [], unavailable, log
+    return "failed", [], unavailable, log
+
+
 def run(a):
     with open(a.job) as f:
         job = json.load(f)
@@ -312,34 +342,23 @@ def run(a):
         # Protocol production (SEP-41, Blend) the way an operator turns it on: the commit's own
         # protocol-setup, then the protocol cursors where protocol-migrate leaves them once it has
         # migrated up to the ledger before the replay.
-        # A commit can have protocol-setup and still lack a protocol added later (Blend's validator
-        # is newer than SEP-41's): protocol-setup then refuses the whole call. That protocol is dropped
-        # and recorded, and setup runs again with the ones the commit has.
-        unavailable, setup_log = [], ""
-        while True:
-            setup = sh(["docker", "run", "--rm", "--name", MIGRATE, "--network", job["docker_network"],
-                        "-v", os.path.join(work, "bin") + ":/wb:ro", "-e", "DATABASE_URL=" + DB_URL,
-                        "-e", "RPC_URL=" + job["rpc"]["url"], "-e", "NETWORK_PASSPHRASE=" + job["network_passphrase"],
-                        GO_IMAGE, binary, "protocol-setup"] + sum((["--protocol-id", p] for p in protocols), []),
-                       check=False)
-            setup_log += setup.stdout or ""
-            missing = re.search(r'no validator registered for protocol "([^"]+)"', setup.stdout or "")
-            if setup.returncode != 0 and missing and missing.group(1) in protocols:
-                unavailable.append(missing.group(1))
-                protocols = [p for p in protocols if p != missing.group(1)]
-                if protocols:
-                    continue
-            break
+        def run_setup(ids):
+            r = sh(["docker", "run", "--rm", "--name", MIGRATE, "--network", job["docker_network"],
+                    "-v", os.path.join(work, "bin") + ":/wb:ro", "-e", "DATABASE_URL=" + DB_URL,
+                    "-e", "RPC_URL=" + job["rpc"]["url"], "-e", "NETWORK_PASSPHRASE=" + job["network_passphrase"],
+                    GO_IMAGE, binary, "protocol-setup"] + sum((["--protocol-id", p] for p in ids), []), check=False)
+            return r.returncode, r.stdout or ""
+        verdict, protocols, unavailable, setup_log = setup_protocols(run_setup, protocols)
         with open(os.path.join(out, "protocol-setup.log"), "w") as f:
             f.write(setup_log)
         if unavailable:
             obs["protocols_unavailable"] = unavailable
-        if setup.returncode != 0 and 'unknown command "protocol-setup"' in (setup.stdout or ""):
+        if verdict == "no_command":
             # commits before April 2026 have no protocol production to turn on
             obs["protocols"] = "not available at this commit (no protocol-setup command)"
-        elif not protocols:
+        elif verdict == "none_available":
             obs["protocols"] = "not available at this commit (no validator for %s)" % ", ".join(unavailable)
-        elif setup.returncode != 0:
+        elif verdict == "failed":
             obs["error"] = "adapter: the commit's own `protocol-setup` failed, see protocol-setup.log"
             obs["adapter_failure"] = True
             return finish(obs, out, t0)

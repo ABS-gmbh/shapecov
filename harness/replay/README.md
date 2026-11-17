@@ -76,7 +76,15 @@ older than `protocol-setup` (April 2026) has no production to turn on; the adapt
 replays as before. A commit that has `protocol-setup` but not yet one of the protocols (Blend's validator is newer than
 SEP-41's; the sighting commits of August and September 2026 lack it) refuses the whole call with
 `no validator registered`; the adapter drops that protocol, records it as `protocols_unavailable` in
-`observation.json`, and sets up the ones the commit has. The adapter does what the operator does: the adapter runs the commit's own `protocol-setup`, then sets
+`observation.json`, and sets up the ones the commit has; any other `protocol-setup` failure stays an
+adapter error (`tests/test_wallet_backend_setup.py`). So the protocols follow the commit: SEP-41's
+validator came with wallet-backend #606 (`87652b22`, 2 June 2026) and Blend's with #798 (`57c1301a`,
+6 November 2026). At `main` (`3e22515a`) and every commit since #798 both run; the eight sighting
+commits (`79ea2acd` to `bb0b162b`, August and September 2026), like every commit between #606 and #798,
+run with SEP-41 only; a commit with `protocol-setup` but before #606 runs with neither, and its
+observation says so. The sighting results recorded in `out/` predate protocol production; CI replays
+the sighting commits live, with it on, on every push, and they give the claimed results there too.
+The adapter does what the operator does: the adapter runs the commit's own `protocol-setup`, then sets
 `protocol_<ID>_history_cursor` and `protocol_<ID>_current_state_cursor` to the ledger before the
 replay, where `protocol-migrate` leaves them once it has migrated up to that ledger. A sequence may set
 only some of them (`protocol_cursors`, e.g. history production alone). wallet-backend's own log then

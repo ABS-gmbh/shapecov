@@ -281,12 +281,12 @@
    "why": "Built only by HerderSCPDriver::makeEmptyTxSetValueFromValue (the multi-signature form) (HerderSCPDriver.cpp:728-751): a node that votes before it has downloaded the transaction set (EXPERIMENTAL_PARALLEL_TX_SET_DOWNLOAD) proposes closing an empty ledger. A ledger closed that way carries it; a local single-node network never needs to."
   },
   "arm:TransactionMeta.0": {
-   "class": "before_protocol",
-   "why": "TransactionMeta v0 and v1 are what stellar-core emitted before v2; every corpus era emits v2 to v4."
+   "class": "never_in_ledger",
+   "why": "No LedgerCloseMeta carries it. stellar-core emits TransactionMeta v2 to v4 only (TransactionMeta.cpp:525-529: v0 and v1 are not produced and not supported), and LedgerCloseMeta is newer than v2. The public ledger archive regenerated every protocol era with current stellar-core: its pubnet ledgers of protocols 1 to 19 carry TransactionMeta v4 (for example ledgers 13000471, protocol 8, and 21069349, protocol 10). v0 and v1 were stellar-core's transaction metadata before v2, outside any LedgerCloseMeta."
   },
   "arm:TransactionMeta.1": {
-   "class": "before_protocol",
-   "why": "TransactionMeta v0 and v1 are what stellar-core emitted before v2; every corpus era emits v2 to v4."
+   "class": "never_in_ledger",
+   "why": "No LedgerCloseMeta carries it. stellar-core emits TransactionMeta v2 to v4 only (TransactionMeta.cpp:525-529: v0 and v1 are not produced and not supported), and LedgerCloseMeta is newer than v2. The public ledger archive regenerated every protocol era with current stellar-core: its pubnet ledgers of protocols 1 to 19 carry TransactionMeta v4 (for example ledgers 13000471, protocol 8, and 21069349, protocol 10). v0 and v1 were stellar-core's transaction metadata before v2, outside any LedgerCloseMeta."
   },
   "arm:TransactionResultResult.txFROZEN_KEY_ACCESSED": {
    "class": "never_in_ledger",
@@ -436,6 +436,20 @@
   "unclassified": "Not classified yet.",
   "upgrade": "Only in a ledger that applies a network upgrade; producible by a local scenario that arms it."
  },
- "note": "A class and a reason for every cell reachable from LedgerCloseMeta that no corpus entry has. Built from stellar-core f2b91947fb20fc8174cca38bf320eda7baa3edbb (src/transactions): the function that sets each result code. Checked by tools/cell_coverage.py.",
+ "history": [
+  {
+   "change": "35 cells classified never_in_ledger: the 24 formerly config_upgrade (a configuration setting is never a key in a ledger) and 11 formerly unclassified (validation codes commonValid repeats at apply). The closed-ledger denominator went from 502 to 467; no cell was covered.",
+   "date": "2026-11-17"
+  },
+  {
+   "change": "10 cells covered by three local stellar-core scenarios (reserve-pool-p30, fee-refund-p22, work-limit-p30); inner txINSUFFICIENT_BALANCE and OperationResultTr.CREATE_PASSIVE_SELL_OFFER classified never_in_ledger, outer txINSUFFICIENT_BALANCE before_protocol. Covered 422 to 432; closed-ledger denominator 467 to 465.",
+   "date": "2026-11-17"
+  },
+  {
+   "change": "TransactionMeta v0 and v1 classified never_in_ledger (no LedgerCloseMeta carries them; the public archive's ledgers of every protocol carry v4). Closed-ledger denominator 465 to 463; no cell was covered.",
+   "date": "2026-11-17"
+  }
+ ],
+ "note": "A class and a reason for every cell reachable from LedgerCloseMeta that no corpus entry has. Built from stellar-core f2b91947fb20fc8174cca38bf320eda7baa3edbb (src/transactions): the function that sets each result code. Checked by tools/cell_coverage.py. The history list records each change to the classes that moved the closed-ledger denominator.",
  "stellar_core_commit": "f2b91947fb20fc8174cca38bf320eda7baa3edbb"
 }
