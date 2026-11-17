@@ -259,6 +259,10 @@ on 16 and 17 November 2026:
 | wallet-backend `main` (`3e22515a`), data lake | 611 | 778,927 | 778,796 | 89: wallet-backend#677; 42: wallet-backend#815 | 0 |
 | stellar-etl `master` (`2b24ec89`), data lake | 611 | 985,927 | 886,679 | 52,879: stellar-etl#452; 38,959: stellar-etl#450; 7,321: stellar-etl#456; 69: stellar-etl#457; 19: stellar-etl#462; 1: stellar-etl#460 | 0 |
 
+On 17 November 2026 the wallet-backend sweep was run again at `main` (`3e22515a`) with protocol
+production on (SEP-41 and Blend, the default since that day): all 611 results were identical to the
+wallet-backend row of the table, in verdict, oracle rows checked and failed, known-issue labels and stored row counts.
+
 1,764,854 checks on real traffic (611 ledgers, protocols 23 to 30). 99,379 did not meet the
 oracle; every one maps to one of eight open upstream issues (two in wallet-backend, six in
 stellar-etl). None is unexplained. Every row the oracle derives is checked.
