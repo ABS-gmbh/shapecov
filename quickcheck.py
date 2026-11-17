@@ -37,6 +37,9 @@ CHECKS = [
     ("RFP check 2", "the recorded stellar-etl sequence replays: entry changes over consecutive ledgers, no "
                     "unexplained oracle failure",
      [PY, "harness/replay/replay.py", "check", "--out", "harness/replay/out-stellar-etl-sequences", "--oracle"]),
+    ("RFP check 2", "stellar-etl#454 on the recorded exports: amounts above 2^53 stroops read back exact, or lose "
+                    "stroops, as the sightings table says",
+     [PY, "harness/replay/adapters/stellar-etl/amounts_check.py"]),
     ("RFP check 3", "the recorded linter report on wallet-backend has no finding outside the accepted list",
      [PY, "linter/scripts/check_accepted.py", "linter/results/wallet-backend-3e22515a4497.json",
       "linter/accepted/wallet-backend.json"]),

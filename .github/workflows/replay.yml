@@ -56,6 +56,8 @@ jobs:
         run: python3 security/images.py pull golang:1.27 golang:1.27.3 python:3.14-slim
       - name: Replay
         run: harness/replay/run.sh etl
+      - name: stellar-etl#454 at master, amounts above 2^53 stroops (harness/sightings/README.md, row 6)
+        run: python3 harness/replay/adapters/stellar-etl/amounts_check.py
       - if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:

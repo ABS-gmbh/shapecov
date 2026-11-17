@@ -2,9 +2,9 @@
 
 The RFP ("XDR/CAP-Coverage Audit Tool and Indexer-Hardening Guide", section 7) lists 18 public
 sightings. This is each one's status: reproduced (and where it runs in CI), or why it cannot be.
-Status as of 16 November 2026.
+Status as of 17 November 2026.
 
-**12 of 18 reproduced, all 12 in CI.**
+**13 of 18 reproduced, all 13 in CI.**
 
 | # | Sighting | Status | How | CI job |
 |---|---|---|---|---|
@@ -13,7 +13,7 @@ Status as of 16 November 2026.
 | 3 | wallet-backend#729: CAP-40 signed-payload signers | reproduced | `mishandled` (ingestion halts) at `2a0a84ea` and `6e5a5910`, `pass` at the fix | replay: sightings |
 | 4 | henyey#3941: validator dies during catchup on a bucket-entry parse failure | not reproduced | needs henyey and history-archive buckets during catchup; the corpus holds ledger-close meta, not buckets | — |
 | 5 | rs-stellar-xdr#581: capacity reserved when decoding `VecM` | mapped, not observable | decoding a 2^20+1-element `ScVal` vector peaks at 122 MB with 28.0.1 (before) and 30.0.0 (after) alike: the extra capacity is reserved but never touched, as the PR itself says it may not be measurable | — |
-| 6 | stellar-etl#454: lossy float amounts | mapped, out of the oracle's scope | a precision contract (float64 columns), not a ledger shape; the stellar-etl adapter reads `amount_raw` | — |
+| 6 | stellar-etl#454: lossy float amounts | reproduced | at `master` (open issue), for amounts above 2^53 stroops: in `localcore-big-merge-4` both transfers read back one stroop short in `token_transfer.amount` (2^53+1 is exported as 900719925.4740992); the payment's operation detail and the effects read back exact (`harness/replay/adapters/stellar-etl/amounts_check.py`). Limited to amounts above 2^53 on purpose: the issue's other half, the ×1e-7 scaling being inexact for small values, would flag a large share of every export and bury the rest | replay: stellar-etl |
 | 7 | stellar-etl#470: Protocol 28 epic | mapped | an epic, not a defect; the stellar-etl adapter replays protocol 28 to 30 ledgers at `master` | replay: stellar-etl |
 | 8 | wallet-backend#716: muxed and signed-payload addresses truncated | reproduced | both halves `mishandled` at `79ea2acd`, `pass` at the fixes | replay: sightings |
 | 9 | stellar-etl#460: CAP-73 effect gaps | reproduced | the oracle reports the missing `account_created` and `trustline_created` effects at `master` from ledger data alone (5 rows in 4 ledgers) | replay: stellar-etl |

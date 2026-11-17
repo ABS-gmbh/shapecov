@@ -539,6 +539,28 @@
    ]
   },
   {
+   "id": "C17",
+   "kind": "confirmed",
+   "title": "token_transfer.amount above 2^53 stroops reads back one stroop short: amounts exported as float64",
+   "component": "stellar-etl: export_token_transfer (amount)",
+   "severity": "S3",
+   "severity_note": "the exact amount_raw column is exported beside it; consumers of amount lose stroops above 2^53",
+   "caps": [],
+   "caps_none_reason": "a representation contract (float64 columns), not a protocol shape",
+   "reproduction": {
+    "corpus_entry": "localcore-big-merge-4",
+    "command": "python3 harness/replay/adapters/stellar-etl/amounts_check.py"
+   },
+   "upstream": [
+    "https://github.com/stellar/stellar-etl/issues/454"
+   ],
+   "first_reported_by": "chowbao (stellar-etl maintainer)",
+   "reported": "2026-07-04",
+   "status": "open; reproduced at master (2b24ec89) for amounts above 2^53 stroops only: in localcore-big-merge-4 both transfers (2^53+1 and 9,007,200,254,740,993 stroops) read back one stroop short in token_transfer.amount; the payment's operation detail and the effects read back exact. Small amounts, the issue's other half, are not checked",
+   "labels": [],
+   "rfp_sighting": 6
+  },
+  {
    "id": "J2",
    "kind": "confirmed",
    "title": "A liquidity-pool asset pair the network accepted is refused: issuers compared as strkey text",

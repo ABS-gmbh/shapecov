@@ -31,18 +31,18 @@ pip install jsonschema
 python3 quickcheck.py
 ```
 
-Python only, with no Docker and no network. It reruns, in parallel, the 15 fast checks that work from
+Python only, with no Docker and no network. It reruns, in parallel, the 16 fast checks that work from
 the repository alone, and checks the recorded results of the rest against their verdicts, in about
 6 seconds on an idle laptop. `python3 quickcheck.py --full` adds the unit tests and the mutation
-testing, 17 checks in about 18 seconds there; CI runs it on every push, and reruns everything else.
+testing, 18 checks in about 18 seconds there; CI runs it on every push, and reruns everything else.
 
 ## Results
 
 - **8 defects found and filed** in java-stellar-sdk, py-stellar-base and stellar-etl. The Java
   maintainer fixed #833 two days after it was filed; py-stellar-base closed #1262 and #1263 as
-  fixed in its replacement XDR package. All 41 findings, with severity, CAPs and a reproducing
+  fixed in its replacement XDR package. All 42 findings, with severity, CAPs and a reproducing
   entry each: [`FINDINGS.md`](FINDINGS.md).
-- **12 of the RFP's 18 sightings reproduced**, all in CI, each failing before its fix and passing
+- **13 of the RFP's 18 sightings reproduced**, all in CI, each failing before its fix and passing
   after ([`harness/sightings/README.md`](harness/sightings/README.md)).
 - **Every corpus ledger is an indexer test.** The oracle derives the expected rows from the ledger;
   every failure in wallet-backend, stellar-etl and Horizon maps to a filed issue. A sweep of 611 further
