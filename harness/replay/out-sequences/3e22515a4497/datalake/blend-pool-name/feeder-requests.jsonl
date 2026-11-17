@@ -1,0 +1,9 @@
+{"http": "GET", "keys": 1, "path": "/shapecov-lake?list-type=2&max-keys=1&prefix=blend-pool-name%2F", "port": "s3", "status": 200, "t": 1794907577.115}
+{"http": "GET", "keys": 3, "path": "/shapecov-lake?fetch-owner=false&list-type=2&max-keys=1000&prefix=blend-pool-name%2F&start-after=", "port": "s3", "status": 200, "t": 1794907577.15}
+{"http": "GET", "path": "/shapecov-lake/blend-pool-name/.config.json?x-id=GetObject", "port": "s3", "size": 142, "status": 200, "t": 1794907577.194}
+{"entry": "blend-pool-name", "method": "getLedgerEntries", "params": {"keys": ["AAAABgAAAAFNIuPNj2chQSfpDVYIszryEQHfw9Fua9aQ+eruZJPBugAAABQAAAAB", "AAAABgAAAAFHW1583t8azo1nfC2mJC7OjJ4hB7jQ6FsOqNEpEvdzgQAAABQAAAAB"], "pagination": {"limit": 0}, "resourceConfig": {}}, "port": "rpc", "status": "ok", "t": 1794907577.248}
+{"http": "GET", "path": "/shapecov-lake/blend-pool-name/FFFFFFFF--0-63999/FFFFFFFC--3.xdr.zst?x-id=GetObject", "port": "s3", "size": 27685, "status": 200, "t": 1794907577.252}
+{"http": "GET", "path": "/shapecov-lake/blend-pool-name/FFFFFFFF--0-63999/FFFFFFFB--4.xdr.zst?x-id=GetObject", "port": "s3", "size": 1621, "status": 200, "t": 1794907577.252}
+{"http": "GET", "path": "/shapecov-lake/blend-pool-name/FFFFFFFF--0-63999/FFFFFFF9--6.xdr.zst?x-id=GetObject", "port": "s3", "status": 404, "t": 1794907577.255}
+{"http": "GET", "path": "/shapecov-lake/blend-pool-name/FFFFFFFF--0-63999/FFFFFFFA--5.xdr.zst?x-id=GetObject", "port": "s3", "status": 404, "t": 1794907577.255}
+{"entry": "blend-pool-name", "method": "simulateTransaction", "params": {"pagination": {"limit": 0}, "resourceConfig": {}, "transaction": "AAAAAgAAAADeFB+sYdtGq66tNL7ZKQyFRZgQ44wvPEJQymAGyyc81QAAAGQAAAAAAAAAAQAAAAEAAAAAAAAAAAAAAABq/B7lAAAAAAAAAAEAAAAAAAAAGAAAAAAAAAABnSD5S70jC+N4wNU3GyHQxVUSXKuccRz405rWNRNTxx4AAAAKZ2V0X2NvbmZpZwAAAAAAAAAAAAAAAAAAAAAAAA=="}, "port": "rpc", "status": "error -32601 method not found", "t": 1794907577.291}

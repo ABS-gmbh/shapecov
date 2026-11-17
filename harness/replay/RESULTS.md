@@ -137,6 +137,10 @@ Only the implicit checks apply: the ledger is ingested without an error and ever
 | `golden-pathpayment-34519f44-22` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `localcore-big-merge-4` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `localcore-big-merge-4` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `localcore-blend-pool-4` | 28 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `localcore-blend-pool-4` | 28 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `localcore-blend-upload-3` | 28 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
+| `localcore-blend-upload-3` | 28 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `localcore-claim-and-sponsor-8` | 30 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `localcore-claim-and-sponsor-8` | 30 | datalake | not run | not run | not run | not run | not run | not run | not run | not run | pass |
 | `localcore-classic-p22-3` | 22 | rpc | not run | not run | not run | not run | not run | not run | not run | not run | pass |
@@ -262,8 +266,8 @@ Only the implicit checks apply: the ledger is ingested without an error and ever
 | `f8e5786d` | datalake | 0 | 1 | 0 | 0 |
 | `bb0b162b` | rpc | 0 | 0 | 1 | 0 |
 | `bb0b162b` | datalake | 0 | 0 | 1 | 0 |
-| `3e22515a` | rpc | 89 | 0 | 13 | 0 |
-| `3e22515a` | datalake | 89 | 0 | 13 | 0 |
+| `3e22515a` | rpc | 91 | 0 | 13 | 0 |
+| `3e22515a` | datalake | 91 | 0 | 13 | 0 |
 
 ## Oracle checks
 
@@ -290,8 +294,8 @@ checked. A failure is labelled with the open upstream issue that explains it
 | `f8e5786d` | datalake | 1 | 6 | 0 | none | 1 |
 | `bb0b162b` | rpc | 1 | 6 | 5 | wallet-backend#815 (1) | 0 |
 | `bb0b162b` | datalake | 1 | 6 | 5 | wallet-backend#815 (1) | 0 |
-| `3e22515a` | rpc | 102 | 28384 | 28366 | wallet-backend#677 (6), wallet-backend#815 (6), wallet-backend#816 (3), wallet-backend#817 (2), wallet-backend#818 (1) | 0 |
-| `3e22515a` | datalake | 102 | 28384 | 28366 | wallet-backend#677 (6), wallet-backend#815 (6), wallet-backend#816 (3), wallet-backend#817 (2), wallet-backend#818 (1) | 0 |
+| `3e22515a` | rpc | 104 | 28397 | 28379 | wallet-backend#677 (6), wallet-backend#815 (6), wallet-backend#816 (3), wallet-backend#817 (2), wallet-backend#818 (1) | 0 |
+| `3e22515a` | datalake | 104 | 28397 | 28379 | wallet-backend#677 (6), wallet-backend#815 (6), wallet-backend#816 (3), wallet-backend#817 (2), wallet-backend#818 (1) | 0 |
 
 Failures that are a claimed sighting (found by the oracle alone, without the manifest's expectation):
 
@@ -456,3 +460,4 @@ Failures that are a claimed sighting (found by the oracle alone, without the man
 | 2026-11-16T22:07:36+00:00 | `3e22515a` | rpc, datalake | 1 | 20.6 | 37240 | 1 | 2 |
 | 2026-11-16T22:11:54+00:00 | `3e22515a` | rpc, datalake | 1 | 13.3 | 37352 | 1 | 2 |
 | 2026-11-17T01:39:33+00:00 | `3e22515a` | rpc, datalake | 5 | 54.2 | 38100 | 5 | 10 |
+| 2026-11-17T09:25:57+00:00 | `3e22515a` | rpc, datalake | 2 | 12.6 | 37936 | 2 | 4 |

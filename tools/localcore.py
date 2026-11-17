@@ -62,6 +62,12 @@ Scenarios (one per run):
                      account 2^53 + 1 stroops, then that account (as its operation's source, signing
                      too) merges into a third, which receives a balance above 2^53. Amounts a reader
                      that keeps stroops in a float64 rounds, and a successful merge.
+  blend-pool-name-p28
+                     Protocol 28, stellar-core 30.0.0. Two ledgers, replayed as the sequence
+                     blend-pool-name: Blend's pool wasm (v2), taken from pubnet ledger 56,615,381 where
+                     it was uploaded and checked by its hash, is uploaded; in the next ledger a pool is
+                     deployed directly from it, with a name that contains a NUL byte. Built after
+                     reading wallet-backend ff73ff46 (#803).
   token-rebind-p28   Protocol 28, stellar-core 30.0.0. Five consecutive ledgers, replayed as the
                      sequences token-rebind and token-rebind-history: (1) two wasm uploads, a SEP-41
                      token that can rebind itself and a plain contract (tools/rebind_token_wasm.py
@@ -128,7 +134,7 @@ SCENARIOS = {"muxed-source-p22": IMAGE_V22, "classic-p22": IMAGE_V22, "pools-spo
              "sac-trust-p28": IMAGE, "participants-p28": IMAGE, "failures-p30": IMAGE, "big-merge-p30": IMAGE,
              "trustline-churn-p28": IMAGE, "deployer-cb-p28": IMAGE,
              "frozen-claim-p28": IMAGE, "pool-share-unsponsor-p28": IMAGE,
-             "token-rebind-p28": IMAGE}
+             "token-rebind-p28": IMAGE, "blend-pool-name-p28": IMAGE}
 NAME = "shapecov-localcore-gen"
 PASSPHRASES = {"testnet": "Test SDF Network ; September 2015",
                "pubnet": "Public Global Stellar Network ; September 2015"}
@@ -344,6 +350,8 @@ def main():
             sac_trust_p28(core, enc, dec, root, step, run)
         elif a.scenario == "big-merge-p30":
             big_merge_p30(core, enc, root, step, run)
+        elif a.scenario == "blend-pool-name-p28":
+            blend_pool_name_p28(core, enc, root, step, run, out)
         elif a.scenario == "token-rebind-p28":
             token_rebind_p28(core, enc, root, step, run)
         elif a.scenario == "pool-share-unsponsor-p28":
@@ -764,6 +772,93 @@ def big_merge_p30(core, enc, root, step, run):
         raise SystemExit("the payment and merge were refused; see the diagnostics above")
     run["ledger_big_merge"] = core.close()
 
+
+
+BLEND_POOL_V2 = (56615381, "a41fc53d6753b6c04eb15b021c55052366a4c8e0e21bc72700f461264ec1350e")
+
+
+def archive_wasm(dec, seq, wasm_hash, cache):
+    """The bytes of a wasm uploaded in pubnet ledger `seq`, from Stellar's public ledger archive."""
+    v = dec.decode("LedgerCloseMeta", mine.fetch("pubnet", seq, cache))
+    body = v["v%d" % v["v"]]
+    for tp_env in mine_envelopes(body):
+        tx = (tp_env.get("v1") or ((tp_env.get("feeBump") or {}).get("tx") or {}).get("innerTx", {}).get("v1") or {}).get("tx", {})
+        for o in tx.get("operations", []):
+            hf = (o["body"].get("invokeHostFunctionOp") or {}).get("hostFunction", {})
+            if hf.get("type") == "HOST_FUNCTION_TYPE_UPLOAD_CONTRACT_WASM":
+                w = bytes.fromhex(hf["wasm"])
+                if hashlib.sha256(w).hexdigest() == wasm_hash:
+                    return w
+    raise SystemExit("pubnet ledger %d has no upload of wasm %s" % (seq, wasm_hash))
+
+
+def mine_envelopes(body):
+    for ph in body["txSet"]["v1TxSet"]["phases"]:
+        if ph["v"] == 0:
+            for comp in ph["v0Components"]:
+                yield from comp["txsMaybeDiscountedFee"]["txs"]
+        else:
+            for stage in ph["parallelTxsComponent"]["executionStages"]:
+                for cluster in stage:
+                    yield from cluster
+
+
+def blend_pool_name_p28(core, enc, root, step, run, out):
+    """Blend's real pool wasm, and a pool deployed from it whose name holds a NUL byte."""
+    schema = json.load(open(ROOT / "schema/schema.json"))
+    wasm = archive_wasm(Decoder(schema), BLEND_POOL_V2[0], BLEND_POOL_V2[1], out / "archive-cache")
+    run["wasm_source"] = "pubnet ledger %d, sha256 %s" % BLEND_POOL_V2
+    core.upgrade(28)
+    code = {"type": "CONTRACT_CODE", "contractCode": {"hash": BLEND_POOL_V2[1]}}
+
+    def soroban(read_only, read_write, write_bytes):
+        return {"ext": {"v": 0}, "resources": {"footprint": {"readOnly": read_only, "readWrite": read_write},
+                "instructions": 100_000_000, "diskReadBytes": 100_000, "writeBytes": write_bytes},
+                "resourceFee": 200_000_000}
+
+    upload = {"sourceAccount": None, "body": {"type": "INVOKE_HOST_FUNCTION", "invokeHostFunctionOp": {
+        "hostFunction": {"type": "HOST_FUNCTION_TYPE_UPLOAD_CONTRACT_WASM", "wasm": wasm.hex()}, "auth": []}}}
+    blob, h = envelope(enc, core, tx(root.muxed(), 1, [upload], fee=200_010_000,
+                                     soroban=soroban([], [code], 70_000)), root)
+    if step("blend-pool-name-p28: upload Blend's pool wasm", 28, blob, h, "PENDING, applied")["status"] != "PENDING":
+        raise SystemExit("the upload was refused; see the diagnostics above")
+    run["ledger_blend_upload"] = core.close()
+    preimage = {"type": "CONTRACT_ID_PREIMAGE_FROM_ADDRESS", "fromAddress": {
+        "address": {"type": "SC_ADDRESS_TYPE_ACCOUNT", "accountId": root.account()},
+        "salt": hashlib.sha256(b"shapecov blend pool name").hexdigest()}}
+    cid = hashlib.sha256(enc.encode("HashIDPreimage", {"type": "ENVELOPE_TYPE_CONTRACT_ID", "contractID": {
+        "networkID": core.network_id.hex(), "contractIDPreimage": preimage}})).hexdigest()
+    run["pool"] = strkey.contract(cid)
+    other = lambda tag: {"type": "SCV_ADDRESS", "address": {"type": "SC_ADDRESS_TYPE_CONTRACT",
+                                                           "contractId": hashlib.sha256(tag).hexdigest()}}
+    args = [{"type": "SCV_ADDRESS", "address": {"type": "SC_ADDRESS_TYPE_ACCOUNT", "accountId": root.account()}},
+            {"type": "SCV_STRING", "str": {"$hex": b"Fixed\x00Pool".hex()}},  # raw bytes, NUL included
+            other(b"shapecov blend oracle"),
+            {"type": "SCV_U32", "u32": 1_000_000},
+            {"type": "SCV_U32", "u32": 4},
+            {"type": "SCV_I128", "i128": {"hi": 0, "lo": 1_0000000}},
+            other(b"shapecov blend backstop"),
+            other(b"shapecov blend token")]
+    create = {"contractIDPreimage": preimage, "executable": {"type": "CONTRACT_EXECUTABLE_WASM",
+                                                             "wasm_hash": BLEND_POOL_V2[1]}, "constructorArgs": args}
+    # the pool's constructor calls require_auth on its admin: authorize it as part of the deploy
+    constructor = {"function": {"type": "SOROBAN_AUTHORIZED_FUNCTION_TYPE_CONTRACT_FN", "contractFn": {
+        "contractAddress": {"type": "SC_ADDRESS_TYPE_CONTRACT", "contractId": cid}, "functionName": "__constructor",
+        "args": args}}, "subInvocations": []}
+    auth = {"credentials": {"type": "SOROBAN_CREDENTIALS_SOURCE_ACCOUNT"}, "rootInvocation": {
+        "function": {"type": "SOROBAN_AUTHORIZED_FUNCTION_TYPE_CREATE_CONTRACT_V2_HOST_FN", "createContractV2HostFn": create},
+        "subInvocations": [constructor]}}
+    instance = {"type": "CONTRACT_DATA", "contractData": {
+        "contract": {"type": "SC_ADDRESS_TYPE_CONTRACT", "contractId": cid},
+        "key": {"type": "SCV_LEDGER_KEY_CONTRACT_INSTANCE"}, "durability": "PERSISTENT"}}
+    deploy = {"sourceAccount": None, "body": {"type": "INVOKE_HOST_FUNCTION", "invokeHostFunctionOp": {
+        "hostFunction": {"type": "HOST_FUNCTION_TYPE_CREATE_CONTRACT_V2", "createContractV2": create}, "auth": [auth]}}}
+    blob, h = envelope(enc, core, tx(root.muxed(), 2, [deploy], fee=200_010_000,
+                                     soroban=soroban([code], [instance], 10_000)), root)
+    run["tx_deploy"] = h
+    if step("blend-pool-name-p28: deploy a pool named with a NUL byte", 28, blob, h, "PENDING, applied")["status"] != "PENDING":
+        raise SystemExit("the deploy was refused; see the diagnostics above")
+    run["ledger_blend_pool"] = core.close()
 
 
 def token_rebind_p28(core, enc, root, step, run):

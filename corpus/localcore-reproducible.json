@@ -12,6 +12,30 @@
     "seq": 4
    }
   },
+  "blend-pool": {
+   "pubnet": {
+    "normalized_sha256": "ac803038f3a92b31f45e260bf2c5f256b727dd110902268762c1d31a904e2755",
+    "raw_sha256": "cd39915a1b177290eafd151cc28bbd72b5a9f57e41364edefb67aa121de6de05",
+    "seq": 4
+   },
+   "testnet": {
+    "normalized_sha256": "d3bc4730234e106f79e6c75db5690c2b2701267879ba2f99b77de1853a4bd290",
+    "raw_sha256": "8181639615e1cd91ba4d7df4176468b6d2b1e9380df85b1c04964fb3768da763",
+    "seq": 4
+   }
+  },
+  "blend-upload": {
+   "pubnet": {
+    "normalized_sha256": "3bf6b23b289d800f6de895d535adf2a6a00ea7a0fedb0cfdc5f76182a741ee69",
+    "raw_sha256": "30d3c8b906ef32ab63b7db81dc74a8e8a29b129e68356d97082fcaf1b6e6a643",
+    "seq": 3
+   },
+   "testnet": {
+    "normalized_sha256": "602bafc8ff67cc613ccda1c98924aea8ebc3f242d0be8523193c39e3e74db604",
+    "raw_sha256": "fe959a7962a6c12dc27d4c7a10c18b74a34dfe04dfa01b275d2cc967ad968b40",
+    "seq": 3
+   }
+  },
   "claim-and-sponsor": {
    "pubnet": {
     "normalized_sha256": "0362dd3c7a0dde5ad67035636115b2b6d1a0754893b92f8208ad61526eb2545f",

@@ -10,6 +10,32 @@ A cell is the entry's verdict: the worse of the indexer's result against the man
 the oracle's check of every row the ledger implies (`pass`, `dropped`: a row or the ledger is missing,
 `mishandled`: an error or a wrong stored value). After the colon: the upstream issues or records that
 explain the failures, or `unexplained` (a candidate new finding). The details below list each failure.
+
+## Sequences
+
+| Sequence | Ledgers | Commit | Input | End-state checks met | Known issues | Unexplained |
+|---|---|---|---|---|---|---|
+| `blend-pool-name` | `localcore-blend-upload-3`, `localcore-blend-pool-4` | `3e22515a` | datalake | 0 of 0 | none | 0 |
+| `blend-pool-name` | `localcore-blend-upload-3`, `localcore-blend-pool-4` | `3e22515a` | rpc | 0 of 0 | none | 0 |
+| `blend-pool-name` | `localcore-blend-upload-3`, `localcore-blend-pool-4` | `e967ce8b` | datalake | 0 of 0 | none | 1 |
+| `blend-pool-name` | `localcore-blend-upload-3`, `localcore-blend-pool-4` | `e967ce8b` | rpc | 0 of 0 | none | 1 |
+| `blend-pool-name` | `localcore-blend-upload-3`, `localcore-blend-pool-4` | `ff73ff46` | datalake | 0 of 0 | none | 0 |
+| `blend-pool-name` | `localcore-blend-upload-3`, `localcore-blend-pool-4` | `ff73ff46` | rpc | 0 of 0 | none | 0 |
+| `token-rebind` | `localcore-token-rebind-upload-4`, `localcore-token-rebind-filler-5`, `localcore-token-rebind-deploy-6`, `localcore-token-rebind-mint-7`, `localcore-token-rebind-rebind-8` | `3e22515a` | datalake | 0 of 0 | none | 0 |
+| `token-rebind` | `localcore-token-rebind-upload-4`, `localcore-token-rebind-filler-5`, `localcore-token-rebind-deploy-6`, `localcore-token-rebind-mint-7`, `localcore-token-rebind-rebind-8` | `3e22515a` | rpc | 0 of 0 | none | 0 |
+| `token-rebind` | `localcore-token-rebind-upload-4`, `localcore-token-rebind-filler-5`, `localcore-token-rebind-deploy-6`, `localcore-token-rebind-mint-7`, `localcore-token-rebind-rebind-8` | `8ba290cd` | datalake | 0 of 0 | none | 1 |
+| `token-rebind` | `localcore-token-rebind-upload-4`, `localcore-token-rebind-filler-5`, `localcore-token-rebind-deploy-6`, `localcore-token-rebind-mint-7`, `localcore-token-rebind-rebind-8` | `8ba290cd` | rpc | 0 of 0 | none | 1 |
+| `token-rebind` | `localcore-token-rebind-upload-4`, `localcore-token-rebind-filler-5`, `localcore-token-rebind-deploy-6`, `localcore-token-rebind-mint-7`, `localcore-token-rebind-rebind-8` | `ee82038d` | datalake | 0 of 0 | none | 0 |
+| `token-rebind` | `localcore-token-rebind-upload-4`, `localcore-token-rebind-filler-5`, `localcore-token-rebind-deploy-6`, `localcore-token-rebind-mint-7`, `localcore-token-rebind-rebind-8` | `ee82038d` | rpc | 0 of 0 | none | 0 |
+| `token-rebind-history` | `localcore-token-rebind-upload-4`, `localcore-token-rebind-filler-5`, `localcore-token-rebind-deploy-6`, `localcore-token-rebind-mint-7`, `localcore-token-rebind-rebind-8` | `367fe56e` | datalake | 1 of 1 | none | 0 |
+| `token-rebind-history` | `localcore-token-rebind-upload-4`, `localcore-token-rebind-filler-5`, `localcore-token-rebind-deploy-6`, `localcore-token-rebind-mint-7`, `localcore-token-rebind-rebind-8` | `367fe56e` | rpc | 1 of 1 | none | 0 |
+| `token-rebind-history` | `localcore-token-rebind-upload-4`, `localcore-token-rebind-filler-5`, `localcore-token-rebind-deploy-6`, `localcore-token-rebind-mint-7`, `localcore-token-rebind-rebind-8` | `f5b67b07` | datalake | 1 of 1 | none | 0 |
+| `token-rebind-history` | `localcore-token-rebind-upload-4`, `localcore-token-rebind-filler-5`, `localcore-token-rebind-deploy-6`, `localcore-token-rebind-mint-7`, `localcore-token-rebind-rebind-8` | `f5b67b07` | rpc | 1 of 1 | none | 0 |
+| `trustline-churn` | `localcore-trustline-add-4`, `localcore-trustline-churn-5` | `bd545417` | datalake | 1 of 1 | none | 0 |
+| `trustline-churn` | `localcore-trustline-add-4`, `localcore-trustline-churn-5` | `bd545417` | rpc | 1 of 1 | none | 0 |
+| `trustline-churn` | `localcore-trustline-add-4`, `localcore-trustline-churn-5` | `bdb934bc` | datalake | 0 of 1 | 1: stellar/wallet-backend#687 | 0 |
+| `trustline-churn` | `localcore-trustline-add-4`, `localcore-trustline-churn-5` | `bdb934bc` | rpc | 0 of 1 | 1: stellar/wallet-backend#687 | 0 |
+
 ## Commits
 
 | Commit | Date | Subject | go-stellar-sdk pin | Source or dependencies modified |
@@ -20,44 +46,44 @@ explain the failures, or `unexplained` (a candidate new finding). The details be
 | `ee82038d6429` | 2026-10-06 | fix(services): claim a contract under the binding each ledger of a batch saw | v0.7.3 | no |
 | `367fe56ef8b6` | 2026-10-06 | fix(data): reject a reconciliation cursor whose successor overflows the toid ledger | v0.7.3 | no |
 | `f5b67b07d7ea` | 2026-10-06 | fix(services): keep a rebound contract classified for every ledger of its batch | v0.7.3 | no |
+| `e967ce8b7362` | 2026-11-10 | data: look up transactions by hash through a transaction_hashes table (#790) | v0.8.0 | no |
+| `ff73ff465093` | 2026-11-12 | fix(services): validate Blend pool name bytes and length on decode (#803) | v0.8.0 | no |
 | `3e22515a4497` | 2026-11-12 | fix(services): cap Blend decimals at 70 on ingest and when serving pools (#802) | v0.8.0 | no |
 
 ## Entries without indexer expectations
 
 Only the implicit checks apply: the ledger is ingested without an error and every stored address reads back as a valid SEP-23 address. `pass` here does not say the stored rows are right.
 
-| Entry | Protocol | Input | `bdb934bc` | `bd545417` | `8ba290cd` | `ee82038d` | `367fe56e` | `f5b67b07` | `3e22515a` |
-|---|---|---|---|---|---|---|---|---|---|
-| `localcore-token-rebind-deploy-6@token-rebind` | 28 | rpc | not run | not run | mishandled: unexplained | pass | not run | not run | pass |
-| `localcore-token-rebind-deploy-6@token-rebind` | 28 | datalake | not run | not run | mishandled: unexplained | pass | not run | not run | pass |
-| `localcore-token-rebind-deploy-6@token-rebind-history` | 28 | rpc | not run | not run | not run | not run | pass | pass | not run |
-| `localcore-token-rebind-deploy-6@token-rebind-history` | 28 | datalake | not run | not run | not run | not run | pass | pass | not run |
-| `localcore-token-rebind-filler-5@token-rebind` | 28 | rpc | not run | not run | pass | pass | not run | not run | pass |
-| `localcore-token-rebind-filler-5@token-rebind` | 28 | datalake | not run | not run | pass | pass | not run | not run | pass |
-| `localcore-token-rebind-filler-5@token-rebind-history` | 28 | rpc | not run | not run | not run | not run | pass | pass | not run |
-| `localcore-token-rebind-filler-5@token-rebind-history` | 28 | datalake | not run | not run | not run | not run | pass | pass | not run |
-| `localcore-token-rebind-mint-7@token-rebind` | 28 | rpc | not run | not run | mishandled: unexplained | pass | not run | not run | pass |
-| `localcore-token-rebind-mint-7@token-rebind` | 28 | datalake | not run | not run | mishandled: unexplained | pass | not run | not run | pass |
-| `localcore-token-rebind-mint-7@token-rebind-history` | 28 | rpc | not run | not run | not run | not run | pass | pass | not run |
-| `localcore-token-rebind-mint-7@token-rebind-history` | 28 | datalake | not run | not run | not run | not run | pass | pass | not run |
-| `localcore-token-rebind-rebind-8@token-rebind` | 28 | rpc | not run | not run | mishandled: unexplained | pass | not run | not run | pass |
-| `localcore-token-rebind-rebind-8@token-rebind` | 28 | datalake | not run | not run | mishandled: unexplained | pass | not run | not run | pass |
-| `localcore-token-rebind-rebind-8@token-rebind-history` | 28 | rpc | not run | not run | not run | not run | pass | pass | not run |
-| `localcore-token-rebind-rebind-8@token-rebind-history` | 28 | datalake | not run | not run | not run | not run | pass | pass | not run |
-| `localcore-token-rebind-upload-4@token-rebind` | 28 | rpc | not run | not run | pass | pass | not run | not run | pass |
-| `localcore-token-rebind-upload-4@token-rebind` | 28 | datalake | not run | not run | pass | pass | not run | not run | pass |
-| `localcore-token-rebind-upload-4@token-rebind-history` | 28 | rpc | not run | not run | not run | not run | pass | pass | not run |
-| `localcore-token-rebind-upload-4@token-rebind-history` | 28 | datalake | not run | not run | not run | not run | pass | pass | not run |
-| `localcore-trustline-add-4@trustline-churn` | 28 | rpc | pass | pass | not run | not run | not run | not run | not run |
-| `localcore-trustline-add-4@trustline-churn` | 28 | datalake | pass | pass | not run | not run | not run | not run | not run |
-| `localcore-trustline-churn-5@trustline-churn` | 28 | rpc | pass | pass | not run | not run | not run | not run | not run |
-| `localcore-trustline-churn-5@trustline-churn` | 28 | datalake | pass | pass | not run | not run | not run | not run | not run |
-| `token-rebind` | 28 | rpc | not run | not run | mishandled: unexplained | pass | not run | not run | pass |
-| `token-rebind` | 28 | datalake | not run | not run | mishandled: unexplained | pass | not run | not run | pass |
-| `token-rebind-history` | 28 | rpc | not run | not run | not run | not run | pass | pass | not run |
-| `token-rebind-history` | 28 | datalake | not run | not run | not run | not run | pass | pass | not run |
-| `trustline-churn` | 28 | rpc | mishandled: wallet-backend#687 | pass | not run | not run | not run | not run | not run |
-| `trustline-churn` | 28 | datalake | mishandled: wallet-backend#687 | pass | not run | not run | not run | not run | not run |
+| Entry | Protocol | Input | `bdb934bc` | `bd545417` | `8ba290cd` | `ee82038d` | `367fe56e` | `f5b67b07` | `e967ce8b` | `ff73ff46` | `3e22515a` |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| `localcore-blend-pool-4@blend-pool-name` | 28 | rpc | not run | not run | not run | not run | not run | not run | mishandled: unexplained | pass | pass |
+| `localcore-blend-pool-4@blend-pool-name` | 28 | datalake | not run | not run | not run | not run | not run | not run | mishandled: unexplained | pass | pass |
+| `localcore-blend-upload-3@blend-pool-name` | 28 | rpc | not run | not run | not run | not run | not run | not run | pass | pass | pass |
+| `localcore-blend-upload-3@blend-pool-name` | 28 | datalake | not run | not run | not run | not run | not run | not run | pass | pass | pass |
+| `localcore-token-rebind-deploy-6@token-rebind` | 28 | rpc | not run | not run | mishandled: unexplained | pass | not run | not run | not run | not run | pass |
+| `localcore-token-rebind-deploy-6@token-rebind` | 28 | datalake | not run | not run | mishandled: unexplained | pass | not run | not run | not run | not run | pass |
+| `localcore-token-rebind-deploy-6@token-rebind-history` | 28 | rpc | not run | not run | not run | not run | pass | pass | not run | not run | not run |
+| `localcore-token-rebind-deploy-6@token-rebind-history` | 28 | datalake | not run | not run | not run | not run | pass | pass | not run | not run | not run |
+| `localcore-token-rebind-filler-5@token-rebind` | 28 | rpc | not run | not run | pass | pass | not run | not run | not run | not run | pass |
+| `localcore-token-rebind-filler-5@token-rebind` | 28 | datalake | not run | not run | pass | pass | not run | not run | not run | not run | pass |
+| `localcore-token-rebind-filler-5@token-rebind-history` | 28 | rpc | not run | not run | not run | not run | pass | pass | not run | not run | not run |
+| `localcore-token-rebind-filler-5@token-rebind-history` | 28 | datalake | not run | not run | not run | not run | pass | pass | not run | not run | not run |
+| `localcore-token-rebind-mint-7@token-rebind` | 28 | rpc | not run | not run | mishandled: unexplained | pass | not run | not run | not run | not run | pass |
+| `localcore-token-rebind-mint-7@token-rebind` | 28 | datalake | not run | not run | mishandled: unexplained | pass | not run | not run | not run | not run | pass |
+| `localcore-token-rebind-mint-7@token-rebind-history` | 28 | rpc | not run | not run | not run | not run | pass | pass | not run | not run | not run |
+| `localcore-token-rebind-mint-7@token-rebind-history` | 28 | datalake | not run | not run | not run | not run | pass | pass | not run | not run | not run |
+| `localcore-token-rebind-rebind-8@token-rebind` | 28 | rpc | not run | not run | mishandled: unexplained | pass | not run | not run | not run | not run | pass |
+| `localcore-token-rebind-rebind-8@token-rebind` | 28 | datalake | not run | not run | mishandled: unexplained | pass | not run | not run | not run | not run | pass |
+| `localcore-token-rebind-rebind-8@token-rebind-history` | 28 | rpc | not run | not run | not run | not run | pass | pass | not run | not run | not run |
+| `localcore-token-rebind-rebind-8@token-rebind-history` | 28 | datalake | not run | not run | not run | not run | pass | pass | not run | not run | not run |
+| `localcore-token-rebind-upload-4@token-rebind` | 28 | rpc | not run | not run | pass | pass | not run | not run | not run | not run | pass |
+| `localcore-token-rebind-upload-4@token-rebind` | 28 | datalake | not run | not run | pass | pass | not run | not run | not run | not run | pass |
+| `localcore-token-rebind-upload-4@token-rebind-history` | 28 | rpc | not run | not run | not run | not run | pass | pass | not run | not run | not run |
+| `localcore-token-rebind-upload-4@token-rebind-history` | 28 | datalake | not run | not run | not run | not run | pass | pass | not run | not run | not run |
+| `localcore-trustline-add-4@trustline-churn` | 28 | rpc | pass | pass | not run | not run | not run | not run | not run | not run | not run |
+| `localcore-trustline-add-4@trustline-churn` | 28 | datalake | pass | pass | not run | not run | not run | not run | not run | not run | not run |
+| `localcore-trustline-churn-5@trustline-churn` | 28 | rpc | pass | pass | not run | not run | not run | not run | not run | not run | not run |
+| `localcore-trustline-churn-5@trustline-churn` | 28 | datalake | pass | pass | not run | not run | not run | not run | not run | not run | not run |
 
 ## Totals
 
@@ -75,8 +101,12 @@ Only the implicit checks apply: the ledger is ingested without an error and ever
 | `367fe56e` | datalake | 6 | 0 | 0 | 0 |
 | `f5b67b07` | rpc | 6 | 0 | 0 | 0 |
 | `f5b67b07` | datalake | 6 | 0 | 0 | 0 |
-| `3e22515a` | rpc | 6 | 0 | 0 | 0 |
-| `3e22515a` | datalake | 6 | 0 | 0 | 0 |
+| `e967ce8b` | rpc | 1 | 2 | 0 | 0 |
+| `e967ce8b` | datalake | 1 | 2 | 0 | 0 |
+| `ff73ff46` | rpc | 3 | 0 | 0 | 0 |
+| `ff73ff46` | datalake | 3 | 0 | 0 | 0 |
+| `3e22515a` | rpc | 9 | 0 | 0 | 0 |
+| `3e22515a` | datalake | 9 | 0 | 0 | 0 |
 
 ## Oracle checks
 
@@ -99,14 +129,22 @@ checked. A failure is labelled with the open upstream issue that explains it
 | `367fe56e` | datalake | 6 | 42 | 36 | none | 0 |
 | `f5b67b07` | rpc | 6 | 42 | 36 | none | 0 |
 | `f5b67b07` | datalake | 6 | 42 | 36 | none | 0 |
-| `3e22515a` | rpc | 6 | 41 | 35 | none | 0 |
-| `3e22515a` | datalake | 6 | 41 | 35 | none | 0 |
+| `e967ce8b` | rpc | 3 | 13 | 5 | none | 2 |
+| `e967ce8b` | datalake | 3 | 13 | 5 | none | 2 |
+| `ff73ff46` | rpc | 3 | 13 | 12 | none | 0 |
+| `ff73ff46` | datalake | 3 | 13 | 12 | none | 0 |
+| `3e22515a` | rpc | 9 | 54 | 47 | none | 0 |
+| `3e22515a` | datalake | 9 | 54 | 47 | none | 0 |
 
 
 
 
 **Unexplained oracle failures (candidate new findings):**
 
+- `blend-pool-name` at `e967ce8b7362`, datalake: the indexer did not ingest the whole sequence: Error: running ingest: running 'ingest' from 0 to 0: live ingestion pipeline: persisting ledger 4: ingesting processed data for ledger 4 failed with a permanent error: permanent error on attempt 1: persisting ledger data for ledger 4: staging coordinated writes for ledger 4: persisting current state for BLEND at ledger 4: upserting 1 blend pools for ledger 4: upserting blend pools: ERROR: invalid byte sequence for encoding "UTF8": 0x00 (SQLSTATE 22021)
+- `blend-pool-name` at `e967ce8b7362`, rpc: the indexer did not ingest the whole sequence: Error: running ingest: running 'ingest' from 0 to 0: live ingestion pipeline: persisting ledger 4: ingesting processed data for ledger 4 failed with a permanent error: permanent error on attempt 1: persisting ledger data for ledger 4: staging coordinated writes for ledger 4: persisting current state for BLEND at ledger 4: upserting 1 blend pools for ledger 4: upserting blend pools: ERROR: invalid byte sequence for encoding "UTF8": 0x00 (SQLSTATE 22021)
+- `localcore-blend-pool-4@blend-pool-name` at `e967ce8b7362`, datalake: the indexer did not ingest this ledger: Error: running ingest: running 'ingest' from 0 to 0: live ingestion pipeline: persisting ledger 4: ingesting processed data for ledger 4 failed with a permanent error: permanent error on attempt 1: persisting ledger data for ledger 4: staging coordinated writes for ledger 4: persisting current state for BLEND at ledger 4: upserting 1 blend pools for ledger 4: upserting blend pools: ERROR: invalid byte sequence for encoding "UTF8": 0x00 (SQLSTATE 22021)
+- `localcore-blend-pool-4@blend-pool-name` at `e967ce8b7362`, rpc: the indexer did not ingest this ledger: Error: running ingest: running 'ingest' from 0 to 0: live ingestion pipeline: persisting ledger 4: ingesting processed data for ledger 4 failed with a permanent error: permanent error on attempt 1: persisting ledger data for ledger 4: staging coordinated writes for ledger 4: persisting current state for BLEND at ledger 4: upserting 1 blend pools for ledger 4: upserting blend pools: ERROR: invalid byte sequence for encoding "UTF8": 0x00 (SQLSTATE 22021)
 - `localcore-token-rebind-deploy-6@token-rebind` at `8ba290cd6c05`, datalake: the indexer did not ingest this ledger: panic: executing root command: running ingest: running 'ingest' from 0 to 0: live ingestion pipeline: persisting ledgers 6-8: ingesting processed data for ledgers 6-8 failed with a permanent error: permanent error on attempt 1: committing coordinating transaction for ledgers 6-8: ledger persist partially committed: ERROR: insert or update on table "sep41_balances" violates foreign key constraint "fk_sep41_contract_token" (SQLSTATE 23503)
 - `localcore-token-rebind-deploy-6@token-rebind` at `8ba290cd6c05`, rpc: the indexer did not ingest this ledger: panic: executing root command: running ingest: running 'ingest' from 0 to 0: live ingestion pipeline: persisting ledgers 6-8: ingesting processed data for ledgers 6-8 failed with a permanent error: permanent error on attempt 1: committing coordinating transaction for ledgers 6-8: ledger persist partially committed: ERROR: insert or update on table "sep41_balances" violates foreign key constraint "fk_sep41_contract_token" (SQLSTATE 23503)
 - `localcore-token-rebind-mint-7@token-rebind` at `8ba290cd6c05`, datalake: the indexer did not ingest this ledger: panic: executing root command: running ingest: running 'ingest' from 0 to 0: live ingestion pipeline: persisting ledgers 6-8: ingesting processed data for ledgers 6-8 failed with a permanent error: permanent error on attempt 1: committing coordinating transaction for ledgers 6-8: ledger persist partially committed: ERROR: insert or update on table "sep41_balances" violates foreign key constraint "fk_sep41_contract_token" (SQLSTATE 23503)
@@ -117,6 +155,30 @@ checked. A failure is labelled with the open upstream issue that explains it
 - `token-rebind` at `8ba290cd6c05`, rpc: the indexer did not ingest the whole sequence: panic: executing root command: running ingest: running 'ingest' from 0 to 0: live ingestion pipeline: persisting ledgers 6-8: ingesting processed data for ledgers 6-8 failed with a permanent error: permanent error on attempt 1: committing coordinating transaction for ledgers 6-8: ledger persist partially committed: ERROR: insert or update on table "sep41_balances" violates foreign key constraint "fk_sep41_contract_token" (SQLSTATE 23503)
 
 ## Details of every result that is not `pass`
+
+### `blend-pool-name` at `e967ce8b7362`, input datalake: mishandled
+
+- indexer process: exited by itself before the ledger was ingested (exit code 1)
+- evidence: `out-sequences/e967ce8b7362/datalake/blend-pool-name/` (job.json, ingest.log, observation.json, result.json, feeder-requests.jsonl)
+
+### `blend-pool-name` at `e967ce8b7362`, input rpc: mishandled
+
+- indexer process: exited by itself before the ledger was ingested (exit code 1)
+- evidence: `out-sequences/e967ce8b7362/rpc/blend-pool-name/` (job.json, ingest.log, observation.json, result.json, feeder-requests.jsonl)
+
+### `localcore-blend-pool-4@blend-pool-name` at `e967ce8b7362`, input datalake: mishandled
+
+- mishandled: the indexer raised an error on this ledger and did not ingest it: Error: running ingest: running 'ingest' from 0 to 0: live ingestion pipeline: persisting ledger 4: ingesting processed data for ledger 4 failed with a permanent error: permanent error on attempt 1: persisting ledger data for ledger 4: staging coordinated writes for ledger 4: persisting current state for BLEND at ledger 4: upserting 1 blend pools for ledger 4: upserting blend pools: ERROR: invalid byte sequence for encoding "UTF8": 0x00 (SQLSTATE 22021)
+- expectations: 0, source: none (implicit checks only)
+- indexer process: exited by itself before the ledger was ingested (exit code 1)
+- evidence: `out-sequences/e967ce8b7362/datalake/blend-pool-name/localcore-blend-pool-4/` (job.json, ingest.log, observation.json, result.json, feeder-requests.jsonl)
+
+### `localcore-blend-pool-4@blend-pool-name` at `e967ce8b7362`, input rpc: mishandled
+
+- mishandled: the indexer raised an error on this ledger and did not ingest it: Error: running ingest: running 'ingest' from 0 to 0: live ingestion pipeline: persisting ledger 4: ingesting processed data for ledger 4 failed with a permanent error: permanent error on attempt 1: persisting ledger data for ledger 4: staging coordinated writes for ledger 4: persisting current state for BLEND at ledger 4: upserting 1 blend pools for ledger 4: upserting blend pools: ERROR: invalid byte sequence for encoding "UTF8": 0x00 (SQLSTATE 22021)
+- expectations: 0, source: none (implicit checks only)
+- indexer process: exited by itself before the ledger was ingested (exit code 1)
+- evidence: `out-sequences/e967ce8b7362/rpc/blend-pool-name/localcore-blend-pool-4/` (job.json, ingest.log, observation.json, result.json, feeder-requests.jsonl)
 
 ### `localcore-token-rebind-deploy-6@token-rebind` at `8ba290cd6c05`, input datalake: mishandled
 
@@ -191,3 +253,6 @@ checked. A failure is labelled with the open upstream issue that explains it
 | 2026-11-16T22:40:40+00:00 | `367fe56e`, `f5b67b07`, `ee82038d` | rpc, datalake | 0 | 119.9 | 36756 | 12 | 15 |
 | 2026-11-17T01:36:53+00:00 | `8ba290cd`, `ee82038d`, `3e22515a` | rpc, datalake | 0 | 91.4 | 38676 | 15 | 18 |
 | 2026-11-17T01:38:24+00:00 | `367fe56e`, `f5b67b07` | rpc, datalake | 0 | 56.8 | 37888 | 10 | 12 |
+| 2026-11-17T09:21:30+00:00 | `e967ce8b`, `ff73ff46` | rpc, datalake | 0 | 21.9 | 38192 | 4 | 6 |
+| 2026-11-17T09:23:16+00:00 | `e967ce8b`, `ff73ff46` | rpc, datalake | 0 | 20.5 | 38636 | 4 | 6 |
+| 2026-11-17T09:26:10+00:00 | `3e22515a` | rpc, datalake | 0 | 10.4 | 38116 | 2 | 3 |

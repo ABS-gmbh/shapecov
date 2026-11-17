@@ -16,6 +16,11 @@ can show a contract classified as SEP-41 that then rebinds itself. stellar-core 
 transaction that uploads, deploys and calls it. A contract built from the soroban-sdk token example
 (plus an upgrade function) is the planned replacement.
 
+Declaring more in the spec than the module exports is still valid network input: anyone can upload
+such a contract, the host never checks the contractspecv0 section against the exports (it only runs
+what is called), and wallet-backend classifies a contract by its spec, so a network could carry
+this exact contract and wallet-backend would classify it the same way.
+
 Module layout (WebAssembly binary format, sections in order):
   1 type      three signatures, all on i64 (a Soroban Val is an i64): () -> i64, (i64) -> i64,
               (i64, i64) -> i64

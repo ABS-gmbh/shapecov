@@ -328,7 +328,7 @@ The py-stellar-base maintainer asks that XDR and strkey problems be tried agains
 ## Detection backtest
 
 Would the harness have caught defects that were already fixed or reported upstream? Replayed at the
-commit before and after each in-scope fix, it detects 13 of wallet-backend's 17 in-scope fixes (5 on
+commit before and after each in-scope fix, it detects 14 of wallet-backend's 17 in-scope fixes (5 on
 ledgers not chosen for the bug) and flags 7 of stellar-etl's 9 in-scope issues (1 blind). The
 measurement is incomplete: `harness/replay/BACKTEST.md` lists every fix, and for each miss the
 shape, oracle rule or export that would catch it. `python3 harness/replay/replay.py backtest`

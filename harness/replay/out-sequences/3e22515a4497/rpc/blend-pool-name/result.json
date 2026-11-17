@@ -1,0 +1,44 @@
+{
+ "adapter": "wallet-backend",
+ "commit": "3e22515a44979fdc3a558fda3991ca2b48e38cef",
+ "entry_id": "blend-pool-name",
+ "evidence": "out-sequences/3e22515a4497/rpc/blend-pool-name",
+ "feeder_requests": 5,
+ "ingested": true,
+ "input": "rpc",
+ "ledger": {
+  "close_time": 4030000000,
+  "hash": "d38739781888551522344e77ee80e6ddf8cfe32828a2bc3f26091910e0b5e98e",
+  "protocol": 28,
+  "seq": 4
+ },
+ "mode": "sequence blend-pool-name",
+ "oracle": {
+  "verdict": "not checked",
+  "rows_expected": 0,
+  "rows_met": 0,
+  "rows_checked": 0,
+  "known": {},
+  "unexplained": [],
+  "checks": []
+ },
+ "process": {
+  "exit_code": 0,
+  "oom_killed": false,
+  "outcome": "stopped by the adapter after the ledger was ingested",
+  "started_finished": "2026-11-17T09:26:13.48157792Z 2026-11-17T09:26:14.587232504Z"
+ },
+ "protocol_version": 28,
+ "ref": "3e22515a4497",
+ "result": "pass",
+ "sdk_pin": "v0.8.0",
+ "seconds": 3.2,
+ "sequence": {
+  "blind": false,
+  "built_for": "wallet-backend ff73ff46 (#803)",
+  "members": [
+   "localcore-blend-upload-3",
+   "localcore-blend-pool-4"
+  ]
+ }
+}

@@ -58,6 +58,15 @@ def render():
         L.append("   - corpus/%s: %s ledger %d" % (e["file"], e["source"]["network"], e["source"]["ledger_seq"]))
     L.append("")
 
+    third = [(e, t) for e in entries for t in e["source"].get("third_party") or []]
+    if third:
+        L += ["5. Third-party contract code inside corpus ledgers. A local stellar-core scenario uploads it, so the",
+              "   ledger's transaction carries the bytes:"]
+        for e, t in sorted(third, key=lambda x: x[0]["id"]):
+            L += ["   - corpus/%s: %s, sha256 %s, %s." % (e["file"], t["what"], t["sha256"], t["licence"]),
+                  "     Source: %s." % t["source"], "     Provenance: %s" % t["provenance"]]
+        L.append("")
+
     local = by_kind.get("local_stellar_core", [])
     generated = by_kind.get("generated", [])
     L += ["Not third-party: %d corpus entries are ledgers that ShapeCov's own scenarios (tools/localcore.py)" % len(local),

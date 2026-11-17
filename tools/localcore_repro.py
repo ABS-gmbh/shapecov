@@ -37,7 +37,8 @@ RECORD = ROOT / "corpus" / "localcore-reproducible.json"
 SCENARIOS = ["classic-p22", "muxed-source-p22", "memo-and-offer-p30", "sac-trust-p28",
              "pools-sponsorship-p30", "flags-preauth-p30", "participants-p28", "failures-p30",
              "big-merge-p30", "trustline-churn-p28", "deployer-cb-p28", "frozen-claim-p28",
-             "pool-share-unsponsor-p28", "token-rebind-p28"]
+             "pool-share-unsponsor-p28", "token-rebind-p28",
+             "blend-pool-name-p28"]
 NETWORKS = {"testnet": "Test SDF Network ; September 2015", "pubnet": "Public Global Stellar Network ; September 2015"}
 
 _CODEC = {}

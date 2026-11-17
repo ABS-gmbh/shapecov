@@ -236,6 +236,12 @@ def read_end_state():
         {"account": (address(r["account_id"], "trustline_balances", "account_id", unreadable) or {}).get("strkey"),
          "code": r["code"], "issuer": r["issuer"], "balance": int(r["balance"]), "limit": int(r["trust_limit"])}
         for r in tl]}
+    # Protocol classification and Blend pools, when the commit has those tables (read as text).
+    for table, cols in (("protocol_wasms", "encode(wasm_hash, 'hex') as wasm_hash, protocol_id"),
+                        ("protocol_contracts", "contract_id, encode(wasm_hash, 'hex') as wasm_hash, name"),
+                        ("blend_pools", "*")):
+        r = psql("select coalesce(json_agg(to_jsonb(t)), '[]'::json) from (select %s from %s) t" % (cols, table), check=False)
+        out[table] = json.loads(r.stdout) if r.returncode == 0 else None
     out["unreadable"] = unreadable
     return out
 

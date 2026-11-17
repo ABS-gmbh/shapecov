@@ -18251,6 +18251,263 @@
     "core_golden": "not_applicable"
    },
    "sightings": []
+  },
+  {
+   "id": "localcore-blend-pool-4",
+   "title": "Local stellar-core, scenario blend-pool-name-p28, second ledger: a Blend pool whose name holds a NUL byte",
+   "xdr_type": "LedgerCloseMeta",
+   "file": "entries/localcore-blend-pool-4.LedgerCloseMeta.xdr.b64",
+   "sha256": "e94b5abaad017157124795754c7d190725c43704086027f5e7aaef2af94331fb",
+   "size_bytes": 5696,
+   "protocol_version": 28,
+   "caps": [],
+   "synthetic": false,
+   "source": {
+    "kind": "local_stellar_core",
+    "stellar_core_version": "stellar-core 30.0.0 (0e49751aa9ddf892302cca02cea7f3f5d97df9f1)",
+    "image": "stellar/stellar-core:30.0.0-3642.0e49751aa.noble",
+    "network_passphrase": "Test SDF Network ; September 2015",
+    "ledger_seq": 4,
+    "ledger_hash": "d38739781888551522344e77ee80e6ddf8cfe32828a2bc3f26091910e0b5e98e",
+    "scenario": "blend-pool",
+    "generator": "tools/localcore.py",
+    "notes": "Standalone network, manual close, fixed keys and close times; see the scenario in tools/localcore.py."
+   },
+   "shape": "A pool deployed directly from Blend's pool wasm, its constructor authorized by its admin, with the name \"Fixed\\0Pool\": the pool's instance storage holds a Name that is not valid text for a database column (wallet-backend ff73ff46, #803).",
+   "patterns": {
+    "auth-nested-invocations": "v2.txSet.v1TxSet.phases[1].parallelTxsComponent.executionStages[0][0][0].v1.tx.operations[0].body.invokeHostFunctionOp.auth[0].rootInvocation",
+    "scval-wide-integer": "v2.txSet.v1TxSet.phases[1].parallelTxsComponent.executionStages[0][0][0].v1.tx.operations[0].body.invokeHostFunctionOp.hostFunction.createContractV2.constructorArgs[5]"
+   },
+   "designated": {
+    "patterns": [],
+    "cells": []
+   },
+   "cells": [
+    "arm:AccountEntryExt.1",
+    "arm:AccountEntryExtensionV1Ext.2",
+    "arm:AccountEntryExtensionV2Ext.3",
+    "arm:ContractEventBody.0",
+    "arm:ContractExecutable.CONTRACT_EXECUTABLE_WASM",
+    "arm:ContractIDPreimage.CONTRACT_ID_PREIMAGE_FROM_ADDRESS",
+    "arm:ExtensionPoint.0",
+    "arm:GeneralizedTransactionSet.1",
+    "arm:HostFunction.HOST_FUNCTION_TYPE_CREATE_CONTRACT_V2",
+    "arm:InvokeHostFunctionResult.INVOKE_HOST_FUNCTION_SUCCESS",
+    "arm:LedgerCloseMeta.2",
+    "arm:LedgerCloseMetaExt.0",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_CREATED",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_STATE",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_UPDATED",
+    "arm:LedgerEntryData.ACCOUNT",
+    "arm:LedgerEntryData.CONTRACT_DATA",
+    "arm:LedgerEntryData.TTL",
+    "arm:LedgerEntryExt.0",
+    "arm:LedgerHeaderExt.0",
+    "arm:LedgerHeaderHistoryEntryExt.0",
+    "arm:LedgerKey.CONTRACT_CODE",
+    "arm:LedgerKey.CONTRACT_DATA",
+    "arm:Memo.MEMO_NONE",
+    "arm:MuxedAccount.KEY_TYPE_ED25519",
+    "arm:OperationBody.INVOKE_HOST_FUNCTION",
+    "arm:OperationResult.opINNER",
+    "arm:OperationResultTr.INVOKE_HOST_FUNCTION",
+    "arm:Preconditions.PRECOND_NONE",
+    "arm:PublicKey.PUBLIC_KEY_TYPE_ED25519",
+    "arm:SCAddress.SC_ADDRESS_TYPE_ACCOUNT",
+    "arm:SCAddress.SC_ADDRESS_TYPE_CONTRACT",
+    "arm:SCVal.SCV_ADDRESS",
+    "arm:SCVal.SCV_BYTES",
+    "arm:SCVal.SCV_CONTRACT_INSTANCE",
+    "arm:SCVal.SCV_I128",
+    "arm:SCVal.SCV_LEDGER_KEY_CONTRACT_INSTANCE",
+    "arm:SCVal.SCV_MAP",
+    "arm:SCVal.SCV_STRING",
+    "arm:SCVal.SCV_SYMBOL",
+    "arm:SCVal.SCV_U32",
+    "arm:SCVal.SCV_U64",
+    "arm:SCVal.SCV_VEC",
+    "arm:SCVal.SCV_VOID",
+    "arm:SorobanAuthorizedFunction.SOROBAN_AUTHORIZED_FUNCTION_TYPE_CONTRACT_FN",
+    "arm:SorobanAuthorizedFunction.SOROBAN_AUTHORIZED_FUNCTION_TYPE_CREATE_CONTRACT_V2_HOST_FN",
+    "arm:SorobanCredentials.SOROBAN_CREDENTIALS_SOURCE_ACCOUNT",
+    "arm:SorobanTransactionDataExt.0",
+    "arm:SorobanTransactionMetaExt.0",
+    "arm:StellarValueExt.STELLAR_VALUE_SIGNED",
+    "arm:TransactionEnvelope.ENVELOPE_TYPE_TX",
+    "arm:TransactionExt.1",
+    "arm:TransactionMeta.4",
+    "arm:TransactionPhase.0",
+    "arm:TransactionPhase.1",
+    "arm:TransactionResultExt.0",
+    "arm:TransactionResultResult.txSUCCESS",
+    "enum:ContractDataDurability.PERSISTENT",
+    "enum:ContractEventType.CONTRACT",
+    "enum:ContractEventType.DIAGNOSTIC",
+    "enum:TransactionEventStage.TRANSACTION_EVENT_STAGE_AFTER_ALL_TXS",
+    "enum:TransactionEventStage.TRANSACTION_EVENT_STAGE_BEFORE_ALL_TXS"
+   ],
+   "cells_new_in_protocol": [],
+   "expected": {
+    "decoded": [
+     {
+      "path": "v",
+      "value": 2
+     },
+     {
+      "path": "v2.ledgerHeader.header.ledgerSeq",
+      "value": 4
+     },
+     {
+      "path": "v2.ledgerHeader.header.ledgerVersion",
+      "value": 28
+     },
+     {
+      "path": "v2.ledgerHeader.hash",
+      "value": "d38739781888551522344e77ee80e6ddf8cfe32828a2bc3f26091910e0b5e98e"
+     },
+     {
+      "path": "v2.ledgerHeader.header.scpValue.closeTime",
+      "value": 4030000000
+     }
+    ]
+   },
+   "validation": {
+    "independent_decoder": "not_run",
+    "rs_stellar_xdr_roundtrip": "not_run",
+    "stellar_core": {
+     "version": "30.0.0",
+     "command": "",
+     "result": "not_run"
+    },
+    "core_golden": "not_applicable"
+   },
+   "sightings": []
+  },
+  {
+   "id": "localcore-blend-upload-3",
+   "title": "Local stellar-core, scenario blend-pool-name-p28, first ledger: Blend's pool wasm uploaded",
+   "xdr_type": "LedgerCloseMeta",
+   "file": "entries/localcore-blend-upload-3.LedgerCloseMeta.xdr.b64",
+   "sha256": "fba3c85540ee5ec36c771d95a2047485a5d8c7269fb633e89f88cb355156e2f7",
+   "size_bytes": 118316,
+   "protocol_version": 28,
+   "caps": [],
+   "synthetic": false,
+   "source": {
+    "kind": "local_stellar_core",
+    "stellar_core_version": "stellar-core 30.0.0 (0e49751aa9ddf892302cca02cea7f3f5d97df9f1)",
+    "image": "stellar/stellar-core:30.0.0-3642.0e49751aa.noble",
+    "network_passphrase": "Test SDF Network ; September 2015",
+    "ledger_seq": 3,
+    "ledger_hash": "6cdc977ffeb6b65287aecf60c449b1adc1209a1e59e3e88d8ee038873773c0a7",
+    "scenario": "blend-upload",
+    "generator": "tools/localcore.py",
+    "notes": "Standalone network, manual close, fixed keys and close times; see the scenario in tools/localcore.py.",
+    "third_party": [
+     {
+      "what": "Blend pool contract, v2 (wasm)",
+      "sha256": "a41fc53d6753b6c04eb15b021c55052366a4c8e0e21bc72700f461264ec1350e",
+      "licence": "MIT (blend-capital/blend-contracts-v2, LICENSE)",
+      "source": "https://github.com/blend-capital/blend-contracts-v2; release v2.0.0_pool_cli22.0.1 publishes pool_v2.0.0.wasm of the same size, 57,328 bytes (GitHub publishes no digest for it, so the match by hash is not established)",
+      "provenance": "The scenario (tools/localcore.py, blend-pool-name-p28) takes the bytes from the upload in pubnet ledger 56,615,381 of Stellar's public ledger archive and checks their SHA-256. A public stellar-rpc (getLedgerEntries) confirms that pubnet's contract code with this hash was last written in that ledger; wallet-backend's internal/services/blend/testdata/blend_pool_v2.wasm at 3e22515a is the same bytes."
+     }
+    ]
+   },
+   "shape": "The Blend pool wasm (v2), byte for byte the one uploaded on pubnet in ledger 56,615,381 (sha256 a41fc53d...), uploaded by the root account. The first ledger of the sequence blend-pool-name (corpus/sequences.json).",
+   "patterns": {
+    "scval-wide-integer": "v2.txProcessing[0].txApplyProcessing.v4.events[0].event.body.v0.data"
+   },
+   "designated": {
+    "patterns": [],
+    "cells": []
+   },
+   "cells": [
+    "arm:AccountEntryExt.0",
+    "arm:AccountEntryExt.1",
+    "arm:AccountEntryExtensionV1Ext.2",
+    "arm:AccountEntryExtensionV2Ext.3",
+    "arm:ContractCodeEntryExt.1",
+    "arm:ContractEventBody.0",
+    "arm:ExtensionPoint.0",
+    "arm:GeneralizedTransactionSet.1",
+    "arm:HostFunction.HOST_FUNCTION_TYPE_UPLOAD_CONTRACT_WASM",
+    "arm:InvokeHostFunctionResult.INVOKE_HOST_FUNCTION_SUCCESS",
+    "arm:LedgerCloseMeta.2",
+    "arm:LedgerCloseMetaExt.0",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_CREATED",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_STATE",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_UPDATED",
+    "arm:LedgerEntryData.ACCOUNT",
+    "arm:LedgerEntryData.CONTRACT_CODE",
+    "arm:LedgerEntryData.TTL",
+    "arm:LedgerEntryExt.0",
+    "arm:LedgerHeaderExt.0",
+    "arm:LedgerHeaderHistoryEntryExt.0",
+    "arm:LedgerKey.CONTRACT_CODE",
+    "arm:Memo.MEMO_NONE",
+    "arm:MuxedAccount.KEY_TYPE_ED25519",
+    "arm:OperationBody.INVOKE_HOST_FUNCTION",
+    "arm:OperationResult.opINNER",
+    "arm:OperationResultTr.INVOKE_HOST_FUNCTION",
+    "arm:Preconditions.PRECOND_NONE",
+    "arm:PublicKey.PUBLIC_KEY_TYPE_ED25519",
+    "arm:SCAddress.SC_ADDRESS_TYPE_ACCOUNT",
+    "arm:SCVal.SCV_ADDRESS",
+    "arm:SCVal.SCV_BYTES",
+    "arm:SCVal.SCV_I128",
+    "arm:SCVal.SCV_SYMBOL",
+    "arm:SCVal.SCV_U64",
+    "arm:SorobanTransactionDataExt.0",
+    "arm:SorobanTransactionMetaExt.0",
+    "arm:StellarValueExt.STELLAR_VALUE_SIGNED",
+    "arm:TransactionEnvelope.ENVELOPE_TYPE_TX",
+    "arm:TransactionExt.1",
+    "arm:TransactionMeta.4",
+    "arm:TransactionPhase.0",
+    "arm:TransactionPhase.1",
+    "arm:TransactionResultExt.0",
+    "arm:TransactionResultResult.txSUCCESS",
+    "enum:ContractEventType.CONTRACT",
+    "enum:ContractEventType.DIAGNOSTIC",
+    "enum:TransactionEventStage.TRANSACTION_EVENT_STAGE_AFTER_ALL_TXS",
+    "enum:TransactionEventStage.TRANSACTION_EVENT_STAGE_BEFORE_ALL_TXS"
+   ],
+   "cells_new_in_protocol": [],
+   "expected": {
+    "decoded": [
+     {
+      "path": "v",
+      "value": 2
+     },
+     {
+      "path": "v2.ledgerHeader.header.ledgerSeq",
+      "value": 3
+     },
+     {
+      "path": "v2.ledgerHeader.header.ledgerVersion",
+      "value": 28
+     },
+     {
+      "path": "v2.ledgerHeader.hash",
+      "value": "6cdc977ffeb6b65287aecf60c449b1adc1209a1e59e3e88d8ee038873773c0a7"
+     },
+     {
+      "path": "v2.ledgerHeader.header.scpValue.closeTime",
+      "value": 4020000000
+     }
+    ]
+   },
+   "validation": {
+    "independent_decoder": "not_run",
+    "rs_stellar_xdr_roundtrip": "not_run",
+    "stellar_core": {
+     "version": "30.0.0",
+     "command": "",
+     "result": "not_run"
+    },
+    "core_golden": "not_applicable"
+   },
+   "sightings": []
   }
  ]
 }

@@ -91,6 +91,19 @@
      "localcore-token-rebind-rebind-8"
     ]
    ]
+  },
+  {
+   "id": "blend-pool-name",
+   "entries": [
+    "localcore-blend-upload-3",
+    "localcore-blend-pool-4"
+   ],
+   "built_for": "wallet-backend ff73ff46 (#803)",
+   "blind": false,
+   "protocols": [
+    "BLEND"
+   ],
+   "end_state": "With Blend production on, wallet-backend classifies the pool from the wasm uploaded in the first ledger and ingests the second; the name is dropped, the pool kept."
   }
  ]
 }

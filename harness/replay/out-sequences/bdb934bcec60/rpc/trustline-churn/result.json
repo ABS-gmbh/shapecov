@@ -1,36 +1,18 @@
 {
  "adapter": "wallet-backend",
- "ref": "bdb934bcec60ae2f51f0f375778943bb3e9cc295",
  "commit": "bdb934bcec60ae2f51f0f375778943bb3e9cc295",
- "input": "rpc",
- "sdk_pin": "v0.6.1-0.20260625225930-6181cdf8bda5",
- "mode": "sequence trustline-churn",
  "entry_id": "trustline-churn",
- "protocol_version": 28,
- "ledger": {
-  "seq": 5,
-  "hash": "f15bd16367e77eb6313be168832fef9ba33bb1bc48e8ed20d70d7339a6fed194",
-  "close_time": 4040000000,
-  "protocol": 28
- },
- "sequence": {
-  "members": [
-   "localcore-trustline-add-4",
-   "localcore-trustline-churn-5"
-  ],
-  "blind": false,
-  "built_for": "stellar/wallet-backend#687 (fix bd545417)"
- },
- "ingested": true,
- "process": {
-  "outcome": "stopped by the adapter after the ledger was ingested",
-  "exit_code": 0,
-  "oom_killed": false,
-  "started_finished": "2026-11-16T21:30:32.096716763Z 2026-11-16T21:30:33.637565542Z"
- },
- "seconds": 5.1,
- "feeder_requests": 3,
  "evidence": "out-sequences/bdb934bcec60/rpc/trustline-churn",
+ "feeder_requests": 3,
+ "ingested": true,
+ "input": "rpc",
+ "ledger": {
+  "close_time": 4040000000,
+  "hash": "f15bd16367e77eb6313be168832fef9ba33bb1bc48e8ed20d70d7339a6fed194",
+  "protocol": 28,
+  "seq": 5
+ },
+ "mode": "sequence trustline-churn",
  "oracle": {
   "verdict": "known issues only",
   "rows_expected": 1,
@@ -70,5 +52,23 @@
    "#687 lost delete": "bd545417"
   }
  },
- "result": "mishandled"
+ "process": {
+  "exit_code": 0,
+  "oom_killed": false,
+  "outcome": "stopped by the adapter after the ledger was ingested",
+  "started_finished": "2026-11-16T21:30:32.096716763Z 2026-11-16T21:30:33.637565542Z"
+ },
+ "protocol_version": 28,
+ "ref": "bdb934bcec60ae2f51f0f375778943bb3e9cc295",
+ "result": "mishandled",
+ "sdk_pin": "v0.6.1-0.20260625225930-6181cdf8bda5",
+ "seconds": 5.1,
+ "sequence": {
+  "blind": false,
+  "built_for": "stellar/wallet-backend#687 (fix bd545417)",
+  "members": [
+   "localcore-trustline-add-4",
+   "localcore-trustline-churn-5"
+  ]
+ }
 }

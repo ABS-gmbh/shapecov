@@ -1,0 +1,53 @@
+{
+ "job_version": 1,
+ "entry_id": "blend-pool-name",
+ "ref": "ff73ff46",
+ "commit": "ff73ff465093f6412d070462a5490bd255c748c6",
+ "input": "datalake",
+ "network_passphrase": "Test SDF Network ; September 2015",
+ "ledger": {
+  "seq": 4,
+  "hash": "d38739781888551522344e77ee80e6ddf8cfe32828a2bc3f26091910e0b5e98e",
+  "close_time": 4030000000,
+  "protocol": 28
+ },
+ "sequence": {
+  "id": "blend-pool-name",
+  "ledgers": [
+   {
+    "entry_id": "localcore-blend-upload-3",
+    "seq": 3,
+    "hash": "6cdc977ffeb6b65287aecf60c449b1adc1209a1e59e3e88d8ee038873773c0a7"
+   },
+   {
+    "entry_id": "localcore-blend-pool-4",
+    "seq": 4,
+    "hash": "d38739781888551522344e77ee80e6ddf8cfe32828a2bc3f26091910e0b5e98e"
+   }
+  ]
+ },
+ "rpc": {
+  "url": "http://shapecov-blend-feeder:8000/rpc/blend-pool-name"
+ },
+ "datalake": {
+  "s3_endpoint": "http://shapecov-blend-feeder:9000",
+  "bucket_path": "shapecov-lake/blend-pool-name",
+  "region": "us-east-1"
+ },
+ "history_archive": {
+  "url": "http://shapecov-blend-feeder:8000/archive/blend-pool-name"
+ },
+ "protocols": [
+  "BLEND"
+ ],
+ "live_persist_max_batch_size": null,
+ "protocol_cursors": [
+  "history",
+  "current_state"
+ ],
+ "commits": [],
+ "feeder_container": "shapecov-blend-feeder",
+ "docker_network": "shapecov-blend-net",
+ "timeout_seconds": 240,
+ "work_dir": "$REPLAY_WORK"
+}

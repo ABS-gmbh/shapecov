@@ -61,6 +61,7 @@ several sequences may share a ledger.
 | `trustline-churn` | `localcore-trustline-add-4`, `localcore-trustline-churn-5` (scenario `trustline-churn-p28`) | wallet-backend#687 | no: built after reading the fix |
 | `token-rebind` | `localcore-token-rebind-upload-4` to `-rebind-8` (scenario `token-rebind-p28`), SEP-41 production on, three ledgers per persist commit | wallet-backend `ee82038d` | no: built after reading the fix |
 | `token-rebind-history` | the same five ledgers, SEP-41 history production only, and one expectation: the mint's `BALANCE/MINT` row | wallet-backend `f5b67b07` | no: built after reading the fix |
+| `blend-pool-name` | `localcore-blend-upload-3`, `localcore-blend-pool-4` (scenario `blend-pool-name-p28`): Blend's pool wasm from pubnet ledger 56,615,381, then a pool whose name holds a NUL byte; Blend production on | wallet-backend#803 (`ff73ff46`) | no: built after reading the fix |
 
 ### Protocol production (SEP-41, Blend)
 
@@ -78,7 +79,10 @@ batch); a contract deployed earlier stays unclassified. Token metadata is not ex
 validator asks for `name`, `symbol` and `decimals` through `simulateTransaction`, the mock answers
 with an error, and wallet-backend continues with default values, as its own code does when that
 call fails. Classification itself is wallet-backend's ordinary live-ingestion path: nothing is
-injected into its database or its validators.
+injected into its database or its validators. With Blend production on, its price snapshot also reads a
+backstop's state through RPC; the mock has none, so wallet-backend logs a warning ("price snapshot
+pass failed") and continues. A sequence's end state records `protocol_wasms`, `protocol_contracts`
+and `blend_pools`, so the classification is visible in the evidence.
 
 The contract the `token-rebind` sequences deploy is purpose-built for them:
 `tools/rebind_token_wasm.py` assembles it byte by byte (a mint that publishes the SEP-41 event, an

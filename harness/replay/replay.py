@@ -436,14 +436,18 @@ def sequence_verdict(sq, obs, mapping, values, member_obs=None):
     passphrase = sq["_passphrase"]
     exps = mapping.end_state_expectations(values, passphrase) if hasattr(mapping, "end_state_expectations") else []
     c = classify.classify(exps, obs)
-    for x in sq.get("expectations") or []:
+    own = list(sq.get("expectations") or [])
+    if hasattr(mapping, "manifest_expectations"):
+        # written in wallet-backend's vocabulary, like the manifest's: each adapter keeps what applies to it
+        own = [x for x in own if mapping.manifest_expectations([{k: v for k, v in x.items() if k != "entry"}])]
+    for x in own:
         e = {k: v for k, v in x.items() if k != "entry"}
         mo = (member_obs or {}).get(x.get("entry"))
         if mo is None:
             c["checks"].append({"expect": e, "outcome": "not_checked", "detail": "no observation of %s" % x.get("entry")})
         else:
             c["checks"] += classify.classify([e], mo)["checks"]
-    exps = exps + list(sq.get("expectations") or [])
+    exps = exps + own
     known, unexplained, fixed, fixed_by, known_outcome = {}, [], {}, {}, {}
     if not obs.get("ingested"):
         unexplained.append("the indexer did not ingest the whole sequence: %s" % (obs.get("error") or "no error raised"))

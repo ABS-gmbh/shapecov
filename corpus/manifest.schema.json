@@ -350,6 +350,39 @@
         },
         "notes": {
          "type": "string"
+        },
+        "third_party": {
+         "description": "Third-party code a scenario put into the ledger (e.g. a contract's wasm), with where its bytes came from and its licence; NOTICE lists it.",
+         "type": "array",
+         "items": {
+          "type": "object",
+          "required": [
+           "what",
+           "sha256",
+           "licence",
+           "source",
+           "provenance"
+          ],
+          "additionalProperties": false,
+          "properties": {
+           "what": {
+            "type": "string"
+           },
+           "sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+           },
+           "licence": {
+            "type": "string"
+           },
+           "source": {
+            "type": "string"
+           },
+           "provenance": {
+            "type": "string"
+           }
+          }
+         }
         }
        }
       }
@@ -494,7 +527,8 @@
            "ids_exact",
            "transactions_decode",
            "pool_pair_accepted",
-           "map_keys_host_order", "string_bytes_kept"
+           "map_keys_host_order",
+           "string_bytes_kept"
           ]
          },
          "path": {
