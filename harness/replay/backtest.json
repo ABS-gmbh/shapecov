@@ -1759,7 +1759,7 @@
    "title": "cap Blend decimals at 70",
    "verdict": "missed",
    "entries": [],
-   "what_would_catch_it": "What the remaining Blend miss needs. Protocol production runs in replays (`--protocols`, README \"Protocol production\"), and Blend's real pool wasm is in the corpus (`localcore-blend-upload-3`, from pubnet ledger 56,615,381), so a pool can be deployed and classified as for `ff73ff46`. Then, for this fix: a reserve with decimals above 70 set on that pool through its admin calls (queue_set_reserve, then set_reserve), which Blend's own code validates; not built yet."
+   "what_would_catch_it": "Not detected, and Blend's own pool cannot produce it: Blend v2 refuses a reserve whose decimals exceed 18 (blend-contracts-v2 `pool/src/pool/config.rs`, `require_valid_reserve_metadata`, at `v2.0.0_pool_cli22.0.1`). Checked on 17 Nov 2026 on a local stellar-core with Blend's real pool wasm: `queue_set_reserve` with 80 decimals fails with `InvalidReserveMetadata` (1202). wallet-backend classifies a Blend pool by its interface, so a contract that presents that interface and stores a reserve with decimals above 70 is still valid network input and would reach the fix; it would have to be purpose-built, as the token for `ee82038d` was, and is not built."
   },
   {
    "id": "490aab41",
