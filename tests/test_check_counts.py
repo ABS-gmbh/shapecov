@@ -29,6 +29,18 @@ faulty ones. One GitHub Actions workflows run it.
 The harness detects 1 of wallet-backend's 2 in-scope fixes (1 on ledgers not chosen for the bug)
 and flags 0 of stellar-etl's 1 in-scope issues (0 blind).
 Of its 3-item checklist, 2 items name the corpus ledgers that exercise them and 1 the upstream fix or issue behind it.
+The ledgers are pubnet and testnet history from protocol 25 to 25.
+All 4 live CAPs are accounted for: 3 have a shape in ledger data, and of those 1 are covered, 1 is covered except for
+one form and 1 is a gap; the other 1 have no shape in ledger data. 1 of the 2 cells a ledger reader can meet, and 1 of
+the 2 that can occur in a closed ledger. 3 can never be in a closed ledger, 1 predate protocol 20, 0 appear only in
+metadata from an older core, 2 appear only in consensus messages, and 0 is impractical.
+"""
+CAP_COVERAGE = """| CAP | Protocol | Title | Status | Evidence | Gap |
+|---|---|---|---|---|---|
+| CAP-0001 | 10 | A | covered | x | — |
+| CAP-0046-01 | 20 | B | partly covered | x | y |
+| CAP-0083 | 28 | C | gap | | y |
+| CAP-0002 | 10 | D | no shape | why | — |
 """
 GUIDE = """# Guide
 
@@ -62,7 +74,8 @@ class CheckCounts(unittest.TestCase):
         self.dir = Path(self.tmp.name)
         entries = [
             {"id": "g", "synthetic": False, "source": {"kind": "stellar_core_golden"}, "cells": ["arm:U.A"]},
-            {"id": "n", "synthetic": False, "source": {"kind": "network_ledger", "network": "testnet"}, "cells": []},
+            {"id": "n", "synthetic": False, "source": {"kind": "network_ledger", "network": "testnet"}, "cells": [],
+             "protocol_version": 25},
             {"id": "l", "synthetic": False, "source": {"kind": "local_stellar_core"}, "cells": []},
             {"id": "s", "synthetic": True, "source": {"kind": "generated"}, "cells": []},
         ]
@@ -70,7 +83,9 @@ class CheckCounts(unittest.TestCase):
             "corpus/manifest.json": {"entries": entries},
             "corpus/coverage.json": {"schema_cells": 3, "generator_covers": 2, "reachable_cells": 2,
                                      "corpus_covers_reachable": 1, "generator_covers_reachable": 2,
-                                     "uncovered_reachable": 1},
+                                     "uncovered_reachable": 1, "closed_ledger_cells": 2,
+                                     "uncovered_by_class": {"never_in_ledger": 3, "before_protocol": 1, "consensus": 2}},
+            "corpus/CAP-COVERAGE.md": CAP_COVERAGE,
             "FINDINGS.json": {"findings": [{"kind": "found", "upstream": ["u1"]}, {"kind": "sighting"}]},
             "schema/schema.json": {"types": {"U": {"k": "union", "arms": [{}]}, "E": {"k": "enum", "members": [[1], [2]]}}},
             ".github/workflows/ci.yml": "name: ci\n",
@@ -116,6 +131,12 @@ class CheckCounts(unittest.TestCase):
         rc, out = self.run_check()
         self.assertEqual(rc, 1, out)
         self.assertIn("but guide checklist items exercised by a corpus ledger is 2", out)
+
+    def test_cap_figures_come_from_the_per_cap_table(self):
+        write_tree(self.dir, {"README.md": README.replace("of those 1 are covered", "of those 2 are covered")})
+        rc, out = self.run_check()
+        self.assertEqual(rc, 1, out)
+        self.assertIn("but CAPs covered is 1", out)
 
     def test_commas_in_numbers_are_read(self):
         write_tree(self.dir, {"README.md": README.replace("4 generated cases", "4,000 generated cases")})

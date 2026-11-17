@@ -45,6 +45,17 @@ def checklist_evidence():
     return [r[1:] for r in rows if r and r[0].isdigit()]
 
 
+def cap_statuses():
+    """{status: number of CAPs} from the generated per-CAP table (corpus/CAP-COVERAGE.md)."""
+    out = {}
+    with open("corpus/CAP-COVERAGE.md") as f:
+        for line in f:
+            cells = [c.strip() for c in line.split("|")[1:-1]]
+            if len(cells) > 3 and re.fullmatch(r"CAP-\d{4}(?:-\d{2})?", cells[0]):
+                out[cells[3]] = out.get(cells[3], 0) + 1
+    return out
+
+
 def counts():
     entries = load("corpus/manifest.json")["entries"]
     kinds = [e["source"]["kind"] for e in entries]
@@ -71,6 +82,9 @@ def counts():
     spec.loader.exec_module(qc)
     probes = load("guide/probes.json")["probes"]
     checklist = checklist_evidence()
+    caps = cap_statuses()
+    net_protocols = [e.get("protocol_version") for e in entries if e["source"]["kind"] == "network_ledger" and e.get("protocol_version")]
+    by_class = cov.get("uncovered_by_class") or {}
     backtest = {}
     for it in load("harness/replay/backtest.json")["items"]:
         t = backtest.setdefault(it["pipeline"], {"detected": 0, "blind": 0, "in_scope": 0})
@@ -107,6 +121,20 @@ def counts():
         "reachable cells in a corpus entry": cov["corpus_covers_reachable"],
         "reachable cells reached by valid cases": cov["generator_covers_reachable"],
         "reachable cells in no corpus entry": cov["uncovered_reachable"],
+        "cells that can occur in a closed ledger": cov["closed_ledger_cells"],
+        "uncovered cells that can never be in a closed ledger": by_class.get("never_in_ledger", 0),
+        "uncovered cells that predate protocol 20": by_class.get("before_protocol", 0),
+        "uncovered cells only in an older stellar-core's metadata": by_class.get("older_core", 0),
+        "uncovered cells only in consensus": by_class.get("consensus", 0),
+        "uncovered cells impractical": by_class.get("impractical", 0),
+        "lowest protocol of a network ledger": min(net_protocols or [0]),
+        "highest protocol of a network ledger": max(net_protocols or [0]),
+        "live CAPs": sum(caps.values()),
+        "CAPs with a shape in ledger data": sum(n for s, n in caps.items() if s != "no shape"),
+        "CAPs covered": caps.get("covered", 0),
+        "CAPs partly covered": caps.get("partly covered", 0),
+        "CAP gaps": caps.get("gap", 0),
+        "CAPs with no shape": caps.get("no shape", 0),
         "quickcheck checks": len(qc.CHECKS),
         "guide rows with a side that rests on a citation alone": sum(
             1 for r in load("guide/verdicts.json")["rows"]
@@ -162,7 +190,22 @@ PATTERNS = {
     "cells a ledger reader can meet": [r"\b[\d,]+ of the ([\d,]+) (?:reachable cells|cells a ledger reader can meet|a ledger reader)"],
     "reachable cells in a corpus entry": [r"\b([\d,]+) of the [\d,]+ (?:reachable cells|cells a ledger reader can meet)"],
     "reachable cells reached by valid cases": [r"\band ([\d,]+) of the [\d,]+ a ledger reader can"],
-    "reachable cells in no corpus entry": [r"\bEach of the other ([\d,]+) is classified"],
+    "reachable cells in no corpus entry": [r"\bEach of the other ([\d,]+) is classified",
+                                           r"\band ([\d,]+) of the cells a ledger reader can meet appear in no corpus"],
+    "cells that can occur in a closed ledger": [r"\b[\d,]+\s+of\s+the\s+([\d,]+)\s+that\s+can\s+occur\s+in\s+a\s+closed\s+ledger"],
+    "uncovered cells that can never be in a closed ledger": [r"\b([\d,]+)\s+can\s+never\s+be\s+in\s+a\s+closed\s+ledger"],
+    "uncovered cells that predate protocol 20": [r"\b([\d,]+)\s+predate\s+protocol\s+20"],
+    "uncovered cells only in an older stellar-core's metadata": [r"\b([\d,]+)\s+appear\s+only\s+in\s+metadata\s+from\s+an\s+older"],
+    "uncovered cells only in consensus": [r"\b([\d,]+)\s+appear\s+only\s+in\s+consensus\s+messages"],
+    "uncovered cells impractical": [r"\band\s+([\d,]+)\s+is\s+impractical"],
+    "lowest protocol of a network ledger": [r"\btestnet\s+history\s+from\s+protocol\s+([\d,]+)\s+to"],
+    "highest protocol of a network ledger": [r"\btestnet\s+history\s+from\s+protocol\s+[\d,]+\s+to\s+([\d,]+)"],
+    "live CAPs": [r"\bAll\s+([\d,]+)\s+live\s+CAPs\s+are\s+accounted\s+for", r"\bof\s+([\d,]+),\s+[\d,]+\s+covered,\s+[\d,]+\s+partly\s+covered"],
+    "CAPs with a shape in ledger data": [r"\b([\d,]+)\s+have\s+a\s+shape\s+in\s+ledger\s+data"],
+    "CAPs covered": [r"\bof\s+those\s+([\d,]+)\s+are\s+covered", r"\bof\s+[\d,]+,\s+([\d,]+)\s+covered,\s+[\d,]+\s+partly\s+covered"],
+    "CAPs partly covered": [r"\b([\d,]+)\s+is\s+covered\s+except\s+for\s+one\s+form", r"\b([\d,]+)\s+partly\s+covered,\s+[\d,]+\s+gap"],
+    "CAP gaps": [r"\band\s+([\d,]+)\s+is\s+a\s+gap\b", r"\bpartly\s+covered,\s+([\d,]+)\s+gap"],
+    "CAPs with no shape": [r"\bthe\s+other\s+([\d,]+)\s+have\s+no\s+shape\s+in\s+ledger\s+data", r"\b([\d,]+)\s+with\s+no\s+shape\s+a\s+reader\s+can\s+see"],
     "schema cells no valid case reaches": [r"\bof the ([\d,]+) schema cells no valid case"],
     "backtest: wallet-backend fixes detected": [r"\bdetects ([\d,]+) of wallet-backend's [\d,]+ in-scope fixes"],
     "backtest: wallet-backend fixes in scope": [r"\bof wallet-backend's ([\d,]+) in-scope fixes"],

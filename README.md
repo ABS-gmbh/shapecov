@@ -40,6 +40,15 @@ testing, 18 checks in about 20 seconds on an idle laptop; CI runs it on every pu
 
 ## Results
 
+- **Coverage, per CAP and per schema cell.** All 70 live CAPs are accounted for
+  ([`CAP-COVERAGE.md`](corpus/CAP-COVERAGE.md)): 41 have a shape in ledger data, and of those 39 are
+  covered, 1 is covered except for one form (CAP-0088) and 1 is a gap (CAP-0083, a transaction set
+  dropped by vote, which needs a network of several validators; its row says what would close it);
+  the other 29 have no shape in ledger data, each with its reason. 446 of the 538 cells a ledger
+  reader can meet (82.9%) appear in a corpus entry, and 446 of the 465 that can occur in a closed
+  ledger (95.9%) ([`COVERAGE.md`](corpus/COVERAGE.md)). The ledgers are stellar-core's golden files,
+  pubnet and testnet history from protocol 8 to 30, and local stellar-core scenarios that reproduce
+  byte for byte on both passphrases.
 - **8 defects found, filed in 7 issues** in java-stellar-sdk, py-stellar-base and stellar-etl. The Java
   maintainer fixed #833 two days after it was filed; py-stellar-base closed #1262 and #1263 as
   fixed in its replacement XDR package, and feedback on that package's API led to a documentation
@@ -72,12 +81,12 @@ testing, 18 checks in about 20 seconds on an idle laptop; CI runs it on every pu
 - Three replay adapters exist: wallet-backend, stellar-etl and Horizon
   ([`RESULTS-horizon.md`](harness/replay/RESULTS-horizon.md)). Other indexers are not built. A toy one, [`adapters/example/`](harness/replay/adapters/example/), shows the interface in
   about 100 lines and the participant rule on two variants of the same indexer.
-- Whole ledgers are not generated. They come from network history, stellar-core's golden files and
-  fixed local stellar-core scenarios, so 446 of the 538 cells a ledger reader can meet (82.9%)
-  appear in a corpus entry, and 446 of the 465 that can occur in a closed ledger (95.9%).
-  Each of the other 92 is classified from stellar-core's source in [`corpus/COVERAGE.md`](corpus/COVERAGE.md): 73 can
-  never be in a closed ledger, 9 predate protocol 20, 2 appear only in metadata from an older stellar-core, 7 appear only in consensus messages or under a
-  consensus option, and 1 is impractical.
+- Whole ledgers are not generated, and 92 of the cells a ledger reader can meet appear in no corpus
+  entry. Each of them is classified in [`corpus/COVERAGE.md`](corpus/COVERAGE.md): 73 can
+  never be in a closed ledger, 9 predate protocol 20, 2 appear only in metadata from an older
+  stellar-core, 7 appear only in consensus messages or under a consensus option, and 1 is
+  impractical. The classification is read from stellar-core's source; no stellar-core engineer has
+  confirmed it.
 
 More: [`ARCHITECTURE.md`](ARCHITECTURE.md) (how the parts fit, the adapter interface, isolation),
 [`STATUS.md`](STATUS.md) (dated log), [`MAINTENANCE.md`](MAINTENANCE.md),
