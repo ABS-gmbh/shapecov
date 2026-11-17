@@ -240,6 +240,29 @@ def read_end_state():
     return out
 
 
+def release(job, last):
+    """Let the feeder serve the job's sequence up to ledger `last` (feeder.py, /__release)."""
+    sh(["docker", "exec", job["feeder_container"], "python3", "-c",
+        "import urllib.request; urllib.request.urlopen(urllib.request.Request("
+        "'http://127.0.0.1:8000/__release?name=%s&last=%d', method='POST'))" % (job["sequence"]["id"], last)])
+
+
+def psql_detached(sql):
+    """Run SQL in its own session in the background (the database container's psql)."""
+    sh(["docker", "exec", "-d", DB, "psql", "-U", "postgres", "-d", "replay", "-c", sql])
+
+
+def wait_cursor(seq, deadline):
+    while time.time() < deadline:
+        cur = cursor()
+        if cur is not None and cur >= seq:
+            return True
+        if sh(["docker", "inspect", "-f", "{{.State.Running}}", INGEST], check=False).stdout.strip() != "true":
+            return False
+        time.sleep(0.2)
+    return False
+
+
 def cursor():
     r = psql("select value from ingest_store where key = 'latest_ingest_ledger'", check=False)
     try:
@@ -278,6 +301,27 @@ def run(a):
     # Position the indexer directly before the entry's ledger (a sequence's first).
     psql("insert into ingest_store (key, value) values ('latest_ingest_ledger', '%d'), ('oldest_ingest_ledger', '%d')"
          % (first - 1, first - 1))
+    protocols = job.get("protocols") or []
+    if protocols:
+        # Protocol production (SEP-41, Blend) the way an operator turns it on: the commit's own
+        # protocol-setup, then the protocol cursors where protocol-migrate leaves them once it has
+        # migrated up to the ledger before the replay.
+        setup = sh(["docker", "run", "--rm", "--name", MIGRATE, "--network", job["docker_network"],
+                    "-v", os.path.join(work, "bin") + ":/wb:ro", "-e", "DATABASE_URL=" + DB_URL,
+                    "-e", "RPC_URL=" + job["rpc"]["url"], "-e", "NETWORK_PASSPHRASE=" + job["network_passphrase"],
+                    GO_IMAGE, binary, "protocol-setup"] + sum((["--protocol-id", p] for p in protocols), []), check=False)
+        with open(os.path.join(out, "protocol-setup.log"), "w") as f:
+            f.write(setup.stdout or "")
+        if setup.returncode != 0:
+            obs["error"] = "adapter: the commit's own `protocol-setup` failed, see protocol-setup.log"
+            obs["adapter_failure"] = True
+            return finish(obs, out, t0)
+        # Both cursors by default; a job may set only some (e.g. history production alone).
+        kinds = job.get("protocol_cursors") or ["history", "current_state"]
+        psql("insert into ingest_store (key, value) values %s" % ", ".join(
+            "('protocol_%s_%s_cursor', '%d')" % (p, k, first - 1) for p in protocols for k in kinds))
+        obs["protocol_cursors"] = kinds
+        obs["protocols"] = protocols
     env = {"DATABASE_URL": DB_URL, "NETWORK_PASSPHRASE": job["network_passphrase"],
            "NETWORK": KNOWN_NETWORKS.get(job["network_passphrase"], "standalone"),
            "INGESTION_MODE": "live", "LOG_LEVEL": "INFO", "STELLAR_ENVIRONMENT": "development", "GET_LEDGERS_LIMIT": "10",
@@ -286,6 +330,9 @@ def run(a):
            "DATASTORE_BUCKET_PATH": job["datalake"]["bucket_path"], "DATASTORE_REGION": job["datalake"]["region"],
            "DATASTORE_ENDPOINT_URL": job["datalake"]["s3_endpoint"],
            "DATASTORE_BUFFER_SIZE": "4", "DATASTORE_NUM_WORKERS": "2",
+           # A sequence may ask for several ledgers per persist commit (--live-persist-max-batch-size).
+           **({"LIVE_PERSIST_MAX_BATCH_SIZE": str(job["live_persist_max_batch_size"])}
+              if job.get("live_persist_max_batch_size") else {}),
            # The S3 client wants credentials to exist; the local store ignores them.
            "AWS_ACCESS_KEY_ID": "shapecov", "AWS_SECRET_ACCESS_KEY": "shapecov", "AWS_EC2_METADATA_DISABLED": "true"}
     cmd = ["docker", "run", "-d", "--name", INGEST, "--network", job["docker_network"],
@@ -295,8 +342,26 @@ def run(a):
     cmd += [GO_IMAGE, binary, "ingest"]
     obs["command"] = "wallet-backend ingest  (configured by environment: %s)" % ", ".join(
         "%s=%s" % (k, v) for k, v in sorted(env.items()) if not k.startswith("AWS_"))
+    groups = job.get("commits") or []  # ledger groups a sequence wants committed apart, as lists of seqs
+    if groups:
+        release(job, groups[0][-1])
     sh(cmd)
     deadline = time.time() + job.get("timeout_seconds", 120)
+    if len(groups) > 2:
+        # Make each later group one persist commit: hold ingest_store locked so the commit of group i
+        # stays open while group i+1 is fetched and processed; when the lock ends, group i commits and
+        # group i+1, already queued, drains into the next batch (up to --live-persist-max-batch-size).
+        obs["commit_groups"] = groups
+        wait_cursor(groups[0][-1], deadline)
+        for i in range(1, len(groups) - 1):
+            psql_detached("BEGIN; LOCK TABLE ingest_store IN ACCESS EXCLUSIVE MODE; SELECT pg_sleep(6); COMMIT;")
+            time.sleep(1)
+            release(job, groups[i][-1])
+            time.sleep(2)
+            release(job, groups[i + 1][-1])
+            wait_cursor(groups[i + 1][-1], deadline)
+    elif groups:
+        release(job, groups[-1][-1])
     state, cur = "timeout", None
     while time.time() < deadline:
         cur = cursor()

@@ -1,0 +1,15 @@
+{"http": "POST", "path": "/__release?name=token-rebind&last=4", "port": "rpc", "released": 4, "status": 200, "t": 1794879479.06}
+{"entry": "token-rebind", "method": "getLedgerEntries", "params": {"keys": ["AAAABgAAAAFNIuPNj2chQSfpDVYIszryEQHfw9Fua9aQ+eruZJPBugAAABQAAAAB", "AAAABgAAAAFHW1583t8azo1nfC2mJC7OjJ4hB7jQ6FsOqNEpEvdzgQAAABQAAAAB"], "pagination": {"limit": 0}, "resourceConfig": {}}, "port": "rpc", "status": "ok", "t": 1794879479.927}
+{"entry": "token-rebind", "method": "getHealth", "params": null, "port": "rpc", "status": "ok", "t": 1794879479.928}
+{"entry": "token-rebind", "method": "getLedgers", "params": {"pagination": {"limit": 10}, "startLedger": 4}, "port": "rpc", "response_bytes": 13504, "status": "ok", "t": 1794879479.973}
+{"entry": "token-rebind", "method": "getHealth", "params": null, "port": "rpc", "status": "ok", "t": 1794879480.101}
+{"http": "POST", "path": "/__release?name=token-rebind&last=5", "port": "rpc", "released": 5, "status": 200, "t": 1794879481.899}
+{"entry": "token-rebind", "method": "getHealth", "params": null, "port": "rpc", "status": "ok", "t": 1794879482.117}
+{"entry": "token-rebind", "method": "getLedgers", "params": {"pagination": {"limit": 10}, "startLedger": 5}, "port": "rpc", "response_bytes": 4144, "status": "ok", "t": 1794879482.123}
+{"entry": "token-rebind", "method": "getHealth", "params": null, "port": "rpc", "status": "ok", "t": 1794879482.17}
+{"http": "POST", "path": "/__release?name=token-rebind&last=8", "port": "rpc", "released": 8, "status": 200, "t": 1794879484.091}
+{"entry": "token-rebind", "method": "getHealth", "params": null, "port": "rpc", "status": "ok", "t": 1794879484.223}
+{"entry": "token-rebind", "method": "getLedgers", "params": {"pagination": {"limit": 10}, "startLedger": 6}, "port": "rpc", "response_bytes": 20220, "status": "ok", "t": 1794879484.225}
+{"entry": "token-rebind", "method": "getHealth", "params": null, "port": "rpc", "status": "ok", "t": 1794879484.227}
+{"entry": "token-rebind", "method": "getHealth", "params": null, "port": "rpc", "status": "ok", "t": 1794879486.279}
+{"entry": "token-rebind", "method": "simulateTransaction", "params": {"pagination": {"limit": 0}, "resourceConfig": {}, "transaction": "AAAAAgAAAADG+9+KZFQBcgXs4CQfsoSphxS+5lDHO2Z6YrWXmbO3ZAAAAGQAAAAAAAAAAQAAAAEAAAAAAAAAAAAAAABq+7EqAAAAAAAAAAEAAAAAAAAAGAAAAAAAAAABTApkFcI+hTnTqWUF32+bAhaHQSzxfKbixhGF3k/k9p4AAAAEbmFtZQAAAAAAAAAAAAAAAAAAAAA="}, "port": "rpc", "status": "error -32601 method not found", "t": 1794879486.758}

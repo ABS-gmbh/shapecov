@@ -51,11 +51,54 @@ ledger and waits for the last, so the indexer ingests them in one process into o
 ledger is then judged as an entry (its result carries `mode: sequence NAME`), and the
 sequence gets a result of its own: the current-state tables at the end against the oracle's
 `final_trustlines`, the state of every credit trustline the ledgers touched when the last one
-closes. Sequences are recorded in `out-sequences/`.
+closes. A sequence may also list expectations of its own (`expectations`, each naming the ledger
+it is judged on), for rows that exist only when its ledgers run together. Sequences are recorded in
+`out-sequences/`; a ledger replayed inside a sequence is keyed there as `ENTRY@SEQUENCE`, since
+several sequences may share a ledger.
 
 | Sequence | Ledgers | Built for | Blind |
 |---|---|---|---|
 | `trustline-churn` | `localcore-trustline-add-4`, `localcore-trustline-churn-5` (scenario `trustline-churn-p28`) | wallet-backend#687 | no: built after reading the fix |
+| `token-rebind` | `localcore-token-rebind-upload-4` to `-rebind-8` (scenario `token-rebind-p28`), SEP-41 production on, three ledgers per persist commit | wallet-backend `ee82038d` | no: built after reading the fix |
+| `token-rebind-history` | the same five ledgers, SEP-41 history production only, and one expectation: the mint's `BALANCE/MINT` row | wallet-backend `f5b67b07` | no: built after reading the fix |
+
+### Protocol production (SEP-41, Blend)
+
+wallet-backend indexes SEP-41 tokens and Blend only after an operator has run `protocol-setup` and
+the protocol cursors exist (`protocol-migrate` writes them). `run --protocols SEP41,BLEND`, or a
+sequence's `protocols`, does the same: the adapter runs the commit's own `protocol-setup`, then sets
+`protocol_<ID>_history_cursor` and `protocol_<ID>_current_state_cursor` to the ledger before the
+replay, where `protocol-migrate` leaves them once it has migrated up to that ledger. A sequence may set
+only some of them (`protocol_cursors`, e.g. history production alone). wallet-backend's own log then
+no longer reports the production as disabled.
+
+Limits of this: the mock RPC holds no ledger state, so wallet-backend classifies only contracts
+whose wasm is uploaded in the replayed ledgers (live ingestion classifies from the bytecode in its
+batch); a contract deployed earlier stays unclassified. Token metadata is not exercised: the SEP-41
+validator asks for `name`, `symbol` and `decimals` through `simulateTransaction`, the mock answers
+with an error, and wallet-backend continues with default values, as its own code does when that
+call fails. Classification itself is wallet-backend's ordinary live-ingestion path: nothing is
+injected into its database or its validators.
+
+The contract the `token-rebind` sequences deploy is purpose-built for them:
+`tools/rebind_token_wasm.py` assembles it byte by byte (a mint that publishes the SEP-41 event, an
+`upgrade` that calls `update_current_contract_wasm`, and a spec declaring the SEP-41 interface).
+stellar-core 30.0.0 accepted every transaction of the five ledgers, and wallet-backend classified the
+contract as SEP-41 by its own signature check. A contract built from the soroban-sdk token example is
+the planned replacement, once its build does not depend on crates fetched for the purpose.
+
+### Commit boundaries
+
+wallet-backend commits a batch of ledgers at once when it is behind (`--live-persist-max-batch-size`
+above 1, a sequence's `persist_batch`). Which ledgers share a batch depends on timing: a batch is the
+first ledger processed plus whatever has been processed while the previous commit ran. A sequence's
+`commits` fixes the boundaries: the feeder serves the sequence's ledgers in steps
+(`POST /__release?name=SEQUENCE&last=LEDGER`), and the adapter holds `ingest_store` locked for a few
+seconds so that one commit stays open while the next group is fetched and processed; when the lock
+ends, that group drains into one batch. This is a timing control and nothing else: the indexer's
+code, configuration and input bytes are untouched; the harness decides only when ledgers become
+available and keeps one commit open, as a slow commit does in production. The same control is
+applied at a fix and at its parent.
 
 ## How it works
 

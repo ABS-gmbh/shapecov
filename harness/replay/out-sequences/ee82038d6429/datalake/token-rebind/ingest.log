@@ -1,0 +1,25 @@
+time="2026-11-17T01:37:43.358Z" level=info msg="📦 Git Commit: ee82038d64298cf54b4e098f8e4609279dedc27b" pid=1
+time="2026-11-17T01:37:43.358Z" level=info msg="📦 Version: 0.2.0" pid=1
+time="2026-11-17T01:37:43.358Z" level=debug msg="Setting log level to: info" pid=1
+time="2026-11-17T01:37:43.402Z" level=info msg="Set chunk interval \"1 day\" on transactions" pid=1
+time="2026-11-17T01:37:43.403Z" level=info msg="Set chunk interval \"1 day\" on transactions_accounts" pid=1
+time="2026-11-17T01:37:43.404Z" level=info msg="Set chunk interval \"1 day\" on operations" pid=1
+time="2026-11-17T01:37:43.404Z" level=info msg="Set chunk interval \"1 day\" on operations_accounts" pid=1
+time="2026-11-17T01:37:43.405Z" level=info msg="Set chunk interval \"1 day\" on state_changes" pid=1
+SDK 2026/11/17 01:37:43 WARN Response has no supported checksum. Not validating response payload.
+time="2026-11-17T01:37:43.699Z" level=info msg="Using datastore backend with buffer size 4, 2 workers" pid=1
+time="2026-11-17T01:37:43.721Z" level=info msg="Starting ingestion from ledger: 4" pid=1
+SDK 2026/11/17 01:37:43 WARN Response has no supported checksum. Not validating response payload.
+time="2026-11-17T01:37:43.791Z" level=info msg="Ingested ledger 4 in 0.0605s" pid=1
+SDK 2026/11/17 01:37:48 WARN Response has no supported checksum. Not validating response payload.
+SDK 2026/11/17 01:37:48 WARN Response has no supported checksum. Not validating response payload.
+SDK 2026/11/17 01:37:48 WARN Response has no supported checksum. Not validating response payload.
+SDK 2026/11/17 01:37:48 WARN Response has no supported checksum. Not validating response payload.
+time="2026-11-17T01:37:50.092Z" level=info msg="Ingested ledger 5 in 1.3127s" pid=1
+time="2026-11-17T01:37:50.101Z" level=warning msg="sep41 metadata fetch failed for CBGAUZAVYI7IKOOTVFSQLX3PTMBBNB2BFTYXZJXCYYIYLXSP4T3J4RJ5 (next attempt in 5m0s): fetching name: simulating transaction: sending simulateTransaction request: response {\"jsonrpc\": \"2.0\", \"id\": 1, \"error\": {\"code\": -32601, \"message\": \"method not found\"}} missing result field" pid=1
+time="2026-11-17T01:37:50.122Z" level=info msg="Ingested ledger 6 in 0.0109s" pid=1
+time="2026-11-17T01:37:50.122Z" level=info msg="Ingested ledger 7 in 0.0104s" pid=1
+time="2026-11-17T01:37:50.122Z" level=info msg="Ingested ledger 8 in 0.0099s" pid=1
+time="2026-11-17T01:37:51.020Z" level=info msg="shutdown requested; exiting cleanly: live ingestion pipeline: pipeline cancelled: context canceled" pid=1
+time="2026-11-17T01:37:51.020Z" level=info msg="Shutting down servers..." pid=1
+time="2026-11-17T01:37:51.021Z" level=info msg="Servers gracefully stopped" pid=1

@@ -1,0 +1,14 @@
+{"http": "POST", "path": "/__release?name=token-rebind&last=4", "port": "rpc", "released": 4, "status": 200, "t": 1794879450.868}
+{"entry": "token-rebind", "method": "getHealth", "params": null, "port": "rpc", "status": "ok", "t": 1794879451.798}
+{"entry": "token-rebind", "method": "getLedgers", "params": {"pagination": {"limit": 10}, "startLedger": 4}, "port": "rpc", "response_bytes": 13504, "status": "ok", "t": 1794879451.803}
+{"entry": "token-rebind", "method": "getHealth", "params": null, "port": "rpc", "status": "ok", "t": 1794879451.866}
+{"http": "POST", "path": "/__release?name=token-rebind&last=5", "port": "rpc", "released": 5, "status": 200, "t": 1794879453.21}
+{"entry": "token-rebind", "method": "getHealth", "params": null, "port": "rpc", "status": "ok", "t": 1794879453.914}
+{"entry": "token-rebind", "method": "getLedgers", "params": {"pagination": {"limit": 10}, "startLedger": 5}, "port": "rpc", "response_bytes": 4144, "status": "ok", "t": 1794879453.928}
+{"entry": "token-rebind", "method": "getHealth", "params": null, "port": "rpc", "status": "ok", "t": 1794879453.971}
+{"http": "POST", "path": "/__release?name=token-rebind&last=8", "port": "rpc", "released": 8, "status": 200, "t": 1794879455.349}
+{"entry": "token-rebind", "method": "getHealth", "params": null, "port": "rpc", "status": "ok", "t": 1794879456.023}
+{"entry": "token-rebind", "method": "getLedgers", "params": {"pagination": {"limit": 10}, "startLedger": 6}, "port": "rpc", "response_bytes": 20220, "status": "ok", "t": 1794879456.024}
+{"entry": "token-rebind", "method": "getHealth", "params": null, "port": "rpc", "status": "ok", "t": 1794879456.07}
+{"entry": "token-rebind", "method": "getHealth", "params": null, "port": "rpc", "status": "ok", "t": 1794879458.111}
+{"entry": "token-rebind", "method": "simulateTransaction", "params": {"pagination": {"limit": 0}, "resourceConfig": {}, "transaction": "AAAAAgAAAADb7MhQieavZ+vmzedFnjZV2St4op5MgU9NoJO76ozZaQAAAGQAAAAAAAAAAQAAAAEAAAAAAAAAAAAAAABq+7EOAAAAAAAAAAEAAAAAAAAAGAAAAAAAAAABTApkFcI+hTnTqWUF32+bAhaHQSzxfKbixhGF3k/k9p4AAAAEbmFtZQAAAAAAAAAAAAAAAAAAAAA="}, "port": "rpc", "status": "error -32601 method not found", "t": 1794879458.113}

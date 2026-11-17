@@ -1,0 +1,21 @@
+time="2026-11-17T01:40:11.111Z" level=info msg="wallet-backend dev (commit 3e22515a44979fdc3a558fda3991ca2b48e38cef)" pid=1
+time="2026-11-17T01:40:11.142Z" level=info msg="Set chunk interval \"1 day\" on transactions" pid=1
+time="2026-11-17T01:40:11.142Z" level=info msg="Set chunk interval \"1 day\" on transactions_accounts" pid=1
+time="2026-11-17T01:40:11.143Z" level=info msg="Set chunk interval \"1 day\" on operations" pid=1
+time="2026-11-17T01:40:11.144Z" level=info msg="Set chunk interval \"1 day\" on operations_accounts" pid=1
+time="2026-11-17T01:40:11.144Z" level=info msg="Set chunk interval \"1 day\" on state_changes" pid=1
+time="2026-11-17T01:40:11.155Z" level=info msg="Updated transaction_hashes maintenance job 1006 (worker 0 of 1, every \"1 day\")" pid=1
+SDK 2026/11/17 01:40:11 WARN Response has no supported checksum. Not validating response payload.
+time="2026-11-17T01:40:11.391Z" level=info msg="Using datastore backend with buffer size 4, 2 workers" pid=1
+time="2026-11-17T01:40:11.405Z" level=info msg="protocol BLEND history production disabled; cursor not initialized" pid=1
+time="2026-11-17T01:40:11.405Z" level=info msg="protocol BLEND current-state production disabled; cursor not initialized" pid=1
+time="2026-11-17T01:40:11.405Z" level=info msg="protocol SEP41 history production disabled; cursor not initialized" pid=1
+time="2026-11-17T01:40:11.405Z" level=info msg="protocol SEP41 current-state production disabled; cursor not initialized" pid=1
+time="2026-11-17T01:40:11.409Z" level=info msg="startup reconciliation: cursor ledger 6 has no transactions row (expected after a checkpoint bootstrap or for an empty ledger), so the deletes above it run without a close-time bound" pid=1
+time="2026-11-17T01:40:11.418Z" level=warning msg="blend: price snapshot pass failed: blend: price snapshot: comet leg: discovering backstop LP tokens: blend: fetchBackstopLPTokens: backstop CBGSFY6NR5TSCQJH5EGVMCFTHLZBCAO7YPIW426WSD46V3TESPA3U6DI: instance entry not found on chain\nblend: fetchBackstopLPTokens: backstop CBDVWXT433PRVTUNM56C3JREF3HIZHRBA64NB2C3B2UNCKIS65ZYCLZA: instance entry not found on chain" pid=1
+time="2026-11-17T01:40:11.424Z" level=info msg="Starting ingestion from ledger: 7" pid=1
+SDK 2026/11/17 01:40:11 WARN Response has no supported checksum. Not validating response payload.
+time="2026-11-17T01:40:11.552Z" level=info msg="Ingested ledger 7 in 0.0745s" pid=1
+time="2026-11-17T01:40:12.706Z" level=info msg="shutdown requested; exiting cleanly: live ingestion pipeline: fetching ledger 8: context cancelled: context canceled" pid=1
+time="2026-11-17T01:40:12.706Z" level=info msg="Shutting down servers..." pid=1
+time="2026-11-17T01:40:12.706Z" level=info msg="Servers gracefully stopped" pid=1

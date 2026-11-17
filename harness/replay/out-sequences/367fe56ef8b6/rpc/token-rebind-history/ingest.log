@@ -1,0 +1,19 @@
+time="2026-11-17T01:38:28.663Z" level=info msg="📦 Git Commit: 367fe56ef8b63ac37e156790b709d5cf92ba06f0" pid=1
+time="2026-11-17T01:38:28.663Z" level=info msg="📦 Version: 0.2.0" pid=1
+time="2026-11-17T01:38:28.665Z" level=debug msg="Setting log level to: info" pid=1
+time="2026-11-17T01:38:28.697Z" level=info msg="Set chunk interval \"1 day\" on transactions" pid=1
+time="2026-11-17T01:38:28.697Z" level=info msg="Set chunk interval \"1 day\" on transactions_accounts" pid=1
+time="2026-11-17T01:38:28.698Z" level=info msg="Set chunk interval \"1 day\" on operations" pid=1
+time="2026-11-17T01:38:28.698Z" level=info msg="Set chunk interval \"1 day\" on operations_accounts" pid=1
+time="2026-11-17T01:38:28.699Z" level=info msg="Set chunk interval \"1 day\" on state_changes" pid=1
+time="2026-11-17T01:38:28.708Z" level=info msg="Using RPCLedgerBackend for ledger ingestion with buffer size 10" pid=1
+time="2026-11-17T01:38:28.716Z" level=info msg="protocol SEP41 current-state production disabled; cursor not initialized" pid=1
+time="2026-11-17T01:38:28.771Z" level=info msg="Starting ingestion from ledger: 4" pid=1
+time="2026-11-17T01:38:28.841Z" level=info msg="Ingested ledger 4 in 0.0586s" pid=1
+time="2026-11-17T01:38:35.158Z" level=info msg="Ingested ledger 5 in 4.2873s" pid=1
+time="2026-11-17T01:38:35.180Z" level=info msg="Ingested ledger 6 in 0.0078s" pid=1
+time="2026-11-17T01:38:35.180Z" level=info msg="Ingested ledger 7 in 0.0075s" pid=1
+time="2026-11-17T01:38:35.180Z" level=info msg="Ingested ledger 8 in 0.0072s" pid=1
+time="2026-11-17T01:38:36.105Z" level=info msg="shutdown requested; exiting cleanly: live ingestion pipeline: pipeline cancelled: context canceled" pid=1
+time="2026-11-17T01:38:36.105Z" level=info msg="Shutting down servers..." pid=1
+time="2026-11-17T01:38:36.105Z" level=info msg="Servers gracefully stopped" pid=1

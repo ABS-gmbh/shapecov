@@ -36,6 +36,7 @@ import base64
 import hashlib
 import json
 import os
+import re
 import resource
 import sys
 import threading
@@ -60,6 +61,23 @@ GCS_NETWORKS = {"Public Global Stellar Network ; September 2015": "pubnet",
                 "Test SDF Future Network ; October 2022": "futurenet"}
 LOCK = threading.Lock()
 LOG = None
+
+
+# A sequence's ledgers can be released in steps (POST /__release?name=N&last=SEQ on the RPC port), so an
+# adapter can decide which ledgers an indexer sees together. Unset: every ledger is served.
+RELEASED = {}
+
+
+def hidden(name, seq):
+    """True when the sequence `name` has not released ledger `seq` yet."""
+    last = RELEASED.get(name)
+    return last is not None and seq is not None and seq > last
+
+
+def key_seq(key):
+    """(top-level name, ledger) of a lake key <name>/<partition>/<HEX>--<seq>.xdr.zst, or (name, None)."""
+    m = re.search(r"--(\d+)\.xdr\.zst$", key)
+    return key.split("/", 1)[0], (int(m.group(1)) if m else None)
 
 
 def log_request(rec):
@@ -263,9 +281,20 @@ class RPCHandler(BaseHTTPRequestHandler):
     do_HEAD = do_GET
 
     def do_POST(self):
-        path = urlsplit(self.path).path
+        u = urlsplit(self.path)
+        path = u.path
         n = int(self.headers.get("Content-Length") or 0)
         body = self.rfile.read(n)
+        if path == "/__release":
+            q = parse_qs(u.query)
+            name, last = q.get("name", [""])[0], q.get("last", [""])[0]
+            if name not in self.index or "members" not in self.index[name] or not last.isdigit():
+                self._send(400, b"name must be a sequence and last a ledger\n", "text/plain")
+                return
+            RELEASED[name] = int(last)
+            log_request({"port": "rpc", "http": "POST", "path": self.path, "status": 200, "released": RELEASED[name]})
+            self._send(200, json.dumps({"name": name, "released": RELEASED[name]}).encode())
+            return
         parts = [p for p in path.split("/") if p]
         if len(parts) != 2 or parts[0] != "rpc" or parts[1] not in self.index:
             bump("other_requests")
@@ -293,7 +322,10 @@ class RPCHandler(BaseHTTPRequestHandler):
 
     def _window(self, e):
         """The ledgers this name serves: one corpus entry, or the consecutive entries of a sequence."""
-        return [self.index[m] for m in e["members"]] if "members" in e else [e]
+        if "members" not in e:
+            return [e]
+        w = [self.index[m] for m in e["members"]]
+        return [x for x in w if not hidden(e["id"], x["seq"])] or w[:1]
 
     def _small(self, e, req):
         method, rid = req.get("method"), req.get("id")
@@ -423,7 +455,7 @@ class S3Handler(BaseHTTPRequestHandler):
                 p = os.path.join(d, name)
                 if os.path.isdir(p):
                     yield from walk(p, prefix + name + "/")
-                else:
+                elif not hidden(*key_seq(prefix + name)):
                     yield prefix + name, p
         if os.path.isdir(root):
             yield from walk(root, "")
@@ -469,7 +501,8 @@ class S3Handler(BaseHTTPRequestHandler):
             self._xml(200, body, head_only)
             return
         path = os.path.normpath(os.path.join(self.lake, "data", key))
-        if not path.startswith(os.path.join(self.lake, "data") + os.sep) or not os.path.isfile(path):
+        if not path.startswith(os.path.join(self.lake, "data") + os.sep) or not os.path.isfile(path) \
+                or hidden(*key_seq(key)):
             rec["status"] = 404
             log_request(rec)
             self._error(404, "NoSuchKey", "The specified key does not exist.", head_only)
@@ -609,7 +642,7 @@ class GCSHandler(S3Handler):
                 return self._send_json(200, body, head_only)
             name = unquote(obj[1:])
             key = self._lake_key(name)
-            if key is None or not os.path.isfile(os.path.join(self.lake, "data", key)):
+            if key is None or not os.path.isfile(os.path.join(self.lake, "data", key)) or hidden(*key_seq(key)):
                 return self._not_found(rec, "object", head_only)
             if (q.get("alt") or [""])[0] == "media":
                 return self._send_object(rec, key, head_only)
@@ -621,7 +654,7 @@ class GCSHandler(S3Handler):
         if bucket != BUCKET:
             return self._not_found(rec, "bucket", head_only)
         key = self._lake_key(name)
-        if key is None or not os.path.isfile(os.path.join(self.lake, "data", key)):
+        if key is None or not os.path.isfile(os.path.join(self.lake, "data", key)) or hidden(*key_seq(key)):
             return self._not_found(rec, "object", head_only)
         return self._send_object(rec, key, head_only)
 

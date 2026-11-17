@@ -16,19 +16,48 @@ explain the failures, or `unexplained` (a candidate new finding). The details be
 |---|---|---|---|---|
 | `bdb934bcec60` | 2026-08-03 | ci: push images via ecr-push helper instead of docker push (#675) | v0.6.1-0.20260625225930-6181cdf8bda5 | no |
 | `bd545417fc12` | 2026-08-19 | fix(indexer): keep same-ledger REMOVE so deletes are never lost (#687) | v0.6.1-0.20260625225930-6181cdf8bda5 | no |
+| `8ba290cd6c05` | 2026-10-06 | perf(data): bound the startup-reconciliation deletes by the cursor ledger's close time | v0.7.3 | no |
+| `ee82038d6429` | 2026-10-06 | fix(services): claim a contract under the binding each ledger of a batch saw | v0.7.3 | no |
+| `367fe56ef8b6` | 2026-10-06 | fix(data): reject a reconciliation cursor whose successor overflows the toid ledger | v0.7.3 | no |
+| `f5b67b07d7ea` | 2026-10-06 | fix(services): keep a rebound contract classified for every ledger of its batch | v0.7.3 | no |
+| `3e22515a4497` | 2026-11-12 | fix(services): cap Blend decimals at 70 on ingest and when serving pools (#802) | v0.8.0 | no |
 
 ## Entries without indexer expectations
 
 Only the implicit checks apply: the ledger is ingested without an error and every stored address reads back as a valid SEP-23 address. `pass` here does not say the stored rows are right.
 
-| Entry | Protocol | Input | `bdb934bc` | `bd545417` |
-|---|---|---|---|---|
-| `localcore-trustline-add-4` | 28 | rpc | pass | pass |
-| `localcore-trustline-add-4` | 28 | datalake | pass | pass |
-| `localcore-trustline-churn-5` | 28 | rpc | pass | pass |
-| `localcore-trustline-churn-5` | 28 | datalake | pass | pass |
-| `trustline-churn` | 28 | rpc | mishandled: wallet-backend#687 | pass |
-| `trustline-churn` | 28 | datalake | mishandled: wallet-backend#687 | pass |
+| Entry | Protocol | Input | `bdb934bc` | `bd545417` | `8ba290cd` | `ee82038d` | `367fe56e` | `f5b67b07` | `3e22515a` |
+|---|---|---|---|---|---|---|---|---|---|
+| `localcore-token-rebind-deploy-6@token-rebind` | 28 | rpc | not run | not run | mishandled: unexplained | pass | not run | not run | pass |
+| `localcore-token-rebind-deploy-6@token-rebind` | 28 | datalake | not run | not run | mishandled: unexplained | pass | not run | not run | pass |
+| `localcore-token-rebind-deploy-6@token-rebind-history` | 28 | rpc | not run | not run | not run | not run | pass | pass | not run |
+| `localcore-token-rebind-deploy-6@token-rebind-history` | 28 | datalake | not run | not run | not run | not run | pass | pass | not run |
+| `localcore-token-rebind-filler-5@token-rebind` | 28 | rpc | not run | not run | pass | pass | not run | not run | pass |
+| `localcore-token-rebind-filler-5@token-rebind` | 28 | datalake | not run | not run | pass | pass | not run | not run | pass |
+| `localcore-token-rebind-filler-5@token-rebind-history` | 28 | rpc | not run | not run | not run | not run | pass | pass | not run |
+| `localcore-token-rebind-filler-5@token-rebind-history` | 28 | datalake | not run | not run | not run | not run | pass | pass | not run |
+| `localcore-token-rebind-mint-7@token-rebind` | 28 | rpc | not run | not run | mishandled: unexplained | pass | not run | not run | pass |
+| `localcore-token-rebind-mint-7@token-rebind` | 28 | datalake | not run | not run | mishandled: unexplained | pass | not run | not run | pass |
+| `localcore-token-rebind-mint-7@token-rebind-history` | 28 | rpc | not run | not run | not run | not run | pass | pass | not run |
+| `localcore-token-rebind-mint-7@token-rebind-history` | 28 | datalake | not run | not run | not run | not run | pass | pass | not run |
+| `localcore-token-rebind-rebind-8@token-rebind` | 28 | rpc | not run | not run | mishandled: unexplained | pass | not run | not run | pass |
+| `localcore-token-rebind-rebind-8@token-rebind` | 28 | datalake | not run | not run | mishandled: unexplained | pass | not run | not run | pass |
+| `localcore-token-rebind-rebind-8@token-rebind-history` | 28 | rpc | not run | not run | not run | not run | pass | pass | not run |
+| `localcore-token-rebind-rebind-8@token-rebind-history` | 28 | datalake | not run | not run | not run | not run | pass | pass | not run |
+| `localcore-token-rebind-upload-4@token-rebind` | 28 | rpc | not run | not run | pass | pass | not run | not run | pass |
+| `localcore-token-rebind-upload-4@token-rebind` | 28 | datalake | not run | not run | pass | pass | not run | not run | pass |
+| `localcore-token-rebind-upload-4@token-rebind-history` | 28 | rpc | not run | not run | not run | not run | pass | pass | not run |
+| `localcore-token-rebind-upload-4@token-rebind-history` | 28 | datalake | not run | not run | not run | not run | pass | pass | not run |
+| `localcore-trustline-add-4@trustline-churn` | 28 | rpc | pass | pass | not run | not run | not run | not run | not run |
+| `localcore-trustline-add-4@trustline-churn` | 28 | datalake | pass | pass | not run | not run | not run | not run | not run |
+| `localcore-trustline-churn-5@trustline-churn` | 28 | rpc | pass | pass | not run | not run | not run | not run | not run |
+| `localcore-trustline-churn-5@trustline-churn` | 28 | datalake | pass | pass | not run | not run | not run | not run | not run |
+| `token-rebind` | 28 | rpc | not run | not run | mishandled: unexplained | pass | not run | not run | pass |
+| `token-rebind` | 28 | datalake | not run | not run | mishandled: unexplained | pass | not run | not run | pass |
+| `token-rebind-history` | 28 | rpc | not run | not run | not run | not run | pass | pass | not run |
+| `token-rebind-history` | 28 | datalake | not run | not run | not run | not run | pass | pass | not run |
+| `trustline-churn` | 28 | rpc | mishandled: wallet-backend#687 | pass | not run | not run | not run | not run | not run |
+| `trustline-churn` | 28 | datalake | mishandled: wallet-backend#687 | pass | not run | not run | not run | not run | not run |
 
 ## Totals
 
@@ -38,6 +67,16 @@ Only the implicit checks apply: the ledger is ingested without an error and ever
 | `bdb934bc` | datalake | 2 | 1 | 0 | 0 |
 | `bd545417` | rpc | 3 | 0 | 0 | 0 |
 | `bd545417` | datalake | 3 | 0 | 0 | 0 |
+| `8ba290cd` | rpc | 2 | 4 | 0 | 0 |
+| `8ba290cd` | datalake | 2 | 4 | 0 | 0 |
+| `ee82038d` | rpc | 6 | 0 | 0 | 0 |
+| `ee82038d` | datalake | 6 | 0 | 0 | 0 |
+| `367fe56e` | rpc | 6 | 0 | 0 | 0 |
+| `367fe56e` | datalake | 6 | 0 | 0 | 0 |
+| `f5b67b07` | rpc | 6 | 0 | 0 | 0 |
+| `f5b67b07` | datalake | 6 | 0 | 0 | 0 |
+| `3e22515a` | rpc | 6 | 0 | 0 | 0 |
+| `3e22515a` | datalake | 6 | 0 | 0 | 0 |
 
 ## Oracle checks
 
@@ -52,14 +91,84 @@ checked. A failure is labelled with the open upstream issue that explains it
 | `bdb934bc` | datalake | 3 | 18 | 16 | wallet-backend#687 (1) | 0 |
 | `bd545417` | rpc | 3 | 18 | 17 | none | 0 |
 | `bd545417` | datalake | 3 | 18 | 17 | none | 0 |
+| `8ba290cd` | rpc | 6 | 41 | 18 | none | 4 |
+| `8ba290cd` | datalake | 6 | 41 | 18 | none | 4 |
+| `ee82038d` | rpc | 6 | 41 | 35 | none | 0 |
+| `ee82038d` | datalake | 6 | 41 | 35 | none | 0 |
+| `367fe56e` | rpc | 6 | 42 | 36 | none | 0 |
+| `367fe56e` | datalake | 6 | 42 | 36 | none | 0 |
+| `f5b67b07` | rpc | 6 | 42 | 36 | none | 0 |
+| `f5b67b07` | datalake | 6 | 42 | 36 | none | 0 |
+| `3e22515a` | rpc | 6 | 41 | 35 | none | 0 |
+| `3e22515a` | datalake | 6 | 41 | 35 | none | 0 |
 
 
 
 
-**No unexplained oracle failures.**
+**Unexplained oracle failures (candidate new findings):**
 
+- `localcore-token-rebind-deploy-6@token-rebind` at `8ba290cd6c05`, datalake: the indexer did not ingest this ledger: panic: executing root command: running ingest: running 'ingest' from 0 to 0: live ingestion pipeline: persisting ledgers 6-8: ingesting processed data for ledgers 6-8 failed with a permanent error: permanent error on attempt 1: committing coordinating transaction for ledgers 6-8: ledger persist partially committed: ERROR: insert or update on table "sep41_balances" violates foreign key constraint "fk_sep41_contract_token" (SQLSTATE 23503)
+- `localcore-token-rebind-deploy-6@token-rebind` at `8ba290cd6c05`, rpc: the indexer did not ingest this ledger: panic: executing root command: running ingest: running 'ingest' from 0 to 0: live ingestion pipeline: persisting ledgers 6-8: ingesting processed data for ledgers 6-8 failed with a permanent error: permanent error on attempt 1: committing coordinating transaction for ledgers 6-8: ledger persist partially committed: ERROR: insert or update on table "sep41_balances" violates foreign key constraint "fk_sep41_contract_token" (SQLSTATE 23503)
+- `localcore-token-rebind-mint-7@token-rebind` at `8ba290cd6c05`, datalake: the indexer did not ingest this ledger: panic: executing root command: running ingest: running 'ingest' from 0 to 0: live ingestion pipeline: persisting ledgers 6-8: ingesting processed data for ledgers 6-8 failed with a permanent error: permanent error on attempt 1: committing coordinating transaction for ledgers 6-8: ledger persist partially committed: ERROR: insert or update on table "sep41_balances" violates foreign key constraint "fk_sep41_contract_token" (SQLSTATE 23503)
+- `localcore-token-rebind-mint-7@token-rebind` at `8ba290cd6c05`, rpc: the indexer did not ingest this ledger: panic: executing root command: running ingest: running 'ingest' from 0 to 0: live ingestion pipeline: persisting ledgers 6-8: ingesting processed data for ledgers 6-8 failed with a permanent error: permanent error on attempt 1: committing coordinating transaction for ledgers 6-8: ledger persist partially committed: ERROR: insert or update on table "sep41_balances" violates foreign key constraint "fk_sep41_contract_token" (SQLSTATE 23503)
+- `localcore-token-rebind-rebind-8@token-rebind` at `8ba290cd6c05`, datalake: the indexer did not ingest this ledger: panic: executing root command: running ingest: running 'ingest' from 0 to 0: live ingestion pipeline: persisting ledgers 6-8: ingesting processed data for ledgers 6-8 failed with a permanent error: permanent error on attempt 1: committing coordinating transaction for ledgers 6-8: ledger persist partially committed: ERROR: insert or update on table "sep41_balances" violates foreign key constraint "fk_sep41_contract_token" (SQLSTATE 23503)
+- `localcore-token-rebind-rebind-8@token-rebind` at `8ba290cd6c05`, rpc: the indexer did not ingest this ledger: panic: executing root command: running ingest: running 'ingest' from 0 to 0: live ingestion pipeline: persisting ledgers 6-8: ingesting processed data for ledgers 6-8 failed with a permanent error: permanent error on attempt 1: committing coordinating transaction for ledgers 6-8: ledger persist partially committed: ERROR: insert or update on table "sep41_balances" violates foreign key constraint "fk_sep41_contract_token" (SQLSTATE 23503)
+- `token-rebind` at `8ba290cd6c05`, datalake: the indexer did not ingest the whole sequence: panic: executing root command: running ingest: running 'ingest' from 0 to 0: live ingestion pipeline: persisting ledgers 6-8: ingesting processed data for ledgers 6-8 failed with a permanent error: permanent error on attempt 1: committing coordinating transaction for ledgers 6-8: ledger persist partially committed: ERROR: insert or update on table "sep41_balances" violates foreign key constraint "fk_sep41_contract_token" (SQLSTATE 23503)
+- `token-rebind` at `8ba290cd6c05`, rpc: the indexer did not ingest the whole sequence: panic: executing root command: running ingest: running 'ingest' from 0 to 0: live ingestion pipeline: persisting ledgers 6-8: ingesting processed data for ledgers 6-8 failed with a permanent error: permanent error on attempt 1: committing coordinating transaction for ledgers 6-8: ledger persist partially committed: ERROR: insert or update on table "sep41_balances" violates foreign key constraint "fk_sep41_contract_token" (SQLSTATE 23503)
 
 ## Details of every result that is not `pass`
+
+### `localcore-token-rebind-deploy-6@token-rebind` at `8ba290cd6c05`, input datalake: mishandled
+
+- mishandled: the indexer raised an error on this ledger and did not ingest it: panic: executing root command: running ingest: running 'ingest' from 0 to 0: live ingestion pipeline: persisting ledgers 6-8: ingesting processed data for ledgers 6-8 failed with a permanent error: permanent error on attempt 1: committing coordinating transaction for ledgers 6-8: ledger persist partially committed: ERROR: insert or update on table "sep41_balances" violates foreign key constraint "fk_sep41_contract_token" (SQLSTATE 23503)
+- expectations: 0, source: none (implicit checks only)
+- indexer process: exited by itself before the ledger was ingested (exit code 2)
+- evidence: `out-sequences/8ba290cd6c05/datalake/token-rebind/localcore-token-rebind-deploy-6/` (job.json, ingest.log, observation.json, result.json, feeder-requests.jsonl)
+
+### `localcore-token-rebind-deploy-6@token-rebind` at `8ba290cd6c05`, input rpc: mishandled
+
+- mishandled: the indexer raised an error on this ledger and did not ingest it: panic: executing root command: running ingest: running 'ingest' from 0 to 0: live ingestion pipeline: persisting ledgers 6-8: ingesting processed data for ledgers 6-8 failed with a permanent error: permanent error on attempt 1: committing coordinating transaction for ledgers 6-8: ledger persist partially committed: ERROR: insert or update on table "sep41_balances" violates foreign key constraint "fk_sep41_contract_token" (SQLSTATE 23503)
+- expectations: 0, source: none (implicit checks only)
+- indexer process: exited by itself before the ledger was ingested (exit code 2)
+- evidence: `out-sequences/8ba290cd6c05/rpc/token-rebind/localcore-token-rebind-deploy-6/` (job.json, ingest.log, observation.json, result.json, feeder-requests.jsonl)
+
+### `localcore-token-rebind-mint-7@token-rebind` at `8ba290cd6c05`, input datalake: mishandled
+
+- mishandled: the indexer raised an error on this ledger and did not ingest it: panic: executing root command: running ingest: running 'ingest' from 0 to 0: live ingestion pipeline: persisting ledgers 6-8: ingesting processed data for ledgers 6-8 failed with a permanent error: permanent error on attempt 1: committing coordinating transaction for ledgers 6-8: ledger persist partially committed: ERROR: insert or update on table "sep41_balances" violates foreign key constraint "fk_sep41_contract_token" (SQLSTATE 23503)
+- expectations: 0, source: none (implicit checks only)
+- indexer process: exited by itself before the ledger was ingested (exit code 2)
+- evidence: `out-sequences/8ba290cd6c05/datalake/token-rebind/localcore-token-rebind-mint-7/` (job.json, ingest.log, observation.json, result.json, feeder-requests.jsonl)
+
+### `localcore-token-rebind-mint-7@token-rebind` at `8ba290cd6c05`, input rpc: mishandled
+
+- mishandled: the indexer raised an error on this ledger and did not ingest it: panic: executing root command: running ingest: running 'ingest' from 0 to 0: live ingestion pipeline: persisting ledgers 6-8: ingesting processed data for ledgers 6-8 failed with a permanent error: permanent error on attempt 1: committing coordinating transaction for ledgers 6-8: ledger persist partially committed: ERROR: insert or update on table "sep41_balances" violates foreign key constraint "fk_sep41_contract_token" (SQLSTATE 23503)
+- expectations: 0, source: none (implicit checks only)
+- indexer process: exited by itself before the ledger was ingested (exit code 2)
+- evidence: `out-sequences/8ba290cd6c05/rpc/token-rebind/localcore-token-rebind-mint-7/` (job.json, ingest.log, observation.json, result.json, feeder-requests.jsonl)
+
+### `localcore-token-rebind-rebind-8@token-rebind` at `8ba290cd6c05`, input datalake: mishandled
+
+- mishandled: the indexer raised an error on this ledger and did not ingest it: panic: executing root command: running ingest: running 'ingest' from 0 to 0: live ingestion pipeline: persisting ledgers 6-8: ingesting processed data for ledgers 6-8 failed with a permanent error: permanent error on attempt 1: committing coordinating transaction for ledgers 6-8: ledger persist partially committed: ERROR: insert or update on table "sep41_balances" violates foreign key constraint "fk_sep41_contract_token" (SQLSTATE 23503)
+- expectations: 0, source: none (implicit checks only)
+- indexer process: exited by itself before the ledger was ingested (exit code 2)
+- evidence: `out-sequences/8ba290cd6c05/datalake/token-rebind/localcore-token-rebind-rebind-8/` (job.json, ingest.log, observation.json, result.json, feeder-requests.jsonl)
+
+### `localcore-token-rebind-rebind-8@token-rebind` at `8ba290cd6c05`, input rpc: mishandled
+
+- mishandled: the indexer raised an error on this ledger and did not ingest it: panic: executing root command: running ingest: running 'ingest' from 0 to 0: live ingestion pipeline: persisting ledgers 6-8: ingesting processed data for ledgers 6-8 failed with a permanent error: permanent error on attempt 1: committing coordinating transaction for ledgers 6-8: ledger persist partially committed: ERROR: insert or update on table "sep41_balances" violates foreign key constraint "fk_sep41_contract_token" (SQLSTATE 23503)
+- expectations: 0, source: none (implicit checks only)
+- indexer process: exited by itself before the ledger was ingested (exit code 2)
+- evidence: `out-sequences/8ba290cd6c05/rpc/token-rebind/localcore-token-rebind-rebind-8/` (job.json, ingest.log, observation.json, result.json, feeder-requests.jsonl)
+
+### `token-rebind` at `8ba290cd6c05`, input datalake: mishandled
+
+- indexer process: exited by itself before the ledger was ingested (exit code 2)
+- evidence: `out-sequences/8ba290cd6c05/datalake/token-rebind/` (job.json, ingest.log, observation.json, result.json, feeder-requests.jsonl)
+
+### `token-rebind` at `8ba290cd6c05`, input rpc: mishandled
+
+- indexer process: exited by itself before the ledger was ingested (exit code 2)
+- evidence: `out-sequences/8ba290cd6c05/rpc/token-rebind/` (job.json, ingest.log, observation.json, result.json, feeder-requests.jsonl)
 
 ### `trustline-churn` at `bdb934bcec60`, input datalake: mishandled
 
@@ -76,3 +185,9 @@ checked. A failure is labelled with the open upstream issue that explains it
 | Started (UTC) | Refs | Inputs | Entries | Seconds | Feeder peak RSS (kB) | Ledgers served by RPC | Objects served by S3 |
 |---|---|---|---|---|---|---|---|
 | 2026-11-16T21:30:27+00:00 | `bdb934bc`, `bd545417` | rpc, datalake | 0 | 34.2 | 37028 | 4 | 6 |
+| 2026-11-16T22:30:22+00:00 | `8ba290cd`, `ee82038d` | rpc, datalake | 0 | 101.6 | 37240 | 8 | 10 |
+| 2026-11-16T22:34:03+00:00 | `367fe56e`, `f5b67b07` | rpc, datalake | 0 | 146.2 | 37152 | 8 | 10 |
+| 2026-11-16T22:37:32+00:00 | `367fe56e`, `f5b67b07` | rpc, datalake | 0 | 130.0 | 37108 | 10 | 12 |
+| 2026-11-16T22:40:40+00:00 | `367fe56e`, `f5b67b07`, `ee82038d` | rpc, datalake | 0 | 119.9 | 36756 | 12 | 15 |
+| 2026-11-17T01:36:53+00:00 | `8ba290cd`, `ee82038d`, `3e22515a` | rpc, datalake | 0 | 91.4 | 38676 | 15 | 18 |
+| 2026-11-17T01:38:24+00:00 | `367fe56e`, `f5b67b07` | rpc, datalake | 0 | 56.8 | 37888 | 10 | 12 |

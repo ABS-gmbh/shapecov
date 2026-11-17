@@ -1,0 +1,46 @@
+{
+ "adapter": "wallet-backend",
+ "ref": "f5b67b07",
+ "commit": "f5b67b07d7ea8e6f1ac96b8514614872850eea81",
+ "input": "datalake",
+ "sdk_pin": "v0.7.3",
+ "mode": "sequence token-rebind-history",
+ "entry_id": "localcore-token-rebind-rebind-8",
+ "protocol_version": 28,
+ "result": "pass",
+ "mishandled": [],
+ "dropped": [],
+ "checks": [],
+ "expectations": 0,
+ "expectations_source": "none (implicit checks only)",
+ "ledger": {
+  "seq": 8,
+  "hash": "1f07f905d7e79857717eba9f671cd3d62bb168097707989294a6a84fa09fc9d3",
+  "close_time": 4070000000,
+  "protocol": 28
+ },
+ "ingested": true,
+ "row_counts": {
+  "transactions": 1,
+  "transactions_accounts": 1,
+  "operations": 1,
+  "operations_accounts": 1,
+  "state_changes": 1
+ },
+ "process": {
+  "outcome": "stopped by the adapter after the ledger was ingested",
+  "exit_code": 0,
+  "oom_killed": false,
+  "started_finished": "2026-11-17T01:39:06.98128118Z 2026-11-17T01:39:15.244824503Z"
+ },
+ "seconds": 13.8,
+ "evidence": "out-sequences/f5b67b07d7ea/datalake/token-rebind-history/localcore-token-rebind-rebind-8",
+ "in_sequence": "token-rebind-history",
+ "oracle": {
+  "verdict": "pass",
+  "rows_expected": 6,
+  "rows_met": 6,
+  "known": {},
+  "unexplained": []
+ }
+}

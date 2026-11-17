@@ -86,6 +86,32 @@ class Window(unittest.TestCase):
         self.assertIn("error", self.call("ab", "getLedgers", {"startLedger": 43}))
         self.assertIn("error", self.call("c", "getLedgers", {"startLedger": 89}))
 
+    def test_a_sequence_released_in_steps(self):
+        """POST /__release limits the window to the released ledgers; raising it serves the rest."""
+        def release(last):
+            req = urllib.request.Request("http://127.0.0.1:%d/__release?name=ab&last=%d" % (self.server.server_port, last),
+                                         data=b"", method="POST")
+            urllib.request.urlopen(req).read()
+        try:
+            release(41)
+            self.assertEqual(self.call("ab", "getHealth")["result"]["latestLedger"], 41)
+            self.assertIn("error", self.call("ab", "getLedgers", {"startLedger": 42}))
+            release(42)
+            r = self.call("ab", "getLedgers", {"startLedger": 42})["result"]
+            self.assertEqual([x["sequence"] for x in r["ledgers"]], [42])
+        finally:
+            feeder.RELEASED.clear()
+
+    def test_unreleased_lake_objects_are_hidden(self):
+        feeder.RELEASED["ab"] = 41
+        try:
+            self.assertTrue(feeder.hidden(*feeder.key_seq("ab/FFFFFFFF--0-63999/FFFFFFD5--42.xdr.zst")))
+            self.assertFalse(feeder.hidden(*feeder.key_seq("ab/FFFFFFFF--0-63999/FFFFFFD6--41.xdr.zst")))
+            self.assertFalse(feeder.hidden(*feeder.key_seq("ab/.config.json")))
+            self.assertFalse(feeder.hidden(*feeder.key_seq("c/FFFFFFFF--0-63999/FFFFFFA5--90.xdr.zst")))
+        finally:
+            feeder.RELEASED.clear()
+
     def test_a_single_entry_is_still_a_one_ledger_window(self):
         r = self.call("c", "getLedgers", {"startLedger": 90})["result"]
         self.assertEqual([base64.b64decode(x["metadataXdr"]) for x in r["ledgers"]], [self.payloads["c"]])

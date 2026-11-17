@@ -3,10 +3,94 @@
  "sequences": [
   {
    "id": "trustline-churn",
-   "entries": ["localcore-trustline-add-4", "localcore-trustline-churn-5"],
+   "entries": [
+    "localcore-trustline-add-4",
+    "localcore-trustline-churn-5"
+   ],
    "built_for": "stellar/wallet-backend#687 (fix bd545417)",
    "blind": false,
    "end_state": "The holder's USD trustline does not exist."
+  },
+  {
+   "id": "token-rebind",
+   "entries": [
+    "localcore-token-rebind-upload-4",
+    "localcore-token-rebind-filler-5",
+    "localcore-token-rebind-deploy-6",
+    "localcore-token-rebind-mint-7",
+    "localcore-token-rebind-rebind-8"
+   ],
+   "built_for": "wallet-backend ee82038d and f5b67b07",
+   "blind": false,
+   "protocols": [
+    "SEP41"
+   ],
+   "persist_batch": 3,
+   "end_state": "With SEP-41 production on, the deploy, the mint and the rebind commit as one persist batch, and wallet-backend ingests it.",
+   "commits": [
+    [
+     "localcore-token-rebind-upload-4"
+    ],
+    [
+     "localcore-token-rebind-filler-5"
+    ],
+    [
+     "localcore-token-rebind-deploy-6",
+     "localcore-token-rebind-mint-7",
+     "localcore-token-rebind-rebind-8"
+    ]
+   ]
+  },
+  {
+   "id": "token-rebind-history",
+   "entries": [
+    "localcore-token-rebind-upload-4",
+    "localcore-token-rebind-filler-5",
+    "localcore-token-rebind-deploy-6",
+    "localcore-token-rebind-mint-7",
+    "localcore-token-rebind-rebind-8"
+   ],
+   "built_for": "wallet-backend f5b67b07",
+   "blind": false,
+   "protocols": [
+    "SEP41"
+   ],
+   "persist_batch": 3,
+   "end_state": "The same commits with SEP-41 history production only (no current-state cursor, so no balance rows): the mint the fourth ledger saw under the token wasm, which the upload committed earlier, is recorded as SEP-41 history.",
+   "expectations": [
+    {
+     "entry": "localcore-token-rebind-mint-7",
+     "expect": "state_change",
+     "category": "BALANCE",
+     "reason": "MINT",
+     "account": "GDKVIAZ5TWCUHJAGBUGQPXJY3NQQNC74XXX544CJRUXSJN3XHOZRETGH",
+     "token": "CBGAUZAVYI7IKOOTVFSQLX3PTMBBNB2BFTYXZJXCYYIYLXSP4T3J4RJ5",
+     "tx_hash": "172786f1144503e3350cc79ebfe32bebb4c79894e834a189941b144f1cceecc0",
+     "derived_from": "the mint event (mint, to) with amount 100_0000000 of a contract wallet-backend classified as SEP-41",
+     "via": {
+      "where": "op 0",
+      "op_type": "INVOKE_HOST_FUNCTION",
+      "what": "sep41 history",
+      "how": "mint"
+     }
+    }
+   ],
+   "protocol_cursors": [
+    "history"
+   ],
+   "commits": [
+    [
+     "localcore-token-rebind-upload-4"
+    ],
+    [
+     "localcore-token-rebind-filler-5"
+    ],
+    [
+     "localcore-token-rebind-deploy-6",
+     "localcore-token-rebind-mint-7",
+     "localcore-token-rebind-rebind-8"
+    ]
+   ]
   }
  ]
 }

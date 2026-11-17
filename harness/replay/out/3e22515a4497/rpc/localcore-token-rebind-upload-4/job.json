@@ -1,0 +1,29 @@
+{
+ "job_version": 1,
+ "entry_id": "localcore-token-rebind-upload-4",
+ "ref": "3e22515a4497",
+ "commit": "3e22515a44979fdc3a558fda3991ca2b48e38cef",
+ "input": "rpc",
+ "network_passphrase": "Test SDF Network ; September 2015",
+ "ledger": {
+  "seq": 4,
+  "hash": "5cc624c015dfba8cfff4a5f035ee4fa93386116704f98f2d836d29acae2c90b7",
+  "close_time": 4030000000,
+  "protocol": 28
+ },
+ "rpc": {
+  "url": "http://shapecov-proto-feeder:8000/rpc/localcore-token-rebind-upload-4"
+ },
+ "datalake": {
+  "s3_endpoint": "http://shapecov-proto-feeder:9000",
+  "bucket_path": "shapecov-lake/localcore-token-rebind-upload-4",
+  "region": "us-east-1"
+ },
+ "history_archive": {
+  "url": "http://shapecov-proto-feeder:8000/archive/localcore-token-rebind-upload-4"
+ },
+ "protocols": [],
+ "docker_network": "shapecov-proto-net",
+ "timeout_seconds": 120,
+ "work_dir": "$REPLAY_WORK"
+}

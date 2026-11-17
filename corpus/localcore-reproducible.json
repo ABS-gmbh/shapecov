@@ -192,6 +192,66 @@
     "seq": 9
    }
   },
+  "token-rebind-deploy": {
+   "pubnet": {
+    "normalized_sha256": "a922055fec2e5494d23866bed8c1827447b2d8f5f0b5bdc3bfa15b541eb6c83b",
+    "raw_sha256": "831970546f699365eed413673ebf62a552ca41938fdca79d6a891b0cce309e75",
+    "seq": 6
+   },
+   "testnet": {
+    "normalized_sha256": "cba1ade88d5398e2ab73161b4c660e28a0cf1398095074a223c2e7e3302d292a",
+    "raw_sha256": "6e41b28b8e6608cedfd332cda891d877d4ac5a8545cfc2bed38a5ac878a99762",
+    "seq": 6
+   }
+  },
+  "token-rebind-filler": {
+   "pubnet": {
+    "normalized_sha256": "a53c3933507277677a1076b53644d482914c7128d626c2ac5ac4808154f5d5bd",
+    "raw_sha256": "fd784cf45c4cdf7f0d221b269e3ea00007e52bbb0092e31d8a46bff5b35327f8",
+    "seq": 5
+   },
+   "testnet": {
+    "normalized_sha256": "dba05a7b583ddf1b89ac6eb88fc2a2f0207d065ccc1607d74d08880c627b9f68",
+    "raw_sha256": "756b640275c722a657a32e10cd4aa86e52e9fbc2a5cdfe9deb83ea0dbc7c8db1",
+    "seq": 5
+   }
+  },
+  "token-rebind-mint": {
+   "pubnet": {
+    "normalized_sha256": "4b789656c44aa6d3612d084ab8320ab697b2aaf4e6a2b5633a86c131b70cd1d4",
+    "raw_sha256": "4f6d60ad24740dced08bd351911b099f889305b050d0a5ba0b22a36f7edbe61d",
+    "seq": 7
+   },
+   "testnet": {
+    "normalized_sha256": "966e9dea94f1737216164959ba29f783a9079a2f643f858e7404763f37611c5b",
+    "raw_sha256": "f65c5cbdf6e9034202b466fc6296f371a6a9ad5ca3c9f9e19645661d934519ff",
+    "seq": 7
+   }
+  },
+  "token-rebind-rebind": {
+   "pubnet": {
+    "normalized_sha256": "c3b88c1e5a883eba674472c1dcaa4fcf23e26a37cd704ae54b6f52951e63bdf1",
+    "raw_sha256": "b18e0c7da607de0b993e44ff14509f28da9ca54ac71cf26c3e54199cfc6865a2",
+    "seq": 8
+   },
+   "testnet": {
+    "normalized_sha256": "c2f4b11133d75db8ed82acae397cd19ccafd881b9c967e5dbe9f9ea8066f85b5",
+    "raw_sha256": "edbc65cdaddd4a21513d91a54ea9f8435666779922662c787adbacdcf16aac5e",
+    "seq": 8
+   }
+  },
+  "token-rebind-upload": {
+   "pubnet": {
+    "normalized_sha256": "0f626067ad254a8c0084ddc018626afa26fd3fff4ecdd2e684aeb5370046479f",
+    "raw_sha256": "657043ed5c955746bbf410c2fee2d2b40908d3e548a9d80acbb8e72b09657a40",
+    "seq": 4
+   },
+   "testnet": {
+    "normalized_sha256": "f432797c43fa8144c12706cfbe78ecb8a303c63c3715828a8eea894d814ad61b",
+    "raw_sha256": "d193970ea74fc09eded14f81b0e746445a0d7a51769e98e26bc1d6fbf022de45",
+    "seq": 4
+   }
+  },
   "trustline-add": {
    "pubnet": {
     "normalized_sha256": "f23eedff6fa6cec946c77cd2cf8f2f6c7446cb3727b82508140d4a3f2720008e",

@@ -99,7 +99,9 @@ def load_results(out):
         with open(path) as f:
             for line in f:
                 r = json.loads(line)
-                res[(r["entry_id"], r["commit"], r["input"])] = r
+                # A ledger replayed inside a sequence is keyed with the sequence: several sequences may share it.
+                key = r["entry_id"] + ("@" + r["in_sequence"] if r.get("in_sequence") else "")
+                res[(key, r["commit"], r["input"])] = r
     return res
 
 
@@ -347,6 +349,7 @@ def cmd_run(a):
                            "datalake": {"s3_endpoint": "http://%s:9000" % FEEDER,
                                         "bucket_path": "shapecov-lake/" + e["id"], "region": "us-east-1"},
                            "history_archive": {"url": "http://%s:8000/archive/%s" % (FEEDER, e["id"])},
+                           "protocols": (a.protocols or "").split(",") if a.protocols else [],
                            "docker_network": NET, "timeout_seconds": a.timeout, "work_dir": work}
                     with open(os.path.join(jdir, "job.json"), "w") as f:
                         json.dump(job, f, indent=1)
@@ -426,12 +429,21 @@ def _decode_entry(e):
 _DEC = {}
 
 
-def sequence_verdict(sq, obs, mapping, values):
+def sequence_verdict(sq, obs, mapping, values, member_obs=None):
     """The end-state check of a sequence: every row the oracle says the current-state tables hold
-    after the last ledger, labelled like oracle_verdict's failures."""
+    after the last ledger, plus the sequence's own expectations (corpus/sequences.json, each judged
+    on the ledger it names), labelled like oracle_verdict's failures."""
     passphrase = sq["_passphrase"]
     exps = mapping.end_state_expectations(values, passphrase) if hasattr(mapping, "end_state_expectations") else []
     c = classify.classify(exps, obs)
+    for x in sq.get("expectations") or []:
+        e = {k: v for k, v in x.items() if k != "entry"}
+        mo = (member_obs or {}).get(x.get("entry"))
+        if mo is None:
+            c["checks"].append({"expect": e, "outcome": "not_checked", "detail": "no observation of %s" % x.get("entry")})
+        else:
+            c["checks"] += classify.classify([e], mo)["checks"]
+    exps = exps + list(sq.get("expectations") or [])
     known, unexplained, fixed, fixed_by, known_outcome = {}, [], {}, {}, {}
     if not obs.get("ingested"):
         unexplained.append("the indexer did not ingest the whole sequence: %s" % (obs.get("error") or "no error raised"))
@@ -482,7 +494,12 @@ def run_sequence(a, sq, index, info, ref, inp, out, work, mapping, results, req_
            "datalake": {"s3_endpoint": "http://%s:9000" % FEEDER, "bucket_path": "shapecov-lake/" + sq["id"],
                         "region": "us-east-1"},
            "history_archive": {"url": "http://%s:8000/archive/%s" % (FEEDER, sq["id"])},
-           "docker_network": NET, "timeout_seconds": a.timeout * len(members), "work_dir": work}
+           "protocols": sq.get("protocols") or ((a.protocols or "").split(",") if a.protocols else []),
+           "live_persist_max_batch_size": sq.get("persist_batch"),
+           "protocol_cursors": sq.get("protocol_cursors") or ["history", "current_state"],
+           "commits": [[index["entries"][m]["seq"] for m in g] for g in sq.get("commits") or []],
+           "feeder_container": FEEDER,
+                           "docker_network": NET, "timeout_seconds": a.timeout * len(members), "work_dir": work}
     with open(os.path.join(jdir, "job.json"), "w") as f:
         json.dump(job, f, indent=1)
     offset = os.path.getsize(req_log) if os.path.exists(req_log) else 0
@@ -501,7 +518,7 @@ def run_sequence(a, sq, index, info, ref, inp, out, work, mapping, results, req_
     base = {"adapter": a.adapter, "ref": ref, "commit": commit, "input": inp,
             "sdk_pin": (info.get("dependency_pins") or {}).get("github.com/stellar/go-stellar-sdk"),
             "mode": "sequence " + sq["id"]}
-    values = []
+    values, member_obs = [], {}
     for m in six["members"]:
         e = entries[m]
         mdir = os.path.join(jdir, m)
@@ -524,20 +541,21 @@ def run_sequence(a, sq, index, info, ref, inp, out, work, mapping, results, req_
                  expectations_source="manifest" if exps else "none (implicit checks only)",
                  ledger={k: index["entries"][m][k] for k in ("seq", "hash", "close_time", "protocol")},
                  ingested=mobs.get("ingested"), row_counts=mobs.get("row_counts"), process=obs.get("process"),
-                 seconds=obs.get("seconds"), evidence=os.path.relpath(mdir, HERE))
+                 seconds=obs.get("seconds"), evidence=os.path.relpath(mdir, HERE), in_sequence=sq["id"])
+        member_obs[m] = mobs
         value = _decode_entry(e)
         values.append(value)
         if mapping is not None and not obs.get("adapter_failure"):
             r["oracle"] = oracle_verdict(e, mobs, mapping, value)
         with open(os.path.join(mdir, "result.json"), "w") as f:
             json.dump(r, f, indent=1)
-        results[(m, commit, inp)] = r
+        results[(m + "@" + sq["id"], commit, inp)] = r
     r = dict(base, entry_id=sq["id"], protocol_version=last["protocol"], ledger=job["ledger"],
              sequence={"members": six["members"], "blind": sq.get("blind"), "built_for": sq.get("built_for")},
              ingested=obs.get("ingested"), process=obs.get("process"), seconds=obs.get("seconds"),
              feeder_requests=len(reqs), evidence=os.path.relpath(jdir, HERE))
     if mapping is not None and not obs.get("adapter_failure"):
-        r["oracle"] = sequence_verdict(sq, obs, mapping, values)
+        r["oracle"] = sequence_verdict(sq, obs, mapping, values, member_obs)
     r["result"] = "error" if obs.get("adapter_failure") else (
         "pass" if (r.get("oracle") or {}).get("verdict") in ("pass", "not checked") else "mishandled")
     with open(os.path.join(jdir, "result.json"), "w") as f:
@@ -545,7 +563,7 @@ def run_sequence(a, sq, index, info, ref, inp, out, work, mapping, results, req_
     results[(sq["id"], commit, inp)] = r
     save_results(out, results)
     for m in six["members"] + [sq["id"]]:
-        x = results[(m, commit, inp)]
+        x = results[(m + "@" + sq["id"] if m != sq["id"] else m, commit, inp)]
         orc = x.get("oracle") or {}
         print("%-10s %-8s %-45s %5.1fs  oracle %s %d/%d%s  %s" % (
             x["result"], inp, ("  " if m != sq["id"] else "") + m[:43], obs.get("seconds") or 0, orc.get("verdict"),
@@ -569,10 +587,12 @@ def cmd_rejudge(a):
         entries = {e["id"]: e for e in json.load(f)["entries"]}
     dec = Decoder(json.load(open(os.path.join(REPO, "schema", "schema.json"))))
     results, n = load_results(out), 0
+    seq_path = os.path.join(CORPUS, "sequences.json")
+    listed_sequences = {x["id"]: x for x in json.load(open(seq_path))["sequences"]} if os.path.isfile(seq_path) else {}
     decoded = {}
     for k, r in sorted(results.items(), key=lambda kv: kv[0][0]):  # by entry: decode each ledger once
         path = os.path.join(HERE, r.get("evidence") or "-", "observation.json")
-        if not os.path.isfile(path) or (k[0] not in entries and not r.get("sequence")):
+        if not os.path.isfile(path) or (r["entry_id"] not in entries and not r.get("sequence")):
             continue
         with open(path) as f:
             obs = json.load(f)
@@ -580,14 +600,20 @@ def cmd_rejudge(a):
             continue
         if r.get("sequence"):
             members = r["sequence"]["members"]
-            sq = {"id": k[0], "_passphrase": entries[members[0]]["source"]["network_passphrase"]}
-            r["oracle"] = sequence_verdict(sq, obs, mapping, [_decode_entry(entries[m]) for m in members])
+            sq = dict(listed_sequences.get(k[0], {}), id=k[0],
+                      _passphrase=entries[members[0]]["source"]["network_passphrase"])
+            member_obs = {}
+            for m in members:
+                mp = os.path.join(HERE, r["evidence"], m, "observation.json")
+                if os.path.isfile(mp):
+                    member_obs[m] = json.load(open(mp))
+            r["oracle"] = sequence_verdict(sq, obs, mapping, [_decode_entry(entries[m]) for m in members], member_obs)
             r["result"] = "pass" if r["oracle"]["verdict"] in ("pass", "not checked") else "mishandled"
             with open(os.path.join(HERE, r["evidence"], "result.json"), "w") as f:
                 json.dump(r, f, indent=1)
             n += 1
             continue
-        e = entries[k[0]]
+        e = entries[r["entry_id"]]
         if e["id"] not in decoded:
             decoded = {e["id"]: dec.decode("LedgerCloseMeta", base64.b64decode(open(os.path.join(CORPUS, e["file"])).read()))}
         r["oracle"] = oracle_verdict(e, obs, mapping, decoded[e["id"]])
@@ -863,7 +889,8 @@ def cmd_backtest(a):
         with open(os.path.join(HERE, path)) as f:
             for line in f:
                 r = json.loads(line)
-                results[(name, r["commit"][:8], r["entry_id"])] = r
+                # a ledger replayed inside a sequence is a member of that sequence's claim, not a claim
+                results[(name, r["commit"][:8], r["entry_id"] + ("@" + r["in_sequence"] if r.get("in_sequence") else ""))] = r
     bad, tally = 0, {}
     for it in spec["items"]:
         ok = True
@@ -877,7 +904,7 @@ def cmd_backtest(a):
         else:
             p, f = it["parent"][:8], it["fix"][:8]
             flips = sorted("%s:%s" % (src, e) for (src, c, e), r in results.items()
-                           if c == p and (src, f, e) in results and _fixed_by(r, results[(src, f, e)], f))
+                           if c == p and "@" not in e and (src, f, e) in results and _fixed_by(r, results[(src, f, e)], f))
             counts = {"%s:%s" % (src, e): {"parent": _failures(r, f), "fix": _failures(results[(src, f, e)], f)}
                       for (src, c, e), r in results.items() if c == p and (src, f, e) in results}
         if it["verdict"] == "detected":
@@ -912,6 +939,8 @@ def main():
     p.add_argument("--inputs", default="rpc,datalake")
     p.add_argument("--entries")
     p.add_argument("--all-entries", action="store_true")
+    p.add_argument("--protocols", help="protocol IDs to produce, comma-separated (wallet-backend: SEP41,BLEND): "
+                                       "the adapter runs the commit's protocol-setup and sets the protocol cursors")
     p.add_argument("--sequence", help="names in corpus/sequences.json, comma-separated: each is ingested in one "
                                       "run into one database, judged per ledger and at the end")
     p.add_argument("--max-protocol", type=int)

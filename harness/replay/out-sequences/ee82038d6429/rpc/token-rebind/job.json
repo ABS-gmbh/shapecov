@@ -1,0 +1,80 @@
+{
+ "job_version": 1,
+ "entry_id": "token-rebind",
+ "ref": "ee82038d",
+ "commit": "ee82038d64298cf54b4e098f8e4609279dedc27b",
+ "input": "rpc",
+ "network_passphrase": "Test SDF Network ; September 2015",
+ "ledger": {
+  "seq": 8,
+  "hash": "1f07f905d7e79857717eba9f671cd3d62bb168097707989294a6a84fa09fc9d3",
+  "close_time": 4070000000,
+  "protocol": 28
+ },
+ "sequence": {
+  "id": "token-rebind",
+  "ledgers": [
+   {
+    "entry_id": "localcore-token-rebind-upload-4",
+    "seq": 4,
+    "hash": "5cc624c015dfba8cfff4a5f035ee4fa93386116704f98f2d836d29acae2c90b7"
+   },
+   {
+    "entry_id": "localcore-token-rebind-filler-5",
+    "seq": 5,
+    "hash": "a7a7c63106808be0cda2681c41fb7ebfe00e3ce07b0d88952e7116a50554f8d2"
+   },
+   {
+    "entry_id": "localcore-token-rebind-deploy-6",
+    "seq": 6,
+    "hash": "4683648caf858e899e357e4fef7f217266206fb33dc3ab4b5084b299194155ec"
+   },
+   {
+    "entry_id": "localcore-token-rebind-mint-7",
+    "seq": 7,
+    "hash": "64e4755bce3617b71004f1df4c3eb8efd5bbc640ce0eab7074cf9ce27da255fe"
+   },
+   {
+    "entry_id": "localcore-token-rebind-rebind-8",
+    "seq": 8,
+    "hash": "1f07f905d7e79857717eba9f671cd3d62bb168097707989294a6a84fa09fc9d3"
+   }
+  ]
+ },
+ "rpc": {
+  "url": "http://shapecov-proto-feeder:8000/rpc/token-rebind"
+ },
+ "datalake": {
+  "s3_endpoint": "http://shapecov-proto-feeder:9000",
+  "bucket_path": "shapecov-lake/token-rebind",
+  "region": "us-east-1"
+ },
+ "history_archive": {
+  "url": "http://shapecov-proto-feeder:8000/archive/token-rebind"
+ },
+ "protocols": [
+  "SEP41"
+ ],
+ "live_persist_max_batch_size": 3,
+ "protocol_cursors": [
+  "history",
+  "current_state"
+ ],
+ "commits": [
+  [
+   4
+  ],
+  [
+   5
+  ],
+  [
+   6,
+   7,
+   8
+  ]
+ ],
+ "feeder_container": "shapecov-proto-feeder",
+ "docker_network": "shapecov-proto-net",
+ "timeout_seconds": 600,
+ "work_dir": "$REPLAY_WORK"
+}

@@ -1,0 +1,25 @@
+time="2026-11-17T01:39:07.258Z" level=info msg="📦 Git Commit: f5b67b07d7ea8e6f1ac96b8514614872850eea81" pid=1
+time="2026-11-17T01:39:07.258Z" level=info msg="📦 Version: 0.2.0" pid=1
+time="2026-11-17T01:39:07.259Z" level=debug msg="Setting log level to: info" pid=1
+time="2026-11-17T01:39:07.288Z" level=info msg="Set chunk interval \"1 day\" on transactions" pid=1
+time="2026-11-17T01:39:07.291Z" level=info msg="Set chunk interval \"1 day\" on transactions_accounts" pid=1
+time="2026-11-17T01:39:07.293Z" level=info msg="Set chunk interval \"1 day\" on operations" pid=1
+time="2026-11-17T01:39:07.294Z" level=info msg="Set chunk interval \"1 day\" on operations_accounts" pid=1
+time="2026-11-17T01:39:07.294Z" level=info msg="Set chunk interval \"1 day\" on state_changes" pid=1
+SDK 2026/11/17 01:39:07 WARN Response has no supported checksum. Not validating response payload.
+time="2026-11-17T01:39:07.667Z" level=info msg="Using datastore backend with buffer size 4, 2 workers" pid=1
+time="2026-11-17T01:39:07.680Z" level=info msg="protocol SEP41 current-state production disabled; cursor not initialized" pid=1
+time="2026-11-17T01:39:07.691Z" level=info msg="Starting ingestion from ledger: 4" pid=1
+SDK 2026/11/17 01:39:07 WARN Response has no supported checksum. Not validating response payload.
+time="2026-11-17T01:39:07.811Z" level=info msg="Ingested ledger 4 in 0.1040s" pid=1
+SDK 2026/11/17 01:39:12 WARN Response has no supported checksum. Not validating response payload.
+SDK 2026/11/17 01:39:12 WARN Response has no supported checksum. Not validating response payload.
+SDK 2026/11/17 01:39:12 WARN Response has no supported checksum. Not validating response payload.
+SDK 2026/11/17 01:39:12 WARN Response has no supported checksum. Not validating response payload.
+time="2026-11-17T01:39:14.237Z" level=info msg="Ingested ledger 5 in 1.4823s" pid=1
+time="2026-11-17T01:39:14.275Z" level=info msg="Ingested ledger 6 in 0.0132s" pid=1
+time="2026-11-17T01:39:14.275Z" level=info msg="Ingested ledger 7 in 0.0127s" pid=1
+time="2026-11-17T01:39:14.275Z" level=info msg="Ingested ledger 8 in 0.0126s" pid=1
+time="2026-11-17T01:39:15.233Z" level=info msg="shutdown requested; exiting cleanly: live ingestion pipeline: pipeline cancelled: context canceled" pid=1
+time="2026-11-17T01:39:15.233Z" level=info msg="Shutting down servers..." pid=1
+time="2026-11-17T01:39:15.233Z" level=info msg="Servers gracefully stopped" pid=1

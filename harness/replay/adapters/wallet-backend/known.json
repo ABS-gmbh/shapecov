@@ -112,6 +112,16 @@
     "what": "end state",
     "how": "removed"
    }
+  },
+  {
+   "issue": "record:f5b67b07",
+   "kind": "f5b67b07 rebound contract history",
+   "fixed_by": "f5b67b07d7ea8e6f1ac96b8514614872850eea81",
+   "title": "A contract rebound to another wasm inside one persist batch loses the protocol events and history of the ledger that saw its first wasm (fixed in f5b67b07)",
+   "match": {
+    "what": "sep41 history",
+    "how": "mint"
+   }
   }
  ]
 }

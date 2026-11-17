@@ -1,0 +1,13 @@
+{"http": "POST", "path": "/__release?name=token-rebind&last=4", "port": "rpc", "released": 4, "status": 200, "t": 1794879418.89}
+{"entry": "token-rebind", "method": "getHealth", "params": null, "port": "rpc", "status": "ok", "t": 1794879419.546}
+{"entry": "token-rebind", "method": "getLedgers", "params": {"pagination": {"limit": 10}, "startLedger": 4}, "port": "rpc", "response_bytes": 13504, "status": "ok", "t": 1794879419.559}
+{"entry": "token-rebind", "method": "getHealth", "params": null, "port": "rpc", "status": "ok", "t": 1794879419.607}
+{"http": "POST", "path": "/__release?name=token-rebind&last=5", "port": "rpc", "released": 5, "status": 200, "t": 1794879421.128}
+{"entry": "token-rebind", "method": "getHealth", "params": null, "port": "rpc", "status": "ok", "t": 1794879421.653}
+{"entry": "token-rebind", "method": "getLedgers", "params": {"pagination": {"limit": 10}, "startLedger": 5}, "port": "rpc", "response_bytes": 4144, "status": "ok", "t": 1794879421.655}
+{"entry": "token-rebind", "method": "getHealth", "params": null, "port": "rpc", "status": "ok", "t": 1794879421.698}
+{"http": "POST", "path": "/__release?name=token-rebind&last=8", "port": "rpc", "released": 8, "status": 200, "t": 1794879423.267}
+{"entry": "token-rebind", "method": "getHealth", "params": null, "port": "rpc", "status": "ok", "t": 1794879423.746}
+{"entry": "token-rebind", "method": "getLedgers", "params": {"pagination": {"limit": 10}, "startLedger": 6}, "port": "rpc", "response_bytes": 20220, "status": "ok", "t": 1794879423.748}
+{"entry": "token-rebind", "method": "getHealth", "params": null, "port": "rpc", "status": "ok", "t": 1794879423.793}
+{"entry": "token-rebind", "method": "getHealth", "params": null, "port": "rpc", "status": "ok", "t": 1794879425.838}

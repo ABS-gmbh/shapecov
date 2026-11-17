@@ -1,0 +1,49 @@
+{
+ "adapter": "wallet-backend",
+ "ref": "8ba290cd",
+ "commit": "8ba290cd6c05633ca83fa08d66396047ffc1e912",
+ "input": "rpc",
+ "sdk_pin": "v0.7.3",
+ "mode": "sequence token-rebind",
+ "entry_id": "token-rebind",
+ "protocol_version": 28,
+ "ledger": {
+  "seq": 8,
+  "hash": "1f07f905d7e79857717eba9f671cd3d62bb168097707989294a6a84fa09fc9d3",
+  "close_time": 4070000000,
+  "protocol": 28
+ },
+ "sequence": {
+  "members": [
+   "localcore-token-rebind-upload-4",
+   "localcore-token-rebind-filler-5",
+   "localcore-token-rebind-deploy-6",
+   "localcore-token-rebind-mint-7",
+   "localcore-token-rebind-rebind-8"
+  ],
+  "blind": false,
+  "built_for": "wallet-backend ee82038d and f5b67b07"
+ },
+ "ingested": false,
+ "process": {
+  "outcome": "exited by itself before the ledger was ingested",
+  "exit_code": 2,
+  "oom_killed": false,
+  "started_finished": "2026-11-17T01:36:59.034282093Z 2026-11-17T01:37:05.982707263Z"
+ },
+ "seconds": 12.7,
+ "feeder_requests": 13,
+ "evidence": "out-sequences/8ba290cd6c05/rpc/token-rebind",
+ "oracle": {
+  "verdict": "mishandled",
+  "rows_expected": 0,
+  "rows_met": 0,
+  "rows_checked": 0,
+  "known": {},
+  "unexplained": [
+   "the indexer did not ingest the whole sequence: panic: executing root command: running ingest: running 'ingest' from 0 to 0: live ingestion pipeline: persisting ledgers 6-8: ingesting processed data for ledgers 6-8 failed with a permanent error: permanent error on attempt 1: committing coordinating transaction for ledgers 6-8: ledger persist partially committed: ERROR: insert or update on table \"sep41_balances\" violates foreign key constraint \"fk_sep41_contract_token\" (SQLSTATE 23503)"
+  ],
+  "checks": []
+ },
+ "result": "mishandled"
+}

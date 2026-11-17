@@ -62,6 +62,11 @@ Scenarios (one per run):
                      account 2^53 + 1 stroops, then that account (as its operation's source, signing
                      too) merges into a third, which receives a balance above 2^53. Amounts a reader
                      that keeps stroops in a float64 rounds, and a successful merge.
+  token-rebind-p28   Protocol 28, stellar-core 30.0.0. Five consecutive ledgers, replayed as the
+                     sequences token-rebind and token-rebind-history: (1) two wasm uploads, a SEP-41
+                     token that can rebind itself and a plain contract (tools/rebind_token_wasm.py
+                     builds both); (2) a payment; (3) a contract deployed on the token; (4) it mints,
+                     publishing a SEP-41 mint event; (5) it rebinds itself to the plain wasm. Built after reading wallet-backend ee82038d and f5b67b07.
   pool-share-unsponsor-p28
                      Protocol 28, stellar-core 30.0.0. A sponsor pays the reserve of an account's
                      pool-share trustline; in the next ledger the sponsor revokes that sponsorship. The
@@ -122,7 +127,8 @@ SCENARIOS = {"muxed-source-p22": IMAGE_V22, "classic-p22": IMAGE_V22, "pools-spo
              "flags-preauth-p30": IMAGE, "muxed-source-refused-p24": IMAGE, "memo-and-offer-p30": IMAGE,
              "sac-trust-p28": IMAGE, "participants-p28": IMAGE, "failures-p30": IMAGE, "big-merge-p30": IMAGE,
              "trustline-churn-p28": IMAGE, "deployer-cb-p28": IMAGE,
-             "frozen-claim-p28": IMAGE, "pool-share-unsponsor-p28": IMAGE}
+             "frozen-claim-p28": IMAGE, "pool-share-unsponsor-p28": IMAGE,
+             "token-rebind-p28": IMAGE}
 NAME = "shapecov-localcore-gen"
 PASSPHRASES = {"testnet": "Test SDF Network ; September 2015",
                "pubnet": "Public Global Stellar Network ; September 2015"}
@@ -338,6 +344,8 @@ def main():
             sac_trust_p28(core, enc, dec, root, step, run)
         elif a.scenario == "big-merge-p30":
             big_merge_p30(core, enc, root, step, run)
+        elif a.scenario == "token-rebind-p28":
+            token_rebind_p28(core, enc, root, step, run)
         elif a.scenario == "pool-share-unsponsor-p28":
             pool_share_unsponsor_p28(core, enc, root, step, run)
         elif a.scenario == "frozen-claim-p28":
@@ -756,6 +764,79 @@ def big_merge_p30(core, enc, root, step, run):
         raise SystemExit("the payment and merge were refused; see the diagnostics above")
     run["ledger_big_merge"] = core.close()
 
+
+
+def token_rebind_p28(core, enc, root, step, run):
+    """A SEP-41 contract that mints and then rebinds itself to a wasm no SEP-41 classifier claims."""
+    import rebind_token_wasm
+    core.upgrade(28)
+    caller = Keys("token rebind caller")
+    run["caller"] = strkey.account(caller.pub)
+    token, plain = rebind_token_wasm.build(), rebind_token_wasm.build(sep41=False)
+    h_token, h_plain = hashlib.sha256(token).hexdigest(), hashlib.sha256(plain).hexdigest()
+    run["wasm_token"], run["wasm_plain"] = h_token, h_plain
+    blob, h = envelope(enc, core, tx(root.muxed(), 1, [op("CREATE_ACCOUNT", "createAccountOp", {
+        "destination": caller.account(), "startingBalance": 1000_0000000})]), root)
+    step("token-rebind-p28: create caller", 28, blob, h, "PENDING, applied")
+    born = core.close() << 32
+
+    def soroban(read_only, read_write, write_bytes=5_000):
+        return {"ext": {"v": 0}, "resources": {"footprint": {"readOnly": read_only, "readWrite": read_write},
+                "instructions": 10_000_000, "diskReadBytes": 20_000, "writeBytes": write_bytes},
+                "resourceFee": 50_000_000}
+
+    def hostfn(fn, auth=()):
+        return {"sourceAccount": None, "body": {"type": "INVOKE_HOST_FUNCTION", "invokeHostFunctionOp": {
+            "hostFunction": fn, "auth": list(auth)}}}
+
+    def send(name, source, seq, operation, sorob):
+        blob, h = envelope(enc, core, tx(source.muxed(), seq, [operation], fee=50_010_000, soroban=sorob), source)
+        if step("token-rebind-p28: " + name, 28, blob, h, "PENDING, applied")["status"] != "PENDING":
+            raise SystemExit("%s was refused; see the diagnostics above" % name)
+        return h
+
+    code = lambda hh: {"type": "CONTRACT_CODE", "contractCode": {"hash": hh}}
+    # 1. both uploads, from two sources, in one ledger
+    send("upload the SEP-41 token wasm", root, 2, hostfn({"type": "HOST_FUNCTION_TYPE_UPLOAD_CONTRACT_WASM",
+                                                         "wasm": token.hex()}), soroban([], [code(h_token)], 10_000))
+    send("upload the plain wasm", caller, born + 1, hostfn({"type": "HOST_FUNCTION_TYPE_UPLOAD_CONTRACT_WASM",
+                                                            "wasm": plain.hex()}), soroban([], [code(h_plain)], 10_000))
+    run["ledger_token_rebind_upload"] = core.close()
+    # a classic payment: the ledger a replay commits on its own while the next three queue
+    blob, h = envelope(enc, core, tx(root.muxed(), 3, [op("PAYMENT", "paymentOp", {
+        "destination": caller.muxed(), "asset": {"type": "ASSET_TYPE_NATIVE"}, "amount": 1_0000000})]), root)
+    step("token-rebind-p28: a payment between", 28, blob, h, "PENDING, applied")
+    run["ledger_token_rebind_filler"] = core.close()
+    # 2. deploy the contract on the token wasm
+    preimage = {"type": "CONTRACT_ID_PREIMAGE_FROM_ADDRESS", "fromAddress": {
+        "address": {"type": "SC_ADDRESS_TYPE_ACCOUNT", "accountId": root.account()},
+        "salt": hashlib.sha256(b"shapecov token rebind").hexdigest()}}
+    cid = hashlib.sha256(enc.encode("HashIDPreimage", {"type": "ENVELOPE_TYPE_CONTRACT_ID", "contractID": {
+        "networkID": core.network_id.hex(), "contractIDPreimage": preimage}})).hexdigest()
+    run["contract"] = strkey.contract(cid)
+    contract = {"type": "SC_ADDRESS_TYPE_CONTRACT", "contractId": cid}
+    instance = {"type": "CONTRACT_DATA", "contractData": {"contract": contract,
+                "key": {"type": "SCV_LEDGER_KEY_CONTRACT_INSTANCE"}, "durability": "PERSISTENT"}}
+    create = {"contractIDPreimage": preimage, "executable": {"type": "CONTRACT_EXECUTABLE_WASM", "wasm_hash": h_token}}
+    auth = {"credentials": {"type": "SOROBAN_CREDENTIALS_SOURCE_ACCOUNT"}, "rootInvocation": {
+        "function": {"type": "SOROBAN_AUTHORIZED_FUNCTION_TYPE_CREATE_CONTRACT_HOST_FN", "createContractHostFn": create},
+        "subInvocations": []}}
+    send("deploy on the token wasm", root, 4, hostfn({"type": "HOST_FUNCTION_TYPE_CREATE_CONTRACT", "createContract": create},
+                                                     [auth]), soroban([code(h_token)], [instance]))
+    run["ledger_token_rebind_deploy"] = core.close()
+    # 3. mint: a SEP-41 mint event
+    mint = {"type": "HOST_FUNCTION_TYPE_INVOKE_CONTRACT", "invokeContract": {
+        "contractAddress": contract, "functionName": "mint",
+        "args": [{"type": "SCV_ADDRESS", "address": {"type": "SC_ADDRESS_TYPE_ACCOUNT", "accountId": caller.account()}},
+                 {"type": "SCV_I128", "i128": {"hi": 0, "lo": 100_0000000}}]}}
+    run["tx_mint"] = send("mint", caller, born + 2, hostfn(mint), soroban([instance, code(h_token)], []))
+    run["ledger_token_rebind_mint"] = core.close()
+    # 4. rebind to the plain wasm
+    upgrade = {"type": "HOST_FUNCTION_TYPE_INVOKE_CONTRACT", "invokeContract": {
+        "contractAddress": contract, "functionName": "upgrade", "args": [{"type": "SCV_BYTES", "bytes": h_plain}]}}
+    run["tx_upgrade"] = send("rebind to the plain wasm", root, 5, hostfn(upgrade),
+                             soroban([code(h_token), code(h_plain)], [instance]))
+    run["ledger_token_rebind_rebind"] = core.close()
 
 
 def pool_share_unsponsor_p28(core, enc, root, step, run):

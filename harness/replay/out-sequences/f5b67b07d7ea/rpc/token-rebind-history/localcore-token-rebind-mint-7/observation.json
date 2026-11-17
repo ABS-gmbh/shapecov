@@ -1,0 +1,112 @@
+{
+ "observation_version": 1,
+ "adapter": "wallet-backend",
+ "commit": "f5b67b07d7ea8e6f1ac96b8514614872850eea81",
+ "input": "rpc",
+ "entry_id": "localcore-token-rebind-mint-7",
+ "ledger_seq": 7,
+ "ingested": true,
+ "error": null,
+ "protocol_cursors": [
+  "history"
+ ],
+ "protocols": [
+  "SEP41"
+ ],
+ "command": "wallet-backend ingest  (configured by environment: ARCHIVE_URL=http://shapecov-proto-feeder:8000/archive/token-rebind-history, DATABASE_URL=postgres://postgres@shapecov-proto-db:5432/replay?sslmode=disable, DATASTORE_BUCKET_PATH=shapecov-lake/token-rebind-history, DATASTORE_BUFFER_SIZE=4, DATASTORE_ENDPOINT_URL=http://shapecov-proto-feeder:9000, DATASTORE_NUM_WORKERS=2, DATASTORE_REGION=us-east-1, GET_LEDGERS_LIMIT=10, INGESTION_MODE=live, LEDGER_BACKEND_TYPE=rpc, LIVE_PERSIST_MAX_BATCH_SIZE=3, LOG_LEVEL=INFO, NETWORK=testnet, NETWORK_PASSPHRASE=Test SDF Network ; September 2015, RPC_URL=http://shapecov-proto-feeder:8000/rpc/token-rebind-history, STELLAR_ENVIRONMENT=development)",
+ "commit_groups": [
+  [
+   4
+  ],
+  [
+   5
+  ],
+  [
+   6,
+   7,
+   8
+  ]
+ ],
+ "seconds_to_outcome": 8.8,
+ "cursor": 8,
+ "process": {
+  "outcome": "stopped by the adapter after the ledger was ingested",
+  "exit_code": 0,
+  "oom_killed": false,
+  "started_finished": "2026-11-17T01:38:54.962242591Z 2026-11-17T01:39:02.64379222Z"
+ },
+ "log_errors": [],
+ "log_warnings": 0,
+ "seconds": 12.0,
+ "transactions": [
+  {
+   "hash": "172786f1144503e3350cc79ebfe32bebb4c79894e834a189941b144f1cceecc0",
+   "tx_order": 1,
+   "result_code": "TransactionResultCodeTxSuccess",
+   "participants": [
+    "GDKVIAZ5TWCUHJAGBUGQPXJY3NQQNC74XXX544CJRUXSJN3XHOZRETGH"
+   ]
+  }
+ ],
+ "operations": [
+  {
+   "tx_hash": "172786f1144503e3350cc79ebfe32bebb4c79894e834a189941b144f1cceecc0",
+   "tx_order": 1,
+   "op_order": 1,
+   "type": "INVOKE_HOST_FUNCTION",
+   "participants": [
+    "GDKVIAZ5TWCUHJAGBUGQPXJY3NQQNC74XXX544CJRUXSJN3XHOZRETGH"
+   ]
+  }
+ ],
+ "state_changes": [
+  {
+   "tx_hash": "172786f1144503e3350cc79ebfe32bebb4c79894e834a189941b144f1cceecc0",
+   "tx_order": 1,
+   "op_order": 0,
+   "category": "BALANCE",
+   "reason": "DEBIT",
+   "stored": {
+    "account": "30d554033d9d8543a4060d0d07dd38db61068bfcbdefde70498d2f24b7773bb312",
+    "token": "10d7928b72c2703ccfeaf7eb9ff4ef4d504a55a8b979fc9b450ea2c842b4d1ce61"
+   },
+   "account": "GDKVIAZ5TWCUHJAGBUGQPXJY3NQQNC74XXX544CJRUXSJN3XHOZRETGH",
+   "token": "CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC",
+   "signer_key": null,
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "amount": "137574"
+   }
+  },
+  {
+   "tx_hash": "172786f1144503e3350cc79ebfe32bebb4c79894e834a189941b144f1cceecc0",
+   "tx_order": 1,
+   "op_order": 1,
+   "category": "BALANCE",
+   "reason": "MINT",
+   "stored": {
+    "account": "30d554033d9d8543a4060d0d07dd38db61068bfcbdefde70498d2f24b7773bb312",
+    "token": "104c0a6415c23e8539d3a96505df6f9b021687412cf17ca6e2c61185de4fe4f69e"
+   },
+   "account": "GDKVIAZ5TWCUHJAGBUGQPXJY3NQQNC74XXX544CJRUXSJN3XHOZRETGH",
+   "token": "CBGAUZAVYI7IKOOTVFSQLX3PTMBBNB2BFTYXZJXCYYIYLXSP4T3J4RJ5",
+   "signer_key": null,
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "amount": "1000000000"
+   }
+  }
+ ],
+ "unreadable": [],
+ "row_counts": {
+  "transactions": 1,
+  "transactions_accounts": 1,
+  "operations": 1,
+  "operations_accounts": 1,
+  "state_changes": 2
+ }
+}

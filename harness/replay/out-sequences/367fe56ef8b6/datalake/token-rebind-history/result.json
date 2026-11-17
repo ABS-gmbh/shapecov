@@ -1,0 +1,67 @@
+{
+ "adapter": "wallet-backend",
+ "ref": "367fe56e",
+ "commit": "367fe56ef8b63ac37e156790b709d5cf92ba06f0",
+ "input": "datalake",
+ "sdk_pin": "v0.7.3",
+ "mode": "sequence token-rebind-history",
+ "entry_id": "token-rebind-history",
+ "protocol_version": 28,
+ "ledger": {
+  "seq": 8,
+  "hash": "1f07f905d7e79857717eba9f671cd3d62bb168097707989294a6a84fa09fc9d3",
+  "close_time": 4070000000,
+  "protocol": 28
+ },
+ "sequence": {
+  "members": [
+   "localcore-token-rebind-upload-4",
+   "localcore-token-rebind-filler-5",
+   "localcore-token-rebind-deploy-6",
+   "localcore-token-rebind-mint-7",
+   "localcore-token-rebind-rebind-8"
+  ],
+  "blind": false,
+  "built_for": "wallet-backend f5b67b07"
+ },
+ "ingested": true,
+ "process": {
+  "outcome": "stopped by the adapter after the ledger was ingested",
+  "exit_code": 0,
+  "oom_killed": false,
+  "started_finished": "2026-11-17T01:38:40.345188209Z 2026-11-17T01:38:48.323702255Z"
+ },
+ "seconds": 12.1,
+ "feeder_requests": 16,
+ "evidence": "out-sequences/367fe56ef8b6/datalake/token-rebind-history",
+ "oracle": {
+  "verdict": "pass",
+  "rows_expected": 1,
+  "rows_met": 1,
+  "rows_checked": 1,
+  "known": {},
+  "unexplained": [],
+  "checks": [
+   {
+    "expect": {
+     "expect": "state_change",
+     "category": "BALANCE",
+     "reason": "MINT",
+     "account": "GDKVIAZ5TWCUHJAGBUGQPXJY3NQQNC74XXX544CJRUXSJN3XHOZRETGH",
+     "token": "CBGAUZAVYI7IKOOTVFSQLX3PTMBBNB2BFTYXZJXCYYIYLXSP4T3J4RJ5",
+     "tx_hash": "172786f1144503e3350cc79ebfe32bebb4c79894e834a189941b144f1cceecc0",
+     "derived_from": "the mint event (mint, to) with amount 100_0000000 of a contract wallet-backend classified as SEP-41",
+     "via": {
+      "where": "op 0",
+      "op_type": "INVOKE_HOST_FUNCTION",
+      "what": "sep41 history",
+      "how": "mint"
+     }
+    },
+    "outcome": "met",
+    "detail": "BALANCE/MINT state change account=GDKVIAZ5TWCUHJAGBUGQPXJY3NQQNC74XXX544CJRUXSJN3XHOZRETGH, token=CBGAUZAVYI7IKOOTVFSQLX3PTMBBNB2BFTYXZJXCYYIYLXSP4T3J4RJ5, tx_hash=172786f1144503e3350cc79ebfe32bebb4c79894e834a189941b144f1cceecc0: 1 row(s) stored"
+   }
+  ]
+ },
+ "result": "pass"
+}

@@ -1,0 +1,29 @@
+{
+ "job_version": 1,
+ "entry_id": "localcore-token-rebind-mint-7",
+ "ref": "3e22515a4497",
+ "commit": "3e22515a44979fdc3a558fda3991ca2b48e38cef",
+ "input": "datalake",
+ "network_passphrase": "Test SDF Network ; September 2015",
+ "ledger": {
+  "seq": 7,
+  "hash": "64e4755bce3617b71004f1df4c3eb8efd5bbc640ce0eab7074cf9ce27da255fe",
+  "close_time": 4060000000,
+  "protocol": 28
+ },
+ "rpc": {
+  "url": "http://shapecov-proto-feeder:8000/rpc/localcore-token-rebind-mint-7"
+ },
+ "datalake": {
+  "s3_endpoint": "http://shapecov-proto-feeder:9000",
+  "bucket_path": "shapecov-lake/localcore-token-rebind-mint-7",
+  "region": "us-east-1"
+ },
+ "history_archive": {
+  "url": "http://shapecov-proto-feeder:8000/archive/localcore-token-rebind-mint-7"
+ },
+ "protocols": [],
+ "docker_network": "shapecov-proto-net",
+ "timeout_seconds": 120,
+ "work_dir": "$REPLAY_WORK"
+}

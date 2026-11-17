@@ -14,7 +14,7 @@ indexer-hardening guide has each rule checked against stellar-core. Built for th
 
 | Deliverable | Where | The RFP's acceptance check | Status |
 |---|---|---|---|
-| Corpus: 100 entries, 97 of them real ledgers, with per-CAP coverage | [`corpus/`](corpus/), [`CAP-COVERAGE.md`](corpus/CAP-COVERAGE.md) | 1: entries round-trip through rs-stellar-xdr and match stellar-core's `--check-lcm` goldens | Met |
+| Corpus: 105 entries, 102 of them real ledgers, with per-CAP coverage | [`corpus/`](corpus/), [`CAP-COVERAGE.md`](corpus/CAP-COVERAGE.md) | 1: entries round-trip through rs-stellar-xdr and match stellar-core's `--check-lcm` goldens | Met |
 | Replay harness: wallet-backend (reference adapter), stellar-etl and Horizon | [`harness/replay/`](harness/replay/); shapes each indexer mishandles or drops: [`SHAPES.md`](harness/replay/SHAPES.md) | 2: wallet-backend #729, #731 and #716 fail before their fixes and pass after | Met |
 | Linter for the three ingestion mistakes | [`linter/`](linter/) | 3: flags seeded violations, runs clean on wallet-backend | Partly met: 2 findings on wallet-backend, both real, each with an open upstream issue; also run on stellar-etl |
 | Indexer-hardening guide | [`guide/`](guide/) | 4: tables agree with the manifest; publication gated on review | Tables met and probed against stellar-core 30.0.0; publication gate enforced by the export; **unreviewed** |
@@ -48,7 +48,7 @@ testing, 17 checks in about 18 seconds there; CI runs it on every push, and reru
   every failure in wallet-backend, stellar-etl and Horizon maps to a filed issue. A sweep of 611 further
   network ledgers (100,676 transactions) made 1,764,854 checks on real traffic: the 99,379 that did
   not meet the oracle map to eight open upstream issues, and none is unexplained.
-- **Backtest on past fixes**, measured and incomplete: the harness detects 12 of wallet-backend's 17
+- **Backtest on past fixes**, measured and incomplete: the harness detects 13 of wallet-backend's 17
   in-scope fixes (5 on ledgers not chosen for the bug) and flags 7 of stellar-etl's 9 in-scope issues
   (1 blind). Every miss names the shape, oracle rule or export that would catch it
   ([`BACKTEST.md`](harness/replay/BACKTEST.md)).
@@ -143,7 +143,7 @@ results are not in the repository):
 
 ## Corpus
 
-`corpus/` holds 100 entries and their manifest. `corpus/README.md` describes every field;
+`corpus/` holds 105 entries and their manifest. `corpus/README.md` describes every field;
 `corpus/evidence/` records the reproduced sightings and our findings. Three examples:
 
 | Entry | Type | Source | Shows |
