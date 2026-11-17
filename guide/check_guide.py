@@ -105,7 +105,7 @@ def render(verdicts, probes_doc):
     n_probes = sum(1 for p in probes_doc["probes"] if p["row"] != "(setup)")
     lines = [BEGIN, "",
              "**%d of %d rows** have a verdict from stellar-core itself on every side they make a claim about, "
-             "**%d** on one side, and **%d** rest on the source citations alone. Rows with a side that has only a "
+             "**%d** on one side, and **%d** rows have no stellar-core verdict on either side. Rows with a side that has only a "
              "citation: %s." % (both, len(rows), some, only, "; ".join(cited) or "none"),
              "",
              "A probe is a transaction built to break, or to sit just inside, the rule: %d probes, plus %d setup "

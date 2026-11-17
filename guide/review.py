@@ -111,8 +111,9 @@ def render_brief(verdicts, guide_text, tables, side_status):
     empty = sum(1 for _r, _s, st in status if st == "none")
     L = [BRIEF_BEGIN, "",
          "Section 1 has %d field rows, so %d sides (what stellar-core checks, what it does not). %d claim "
-         "nothing; %d have a verdict from stellar-core itself, a probe or a ledger it closed; %d rest on a "
-         "source citation alone and are listed here." % (len(rows), 2 * len(rows), empty, core, len(cited)), ""]
+         "nothing; %d have a verdict from stellar-core itself, a probe or a ledger it closed; %d, in %d rows, "
+         "rest on a source citation alone and are listed here." % (
+             len(rows), 2 * len(rows), empty, core, len(cited), len({f for f, _s, _w in cited})), ""]
     for i, (field, side, why) in enumerate(cited, 1):
         statement = cells.get(field, {}).get(side, "(the row is missing from the guide's tables)")
         refs = sorted({int(n) for n in re.findall(r"\[(\d+)\]", statement)})

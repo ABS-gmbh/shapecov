@@ -78,6 +78,7 @@ def counts():
         "generated entries": kinds.count("generated"),
         "findings records": len(findings),
         "findings found and filed by ShapeCov": sum(1 for r in findings if r["kind"] == "found"),
+        "issues filed for the defects found": len({u for r in findings if r["kind"] == "found" for u in r.get("upstream") or []}),
         "RFP sightings": len(rows),
         "RFP sightings reproduced": rows.count("reproduced"),
         "generated cases": cases,
@@ -94,6 +95,9 @@ def counts():
         "reachable cells reached by valid cases": cov["generator_covers_reachable"],
         "reachable cells in no corpus entry": cov["uncovered_reachable"],
         "quickcheck checks": len(qc.CHECKS),
+        "guide rows with a side that rests on a citation alone": sum(
+            1 for r in load("guide/verdicts.json")["rows"]
+            if any(r[side].get("citation_only") and not r[side].get("nothing_claimed") for side in ("checked", "not_checked"))),
         "guide sides that rest on a source citation alone": sum(
             1 for r in load("guide/verdicts.json")["rows"] for side in ("checked", "not_checked")
             if r[side].get("citation_only") and not r[side].get("nothing_claimed")),
@@ -127,7 +131,8 @@ PATTERNS = {
     "generated entries": [r"\| ([\d,]+) \| `generated` \|"],
     "findings records": [r"\b(?:All )?([\d,]+) findings(?: in `FINDINGS\.json`|, with severity)",
                          r"`FINDINGS\.json`: ([\d,]+) findings"],
-    "findings found and filed by ShapeCov": [r"\b([\d,]+) defects found and filed"],
+    "findings found and filed by ShapeCov": [r"\b([\d,]+) defects found(?: and filed|, filed in)"],
+    "issues filed for the defects found": [r"\bdefects found, filed in ([\d,]+) issues"],
     "RFP sightings": [r"\b(?:of|of the RFP's) ([\d,]+) (?:public )?sightings", r"\b[\d,]+ of ([\d,]+) reproduced"],
     "RFP sightings reproduced": [r"\b([\d,]+) of the RFP's [\d,]+ sightings", r"\b([\d,]+) of [\d,]+ reproduced"],
     "generated cases": [r"\b([\d,]+) (?:generated )?cases across"],
@@ -151,7 +156,8 @@ PATTERNS = {
     "backtest: stellar-etl flags on a blind ledger": [r"\bstellar-etl's [\d,]+ in-scope issues \(([\d,]+) blind\)"],
     "schema cells reached by valid cases": [r"\breach(?:es)? ([\d,]+) of (?:the )?[\d,]+ schema cells",
                                             r"\bexercise ([\d,]+) of [\d,]+ schema cells"],
-    "guide sides that rest on a source citation alone": [r"\bthe\s+([\d,]+) statements that rest on a source citation alone"],
+    "guide sides that rest on a source citation alone": [r"\bthe\s+([\d,]+) statements (?:\(sides of [\d,]+ rows\) )?that rest on a source citation alone"],
+    "guide rows with a side that rests on a citation alone": [r"\bstatements \(sides of ([\d,]+) rows\)"],
     "linter findings on wallet-backend": [r"\bPartly met: ([\d,]+) findings on wallet-backend",
                                           r"\bwallet-backend `main` \(([\d,]+) findings",
                                           r"\bOn wallet-backend the linter reports ([\d,]+) findings"],

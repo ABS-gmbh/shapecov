@@ -11,12 +11,12 @@ SCRIPT = ".github/scripts/check_counts.py"
 README = """# Fixture
 
 Corpus: 4 entries, 3 of them real ledgers.
-**1 defects found and filed** in one SDK. All 2 findings, with severity, CAPs and a reproducing entry.
+**1 defects found, filed in 1 issues** in one SDK. All 2 findings, with severity, CAPs and a reproducing entry.
 **1 of the RFP's 2 sightings reproduced**.
 **4 generated cases across all 2 types**; valid cases reach 2 of the 3 schema cells.
 ## Check it in under 9 seconds
 | Linter | linter/ | 3 | Partly met: 2 findings on wallet-backend, both real |
-Read the 1 statements that rest on a source citation alone.
+Read the 1 statements (sides of 1 rows) that rest on a source citation alone.
 The linter does not run clean on wallet-backend or on stellar-etl (1, all real, in uncalled code).
 It reruns the 1 fast checks that work from the repository alone: 2 seconds on a laptop.
 `python3 quickcheck.py --full` adds the unit tests and the mutation testing, 2 checks in 12 seconds.
@@ -58,7 +58,7 @@ class CheckCounts(unittest.TestCase):
             "corpus/coverage.json": {"schema_cells": 3, "generator_covers": 2, "reachable_cells": 2,
                                      "corpus_covers_reachable": 1, "generator_covers_reachable": 2,
                                      "uncovered_reachable": 1},
-            "FINDINGS.json": {"findings": [{"kind": "found"}, {"kind": "sighting"}]},
+            "FINDINGS.json": {"findings": [{"kind": "found", "upstream": ["u1"]}, {"kind": "sighting"}]},
             "schema/schema.json": {"types": {"U": {"k": "union", "arms": [{}]}, "E": {"k": "enum", "members": [[1], [2]]}}},
             ".github/workflows/ci.yml": "name: ci\n",
             "quickcheck.py": QUICKCHECK,

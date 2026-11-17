@@ -34,18 +34,19 @@ python3 quickcheck.py
 Python only, with no Docker and no network. It reruns, in parallel, the 16 fast checks that work from
 the repository alone, and checks the recorded results of the rest against their verdicts, in about
 6 seconds on an idle laptop. `python3 quickcheck.py --full` adds the unit tests and the mutation
-testing, 18 checks in about 18 seconds there; CI runs it on every push, and reruns everything else.
+testing, 18 checks in about 20 seconds on an idle laptop; CI runs it on every push, and reruns everything else.
 
 ## Results
 
-- **8 defects found and filed** in java-stellar-sdk, py-stellar-base and stellar-etl. The Java
+- **8 defects found, filed in 7 issues** in java-stellar-sdk, py-stellar-base and stellar-etl. The Java
   maintainer fixed #833 two days after it was filed; py-stellar-base closed #1262 and #1263 as
   fixed in its replacement XDR package. All 42 findings, with severity, CAPs and a reproducing
   entry each: [`FINDINGS.md`](FINDINGS.md).
 - **13 of the RFP's 18 sightings reproduced**, all in CI, each failing before its fix and passing
   after ([`harness/sightings/README.md`](harness/sightings/README.md)).
 - **Every corpus ledger is an indexer test.** The oracle derives the expected rows from the ledger;
-  every failure in wallet-backend, stellar-etl and Horizon maps to a filed issue. A sweep of 611 further
+  every failure in wallet-backend, stellar-etl and Horizon maps to a filed issue or, for one defect
+  wallet-backend fixed without an issue, to its finding record (R11). A sweep of 611 further
   network ledgers (100,676 transactions) made 1,764,854 checks on real traffic: the 99,379 that did
   not meet the oracle map to eight open upstream issues, and none is unexplained.
 - **Backtest on past fixes**, measured and incomplete: the harness detects 13 of wallet-backend's 17
@@ -61,7 +62,7 @@ testing, 18 checks in about 18 seconds there; CI runs it on every push, and reru
 
 - The hardening guide is **unreviewed**. The RFP requires review by a stellar-core or platform
   engineer before publication, and that has not happened. What the reviewer is asked to do, and the
-  11 statements that rest on a source citation alone: [`guide/REVIEW.md`](guide/REVIEW.md). Until the
+  11 statements (sides of 10 rows) that rest on a source citation alone: [`guide/REVIEW.md`](guide/REVIEW.md). Until the
   guide's review line is filled, the page exported for developers.stellar.org opens with a caution
   that it is unreviewed, and the guide check fails if the two disagree.
 - Three replay adapters exist: wallet-backend, stellar-etl and Horizon
