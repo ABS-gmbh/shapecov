@@ -94,6 +94,9 @@ def counts():
         "reachable cells reached by valid cases": cov["generator_covers_reachable"],
         "reachable cells in no corpus entry": cov["uncovered_reachable"],
         "quickcheck checks": len(qc.CHECKS),
+        "guide sides that rest on a source citation alone": sum(
+            1 for r in load("guide/verdicts.json")["rows"] for side in ("checked", "not_checked")
+            if r[side].get("citation_only") and not r[side].get("nothing_claimed")),
         "linter findings on wallet-backend": linter_findings("wallet-backend"),
         "linter findings on stellar-etl": linter_findings("stellar-etl"),
         "quickcheck checks without --full": sum(1 for c in qc.CHECKS if c[0] not in qc.FULL_ONLY),
@@ -148,6 +151,7 @@ PATTERNS = {
     "backtest: stellar-etl flags on a blind ledger": [r"\bstellar-etl's [\d,]+ in-scope issues \(([\d,]+) blind\)"],
     "schema cells reached by valid cases": [r"\breach(?:es)? ([\d,]+) of (?:the )?[\d,]+ schema cells",
                                             r"\bexercise ([\d,]+) of [\d,]+ schema cells"],
+    "guide sides that rest on a source citation alone": [r"\bthe\s+([\d,]+) statements that rest on a source citation alone"],
     "linter findings on wallet-backend": [r"\bPartly met: ([\d,]+) findings on wallet-backend",
                                           r"\bwallet-backend `main` \(([\d,]+) findings",
                                           r"\bOn wallet-backend the linter reports ([\d,]+) findings"],

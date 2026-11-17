@@ -9,6 +9,8 @@ cg = load_module("check_guide", "guide/check_guide.py")
 
 GUIDE = """# Guide
 
+**Review:** reviewer: —; role: —; date: —; commit reviewed: —
+
 | Field | Checked | Not checked |
 |---|---|---|
 | Home domain | its length | its content |
@@ -53,7 +55,8 @@ class CheckGuide(unittest.TestCase):
         self.tmp = tempfile.TemporaryDirectory()
         d = Path(self.tmp.name)
         self.paths = {"REPO": str(d), "GUIDE": str(d / "guide.md"), "VERDICTS": str(d / "verdicts.json"),
-                      "PROBES": str(d / "probes.json")}
+                      "PROBES": str(d / "probes.json"),
+                      "PAGE": str(d / "page.mdx"), "BRIEF": str(d / "REVIEW.md")}
         self.saved = {k: getattr(cg, k) for k in self.paths}
         for k, v in self.paths.items():
             setattr(cg, k, v)
@@ -68,6 +71,8 @@ class CheckGuide(unittest.TestCase):
             "corpus/patterns.json": {"patterns": {"muxed-account": {"caps": ["CAP-0027"]}}},
             "corpus/manifest.json": {"entries": [{"id": "testnet-1", "patterns": ["muxed-account"]}]},
             "guide.md": GUIDE,
+            "page.mdx": "---\n---\n\n" + cg.review.CAUTION + "\nBody.\n",
+            "REVIEW.md": "# Brief\n\n%s\n%s\n" % (cg.review.BRIEF_BEGIN, cg.review.BRIEF_END),
         })
         self.save()
         rc, out = call_main(cg.main, "--write")
@@ -95,6 +100,14 @@ class CheckGuide(unittest.TestCase):
         self.assertEqual(rc, 0, out)
         self.assertIn("GUIDE OK", out)
         self.assertIn("1 probes, plus 1 setup transaction", Path(self.paths["GUIDE"]).read_text())
+
+    def test_page_and_review_line_must_agree(self):
+        Path(self.paths["PAGE"]).write_text("---\n---\n\nReviewed by someone.\n")
+        self.assertFails("review gate: the review line is empty, but the exported page does not open with the not-reviewed caution")
+
+    def test_stale_brief_fails(self):
+        Path(self.paths["BRIEF"]).write_text("# Brief\n\n%s\nold list\n%s\n" % (cg.review.BRIEF_BEGIN, cg.review.BRIEF_END))
+        self.assertFails("list of citation-only rows is stale")
 
     def test_wrong_cap_column_fails(self):
         self.guide("| CAP-27 |", "| CAP-40 |")

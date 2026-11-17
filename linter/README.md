@@ -168,9 +168,10 @@ in which a depth cap was *added* (see "SC002" below).
 
 ### How the false positives were removed
 
-The first recorded run reported 10 findings: these 4 and 6 false positives. Each false positive
-belonged to a class of code, so each class was fixed in the rule, not by suppressing lines. Each
-fix has fixtures: code that must stay quiet, and a seeded case that must still fire. Each was
+The first recorded run, on 15 November, reported 10 findings: the 2 real ones in the table above,
+the 2 SC003 reports at `participants.go:146` and `:155` (a false positive, explained below the
+table), and 6 other false positives. Those 6 belonged to classes of code, so each class was fixed
+in the rule, not by suppressing lines, which left 4. Each fix has fixtures: code that must stay quiet, and a seeded case that must still fire. Each was
 checked against the historical controls below, which are unchanged.
 
 | False positive | Class | Change |
@@ -180,7 +181,7 @@ checked against the historical controls below, which are unchanged.
 | `integrationtests/infrastructure/helpers.go:110` and `soroban_transactions.go:291` | test support | Test-support packages are skipped like `_test.go` files; `-tests` includes them. |
 | `pkg/sorobanauth/sorobanauth.go:44` and `:157` | signer, pre-submission check | The declared-credentials pattern applies only in packages that read ledger output. |
 
-A later run reported two more, at one site: `participants.go:146` and `:155`, where
+Of those 4, the 2 at `participants.go:146` and `:155` are where
 `GetOperationsParticipants` stores what `GetOperationParticipants` returns. The latter has
 returned only the source and the fee-bump account for a failed transaction since `9538b3ca` (25
 September 2026), because the addresses a failed transaction names are, in its own comment,

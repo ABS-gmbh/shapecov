@@ -17,7 +17,7 @@ indexer-hardening guide has each rule checked against stellar-core. Built for th
 | Corpus: 100 entries, 97 of them real ledgers, with per-CAP coverage | [`corpus/`](corpus/), [`CAP-COVERAGE.md`](corpus/CAP-COVERAGE.md) | 1: entries round-trip through rs-stellar-xdr and match stellar-core's `--check-lcm` goldens | Met |
 | Replay harness: wallet-backend (reference adapter), stellar-etl and Horizon | [`harness/replay/`](harness/replay/); shapes each indexer mishandles or drops: [`SHAPES.md`](harness/replay/SHAPES.md) | 2: wallet-backend #729, #731 and #716 fail before their fixes and pass after | Met |
 | Linter for the three ingestion mistakes | [`linter/`](linter/) | 3: flags seeded violations, runs clean on wallet-backend | Partly met: 2 findings on wallet-backend, both real, each with an open upstream issue; also run on stellar-etl |
-| Indexer-hardening guide | [`guide/`](guide/) | 4: tables agree with the manifest; publication gated on review | Tables met and probed against stellar-core 30.0.0; **unreviewed** |
+| Indexer-hardening guide | [`guide/`](guide/) | 4: tables agree with the manifest; publication gated on review | Tables met and probed against stellar-core 30.0.0; publication gate enforced by the export; **unreviewed** |
 | Conformance runner: six SDK decoders and stellar-core | [`runners/`](runners/), [`sdk-matrix/`](sdk-matrix/MATRIX.md) | 5: js-stellar-sdk #1766, #1785 and #1789 fail on pre-fix tags | Met; the same behaviour checks run in Go, Java, Rust and both Python SDKs, and java-stellar-sdk 6.0.0 shares three of the JavaScript defects |
 | Findings | [`FINDINGS.md`](FINDINGS.md), [`FINDINGS.json`](FINDINGS.json) | 6: every failure maps to a filed issue | Met for the committed results |
 
@@ -59,7 +59,10 @@ testing, 16 checks in about 18 seconds there; CI runs it on every push, and reru
 ## Limits
 
 - The hardening guide is **unreviewed**. The RFP requires review by a stellar-core or platform
-  engineer before publication, and that has not happened.
+  engineer before publication, and that has not happened. What the reviewer is asked to do, and the
+  11 statements that rest on a source citation alone: [`guide/REVIEW.md`](guide/REVIEW.md). Until the
+  guide's review line is filled, the page exported for developers.stellar.org opens with a caution
+  that it is unreviewed, and the guide check fails if the two disagree.
 - Three replay adapters exist: wallet-backend, stellar-etl and Horizon
   ([`RESULTS-horizon.md`](harness/replay/RESULTS-horizon.md)). Other indexers are not built. A toy one, [`adapters/example/`](harness/replay/adapters/example/), shows the interface in
   about 100 lines and the participant rule on two variants of the same indexer.

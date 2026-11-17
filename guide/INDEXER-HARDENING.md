@@ -1,7 +1,10 @@
 # Indexer-hardening guide
 
 **Status: draft for review.** Publication is gated on review by a stellar-core or platform
-engineer. Written against protocol 30 and stellar-core 30.0.0.
+engineer. Written against protocol 30 and stellar-core 30.0.0. What a reviewer is asked to do, and
+how the review is recorded: [`REVIEW.md`](REVIEW.md).
+
+**Review:** reviewer: —; role: —; date: —; commit reviewed: —
 
 This guide is for people who write software that reads the Stellar ledger: indexers, explorers,
 wallets' history services, analytics pipelines. It covers the shapes of valid ledger data that

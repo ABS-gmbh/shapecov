@@ -8,7 +8,8 @@ developers.stellar.org is built by Mintlify from the stellar/stellar-docs reposi
 with `title` and `description` front matter, absolute `/docs/...` links, and prettier with
 `@stellar/prettier-config` (`proseWrap: never` for `.mdx`). This script turns INDEXER-HARDENING.md
 into that form:
-- front matter in place of the H1 and the draft-status paragraph;
+- front matter in place of the H1; the status paragraph and the review line become the page's opening,
+  a not-reviewed caution until the review line is filled, then a "Reviewed by" line (guide/review.py);
 - HTML comments (which MDX rejects) removed;
 - links into this repository made absolute GitHub links;
 - the result formatted with stellar-docs' own prettier config (guide/stellar-docs/prettierrc.cjs,
@@ -27,6 +28,9 @@ import subprocess
 import sys
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import review  # noqa: E402
+
 HERE = Path(__file__).resolve().parent
 SRC = HERE / "INDEXER-HARDENING.md"
 OUT = HERE / "stellar-docs/docs/data/indexers/build-your-own/indexer-hardening.mdx"
@@ -37,14 +41,17 @@ DESCRIPTION = ("Which transaction fields stellar-core validates and which it doe
                "participants from the meta, and muxed and signed-payload addresses, for anyone who reads the ledger.")
 
 
-def raw():
-    text = SRC.read_text()
+def raw(text=None):
+    text = SRC.read_text() if text is None else text
+    opening = review.page_opening(review.parse(text))  # raises on a review line filled in part
     text = re.sub(r"<!--.*?-->\n?", "", text, flags=re.S)
     lines = text.split("\n")
     assert lines[0].startswith("# "), "the guide must start with its H1"
     body = "\n".join(lines[1:]).lstrip("\n")
-    # Drop the draft-status paragraph: the exported page is the form meant for publication.
-    body = re.sub(r"^\*\*Status: draft for review\.\*\*.*?\n\n", "", body, count=1, flags=re.S)
+    # The status paragraph and the review line become the page's opening: a caution that the page has
+    # not been reviewed, or the reviewed-by line once the review line is filled (guide/review.py).
+    body = re.sub(r"^\*\*Status: .*?\n\n", "", body, count=1, flags=re.S)
+    body = review.REVIEW_RE.sub("", body, count=1).lstrip("\n")
 
     def link(m):
         target = m.group(2)
@@ -57,7 +64,7 @@ def raw():
     head = ("---\ntitle: %s\ndescription: %s\n---\n\n"
             "{/* Generated from %sguide/INDEXER-HARDENING.md by guide/export_docs.py. Edit the source, not this page. */}\n\n"
             % (TITLE, DESCRIPTION, REPO_URL))
-    return head + body
+    return head + opening + "\n" + body
 
 
 def formatted(prettier_dir):

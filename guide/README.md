@@ -3,6 +3,8 @@
 | File | What it is |
 |---|---|
 | [`INDEXER-HARDENING.md`](INDEXER-HARDENING.md) | The guide, the source to edit. |
+| [`REVIEW.md`](REVIEW.md) | What a reviewer is asked to do, the statements that rest on a source citation alone (generated), and how the review is recorded. |
+| [`review.py`](review.py) | The publication gate: reads the guide's review line, gives the exported page its opening (a not-reviewed caution, or "Reviewed by"), and renders the list in `REVIEW.md`. |
 | [`check_guide.py`](check_guide.py) | Checks the guide's tables against the corpus manifest, the probe records and `verdicts.json`, and renders the verdict table (`--write`). |
 | [`probe_core.py`](probe_core.py), [`probes.json`](probes.json), [`verdicts.json`](verdicts.json) | stellar-core's own answer for each row: probes sent to a local stellar-core 30.0.0, and which probe or corpus ledger backs which row. |
 | [`export_docs.py`](export_docs.py) | Writes the guide as a developers.stellar.org page. |
@@ -20,14 +22,18 @@ repository as read on 16 November 2026, at commit `62f29bbbfef7`:
   SDK and processor guides.
 
 The export:
-- drops the draft-status line, because the page is the form meant for publication;
+- replaces the status paragraph and the review line with the page's opening: while the review line
+  is empty, a `<Warning>` that the page has not been reviewed by a stellar-core or platform engineer;
+  once it is filled, a "Reviewed by" line naming the reviewer and the commit reviewed
+  ([`REVIEW.md`](REVIEW.md), "How the review is recorded");
 - removes the HTML comments that MDX rejects;
 - turns links into this repository into absolute GitHub links.
 
 To publish it, one would copy the file into a stellar-docs checkout and add
 `docs/data/indexers/build-your-own/indexer-hardening` to the "Build your own" group's `pages` in
 `docs.json`. Nothing has been sent to stellar-docs. The RFP gates publication on review by a
-stellar-core or platform engineer, which has not happened.
+stellar-core or platform engineer, which has not happened; the page says so at the top, and
+`check_guide.py` fails if the page and the guide's review line disagree.
 
 ```sh
 npm install --prefix /tmp/prettier prettier@3.9.10 @stellar/prettier-config@1.2.0
