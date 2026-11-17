@@ -244,13 +244,16 @@ def main():
         errors.append("corpus pattern `%s` is not mentioned anywhere in the guide" % p)
     for eid in sorted(set(ENTRY_RE.findall(text)) - entry_ids):
         errors.append("the guide names corpus entry `%s`, which is not in the manifest" % eid)
+    n_tables = len(errors)
     text, verdicts = check_verdicts(text, patterns, carriers, errors, write=write)
+    n_verdicts = len(errors)
     # The review gate: the exported page and the guide's review line must agree (guide/review.py).
     if os.path.exists(PAGE):
         with open(PAGE) as f:
             errors.extend("review gate: " + e for e in review.gate_errors(text, f.read()))
     else:
         errors.append("review gate: the exported page %s is missing; run guide/export_docs.py" % os.path.relpath(PAGE, REPO))
+    n_gate = len(errors)
     # The reviewer's brief: its list of citation-only rows is generated from verdicts.json and the guide.
     want = review.render_brief(verdicts, text, tables, side_status)
     brief = open(BRIEF).read() if os.path.exists(BRIEF) else ""
@@ -276,7 +279,9 @@ def main():
         print("patterns with no corpus entry yet: %s" % ", ".join(missing))
     for e in errors:
         print("ERROR: " + e)
-    print("GUIDE OK" if not errors else "GUIDE DISAGREES WITH THE CORPUS (%d)" % len(errors))
+    parts = [(name, n) for name, n in (("corpus tables", n_tables), ("verdicts", n_verdicts - n_tables),
+                                        ("review gate", n_gate - n_verdicts), ("reviewer's brief", len(errors) - n_gate)) if n]
+    print("GUIDE OK" if not errors else "GUIDE FAILS: " + ", ".join("%s (%d)" % p for p in parts))
     return 1 if errors else 0
 
 

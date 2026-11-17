@@ -104,6 +104,7 @@ class CheckGuide(unittest.TestCase):
     def test_page_and_review_line_must_agree(self):
         Path(self.paths["PAGE"]).write_text("---\n---\n\nReviewed by someone.\n")
         self.assertFails("review gate: the review line is empty, but the exported page does not open with the not-reviewed caution")
+        self.assertFails("GUIDE FAILS: review gate (2)")  # the summary names what failed, not the corpus
 
     def test_stale_brief_fails(self):
         Path(self.paths["BRIEF"]).write_text("# Brief\n\n%s\nold list\n%s\n" % (cg.review.BRIEF_BEGIN, cg.review.BRIEF_END))

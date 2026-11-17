@@ -165,15 +165,15 @@ rows from ledger data.
 | #456 trade claims emit spurious offer effects | yes | **flagged, confirmed after reading the issue**: 225 operations in 11 pubnet ledgers export more offer_created/updated/removed effects than the offer entries the operation changed (e.g. 6 for 1 in `pubnet-59220000`). The rule bounds an operation's offer effects by its offer-entry changes and labels the excess #456 only in operations where a trade happened; none occurs elsewhere | — |
 | #457 allow_trust effect types | yes | **flagged, confirmed after reading the issue**: 1 row in `testnet-5710719`, an AllowTrust that clears AUTHORIZED; stellar-etl exports two `trustline_flags_updated` effects and no `trustline_deauthorized`. The rule takes the effect type from the flags the operation set and cleared on the trustline (Horizon's model: `trustline_authorized`, `trustline_authorized_to_maintain_liabilities` or `trustline_deauthorized` before `trustline_flags_updated`) | — |
 | #458 effect index off by one | no: numbering convention | — | — |
-| #459 forked SAC helpers in contract_data | yes | not run: the adapter does not run `export_ledger_entry_changes` | that export in the adapter; native-asset balance entries are in the Soroban corpus ledgers |
+| #459 forked SAC helpers in contract_data | yes | not reachable by a one-ledger replay: `export_ledger_entry_changes`, the export that writes `contract_data`, writes nothing when the range is one ledger (`StreamChanges` in `internal/input/changes.go` loops `for batchStart < batchEnd`, and exits 0); the replay serves one ledger per corpus entry. The shape is there: 22 testnet and pubnet ledgers change a native-XLM asset-contract balance entry, the issue's first point | two consecutive network ledgers around such a change as a corpus sequence, or a local stellar-core scenario |
 | #460 CAP-73 effect gaps | yes | **flagged, blind**: 5 rows in 4 ledgers (`testnet-5709224`, `pubnet-65480300`, `pubnet-63920000`, `localcore-sac-trust-p28-5`); the oracle reported them as unexplained before the issue was found | — |
 | #461 misnamed hash columns | no: naming | — | — |
 | #462 create_contract details omit salt; contract_id heuristic | yes | **flagged, confirmed after reading the issue**: the three deploys from an address preimage in `testnet-5711641` and `testnet-5718650` are exported without their salt. The rule derives each deploy's contract ID and salt from the envelope; every exported contract_id in the corpus matches the derived one, so the footprint heuristic has not misfired yet | a factory deploy (a contract deploying another) would test the contract_id heuristic |
 | #463 dead code | no | — | — |
 | #464 fee-bump inner signers captured nowhere | no: a schema omission by design | — | — |
 
-**stellar-etl: 7 of 9 in-scope issues flagged (1 blind).** One is in an export the adapter does not
-run yet (#459); #453 needs both a rule and a new entry (none of the corpus's 1,005 fee
+**stellar-etl: 7 of 9 in-scope issues flagged (1 blind).** One, #459, is in an export that writes
+nothing for the one ledger a replay serves; #453 needs both a rule and a new entry (none of the corpus's 1,005 fee
 bumps has a muxed fee source on a Soroban transaction). All three the RFP's background names are
 settled: #450 and #457 are flagged from ledger data, and #454 is a precision contract rather than a
 ledger shape.

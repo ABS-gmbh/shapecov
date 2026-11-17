@@ -2228,7 +2228,7 @@
    "pipeline": "stellar-etl",
    "at": "2b24ec89ddce",
    "verdict": "missed",
-   "reason": "in an export the adapter does not run yet",
+   "reason": "the export it needs writes nothing for a one-ledger range",
    "entries": []
   }
  ]
