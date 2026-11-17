@@ -561,6 +561,32 @@
    "rfp_sighting": 6
   },
   {
+   "id": "C18",
+   "kind": "confirmed",
+   "title": "contract_data exports the native asset contract's balance entries as balances: the forked SAC helper does not exclude native",
+   "component": "stellar-etl: export_ledger_entry_changes, contract_data (ContractBalanceFromContractData)",
+   "severity": "S3",
+   "severity_note": "confirmed after reading the issue, not found blind; native XLM is counted twice by a consumer that also reads accounts",
+   "caps": [
+    "CAP-0046-06"
+   ],
+   "reproduction": {
+    "corpus_entry": "localcore-contract-balances-a-8",
+    "also": [
+     "localcore-contract-balances-b-9"
+    ]
+   },
+   "upstream": [
+    "https://github.com/stellar/stellar-etl/issues/459"
+   ],
+   "first_reported_by": "chowbao (stellar-etl maintainer)",
+   "reported": "2026-07-04",
+   "status": "open; on the contract-balances sequence (two ledgers; the export writes nothing for one) the native asset contract's balance entry of a contract is exported with balance_holder and balance in both ledgers, as the issue's first point says; the same entry of a credit asset's contract, the control, is exported with its holder too, as expected. The issue's other two points (no durability guard, a dead native branch) are not exercised",
+   "labels": [
+    "stellar/stellar-etl#459"
+   ]
+  },
+  {
    "id": "J2",
    "kind": "confirmed",
    "title": "A liquidity-pool asset pair the network accepted is refused: issuers compared as strkey text",

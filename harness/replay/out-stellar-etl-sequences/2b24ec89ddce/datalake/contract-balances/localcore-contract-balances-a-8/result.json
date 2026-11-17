@@ -1,0 +1,50 @@
+{
+ "adapter": "stellar-etl",
+ "ref": "2b24ec89ddce7fc0beb7795de982c93e6895eaf3",
+ "commit": "2b24ec89ddce7fc0beb7795de982c93e6895eaf3",
+ "input": "datalake",
+ "sdk_pin": "v0.8.1-0.20261106081502-e31e3b146d00",
+ "mode": "sequence contract-balances",
+ "entry_id": "localcore-contract-balances-a-8",
+ "protocol_version": 30,
+ "result": "pass",
+ "mishandled": [],
+ "dropped": [],
+ "checks": [],
+ "expectations": 0,
+ "expectations_source": "none (implicit checks only)",
+ "ledger": {
+  "seq": 8,
+  "hash": "14487e07d57bc7a5c408746a9059cf310a1baf1f2671346a9d31c5edf7eac9c1",
+  "close_time": 4070000000,
+  "protocol": 30
+ },
+ "ingested": true,
+ "row_counts": {
+  "transactions": 2,
+  "operations": 2,
+  "effects": 2,
+  "token_transfer": 6,
+  "contract_events": 50,
+  "trades": 0
+ },
+ "process": {
+  "outcome": "exited",
+  "exit_code": 0
+ },
+ "seconds": 1.0,
+ "evidence": "out-stellar-etl-sequences/2b24ec89ddce/datalake/contract-balances/localcore-contract-balances-a-8",
+ "in_sequence": "contract-balances",
+ "oracle": {
+  "verdict": "known issues only",
+  "rows_expected": 15,
+  "rows_met": 13,
+  "known": {
+   "stellar/stellar-etl#452": 2
+  },
+  "unexplained": [],
+  "known_outcome": {
+   "stellar/stellar-etl#452": "mishandled"
+  }
+ }
+}

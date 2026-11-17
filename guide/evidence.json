@@ -141,9 +141,12 @@
   },
   "20": {
    "backtest": [
-    "wallet-backend#695"
+    "wallet-backend#695",
+    "stellar/stellar-etl#459"
    ],
-   "findings": []
+   "findings": [
+    "C18"
+   ]
   },
   "21": {
    "backtest": [

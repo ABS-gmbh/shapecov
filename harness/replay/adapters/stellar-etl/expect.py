@@ -41,7 +41,7 @@ REPORT_INTRO_SEQUENCE = [
     "GCS client pointed at the feeder by `STORAGE_EMULATOR_HOST`. Every export runs once over the whole",
     "range: `export_transactions`, `export_operations`, `export_effects`, `export_token_transfer`,",
     "`export_contract_events`, `export_trades`, and `export_ledger_entry_changes` for accounts, trustlines,",
-    "offers, liquidity pools and claimable balances, which writes nothing for a range of one ledger and",
+    "offers, liquidity pools, claimable balances and contract data, which writes nothing for a range of one ledger and",
     "so is checked on sequences only. Each member ledger is judged like a single-ledger replay; the",
     "sequence's own end-state checks compare the exported entry changes with each ledger's net change.",
 ]
@@ -418,7 +418,8 @@ def ledger_expectations(value, passphrase):
 # writes nothing.
 CHANGE_CREATED, CHANGE_UPDATED, CHANGE_REMOVED, CHANGE_RESTORED = 0, 1, 2, 4
 ENTRY_TABLES = {"ACCOUNT": "account", "TRUSTLINE": "trustline", "OFFER": "offer",
-                "LIQUIDITY_POOL": "liquidity_pool", "CLAIMABLE_BALANCE": "claimable_balance"}
+                "LIQUIDITY_POOL": "liquidity_pool", "CLAIMABLE_BALANCE": "claimable_balance",
+                "CONTRACT_DATA": "contract_data"}
 
 
 def entry_identity(kind, body):
@@ -437,11 +438,40 @@ def entry_identity(kind, body):
     if table == "claimable_balance":
         import oracle
         return table, oracle.balance_id_hex(body["balanceID"])
+    if table == "contract_data":
+        # stellar-etl skips nonce entries; others are keyed by the hex SHA-256 of their LedgerKey XDR.
+        if body["key"].get("type") == "SCV_LEDGER_KEY_NONCE":
+            return None
+        lk = {"type": "CONTRACT_DATA", "contractData": {"contract": body["contract"], "key": body["key"],
+                                                        "durability": body["durability"]}}
+        return table, hashlib.sha256(_encoder().encode("LedgerKey", lk)).hexdigest()
     return None
 
 
 ARM = {"ACCOUNT": "account", "TRUSTLINE": "trustLine", "OFFER": "offer", "LIQUIDITY_POOL": "liquidityPool",
-       "CLAIMABLE_BALANCE": "claimableBalance"}
+       "CLAIMABLE_BALANCE": "claimableBalance", "CONTRACT_DATA": "contractData"}
+
+
+def native_balance_entries(value, passphrase):
+    """{key hash: holder} for every persistent Balance entry of the native asset contract the ledger
+    leaves in place (stellar-etl#459: ingest/sac does not count native balances; stellar-etl's own copy
+    of the helper exports them with a holder and a balance)."""
+    import oracle
+    native = asset_contract({"type": "ASSET_TYPE_NATIVE"}, passphrase)
+    out = {}
+    for lst in oracle.close_order(value):
+        for ch in lst or []:
+            arm = {"LEDGER_ENTRY_CREATED": "created", "LEDGER_ENTRY_UPDATED": "updated"}.get(ch["type"])
+            data = (ch.get(arm) or {}).get("data") if arm else None
+            if not data or data["type"] != "CONTRACT_DATA":
+                continue
+            cd = data["contractData"]
+            vec = cd["key"].get("vec") or [] if cd["key"].get("type") == "SCV_VEC" else []
+            if (cd["durability"] == "PERSISTENT" and cd["contract"].get("contractId")
+                    and strkey.contract(cd["contract"]["contractId"]) == native
+                    and len(vec) == 2 and vec[0].get("sym") == "Balance" and vec[1].get("type") == "SCV_ADDRESS"):
+                out[entry_identity("CONTRACT_DATA", cd)[1]] = vec[1]["address"]
+    return out
 
 
 def ledger_entry_changes(value):
@@ -498,6 +528,13 @@ def end_state_expectations(values, passphrase):
                         "deleted": change == CHANGE_REMOVED,
                         "derived_from": "oracle: the %s is %s in ledger %d (net of the ledger's changes)" % (table, names[change], seq),
                         "via": {"what": "entry change", "how": names[change], "table": table}})
+        for key in sorted(native_balance_entries(value, passphrase)):
+            if net.get(("contract_data", key)) in (CHANGE_CREATED, CHANGE_UPDATED, CHANGE_RESTORED):
+                out.append({"expect": "entry_detail", "table": "contract_data", "key": key, "ledger": seq,
+                            "field": "balance_holder", "value": "",
+                            "derived_from": "oracle: a balance entry of the native asset contract, which ingest/sac does "
+                                            "not count as a balance (stellar-etl#459)",
+                            "via": {"what": "contract data", "how": "native balance", "table": "contract_data"}})
         for table in sorted(set(ENTRY_TABLES.values())):
             out.append({"expect": "entry_changes_only", "table": table, "ledger": seq,
                         "keys": sorted(k for (t, k) in net if t == table),

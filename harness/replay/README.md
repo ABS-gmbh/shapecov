@@ -337,7 +337,7 @@ exporter's own GCS client is pointed at it with `STORAGE_EMULATOR_HOST`, the cli
 standard setting. No flag, source line or dependency is changed.
 
 **Entry changes, on sequences only.** `export_ledger_entry_changes` writes the accounts,
-trustlines, offers, liquidity pools and claimable balances each ledger changed. Given a range of one
+trustlines, offers, liquidity pools, claimable balances and contract data each ledger changed. Given a range of one
 ledger it writes nothing and exits 0: `StreamChanges` (`internal/input/changes.go` 162-178 at
 `2b24ec89`) loops while `batchStart < batchEnd`, and `--start-ledger N --end-ledger N` makes them
 equal. So the harness runs it only on sequences of consecutive corpus ledgers
@@ -345,10 +345,14 @@ equal. So the harness runs it only on sequences of consecutive corpus ledgers
 (`ExtractBatch` makes a `ChangeCompactor` per ledger), so the oracle expects one row per entry and
 ledger with that ledger's net change (created, updated, removed, restored; none for an entry created
 and removed in the same ledger), and no row for an entry the ledger did not change. Results:
-[`out-stellar-etl-sequences/`](out-stellar-etl-sequences/RESULTS.md). All are met: 14 on
-`trustline-churn` (two ledgers), 32 on `token-rebind` and on `token-rebind-history` (the same five
-ledgers; its own expectation is wallet-backend's and is left out for stellar-etl), and 12 on
-`blend-pool-name` (two).
+[`out-stellar-etl-sequences/`](out-stellar-etl-sequences/RESULTS.md). All are met on
+`trustline-churn` (16, two ledgers), `token-rebind` and `token-rebind-history` (39 each, the same five
+ledgers; the latter's own expectation is wallet-backend's and is left out for stellar-etl) and
+`blend-pool-name` (15, two). On `contract-balances` (two ledgers, built for stellar-etl#459) 20 of 22
+are met; the other two are #459 itself: the native asset contract's balance entry exported as a balance
+in both ledgers.
+Contract data rows are keyed by the hex SHA-256 of their `LedgerKey`, as stellar-etl writes them;
+nonce entries, which it skips, are left out.
 
 The oracle maps onto stellar-etl's own vocabulary (`adapters/stellar-etl/expect.py`): each change
 in ledger state should produce the matching Horizon-model effect (`account_created`,

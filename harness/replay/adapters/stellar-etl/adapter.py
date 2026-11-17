@@ -302,11 +302,15 @@ def ledger_of(table, row):
 # changes of each ledger separately (ExtractBatch makes a ChangeCompactor per ledger), so it gives one
 # row per entry per ledger with that ledger's net change: created, updated, removed or restored.
 CHANGES_EXPORT = ("export_ledger_entry_changes", "entry_changes")
-CHANGES_FLAGS = ["--export-accounts", "--export-trustlines", "--export-offers", "--export-pools", "--export-balances"]
+CHANGES_FLAGS = ["--export-accounts", "--export-trustlines", "--export-offers", "--export-pools", "--export-balances",
+                 "--export-contract-data"]
 # The exported file's resource name -> (the table name used here, the field that identifies the entry)
 CHANGE_TABLES = {"accounts": ("account", "account_id"), "trustlines": ("trustline", "ledger_key"),
                  "offers": ("offer", "offer_id"), "liquidity_pools": ("liquidity_pool", "liquidity_pool_id"),
-                 "claimable_balances": ("claimable_balance", "balance_id")}
+                 "claimable_balances": ("claimable_balance", "balance_id"),
+                 "contract_data": ("contract_data", "ledger_key_hash")}
+# Fields kept beside the change, per table: a contract data row's asset-contract balance (stellar-etl#459).
+CHANGE_FIELDS = {"contract_data": ("balance_holder", "balance")}
 
 
 def read_changes(path):
@@ -319,8 +323,10 @@ def read_changes(path):
             continue
         table, key = CHANGE_TABLES[resource]
         for r in read_lines_file(p):
-            out.append({"table": table, "key": str(r.get(key)), "ledger": r.get("ledger_sequence"),
-                        "change": r.get("ledger_entry_change"), "deleted": r.get("deleted")})
+            row = {"table": table, "key": str(r.get(key)), "ledger": r.get("ledger_sequence"),
+                   "change": r.get("ledger_entry_change"), "deleted": r.get("deleted")}
+            row.update({f: r.get(f) for f in CHANGE_FIELDS.get(table, ())})
+            out.append(row)
     for p in glob.glob(os.path.join(path, "*.txt")):
         with open(p, "rb") as f:
             data = f.read()

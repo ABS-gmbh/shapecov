@@ -26,14 +26,14 @@
   "outcome": "exited",
   "exit_code": 0
  },
- "seconds": 1.5,
+ "seconds": 1.2,
  "feeder_requests": 35,
  "evidence": "out-stellar-etl-sequences/2b24ec89ddce/datalake/blend-pool-name",
  "oracle": {
   "verdict": "pass",
-  "rows_expected": 12,
-  "rows_met": 12,
-  "rows_checked": 12,
+  "rows_expected": 15,
+  "rows_met": 15,
+  "rows_checked": 15,
   "known": {},
   "unexplained": [],
   "checks": [
@@ -88,6 +88,22 @@
     },
     "outcome": "met",
     "detail": "claimable_balance rows of ledger 3: only entries the ledger changed"
+   },
+   {
+    "expect": {
+     "expect": "entry_changes_only",
+     "table": "contract_data",
+     "ledger": 3,
+     "keys": [],
+     "derived_from": "oracle: the contract_data entries ledger 3 changed",
+     "via": {
+      "what": "entry change",
+      "how": "no other row",
+      "table": "contract_data"
+     }
+    },
+    "outcome": "met",
+    "detail": "contract_data rows of ledger 3: only entries the ledger changed"
    },
    {
     "expect": {
@@ -157,6 +173,24 @@
    },
    {
     "expect": {
+     "expect": "entry_change",
+     "table": "contract_data",
+     "key": "255d3cec8d379b9cf963957c3db9a89b06ea466506f0afe7fefad8a62aad41e3",
+     "ledger": 4,
+     "change": 0,
+     "deleted": false,
+     "derived_from": "oracle: the contract_data is created in ledger 4 (net of the ledger's changes)",
+     "via": {
+      "what": "entry change",
+      "how": "created",
+      "table": "contract_data"
+     }
+    },
+    "outcome": "met",
+    "detail": "contract_data 255d3cec8d379b9cf963957c in ledger 4: change 0"
+   },
+   {
+    "expect": {
      "expect": "entry_changes_only",
      "table": "account",
      "ledger": 4,
@@ -188,6 +222,24 @@
     },
     "outcome": "met",
     "detail": "claimable_balance rows of ledger 4: only entries the ledger changed"
+   },
+   {
+    "expect": {
+     "expect": "entry_changes_only",
+     "table": "contract_data",
+     "ledger": 4,
+     "keys": [
+      "255d3cec8d379b9cf963957c3db9a89b06ea466506f0afe7fefad8a62aad41e3"
+     ],
+     "derived_from": "oracle: the contract_data entries ledger 4 changed",
+     "via": {
+      "what": "entry change",
+      "how": "no other row",
+      "table": "contract_data"
+     }
+    },
+    "outcome": "met",
+    "detail": "contract_data rows of ledger 4: only entries the ledger changed"
    },
    {
     "expect": {

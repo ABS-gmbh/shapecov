@@ -256,6 +256,14 @@ def _entry_change(exp, obs):
     if "entry_changes" not in obs:
         return "not_checked", "the observation does not report entry changes"
     rows = [r for r in obs["entry_changes"] if r.get("table") == exp["table"] and r.get("ledger") == exp["ledger"]]
+    if exp["expect"] == "entry_detail":
+        mine = [r for r in rows if r.get("key") == exp["key"]]
+        label = "%s of %s %s in ledger %d" % (exp["field"], exp["table"], exp["key"][:24], exp["ledger"])
+        if not mine:
+            return "missing", "%s: no row" % label
+        if (mine[0].get(exp["field"]) or "") != exp["value"]:
+            return "wrong_value", "%s: %r, expected %r" % (label, mine[0].get(exp["field"]), exp["value"])
+        return "met", "%s: %r" % (label, exp["value"])
     if exp["expect"] == "entry_changes_only":
         extra = sorted({r["key"] for r in rows} - set(exp["keys"]))
         label = "%s rows of ledger %d" % (exp["table"], exp["ledger"])
@@ -276,7 +284,7 @@ def _entry_change(exp, obs):
 
 
 def _check(exp, obs):
-    if exp.get("expect") in ("entry_change", "entry_changes_only"):
+    if exp.get("expect") in ("entry_change", "entry_changes_only", "entry_detail"):
         return _entry_change(exp, obs)
     if exp.get("expect") == "trade_detail":
         return _trade_detail(exp, obs)

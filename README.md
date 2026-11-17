@@ -41,7 +41,7 @@ testing, 18 checks in about 20 seconds on an idle laptop; CI runs it on every pu
 - **8 defects found, filed in 7 issues** in java-stellar-sdk, py-stellar-base and stellar-etl. The Java
   maintainer fixed #833 two days after it was filed; py-stellar-base closed #1262 and #1263 as
   fixed in its replacement XDR package, and feedback on that package's API led to a documentation
-  change about five hours later ([py-stellar-xdr#24](https://github.com/lightsail-network/py-stellar-xdr/pull/24)). All 43 findings, with severity, CAPs and a reproducing
+  change about five hours later ([py-stellar-xdr#24](https://github.com/lightsail-network/py-stellar-xdr/pull/24)). All 44 findings, with severity, CAPs and a reproducing
   entry each: [`FINDINGS.md`](FINDINGS.md).
 - **14 of the RFP's 18 sightings reproduced**, all in CI: before and after the fix where one is
   released, and at the current release or master where the issue is open or the fix unreleased
@@ -52,7 +52,7 @@ testing, 18 checks in about 20 seconds on an idle laptop; CI runs it on every pu
   network ledgers (100,676 transactions) made 1,764,854 checks on real traffic: the 99,379 that did
   not meet the oracle map to eight open upstream issues, and none is unexplained.
 - **Backtest on past fixes**, measured and incomplete: the harness detects 14 of wallet-backend's 17
-  in-scope fixes (5 on ledgers not chosen for the bug) and flags 7 of stellar-etl's 9 in-scope issues
+  in-scope fixes (5 on ledgers not chosen for the bug) and flags 8 of stellar-etl's 9 in-scope issues
   (1 blind). Every miss names the shape, oracle rule or export that would catch it
   ([`BACKTEST.md`](harness/replay/BACKTEST.md)).
 - **7,392 generated cases across all 477 types**, run through six decoders and stellar-core
@@ -174,7 +174,7 @@ results are not in the repository):
 - `harness/replay/adapters/stellar-etl/` runs the same ledgers through stellar-etl's own export
   commands, reading the data lake through its GCS client, and checks its effects and token
   transfers against the same oracle. It found E1 to E3 in `FINDINGS.md`. Its entry-change export
-  (accounts, trustlines, offers, pools, claimable balances) is checked on sequences of consecutive
+  (accounts, trustlines, offers, pools, claimable balances, contract data) is checked on sequences of consecutive
   ledgers only: given one ledger it writes nothing (`harness/replay/README.md`, "stellar-etl").
 - `harness/wallet-backend/` is the earlier, database-free version: it calls wallet-backend's
   `indexer.ProcessLedger` from a Go test.

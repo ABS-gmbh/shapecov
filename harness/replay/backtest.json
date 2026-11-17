@@ -4,7 +4,8 @@
   "pass1": "backtest/pass1.jsonl",
   "pass2": "backtest/pass2.jsonl",
   "sequences": "backtest/sequences.jsonl",
-  "etl": "out-stellar-etl/results.jsonl"
+  "etl": "out-stellar-etl/results.jsonl",
+  "etl-sequences": "out-stellar-etl-sequences/results.jsonl"
  },
  "items": [
   {
@@ -2251,9 +2252,15 @@
    "issue": "stellar/stellar-etl#459",
    "pipeline": "stellar-etl",
    "at": "2b24ec89ddce",
-   "verdict": "missed",
-   "reason": "the export writes nothing for a one-ledger range; needs a sequence that changes a native asset-contract balance",
-   "entries": []
+   "verdict": "detected",
+   "entries": [
+    {
+     "entry": "contract-balances",
+     "results": "etl-sequences",
+     "blind": false
+    }
+   ],
+   "note": "Oracle rule written after reading the issue: not blind. Shown on a two-ledger sequence built for it, because export_ledger_entry_changes writes nothing for a range of one ledger."
   }
  ]
 }

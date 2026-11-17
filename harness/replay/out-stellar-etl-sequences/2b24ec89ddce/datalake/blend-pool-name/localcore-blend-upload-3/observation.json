@@ -58,7 +58,7 @@
   "contract_events": 21,
   "trades": 0
  },
- "seconds": 1.5,
+ "seconds": 1.2,
  "process": {
   "outcome": "exited",
   "exit_code": 0
@@ -77,6 +77,15 @@
    "ledger": 4,
    "change": 1,
    "deleted": false
+  },
+  {
+   "table": "contract_data",
+   "key": "255d3cec8d379b9cf963957c3db9a89b06ea466506f0afe7fefad8a62aad41e3",
+   "ledger": 4,
+   "change": 0,
+   "deleted": false,
+   "balance_holder": "",
+   "balance": ""
   }
  ],
  "trades": [],

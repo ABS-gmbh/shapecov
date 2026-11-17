@@ -1,0 +1,432 @@
+{
+ "adapter": "stellar-etl",
+ "ref": "2b24ec89ddce7fc0beb7795de982c93e6895eaf3",
+ "commit": "2b24ec89ddce7fc0beb7795de982c93e6895eaf3",
+ "input": "datalake",
+ "sdk_pin": "v0.8.1-0.20261106081502-e31e3b146d00",
+ "mode": "sequence contract-balances",
+ "entry_id": "contract-balances",
+ "protocol_version": 30,
+ "ledger": {
+  "seq": 9,
+  "hash": "ec75b70d1e0c457f613f583204b535840e9e07e3c18aaf6229aea6252b48a83c",
+  "close_time": 4080000000,
+  "protocol": 30
+ },
+ "sequence": {
+  "members": [
+   "localcore-contract-balances-a-8",
+   "localcore-contract-balances-b-9"
+  ],
+  "blind": false,
+  "built_for": "stellar-etl#459 (the native asset contract's balance entries for a contract)"
+ },
+ "ingested": true,
+ "process": {
+  "outcome": "exited",
+  "exit_code": 0
+ },
+ "seconds": 1.0,
+ "feeder_requests": 35,
+ "evidence": "out-stellar-etl-sequences/2b24ec89ddce/datalake/contract-balances",
+ "oracle": {
+  "verdict": "known issues only",
+  "rows_expected": 22,
+  "rows_met": 20,
+  "rows_checked": 22,
+  "known": {
+   "stellar/stellar-etl#459": 2
+  },
+  "unexplained": [],
+  "checks": [
+   {
+    "expect": {
+     "expect": "entry_change",
+     "table": "account",
+     "key": "GAUKDIW3UDO6K6BMU4G4ZIOODE4BE7SNX47T532N75OBHKT6OKMWFIHF",
+     "ledger": 8,
+     "change": 1,
+     "deleted": false,
+     "derived_from": "oracle: the account is updated in ledger 8 (net of the ledger's changes)",
+     "via": {
+      "what": "entry change",
+      "how": "updated",
+      "table": "account"
+     }
+    },
+    "outcome": "met",
+    "detail": "account GAUKDIW3UDO6K6BMU4G4ZIOO in ledger 8: change 1"
+   },
+   {
+    "expect": {
+     "expect": "entry_change",
+     "table": "account",
+     "key": "GBRPYHIL2CI3FNQ4BXLFMNDLFJUNPU2HY3ZMFSHONUCEOASW7QC7OX2H",
+     "ledger": 8,
+     "change": 1,
+     "deleted": false,
+     "derived_from": "oracle: the account is updated in ledger 8 (net of the ledger's changes)",
+     "via": {
+      "what": "entry change",
+      "how": "updated",
+      "table": "account"
+     }
+    },
+    "outcome": "met",
+    "detail": "account GBRPYHIL2CI3FNQ4BXLFMNDL in ledger 8: change 1"
+   },
+   {
+    "expect": {
+     "expect": "entry_change",
+     "table": "contract_data",
+     "key": "903d827a753eccaef0f17b3a511b68122b5fa4b30c44edee53f6a03bdc2b8ed8",
+     "ledger": 8,
+     "change": 0,
+     "deleted": false,
+     "derived_from": "oracle: the contract_data is created in ledger 8 (net of the ledger's changes)",
+     "via": {
+      "what": "entry change",
+      "how": "created",
+      "table": "contract_data"
+     }
+    },
+    "outcome": "met",
+    "detail": "contract_data 903d827a753eccaef0f17b3a in ledger 8: change 0"
+   },
+   {
+    "expect": {
+     "expect": "entry_change",
+     "table": "contract_data",
+     "key": "c947bfd86eadab32cb79de6caa4de910bee6df9e8e86d7dfb1804a53fa8dd9e6",
+     "ledger": 8,
+     "change": 0,
+     "deleted": false,
+     "derived_from": "oracle: the contract_data is created in ledger 8 (net of the ledger's changes)",
+     "via": {
+      "what": "entry change",
+      "how": "created",
+      "table": "contract_data"
+     }
+    },
+    "outcome": "met",
+    "detail": "contract_data c947bfd86eadab32cb79de6c in ledger 8: change 0"
+   },
+   {
+    "expect": {
+     "expect": "entry_detail",
+     "table": "contract_data",
+     "key": "903d827a753eccaef0f17b3a511b68122b5fa4b30c44edee53f6a03bdc2b8ed8",
+     "ledger": 8,
+     "field": "balance_holder",
+     "value": "",
+     "derived_from": "oracle: a balance entry of the native asset contract, which ingest/sac does not count as a balance (stellar-etl#459)",
+     "via": {
+      "what": "contract data",
+      "how": "native balance",
+      "table": "contract_data"
+     }
+    },
+    "outcome": "wrong_value",
+    "detail": "balance_holder of contract_data 903d827a753eccaef0f17b3a in ledger 8: 'CDAZN57I5SEDGRUGWRAUMOEBZ5O26RKXFI5NHAG7KMUGMUSQGKLCJSVW', expected ''"
+   },
+   {
+    "expect": {
+     "expect": "entry_changes_only",
+     "table": "account",
+     "ledger": 8,
+     "keys": [
+      "GAUKDIW3UDO6K6BMU4G4ZIOODE4BE7SNX47T532N75OBHKT6OKMWFIHF",
+      "GBRPYHIL2CI3FNQ4BXLFMNDLFJUNPU2HY3ZMFSHONUCEOASW7QC7OX2H"
+     ],
+     "derived_from": "oracle: the account entries ledger 8 changed",
+     "via": {
+      "what": "entry change",
+      "how": "no other row",
+      "table": "account"
+     }
+    },
+    "outcome": "met",
+    "detail": "account rows of ledger 8: only entries the ledger changed"
+   },
+   {
+    "expect": {
+     "expect": "entry_changes_only",
+     "table": "claimable_balance",
+     "ledger": 8,
+     "keys": [],
+     "derived_from": "oracle: the claimable_balance entries ledger 8 changed",
+     "via": {
+      "what": "entry change",
+      "how": "no other row",
+      "table": "claimable_balance"
+     }
+    },
+    "outcome": "met",
+    "detail": "claimable_balance rows of ledger 8: only entries the ledger changed"
+   },
+   {
+    "expect": {
+     "expect": "entry_changes_only",
+     "table": "contract_data",
+     "ledger": 8,
+     "keys": [
+      "903d827a753eccaef0f17b3a511b68122b5fa4b30c44edee53f6a03bdc2b8ed8",
+      "c947bfd86eadab32cb79de6caa4de910bee6df9e8e86d7dfb1804a53fa8dd9e6"
+     ],
+     "derived_from": "oracle: the contract_data entries ledger 8 changed",
+     "via": {
+      "what": "entry change",
+      "how": "no other row",
+      "table": "contract_data"
+     }
+    },
+    "outcome": "met",
+    "detail": "contract_data rows of ledger 8: only entries the ledger changed"
+   },
+   {
+    "expect": {
+     "expect": "entry_changes_only",
+     "table": "liquidity_pool",
+     "ledger": 8,
+     "keys": [],
+     "derived_from": "oracle: the liquidity_pool entries ledger 8 changed",
+     "via": {
+      "what": "entry change",
+      "how": "no other row",
+      "table": "liquidity_pool"
+     }
+    },
+    "outcome": "met",
+    "detail": "liquidity_pool rows of ledger 8: only entries the ledger changed"
+   },
+   {
+    "expect": {
+     "expect": "entry_changes_only",
+     "table": "offer",
+     "ledger": 8,
+     "keys": [],
+     "derived_from": "oracle: the offer entries ledger 8 changed",
+     "via": {
+      "what": "entry change",
+      "how": "no other row",
+      "table": "offer"
+     }
+    },
+    "outcome": "met",
+    "detail": "offer rows of ledger 8: only entries the ledger changed"
+   },
+   {
+    "expect": {
+     "expect": "entry_changes_only",
+     "table": "trustline",
+     "ledger": 8,
+     "keys": [],
+     "derived_from": "oracle: the trustline entries ledger 8 changed",
+     "via": {
+      "what": "entry change",
+      "how": "no other row",
+      "table": "trustline"
+     }
+    },
+    "outcome": "met",
+    "detail": "trustline rows of ledger 8: only entries the ledger changed"
+   },
+   {
+    "expect": {
+     "expect": "entry_change",
+     "table": "account",
+     "key": "GAUKDIW3UDO6K6BMU4G4ZIOODE4BE7SNX47T532N75OBHKT6OKMWFIHF",
+     "ledger": 9,
+     "change": 1,
+     "deleted": false,
+     "derived_from": "oracle: the account is updated in ledger 9 (net of the ledger's changes)",
+     "via": {
+      "what": "entry change",
+      "how": "updated",
+      "table": "account"
+     }
+    },
+    "outcome": "met",
+    "detail": "account GAUKDIW3UDO6K6BMU4G4ZIOO in ledger 9: change 1"
+   },
+   {
+    "expect": {
+     "expect": "entry_change",
+     "table": "account",
+     "key": "GBRPYHIL2CI3FNQ4BXLFMNDLFJUNPU2HY3ZMFSHONUCEOASW7QC7OX2H",
+     "ledger": 9,
+     "change": 1,
+     "deleted": false,
+     "derived_from": "oracle: the account is updated in ledger 9 (net of the ledger's changes)",
+     "via": {
+      "what": "entry change",
+      "how": "updated",
+      "table": "account"
+     }
+    },
+    "outcome": "met",
+    "detail": "account GBRPYHIL2CI3FNQ4BXLFMNDL in ledger 9: change 1"
+   },
+   {
+    "expect": {
+     "expect": "entry_change",
+     "table": "contract_data",
+     "key": "903d827a753eccaef0f17b3a511b68122b5fa4b30c44edee53f6a03bdc2b8ed8",
+     "ledger": 9,
+     "change": 1,
+     "deleted": false,
+     "derived_from": "oracle: the contract_data is updated in ledger 9 (net of the ledger's changes)",
+     "via": {
+      "what": "entry change",
+      "how": "updated",
+      "table": "contract_data"
+     }
+    },
+    "outcome": "met",
+    "detail": "contract_data 903d827a753eccaef0f17b3a in ledger 9: change 1"
+   },
+   {
+    "expect": {
+     "expect": "entry_change",
+     "table": "contract_data",
+     "key": "c947bfd86eadab32cb79de6caa4de910bee6df9e8e86d7dfb1804a53fa8dd9e6",
+     "ledger": 9,
+     "change": 1,
+     "deleted": false,
+     "derived_from": "oracle: the contract_data is updated in ledger 9 (net of the ledger's changes)",
+     "via": {
+      "what": "entry change",
+      "how": "updated",
+      "table": "contract_data"
+     }
+    },
+    "outcome": "met",
+    "detail": "contract_data c947bfd86eadab32cb79de6c in ledger 9: change 1"
+   },
+   {
+    "expect": {
+     "expect": "entry_detail",
+     "table": "contract_data",
+     "key": "903d827a753eccaef0f17b3a511b68122b5fa4b30c44edee53f6a03bdc2b8ed8",
+     "ledger": 9,
+     "field": "balance_holder",
+     "value": "",
+     "derived_from": "oracle: a balance entry of the native asset contract, which ingest/sac does not count as a balance (stellar-etl#459)",
+     "via": {
+      "what": "contract data",
+      "how": "native balance",
+      "table": "contract_data"
+     }
+    },
+    "outcome": "wrong_value",
+    "detail": "balance_holder of contract_data 903d827a753eccaef0f17b3a in ledger 9: 'CDAZN57I5SEDGRUGWRAUMOEBZ5O26RKXFI5NHAG7KMUGMUSQGKLCJSVW', expected ''"
+   },
+   {
+    "expect": {
+     "expect": "entry_changes_only",
+     "table": "account",
+     "ledger": 9,
+     "keys": [
+      "GAUKDIW3UDO6K6BMU4G4ZIOODE4BE7SNX47T532N75OBHKT6OKMWFIHF",
+      "GBRPYHIL2CI3FNQ4BXLFMNDLFJUNPU2HY3ZMFSHONUCEOASW7QC7OX2H"
+     ],
+     "derived_from": "oracle: the account entries ledger 9 changed",
+     "via": {
+      "what": "entry change",
+      "how": "no other row",
+      "table": "account"
+     }
+    },
+    "outcome": "met",
+    "detail": "account rows of ledger 9: only entries the ledger changed"
+   },
+   {
+    "expect": {
+     "expect": "entry_changes_only",
+     "table": "claimable_balance",
+     "ledger": 9,
+     "keys": [],
+     "derived_from": "oracle: the claimable_balance entries ledger 9 changed",
+     "via": {
+      "what": "entry change",
+      "how": "no other row",
+      "table": "claimable_balance"
+     }
+    },
+    "outcome": "met",
+    "detail": "claimable_balance rows of ledger 9: only entries the ledger changed"
+   },
+   {
+    "expect": {
+     "expect": "entry_changes_only",
+     "table": "contract_data",
+     "ledger": 9,
+     "keys": [
+      "903d827a753eccaef0f17b3a511b68122b5fa4b30c44edee53f6a03bdc2b8ed8",
+      "c947bfd86eadab32cb79de6caa4de910bee6df9e8e86d7dfb1804a53fa8dd9e6"
+     ],
+     "derived_from": "oracle: the contract_data entries ledger 9 changed",
+     "via": {
+      "what": "entry change",
+      "how": "no other row",
+      "table": "contract_data"
+     }
+    },
+    "outcome": "met",
+    "detail": "contract_data rows of ledger 9: only entries the ledger changed"
+   },
+   {
+    "expect": {
+     "expect": "entry_changes_only",
+     "table": "liquidity_pool",
+     "ledger": 9,
+     "keys": [],
+     "derived_from": "oracle: the liquidity_pool entries ledger 9 changed",
+     "via": {
+      "what": "entry change",
+      "how": "no other row",
+      "table": "liquidity_pool"
+     }
+    },
+    "outcome": "met",
+    "detail": "liquidity_pool rows of ledger 9: only entries the ledger changed"
+   },
+   {
+    "expect": {
+     "expect": "entry_changes_only",
+     "table": "offer",
+     "ledger": 9,
+     "keys": [],
+     "derived_from": "oracle: the offer entries ledger 9 changed",
+     "via": {
+      "what": "entry change",
+      "how": "no other row",
+      "table": "offer"
+     }
+    },
+    "outcome": "met",
+    "detail": "offer rows of ledger 9: only entries the ledger changed"
+   },
+   {
+    "expect": {
+     "expect": "entry_changes_only",
+     "table": "trustline",
+     "ledger": 9,
+     "keys": [],
+     "derived_from": "oracle: the trustline entries ledger 9 changed",
+     "via": {
+      "what": "entry change",
+      "how": "no other row",
+      "table": "trustline"
+     }
+    },
+    "outcome": "met",
+    "detail": "trustline rows of ledger 9: only entries the ledger changed"
+   }
+  ],
+  "known_outcome": {
+   "stellar/stellar-etl#459": "mishandled"
+  }
+ },
+ "result": "mishandled"
+}

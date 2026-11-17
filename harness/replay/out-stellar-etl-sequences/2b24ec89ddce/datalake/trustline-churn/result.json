@@ -26,14 +26,14 @@
   "outcome": "exited",
   "exit_code": 0
  },
- "seconds": 2.9,
+ "seconds": 1.8,
  "feeder_requests": 35,
  "evidence": "out-stellar-etl-sequences/2b24ec89ddce/datalake/trustline-churn",
  "oracle": {
   "verdict": "pass",
-  "rows_expected": 14,
-  "rows_met": 14,
-  "rows_checked": 14,
+  "rows_expected": 16,
+  "rows_met": 16,
+  "rows_checked": 16,
   "known": {},
   "unexplained": [],
   "checks": [
@@ -106,6 +106,22 @@
     },
     "outcome": "met",
     "detail": "claimable_balance rows of ledger 4: only entries the ledger changed"
+   },
+   {
+    "expect": {
+     "expect": "entry_changes_only",
+     "table": "contract_data",
+     "ledger": 4,
+     "keys": [],
+     "derived_from": "oracle: the contract_data entries ledger 4 changed",
+     "via": {
+      "what": "entry change",
+      "how": "no other row",
+      "table": "contract_data"
+     }
+    },
+    "outcome": "met",
+    "detail": "contract_data rows of ledger 4: only entries the ledger changed"
    },
    {
     "expect": {
@@ -226,6 +242,22 @@
     },
     "outcome": "met",
     "detail": "claimable_balance rows of ledger 5: only entries the ledger changed"
+   },
+   {
+    "expect": {
+     "expect": "entry_changes_only",
+     "table": "contract_data",
+     "ledger": 5,
+     "keys": [],
+     "derived_from": "oracle: the contract_data entries ledger 5 changed",
+     "via": {
+      "what": "entry change",
+      "how": "no other row",
+      "table": "contract_data"
+     }
+    },
+    "outcome": "met",
+    "detail": "contract_data rows of ledger 5: only entries the ledger changed"
    },
    {
     "expect": {

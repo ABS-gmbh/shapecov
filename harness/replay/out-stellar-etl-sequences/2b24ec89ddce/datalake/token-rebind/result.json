@@ -29,14 +29,14 @@
   "outcome": "exited",
   "exit_code": 0
  },
- "seconds": 4.4,
+ "seconds": 2.5,
  "feeder_requests": 56,
  "evidence": "out-stellar-etl-sequences/2b24ec89ddce/datalake/token-rebind",
  "oracle": {
   "verdict": "pass",
-  "rows_expected": 32,
-  "rows_met": 32,
-  "rows_checked": 32,
+  "rows_expected": 39,
+  "rows_met": 39,
+  "rows_checked": 39,
   "known": {},
   "unexplained": [],
   "checks": [
@@ -110,6 +110,22 @@
     },
     "outcome": "met",
     "detail": "claimable_balance rows of ledger 4: only entries the ledger changed"
+   },
+   {
+    "expect": {
+     "expect": "entry_changes_only",
+     "table": "contract_data",
+     "ledger": 4,
+     "keys": [],
+     "derived_from": "oracle: the contract_data entries ledger 4 changed",
+     "via": {
+      "what": "entry change",
+      "how": "no other row",
+      "table": "contract_data"
+     }
+    },
+    "outcome": "met",
+    "detail": "contract_data rows of ledger 4: only entries the ledger changed"
    },
    {
     "expect": {
@@ -233,6 +249,22 @@
    {
     "expect": {
      "expect": "entry_changes_only",
+     "table": "contract_data",
+     "ledger": 5,
+     "keys": [],
+     "derived_from": "oracle: the contract_data entries ledger 5 changed",
+     "via": {
+      "what": "entry change",
+      "how": "no other row",
+      "table": "contract_data"
+     }
+    },
+    "outcome": "met",
+    "detail": "contract_data rows of ledger 5: only entries the ledger changed"
+   },
+   {
+    "expect": {
+     "expect": "entry_changes_only",
      "table": "liquidity_pool",
      "ledger": 5,
      "keys": [],
@@ -298,6 +330,24 @@
    },
    {
     "expect": {
+     "expect": "entry_change",
+     "table": "contract_data",
+     "key": "370a98fe5df191a08220102c0213a354b6dfa2ec42a88e3f057753e26a00430c",
+     "ledger": 6,
+     "change": 0,
+     "deleted": false,
+     "derived_from": "oracle: the contract_data is created in ledger 6 (net of the ledger's changes)",
+     "via": {
+      "what": "entry change",
+      "how": "created",
+      "table": "contract_data"
+     }
+    },
+    "outcome": "met",
+    "detail": "contract_data 370a98fe5df191a08220102c in ledger 6: change 0"
+   },
+   {
+    "expect": {
      "expect": "entry_changes_only",
      "table": "account",
      "ledger": 6,
@@ -329,6 +379,24 @@
     },
     "outcome": "met",
     "detail": "claimable_balance rows of ledger 6: only entries the ledger changed"
+   },
+   {
+    "expect": {
+     "expect": "entry_changes_only",
+     "table": "contract_data",
+     "ledger": 6,
+     "keys": [
+      "370a98fe5df191a08220102c0213a354b6dfa2ec42a88e3f057753e26a00430c"
+     ],
+     "derived_from": "oracle: the contract_data entries ledger 6 changed",
+     "via": {
+      "what": "entry change",
+      "how": "no other row",
+      "table": "contract_data"
+     }
+    },
+    "outcome": "met",
+    "detail": "contract_data rows of ledger 6: only entries the ledger changed"
    },
    {
     "expect": {
@@ -433,6 +501,22 @@
    {
     "expect": {
      "expect": "entry_changes_only",
+     "table": "contract_data",
+     "ledger": 7,
+     "keys": [],
+     "derived_from": "oracle: the contract_data entries ledger 7 changed",
+     "via": {
+      "what": "entry change",
+      "how": "no other row",
+      "table": "contract_data"
+     }
+    },
+    "outcome": "met",
+    "detail": "contract_data rows of ledger 7: only entries the ledger changed"
+   },
+   {
+    "expect": {
+     "expect": "entry_changes_only",
      "table": "liquidity_pool",
      "ledger": 7,
      "keys": [],
@@ -498,6 +582,24 @@
    },
    {
     "expect": {
+     "expect": "entry_change",
+     "table": "contract_data",
+     "key": "370a98fe5df191a08220102c0213a354b6dfa2ec42a88e3f057753e26a00430c",
+     "ledger": 8,
+     "change": 1,
+     "deleted": false,
+     "derived_from": "oracle: the contract_data is updated in ledger 8 (net of the ledger's changes)",
+     "via": {
+      "what": "entry change",
+      "how": "updated",
+      "table": "contract_data"
+     }
+    },
+    "outcome": "met",
+    "detail": "contract_data 370a98fe5df191a08220102c in ledger 8: change 1"
+   },
+   {
+    "expect": {
      "expect": "entry_changes_only",
      "table": "account",
      "ledger": 8,
@@ -529,6 +631,24 @@
     },
     "outcome": "met",
     "detail": "claimable_balance rows of ledger 8: only entries the ledger changed"
+   },
+   {
+    "expect": {
+     "expect": "entry_changes_only",
+     "table": "contract_data",
+     "ledger": 8,
+     "keys": [
+      "370a98fe5df191a08220102c0213a354b6dfa2ec42a88e3f057753e26a00430c"
+     ],
+     "derived_from": "oracle: the contract_data entries ledger 8 changed",
+     "via": {
+      "what": "entry change",
+      "how": "no other row",
+      "table": "contract_data"
+     }
+    },
+    "outcome": "met",
+    "detail": "contract_data rows of ledger 8: only entries the ledger changed"
    },
    {
     "expect": {

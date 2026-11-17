@@ -7,7 +7,7 @@ stellar-etl reads them from the data lake through the GCS JSON and XML APIs, wit
 GCS client pointed at the feeder by `STORAGE_EMULATOR_HOST`. Every export runs once over the whole
 range: `export_transactions`, `export_operations`, `export_effects`, `export_token_transfer`,
 `export_contract_events`, `export_trades`, and `export_ledger_entry_changes` for accounts, trustlines,
-offers, liquidity pools and claimable balances, which writes nothing for a range of one ledger and
+offers, liquidity pools, claimable balances and contract data, which writes nothing for a range of one ledger and
 so is checked on sequences only. Each member ledger is judged like a single-ledger replay; the
 sequence's own end-state checks compare the exported entry changes with each ledger's net change.
 
@@ -20,10 +20,11 @@ explain the failures, or `unexplained` (a candidate new finding). The details be
 
 | Sequence | Ledgers | Commit | Input | End-state checks met | Known issues | Unexplained |
 |---|---|---|---|---|---|---|
-| `blend-pool-name` | `localcore-blend-upload-3`, `localcore-blend-pool-4` | `2b24ec89` | datalake | 12 of 12 | none | 0 |
-| `token-rebind` | `localcore-token-rebind-upload-4`, `localcore-token-rebind-filler-5`, `localcore-token-rebind-deploy-6`, `localcore-token-rebind-mint-7`, `localcore-token-rebind-rebind-8` | `2b24ec89` | datalake | 32 of 32 | none | 0 |
-| `token-rebind-history` | `localcore-token-rebind-upload-4`, `localcore-token-rebind-filler-5`, `localcore-token-rebind-deploy-6`, `localcore-token-rebind-mint-7`, `localcore-token-rebind-rebind-8` | `2b24ec89` | datalake | 32 of 32 | none | 0 |
-| `trustline-churn` | `localcore-trustline-add-4`, `localcore-trustline-churn-5` | `2b24ec89` | datalake | 14 of 14 | none | 0 |
+| `blend-pool-name` | `localcore-blend-upload-3`, `localcore-blend-pool-4` | `2b24ec89` | datalake | 15 of 15 | none | 0 |
+| `contract-balances` | `localcore-contract-balances-a-8`, `localcore-contract-balances-b-9` | `2b24ec89` | datalake | 20 of 22 | 2: stellar/stellar-etl#459 | 0 |
+| `token-rebind` | `localcore-token-rebind-upload-4`, `localcore-token-rebind-filler-5`, `localcore-token-rebind-deploy-6`, `localcore-token-rebind-mint-7`, `localcore-token-rebind-rebind-8` | `2b24ec89` | datalake | 39 of 39 | none | 0 |
+| `token-rebind-history` | `localcore-token-rebind-upload-4`, `localcore-token-rebind-filler-5`, `localcore-token-rebind-deploy-6`, `localcore-token-rebind-mint-7`, `localcore-token-rebind-rebind-8` | `2b24ec89` | datalake | 39 of 39 | none | 0 |
+| `trustline-churn` | `localcore-trustline-add-4`, `localcore-trustline-churn-5` | `2b24ec89` | datalake | 16 of 16 | none | 0 |
 
 ## Commits
 
@@ -39,6 +40,8 @@ Only the implicit checks apply: the ledger is ingested without an error and ever
 |---|---|---|---|
 | `localcore-blend-pool-4@blend-pool-name` | 28 | datalake | dropped: stellar-etl#462 |
 | `localcore-blend-upload-3@blend-pool-name` | 28 | datalake | pass |
+| `localcore-contract-balances-a-8@contract-balances` | 30 | datalake | mishandled: stellar-etl#452 |
+| `localcore-contract-balances-b-9@contract-balances` | 30 | datalake | mishandled: stellar-etl#452 |
 | `localcore-token-rebind-deploy-6@token-rebind` | 28 | datalake | dropped: stellar-etl#462 |
 | `localcore-token-rebind-deploy-6@token-rebind-history` | 28 | datalake | dropped: stellar-etl#462 |
 | `localcore-token-rebind-filler-5@token-rebind` | 28 | datalake | pass |
@@ -56,7 +59,7 @@ Only the implicit checks apply: the ledger is ingested without an error and ever
 
 | Commit | Input | pass | mishandled | dropped | error |
 |---|---|---|---|---|---|
-| `2b24ec89` | datalake | 11 | 4 | 3 | 0 |
+| `2b24ec89` | datalake | 11 | 7 | 3 | 0 |
 
 ## Oracle checks
 
@@ -67,7 +70,7 @@ checked. A failure is labelled with the open upstream issue that explains it
 
 | Commit | Input | Replays | Rows expected | Rows met | Known issues | Unexplained |
 |---|---|---|---|---|---|---|
-| `2b24ec89` | datalake | 18 | 188 | 181 | stellar-etl#452 (4), stellar-etl#462 (3) | 0 |
+| `2b24ec89` | datalake | 21 | 259 | 246 | stellar-etl#452 (8), stellar-etl#459 (2), stellar-etl#462 (3) | 0 |
 
 
 
@@ -77,8 +80,13 @@ checked. A failure is labelled with the open upstream issue that explains it
 
 ## Details of every result that is not `pass`
 
+### `contract-balances` at `2b24ec89ddce`, input datalake: mishandled
+
+- indexer process: exited (exit code 0)
+- evidence: `out-stellar-etl-sequences/2b24ec89ddce/datalake/contract-balances/` (job.json, observation.json, result.json, feeder-requests.jsonl, and exports/: each command's JSON lines (gzipped), log and exit code)
+
 ## Runs
 
 | Started (UTC) | Refs | Inputs | Entries | Seconds | Feeder peak RSS (kB) | Ledgers served by RPC | Objects served by S3 |
 |---|---|---|---|---|---|---|---|
-| 2026-11-17T09:29:55+00:00 | `2b24ec89` | datalake | 0 | 16.2 | 37732 | 0 | 0 |
+| 2026-11-17T09:39:47+00:00 | `2b24ec89` | datalake | 0 | 11.4 | 38120 | 0 | 0 |

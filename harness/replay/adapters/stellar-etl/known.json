@@ -97,6 +97,14 @@
     "what": "trade",
     "how": "rounding slippage"
    }
+  },
+  {
+   "issue": "stellar/stellar-etl#459",
+   "note": "contract_data rows of the native asset contract's Balance entries carry balance_holder and balance: stellar-etl's fork of the SAC helpers computes the native contract ID and discards it, where ingest/sac rejects native. Filed by chowbao (P2). Shown on the contract-balances sequence, since export_ledger_entry_changes writes nothing for one ledger.",
+   "match": {
+    "what": "contract data",
+    "how": "native balance"
+   }
   }
  ]
 }

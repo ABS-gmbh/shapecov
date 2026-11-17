@@ -58,7 +58,7 @@
   "contract_events": 25,
   "trades": 0
  },
- "seconds": 4.4,
+ "seconds": 2.5,
  "process": {
   "outcome": "exited",
   "exit_code": 0
@@ -100,6 +100,15 @@
    "deleted": false
   },
   {
+   "table": "contract_data",
+   "key": "370a98fe5df191a08220102c0213a354b6dfa2ec42a88e3f057753e26a00430c",
+   "ledger": 6,
+   "change": 0,
+   "deleted": false,
+   "balance_holder": "",
+   "balance": ""
+  },
+  {
    "table": "account",
    "key": "GDKVIAZ5TWCUHJAGBUGQPXJY3NQQNC74XXX544CJRUXSJN3XHOZRETGH",
    "ledger": 7,
@@ -112,6 +121,15 @@
    "ledger": 8,
    "change": 1,
    "deleted": false
+  },
+  {
+   "table": "contract_data",
+   "key": "370a98fe5df191a08220102c0213a354b6dfa2ec42a88e3f057753e26a00430c",
+   "ledger": 8,
+   "change": 1,
+   "deleted": false,
+   "balance_holder": "",
+   "balance": ""
   }
  ],
  "trades": [],
