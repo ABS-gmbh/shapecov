@@ -1,5 +1,7 @@
 # Filed 17 November 2026: https://github.com/stellar/stellar-docs/issues/3165
 
+Edited on 17 November 2026: the probe count corrected from 51 to 50 (50 probes plus one setup transaction, as VERIFY.md says).
+
 **Title:** Proposed page for "Build your own indexer": what stellar-core validates, and what an indexer has to check itself
 
 The "Build your own" indexer section explains how to read ledger data, but not which properties of that data stellar-core guarantees. Several indexer bugs this year came from assuming a guarantee that is not there: a signed-payload signer where an account was expected (stellar/wallet-backend#729), muxed and signed-payload addresses cut to the wrong length (stellar/wallet-backend#716).
@@ -12,7 +14,7 @@ I have a draft page for that section:
 4. Muxed and signed-payload addresses, with SEP-23.
 5. A 26-item checklist.
 
-Every statement in the first table that a transaction can test was submitted to a local stellar-core 30.0.0 and the answer recorded (51 probes, rerun in CI). Eleven statements rest on a citation of stellar-core's source only; they are listed separately so a reviewer can start with them.
+Every statement in the first table that a transaction can test was submitted to a local stellar-core 30.0.0 and the answer recorded (50 probes, rerun in CI). Eleven statements rest on a citation of stellar-core's source only; they are listed separately so a reviewer can start with them.
 
 - The page, in this repository's layout and formatted with your prettier configuration: https://github.com/ABS-gmbh/shapecov/blob/v0.2.0/guide/stellar-docs/docs/data/indexers/build-your-own/indexer-hardening.mdx
 - The same text as Markdown: https://github.com/ABS-gmbh/shapecov/blob/v0.2.0/guide/INDEXER-HARDENING.md
