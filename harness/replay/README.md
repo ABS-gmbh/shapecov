@@ -277,11 +277,23 @@ feeder request logs for every cell are under `out/<commit>/<input>/<entry>/`.
 ## stellar-etl
 
 `adapters/stellar-etl/` runs stellar-etl unmodified at a given commit: built with cgo in the Go image
-its own `docker/Dockerfile` names, then `export_transactions`, `export_operations`, `export_effects`
-and `export_token_transfer` for the one ledger. stellar-etl's datastore type is fixed to Google
+its own `docker/Dockerfile` names, then `export_transactions`, `export_operations`, `export_effects`,
+`export_token_transfer`, `export_contract_events` and `export_trades` for the one ledger. stellar-etl's datastore type is fixed to Google
 Cloud Storage, so the feeder also serves the lake through the GCS JSON and XML APIs, and the
 exporter's own GCS client is pointed at it with `STORAGE_EMULATOR_HOST`, the client library's
 standard setting. No flag, source line or dependency is changed.
+
+**Entry changes, on sequences only.** `export_ledger_entry_changes` writes the accounts,
+trustlines, offers, liquidity pools and claimable balances each ledger changed. Given a range of one
+ledger it writes nothing and exits 0: `StreamChanges` (`internal/input/changes.go` 162-178 at
+`2b24ec89`) loops while `batchStart < batchEnd`, and `--start-ledger N --end-ledger N` makes them
+equal. So the harness runs it only on sequences of consecutive corpus ledgers
+(`corpus/sequences.json`, `replay.py run --sequence`). It compacts each ledger's changes on their own
+(`ExtractBatch` makes a `ChangeCompactor` per ledger), so the oracle expects one row per entry and
+ledger with that ledger's net change (created, updated, removed, restored; none for an entry created
+and removed in the same ledger), and no row for an entry the ledger did not change. Results:
+[`out-stellar-etl-sequences/`](out-stellar-etl-sequences/RESULTS.md). On `trustline-churn` (two
+ledgers) all 14 checks are met.
 
 The oracle maps onto stellar-etl's own vocabulary (`adapters/stellar-etl/expect.py`): each change
 in ledger state should produce the matching Horizon-model effect (`account_created`,

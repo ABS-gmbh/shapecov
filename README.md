@@ -31,10 +31,10 @@ pip install jsonschema
 python3 quickcheck.py
 ```
 
-Python only, with no Docker and no network. It reruns, in parallel, the 14 fast checks that work from
+Python only, with no Docker and no network. It reruns, in parallel, the 15 fast checks that work from
 the repository alone, and checks the recorded results of the rest against their verdicts, in about
 6 seconds on an idle laptop. `python3 quickcheck.py --full` adds the unit tests and the mutation
-testing, 16 checks in about 18 seconds there; CI runs it on every push, and reruns everything else.
+testing, 17 checks in about 18 seconds there; CI runs it on every push, and reruns everything else.
 
 ## Results
 
@@ -170,7 +170,9 @@ results are not in the repository):
   hand-written expectations.
 - `harness/replay/adapters/stellar-etl/` runs the same ledgers through stellar-etl's own export
   commands, reading the data lake through its GCS client, and checks its effects and token
-  transfers against the same oracle. It found E1 to E3 in `FINDINGS.md`.
+  transfers against the same oracle. It found E1 to E3 in `FINDINGS.md`. Its entry-change export
+  (accounts, trustlines, offers, pools, claimable balances) is checked on sequences of consecutive
+  ledgers only: given one ledger it writes nothing (`harness/replay/README.md`, "stellar-etl").
 - `harness/wallet-backend/` is the earlier, database-free version: it calls wallet-backend's
   `indexer.ProcessLedger` from a Go test.
 - `harness/sdk-semantic/` runs the manifest's SDK checks against pinned SDK versions: every

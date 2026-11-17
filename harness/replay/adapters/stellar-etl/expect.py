@@ -397,6 +397,104 @@ def ledger_expectations(value, passphrase):
             for tx, op, order, kind, slip in pool_trades(value)]
 
 
+# --------------------------------------------------------------- entry changes (sequences)
+# export_ledger_entry_changes writes, per ledger, one row per account, trustline, offer, liquidity pool
+# and claimable balance the ledger changed, with that ledger's net change: it compacts each ledger's
+# changes on their own (ExtractBatch makes a ChangeCompactor per ledger). Net change: created (did not
+# exist before the ledger, exists after), updated (existed, exists), removed (existed, does not),
+# restored (an archived entry made live, then whatever followed), and nothing for an entry created and
+# removed in the same ledger. The harness runs it on sequences only: for a range of one ledger it
+# writes nothing.
+CHANGE_CREATED, CHANGE_UPDATED, CHANGE_REMOVED, CHANGE_RESTORED = 0, 1, 2, 4
+ENTRY_TABLES = {"ACCOUNT": "account", "TRUSTLINE": "trustline", "OFFER": "offer",
+                "LIQUIDITY_POOL": "liquidity_pool", "CLAIMABLE_BALANCE": "claimable_balance"}
+
+
+def entry_identity(kind, body):
+    """(table, key as stellar-etl exports it) of a ledger entry's data or ledger key, or None."""
+    import base64
+    table = ENTRY_TABLES.get(kind)
+    if table == "account":
+        return table, strkey.account(body["accountID"].get("ed25519") or body["accountID"]["value"])
+    if table == "trustline":
+        lk = {"type": "TRUSTLINE", "trustLine": {"accountID": body["accountID"], "asset": body["asset"]}}
+        return table, base64.b64encode(_encoder().encode("LedgerKey", lk)).decode()
+    if table == "offer":
+        return table, str(body["offerID"])
+    if table == "liquidity_pool":
+        return table, body["liquidityPoolID"]
+    if table == "claimable_balance":
+        import oracle
+        return table, oracle.balance_id_hex(body["balanceID"])
+    return None
+
+
+ARM = {"ACCOUNT": "account", "TRUSTLINE": "trustLine", "OFFER": "offer", "LIQUIDITY_POOL": "liquidityPool",
+       "CLAIMABLE_BALANCE": "claimableBalance"}
+
+
+def ledger_entry_changes(value):
+    """{(table, key): net change} for one ledger, from its change lists in the order stellar-core
+    applies them (oracle.close_order)."""
+    import oracle
+    seen = {}  # identity -> [existed before the ledger, exists now, restored]
+    for lst in oracle.close_order(value):
+        for ch in lst or []:
+            t = ch["type"]
+            if t == "LEDGER_ENTRY_REMOVED":
+                key = ch["removed"]
+                ident = entry_identity(key["type"], key.get(ARM.get(key["type"], ""), {})) if key["type"] in ARM else None
+            else:
+                arm = {"LEDGER_ENTRY_STATE": "state", "LEDGER_ENTRY_CREATED": "created", "LEDGER_ENTRY_UPDATED": "updated",
+                       "LEDGER_ENTRY_RESTORED": "restored"}.get(t)
+                data = (ch.get(arm) or {}).get("data") if arm else None
+                ident = entry_identity(data["type"], data[ARM[data["type"]]]) if data and data["type"] in ARM else None
+            if ident is None:
+                continue
+            first = ident not in seen
+            st = seen.setdefault(ident, [t != "LEDGER_ENTRY_CREATED" and t != "LEDGER_ENTRY_RESTORED", False, False])
+            if t == "LEDGER_ENTRY_REMOVED":
+                st[1] = False
+            elif t == "LEDGER_ENTRY_RESTORED":
+                st[1], st[2] = True, True
+            elif t in ("LEDGER_ENTRY_CREATED", "LEDGER_ENTRY_UPDATED"):
+                st[1] = True
+            elif t == "LEDGER_ENTRY_STATE" and first:
+                st[1] = True
+    out = {}
+    for ident, (before, after, restored) in seen.items():
+        if restored:
+            out[ident] = CHANGE_RESTORED if after else CHANGE_REMOVED
+        elif before and after:
+            out[ident] = CHANGE_UPDATED
+        elif before:
+            out[ident] = CHANGE_REMOVED
+        elif after:
+            out[ident] = CHANGE_CREATED
+    return out
+
+
+def end_state_expectations(values, passphrase):
+    """For a sequence: every ledger's entry changes as export_ledger_entry_changes should write them,
+    one row per entry and ledger with its net change, and no row for an entry the ledger did not change."""
+    out = []
+    names = {0: "created", 1: "updated", 2: "removed", 4: "restored"}
+    for value in values:
+        seq = value["v%d" % value["v"]]["ledgerHeader"]["header"]["ledgerSeq"]
+        net = ledger_entry_changes(value)
+        for (table, key), change in sorted(net.items()):
+            out.append({"expect": "entry_change", "table": table, "key": key, "ledger": seq, "change": change,
+                        "deleted": change == CHANGE_REMOVED,
+                        "derived_from": "oracle: the %s is %s in ledger %d (net of the ledger's changes)" % (table, names[change], seq),
+                        "via": {"what": "entry change", "how": names[change], "table": table}})
+        for table in sorted(set(ENTRY_TABLES.values())):
+            out.append({"expect": "entry_changes_only", "table": table, "ledger": seq,
+                        "keys": sorted(k for (t, k) in net if t == table),
+                        "derived_from": "oracle: the %s entries ledger %d changed" % (table, seq),
+                        "via": {"what": "entry change", "how": "no other row", "table": table}})
+    return out
+
+
 def allow_trust_types(changes):
     """Horizon's model gives an AllowTrust operation, before its trustline_flags_updated effect, an
     effect whose type says the trustline's new authorization: trustline_authorized (23),

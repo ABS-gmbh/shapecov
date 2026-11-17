@@ -798,7 +798,7 @@ def cmd_check(a):
     # after the run are only counted, so a new entry does not fail the check until the next rerun.
     with open(os.path.join(CORPUS, "manifest.json")) as f:
         ledgers = {e["id"] for e in json.load(f)["entries"] if e.get("xdr_type") == "LedgerCloseMeta"}
-    covered = {k[0] for k in results}
+    covered = {k[0] for k, r in results.items() if not r.get("sequence")}  # a sequence's own result is named after it
     for e in sorted(covered - ledgers):
         print("NOT IN THE MANIFEST  %s has a recorded result but is no corpus ledger" % e)
         bad += 1

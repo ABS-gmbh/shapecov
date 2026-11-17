@@ -39,7 +39,8 @@ ISSUE = re.compile(r"^([\w.-]+)/([\w.-]+)#(\d+)")
 URL = re.compile(r"^https://github\.com/([\w.-]+)/([\w.-]+)/(issues|pull|commit)/(\d+|[0-9a-f]{40})$")
 CAP = re.compile(r"^CAP-\d{4}(-\d{2})?$")
 DATE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
-RESULTS = ("harness/replay/out", "harness/replay/out-stellar-etl", "harness/replay/out-horizon")
+RESULTS = ("harness/replay/out", "harness/replay/out-stellar-etl", "harness/replay/out-horizon",
+           "harness/replay/out-stellar-etl-sequences")
 REFERENCE = "rust"  # the conformance runner's reference decoder
 
 

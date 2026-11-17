@@ -224,13 +224,17 @@ def run(a):
     exports = os.path.join(out, "exports")
     sh(["rm", "-rf", exports])
     os.makedirs(exports)
-    flags = ["--start-ledger", str(seq), "--end-ledger", str(seq), "--batch-size", "1",
+    members = (job.get("sequence") or {}).get("ledgers") or []
+    start, end = (members[0]["seq"], members[-1]["seq"]) if members else (seq, seq)
+    flags = ["--start-ledger", str(start), "--end-ledger", str(end), "--batch-size", "1",
              "--datastore-path", job["datalake"]["bucket_path"], "--retry-limit", "0", "--retry-wait", "1",
              "--num-workers", "1", "--buffer-size", "1"] + NETWORK_FLAGS[job["network_passphrase"]]
     script = "cd /exports\n"
-    for cmd, name in EXPORTS:
+    exports_run = EXPORTS + ([CHANGES_EXPORT] if members else [])
+    for cmd, name in exports_run:
+        extra = CHANGES_FLAGS if cmd == CHANGES_EXPORT[0] else []
         script += ("/etl/%s %s %s --output /exports/%s/ > /exports/%s.log 2>&1; echo $? > /exports/%s.exit\n"
-                   % (binary_name(job["commit"]), cmd, " ".join("'%s'" % x for x in flags), name, name, name))
+                   % (binary_name(job["commit"]), cmd, " ".join("'%s'" % x for x in flags + extra), name, name, name))
     t0 = time.time()
     sh(["docker", "rm", "-f", RUN], check=False)
     timed_out = False
@@ -240,7 +244,7 @@ def run(a):
                 "--user", "%d:%d" % (os.getuid(), os.getgid()), "-e", "HOME=/tmp",
                 "-e", "STORAGE_EMULATOR_HOST=%s:%d" % (urlparse(job["datalake"]["s3_endpoint"]).hostname, GCS_PORT), "-v", os.path.join(work, "bin") + ":/etl:ro",
                 "-v", exports + ":/exports", info["go_image"], "sh", "-c", script], check=False,
-               timeout=job.get("timeout_seconds", 120) * len(EXPORTS))
+               timeout=job.get("timeout_seconds", 120) * len(exports_run))
     except subprocess.TimeoutExpired:
         timed_out = True
         sh(["docker", "rm", "-f", RUN], check=False)
@@ -250,7 +254,7 @@ def run(a):
         obs["error"] = "the container failed: " + (p.stdout or "")[-500:]
         return finish()
     failed = []
-    for _cmd, name in EXPORTS:
+    for _cmd, name in exports_run:
         code_path = os.path.join(exports, name + ".exit")
         code = open(code_path).read().strip() if os.path.isfile(code_path) else None
         if code != "0":
@@ -265,6 +269,74 @@ def run(a):
         obs["error"] = "; ".join(failed)
     else:
         obs["ingested"] = True
+    if not members:
+        fill(obs, rows)
+        return finish()
+    # A sequence: every ledger's rows, split by the ledger their transaction or operation ID names,
+    # then the entry changes over the whole range.
+    obs["ledgers"] = {}
+    for m in members:
+        part = {"ingested": obs["ingested"], "error": obs["error"], "transactions": [], "operations": [],
+                "state_changes": [], "balance_movements": [], "unreadable": []}
+        sub = {k: [r for r in v if ledger_of(k, r) == m["seq"]] for k, v in rows.items()}
+        part["row_counts"] = {k: len(v) for k, v in sub.items()}
+        fill(part, sub)
+        obs["ledgers"][m["entry_id"]] = part
+    changes = read_changes(os.path.join(exports, CHANGES_EXPORT[1]))
+    obs["entry_changes"] = changes
+    obs["row_counts"]["entry_changes"] = len(changes)
+    finish()
+
+
+# The ledger a row belongs to, from the TOID it carries (ledger << 32 | ...).
+LEDGER_ID_FIELD = {"transactions": "id", "operations": "id", "effects": "operation_id", "token_transfer": "transaction_id",
+                   "contract_events": "transaction_id", "trades": "history_operation_id"}
+
+
+def ledger_of(table, row):
+    return toid_parts(row[LEDGER_ID_FIELD[table]])[0]
+
+
+# export_ledger_entry_changes, sequences only: for a range of one ledger it writes nothing
+# (internal/input/changes.go, StreamChanges loops while batchStart < batchEnd). It compacts the
+# changes of each ledger separately (ExtractBatch makes a ChangeCompactor per ledger), so it gives one
+# row per entry per ledger with that ledger's net change: created, updated, removed or restored.
+CHANGES_EXPORT = ("export_ledger_entry_changes", "entry_changes")
+CHANGES_FLAGS = ["--export-accounts", "--export-trustlines", "--export-offers", "--export-pools", "--export-balances"]
+# The exported file's resource name -> (the table name used here, the field that identifies the entry)
+CHANGE_TABLES = {"accounts": ("account", "account_id"), "trustlines": ("trustline", "ledger_key"),
+                 "offers": ("offer", "offer_id"), "liquidity_pools": ("liquidity_pool", "liquidity_pool_id"),
+                 "claimable_balances": ("claimable_balance", "balance_id")}
+
+
+def read_changes(path):
+    """The exported entry changes, one per row: {table, key, ledger, change, deleted}. Files are
+    named <start>-<end>-<resource>.txt; each is then kept gzipped, like the other exports."""
+    out = []
+    for p in sorted(glob.glob(os.path.join(path, "*.txt"))):
+        resource = re.sub(r"^\d+-\d+-", "", os.path.basename(p))[:-4]
+        if resource not in CHANGE_TABLES:
+            continue
+        table, key = CHANGE_TABLES[resource]
+        for r in read_lines_file(p):
+            out.append({"table": table, "key": str(r.get(key)), "ledger": r.get("ledger_sequence"),
+                        "change": r.get("ledger_entry_change"), "deleted": r.get("deleted")})
+    for p in glob.glob(os.path.join(path, "*.txt")):
+        with open(p, "rb") as f:
+            data = f.read()
+        with open(p + ".gz", "wb") as raw, gzip.GzipFile(fileobj=raw, mode="wb", compresslevel=9, mtime=0) as z:
+            z.write(data)
+        os.remove(p)
+    return out
+
+
+def read_lines_file(p):
+    with open(p) as f:
+        return [json.loads(x) for x in f if x.strip()]
+
+
+def fill(obs, rows):
+    """The observation of one ledger (or of every ledger, for a one-ledger job) from the exported rows."""
     tx_by_id = {}
     for t in rows["transactions"]:
         _l, order, _o = toid_parts(t["id"])
@@ -341,7 +413,6 @@ def run(a):
                                        "event_sha256": contract_event_sha256(c.get("contract_event_xdr"))})
     for name, rs in rows.items():
         obs["unreadable"] += unreadable_strings(name, rs)
-    finish()
 
 
 def main():

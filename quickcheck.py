@@ -34,6 +34,9 @@ CHECKS = [
     ("RFP check 2", "the recorded Horizon replays: no unexplained oracle failure; ledgers added to the corpus "
                     "since the run are counted, not failed",
      [PY, "harness/replay/replay.py", "check", "--out", "harness/replay/out-horizon", "--oracle"]),
+    ("RFP check 2", "the recorded stellar-etl sequence replays: entry changes over consecutive ledgers, no "
+                    "unexplained oracle failure",
+     [PY, "harness/replay/replay.py", "check", "--out", "harness/replay/out-stellar-etl-sequences", "--oracle"]),
     ("RFP check 3", "the recorded linter report on wallet-backend has no finding outside the accepted list",
      [PY, "linter/scripts/check_accepted.py", "linter/results/wallet-backend-3e22515a4497.json",
       "linter/accepted/wallet-backend.json"]),

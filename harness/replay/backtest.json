@@ -2228,7 +2228,7 @@
    "pipeline": "stellar-etl",
    "at": "2b24ec89ddce",
    "verdict": "missed",
-   "reason": "the export it needs writes nothing for a one-ledger range",
+   "reason": "the export writes nothing for a one-ledger range; needs a sequence that changes a native asset-contract balance",
    "entries": []
   }
  ]

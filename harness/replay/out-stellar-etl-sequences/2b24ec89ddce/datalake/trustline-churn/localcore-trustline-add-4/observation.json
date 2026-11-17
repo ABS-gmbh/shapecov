@@ -1,0 +1,114 @@
+{
+ "observation_version": 1,
+ "adapter": "stellar-etl",
+ "commit": "2b24ec89ddce7fc0beb7795de982c93e6895eaf3",
+ "input": "datalake",
+ "entry_id": "localcore-trustline-add-4",
+ "ledger_seq": 4,
+ "ingested": true,
+ "error": null,
+ "adapter_failure": false,
+ "transactions": [
+  {
+   "hash": "f05ca527641f5986a88d9ca148f40382f5c4ce3e022ad0c1a3d3e20ea4368369",
+   "tx_order": 1,
+   "result_code": "TransactionResultCodeTxSuccess",
+   "successful": true,
+   "participants": []
+  }
+ ],
+ "operations": [
+  {
+   "tx_hash": "f05ca527641f5986a88d9ca148f40382f5c4ce3e022ad0c1a3d3e20ea4368369",
+   "tx_order": 1,
+   "op_order": 1,
+   "type": "change_trust",
+   "participants": []
+  }
+ ],
+ "state_changes": [
+  {
+   "tx_hash": "f05ca527641f5986a88d9ca148f40382f5c4ce3e022ad0c1a3d3e20ea4368369",
+   "tx_order": 1,
+   "op_order": 1,
+   "category": "EFFECT",
+   "reason": "trustline_created",
+   "account": "GBPPIB5KFOJ3AX3JZPXWGY5FUYAQHWFRJ34WR3MWNPTRCF5UCT4JRHPE",
+   "signer_key": null,
+   "token": "USD:GBRPYHIL2CI3FNQ4BXLFMNDLFJUNPU2HY3ZMFSHONUCEOASW7QC7OX2H",
+   "spender": null,
+   "creator": null,
+   "destination": null,
+   "fields": {
+    "op_order": 1
+   }
+  }
+ ],
+ "balance_movements": [
+  {
+   "tx_hash": "f05ca527641f5986a88d9ca148f40382f5c4ce3e022ad0c1a3d3e20ea4368369",
+   "op_order": 0,
+   "account": "GBPPIB5KFOJ3AX3JZPXWGY5FUYAQHWFRJ34WR3MWNPTRCF5UCT4JRHPE",
+   "token": "CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC",
+   "delta": -100,
+   "token_kind": "asset",
+   "to_muxed": null,
+   "event": "fee"
+  }
+ ],
+ "unreadable": [],
+ "row_counts": {
+  "transactions": 1,
+  "operations": 1,
+  "effects": 1,
+  "token_transfer": 1,
+  "contract_events": 1,
+  "trades": 0
+ },
+ "seconds": 4.5,
+ "process": {
+  "outcome": "exited",
+  "exit_code": 0
+ },
+ "entry_changes": [
+  {
+   "table": "account",
+   "key": "GBPPIB5KFOJ3AX3JZPXWGY5FUYAQHWFRJ34WR3MWNPTRCF5UCT4JRHPE",
+   "ledger": 4,
+   "change": 1,
+   "deleted": false
+  },
+  {
+   "table": "account",
+   "key": "GBPPIB5KFOJ3AX3JZPXWGY5FUYAQHWFRJ34WR3MWNPTRCF5UCT4JRHPE",
+   "ledger": 5,
+   "change": 1,
+   "deleted": false
+  },
+  {
+   "table": "trustline",
+   "key": "AAAAAQAAAABe9AeqK5OwX2nL72NjpaYBA9ixTvlo7ZZr5xEXtBT4mAAAAAFVU0QAAAAAAGL8HQvQkbK2HA3WVjRrKmjX00fG8sLI7m0ERwJW/AX3",
+   "ledger": 4,
+   "change": 0,
+   "deleted": false
+  },
+  {
+   "table": "trustline",
+   "key": "AAAAAQAAAABe9AeqK5OwX2nL72NjpaYBA9ixTvlo7ZZr5xEXtBT4mAAAAAFVU0QAAAAAAGL8HQvQkbK2HA3WVjRrKmjX00fG8sLI7m0ERwJW/AX3",
+   "ledger": 5,
+   "change": 2,
+   "deleted": true
+  }
+ ],
+ "trades": [],
+ "contract_events": [
+  {
+   "tx_hash": "f05ca527641f5986a88d9ca148f40382f5c4ce3e022ad0c1a3d3e20ea4368369",
+   "op_order": null,
+   "type": "ContractEventTypeContract",
+   "successful": true,
+   "in_successful_contract_call": true,
+   "event_sha256": "45e112b66bdc865d91ea8fb95cbbe6ecd650668cce2de55f1c030035eaf3ab57"
+  }
+ ]
+}

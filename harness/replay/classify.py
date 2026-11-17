@@ -250,7 +250,34 @@ def _trade_detail(exp, obs):
     return "met", "%s: %s" % (label, got)
 
 
+def _entry_change(exp, obs):
+    """Exported entry changes (stellar-etl's export_ledger_entry_changes, on a sequence): one row for an
+    entry the ledger changed, with its net change type; no row for an entry it did not change."""
+    if "entry_changes" not in obs:
+        return "not_checked", "the observation does not report entry changes"
+    rows = [r for r in obs["entry_changes"] if r.get("table") == exp["table"] and r.get("ledger") == exp["ledger"]]
+    if exp["expect"] == "entry_changes_only":
+        extra = sorted({r["key"] for r in rows} - set(exp["keys"]))
+        label = "%s rows of ledger %d" % (exp["table"], exp["ledger"])
+        if extra:
+            return "wrong_value", "%s: %d for entries the ledger did not change: %s" % (label, len(extra), ", ".join(extra)[:300])
+        return "met", "%s: only entries the ledger changed" % label
+    mine = [r for r in rows if r.get("key") == exp["key"]]
+    label = "%s %s in ledger %d" % (exp["table"], exp["key"][:24], exp["ledger"])
+    if not mine:
+        return "missing", "%s: no row, the ledger's net change is %d" % (label, exp["change"])
+    if len(mine) > 1:
+        return "wrong_value", "%s: %d rows, one expected" % (label, len(mine))
+    r = mine[0]
+    if r.get("change") != exp["change"] or bool(r.get("deleted")) != exp["deleted"]:
+        return "wrong_value", "%s: change %s, deleted %s; the ledger's net change is %d" % (
+            label, r.get("change"), r.get("deleted"), exp["change"])
+    return "met", "%s: change %d" % (label, exp["change"])
+
+
 def _check(exp, obs):
+    if exp.get("expect") in ("entry_change", "entry_changes_only"):
+        return _entry_change(exp, obs)
     if exp.get("expect") == "trade_detail":
         return _trade_detail(exp, obs)
     if exp.get("expect") in ("contract_event", "contract_event_flag"):

@@ -60,6 +60,7 @@ class CheckFindings(unittest.TestCase):
             "linter/results/wallet-backend-000000000000.json": {"findings": []},
             "harness/replay/out-stellar-etl/results.jsonl": "",
             "harness/replay/out-horizon/results.jsonl": "",
+            "harness/replay/out-stellar-etl-sequences/results.jsonl": "",
         })
         write_jsonl(self.dir, "out/cases.jsonl", [{"id": "T/trailing0", "valid": False}])
         write_jsonl(self.dir, "out/divergences.jsonl", [

@@ -9,8 +9,8 @@ python3 quickcheck.py
 ```
 
 No Docker, no SDK toolchain and no network after the clone. It prints one line per check, PASS or
-FAIL, and the time it took. On a clean clone on an idle laptop the 14 fast checks took about **6 seconds**, run
-in parallel. `python3 quickcheck.py --full` adds the unit tests and the mutation testing: 16 checks in
+FAIL, and the time it took. On a clean clone on an idle laptop the 15 fast checks took about **6 seconds**, run
+in parallel. `python3 quickcheck.py --full` adds the unit tests and the mutation testing: 17 checks in
 about **18 seconds** (both measured 16 November 2026). CI runs `--full` on every push (`ci` › Unit tests).
 
 What it reruns:
