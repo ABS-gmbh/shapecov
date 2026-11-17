@@ -31,7 +31,7 @@ pip install jsonschema
 python3 quickcheck.py
 ```
 
-Python only, with no Docker and no network. It reruns, in parallel, the 16 fast checks that work from
+Python 3.9 to 3.14 (macOS's own `python3` is 3.9; CI runs both ends), with no Docker and no network. It reruns, in parallel, the 16 fast checks that work from
 the repository alone, and checks the recorded results of the rest against their verdicts, in about
 6 seconds on an idle laptop. `python3 quickcheck.py --full` adds the unit tests and the mutation
 testing, 18 checks in about 20 seconds on an idle laptop; CI runs it on every push, and reruns everything else.

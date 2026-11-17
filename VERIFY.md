@@ -8,7 +8,7 @@ pip install jsonschema
 python3 quickcheck.py
 ```
 
-No Docker, no SDK toolchain and no network after the clone. It prints one line per check, PASS or
+Python 3.9 to 3.14 (CI runs both ends); no Docker, no SDK toolchain and no network after the clone. It prints one line per check, PASS or
 FAIL, and the time it took. On a clean clone on an idle laptop the 16 fast checks took about **6 seconds**, run
 in parallel. `python3 quickcheck.py --full` adds the unit tests and the mutation testing: 18 checks in
 about **20 seconds** (measured 16 and 17 November 2026). CI runs `--full` on every push (`ci` › Unit tests).

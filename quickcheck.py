@@ -4,7 +4,7 @@
   python3 quickcheck.py          the fast checks, run in parallel (BUDGET_SECONDS on a laptop)
   python3 quickcheck.py --full   also the unit tests and the mutation testing (FULL_ONLY); CI runs this
 
-Needs Python 3.10 or later and one package, `pip install jsonschema` (for the manifest's JSON
+Needs Python 3.9 to 3.14 (CI runs it on both) and one package, `pip install jsonschema` (for the manifest's JSON
 Schema). No Docker, no SDK toolchain and no network. It reruns every check that works from the
 repository alone, and checks the recorded results of those that need an indexer, an SDK or
 stellar-core against their expected verdicts. One line per check: PASS or FAIL, and how long it

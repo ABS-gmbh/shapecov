@@ -280,7 +280,7 @@ replay network has no route to the internet (`security/`).
 
 | Where | What |
 |---|---|
-| Any machine with Python 3.12 | schema, generator, corpus check (decoder and hashes), guide check, CAP table, oracle on recorded results, backtest check, `quickcheck.py` |
+| Any machine with Python | `quickcheck.py` on 3.9 to 3.14, which CI runs on both: corpus check (decoder and hashes), guide check, CAP table, oracle on recorded results, backtest check; with 3.12, as CI runs them, also the schema and the generator |
 | The same, plus Docker | SDK runners for Go and Java, stellar-core checks, local stellar-core scenarios and guide probes, the replay harness and the sweep, the linter, the cross-SDK matrix |
 | CI `ci.yml`, every push and pull request, and weekly | one job per RFP acceptance check (1, 3 on both indexers, 4, 6; and 1 with 5), the quick check, the documents' figures, unit tests, security, the reusable workflow and linter action as a caller uses them, js-xdr#165; `replay.yml` is called from it when a replay path changes; one `green` job passes only when every job has |
 | CI `replay.yml`, weekly, on demand and from `ci.yml` | RFP check 2, stellar-etl replay with the #454 amounts check, Horizon on three ledgers, memory budget, reproducible local-core entries on both passphrases, the Rust sightings, the backtest |
