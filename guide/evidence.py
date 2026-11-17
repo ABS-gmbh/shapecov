@@ -63,7 +63,7 @@ def render(evidence, backtest, findings, known=None):
     recs = {r["id"]: r for r in findings["findings"]}
     L = [BEGIN, "", "| # | Exercised by | Where an indexer, SDK or exporter got it wrong |", "|---|---|---|"]
     for num, ev in sorted(evidence["items"].items(), key=lambda kv: int(kv[0])):
-        entries, links, sweep = [], [], set()
+        entries, links, sweep = ["`%s`" % e for e in ev.get("entries", [])], [], set()
         for bid in ev.get("backtest", []):
             it = items[bid]
             for e in it.get("entries") or []:
@@ -93,8 +93,9 @@ def render(evidence, backtest, findings, known=None):
     return "\n".join(L)
 
 
-def errors(evidence, backtest, findings, numbers):
-    """Why guide/evidence.json disagrees with the backtest, the findings or the checklist."""
+def errors(evidence, backtest, findings, numbers, known=None):
+    """Why guide/evidence.json disagrees with the backtest, the findings or the checklist. known: the corpus
+    entry and sequence ids, which an item's own "entries" must be among."""
     items = {i["id"]: i for i in backtest["items"]}
     recs = {r["id"] for r in findings["findings"]}
     out = []
@@ -112,6 +113,9 @@ def errors(evidence, backtest, findings, numbers):
         for rid in ev.get("findings", []):
             if rid not in recs:
                 out.append("item %s cites finding %s, which FINDINGS.json does not have" % (num, rid))
+        for eid in ev.get("entries", []):
+            if known is not None and eid not in known:
+                out.append("item %s names corpus entry %s, which is neither in the manifest nor a sequence" % (num, eid))
     used = {b for ev in evidence["items"].values() for b in ev.get("backtest", [])}
     outside = evidence.get("outside_checklist") or {}
     for bid, it in items.items():

@@ -175,6 +175,7 @@ host stellar-core 30.0.0 builds. Paths are relative to those repositories.
 21. `src/transactions/TransactionFrame.cpp` 1581-1605 (`isBadSeq`, with `minSeqNum` from protocol 19), 1498-1515 (`processSeqNum`).
 22. `src/transactions/TransactionUtils.cpp` 1999-2009 (`getMinInclusionFee`); `src/transactions/TransactionFrame.cpp` 1459-1464 (`txINSUFFICIENT_FEE`), 1731-1771 (`processFeeSeqNum`: charged in fee processing, capped at the balance), 975-1013 (`refundSorobanFee`); `src/transactions/FeeBumpTransactionFrame.cpp` 388-437 (the fee bump's fee and rate), 344-347 (the inner transaction validated without charging its fee), 721-745 (`processFeeSeqNum`: the fee source pays).
 23. `src/transactions/TransactionFrame.cpp` 1148-1196 (`isTooEarly`, `isTooLate`: time and ledger bounds), 1198-1238 (`isTooEarlyForAccount`: `minSeqAge`, `minSeqLedgerGap`), 1440-1457 (against the ledger's close time and sequence); `src/transactions/TransactionUtils.cpp` 1985-1996 (the sequence number's time and ledger, recorded when it changes).
+24. `src/transactions/CreatePassiveSellOfferOpFrame.cpp` 10-29 (the operation is applied as a `MANAGE_SELL_OFFER` built from it); `src/transactions/MutableTransactionResult.cpp` 27-34 (each result's arm is set from the type of the operation as applied). Open since 2016 as [stellar-core#1103](https://github.com/stellar/stellar-core/issues/1103).
 
 ## 2. Depth and size caps
 
@@ -364,6 +365,7 @@ indexer once the corpus has an entry with that shape and expectations for it.
 | 23 | Ingestion that starts mid-history can meet a row that refers to an entry it has never seen (a pool-share balance whose pool it has no row for); that row is skipped and recorded, not fatal and not stored dangling. | 3 | — | yes |
 | 24 | Derived rows (effects, state changes, operation details) come from what the meta shows changed and from the formula the protocol uses for that operation, not from the operation's type alone or a heuristic over the footprint. | 1, 3 | — | yes |
 | 25 | Contract events are read from the operation and transaction event lists; the diagnostic list repeats a successful call's events and is not a source of record. | 3 | — | yes |
+| 26 | When a `CREATE_PASSIVE_SELL_OFFER` operation's result carries an arm (code `opINNER`, successful or failed), stellar-core sets the `MANAGE_SELL_OFFER` arm, so the `CREATE_PASSIVE_SELL_OFFER` arm never appears in a closed ledger [24]. Read an operation's result through the arm the result carries, not the arm its operation's type implies. | 1 | — | yes |
 
 **Where an indexer got it wrong.** Each item with the corpus entries or sequences that exercise it
 and the upstream fixes and issues where an indexer, SDK or exporter made that mistake, from the
@@ -399,6 +401,7 @@ and fails if a detected fix maps to no item).
 | 23 | `localcore-pool-share-unsponsor-6` | [wallet-backend `ba821579`](https://github.com/stellar/wallet-backend/commit/ba821579) |
 | 24 | `pubnet-59220000`, `pubnet-60280000`, `pubnet-61240000`, `pubnet-63920000` and 12 more | [stellar-etl #456](https://github.com/stellar/stellar-etl/issues/456), [stellar-etl #457](https://github.com/stellar/stellar-etl/issues/457), [stellar-etl #462](https://github.com/stellar/stellar-etl/issues/462), [stellar-etl #451](https://github.com/stellar/stellar-etl/issues/451), [wallet-backend #806](https://github.com/stellar/wallet-backend/issues/806), [wallet-backend #815](https://github.com/stellar/wallet-backend/issues/815), [stellar-etl #513](https://github.com/stellar/stellar-etl/issues/513) |
 | 25 | `localcore-declared-deploy-6`, `localcore-memo-and-offer-p30-4`, `localcore-op-failures-8`, `localcore-planted-auth-5` and 32 more | [stellar-etl #452](https://github.com/stellar/stellar-etl/issues/452) |
+| 26 | `localcore-op-failures-8` | none recorded yet |
 
 <!-- checklist-evidence:end -->
 

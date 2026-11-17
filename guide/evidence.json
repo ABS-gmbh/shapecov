@@ -1,5 +1,5 @@
 {
- "note": "For each item of the guide's checklist (section 5): the detection-backtest items (harness/replay/backtest.json, id, verdict detected) and the finding records (FINDINGS.json, id) where an indexer, SDK or exporter made the mistake the item guards against. guide/check_guide.py renders the guide's evidence table from this file and fails if an id does not exist, a checklist row has no entry here, or a detected backtest item maps to no item and is not listed in outside_checklist with a reason.",
+ "note": "For each item of the guide's checklist (section 5): the detection-backtest items (harness/replay/backtest.json, id, verdict detected) and the finding records (FINDINGS.json, id) where an indexer, SDK or exporter made the mistake the item guards against, and \"entries\", corpus entries or sequences that exercise the item when no fix or finding names one. guide/check_guide.py renders the guide's evidence table from this file and fails if an id or entry does not exist, a checklist row has no entry here, or a detected backtest item maps to no item and is not listed in outside_checklist with a reason.",
  "items": {
   "1": {
    "backtest": [
@@ -188,6 +188,13 @@
    ],
    "findings": [
     "C15"
+   ]
+  },
+  "26": {
+   "backtest": [],
+   "findings": [],
+   "entries": [
+    "localcore-op-failures-8"
    ]
   }
  },

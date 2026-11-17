@@ -272,12 +272,12 @@ def main():
         with open(os.path.join(REPO, "FINDINGS.json")) as f:
             findings = json.load(f)
         numbers = checklist_evidence.checklist_numbers(text, tables)
-        errors.extend("checklist evidence: " + e for e in checklist_evidence.errors(ev, backtest, findings, numbers))
+        with open(os.path.join(REPO, "corpus", "sequences.json")) as f:
+            known = entry_ids | {sq["id"] for sq in json.load(f)["sequences"]}
+        errors.extend("checklist evidence: " + e for e in checklist_evidence.errors(ev, backtest, findings, numbers, known))
         if checklist_evidence.BEGIN not in text or checklist_evidence.END not in text:
             errors.append("checklist evidence: the guide has no checklist-evidence markers")
         elif not errors[n_evidence0:]:
-            with open(os.path.join(REPO, "corpus", "sequences.json")) as f:
-                known = entry_ids | {sq["id"] for sq in json.load(f)["sequences"]}
             want_ev = checklist_evidence.render(ev, backtest, findings, known)
             i, j = text.index(checklist_evidence.BEGIN), text.index(checklist_evidence.END) + len(checklist_evidence.END)
             if text[i:j] != want_ev:

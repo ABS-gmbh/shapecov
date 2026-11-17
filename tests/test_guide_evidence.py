@@ -39,6 +39,16 @@ class Errors(unittest.TestCase):
         self.assertEqual(ev.errors(e, BACKTEST, FINDINGS, ["1"]), [])
 
 
+    def test_an_item_can_name_corpus_entries_that_must_exist(self):
+        e = evidence(**{"1": {"backtest": ["wallet-backend#9", "1234abcd"], "findings": []},
+                        "2": {"backtest": [], "findings": [], "entries": ["localcore-op-9", "localcore-gone-3"]}})
+        out = ev.errors(e, BACKTEST, FINDINGS, ["1", "2"], known={"localcore-op-9"})
+        self.assertEqual(out, ["item 2 names corpus entry localcore-gone-3, which is neither in the manifest nor a sequence"])
+        row = [l for l in ev.render(evidence(**{"2": {"entries": ["localcore-op-9"]}}), BACKTEST, FINDINGS).split("\n")
+               if l.startswith("| 2 |")][0]
+        self.assertEqual(row, "| 2 | `localcore-op-9` | none recorded yet |")
+
+
 class Render(unittest.TestCase):
     def test_table(self):
         e = evidence(**{"1": {"backtest": ["wallet-backend#9"], "findings": ["R1"]}, "2": {"backtest": [], "findings": []}})
