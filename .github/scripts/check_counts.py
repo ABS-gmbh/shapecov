@@ -8,8 +8,9 @@ schema, FINDINGS.json, the sightings table, quickcheck.py, the guide's probes an
 evidence table, the detection backtest's claims in harness/replay/backtest.json), and every place a
 document states it, found by a pattern, must give the same number. A count that no document states
 any more is reported too, so a reworded sentence cannot silently drop out of the check. Dated
-documents (STATUS.md) are not checked: they record what was true on their date. The notes of the
-release being prepared are checked until it is tagged; then they are dated, and leave DOCS.
+documents (STATUS.md, the notes of a release once it is tagged, such as releases/v0.2.0.md) are not
+checked: they record what was true on their date. The notes of a release still being prepared go
+in DOCS until it is tagged.
 Exit status 1 on any mismatch. Run from the repository root.
 """
 import importlib.util
@@ -21,7 +22,7 @@ import sys
 WORDS = {w: i for i, w in enumerate(["zero", "one", "two", "three", "four", "five", "six", "seven", "eight",
                                      "nine", "ten"])}
 DOCS = ("README.md", "VERIFY.md", "ARCHITECTURE.md", "FINDINGS.md", "corpus/README.md", "harness/sightings/README.md",
-        "releases/v0.2.0.md", "IssueTracker.md")
+        "IssueTracker.md")
 
 
 def load(path):
