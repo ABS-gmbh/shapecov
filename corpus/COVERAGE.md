@@ -12,28 +12,28 @@ Coverage is measured over the cells a ledger reader can meet: those in the 358 o
 
 | | Cells | Covered |
 |---|---|---|
-| Reachable from `LedgerCloseMeta`, by the corpus | 538 | 422 (78.4%) |
-| Reachable and able to occur in a closed ledger (all but the 71 classed `never_in_ledger`; the unclassified stay in), by the corpus | 467 | 422 (90.4%) |
+| Reachable from `LedgerCloseMeta`, by the corpus | 538 | 432 (80.3%) |
+| Reachable and able to occur in a closed ledger (all but the 73 classed `never_in_ledger`; the unclassified stay in), by the corpus | 465 | 432 (92.9%) |
 | All cells, by the generator's valid cases (`out/cases.jsonl`) | 659 | 549 (83.3%) |
 | Reachable cells, by the generator | 538 | 448 (83.3%) |
 
-## The 116 reachable cells no corpus entry has
+## The 106 reachable cells no corpus entry has
 
 Each is classified from stellar-core `f2b91947fb20` (`src/transactions`: the function that sets each result code) in `corpus/cell-classes.json`.
 
 | Class | Cells | Meaning |
 |---|---|---|
-| `before_protocol` | 18 | Only in ledgers of an earlier protocol than the corpus samples (its network and local ledgers are protocol 20 to 30); addable by mining the public archive's early ledgers. |
+| `before_protocol` | 19 | Only in ledgers of an earlier protocol than the corpus samples (its network and local ledgers are protocol 20 to 30); addable by mining the public archive's early ledgers. |
 | `config_upgrade` | 0 | Only in a ledger that applies a Soroban configuration upgrade. |
 | `consensus` | 7 | Only in meta from a node that records consensus messages, or in a value a validator builds only under a consensus option (an empty transaction set voted before download). |
 | `contract` | 6 | Only from a contract written to produce it. |
 | `impractical` | 1 | Possible in principle, only past a limit no real or local ledger reaches. |
-| `local_core` | 13 | Producible by a local stellar-core scenario: a failure or shape that depends on ledger state. |
-| `never_in_ledger` | 71 | Cannot be in a closed ledger: set only by a check that a transaction failing it never gets past, only on a stellar-core bug, or only in a form a ledger never stores. |
+| `local_core` | 0 | Producible by a local stellar-core scenario: a failure or shape that depends on ledger state. |
+| `never_in_ledger` | 73 | Cannot be in a closed ledger: set only by a check that a transaction failing it never gets past, only on a stellar-core bug, or only in a form a ledger never stores. |
 | `unclassified` | 0 | Not classified yet. |
 | `upgrade` | 0 | Only in a ledger that applies a network upgrade; producible by a local scenario that arms it. |
 
-### `before_protocol` (18)
+### `before_protocol` (19)
 
 | Cell | Why |
 |---|---|
@@ -55,6 +55,7 @@ Each is classified from stellar-core `f2b91947fb20` (`src/transactions`: the fun
 | `arm:StellarValueExt.STELLAR_VALUE_BASIC` | Today's stellar-core builds only signed values (HerderImpl::makeStellarValue) and refuses an unsigned one (PendingEnvelopes.cpp:344, "Unsigned values are not permitted"); the public archive's early ledgers have it (pubnet ledger 1000000, protocol 1, and 20000000, protocol 10). |
 | `arm:TransactionMeta.0` | TransactionMeta v0 and v1 are what stellar-core emitted before v2; every corpus era emits v2 to v4. |
 | `arm:TransactionMeta.1` | TransactionMeta v0 and v1 are what stellar-core emitted before v2; every corpus era emits v2 to v4. |
+| `arm:TransactionResultResult.txINSUFFICIENT_BALANCE` | From protocol 9 the check at apply asks only that the available balance not be negative (TransactionFrame.cpp:1709-1717 and FeeBumpTransactionFrame.cpp:494-497: the fee to pay is 0 when applying, since it was charged before). Transaction-set validation caps each fee source's total fees at its available balance (TxSetUtils.cpp:238-240), and every operation that lowers an account's available balance checks it first, so no transaction finds its source below zero at apply. Before protocol 9 the apply-time check required the full fee again after it had been charged, so ledgers of protocols 1 to 8 can carry it. |
 
 ### `consensus` (7)
 
@@ -85,25 +86,7 @@ Each is classified from stellar-core `f2b91947fb20` (`src/transactions`: the fun
 |---|---|
 | `arm:OperationResult.opTOO_MANY_SPONSORING` | Set while an operation applies (ChangeTrust:doApply, CreateAccount:doApplyFromV14, CreateClaimableBalance:doApply, ManageData:doApply, ManageOfferOpFrameBase.cpp:doApply, RevokeSponsorship:processSponsorshipResult, SetOptions:addOrChangeSigner, TrustFlagsOpFrameBase.cpp:removeOffers), when the sponsor's numSponsoring (a uint32) would overflow: an account sponsoring about 2^32 entries. |
 
-### `local_core` (13)
-
-| Cell | Why |
-|---|---|
-| `arm:AccountMergeResult.ACCOUNT_MERGE_IMMUTABLE_SET` | Set while the operation applies (Merge:doApplyBeforeV16, Merge:doApplyFromV16): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it. |
-| `arm:AllowTrustResult.ALLOW_TRUST_LOW_RESERVE` | Set while the operation applies (AllowTrust:setResultLowReserve): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it. |
-| `arm:InnerTransactionResultResult.txINSUFFICIENT_BALANCE` | TransactionFrame::commonValid runs again when the transaction applies, against the ledger as earlier transactions in the same ledger left it; a transaction whose source's sequence number, signers or balance an earlier one changed fails with this code. |
-| `arm:LiquidityPoolDepositResult.LIQUIDITY_POOL_DEPOSIT_NOT_AUTHORIZED` | Set while the operation applies (LiquidityPoolDeposit:doApply): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it. |
-| `arm:LiquidityPoolDepositResult.LIQUIDITY_POOL_DEPOSIT_POOL_FULL` | Set while the operation applies (LiquidityPoolDeposit:doApply): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it. |
-| `arm:LiquidityPoolWithdrawResult.LIQUIDITY_POOL_WITHDRAW_LINE_FULL` | Set while the operation applies (LiquidityPoolWithdraw:tryAddAssetBalance): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it. |
-| `arm:OperationResult.opEXCEEDED_WORK_LIMIT` | Set while an offer or path payment crosses more offers than the work limit allows (ManageOfferOpFrameBase.cpp:doApply, PathPaymentOpFrameBase.cpp:convert); a local scenario with enough resting offers can produce it. |
-| `arm:OperationResultTr.CREATE_PASSIVE_SELL_OFFER` | The result arm of a CreatePassiveSellOffer operation: any such operation in a ledger has it; none of the sampled ledgers has one. |
-| `arm:RevokeSponsorshipResult.REVOKE_SPONSORSHIP_LOW_RESERVE` | Set while the operation applies (RevokeSponsorship:processSponsorshipResult): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it. |
-| `arm:SetTrustLineFlagsResult.SET_TRUST_LINE_FLAGS_LOW_RESERVE` | Set while the operation applies (SetTrustLineFlags:setResultLowReserve): a failure that depends on ledger state, so a transaction that sets it up fails at apply. A local stellar-core scenario can produce it. |
-| `arm:TransactionResultResult.txBAD_AUTH_EXTRA` | Set in TransactionFrame::applyOperations as well as at admission: a signature that no signer used once earlier transactions in the ledger changed the signers. |
-| `arm:TransactionResultResult.txINSUFFICIENT_BALANCE` | TransactionFrame::commonValid runs again when the transaction applies, against the ledger as earlier transactions in the same ledger left it; a transaction whose source's sequence number, signers or balance an earlier one changed fails with this code. |
-| `enum:TransactionEventStage.TRANSACTION_EVENT_STAGE_AFTER_TX` | The Soroban fee-refund event's stage before protocol 23 (TransactionFrame.cpp:2634; from 23 it is AFTER_ALL_TXS). Protocol 22 meta carries fee events only with BACKFILL_STELLAR_ASSET_EVENTS set (TransactionMeta.cpp:533), which no public network ledger had; a local protocol 22 core with that option and one Soroban transaction produces it. |
-
-### `never_in_ledger` (71)
+### `never_in_ledger` (73)
 
 | Cell | Why |
 |---|---|
@@ -120,6 +103,7 @@ Each is classified from stellar-core `f2b91947fb20` (`src/transactions`: the fun
 | `arm:CreateClaimableBalanceResult.CREATE_CLAIMABLE_BALANCE_MALFORMED` | Set only in CreateClaimableBalance:doCheckValid, which depends on the operation and the protocol version alone. stellar-core runs it when it admits a transaction and when it validates a transaction set, so a transaction that fails it never reaches a ledger. |
 | `arm:ExtendFootprintTTLResult.EXTEND_FOOTPRINT_TTL_MALFORMED` | Set only in ExtendFootprintTTL:doCheckValidForSoroban, which depends on the operation and the protocol version alone. stellar-core runs it when it admits a transaction and when it validates a transaction set, so a transaction that fails it never reaches a ledger. |
 | `arm:InnerTransactionResultResult.txFROZEN_KEY_ACCESSED` | Set in TransactionFrame::commonValidPreSeqNum (TransactionFrame.cpp:1488) and FeeBumpTransactionFrame::checkValidImpl (FeeBumpTransactionFrame.cpp:331), against the network configuration's frozen keys from the transaction and the ledger header or network configuration alone. stellar-core runs it when it admits a transaction, when it validates a transaction set (with the close time of the value being voted on) and again when the transaction applies (TransactionFrame::apply calls commonValid with the same close time and zero offsets); the header, the base fee and the Soroban network configuration cannot change in between, because upgrades apply after a ledger's transactions. A transaction that fails it never reaches a ledger. |
+| `arm:InnerTransactionResultResult.txINSUFFICIENT_BALANCE` | An inner result exists only inside a fee bump. The inner transaction is validated and applied with chargeFee false (FeeBumpTransactionFrame.cpp:93-94, 195 and 343; the fee source pays), which skips the only check that sets this code (TransactionFrame.cpp:1716-1717). From protocol 9 the check at apply asks only that the available balance not be negative (TransactionFrame.cpp:1709-1717 and FeeBumpTransactionFrame.cpp:494-497: the fee to pay is 0 when applying, since it was charged before). Transaction-set validation caps each fee source's total fees at its available balance (TxSetUtils.cpp:238-240), and every operation that lowers an account's available balance checks it first, so no transaction finds its source below zero at apply. |
 | `arm:InnerTransactionResultResult.txINSUFFICIENT_FEE` | Set in TransactionFrame::commonValidPreSeqNum (TransactionFrame.cpp:1461, 1467) and FeeBumpTransactionFrame::commonValidPreSeqNum (FeeBumpTransactionFrame.cpp:405), against the header's base fee from the transaction and the ledger header or network configuration alone. stellar-core runs it when it admits a transaction, when it validates a transaction set (with the close time of the value being voted on) and again when the transaction applies (TransactionFrame::apply calls commonValid with the same close time and zero offsets); the header, the base fee and the Soroban network configuration cannot change in between, because upgrades apply after a ledger's transactions. A transaction that fails it never reaches a ledger. |
 | `arm:InnerTransactionResultResult.txINTERNAL_ERROR` | Set only when applying a transaction throws (TransactionFrame::apply, applyOperations, parallelApply): it records a stellar-core bug, not a ledger shape. |
 | `arm:InnerTransactionResultResult.txMALFORMED` | Set in TransactionFrame::commonValidPreSeqNum from the transaction's own form and the protocol version (FeeBumpTransactionFrame.cpp:checkValidImpl, TransactionFrame.cpp:checkValidImpl, TransactionFrame.cpp:commonValidPreSeqNum), which are the same at admission, at transaction-set validation and at apply. |
@@ -137,6 +121,7 @@ Each is classified from stellar-core `f2b91947fb20` (`src/transactions`: the fun
 | `arm:ManageDataResult.MANAGE_DATA_NOT_SUPPORTED_YET` | Set only in ManageData:doCheckValid, which depends on the operation and the protocol version alone. stellar-core runs it when it admits a transaction and when it validates a transaction set, so a transaction that fails it never reaches a ledger. |
 | `arm:ManageSellOfferResult.MANAGE_SELL_OFFER_MALFORMED` | Set only in ManageSellOffer:setResultMalformed, which depends on the operation and the protocol version alone. stellar-core runs it when it admits a transaction and when it validates a transaction set, so a transaction that fails it never reaches a ledger. |
 | `arm:OperationResult.opNOT_SUPPORTED` | Set only in OperationFrame::checkValid (OperationFrame.cpp:308) when isOpSupported(header) is false, which depends on the operation type, the protocol version and the header's flags alone. stellar-core runs it when it admits a transaction, when it validates a transaction set (with the close time of the value being voted on) and again when the transaction applies (TransactionFrame::apply calls commonValid with the same close time and zero offsets); the header, the base fee and the Soroban network configuration cannot change in between, because upgrades apply after a ledger's transactions. A transaction that fails it never reaches a ledger. |
+| `arm:OperationResultTr.CREATE_PASSIVE_SELL_OFFER` | stellar-core applies a CreatePassiveSellOffer as a ManageSellOffer: the frame rewrites the operation (CreatePassiveSellOfferOpFrame.cpp:13), and results are typed from the frame's operation (MutableTransactionResult.cpp:33), so the result arm is MANAGE_SELL_OFFER. Corpus entry localcore-op-failures-8 holds a passive offer whose result is a MANAGE_SELL_OFFER result. |
 | `arm:PathPaymentStrictReceiveResult.PATH_PAYMENT_STRICT_RECEIVE_MALFORMED` | Set only in PathPaymentStrictReceive:setResultMalformed, which depends on the operation and the protocol version alone. stellar-core runs it when it admits a transaction and when it validates a transaction set, so a transaction that fails it never reaches a ledger. |
 | `arm:PathPaymentStrictSendResult.PATH_PAYMENT_STRICT_SEND_MALFORMED` | Set only in PathPaymentStrictSend:setResultMalformed, which depends on the operation and the protocol version alone. stellar-core runs it when it admits a transaction and when it validates a transaction set, so a transaction that fails it never reaches a ledger. |
 | `arm:PaymentResult.PAYMENT_MALFORMED` | Set only in Payment:doCheckValid, which depends on the operation and the protocol version alone. stellar-core runs it when it admits a transaction and when it validates a transaction set, so a transaction that fails it never reaches a ledger. |

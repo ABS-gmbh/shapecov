@@ -104,6 +104,19 @@ Scenarios (one per run):
   failures-p30       Protocol 30, stellar-core 30.0.0. Operations and transactions that fail when they
                      apply, many in one ledger: see tools/localcore_failures.py. Recorded ledgers
                      op-failures, tx-failures-plain, tx-failures-bumped and upgrades.
+  reserve-pool-p30   Protocol 30, stellar-core 30.0.0. Failures at apply that need state from several
+                     ledgers: a merge with AUTH_IMMUTABLE set, trust revocations and a sponsorship
+                     revoke that fail for low reserve, and pool deposits and a withdrawal that fail
+                     on authorization, a full pool and a full line. See tools/localcore_reserve.py.
+                     Recorded ledger reserve-pool-failures.
+  fee-refund-p22     Protocol 22, stellar-core 30.0.0 with BACKFILL_STELLAR_ASSET_EVENTS=true, which
+                     makes protocol 22 meta carry fee events (TransactionMeta v4). One Soroban
+                     transaction (deploying the native asset contract) whose resource fee is partly
+                     refunded: before protocol 23 the refund event's stage is AFTER_TX. Recorded
+                     ledger fee-refund-p22.
+  work-limit-p30     Protocol 30, stellar-core 30.0.0. 1100 resting offers, then one offer that would
+                     cross them all fails with opEXCEEDED_WORK_LIMIT (core crosses at most 1000 per
+                     operation). See tools/localcore_reserve.py. Recorded ledger work-limit.
   muxed-source-refused-p24
                      Protocol 24, stellar-core 30.0.0. The same transaction must be refused by the
                      queue with txSOROBAN_INVALID. Recorded as evidence, not a ledger.
@@ -141,7 +154,8 @@ SCENARIOS = {"muxed-source-p22": IMAGE_V22, "classic-p22": IMAGE_V22, "pools-spo
              "trustline-churn-p28": IMAGE, "deployer-cb-p28": IMAGE,
              "frozen-claim-p28": IMAGE, "pool-share-unsponsor-p28": IMAGE,
              "token-rebind-p28": IMAGE, "blend-pool-name-p28": IMAGE,
-             "contract-balances-p30": IMAGE}
+             "contract-balances-p30": IMAGE, "reserve-pool-p30": IMAGE, "fee-refund-p22": IMAGE,
+             "work-limit-p30": IMAGE}
 NAME = "shapecov-localcore-gen"
 PASSPHRASES = {"testnet": "Test SDF Network ; September 2015",
                "pubnet": "Public Global Stellar Network ; September 2015"}
@@ -200,7 +214,10 @@ class Core:
     def start(self):
         self.work.mkdir(parents=True, exist_ok=True)
         node_seed = strkey.encode_secret(hashlib.sha256(b"shapecov localcore validator").digest())
-        (self.work / "core.cfg").write_text(CFG.format(passphrase=self.passphrase, seed=node_seed))
+        cfg = CFG.format(passphrase=self.passphrase, seed=node_seed)
+        if getattr(self, "extra_cfg", ""):
+            cfg = cfg.replace("\n[QUORUM_SET]", "\n" + self.extra_cfg + "\n[QUORUM_SET]")
+        (self.work / "core.cfg").write_text(cfg)
         sh(["docker", "rm", "-f", NAME], check=False)
         sh(["docker", "run", "-d", "--name", NAME, "--platform", "linux/amd64", "--network", "none",
             "-v", "%s:/data" % self.work, "--entrypoint", "bash", self.image, "-c",
@@ -324,6 +341,8 @@ def main():
     enc, dec = Encoder(schema), Decoder(schema)
     image = a.image or SCENARIOS[a.scenario]
     core = Core(out / "core", PASSPHRASES[a.passphrase], image)
+    if a.scenario == "fee-refund-p22":
+        core.extra_cfg = "BACKFILL_STELLAR_ASSET_EVENTS=true"
     root = Keys(secret=core.network_id)
     payee = Keys("memo payee")
     run = {"scenario": a.scenario, "stellar_core_image": image, "network_passphrase": core.passphrase,
@@ -374,6 +393,14 @@ def main():
         elif a.scenario == "failures-p30":
             import localcore_failures
             localcore_failures.failures(sys.modules[__name__], core, enc, dec, root, step, run, 30)
+        elif a.scenario == "fee-refund-p22":
+            fee_refund_p22(core, enc, root, step, run)
+        elif a.scenario == "work-limit-p30":
+            import localcore_reserve
+            localcore_reserve.work_limit(sys.modules[__name__], core, enc, dec, root, step, run, 30)
+        elif a.scenario == "reserve-pool-p30":
+            import localcore_reserve
+            localcore_reserve.reserve_pool(sys.modules[__name__], core, enc, dec, root, step, run, 30)
         elif a.scenario == "participants-p28":
             participants_p28(core, enc, root, step, run)
         elif a.scenario == "muxed-source-refused-p24":
@@ -393,6 +420,30 @@ def main():
     (out / "run.json").write_text(json.dumps(run, indent=1) + "\n")
     print("ledgers: %s" % ", ".join(sorted((p.stem for p in led.iterdir()), key=int)))
     print("scenario ledger: %s" % {k: v for k, v in run.items() if k.startswith("ledger_")})
+
+
+def fee_refund_p22(core, enc, root, step, run):
+    """A Soroban fee refund at protocol 22, with the fee events BACKFILL_STELLAR_ASSET_EVENTS adds."""
+    core.upgrade(22)
+    preimage = {"type": "CONTRACT_ID_PREIMAGE_FROM_ASSET", "fromAsset": {"type": "ASSET_TYPE_NATIVE"}}
+    contract_id = hashlib.sha256(enc.encode("HashIDPreimage", {
+        "type": "ENVELOPE_TYPE_CONTRACT_ID",
+        "contractID": {"networkID": core.network_id.hex(), "contractIDPreimage": preimage}})).hexdigest()
+    deploy = {"sourceAccount": None, "body": {"type": "INVOKE_HOST_FUNCTION", "invokeHostFunctionOp": {
+        "hostFunction": {"type": "HOST_FUNCTION_TYPE_CREATE_CONTRACT", "createContract": {
+            "contractIDPreimage": preimage, "executable": {"type": "CONTRACT_EXECUTABLE_STELLAR_ASSET"}}},
+        "auth": []}}}
+    # The resource fee is far above what the deploy uses; the refundable part comes back.
+    soroban = {"ext": {"v": 0}, "resources": {
+        "footprint": {"readOnly": [], "readWrite": [{"type": "CONTRACT_DATA", "contractData": {
+            "contract": {"type": "SC_ADDRESS_TYPE_CONTRACT", "contractId": contract_id},
+            "key": {"type": "SCV_LEDGER_KEY_CONTRACT_INSTANCE"}, "durability": "PERSISTENT"}}]},
+        "instructions": 1_000_000, "diskReadBytes": 0, "writeBytes": 1000}, "resourceFee": 10_000_000}
+    blob, h = envelope(enc, core, tx(root.muxed(), 1, [deploy], fee=10_000_000 + 10_000, soroban=soroban), root)
+    run["tx_deploy"] = h
+    if step("fee-refund-p22: deploy the native asset contract", 22, blob, h, "PENDING, applied")["status"] != "PENDING":
+        raise SystemExit("the deploy was refused; see the diagnostics above")
+    run["ledger_fee_refund_p22"] = core.close()
 
 
 def muxed_source(core, enc, root, step, run, protocol, accepted):

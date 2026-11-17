@@ -18763,6 +18763,450 @@
     "core_golden": "not_applicable"
    },
    "sightings": []
+  },
+  {
+   "id": "localcore-reserve-pool-failures-8",
+   "title": "Local stellar-core, scenario reserve-pool-p30: 8 result codes no other entry has, set at apply against state built over four ledgers",
+   "xdr_type": "LedgerCloseMeta",
+   "file": "entries/localcore-reserve-pool-failures-8.LedgerCloseMeta.xdr.b64",
+   "sha256": "eb0b53a9ddd4b7c55c1ca69c2942b2a3bdb3115abfd0bb7d82c98c18e0afa9ab",
+   "size_bytes": 26000,
+   "protocol_version": 30,
+   "caps": [],
+   "synthetic": false,
+   "source": {
+    "kind": "local_stellar_core",
+    "stellar_core_version": "stellar-core 30.0.0 (0e49751aa9ddf892302cca02cea7f3f5d97df9f1)",
+    "image": "stellar/stellar-core:30.0.0-3642.0e49751aa.noble",
+    "network_passphrase": "Test SDF Network ; September 2015",
+    "ledger_seq": 8,
+    "ledger_hash": "fb89c631dc1af563d77853d5bc6151c23bd5a822fa6ec06547a26cc083086c6f",
+    "scenario": "reserve-pool-failures",
+    "generator": "tools/localcore.py",
+    "notes": "Standalone network, manual close, fixed keys and close times; see the scenario in tools/localcore.py."
+   },
+   "shape": "One ledger of failing transactions, each from its own account: an account with AUTH_IMMUTABLE merging itself (ACCOUNT_MERGE_IMMUTABLE_SET); an issuer revoking a trustline, by SetTrustLineFlags and by AllowTrust, whose holder's pool shares are redeemed into claimable balances inside a sponsorship sandwich whose sponsor has no spare reserve (SET_TRUST_LINE_FLAGS_LOW_RESERVE, ALLOW_TRUST_LOW_RESERVE); a sponsor revoking its sponsorship of a data entry whose owner is at its minimum balance (REVOKE_SPONSORSHIP_LOW_RESERVE); a pool deposit on a trustline authorized only to maintain liabilities (LIQUIDITY_POOL_DEPOSIT_NOT_AUTHORIZED), a deposit that would take the pool's reserves past 2^63-1 (LIQUIDITY_POOL_DEPOSIT_POOL_FULL) and a withdrawal into a trustline whose limit equals its balance (LIQUIDITY_POOL_WITHDRAW_LINE_FULL); and transactions signed by a signer an earlier transaction of the same ledger removed (txBAD_AUTH_EXTRA, outside a fee bump). Two of the six txBAD_AUTH_EXTRA replicas apply after their attacker and fail; the other four apply first and succeed. See tools/localcore_reserve.py.",
+   "patterns": {
+    "failed-transaction": "v2.txProcessing[5].result.result.result",
+    "scval-wide-integer": "v2.txProcessing[0].txApplyProcessing.v4.events[0].event.body.v0.data",
+    "tx-bad-auth-extra-at-apply": "v2.txProcessing[9].result.result.result"
+   },
+   "designated": {
+    "patterns": [],
+    "cells": [
+     "arm:AccountMergeResult.ACCOUNT_MERGE_IMMUTABLE_SET",
+     "arm:AllowTrustResult.ALLOW_TRUST_LOW_RESERVE",
+     "arm:LiquidityPoolDepositResult.LIQUIDITY_POOL_DEPOSIT_NOT_AUTHORIZED",
+     "arm:LiquidityPoolDepositResult.LIQUIDITY_POOL_DEPOSIT_POOL_FULL",
+     "arm:LiquidityPoolWithdrawResult.LIQUIDITY_POOL_WITHDRAW_LINE_FULL",
+     "arm:RevokeSponsorshipResult.REVOKE_SPONSORSHIP_LOW_RESERVE",
+     "arm:SetTrustLineFlagsResult.SET_TRUST_LINE_FLAGS_LOW_RESERVE",
+     "arm:TransactionResultResult.txBAD_AUTH_EXTRA"
+    ]
+   },
+   "cells": [
+    "arm:AccountEntryExt.0",
+    "arm:AccountEntryExt.1",
+    "arm:AccountEntryExtensionV1Ext.2",
+    "arm:AccountEntryExtensionV2Ext.3",
+    "arm:AccountMergeResult.ACCOUNT_MERGE_IMMUTABLE_SET",
+    "arm:AllowTrustResult.ALLOW_TRUST_LOW_RESERVE",
+    "arm:Asset.ASSET_TYPE_CREDIT_ALPHANUM4",
+    "arm:AssetCode.ASSET_TYPE_CREDIT_ALPHANUM4",
+    "arm:BeginSponsoringFutureReservesResult.BEGIN_SPONSORING_FUTURE_RESERVES_SUCCESS",
+    "arm:BumpSequenceResult.BUMP_SEQUENCE_SUCCESS",
+    "arm:ContractEventBody.0",
+    "arm:EndSponsoringFutureReservesResult.END_SPONSORING_FUTURE_RESERVES_SUCCESS",
+    "arm:ExtensionPoint.0",
+    "arm:GeneralizedTransactionSet.1",
+    "arm:LedgerCloseMeta.2",
+    "arm:LedgerCloseMetaExt.0",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_STATE",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_UPDATED",
+    "arm:LedgerEntryData.ACCOUNT",
+    "arm:LedgerEntryExt.0",
+    "arm:LedgerHeaderExt.0",
+    "arm:LedgerHeaderHistoryEntryExt.0",
+    "arm:LedgerKey.DATA",
+    "arm:LiquidityPoolDepositResult.LIQUIDITY_POOL_DEPOSIT_NOT_AUTHORIZED",
+    "arm:LiquidityPoolDepositResult.LIQUIDITY_POOL_DEPOSIT_POOL_FULL",
+    "arm:LiquidityPoolWithdrawResult.LIQUIDITY_POOL_WITHDRAW_LINE_FULL",
+    "arm:Memo.MEMO_NONE",
+    "arm:MuxedAccount.KEY_TYPE_ED25519",
+    "arm:OperationBody.ACCOUNT_MERGE",
+    "arm:OperationBody.ALLOW_TRUST",
+    "arm:OperationBody.BEGIN_SPONSORING_FUTURE_RESERVES",
+    "arm:OperationBody.BUMP_SEQUENCE",
+    "arm:OperationBody.END_SPONSORING_FUTURE_RESERVES",
+    "arm:OperationBody.LIQUIDITY_POOL_DEPOSIT",
+    "arm:OperationBody.LIQUIDITY_POOL_WITHDRAW",
+    "arm:OperationBody.REVOKE_SPONSORSHIP",
+    "arm:OperationBody.SET_OPTIONS",
+    "arm:OperationBody.SET_TRUST_LINE_FLAGS",
+    "arm:OperationResult.opINNER",
+    "arm:OperationResultTr.ACCOUNT_MERGE",
+    "arm:OperationResultTr.ALLOW_TRUST",
+    "arm:OperationResultTr.BEGIN_SPONSORING_FUTURE_RESERVES",
+    "arm:OperationResultTr.BUMP_SEQUENCE",
+    "arm:OperationResultTr.END_SPONSORING_FUTURE_RESERVES",
+    "arm:OperationResultTr.LIQUIDITY_POOL_DEPOSIT",
+    "arm:OperationResultTr.LIQUIDITY_POOL_WITHDRAW",
+    "arm:OperationResultTr.REVOKE_SPONSORSHIP",
+    "arm:OperationResultTr.SET_OPTIONS",
+    "arm:OperationResultTr.SET_TRUST_LINE_FLAGS",
+    "arm:Preconditions.PRECOND_NONE",
+    "arm:PublicKey.PUBLIC_KEY_TYPE_ED25519",
+    "arm:RevokeSponsorshipOp.REVOKE_SPONSORSHIP_LEDGER_ENTRY",
+    "arm:RevokeSponsorshipResult.REVOKE_SPONSORSHIP_LOW_RESERVE",
+    "arm:SCAddress.SC_ADDRESS_TYPE_ACCOUNT",
+    "arm:SCVal.SCV_ADDRESS",
+    "arm:SCVal.SCV_I128",
+    "arm:SCVal.SCV_SYMBOL",
+    "arm:SetOptionsResult.SET_OPTIONS_SUCCESS",
+    "arm:SetTrustLineFlagsResult.SET_TRUST_LINE_FLAGS_LOW_RESERVE",
+    "arm:SignerKey.SIGNER_KEY_TYPE_ED25519",
+    "arm:StellarValueExt.STELLAR_VALUE_SIGNED_MS",
+    "arm:TransactionEnvelope.ENVELOPE_TYPE_TX",
+    "arm:TransactionExt.0",
+    "arm:TransactionMeta.4",
+    "arm:TransactionPhase.0",
+    "arm:TransactionPhase.1",
+    "arm:TransactionResultExt.0",
+    "arm:TransactionResultResult.txBAD_AUTH_EXTRA",
+    "arm:TransactionResultResult.txFAILED",
+    "arm:TransactionResultResult.txSUCCESS",
+    "arm:TxSetComponent.TXSET_COMP_TXS_MAYBE_DISCOUNTED_FEE",
+    "enum:ContractEventType.CONTRACT",
+    "enum:TransactionEventStage.TRANSACTION_EVENT_STAGE_BEFORE_ALL_TXS"
+   ],
+   "cells_new_in_protocol": [
+    "arm:StellarValueExt.STELLAR_VALUE_SIGNED_MS"
+   ],
+   "expected": {
+    "decoded": [
+     {
+      "path": "v",
+      "value": 2
+     },
+     {
+      "path": "v2.ledgerHeader.header.ledgerSeq",
+      "value": 8
+     },
+     {
+      "path": "v2.ledgerHeader.header.ledgerVersion",
+      "value": 30
+     },
+     {
+      "path": "v2.ledgerHeader.hash",
+      "value": "fb89c631dc1af563d77853d5bc6151c23bd5a822fa6ec06547a26cc083086c6f"
+     },
+     {
+      "path": "v2.ledgerHeader.header.scpValue.closeTime",
+      "value": 4070000000
+     },
+     {
+      "path": "v2.txProcessing[14].result.result.result.results[0].tr.accountMergeResult.code",
+      "value": "ACCOUNT_MERGE_IMMUTABLE_SET",
+      "note": "cell arm:AccountMergeResult.ACCOUNT_MERGE_IMMUTABLE_SET"
+     },
+     {
+      "path": "v2.txProcessing[7].result.result.result.results[1].tr.allowTrustResult.code",
+      "value": "ALLOW_TRUST_LOW_RESERVE",
+      "note": "cell arm:AllowTrustResult.ALLOW_TRUST_LOW_RESERVE"
+     },
+     {
+      "path": "v2.txProcessing[10].result.result.result.results[0].tr.liquidityPoolDepositResult.code",
+      "value": "LIQUIDITY_POOL_DEPOSIT_NOT_AUTHORIZED",
+      "note": "cell arm:LiquidityPoolDepositResult.LIQUIDITY_POOL_DEPOSIT_NOT_AUTHORIZED"
+     },
+     {
+      "path": "v2.txProcessing[17].result.result.result.results[0].tr.liquidityPoolDepositResult.code",
+      "value": "LIQUIDITY_POOL_DEPOSIT_POOL_FULL",
+      "note": "cell arm:LiquidityPoolDepositResult.LIQUIDITY_POOL_DEPOSIT_POOL_FULL"
+     },
+     {
+      "path": "v2.txProcessing[5].result.result.result.results[0].tr.liquidityPoolWithdrawResult.code",
+      "value": "LIQUIDITY_POOL_WITHDRAW_LINE_FULL",
+      "note": "cell arm:LiquidityPoolWithdrawResult.LIQUIDITY_POOL_WITHDRAW_LINE_FULL"
+     },
+     {
+      "path": "v2.txProcessing[15].result.result.result.results[0].tr.revokeSponsorshipResult.code",
+      "value": "REVOKE_SPONSORSHIP_LOW_RESERVE",
+      "note": "cell arm:RevokeSponsorshipResult.REVOKE_SPONSORSHIP_LOW_RESERVE"
+     },
+     {
+      "path": "v2.txProcessing[16].result.result.result.results[1].tr.setTrustLineFlagsResult.code",
+      "value": "SET_TRUST_LINE_FLAGS_LOW_RESERVE",
+      "note": "cell arm:SetTrustLineFlagsResult.SET_TRUST_LINE_FLAGS_LOW_RESERVE"
+     },
+     {
+      "path": "v2.txProcessing[9].result.result.result.code",
+      "value": "txBAD_AUTH_EXTRA",
+      "note": "cell arm:TransactionResultResult.txBAD_AUTH_EXTRA"
+     }
+    ]
+   },
+   "validation": {
+    "independent_decoder": "not_run",
+    "rs_stellar_xdr_roundtrip": "not_run",
+    "stellar_core": {
+     "version": "30.0.0",
+     "command": "",
+     "result": "not_run"
+    },
+    "core_golden": "not_applicable"
+   },
+   "sightings": []
+  },
+  {
+   "id": "localcore-fee-refund-p22-3",
+   "title": "Local stellar-core, scenario fee-refund-p22: a Soroban fee refund event at stage AFTER_TX, in protocol 22 meta v4",
+   "xdr_type": "LedgerCloseMeta",
+   "file": "entries/localcore-fee-refund-p22-3.LedgerCloseMeta.xdr.b64",
+   "sha256": "666ac0553d1e8430f162d4da2083b9fc3721e0079a3173b7648dcc7a7bfb5b32",
+   "size_bytes": 4036,
+   "protocol_version": 22,
+   "caps": [],
+   "synthetic": false,
+   "source": {
+    "kind": "local_stellar_core",
+    "stellar_core_version": "stellar-core 30.0.0 (0e49751aa9ddf892302cca02cea7f3f5d97df9f1)",
+    "image": "stellar/stellar-core:30.0.0-3642.0e49751aa.noble",
+    "network_passphrase": "Test SDF Network ; September 2015",
+    "ledger_seq": 3,
+    "ledger_hash": "a80d4de7fcd39ce94db9b2533cdb6c9285f26e8a52b117640805ce0091685147",
+    "scenario": "fee-refund-p22",
+    "generator": "tools/localcore.py",
+    "notes": "Standalone network, manual close, fixed keys and close times; see the scenario in tools/localcore.py."
+   },
+   "shape": "Protocol 22 with BACKFILL_STELLAR_ASSET_EVENTS set, which makes stellar-core emit TransactionMeta v4 with fee events before protocol 23. One transaction deploys the native asset contract with a resource fee far above what it uses; the refund is a negative fee event at TRANSACTION_EVENT_STAGE_AFTER_TX, the stage protocol 23 replaced with AFTER_ALL_TXS.",
+   "patterns": {
+    "scval-wide-integer": "v1.txProcessing[0].txApplyProcessing.v4.events[0].event.body.v0.data"
+   },
+   "designated": {
+    "patterns": [],
+    "cells": [
+     "enum:TransactionEventStage.TRANSACTION_EVENT_STAGE_AFTER_TX"
+    ]
+   },
+   "cells": [
+    "arm:AccountEntryExt.0",
+    "arm:AccountEntryExt.1",
+    "arm:AccountEntryExtensionV1Ext.2",
+    "arm:AccountEntryExtensionV2Ext.3",
+    "arm:Asset.ASSET_TYPE_NATIVE",
+    "arm:ContractEventBody.0",
+    "arm:ContractExecutable.CONTRACT_EXECUTABLE_STELLAR_ASSET",
+    "arm:ContractIDPreimage.CONTRACT_ID_PREIMAGE_FROM_ASSET",
+    "arm:ExtensionPoint.0",
+    "arm:GeneralizedTransactionSet.1",
+    "arm:HostFunction.HOST_FUNCTION_TYPE_CREATE_CONTRACT",
+    "arm:InvokeHostFunctionResult.INVOKE_HOST_FUNCTION_SUCCESS",
+    "arm:LedgerCloseMeta.1",
+    "arm:LedgerCloseMetaExt.0",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_CREATED",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_STATE",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_UPDATED",
+    "arm:LedgerEntryData.ACCOUNT",
+    "arm:LedgerEntryData.CONTRACT_DATA",
+    "arm:LedgerEntryData.TTL",
+    "arm:LedgerEntryExt.0",
+    "arm:LedgerHeaderExt.0",
+    "arm:LedgerHeaderHistoryEntryExt.0",
+    "arm:LedgerKey.CONTRACT_DATA",
+    "arm:Memo.MEMO_NONE",
+    "arm:MuxedAccount.KEY_TYPE_ED25519",
+    "arm:OperationBody.INVOKE_HOST_FUNCTION",
+    "arm:OperationResult.opINNER",
+    "arm:OperationResultTr.INVOKE_HOST_FUNCTION",
+    "arm:Preconditions.PRECOND_NONE",
+    "arm:PublicKey.PUBLIC_KEY_TYPE_ED25519",
+    "arm:SCAddress.SC_ADDRESS_TYPE_ACCOUNT",
+    "arm:SCAddress.SC_ADDRESS_TYPE_CONTRACT",
+    "arm:SCVal.SCV_ADDRESS",
+    "arm:SCVal.SCV_BYTES",
+    "arm:SCVal.SCV_CONTRACT_INSTANCE",
+    "arm:SCVal.SCV_I128",
+    "arm:SCVal.SCV_LEDGER_KEY_CONTRACT_INSTANCE",
+    "arm:SCVal.SCV_MAP",
+    "arm:SCVal.SCV_STRING",
+    "arm:SCVal.SCV_SYMBOL",
+    "arm:SCVal.SCV_U32",
+    "arm:SCVal.SCV_U64",
+    "arm:SCVal.SCV_VEC",
+    "arm:SCVal.SCV_VOID",
+    "arm:SorobanTransactionDataExt.0",
+    "arm:SorobanTransactionMetaExt.0",
+    "arm:StellarValueExt.STELLAR_VALUE_SIGNED",
+    "arm:TransactionEnvelope.ENVELOPE_TYPE_TX",
+    "arm:TransactionExt.1",
+    "arm:TransactionMeta.4",
+    "arm:TransactionPhase.0",
+    "arm:TransactionResultExt.0",
+    "arm:TransactionResultResult.txSUCCESS",
+    "arm:TxSetComponent.TXSET_COMP_TXS_MAYBE_DISCOUNTED_FEE",
+    "enum:ContractDataDurability.PERSISTENT",
+    "enum:ContractEventType.CONTRACT",
+    "enum:ContractEventType.DIAGNOSTIC",
+    "enum:TransactionEventStage.TRANSACTION_EVENT_STAGE_AFTER_TX",
+    "enum:TransactionEventStage.TRANSACTION_EVENT_STAGE_BEFORE_ALL_TXS"
+   ],
+   "cells_new_in_protocol": [],
+   "expected": {
+    "decoded": [
+     {
+      "path": "v",
+      "value": 1
+     },
+     {
+      "path": "v1.ledgerHeader.header.ledgerSeq",
+      "value": 3
+     },
+     {
+      "path": "v1.ledgerHeader.header.ledgerVersion",
+      "value": 22
+     },
+     {
+      "path": "v1.ledgerHeader.hash",
+      "value": "a80d4de7fcd39ce94db9b2533cdb6c9285f26e8a52b117640805ce0091685147"
+     },
+     {
+      "path": "v1.ledgerHeader.header.scpValue.closeTime",
+      "value": 4020000000
+     },
+     {
+      "path": "v1.txProcessing[0].txApplyProcessing.v4.events[1].stage",
+      "value": "TRANSACTION_EVENT_STAGE_AFTER_TX",
+      "note": "cell enum:TransactionEventStage.TRANSACTION_EVENT_STAGE_AFTER_TX"
+     }
+    ]
+   },
+   "validation": {
+    "independent_decoder": "not_run",
+    "rs_stellar_xdr_roundtrip": "not_run",
+    "stellar_core": {
+     "version": "30.0.0",
+     "command": "",
+     "result": "not_run"
+    },
+    "core_golden": "not_applicable"
+   },
+   "sightings": []
+  },
+  {
+   "id": "localcore-work-limit-7",
+   "title": "Local stellar-core, scenario work-limit-p30: an offer that would cross more than 1000 offers fails with opEXCEEDED_WORK_LIMIT",
+   "xdr_type": "LedgerCloseMeta",
+   "file": "entries/localcore-work-limit-7.LedgerCloseMeta.xdr.b64",
+   "sha256": "10b529697c7de3634a064787924de8ba1e56c4a175e01f866a73aae53847264c",
+   "size_bytes": 1632,
+   "protocol_version": 30,
+   "caps": [],
+   "synthetic": false,
+   "source": {
+    "kind": "local_stellar_core",
+    "stellar_core_version": "stellar-core 30.0.0 (0e49751aa9ddf892302cca02cea7f3f5d97df9f1)",
+    "image": "stellar/stellar-core:30.0.0-3642.0e49751aa.noble",
+    "network_passphrase": "Test SDF Network ; September 2015",
+    "ledger_seq": 7,
+    "ledger_hash": "a9da7c0f75195a6e2d78b09954175d063141c448631247af93909814f67fe9b3",
+    "scenario": "work-limit",
+    "generator": "tools/localcore.py",
+    "notes": "Standalone network, manual close, fixed keys and close times; see the scenario in tools/localcore.py."
+   },
+   "shape": "Eleven makers rest 1100 offers of WLX for XLM in the previous ledger (not recorded: about 1 MB). One account then places a ManageBuyOffer for all of them; stellar-core crosses at most 1000 offers in one operation, so the operation fails with the operation-level code opEXCEEDED_WORK_LIMIT and the transaction with txFAILED.",
+   "patterns": {
+    "failed-transaction": "v2.txProcessing[0].result.result.result",
+    "scval-wide-integer": "v2.txProcessing[0].txApplyProcessing.v4.events[0].event.body.v0.data"
+   },
+   "designated": {
+    "patterns": [],
+    "cells": [
+     "arm:OperationResult.opEXCEEDED_WORK_LIMIT"
+    ]
+   },
+   "cells": [
+    "arm:AccountEntryExt.1",
+    "arm:AccountEntryExtensionV1Ext.2",
+    "arm:AccountEntryExtensionV2Ext.3",
+    "arm:Asset.ASSET_TYPE_CREDIT_ALPHANUM4",
+    "arm:Asset.ASSET_TYPE_NATIVE",
+    "arm:ContractEventBody.0",
+    "arm:ExtensionPoint.0",
+    "arm:GeneralizedTransactionSet.1",
+    "arm:LedgerCloseMeta.2",
+    "arm:LedgerCloseMetaExt.0",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_STATE",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_UPDATED",
+    "arm:LedgerEntryData.ACCOUNT",
+    "arm:LedgerEntryExt.0",
+    "arm:LedgerHeaderExt.0",
+    "arm:LedgerHeaderHistoryEntryExt.0",
+    "arm:Memo.MEMO_NONE",
+    "arm:MuxedAccount.KEY_TYPE_ED25519",
+    "arm:OperationBody.MANAGE_BUY_OFFER",
+    "arm:OperationResult.opEXCEEDED_WORK_LIMIT",
+    "arm:Preconditions.PRECOND_NONE",
+    "arm:PublicKey.PUBLIC_KEY_TYPE_ED25519",
+    "arm:SCAddress.SC_ADDRESS_TYPE_ACCOUNT",
+    "arm:SCVal.SCV_ADDRESS",
+    "arm:SCVal.SCV_I128",
+    "arm:SCVal.SCV_SYMBOL",
+    "arm:StellarValueExt.STELLAR_VALUE_SIGNED_MS",
+    "arm:TransactionEnvelope.ENVELOPE_TYPE_TX",
+    "arm:TransactionExt.0",
+    "arm:TransactionMeta.4",
+    "arm:TransactionPhase.0",
+    "arm:TransactionPhase.1",
+    "arm:TransactionResultExt.0",
+    "arm:TransactionResultResult.txFAILED",
+    "arm:TxSetComponent.TXSET_COMP_TXS_MAYBE_DISCOUNTED_FEE",
+    "enum:ContractEventType.CONTRACT",
+    "enum:TransactionEventStage.TRANSACTION_EVENT_STAGE_BEFORE_ALL_TXS"
+   ],
+   "cells_new_in_protocol": [
+    "arm:StellarValueExt.STELLAR_VALUE_SIGNED_MS"
+   ],
+   "expected": {
+    "decoded": [
+     {
+      "path": "v",
+      "value": 2
+     },
+     {
+      "path": "v2.ledgerHeader.header.ledgerSeq",
+      "value": 7
+     },
+     {
+      "path": "v2.ledgerHeader.header.ledgerVersion",
+      "value": 30
+     },
+     {
+      "path": "v2.ledgerHeader.hash",
+      "value": "a9da7c0f75195a6e2d78b09954175d063141c448631247af93909814f67fe9b3"
+     },
+     {
+      "path": "v2.ledgerHeader.header.scpValue.closeTime",
+      "value": 4060000000
+     },
+     {
+      "path": "v2.txProcessing[0].result.result.result.results[0].code",
+      "value": "opEXCEEDED_WORK_LIMIT",
+      "note": "cell arm:OperationResult.opEXCEEDED_WORK_LIMIT"
+     }
+    ]
+   },
+   "validation": {
+    "independent_decoder": "not_run",
+    "rs_stellar_xdr_roundtrip": "not_run",
+    "stellar_core": {
+     "version": "30.0.0",
+     "command": "",
+     "result": "not_run"
+    },
+    "core_golden": "not_applicable"
+   },
+   "sightings": []
   }
  ]
 }

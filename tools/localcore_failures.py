@@ -18,8 +18,9 @@ Recorded ledgers (run.json `ledger_<name>`):
 
 stellar-core orders a ledger's transactions by hash, so each transaction-level case is sent four
 times with different accounts; the order is fixed by the inputs, so every run gives the same
-results. Not produced yet: txINSUFFICIENT_BALANCE at apply (draining the source to 50 stroops above
-its reserve is not enough) and txBAD_AUTH_EXTRA outside a fee bump.
+results. Not produced here: txINSUFFICIENT_BALANCE at apply, which no ledger from protocol 9 on can
+carry (corpus/cell-classes.json), and txBAD_AUTH_EXTRA outside a fee bump, which scenario
+reserve-pool-p30 produces (tools/localcore_reserve.py).
 
 run.json also lists, per transaction, the code it was built to produce and the code it got.
 """

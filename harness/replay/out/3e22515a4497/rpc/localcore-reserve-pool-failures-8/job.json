@@ -1,0 +1,32 @@
+{
+ "job_version": 1,
+ "entry_id": "localcore-reserve-pool-failures-8",
+ "ref": "3e22515a44979fdc3a558fda3991ca2b48e38cef",
+ "commit": "3e22515a44979fdc3a558fda3991ca2b48e38cef",
+ "input": "rpc",
+ "network_passphrase": "Test SDF Network ; September 2015",
+ "ledger": {
+  "seq": 8,
+  "hash": "fb89c631dc1af563d77853d5bc6151c23bd5a822fa6ec06547a26cc083086c6f",
+  "close_time": 4070000000,
+  "protocol": 30
+ },
+ "rpc": {
+  "url": "http://shapecov-cov-feeder:8000/rpc/localcore-reserve-pool-failures-8"
+ },
+ "datalake": {
+  "s3_endpoint": "http://shapecov-cov-feeder:9000",
+  "bucket_path": "shapecov-lake/localcore-reserve-pool-failures-8",
+  "region": "us-east-1"
+ },
+ "history_archive": {
+  "url": "http://shapecov-cov-feeder:8000/archive/localcore-reserve-pool-failures-8"
+ },
+ "protocols": [
+  "SEP41",
+  "BLEND"
+ ],
+ "docker_network": "shapecov-cov-net",
+ "timeout_seconds": 120,
+ "work_dir": "$REPLAY_WORK"
+}
