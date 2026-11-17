@@ -19228,7 +19228,7 @@
     "retrieved_from": "https://aws-public-blockchain.s3.us-east-2.amazonaws.com/v1.1/stellar/ledgers/pubnet/FF39C1FF--12992000-13055999/FF39A0E8--13000471.xdr.zst",
     "retrieved_on": "2026-11-17"
    },
-   "shape": "A protocol 8 ledger from 2017. One transaction runs the Inflation operation before the week is up and fails with INFLATION_NOT_TIME (the Inflation operation and its result arm exist until protocol 12, CAP-0026). An offer crossed in it is reported as CLAIM_ATOM_TYPE_V0, the ClaimAtom form before protocol 18. Its header's StellarValue is STELLAR_VALUE_BASIC, the unsigned form today's stellar-core refuses. Its transaction metadata is TransactionMeta v4: the public archive regenerated the ledger with current stellar-core, with the asset events BACKFILL_STELLAR_ASSET_EVENTS adds. Replayed like every other entry.",
+   "shape": "A protocol 8 ledger from 2017. One transaction runs the Inflation operation before the week is up and fails with INFLATION_NOT_TIME (the Inflation operation and its result arm exist until protocol 12, CAP-0026). An offer crossed in it is reported as CLAIM_ATOM_TYPE_V0, the ClaimAtom form before protocol 18. Its header's StellarValue is STELLAR_VALUE_BASIC, the unsigned form today's stellar-core refuses. Its transaction metadata is TransactionMeta v4: the public archive regenerated the ledger with current stellar-core, with the asset events BACKFILL_STELLAR_ASSET_EVENTS adds. Replayed like every other entry; stellar-etl ingests it, and none of its oracle failures is stellar-etl#512, which needs metadata older than v4 (they map to #450, #452 and #456).",
    "patterns": {
     "failed-transaction": "v0.txProcessing[0].result.result.result",
     "scval-wide-integer": "v0.txProcessing[0].txApplyProcessing.v4.events[0].event.body.v0.data"
@@ -19381,7 +19381,7 @@
     "retrieved_from": "https://aws-public-blockchain.s3.us-east-2.amazonaws.com/v1.1/stellar/ledgers/pubnet/FE8323FF--24960000-25023999/FE828072--25001869.xdr.zst",
     "retrieved_on": "2026-11-17"
    },
-   "shape": "A protocol 11 ledger from 2019 with a payment that fails with PAYMENT_NO_ISSUER: before protocol 13 a payment checked that the asset's issuer account exists. Its transaction metadata is TransactionMeta v4: the public archive regenerated the ledger with current stellar-core, with the asset events BACKFILL_STELLAR_ASSET_EVENTS adds. Replayed like every other entry.",
+   "shape": "A protocol 11 ledger from 2019 with a payment that fails with PAYMENT_NO_ISSUER: before protocol 13 a payment checked that the asset's issuer account exists. Its transaction metadata is TransactionMeta v4: the public archive regenerated the ledger with current stellar-core, with the asset events BACKFILL_STELLAR_ASSET_EVENTS adds. Replayed like every other entry; stellar-etl ingests it, and none of its oracle failures is stellar-etl#512, which needs metadata older than v4 (they map to #450, #452 and #456).",
    "patterns": {
     "failed-transaction": "v0.txProcessing[4].result.result.result",
     "scval-wide-integer": "v0.txProcessing[0].txApplyProcessing.v4.events[0].event.body.v0.data"
@@ -19518,7 +19518,7 @@
     "retrieved_from": "https://aws-public-blockchain.s3.us-east-2.amazonaws.com/v1.1/stellar/ledgers/pubnet/FE8323FF--24960000-25023999/FE8281C9--25001526.xdr.zst",
     "retrieved_on": "2026-11-17"
    },
-   "shape": "A protocol 11 ledger from 2019 with a ChangeTrust whose asset the source issues, which fails at apply with CHANGE_TRUST_SELF_NOT_ALLOWED; from protocol 16 doCheckValid refuses it as CHANGE_TRUST_MALFORMED before the ledger. Its transaction metadata is TransactionMeta v4: the public archive regenerated the ledger with current stellar-core, with the asset events BACKFILL_STELLAR_ASSET_EVENTS adds. Replayed like every other entry.",
+   "shape": "A protocol 11 ledger from 2019 with a ChangeTrust whose asset the source issues, which fails at apply with CHANGE_TRUST_SELF_NOT_ALLOWED; from protocol 16 doCheckValid refuses it as CHANGE_TRUST_MALFORMED before the ledger. Its transaction metadata is TransactionMeta v4: the public archive regenerated the ledger with current stellar-core, with the asset events BACKFILL_STELLAR_ASSET_EVENTS adds. Replayed like every other entry; stellar-etl ingests it, and none of its oracle failures is stellar-etl#512, which needs metadata older than v4 (they map to #450, #452 and #456).",
    "patterns": {
     "failed-transaction": "v0.txProcessing[6].result.result.result",
     "scval-wide-integer": "v0.txProcessing[0].txApplyProcessing.v4.events[0].event.body.v0.data"
@@ -19657,7 +19657,7 @@
     "retrieved_from": "https://aws-public-blockchain.s3.us-east-2.amazonaws.com/v1.1/stellar/ledgers/pubnet/FEBEB5FF--21056000-21119999/FEBE81DA--21069349.xdr.zst",
     "retrieved_on": "2026-11-17"
    },
-   "shape": "A protocol 10 ledger from 2018 in which inflation ran: its header's inflationSeq goes from 229 to 230, and the Inflation operation that triggered it succeeds with INFLATION_SUCCESS and its list of payouts. Its transaction metadata is TransactionMeta v4: the public archive regenerated the ledger with current stellar-core, with the asset events BACKFILL_STELLAR_ASSET_EVENTS adds. Replayed like every other entry.",
+   "shape": "A protocol 10 ledger from 2018 in which inflation ran: its header's inflationSeq goes from 229 to 230, and the Inflation operation that triggered it succeeds with INFLATION_SUCCESS and its list of payouts. Its transaction metadata is TransactionMeta v4: the public archive regenerated the ledger with current stellar-core, with the asset events BACKFILL_STELLAR_ASSET_EVENTS adds. Replayed like every other entry; stellar-etl ingests it, and none of its oracle failures is stellar-etl#512, which needs metadata older than v4 (they map to #450, #452 and #456).",
    "patterns": {
     "failed-transaction": "v0.txProcessing[0].result.result.result",
     "scval-wide-integer": "v0.txProcessing[0].txApplyProcessing.v4.events[0].event.body.v0.data"

@@ -72,9 +72,9 @@ testing, 18 checks in about 20 seconds on an idle laptop; CI runs it on every pu
   about 100 lines and the participant rule on two variants of the same indexer.
 - Whole ledgers are not generated. They come from network history, stellar-core's golden files and
   fixed local stellar-core scenarios, so 440 of the 538 cells a ledger reader can meet (81.8%)
-  appear in a corpus entry, and 440 of the 463 that can occur in a closed ledger (95.0%).
-  Each of the other 98 is classified from stellar-core's source in [`corpus/COVERAGE.md`](corpus/COVERAGE.md): 75 can
-  never be in a closed ledger, 9 predate protocol 20, 7 appear only in consensus messages or under a
+  appear in a corpus entry, and 440 of the 465 that can occur in a closed ledger (94.6%).
+  Each of the other 98 is classified from stellar-core's source in [`corpus/COVERAGE.md`](corpus/COVERAGE.md): 73 can
+  never be in a closed ledger, 9 predate protocol 20, 2 appear only in metadata from an older stellar-core, 7 appear only in consensus messages or under a
   consensus option, 6 need a purpose-written contract, and 1 is impractical.
 
 More: [`ARCHITECTURE.md`](ARCHITECTURE.md) (how the parts fit, the adapter interface, isolation),

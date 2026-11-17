@@ -148,10 +148,10 @@ results, on every push.
   none new: many stellar-core goldens, and local-core ledgers built for a replay. Per-CAP coverage
   (`CAP-COVERAGE.md`) does not rely on it: it is computed from each entry's cells and patterns.
 - 440 of the 538 reachable cells, those a ledger reader can meet (81.8%), appear in a corpus entry,
-  and 440 of the 463 that can occur in a closed ledger (95.0%) (`COVERAGE.md`: a cell is a union arm or
+  and 440 of the 465 that can occur in a closed ledger (94.6%) (`COVERAGE.md`: a cell is a union arm or
   a member of an enum used as a value, in a type `LedgerCloseMeta` reaches). Each of the other 98
-  has a class and a reason in `cell-classes.json`, from stellar-core's source: 75 can never be in a
-  closed ledger, 9 belong to protocols before 20, 7 appear only in consensus messages or under a
+  has a class and a reason in `cell-classes.json`, from stellar-core's source: 73 can never be in a
+  closed ledger, 9 belong to protocols before 20, 2 appear only in metadata from an older stellar-core, 7 appear only in consensus messages or under a
   consensus option, 6 need a contract written to produce them, and 1 is impractical. No failure a
   local stellar-core scenario can produce is missing. Whole ledgers are not generated; they come
   from the three sources above.

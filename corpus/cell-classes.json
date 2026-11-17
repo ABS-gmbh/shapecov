@@ -249,12 +249,12 @@
    "why": "Built only by HerderSCPDriver::makeEmptyTxSetValueFromValue (the multi-signature form) (HerderSCPDriver.cpp:728-751): a node that votes before it has downloaded the transaction set (EXPERIMENTAL_PARALLEL_TX_SET_DOWNLOAD) proposes closing an empty ledger. A ledger closed that way carries it; a local single-node network never needs to."
   },
   "arm:TransactionMeta.0": {
-   "class": "never_in_ledger",
-   "why": "No LedgerCloseMeta carries it. stellar-core emits TransactionMeta v2 to v4 only (TransactionMeta.cpp:525-529: v0 and v1 are not produced and not supported), and LedgerCloseMeta is newer than v2. The public ledger archive regenerated every protocol era with current stellar-core: its pubnet ledgers of protocols 1 to 19 carry TransactionMeta v4 (for example ledgers 13000471, protocol 8, and 21069349, protocol 10). v0 and v1 were stellar-core's transaction metadata before v2, outside any LedgerCloseMeta."
+   "class": "older_core",
+   "why": "stellar-core at f2b91947 builds TransactionMeta v2 to v4 only: TransactionMetaWrapper (TransactionMeta.cpp:525-540) switches between 2, 3 and 4, and nothing in src/transactions or src/ledger constructs v0 or v1. v0 and v1 are what stellar-core wrote before v2. The public ledger archive regenerated every protocol era with current stellar-core, so its ledgers of protocols 1 to 19 carry v4 (corpus entries pubnet-13000471, protocol 8, and pubnet-21069349, protocol 10). Metadata kept from an older stellar-core, such as an old data lake that was never regenerated, can still carry them; stellar-etl#512 is about such sources."
   },
   "arm:TransactionMeta.1": {
-   "class": "never_in_ledger",
-   "why": "No LedgerCloseMeta carries it. stellar-core emits TransactionMeta v2 to v4 only (TransactionMeta.cpp:525-529: v0 and v1 are not produced and not supported), and LedgerCloseMeta is newer than v2. The public ledger archive regenerated every protocol era with current stellar-core: its pubnet ledgers of protocols 1 to 19 carry TransactionMeta v4 (for example ledgers 13000471, protocol 8, and 21069349, protocol 10). v0 and v1 were stellar-core's transaction metadata before v2, outside any LedgerCloseMeta."
+   "class": "older_core",
+   "why": "stellar-core at f2b91947 builds TransactionMeta v2 to v4 only: TransactionMetaWrapper (TransactionMeta.cpp:525-540) switches between 2, 3 and 4, and nothing in src/transactions or src/ledger constructs v0 or v1. v0 and v1 are what stellar-core wrote before v2. The public ledger archive regenerated every protocol era with current stellar-core, so its ledgers of protocols 1 to 19 carry v4 (corpus entries pubnet-13000471, protocol 8, and pubnet-21069349, protocol 10). Metadata kept from an older stellar-core, such as an old data lake that was never regenerated, can still carry them; stellar-etl#512 is about such sources."
   },
   "arm:TransactionResultResult.txFROZEN_KEY_ACCESSED": {
    "class": "never_in_ledger",
@@ -401,6 +401,7 @@
   "impractical": "Possible in principle, only past a limit no real or local ledger reaches.",
   "local_core": "Producible by a local stellar-core scenario: a failure or shape that depends on ledger state.",
   "never_in_ledger": "Cannot be in a closed ledger: set only by a check that a transaction failing it never gets past, only on a stellar-core bug, or only in a form a ledger never stores.",
+  "older_core": "Only in metadata written by a stellar-core older than the one that introduced the next version; no public source serves it today. A meta version belongs to the stellar-core that wrote the meta, not to the ledger, so these cells stay among those that can occur in a closed ledger.",
   "unclassified": "Not classified yet.",
   "upgrade": "Only in a ledger that applies a network upgrade; producible by a local scenario that arms it."
  },
@@ -414,7 +415,7 @@
    "date": "2026-11-17"
   },
   {
-   "change": "TransactionMeta v0 and v1 classified never_in_ledger (no LedgerCloseMeta carries them; the public archive's ledgers of every protocol carry v4). Closed-ledger denominator 465 to 463; no cell was covered.",
+   "change": "TransactionMeta v0 and v1 were classified never_in_ledger (465 to 463), then the same day moved to older_core: a meta version belongs to the stellar-core that wrote the meta, not to the ledger, so they stay in the closed-ledger denominator, back at 465.",
    "date": "2026-11-17"
   }
  ],
