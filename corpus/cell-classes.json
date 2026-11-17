@@ -32,14 +32,6 @@
    "class": "never_in_ledger",
    "why": "Set only in ChangeTrust:doCheckValid, which depends on the operation and the protocol version alone. stellar-core runs it when it admits a transaction and when it validates a transaction set, so a transaction that fails it never reaches a ledger."
   },
-  "arm:ChangeTrustResult.CHANGE_TRUST_SELF_NOT_ALLOWED": {
-   "class": "before_protocol",
-   "why": "Set in ChangeTrustOpFrame::doApply, but from protocol 16 ChangeTrustOpFrame::doCheckValid rejects a line issued by the source as CHANGE_TRUST_MALFORMED first, so only protocols before 16 have it."
-  },
-  "arm:ClaimAtom.CLAIM_ATOM_TYPE_V0": {
-   "class": "before_protocol",
-   "why": "Offers claimed before protocol 18 were reported as ClaimOfferAtomV0; from 18 they are ClaimOfferAtom (order book) or ClaimLiquidityAtom."
-  },
   "arm:ClawbackResult.CLAWBACK_MALFORMED": {
    "class": "never_in_ledger",
    "why": "Set only in Clawback:doCheckValid, which depends on the operation and the protocol version alone. stellar-core runs it when it admits a transaction and when it validates a transaction set, so a transaction that fails it never reaches a ledger."
@@ -63,14 +55,6 @@
   "arm:ExtendFootprintTTLResult.EXTEND_FOOTPRINT_TTL_MALFORMED": {
    "class": "never_in_ledger",
    "why": "Set only in ExtendFootprintTTL:doCheckValidForSoroban, which depends on the operation and the protocol version alone. stellar-core runs it when it admits a transaction and when it validates a transaction set, so a transaction that fails it never reaches a ledger."
-  },
-  "arm:InflationResult.INFLATION_NOT_TIME": {
-   "class": "before_protocol",
-   "why": "Inflation ran until protocol 12 (CAP-0026); since then the operation is not supported."
-  },
-  "arm:InflationResult.INFLATION_SUCCESS": {
-   "class": "before_protocol",
-   "why": "Inflation ran until protocol 12 (CAP-0026); since then the operation is not supported."
   },
   "arm:InnerTransactionResultResult.txFROZEN_KEY_ACCESSED": {
    "class": "never_in_ledger",
@@ -160,10 +144,6 @@
    "class": "before_protocol",
    "why": "Set only when the ledger version is before 13 (issuer existence checks, PaymentOpFrame, PathPaymentOpFrameBase::checkIssuer, ManageOfferOpFrameBase::checkOfferValid). The public archive's earlier ledgers have it."
   },
-  "arm:OperationBody.INFLATION": {
-   "class": "before_protocol",
-   "why": "Inflation ran until protocol 12 (CAP-0026); since then the operation is not supported."
-  },
   "arm:OperationResult.opNOT_SUPPORTED": {
    "class": "never_in_ledger",
    "why": "Set only in OperationFrame::checkValid (OperationFrame.cpp:308) when isOpSupported(header) is false, which depends on the operation type, the protocol version and the header's flags alone. stellar-core runs it when it admits a transaction, when it validates a transaction set (with the close time of the value being voted on) and again when the transaction applies (TransactionFrame::apply calls commonValid with the same close time and zero offsets); the header, the base fee and the Soroban network configuration cannot change in between, because upgrades apply after a ledger's transactions. A transaction that fails it never reaches a ledger."
@@ -175,10 +155,6 @@
   "arm:OperationResultTr.CREATE_PASSIVE_SELL_OFFER": {
    "class": "never_in_ledger",
    "why": "stellar-core applies a CreatePassiveSellOffer as a ManageSellOffer: the frame rewrites the operation (CreatePassiveSellOfferOpFrame.cpp:13), and results are typed from the frame's operation (MutableTransactionResult.cpp:33), so the result arm is MANAGE_SELL_OFFER. Corpus entry localcore-op-failures-8 holds a passive offer whose result is a MANAGE_SELL_OFFER result."
-  },
-  "arm:OperationResultTr.INFLATION": {
-   "class": "before_protocol",
-   "why": "Inflation ran until protocol 12 (CAP-0026); since then the operation is not supported."
   },
   "arm:PathPaymentStrictReceiveResult.PATH_PAYMENT_STRICT_RECEIVE_MALFORMED": {
    "class": "never_in_ledger",
@@ -199,10 +175,6 @@
   "arm:PaymentResult.PAYMENT_MALFORMED": {
    "class": "never_in_ledger",
    "why": "Set only in Payment:doCheckValid, which depends on the operation and the protocol version alone. stellar-core runs it when it admits a transaction and when it validates a transaction set, so a transaction that fails it never reaches a ledger."
-  },
-  "arm:PaymentResult.PAYMENT_NO_ISSUER": {
-   "class": "before_protocol",
-   "why": "Set only when the ledger version is before 13 (issuer existence checks, PaymentOpFrame, PathPaymentOpFrameBase::checkIssuer, ManageOfferOpFrameBase::checkOfferValid). The public archive's earlier ledgers have it."
   },
   "arm:RestoreFootprintResult.RESTORE_FOOTPRINT_MALFORMED": {
    "class": "never_in_ledger",
@@ -267,10 +239,6 @@
   "arm:SetTrustLineFlagsResult.SET_TRUST_LINE_FLAGS_MALFORMED": {
    "class": "never_in_ledger",
    "why": "Set only in SetTrustLineFlags:doCheckValid, which depends on the operation and the protocol version alone. stellar-core runs it when it admits a transaction and when it validates a transaction set, so a transaction that fails it never reaches a ledger."
-  },
-  "arm:StellarValueExt.STELLAR_VALUE_BASIC": {
-   "class": "before_protocol",
-   "why": "Today's stellar-core builds only signed values (HerderImpl::makeStellarValue) and refuses an unsigned one (PendingEnvelopes.cpp:344, \"Unsigned values are not permitted\"); the public archive's early ledgers have it (pubnet ledger 1000000, protocol 1, and 20000000, protocol 10)."
   },
   "arm:StellarValueExt.STELLAR_VALUE_EMPTY_TX_SET": {
    "class": "consensus",
@@ -426,7 +394,7 @@
   }
  },
  "classes": {
-  "before_protocol": "Only in ledgers of an earlier protocol than the corpus samples (its network and local ledgers are protocol 20 to 30); addable by mining the public archive's early ledgers.",
+  "before_protocol": "Only in ledgers of a protocol before 20 that the corpus does not sample (its four early pubnet ledgers, protocols 8 to 11, carry the cells of this kind it was mined for); addable by mining the public archive's early ledgers.",
   "config_upgrade": "Only in a ledger that applies a Soroban configuration upgrade.",
   "consensus": "Only in meta from a node that records consensus messages, or in a value a validator builds only under a consensus option (an empty transaction set voted before download).",
   "contract": "Only from a contract written to produce it.",

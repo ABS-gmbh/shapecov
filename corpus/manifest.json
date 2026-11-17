@@ -19207,6 +19207,582 @@
     "core_golden": "not_applicable"
    },
    "sightings": []
+  },
+  {
+   "id": "pubnet-13000471",
+   "title": "Pubnet ledger 13000471, protocol 8: an inflation operation that fails (INFLATION_NOT_TIME), an offer claimed as ClaimOfferAtomV0, an unsigned StellarValue",
+   "xdr_type": "LedgerCloseMeta",
+   "file": "entries/pubnet-13000471.LedgerCloseMeta.xdr.b64",
+   "sha256": "0856ed27200db33072d2f9699adc8f90a656526327e529091a887ef754263298",
+   "size_bytes": 4360,
+   "protocol_version": 8,
+   "caps": [],
+   "synthetic": false,
+   "source": {
+    "kind": "network_ledger",
+    "network": "pubnet",
+    "network_passphrase": "Public Global Stellar Network ; September 2015",
+    "ledger_seq": 13000471,
+    "ledger_hash": "874fde26f044bc70bc22f59fb624bb0a1656f4c0ea122d4b1e08c44424683920",
+    "close_time": 1503140412,
+    "retrieved_from": "https://aws-public-blockchain.s3.us-east-2.amazonaws.com/v1.1/stellar/ledgers/pubnet/FF39C1FF--12992000-13055999/FF39A0E8--13000471.xdr.zst",
+    "retrieved_on": "2026-11-17"
+   },
+   "shape": "A protocol 8 ledger from 2017. One transaction runs the Inflation operation before the week is up and fails with INFLATION_NOT_TIME (the Inflation operation and its result arm exist until protocol 12, CAP-0026). An offer crossed in it is reported as CLAIM_ATOM_TYPE_V0, the ClaimAtom form before protocol 18. Its header's StellarValue is STELLAR_VALUE_BASIC, the unsigned form today's stellar-core refuses. Its transaction metadata is TransactionMeta v4: the public archive regenerated the ledger with current stellar-core, with the asset events BACKFILL_STELLAR_ASSET_EVENTS adds. Replayed like every other entry.",
+   "patterns": {
+    "failed-transaction": "v0.txProcessing[0].result.result.result",
+    "scval-wide-integer": "v0.txProcessing[0].txApplyProcessing.v4.events[0].event.body.v0.data"
+   },
+   "designated": {
+    "patterns": [],
+    "cells": [
+     "arm:ClaimAtom.CLAIM_ATOM_TYPE_V0",
+     "arm:InflationResult.INFLATION_NOT_TIME",
+     "arm:OperationBody.INFLATION",
+     "arm:OperationResultTr.INFLATION",
+     "arm:StellarValueExt.STELLAR_VALUE_BASIC"
+    ]
+   },
+   "cells": [
+    "arm:AccountEntryExt.0",
+    "arm:Asset.ASSET_TYPE_CREDIT_ALPHANUM4",
+    "arm:Asset.ASSET_TYPE_NATIVE",
+    "arm:ClaimAtom.CLAIM_ATOM_TYPE_V0",
+    "arm:ContractEventBody.0",
+    "arm:ExtensionPoint.0",
+    "arm:InflationResult.INFLATION_NOT_TIME",
+    "arm:LedgerCloseMeta.0",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_REMOVED",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_STATE",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_UPDATED",
+    "arm:LedgerEntryData.ACCOUNT",
+    "arm:LedgerEntryData.OFFER",
+    "arm:LedgerEntryData.TRUSTLINE",
+    "arm:LedgerEntryExt.0",
+    "arm:LedgerHeaderExt.0",
+    "arm:LedgerHeaderHistoryEntryExt.0",
+    "arm:LedgerKey.OFFER",
+    "arm:ManageOfferSuccessResultOffer.MANAGE_OFFER_DELETED",
+    "arm:ManageSellOfferResult.MANAGE_SELL_OFFER_SUCCESS",
+    "arm:Memo.MEMO_NONE",
+    "arm:OfferEntryExt.0",
+    "arm:OperationBody.INFLATION",
+    "arm:OperationBody.MANAGE_SELL_OFFER",
+    "arm:OperationResult.opINNER",
+    "arm:OperationResultTr.INFLATION",
+    "arm:OperationResultTr.MANAGE_SELL_OFFER",
+    "arm:PublicKey.PUBLIC_KEY_TYPE_ED25519",
+    "arm:SCAddress.SC_ADDRESS_TYPE_ACCOUNT",
+    "arm:SCVal.SCV_ADDRESS",
+    "arm:SCVal.SCV_I128",
+    "arm:SCVal.SCV_STRING",
+    "arm:SCVal.SCV_SYMBOL",
+    "arm:StellarValueExt.STELLAR_VALUE_BASIC",
+    "arm:TransactionEnvelope.ENVELOPE_TYPE_TX_V0",
+    "arm:TransactionMeta.4",
+    "arm:TransactionResultExt.0",
+    "arm:TransactionResultResult.txFAILED",
+    "arm:TransactionResultResult.txSUCCESS",
+    "arm:TransactionV0Ext.0",
+    "arm:TrustLineAsset.ASSET_TYPE_CREDIT_ALPHANUM4",
+    "arm:TrustLineEntryExt.0",
+    "enum:ContractEventType.CONTRACT",
+    "enum:TransactionEventStage.TRANSACTION_EVENT_STAGE_BEFORE_ALL_TXS"
+   ],
+   "cells_new_in_protocol": [],
+   "expected": {
+    "decoded": [
+     {
+      "path": "v",
+      "value": 0
+     },
+     {
+      "path": "v0.ledgerHeader.header.ledgerSeq",
+      "value": 13000471
+     },
+     {
+      "path": "v0.ledgerHeader.header.ledgerVersion",
+      "value": 8
+     },
+     {
+      "path": "v0.ledgerHeader.hash",
+      "value": "874fde26f044bc70bc22f59fb624bb0a1656f4c0ea122d4b1e08c44424683920"
+     },
+     {
+      "path": "v0.ledgerHeader.header.scpValue.closeTime",
+      "value": 1503140412
+     },
+     {
+      "path": "v0.txProcessing[0].result.result.result.code",
+      "value": "txFAILED",
+      "note": "pattern failed-transaction"
+     },
+     {
+      "path": "v0.txProcessing[0].txApplyProcessing.v4.events[0].event.body.v0.data.type",
+      "value": "SCV_I128",
+      "note": "pattern scval-wide-integer"
+     },
+     {
+      "path": "v0.txProcessing[2].result.result.result.results[0].tr.manageSellOfferResult.success.offersClaimed[0].type",
+      "value": "CLAIM_ATOM_TYPE_V0",
+      "note": "cell arm:ClaimAtom.CLAIM_ATOM_TYPE_V0"
+     },
+     {
+      "path": "v0.txProcessing[0].result.result.result.results[0].tr.inflationResult.code",
+      "value": "INFLATION_NOT_TIME",
+      "note": "cell arm:InflationResult.INFLATION_NOT_TIME"
+     },
+     {
+      "path": "v0.txSet.txs[0].v0.tx.operations[0].body.type",
+      "value": "INFLATION",
+      "note": "cell arm:OperationBody.INFLATION"
+     },
+     {
+      "path": "v0.txProcessing[0].result.result.result.results[0].tr.type",
+      "value": "INFLATION",
+      "note": "cell arm:OperationResultTr.INFLATION"
+     },
+     {
+      "path": "v0.ledgerHeader.header.scpValue.ext.v",
+      "value": "STELLAR_VALUE_BASIC",
+      "note": "cell arm:StellarValueExt.STELLAR_VALUE_BASIC"
+     }
+    ]
+   },
+   "validation": {
+    "independent_decoder": "not_run",
+    "rs_stellar_xdr_roundtrip": "not_run",
+    "stellar_core": {
+     "version": "30.0.0",
+     "command": "",
+     "result": "not_run"
+    },
+    "core_golden": "not_applicable"
+   },
+   "sightings": []
+  },
+  {
+   "id": "pubnet-25001869",
+   "title": "Pubnet ledger 25001869, protocol 11: a payment whose asset issuer does not exist (PAYMENT_NO_ISSUER)",
+   "xdr_type": "LedgerCloseMeta",
+   "file": "entries/pubnet-25001869.LedgerCloseMeta.xdr.b64",
+   "sha256": "2935b32f58d09938f8a9d5cc458e130c91a33fcde6602a9fb9a5fd8a5033aa31",
+   "size_bytes": 28384,
+   "protocol_version": 11,
+   "caps": [],
+   "synthetic": false,
+   "source": {
+    "kind": "network_ledger",
+    "network": "pubnet",
+    "network_passphrase": "Public Global Stellar Network ; September 2015",
+    "ledger_seq": 25001869,
+    "ledger_hash": "be3354cb03af04f16ad2f9dd4f9dad9e610a1e1a3a085d5d11a7327ab4764741",
+    "close_time": 1564048491,
+    "retrieved_from": "https://aws-public-blockchain.s3.us-east-2.amazonaws.com/v1.1/stellar/ledgers/pubnet/FE8323FF--24960000-25023999/FE828072--25001869.xdr.zst",
+    "retrieved_on": "2026-11-17"
+   },
+   "shape": "A protocol 11 ledger from 2019 with a payment that fails with PAYMENT_NO_ISSUER: before protocol 13 a payment checked that the asset's issuer account exists. Its transaction metadata is TransactionMeta v4: the public archive regenerated the ledger with current stellar-core, with the asset events BACKFILL_STELLAR_ASSET_EVENTS adds. Replayed like every other entry.",
+   "patterns": {
+    "failed-transaction": "v0.txProcessing[4].result.result.result",
+    "scval-wide-integer": "v0.txProcessing[0].txApplyProcessing.v4.events[0].event.body.v0.data"
+   },
+   "designated": {
+    "patterns": [],
+    "cells": [
+     "arm:PaymentResult.PAYMENT_NO_ISSUER"
+    ]
+   },
+   "cells": [
+    "arm:AccountEntryExt.0",
+    "arm:AccountEntryExt.1",
+    "arm:AccountEntryExtensionV1Ext.0",
+    "arm:Asset.ASSET_TYPE_CREDIT_ALPHANUM4",
+    "arm:Asset.ASSET_TYPE_NATIVE",
+    "arm:ContractEventBody.0",
+    "arm:CreateAccountResult.CREATE_ACCOUNT_SUCCESS",
+    "arm:ExtensionPoint.0",
+    "arm:LedgerCloseMeta.0",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_CREATED",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_REMOVED",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_STATE",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_UPDATED",
+    "arm:LedgerEntryData.ACCOUNT",
+    "arm:LedgerEntryData.OFFER",
+    "arm:LedgerEntryData.TRUSTLINE",
+    "arm:LedgerEntryExt.0",
+    "arm:LedgerHeaderExt.0",
+    "arm:LedgerHeaderHistoryEntryExt.0",
+    "arm:LedgerKey.OFFER",
+    "arm:ManageOfferSuccessResultOffer.MANAGE_OFFER_CREATED",
+    "arm:ManageOfferSuccessResultOffer.MANAGE_OFFER_DELETED",
+    "arm:ManageOfferSuccessResultOffer.MANAGE_OFFER_UPDATED",
+    "arm:ManageSellOfferResult.MANAGE_SELL_OFFER_LOW_RESERVE",
+    "arm:ManageSellOfferResult.MANAGE_SELL_OFFER_SUCCESS",
+    "arm:Memo.MEMO_NONE",
+    "arm:Memo.MEMO_TEXT",
+    "arm:MuxedAccount.KEY_TYPE_ED25519",
+    "arm:OfferEntryExt.0",
+    "arm:OperationBody.CREATE_ACCOUNT",
+    "arm:OperationBody.MANAGE_SELL_OFFER",
+    "arm:OperationBody.PATH_PAYMENT_STRICT_RECEIVE",
+    "arm:OperationBody.PAYMENT",
+    "arm:OperationResult.opINNER",
+    "arm:OperationResultTr.CREATE_ACCOUNT",
+    "arm:OperationResultTr.MANAGE_SELL_OFFER",
+    "arm:OperationResultTr.PATH_PAYMENT_STRICT_RECEIVE",
+    "arm:OperationResultTr.PAYMENT",
+    "arm:PathPaymentStrictReceiveResult.PATH_PAYMENT_STRICT_RECEIVE_OVER_SENDMAX",
+    "arm:PathPaymentStrictReceiveResult.PATH_PAYMENT_STRICT_RECEIVE_TOO_FEW_OFFERS",
+    "arm:PaymentResult.PAYMENT_NO_ISSUER",
+    "arm:PaymentResult.PAYMENT_SUCCESS",
+    "arm:PublicKey.PUBLIC_KEY_TYPE_ED25519",
+    "arm:SCAddress.SC_ADDRESS_TYPE_ACCOUNT",
+    "arm:SCVal.SCV_ADDRESS",
+    "arm:SCVal.SCV_I128",
+    "arm:SCVal.SCV_MAP",
+    "arm:SCVal.SCV_STRING",
+    "arm:SCVal.SCV_SYMBOL",
+    "arm:StellarValueExt.STELLAR_VALUE_BASIC",
+    "arm:TransactionEnvelope.ENVELOPE_TYPE_TX_V0",
+    "arm:TransactionMeta.4",
+    "arm:TransactionResultExt.0",
+    "arm:TransactionResultResult.txFAILED",
+    "arm:TransactionResultResult.txSUCCESS",
+    "arm:TransactionV0Ext.0",
+    "arm:TrustLineAsset.ASSET_TYPE_CREDIT_ALPHANUM4",
+    "arm:TrustLineEntryExt.0",
+    "arm:TrustLineEntryExt.1",
+    "arm:TrustLineEntryV1Ext.0",
+    "enum:ContractEventType.CONTRACT",
+    "enum:TransactionEventStage.TRANSACTION_EVENT_STAGE_BEFORE_ALL_TXS"
+   ],
+   "cells_new_in_protocol": [],
+   "expected": {
+    "decoded": [
+     {
+      "path": "v",
+      "value": 0
+     },
+     {
+      "path": "v0.ledgerHeader.header.ledgerSeq",
+      "value": 25001869
+     },
+     {
+      "path": "v0.ledgerHeader.header.ledgerVersion",
+      "value": 11
+     },
+     {
+      "path": "v0.ledgerHeader.hash",
+      "value": "be3354cb03af04f16ad2f9dd4f9dad9e610a1e1a3a085d5d11a7327ab4764741"
+     },
+     {
+      "path": "v0.ledgerHeader.header.scpValue.closeTime",
+      "value": 1564048491
+     },
+     {
+      "path": "v0.txProcessing[13].result.result.result.results[0].tr.paymentResult.code",
+      "value": "PAYMENT_NO_ISSUER",
+      "note": "cell arm:PaymentResult.PAYMENT_NO_ISSUER"
+     }
+    ]
+   },
+   "validation": {
+    "independent_decoder": "not_run",
+    "rs_stellar_xdr_roundtrip": "not_run",
+    "stellar_core": {
+     "version": "30.0.0",
+     "command": "",
+     "result": "not_run"
+    },
+    "core_golden": "not_applicable"
+   },
+   "sightings": []
+  },
+  {
+   "id": "pubnet-25001526",
+   "title": "Pubnet ledger 25001526, protocol 11: a trustline to the source's own asset (CHANGE_TRUST_SELF_NOT_ALLOWED)",
+   "xdr_type": "LedgerCloseMeta",
+   "file": "entries/pubnet-25001526.LedgerCloseMeta.xdr.b64",
+   "sha256": "218ac55e7a0bcb45f77253f219c53a5b36210b298de1260f41dc1753332c6aee",
+   "size_bytes": 40784,
+   "protocol_version": 11,
+   "caps": [],
+   "synthetic": false,
+   "source": {
+    "kind": "network_ledger",
+    "network": "pubnet",
+    "network_passphrase": "Public Global Stellar Network ; September 2015",
+    "ledger_seq": 25001526,
+    "ledger_hash": "8b66460e6c8038b2f6a5f462159605361a625db75e75d5762be151047e7fe22e",
+    "close_time": 1564046621,
+    "retrieved_from": "https://aws-public-blockchain.s3.us-east-2.amazonaws.com/v1.1/stellar/ledgers/pubnet/FE8323FF--24960000-25023999/FE8281C9--25001526.xdr.zst",
+    "retrieved_on": "2026-11-17"
+   },
+   "shape": "A protocol 11 ledger from 2019 with a ChangeTrust whose asset the source issues, which fails at apply with CHANGE_TRUST_SELF_NOT_ALLOWED; from protocol 16 doCheckValid refuses it as CHANGE_TRUST_MALFORMED before the ledger. Its transaction metadata is TransactionMeta v4: the public archive regenerated the ledger with current stellar-core, with the asset events BACKFILL_STELLAR_ASSET_EVENTS adds. Replayed like every other entry.",
+   "patterns": {
+    "failed-transaction": "v0.txProcessing[6].result.result.result",
+    "scval-wide-integer": "v0.txProcessing[0].txApplyProcessing.v4.events[0].event.body.v0.data"
+   },
+   "designated": {
+    "patterns": [],
+    "cells": [
+     "arm:ChangeTrustResult.CHANGE_TRUST_SELF_NOT_ALLOWED"
+    ]
+   },
+   "cells": [
+    "arm:AccountEntryExt.0",
+    "arm:AccountEntryExt.1",
+    "arm:AccountEntryExtensionV1Ext.0",
+    "arm:Asset.ASSET_TYPE_CREDIT_ALPHANUM12",
+    "arm:Asset.ASSET_TYPE_CREDIT_ALPHANUM4",
+    "arm:Asset.ASSET_TYPE_NATIVE",
+    "arm:ChangeTrustAsset.ASSET_TYPE_CREDIT_ALPHANUM4",
+    "arm:ChangeTrustResult.CHANGE_TRUST_SELF_NOT_ALLOWED",
+    "arm:ChangeTrustResult.CHANGE_TRUST_SUCCESS",
+    "arm:ClaimAtom.CLAIM_ATOM_TYPE_V0",
+    "arm:ContractEventBody.0",
+    "arm:ExtensionPoint.0",
+    "arm:LedgerCloseMeta.0",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_CREATED",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_REMOVED",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_STATE",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_UPDATED",
+    "arm:LedgerEntryData.ACCOUNT",
+    "arm:LedgerEntryData.OFFER",
+    "arm:LedgerEntryData.TRUSTLINE",
+    "arm:LedgerEntryExt.0",
+    "arm:LedgerHeaderExt.0",
+    "arm:LedgerHeaderHistoryEntryExt.0",
+    "arm:LedgerKey.OFFER",
+    "arm:ManageOfferSuccessResultOffer.MANAGE_OFFER_DELETED",
+    "arm:ManageOfferSuccessResultOffer.MANAGE_OFFER_UPDATED",
+    "arm:ManageSellOfferResult.MANAGE_SELL_OFFER_SUCCESS",
+    "arm:Memo.MEMO_NONE",
+    "arm:Memo.MEMO_TEXT",
+    "arm:MuxedAccount.KEY_TYPE_ED25519",
+    "arm:OfferEntryExt.0",
+    "arm:OperationBody.CHANGE_TRUST",
+    "arm:OperationBody.MANAGE_SELL_OFFER",
+    "arm:OperationBody.PATH_PAYMENT_STRICT_RECEIVE",
+    "arm:OperationBody.PAYMENT",
+    "arm:OperationResult.opINNER",
+    "arm:OperationResultTr.CHANGE_TRUST",
+    "arm:OperationResultTr.MANAGE_SELL_OFFER",
+    "arm:OperationResultTr.PATH_PAYMENT_STRICT_RECEIVE",
+    "arm:OperationResultTr.PAYMENT",
+    "arm:PathPaymentStrictReceiveResult.PATH_PAYMENT_STRICT_RECEIVE_OVER_SENDMAX",
+    "arm:PathPaymentStrictReceiveResult.PATH_PAYMENT_STRICT_RECEIVE_TOO_FEW_OFFERS",
+    "arm:PaymentResult.PAYMENT_SUCCESS",
+    "arm:PublicKey.PUBLIC_KEY_TYPE_ED25519",
+    "arm:SCAddress.SC_ADDRESS_TYPE_ACCOUNT",
+    "arm:SCVal.SCV_ADDRESS",
+    "arm:SCVal.SCV_I128",
+    "arm:SCVal.SCV_MAP",
+    "arm:SCVal.SCV_STRING",
+    "arm:SCVal.SCV_SYMBOL",
+    "arm:StellarValueExt.STELLAR_VALUE_BASIC",
+    "arm:TransactionEnvelope.ENVELOPE_TYPE_TX_V0",
+    "arm:TransactionMeta.4",
+    "arm:TransactionResultExt.0",
+    "arm:TransactionResultResult.txFAILED",
+    "arm:TransactionResultResult.txSUCCESS",
+    "arm:TransactionV0Ext.0",
+    "arm:TrustLineAsset.ASSET_TYPE_CREDIT_ALPHANUM12",
+    "arm:TrustLineAsset.ASSET_TYPE_CREDIT_ALPHANUM4",
+    "arm:TrustLineEntryExt.0",
+    "arm:TrustLineEntryExt.1",
+    "arm:TrustLineEntryV1Ext.0",
+    "enum:ContractEventType.CONTRACT",
+    "enum:TransactionEventStage.TRANSACTION_EVENT_STAGE_BEFORE_ALL_TXS"
+   ],
+   "cells_new_in_protocol": [],
+   "expected": {
+    "decoded": [
+     {
+      "path": "v",
+      "value": 0
+     },
+     {
+      "path": "v0.ledgerHeader.header.ledgerSeq",
+      "value": 25001526
+     },
+     {
+      "path": "v0.ledgerHeader.header.ledgerVersion",
+      "value": 11
+     },
+     {
+      "path": "v0.ledgerHeader.hash",
+      "value": "8b66460e6c8038b2f6a5f462159605361a625db75e75d5762be151047e7fe22e"
+     },
+     {
+      "path": "v0.ledgerHeader.header.scpValue.closeTime",
+      "value": 1564046621
+     },
+     {
+      "path": "v0.txProcessing[18].result.result.result.results[0].tr.changeTrustResult.code",
+      "value": "CHANGE_TRUST_SELF_NOT_ALLOWED",
+      "note": "cell arm:ChangeTrustResult.CHANGE_TRUST_SELF_NOT_ALLOWED"
+     }
+    ]
+   },
+   "validation": {
+    "independent_decoder": "not_run",
+    "rs_stellar_xdr_roundtrip": "not_run",
+    "stellar_core": {
+     "version": "30.0.0",
+     "command": "",
+     "result": "not_run"
+    },
+    "core_golden": "not_applicable"
+   },
+   "sightings": []
+  },
+  {
+   "id": "pubnet-21069349",
+   "title": "Pubnet ledger 21069349, protocol 10: the weekly inflation run (INFLATION_SUCCESS)",
+   "xdr_type": "LedgerCloseMeta",
+   "file": "entries/pubnet-21069349.LedgerCloseMeta.xdr.b64",
+   "sha256": "aa188d97c16a4c691d335e12be66458072ddafcc1c29273302d2e2085b0b3572",
+   "size_bytes": 52172,
+   "protocol_version": 10,
+   "caps": [],
+   "synthetic": false,
+   "source": {
+    "kind": "network_ledger",
+    "network": "pubnet",
+    "network_passphrase": "Public Global Stellar Network ; September 2015",
+    "ledger_seq": 21069349,
+    "ledger_hash": "580a2c2aca0dfe9b43360d40f2b545204b8f627cf7986cdaa1690c49a9afbfd4",
+    "close_time": 1542672004,
+    "retrieved_from": "https://aws-public-blockchain.s3.us-east-2.amazonaws.com/v1.1/stellar/ledgers/pubnet/FEBEB5FF--21056000-21119999/FEBE81DA--21069349.xdr.zst",
+    "retrieved_on": "2026-11-17"
+   },
+   "shape": "A protocol 10 ledger from 2018 in which inflation ran: its header's inflationSeq goes from 229 to 230, and the Inflation operation that triggered it succeeds with INFLATION_SUCCESS and its list of payouts. Its transaction metadata is TransactionMeta v4: the public archive regenerated the ledger with current stellar-core, with the asset events BACKFILL_STELLAR_ASSET_EVENTS adds. Replayed like every other entry.",
+   "patterns": {
+    "failed-transaction": "v0.txProcessing[0].result.result.result",
+    "scval-wide-integer": "v0.txProcessing[0].txApplyProcessing.v4.events[0].event.body.v0.data"
+   },
+   "designated": {
+    "patterns": [],
+    "cells": [
+     "arm:InflationResult.INFLATION_SUCCESS"
+    ]
+   },
+   "cells": [
+    "arm:AccountEntryExt.0",
+    "arm:AccountEntryExt.1",
+    "arm:AccountEntryExtensionV1Ext.0",
+    "arm:Asset.ASSET_TYPE_CREDIT_ALPHANUM4",
+    "arm:Asset.ASSET_TYPE_NATIVE",
+    "arm:ChangeTrustAsset.ASSET_TYPE_CREDIT_ALPHANUM4",
+    "arm:ChangeTrustResult.CHANGE_TRUST_SUCCESS",
+    "arm:ClaimAtom.CLAIM_ATOM_TYPE_V0",
+    "arm:ContractEventBody.0",
+    "arm:ExtensionPoint.0",
+    "arm:InflationResult.INFLATION_SUCCESS",
+    "arm:LedgerCloseMeta.0",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_CREATED",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_REMOVED",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_STATE",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_UPDATED",
+    "arm:LedgerEntryData.ACCOUNT",
+    "arm:LedgerEntryData.OFFER",
+    "arm:LedgerEntryData.TRUSTLINE",
+    "arm:LedgerEntryExt.0",
+    "arm:LedgerHeaderExt.0",
+    "arm:LedgerHeaderHistoryEntryExt.0",
+    "arm:LedgerKey.OFFER",
+    "arm:ManageOfferSuccessResultOffer.MANAGE_OFFER_CREATED",
+    "arm:ManageOfferSuccessResultOffer.MANAGE_OFFER_DELETED",
+    "arm:ManageOfferSuccessResultOffer.MANAGE_OFFER_UPDATED",
+    "arm:ManageSellOfferResult.MANAGE_SELL_OFFER_LOW_RESERVE",
+    "arm:ManageSellOfferResult.MANAGE_SELL_OFFER_SUCCESS",
+    "arm:ManageSellOfferResult.MANAGE_SELL_OFFER_UNDERFUNDED",
+    "arm:Memo.MEMO_ID",
+    "arm:Memo.MEMO_NONE",
+    "arm:MuxedAccount.KEY_TYPE_ED25519",
+    "arm:OfferEntryExt.0",
+    "arm:OperationBody.CHANGE_TRUST",
+    "arm:OperationBody.INFLATION",
+    "arm:OperationBody.MANAGE_SELL_OFFER",
+    "arm:OperationBody.PATH_PAYMENT_STRICT_RECEIVE",
+    "arm:OperationBody.PAYMENT",
+    "arm:OperationBody.SET_OPTIONS",
+    "arm:OperationResult.opINNER",
+    "arm:OperationResultTr.CHANGE_TRUST",
+    "arm:OperationResultTr.INFLATION",
+    "arm:OperationResultTr.MANAGE_SELL_OFFER",
+    "arm:OperationResultTr.PATH_PAYMENT_STRICT_RECEIVE",
+    "arm:OperationResultTr.PAYMENT",
+    "arm:OperationResultTr.SET_OPTIONS",
+    "arm:PathPaymentStrictReceiveResult.PATH_PAYMENT_STRICT_RECEIVE_OVER_SENDMAX",
+    "arm:PathPaymentStrictReceiveResult.PATH_PAYMENT_STRICT_RECEIVE_TOO_FEW_OFFERS",
+    "arm:PaymentResult.PAYMENT_SUCCESS",
+    "arm:PublicKey.PUBLIC_KEY_TYPE_ED25519",
+    "arm:SCAddress.SC_ADDRESS_TYPE_ACCOUNT",
+    "arm:SCVal.SCV_ADDRESS",
+    "arm:SCVal.SCV_I128",
+    "arm:SCVal.SCV_MAP",
+    "arm:SCVal.SCV_STRING",
+    "arm:SCVal.SCV_SYMBOL",
+    "arm:SCVal.SCV_U64",
+    "arm:SetOptionsResult.SET_OPTIONS_SUCCESS",
+    "arm:SignerKey.SIGNER_KEY_TYPE_ED25519",
+    "arm:StellarValueExt.STELLAR_VALUE_BASIC",
+    "arm:TransactionEnvelope.ENVELOPE_TYPE_TX_V0",
+    "arm:TransactionMeta.4",
+    "arm:TransactionResultExt.0",
+    "arm:TransactionResultResult.txFAILED",
+    "arm:TransactionResultResult.txSUCCESS",
+    "arm:TransactionV0Ext.0",
+    "arm:TrustLineAsset.ASSET_TYPE_CREDIT_ALPHANUM4",
+    "arm:TrustLineEntryExt.0",
+    "arm:TrustLineEntryExt.1",
+    "arm:TrustLineEntryV1Ext.0",
+    "enum:ContractEventType.CONTRACT",
+    "enum:TransactionEventStage.TRANSACTION_EVENT_STAGE_BEFORE_ALL_TXS"
+   ],
+   "cells_new_in_protocol": [],
+   "expected": {
+    "decoded": [
+     {
+      "path": "v",
+      "value": 0
+     },
+     {
+      "path": "v0.ledgerHeader.header.ledgerSeq",
+      "value": 21069349
+     },
+     {
+      "path": "v0.ledgerHeader.header.ledgerVersion",
+      "value": 10
+     },
+     {
+      "path": "v0.ledgerHeader.hash",
+      "value": "580a2c2aca0dfe9b43360d40f2b545204b8f627cf7986cdaa1690c49a9afbfd4"
+     },
+     {
+      "path": "v0.ledgerHeader.header.scpValue.closeTime",
+      "value": 1542672004
+     },
+     {
+      "path": "v0.txProcessing[22].result.result.result.results[0].tr.inflationResult.code",
+      "value": "INFLATION_SUCCESS",
+      "note": "cell arm:InflationResult.INFLATION_SUCCESS"
+     }
+    ]
+   },
+   "validation": {
+    "independent_decoder": "not_run",
+    "rs_stellar_xdr_roundtrip": "not_run",
+    "stellar_core": {
+     "version": "30.0.0",
+     "command": "",
+     "result": "not_run"
+    },
+    "core_golden": "not_applicable"
+   },
+   "sightings": []
   }
  ]
 }

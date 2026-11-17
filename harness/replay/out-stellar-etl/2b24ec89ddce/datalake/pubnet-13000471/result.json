@@ -1,0 +1,52 @@
+{
+ "entry_id": "pubnet-13000471",
+ "adapter": "stellar-etl",
+ "ref": "2b24ec89ddce7fc0beb7795de982c93e6895eaf3",
+ "commit": "2b24ec89ddce7fc0beb7795de982c93e6895eaf3",
+ "input": "datalake",
+ "protocol_version": 8,
+ "sdk_pin": "v0.8.1-0.20261106081502-e31e3b146d00",
+ "mode": "unmodified",
+ "result": "pass",
+ "mishandled": [],
+ "dropped": [],
+ "checks": [],
+ "expectations": 0,
+ "expectations_source": "none (implicit checks only)",
+ "ledger": {
+  "seq": 13000471,
+  "hash": "874fde26f044bc70bc22f59fb624bb0a1656f4c0ea122d4b1e08c44424683920",
+  "close_time": 1503140412,
+  "protocol": 8
+ },
+ "ingested": true,
+ "row_counts": {
+  "transactions": 3,
+  "operations": 3,
+  "effects": 8,
+  "token_transfer": 5,
+  "contract_events": 5,
+  "trades": 1
+ },
+ "process": {
+  "outcome": "exited",
+  "exit_code": 0
+ },
+ "seconds": 1.4,
+ "feeder_requests": 24,
+ "evidence": "out-stellar-etl/2b24ec89ddce/datalake/pubnet-13000471",
+ "oracle": {
+  "verdict": "known issues only",
+  "rows_expected": 20,
+  "rows_met": 18,
+  "known": {
+   "stellar/stellar-etl#456": 1,
+   "stellar/stellar-etl#452": 1
+  },
+  "unexplained": [],
+  "known_outcome": {
+   "stellar/stellar-etl#456": "mishandled",
+   "stellar/stellar-etl#452": "mishandled"
+  }
+ }
+}

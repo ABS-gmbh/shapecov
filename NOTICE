@@ -63,8 +63,12 @@ corpus/manifest.json and schema/SOURCE; do not edit it by hand.
    guide/stellar-docs/prettierrc.cjs is copied from that repository's prettier configuration, so the
    guide's page is formatted as developers.stellar.org formats its own pages.
 
-4. Stellar network ledger data. 30 corpus entries are ledgers of the public Stellar networks,
+4. Stellar network ledger data. 34 corpus entries are ledgers of the public Stellar networks,
    unmodified, retrieved from Stellar's public ledger archive (https://aws-public-blockchain.s3.us-east-2.amazonaws.com):
+   - corpus/entries/pubnet-13000471.LedgerCloseMeta.xdr.b64: pubnet ledger 13000471
+   - corpus/entries/pubnet-21069349.LedgerCloseMeta.xdr.b64: pubnet ledger 21069349
+   - corpus/entries/pubnet-25001526.LedgerCloseMeta.xdr.b64: pubnet ledger 25001526
+   - corpus/entries/pubnet-25001869.LedgerCloseMeta.xdr.b64: pubnet ledger 25001869
    - corpus/entries/pubnet-59220000.LedgerCloseMeta.xdr.b64: pubnet ledger 59220000
    - corpus/entries/pubnet-60280000.LedgerCloseMeta.xdr.b64: pubnet ledger 60280000
    - corpus/entries/pubnet-61240000.LedgerCloseMeta.xdr.b64: pubnet ledger 61240000

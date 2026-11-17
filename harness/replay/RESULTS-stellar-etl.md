@@ -93,6 +93,10 @@ Only the implicit checks apply: the ledger is ingested without an error and ever
 | `localcore-tx-failures-bumped-13` | 30 | datalake | mishandled: stellar-etl#452 |
 | `localcore-tx-failures-plain-12` | 30 | datalake | mishandled: stellar-etl#452 |
 | `localcore-upgrades-14` | 30 | datalake | pass |
+| `pubnet-13000471` | 8 | datalake | mishandled: stellar-etl#452, stellar-etl#456 |
+| `pubnet-21069349` | 10 | datalake | mishandled: stellar-etl#452, stellar-etl#456 |
+| `pubnet-25001526` | 11 | datalake | mishandled: stellar-etl#450, stellar-etl#452, stellar-etl#456 |
+| `pubnet-25001869` | 11 | datalake | mishandled: stellar-etl#450, stellar-etl#452 |
 | `pubnet-59220000` | 23 | datalake | mishandled: stellar-etl#450, stellar-etl#451, stellar-etl#452, stellar-etl#456 |
 | `pubnet-60280000` | 24 | datalake | mishandled: stellar-etl#450, stellar-etl#452, stellar-etl#456 |
 | `pubnet-61240000` | 25 | datalake | mishandled: stellar-etl#450, stellar-etl#451, stellar-etl#452, stellar-etl#456 |
@@ -128,7 +132,7 @@ Only the implicit checks apply: the ledger is ingested without an error and ever
 
 | Commit | Input | pass | mishandled | dropped | error | not applicable |
 |---|---|---|---|---|---|---|
-| `2b24ec89` | datalake | 9 | 41 | 1 | 0 | 46 |
+| `2b24ec89` | datalake | 9 | 45 | 1 | 0 | 46 |
 
 ## Oracle checks
 
@@ -139,7 +143,7 @@ checked. A failure is labelled with the open upstream issue that explains it
 
 | Commit | Input | Replays | Rows expected | Rows met | Known issues | Unexplained |
 |---|---|---|---|---|---|---|
-| `2b24ec89` | datalake | 51 | 37179 | 32502 | stellar-etl#450 (928), stellar-etl#451 (126), stellar-etl#452 (3380), stellar-etl#456 (225), stellar-etl#457 (1), stellar-etl#460 (5), stellar-etl#462 (3), stellar-etl#512 (2), stellar-etl#513 (1), stellar-etl#514 (2) | 0 |
+| `2b24ec89` | datalake | 55 | 37549 | 32834 | stellar-etl#450 (938), stellar-etl#451 (126), stellar-etl#452 (3405), stellar-etl#456 (228), stellar-etl#457 (1), stellar-etl#460 (5), stellar-etl#462 (3), stellar-etl#512 (2), stellar-etl#513 (1), stellar-etl#514 (2) | 0 |
 
 
 
@@ -176,3 +180,4 @@ checked. A failure is labelled with the open upstream issue that explains it
 | 2026-11-16T17:25:00+00:00 | `2b24ec89` | datalake | 85 | 84.0 | 37004 | 0 | 0 |
 | 2026-11-16T21:55:21+00:00 | `2b24ec89` | datalake | 94 | 97.0 | 37404 | 0 | 0 |
 | 2026-11-16T22:27:38+00:00 | `2b24ec89` | datalake | 97 | 247.1 | 37352 | 0 | 0 |
+| 2026-11-17T10:23:26+00:00 | `2b24ec89` | datalake | 4 | 7.1 | 38244 | 0 | 0 |

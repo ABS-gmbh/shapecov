@@ -1,0 +1,29 @@
+{
+ "job_version": 1,
+ "entry_id": "pubnet-21069349",
+ "ref": "2b24ec89ddce7fc0beb7795de982c93e6895eaf3",
+ "commit": "2b24ec89ddce7fc0beb7795de982c93e6895eaf3",
+ "input": "datalake",
+ "network_passphrase": "Public Global Stellar Network ; September 2015",
+ "ledger": {
+  "seq": 21069349,
+  "hash": "580a2c2aca0dfe9b43360d40f2b545204b8f627cf7986cdaa1690c49a9afbfd4",
+  "close_time": 1542672004,
+  "protocol": 10
+ },
+ "rpc": {
+  "url": "http://shapecov-early2-feeder:8000/rpc/pubnet-21069349"
+ },
+ "datalake": {
+  "s3_endpoint": "http://shapecov-early2-feeder:9000",
+  "bucket_path": "shapecov-lake/pubnet-21069349",
+  "region": "us-east-1"
+ },
+ "history_archive": {
+  "url": "http://shapecov-early2-feeder:8000/archive/pubnet-21069349"
+ },
+ "protocols": [],
+ "docker_network": "shapecov-early2-net",
+ "timeout_seconds": 90,
+ "work_dir": "$REPLAY_WORK"
+}

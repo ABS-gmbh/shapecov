@@ -1,12 +1,12 @@
 # Corpus
 
-112 entries, each one XDR value with a manifest record: 109 real ledgers (LedgerCloseMeta) and 3
+116 entries, each one XDR value with a manifest record: 113 real ledgers (LedgerCloseMeta) and 3
 generated values. The real ledgers come from three sources:
 
 | Source | Entries | `source.kind` |
 |---|---|---|
 | stellar-core's golden LedgerCloseMeta (`test-lcm-current`, the `--check-lcm` files), byte-identical | 46 | `stellar_core_golden` |
-| testnet (19) and pubnet (11) history, from Stellar's public ledger archive | 30 | `network_ledger` |
+| testnet (19) and pubnet (15) history, from Stellar's public ledger archive: protocols 20 to 30, and four pubnet ledgers of protocols 8 to 11 mined for cells only earlier protocols have (each replays on all three indexers) | 34 | `network_ledger` |
 | a local stellar-core running fixed scenarios (`tools/localcore.py`): 30.0.0, and 22.2.1 for two of the three protocol 22 scenarios; each regenerates identically on the testnet and mainnet passphrases | 33 | `local_stellar_core` |
 | generated from a readable value (`values/`) | 3 | `generated` |
 
@@ -86,7 +86,7 @@ path can be looked up in what stellar-core prints.
    `expected.decoded`.
 
 With `--goldens`, each golden entry is also compared byte for byte with its record in
-stellar-core's `test-lcm-current` files. All checks pass for all 112 entries in CI.
+stellar-core's `test-lcm-current` files. All checks pass for all 116 entries in CI.
 
 ## Adding an entry
 
@@ -147,11 +147,11 @@ results, on every push.
   (`tools/corpus_add.py` derives it from `cap-map.json`), so it is empty on entries that brought
   none new: many stellar-core goldens, and local-core ledgers built for a replay. Per-CAP coverage
   (`CAP-COVERAGE.md`) does not rely on it: it is computed from each entry's cells and patterns.
-- 432 of the 538 reachable cells, those a ledger reader can meet (80.3%), appear in a corpus entry,
-  and 432 of the 463 that can occur in a closed ledger (93.3%) (`COVERAGE.md`: a cell is a union arm or
-  a member of an enum used as a value, in a type `LedgerCloseMeta` reaches). Each of the other 106
+- 440 of the 538 reachable cells, those a ledger reader can meet (81.8%), appear in a corpus entry,
+  and 440 of the 463 that can occur in a closed ledger (95.0%) (`COVERAGE.md`: a cell is a union arm or
+  a member of an enum used as a value, in a type `LedgerCloseMeta` reaches). Each of the other 98
   has a class and a reason in `cell-classes.json`, from stellar-core's source: 75 can never be in a
-  closed ledger, 17 belong to protocols before 20, 7 appear only in consensus messages or under a
+  closed ledger, 9 belong to protocols before 20, 7 appear only in consensus messages or under a
   consensus option, 6 need a contract written to produce them, and 1 is impractical. No failure a
   local stellar-core scenario can produce is missing. Whole ledgers are not generated; they come
   from the three sources above.

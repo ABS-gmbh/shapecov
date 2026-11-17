@@ -129,6 +129,10 @@ Only the implicit checks apply: the ledger is ingested without an error and ever
 | `localcore-tx-failures-bumped-13` | 30 | datalake | pass |
 | `localcore-tx-failures-plain-12` | 30 | datalake | pass |
 | `localcore-upgrades-14` | 30 | datalake | pass |
+| `pubnet-13000471` | 8 | datalake | dropped: stellar-horizon#259 |
+| `pubnet-21069349` | 10 | datalake | dropped: stellar-horizon#259 |
+| `pubnet-25001526` | 11 | datalake | dropped: stellar-horizon#259 |
+| `pubnet-25001869` | 11 | datalake | pass |
 | `pubnet-59220000` | 23 | datalake | dropped: stellar-horizon#259 |
 | `pubnet-60280000` | 24 | datalake | dropped: stellar-horizon#259 |
 | `pubnet-61240000` | 25 | datalake | dropped: stellar-horizon#259 |
@@ -164,7 +168,7 @@ Only the implicit checks apply: the ledger is ingested without an error and ever
 
 | Commit | Input | pass | mishandled | dropped | error |
 |---|---|---|---|---|---|
-| `6f7cff39` | datalake | 81 | 1 | 15 | 0 |
+| `6f7cff39` | datalake | 82 | 1 | 18 | 0 |
 
 ## Oracle checks
 
@@ -175,7 +179,7 @@ checked. A failure is labelled with the open upstream issue that explains it
 
 | Commit | Input | Replays | Rows expected | Rows met | Known issues | Unexplained |
 |---|---|---|---|---|---|---|
-| `6f7cff39` | datalake | 97 | 14136 | 13954 | stellar-etl#513 (1), stellar-etl#514 (2), stellar-horizon#259 (179) | 0 |
+| `6f7cff39` | datalake | 101 | 14303 | 14106 | stellar-etl#513 (1), stellar-etl#514 (2), stellar-horizon#259 (194) | 0 |
 
 
 
@@ -191,3 +195,4 @@ checked. A failure is labelled with the open upstream issue that explains it
 |---|---|---|---|---|---|---|---|
 | 2026-11-16T22:03:09+00:00 | `6f7cff39` | datalake | 95 | 319.1 | 38088 | 0 | 190 |
 | 2026-11-16T22:32:45+00:00 | `6f7cff39` | datalake | 97 | 779.9 | 37080 | 0 | 194 |
+| 2026-11-17T10:23:33+00:00 | `6f7cff39` | datalake | 4 | 10.6 | 37788 | 0 | 8 |

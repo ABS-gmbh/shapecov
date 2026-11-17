@@ -10,13 +10,13 @@ The number after each piece of evidence is how many corpus entries contain it.
 |---|---|---|---|---|---|
 | CAP-0001 | 10 | Bump Sequence | covered | `arm:OperationBody.BUMP_SEQUENCE` (5) | — |
 | CAP-0002 | 10 | Transaction level signature verification | no shape | Changes when signatures are checked; no new XDR. Readers see only the existing result codes. | — |
-| CAP-0003 | 10 | Asset-backed offers | covered | `arm:AccountEntryExt.1` (104); `arm:TrustLineEntryExt.1` (29) | — |
+| CAP-0003 | 10 | Asset-backed offers | covered | `arm:AccountEntryExt.1` (107); `arm:TrustLineEntryExt.1` (32) | — |
 | CAP-0004 | 10 | Improved Rounding for Cross Offer | no shape | Changes how crossed-offer amounts are rounded; no new XDR. The amounts themselves are checked by the replay oracle's balance check. | — |
 | CAP-0005 | 11 | Throttling and transaction pricing improvements | no shape | Fee and surge-pricing rules; no new XDR (transaction-set fee components came with CAP-0042). | — |
 | CAP-0006 | 11 | Add ManageBuyOffer Operation | covered | `arm:OperationBody.MANAGE_BUY_OFFER` (16) | — |
 | CAP-0015 | 13 | Fee Bump Transactions | covered | `arm:TransactionEnvelope.ENVELOPE_TYPE_TX_FEE_BUMP` (18) | — |
 | CAP-0018 | 13 | Fine-Grained Control of Authorization | covered | probe `trustline_authorized_to_maintain_liabilities` (1) | — |
-| CAP-0019 | 13 | Future-upgradable TransactionEnvelope type | covered | `arm:TransactionEnvelope.ENVELOPE_TYPE_TX` (105); `arm:TransactionEnvelope.ENVELOPE_TYPE_TX_V0` (1) | — |
+| CAP-0019 | 13 | Future-upgradable TransactionEnvelope type | covered | `arm:TransactionEnvelope.ENVELOPE_TYPE_TX` (105); `arm:TransactionEnvelope.ENVELOPE_TYPE_TX_V0` (5) | — |
 | CAP-0020 | 11 | Bucket Initial Entries | no shape | Bucket-list internals (INITENTRY in history-archive buckets); nothing reaches LedgerCloseMeta or transactions. | — |
 | CAP-0021 | 19 | Generalized transaction preconditions | covered | `arm:Preconditions.PRECOND_V2` (24) | — |
 | CAP-0023 | 14 | Two-Part Payments with ClaimableBalanceEntry | covered | `arm:OperationBody.CREATE_CLAIMABLE_BALANCE` (14); `arm:OperationBody.CLAIM_CLAIMABLE_BALANCE` (9); `arm:LedgerEntryData.CLAIMABLE_BALANCE` (10) | — |
@@ -34,13 +34,13 @@ The number after each piece of evidence is how many corpus entries contain it.
 | CAP-0040 | 19 | Ed25519 Signed Payload Signer for Transaction Signature Disclosure | covered | `arm:SignerKey.SIGNER_KEY_TYPE_ED25519_SIGNED_PAYLOAD` (5); pattern `signed-payload-signer` (4) | — |
 | CAP-0042 | - | Multi-Part Transaction Sets | covered | `arm:GeneralizedTransactionSet.1` (107) | — |
 | CAP-0046 | 20 | Soroban smart contract system overview | covered | `arm:OperationBody.INVOKE_HOST_FUNCTION` (65) | — |
-| CAP-0046-01 | 20 | WebAssembly Smart Contract Runtime Environment | covered | `arm:SCVal.SCV_MAP` (41); pattern `scval-nested-5-deep` (21); pattern `scval-wide-integer` (66) | — |
+| CAP-0046-01 | 20 | WebAssembly Smart Contract Runtime Environment | covered | `arm:SCVal.SCV_MAP` (44); pattern `scval-nested-5-deep` (21); pattern `scval-wide-integer` (70) | — |
 | CAP-0046-02 | 20 | Smart Contract Lifecycle | covered | `arm:HostFunction.HOST_FUNCTION_TYPE_CREATE_CONTRACT` (7); `arm:HostFunction.HOST_FUNCTION_TYPE_UPLOAD_CONTRACT_WASM` (6); `arm:ContractExecutable.CONTRACT_EXECUTABLE_WASM` (35) | — |
 | CAP-0046-03 | 20 | Smart Contract Host Functions | no shape | The host-function set itself; readers see its results only through values, events and ledger entries, covered under CAP-0046-01, -05 and -08. | — |
 | CAP-0046-05 | 20 | Smart Contract Data | covered | `arm:LedgerEntryData.CONTRACT_DATA` (41); `arm:LedgerEntryData.CONTRACT_CODE` (4); `enum:ContractDataDurability.PERSISTENT` (60); `enum:ContractDataDurability.TEMPORARY` (33) | — |
 | CAP-0046-06 | 20 | Smart Contract Standardized Asset | covered | `arm:ContractExecutable.CONTRACT_EXECUTABLE_STELLAR_ASSET` (3); `arm:ContractIDPreimage.CONTRACT_ID_PREIMAGE_FROM_ASSET` (3) | — |
 | CAP-0046-07 | 20 | Fee model in smart contracts | covered | `arm:TransactionExt.1` (68) | — |
-| CAP-0046-08 | 20 | Smart Contract Logging | covered | `enum:ContractEventType.CONTRACT` (65); `enum:ContractEventType.SYSTEM` (2); `enum:ContractEventType.DIAGNOSTIC` (62) | — |
+| CAP-0046-08 | 20 | Smart Contract Logging | covered | `enum:ContractEventType.CONTRACT` (69); `enum:ContractEventType.SYSTEM` (2); `enum:ContractEventType.DIAGNOSTIC` (62) | — |
 | CAP-0046-09 | 20 | Network Configuration Ledger Entries | covered | `arm:LedgerEntryData.CONFIG_SETTING` (3) | — |
 | CAP-0046-10 | 20 | Smart Contract Budget Metering | no shape | Metering inside the host; its parameters are config-setting entries (covered under CAP-0046-09) and its cost types are not serialized. | — |
 | CAP-0046-11 | 20 | Soroban Authorization Framework | covered | `arm:SorobanCredentials.SOROBAN_CREDENTIALS_ADDRESS` (16); pattern `auth-nested-invocations` (29); pattern `auth-tree-4-deep` (4) | — |
@@ -56,7 +56,7 @@ The number after each piece of evidence is how many corpus entries contain it.
 | CAP-0063 | 23 | Parallelism-friendly Transaction Scheduling | covered | `arm:TransactionPhase.1` (100) | — |
 | CAP-0065 | 23 | Reusable Module Cache | no shape | VM-internal caching; no new XDR. | — |
 | CAP-0066 | 23 | Soroban In-memory Read Resource | covered | `arm:SorobanTransactionDataExt.1` (1) | — |
-| CAP-0067 | 23 | Unified Asset Events | covered | `arm:TransactionMeta.4` (100); `arm:SCAddress.SC_ADDRESS_TYPE_MUXED_ACCOUNT` (3); pattern `scaddress-muxed-account` (3) | — |
+| CAP-0067 | 23 | Unified Asset Events | covered | `arm:TransactionMeta.4` (104); `arm:SCAddress.SC_ADDRESS_TYPE_MUXED_ACCOUNT` (3); pattern `scaddress-muxed-account` (3) | — |
 | CAP-0068 | 23 | Host function for getting executable for `Address` | no shape | Host functions only: no new XDR reaches ledger data. Any new cost types extend ContractCostType, which no serialized type references. | — |
 | CAP-0069 | 23 | String/Bytes conversion host functions | no shape | Host functions only: no new XDR reaches ledger data. Any new cost types extend ContractCostType, which no serialized type references. | — |
 | CAP-0070 | 23 | Configurable SCP Timing Parameters | covered | `arm:ConfigSettingEntry.CONFIG_SETTING_SCP_TIMING` (1) | — |
@@ -85,8 +85,8 @@ Each cell a ledger reader can meet (a union arm, or a member of an enum that app
 
 | First tag | Protocol | Arms and members dated | Not cells: discriminant-only enum members | Not reachable | Cells introduced | In the corpus | Not in the corpus, classified | Not yet classified |
 |---|---|---|---|---|---|---|---|---|
-| v19 | 19 or earlier | 552 | 303 | 45 | 204 | 179 | 25 | 0 |
-| v20 | 20 | 462 | 128 | 49 | 285 | 218 | 67 | 0 |
+| v19 | 19 or earlier | 552 | 303 | 45 | 204 | 184 | 20 | 0 |
+| v20 | 20 | 462 | 128 | 49 | 285 | 221 | 64 | 0 |
 | v21.0 | 21 | 29 | 23 | 0 | 6 | 6 | 0 | 0 |
 | v22.0 | 22 | 52 | 31 | 19 | 2 | 2 | 0 | 0 |
 | v23.0 | 23 | 33 | 6 | 7 | 20 | 16 | 4 | 0 |

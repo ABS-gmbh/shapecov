@@ -1,0 +1,166 @@
+{
+ "history_trades": [
+  {
+   "op_id": 55836597777608705,
+   "order": 0,
+   "rounding_slippage": null,
+   "base_liquidity_pool_id": null,
+   "counter_liquidity_pool_id": null
+  }
+ ],
+ "history_transactions": [
+  {
+   "id": 55836597777600512,
+   "transaction_hash": "459e6e900f80874bd37bd1a7e5317f35539b77a036035e3c7a1d118e0046f09d",
+   "application_order": 1,
+   "successful": false,
+   "account": "GDC2XPNEM4YAH22FK2TW7FSVGWQRGZGXLA3DAJLHNJ7YL5L5RSIXXXXX",
+   "fee_account": null,
+   "account_muxed": null,
+   "fee_account_muxed": null,
+   "fee_charged": 100,
+   "operation_count": 1
+  },
+  {
+   "id": 55836597777604608,
+   "transaction_hash": "59b77f00ff2adcbcdfd311d7f256a6bc7f3939027aaf33e2ab5f011914630895",
+   "application_order": 2,
+   "successful": true,
+   "account": "GB7JKG66CJN3ACX5DX43FOZTTSOI7GZUP547I3BSXIJVUX3NRYUXHE6W",
+   "fee_account": null,
+   "account_muxed": null,
+   "fee_account_muxed": null,
+   "fee_charged": 100,
+   "operation_count": 1
+  },
+  {
+   "id": 55836597777608704,
+   "transaction_hash": "fd9e4101ade8e59b451bd6c8a964b8ed93fa5f28bffcfd5efd8af8a86d327c61",
+   "application_order": 3,
+   "successful": true,
+   "account": "GC6APVH2HCFB7QLSTG3U55IYSW7ZRNSCTOZZYZJCNHWX2FONCNJNULYN",
+   "fee_account": null,
+   "account_muxed": null,
+   "fee_account_muxed": null,
+   "fee_charged": 100,
+   "operation_count": 1
+  }
+ ],
+ "history_operations": [
+  {
+   "id": 55836597777600513,
+   "transaction_id": 55836597777600512,
+   "application_order": 1,
+   "type": 9,
+   "source_account": "GDC2XPNEM4YAH22FK2TW7FSVGWQRGZGXLA3DAJLHNJ7YL5L5RSIXXXXX",
+   "source_account_muxed": null,
+   "details": {}
+  },
+  {
+   "id": 55836597777604609,
+   "transaction_id": 55836597777604608,
+   "application_order": 1,
+   "type": 3,
+   "source_account": "GB7JKG66CJN3ACX5DX43FOZTTSOI7GZUP547I3BSXIJVUX3NRYUXHE6W",
+   "source_account_muxed": null,
+   "details": {
+    "price": "0.5322088",
+    "amount": "0.0000000",
+    "price_r": {
+     "d": 1250000,
+     "n": 665261
+    },
+    "offer_id": 91192,
+    "buying_asset_code": "JPY",
+    "buying_asset_type": "credit_alphanum4",
+    "selling_asset_type": "native",
+    "buying_asset_issuer": "GBVAOIACNSB7OVUXJYC5UE2D4YK2F7A24T7EE5YOMN4CE6GCHUTOUQXM"
+   }
+  },
+  {
+   "id": 55836597777608705,
+   "transaction_id": 55836597777608704,
+   "application_order": 1,
+   "type": 3,
+   "source_account": "GC6APVH2HCFB7QLSTG3U55IYSW7ZRNSCTOZZYZJCNHWX2FONCNJNULYN",
+   "source_account_muxed": null,
+   "details": {
+    "price": "0.5339503",
+    "amount": "21336.0001897",
+    "price_r": {
+     "d": 10000000,
+     "n": 5339503
+    },
+    "offer_id": 0,
+    "buying_asset_type": "native",
+    "selling_asset_code": "JPY",
+    "selling_asset_type": "credit_alphanum4",
+    "selling_asset_issuer": "GBVAOIACNSB7OVUXJYC5UE2D4YK2F7A24T7EE5YOMN4CE6GCHUTOUQXM"
+   }
+  }
+ ],
+ "history_effects": [
+  {
+   "op_id": 55836597777608705,
+   "order": 1,
+   "type": 33,
+   "address": "GC6APVH2HCFB7QLSTG3U55IYSW7ZRNSCTOZZYZJCNHWX2FONCNJNULYN",
+   "address_muxed": null,
+   "details": {
+    "seller": "GB7JKG66CJN3ACX5DX43FOZTTSOI7GZUP547I3BSXIJVUX3NRYUXHE6W",
+    "offer_id": 91194,
+    "sold_amount": "21336.0001897",
+    "bought_amount": "11393.5036575",
+    "sold_asset_code": "JPY",
+    "sold_asset_type": "credit_alphanum4",
+    "bought_asset_type": "native",
+    "sold_asset_issuer": "GBVAOIACNSB7OVUXJYC5UE2D4YK2F7A24T7EE5YOMN4CE6GCHUTOUQXM"
+   }
+  },
+  {
+   "op_id": 55836597777608705,
+   "order": 2,
+   "type": 33,
+   "address": "GB7JKG66CJN3ACX5DX43FOZTTSOI7GZUP547I3BSXIJVUX3NRYUXHE6W",
+   "address_muxed": null,
+   "details": {
+    "seller": "GC6APVH2HCFB7QLSTG3U55IYSW7ZRNSCTOZZYZJCNHWX2FONCNJNULYN",
+    "offer_id": 91194,
+    "sold_amount": "11393.5036575",
+    "bought_amount": "21336.0001897",
+    "sold_asset_type": "native",
+    "bought_asset_code": "JPY",
+    "bought_asset_type": "credit_alphanum4",
+    "bought_asset_issuer": "GBVAOIACNSB7OVUXJYC5UE2D4YK2F7A24T7EE5YOMN4CE6GCHUTOUQXM"
+   }
+  }
+ ],
+ "history_transaction_participants": [
+  {
+   "tx_id": 55836597777604608,
+   "address": "GB7JKG66CJN3ACX5DX43FOZTTSOI7GZUP547I3BSXIJVUX3NRYUXHE6W"
+  },
+  {
+   "tx_id": 55836597777608704,
+   "address": "GC6APVH2HCFB7QLSTG3U55IYSW7ZRNSCTOZZYZJCNHWX2FONCNJNULYN"
+  },
+  {
+   "tx_id": 55836597777600512,
+   "address": "GDC2XPNEM4YAH22FK2TW7FSVGWQRGZGXLA3DAJLHNJ7YL5L5RSIXXXXX"
+  }
+ ],
+ "history_operation_participants": [
+  {
+   "op_id": 55836597777604609,
+   "address": "GB7JKG66CJN3ACX5DX43FOZTTSOI7GZUP547I3BSXIJVUX3NRYUXHE6W"
+  },
+  {
+   "op_id": 55836597777608705,
+   "address": "GC6APVH2HCFB7QLSTG3U55IYSW7ZRNSCTOZZYZJCNHWX2FONCNJNULYN"
+  },
+  {
+   "op_id": 55836597777600513,
+   "address": "GDC2XPNEM4YAH22FK2TW7FSVGWQRGZGXLA3DAJLHNJ7YL5L5RSIXXXXX"
+  }
+ ]
+}
