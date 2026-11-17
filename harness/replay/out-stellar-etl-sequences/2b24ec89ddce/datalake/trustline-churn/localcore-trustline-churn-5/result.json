@@ -32,8 +32,9 @@
   "outcome": "exited",
   "exit_code": 0
  },
- "seconds": 4.5,
+ "seconds": 2.3,
  "evidence": "out-stellar-etl-sequences/2b24ec89ddce/datalake/trustline-churn/localcore-trustline-churn-5",
+ "in_sequence": "trustline-churn",
  "oracle": {
   "verdict": "pass",
   "rows_expected": 6,

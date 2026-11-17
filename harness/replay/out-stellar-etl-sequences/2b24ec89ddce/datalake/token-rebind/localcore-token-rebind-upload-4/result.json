@@ -1,0 +1,45 @@
+{
+ "adapter": "stellar-etl",
+ "ref": "2b24ec89ddce7fc0beb7795de982c93e6895eaf3",
+ "commit": "2b24ec89ddce7fc0beb7795de982c93e6895eaf3",
+ "input": "datalake",
+ "sdk_pin": "v0.8.1-0.20261106081502-e31e3b146d00",
+ "mode": "sequence token-rebind",
+ "entry_id": "localcore-token-rebind-upload-4",
+ "protocol_version": 28,
+ "result": "pass",
+ "mishandled": [],
+ "dropped": [],
+ "checks": [],
+ "expectations": 0,
+ "expectations_source": "none (implicit checks only)",
+ "ledger": {
+  "seq": 4,
+  "hash": "5cc624c015dfba8cfff4a5f035ee4fa93386116704f98f2d836d29acae2c90b7",
+  "close_time": 4030000000,
+  "protocol": 28
+ },
+ "ingested": true,
+ "row_counts": {
+  "transactions": 2,
+  "operations": 2,
+  "effects": 0,
+  "token_transfer": 4,
+  "contract_events": 42,
+  "trades": 0
+ },
+ "process": {
+  "outcome": "exited",
+  "exit_code": 0
+ },
+ "seconds": 3.1,
+ "evidence": "out-stellar-etl-sequences/2b24ec89ddce/datalake/token-rebind/localcore-token-rebind-upload-4",
+ "in_sequence": "token-rebind",
+ "oracle": {
+  "verdict": "pass",
+  "rows_expected": 10,
+  "rows_met": 10,
+  "known": {},
+  "unexplained": []
+ }
+}

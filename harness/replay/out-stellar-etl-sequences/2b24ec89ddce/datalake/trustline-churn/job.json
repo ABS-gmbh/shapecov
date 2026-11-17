@@ -37,6 +37,14 @@
  "history_archive": {
   "url": "http://shapecov-etl-feeder:8000/archive/trustline-churn"
  },
+ "protocols": [],
+ "live_persist_max_batch_size": null,
+ "protocol_cursors": [
+  "history",
+  "current_state"
+ ],
+ "commits": [],
+ "feeder_container": "shapecov-etl-feeder",
  "docker_network": "shapecov-etl-net",
  "timeout_seconds": 240,
  "work_dir": "$REPLAY_WORK"
