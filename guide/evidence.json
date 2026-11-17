@@ -1,0 +1,192 @@
+{
+ "note": "For each item of the guide's checklist (section 5): the detection-backtest items (harness/replay/backtest.json, id, verdict detected) and the finding records (FINDINGS.json, id) where an indexer, SDK or exporter made the mistake the item guards against. guide/check_guide.py renders the guide's evidence table from this file and fails if an id does not exist, a checklist row has no entry here, or a detected backtest item maps to no item and is not listed in outside_checklist with a reason.",
+ "items": {
+  "1": {
+   "backtest": [
+    "wallet-backend#803"
+   ],
+   "findings": [
+    "R8",
+    "J4"
+   ]
+  },
+  "2": {
+   "backtest": [],
+   "findings": [
+    "R6",
+    "C8",
+    "J3",
+    "C17"
+   ]
+  },
+  "3": {
+   "backtest": [
+    "wallet-backend#729"
+   ],
+   "findings": [
+    "R1",
+    "R3"
+   ]
+  },
+  "4": {
+   "backtest": [
+    "wallet-backend#753",
+    "stellar/stellar-etl#450"
+   ],
+   "findings": [
+    "R3",
+    "C5"
+   ]
+  },
+  "5": {
+   "backtest": [],
+   "findings": [
+    "L1"
+   ]
+  },
+  "6": {
+   "backtest": [],
+   "findings": []
+  },
+  "7": {
+   "backtest": [],
+   "findings": []
+  },
+  "8": {
+   "backtest": [
+    "9538b3ca",
+    "e2da4cad"
+   ],
+   "findings": [
+    "R11",
+    "C10",
+    "H1"
+   ]
+  },
+  "9": {
+   "backtest": [
+    "80121f3a"
+   ],
+   "findings": [
+    "R11"
+   ]
+  },
+  "10": {
+   "backtest": [
+    "wallet-backend#734",
+    "stellar/stellar-etl#460"
+   ],
+   "findings": [
+    "R2",
+    "C1",
+    "C3",
+    "C4",
+    "E3"
+   ]
+  },
+  "11": {
+   "backtest": [],
+   "findings": [
+    "R5",
+    "J2"
+   ]
+  },
+  "12": {
+   "backtest": [],
+   "findings": [
+    "R7",
+    "C9"
+   ]
+  },
+  "13": {
+   "backtest": [
+    "wallet-backend#745"
+   ],
+   "findings": [
+    "R4"
+   ]
+  },
+  "14": {
+   "backtest": [],
+   "findings": [
+    "E1",
+    "R4"
+   ]
+  },
+  "15": {
+   "backtest": [],
+   "findings": [
+    "C13"
+   ]
+  },
+  "16": {
+   "backtest": [
+    "wallet-backend#641"
+   ],
+   "findings": []
+  },
+  "17": {
+   "backtest": [],
+   "findings": []
+  },
+  "18": {
+   "backtest": [],
+   "findings": []
+  },
+  "19": {
+   "backtest": [
+    "wallet-backend#687"
+   ],
+   "findings": []
+  },
+  "20": {
+   "backtest": [
+    "wallet-backend#695"
+   ],
+   "findings": []
+  },
+  "21": {
+   "backtest": [
+    "ee82038d"
+   ],
+   "findings": []
+  },
+  "22": {
+   "backtest": [
+    "7b7ee5f0"
+   ],
+   "findings": []
+  },
+  "23": {
+   "backtest": [
+    "ba821579"
+   ],
+   "findings": []
+  },
+  "24": {
+   "backtest": [
+    "stellar/stellar-etl#456",
+    "stellar/stellar-etl#457",
+    "stellar/stellar-etl#462",
+    "stellar/stellar-etl#451"
+   ],
+   "findings": [
+    "C2",
+    "C11",
+    "C12",
+    "C14",
+    "C16",
+    "E2"
+   ]
+  },
+  "25": {
+   "backtest": [
+    "stellar/stellar-etl#452"
+   ],
+   "findings": [
+    "C15"
+   ]
+  }
+ },
+ "outside_checklist": {}
+}

@@ -56,7 +56,8 @@ class CheckGuide(unittest.TestCase):
         d = Path(self.tmp.name)
         self.paths = {"REPO": str(d), "GUIDE": str(d / "guide.md"), "VERDICTS": str(d / "verdicts.json"),
                       "PROBES": str(d / "probes.json"),
-                      "PAGE": str(d / "page.mdx"), "BRIEF": str(d / "REVIEW.md")}
+                      "PAGE": str(d / "page.mdx"), "BRIEF": str(d / "REVIEW.md"),
+                      "EVIDENCE": str(d / "evidence.json")}
         self.saved = {k: getattr(cg, k) for k in self.paths}
         for k, v in self.paths.items():
             setattr(cg, k, v)
