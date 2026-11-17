@@ -1,0 +1,32 @@
+{
+ "job_version": 1,
+ "entry_id": "localcore-scval-values-5",
+ "ref": "3e22515a44979fdc3a558fda3991ca2b48e38cef",
+ "commit": "3e22515a44979fdc3a558fda3991ca2b48e38cef",
+ "input": "rpc",
+ "network_passphrase": "Test SDF Network ; September 2015",
+ "ledger": {
+  "seq": 5,
+  "hash": "d9df1a553fab6743dd4780aa44b7a4f869bbc38e040f390e6f52d0412b1f4d30",
+  "close_time": 4040000000,
+  "protocol": 30
+ },
+ "rpc": {
+  "url": "http://shapecov-sv1-feeder:8000/rpc/localcore-scval-values-5"
+ },
+ "datalake": {
+  "s3_endpoint": "http://shapecov-sv1-feeder:9000",
+  "bucket_path": "shapecov-lake/localcore-scval-values-5",
+  "region": "us-east-1"
+ },
+ "history_archive": {
+  "url": "http://shapecov-sv1-feeder:8000/archive/localcore-scval-values-5"
+ },
+ "protocols": [
+  "SEP41",
+  "BLEND"
+ ],
+ "docker_network": "shapecov-sv1-net",
+ "timeout_seconds": 120,
+ "work_dir": "$REPLAY_WORK"
+}

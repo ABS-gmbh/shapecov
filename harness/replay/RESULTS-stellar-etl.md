@@ -87,6 +87,7 @@ Only the implicit checks apply: the ledger is ingested without an error and ever
 | `localcore-pool-share-unsponsor-6` | 28 | datalake | pass |
 | `localcore-preauth-failed-6` | 30 | datalake | mishandled: stellar-etl#452 |
 | `localcore-sac-trust-p28-5` | 28 | datalake | dropped: stellar-etl#460 |
+| `localcore-scval-values-5` | 30 | datalake | mishandled: stellar-etl#452 |
 | `localcore-sponsorship-transfer-9` | 30 | datalake | pass |
 | `localcore-trustline-add-4` | 28 | datalake | pass |
 | `localcore-trustline-churn-5` | 28 | datalake | pass |
@@ -132,7 +133,7 @@ Only the implicit checks apply: the ledger is ingested without an error and ever
 
 | Commit | Input | pass | mishandled | dropped | error | not applicable |
 |---|---|---|---|---|---|---|
-| `2b24ec89` | datalake | 9 | 45 | 1 | 0 | 46 |
+| `2b24ec89` | datalake | 9 | 46 | 1 | 0 | 46 |
 
 ## Oracle checks
 
@@ -143,7 +144,7 @@ checked. A failure is labelled with the open upstream issue that explains it
 
 | Commit | Input | Replays | Rows expected | Rows met | Known issues | Unexplained |
 |---|---|---|---|---|---|---|
-| `2b24ec89` | datalake | 55 | 37549 | 32834 | stellar-etl#450 (938), stellar-etl#451 (126), stellar-etl#452 (3405), stellar-etl#456 (228), stellar-etl#457 (1), stellar-etl#460 (5), stellar-etl#462 (3), stellar-etl#512 (2), stellar-etl#513 (1), stellar-etl#514 (2) | 0 |
+| `2b24ec89` | datalake | 56 | 37556 | 32840 | stellar-etl#450 (938), stellar-etl#451 (126), stellar-etl#452 (3406), stellar-etl#456 (228), stellar-etl#457 (1), stellar-etl#460 (5), stellar-etl#462 (3), stellar-etl#512 (2), stellar-etl#513 (1), stellar-etl#514 (2) | 0 |
 
 
 
@@ -181,3 +182,4 @@ checked. A failure is labelled with the open upstream issue that explains it
 | 2026-11-16T21:55:21+00:00 | `2b24ec89` | datalake | 94 | 97.0 | 37404 | 0 | 0 |
 | 2026-11-16T22:27:38+00:00 | `2b24ec89` | datalake | 97 | 247.1 | 37352 | 0 | 0 |
 | 2026-11-17T10:23:26+00:00 | `2b24ec89` | datalake | 4 | 7.1 | 38244 | 0 | 0 |
+| 2026-11-17T10:30:57+00:00 | `2b24ec89` | datalake | 1 | 4.0 | 38016 | 0 | 0 |

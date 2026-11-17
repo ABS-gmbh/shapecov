@@ -14,7 +14,7 @@ indexer-hardening guide has each rule checked against stellar-core. Built for th
 
 | Deliverable | Where | The RFP's acceptance check | Status |
 |---|---|---|---|
-| Corpus: 116 entries, 113 of them real ledgers, with per-CAP coverage | [`corpus/`](corpus/), [`CAP-COVERAGE.md`](corpus/CAP-COVERAGE.md) | 1: entries round-trip through rs-stellar-xdr and match stellar-core's `--check-lcm` goldens | Met |
+| Corpus: 117 entries, 114 of them real ledgers, with per-CAP coverage | [`corpus/`](corpus/), [`CAP-COVERAGE.md`](corpus/CAP-COVERAGE.md) | 1: entries round-trip through rs-stellar-xdr and match stellar-core's `--check-lcm` goldens | Met |
 | Replay harness: wallet-backend (reference adapter), stellar-etl and Horizon | [`harness/replay/`](harness/replay/); shapes each indexer mishandles or drops: [`SHAPES.md`](harness/replay/SHAPES.md) | 2: wallet-backend #729, #731 and #716 fail before their fixes and pass after | Met |
 | Linter for the three ingestion mistakes | [`linter/`](linter/) | 3: flags seeded violations, runs clean on wallet-backend | Partly met: 2 findings on wallet-backend, both real, each with an open upstream issue; also run on stellar-etl |
 | Indexer-hardening guide | [`guide/`](guide/) | 4: tables agree with the manifest; publication gated on review | Tables met and probed against stellar-core 30.0.0; publication gate enforced by the export; **unreviewed** |
@@ -71,11 +71,11 @@ testing, 18 checks in about 20 seconds on an idle laptop; CI runs it on every pu
   ([`RESULTS-horizon.md`](harness/replay/RESULTS-horizon.md)). Other indexers are not built. A toy one, [`adapters/example/`](harness/replay/adapters/example/), shows the interface in
   about 100 lines and the participant rule on two variants of the same indexer.
 - Whole ledgers are not generated. They come from network history, stellar-core's golden files and
-  fixed local stellar-core scenarios, so 440 of the 538 cells a ledger reader can meet (81.8%)
-  appear in a corpus entry, and 440 of the 465 that can occur in a closed ledger (94.6%).
-  Each of the other 98 is classified from stellar-core's source in [`corpus/COVERAGE.md`](corpus/COVERAGE.md): 73 can
+  fixed local stellar-core scenarios, so 446 of the 538 cells a ledger reader can meet (82.9%)
+  appear in a corpus entry, and 446 of the 465 that can occur in a closed ledger (95.9%).
+  Each of the other 92 is classified from stellar-core's source in [`corpus/COVERAGE.md`](corpus/COVERAGE.md): 73 can
   never be in a closed ledger, 9 predate protocol 20, 2 appear only in metadata from an older stellar-core, 7 appear only in consensus messages or under a
-  consensus option, 6 need a purpose-written contract, and 1 is impractical.
+  consensus option, and 1 is impractical.
 
 More: [`ARCHITECTURE.md`](ARCHITECTURE.md) (how the parts fit, the adapter interface, isolation),
 [`STATUS.md`](STATUS.md) (dated log), [`MAINTENANCE.md`](MAINTENANCE.md),
@@ -145,7 +145,7 @@ results are not in the repository):
 
 ## Corpus
 
-`corpus/` holds 116 entries and their manifest. `corpus/README.md` describes every field;
+`corpus/` holds 117 entries and their manifest. `corpus/README.md` describes every field;
 `corpus/evidence/` records the reproduced sightings and our findings. Three examples:
 
 | Entry | Type | Source | Shows |

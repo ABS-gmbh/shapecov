@@ -184,10 +184,6 @@
    "class": "never_in_ledger",
    "why": "Set only in RevokeSponsorship:doCheckValid, which depends on the operation and the protocol version alone. stellar-core runs it when it admits a transaction and when it validates a transaction set, so a transaction that fails it never reaches a ledger."
   },
-  "arm:SCError.SCE_EVENTS": {
-   "class": "contract",
-   "why": "Only a contract puts this value in a ledger (in storage, an event or a return value); a local scenario with a contract written to emit it can produce it."
-  },
   "arm:SCPHistoryEntry.0": {
    "class": "consensus",
    "why": "SCP messages appear in LedgerCloseMeta only from a node that records them; the public archive's ledgers and a standalone node carry none."
@@ -207,14 +203,6 @@
   "arm:SCPStatementPledges.SCP_ST_PREPARE": {
    "class": "consensus",
    "why": "SCP messages appear in LedgerCloseMeta only from a node that records them; the public archive's ledgers and a standalone node carry none."
-  },
-  "arm:SCVal.SCV_DURATION": {
-   "class": "contract",
-   "why": "Only a contract puts this value in a ledger (in storage, an event or a return value); a local scenario with a contract written to emit it can produce it."
-  },
-  "arm:SCVal.SCV_TIMEPOINT": {
-   "class": "contract",
-   "why": "Only a contract puts this value in a ledger (in storage, an event or a return value); a local scenario with a contract written to emit it can produce it."
   },
   "arm:SetOptionsResult.SET_OPTIONS_BAD_FLAGS": {
    "class": "never_in_ledger",
@@ -379,25 +367,13 @@
   "enum:ConfigSettingID.CONFIG_SETTING_STATE_ARCHIVAL": {
    "class": "never_in_ledger",
    "why": "Never in a closed ledger: a configuration setting appears in meta only as a LedgerEntry (its ConfigSettingEntry arm), never as a key. A LedgerKey of type CONFIG_SETTING would need a removed change or an evicted key (configuration entries are never deleted or evicted), a Soroban footprint (TransactionFrame.cpp:868-878 rejects it as an unsupported key type) or a RevokeSponsorship operation (RevokeSponsorshipOpFrame.cpp:447 rejects it as REVOKE_SPONSORSHIP_MALFORMED). A ledger that applies a Soroban configuration upgrade adds none of these cells."
-  },
-  "enum:SCErrorCode.SCEC_ARITH_DOMAIN": {
-   "class": "contract",
-   "why": "Only a contract puts this value in a ledger (in storage, an event or a return value); a local scenario with a contract written to emit it can produce it."
-  },
-  "enum:SCErrorCode.SCEC_INDEX_BOUNDS": {
-   "class": "contract",
-   "why": "Only a contract puts this value in a ledger (in storage, an event or a return value); a local scenario with a contract written to emit it can produce it."
-  },
-  "enum:SCErrorCode.SCEC_INTERNAL_ERROR": {
-   "class": "contract",
-   "why": "Only a contract puts this value in a ledger (in storage, an event or a return value); a local scenario with a contract written to emit it can produce it."
   }
  },
  "classes": {
   "before_protocol": "Only in ledgers of a protocol before 20 that the corpus does not sample (its four early pubnet ledgers, protocols 8 to 11, carry the cells of this kind it was mined for); addable by mining the public archive's early ledgers.",
   "config_upgrade": "Only in a ledger that applies a Soroban configuration upgrade.",
   "consensus": "Only in meta from a node that records consensus messages, or in a value a validator builds only under a consensus option (an empty transaction set voted before download).",
-  "contract": "Only from a contract written to produce it.",
+  "contract": "Only in a Soroban value a transaction or a contract supplies: an invocation's arguments, contract storage, an event or a return value; stellar-core itself never builds it.",
   "impractical": "Possible in principle, only past a limit no real or local ledger reaches.",
   "local_core": "Producible by a local stellar-core scenario: a failure or shape that depends on ledger state.",
   "never_in_ledger": "Cannot be in a closed ledger: set only by a check that a transaction failing it never gets past, only on a stellar-core bug, or only in a form a ledger never stores.",

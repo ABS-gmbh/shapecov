@@ -123,6 +123,7 @@ Only the implicit checks apply: the ledger is ingested without an error and ever
 | `localcore-pool-share-unsponsor-6` | 28 | datalake | pass |
 | `localcore-preauth-failed-6` | 30 | datalake | pass |
 | `localcore-sac-trust-p28-5` | 28 | datalake | pass |
+| `localcore-scval-values-5` | 30 | datalake | pass |
 | `localcore-sponsorship-transfer-9` | 30 | datalake | pass |
 | `localcore-trustline-add-4` | 28 | datalake | pass |
 | `localcore-trustline-churn-5` | 28 | datalake | pass |
@@ -168,7 +169,7 @@ Only the implicit checks apply: the ledger is ingested without an error and ever
 
 | Commit | Input | pass | mishandled | dropped | error |
 |---|---|---|---|---|---|
-| `6f7cff39` | datalake | 82 | 1 | 18 | 0 |
+| `6f7cff39` | datalake | 83 | 1 | 18 | 0 |
 
 ## Oracle checks
 
@@ -179,7 +180,7 @@ checked. A failure is labelled with the open upstream issue that explains it
 
 | Commit | Input | Replays | Rows expected | Rows met | Known issues | Unexplained |
 |---|---|---|---|---|---|---|
-| `6f7cff39` | datalake | 101 | 14303 | 14106 | stellar-etl#513 (1), stellar-etl#514 (2), stellar-horizon#259 (194) | 0 |
+| `6f7cff39` | datalake | 102 | 14305 | 14108 | stellar-etl#513 (1), stellar-etl#514 (2), stellar-horizon#259 (194) | 0 |
 
 
 
@@ -196,3 +197,4 @@ checked. A failure is labelled with the open upstream issue that explains it
 | 2026-11-16T22:03:09+00:00 | `6f7cff39` | datalake | 95 | 319.1 | 38088 | 0 | 190 |
 | 2026-11-16T22:32:45+00:00 | `6f7cff39` | datalake | 97 | 779.9 | 37080 | 0 | 194 |
 | 2026-11-17T10:23:33+00:00 | `6f7cff39` | datalake | 4 | 10.6 | 37788 | 0 | 8 |
+| 2026-11-17T10:31:01+00:00 | `6f7cff39` | datalake | 1 | 6.1 | 38144 | 0 | 2 |

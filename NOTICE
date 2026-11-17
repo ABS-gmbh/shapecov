@@ -107,6 +107,6 @@ corpus/manifest.json and schema/SOURCE; do not edit it by hand.
      Source: https://github.com/blend-capital/blend-contracts-v2; release v2.0.0_pool_cli22.0.1 publishes pool_v2.0.0.wasm of the same size, 57,328 bytes (GitHub publishes no digest for it, so the match by hash is not established).
      Provenance: The scenario (tools/localcore.py, blend-pool-name-p28) takes the bytes from the upload in pubnet ledger 56,615,381 of Stellar's public ledger archive and checks their SHA-256. A public stellar-rpc (getLedgerEntries) confirms that pubnet's contract code with this hash was last written in that ledger; wallet-backend's internal/services/blend/testdata/blend_pool_v2.wasm at 3e22515a is the same bytes.
 
-Not third-party: 33 corpus entries are ledgers that ShapeCov's own scenarios (tools/localcore.py)
+Not third-party: 34 corpus entries are ledgers that ShapeCov's own scenarios (tools/localcore.py)
 made by running stellar-core's published images on a private standalone network, and 3 are values
 ShapeCov generated (tools/encode.py from corpus/values/).

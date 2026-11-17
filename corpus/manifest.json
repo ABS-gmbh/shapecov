@@ -19783,6 +19783,170 @@
     "core_golden": "not_applicable"
    },
    "sightings": []
+  },
+  {
+   "id": "localcore-scval-values-5",
+   "title": "Local stellar-core, scenario scval-values-p30: Timepoint, Duration and three SCE_EVENTS errors, put into a ledger on purpose to exercise decoders",
+   "xdr_type": "LedgerCloseMeta",
+   "file": "entries/localcore-scval-values-5.LedgerCloseMeta.xdr.b64",
+   "sha256": "c4a18c156c70aee9372ddb5ddd34d9ed9570cf02b415359eae06416b9f6843ca",
+   "size_bytes": 4340,
+   "protocol_version": 30,
+   "caps": [],
+   "synthetic": false,
+   "source": {
+    "kind": "local_stellar_core",
+    "stellar_core_version": "stellar-core 30.0.0 (0e49751aa9ddf892302cca02cea7f3f5d97df9f1)",
+    "image": "stellar/stellar-core:30.0.0-3642.0e49751aa.noble",
+    "network_passphrase": "Test SDF Network ; September 2015",
+    "ledger_seq": 5,
+    "ledger_hash": "d9df1a553fab6743dd4780aa44b7a4f869bbc38e040f390e6f52d0412b1f4d30",
+    "scenario": "scval-values",
+    "generator": "tools/localcore.py",
+    "notes": "Standalone network, manual close, fixed keys and close times; see the scenario in tools/localcore.py."
+   },
+   "shape": "These values were put into the ledger on purpose, to exercise decoders; no network ledger is known to carry them. A minimal contract (tools/echo_wasm.py, built byte by byte, no contract spec) is invoked as echo(topic, data) with topic = Timepoint 4102444800 and data = Vec[Duration 86400, Error(SCE_EVENTS, SCEC_ARITH_DOMAIN), Error(SCE_EVENTS, SCEC_INDEX_BOUNDS), Error(SCE_EVENTS, SCEC_INTERNAL_ERROR)], and publishes the contract event (['echo', topic], data). The values sit twice: in the transaction envelope (InvokeContractArgs.args) and in the event in the transaction meta.",
+   "patterns": {
+    "scval-wide-integer": "v2.txProcessing[0].txApplyProcessing.v4.events[0].event.body.v0.data"
+   },
+   "designated": {
+    "patterns": [],
+    "cells": [
+     "arm:SCError.SCE_EVENTS",
+     "arm:SCVal.SCV_DURATION",
+     "arm:SCVal.SCV_TIMEPOINT",
+     "enum:SCErrorCode.SCEC_ARITH_DOMAIN",
+     "enum:SCErrorCode.SCEC_INDEX_BOUNDS",
+     "enum:SCErrorCode.SCEC_INTERNAL_ERROR"
+    ]
+   },
+   "cells": [
+    "arm:AccountEntryExt.1",
+    "arm:AccountEntryExtensionV1Ext.2",
+    "arm:AccountEntryExtensionV2Ext.3",
+    "arm:ContractEventBody.0",
+    "arm:ExtensionPoint.0",
+    "arm:GeneralizedTransactionSet.1",
+    "arm:HostFunction.HOST_FUNCTION_TYPE_INVOKE_CONTRACT",
+    "arm:InvokeHostFunctionResult.INVOKE_HOST_FUNCTION_SUCCESS",
+    "arm:LedgerCloseMeta.2",
+    "arm:LedgerCloseMetaExt.0",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_STATE",
+    "arm:LedgerEntryChange.LEDGER_ENTRY_UPDATED",
+    "arm:LedgerEntryData.ACCOUNT",
+    "arm:LedgerEntryExt.0",
+    "arm:LedgerHeaderExt.0",
+    "arm:LedgerHeaderHistoryEntryExt.0",
+    "arm:LedgerKey.CONTRACT_CODE",
+    "arm:LedgerKey.CONTRACT_DATA",
+    "arm:Memo.MEMO_NONE",
+    "arm:MuxedAccount.KEY_TYPE_ED25519",
+    "arm:OperationBody.INVOKE_HOST_FUNCTION",
+    "arm:OperationResult.opINNER",
+    "arm:OperationResultTr.INVOKE_HOST_FUNCTION",
+    "arm:Preconditions.PRECOND_NONE",
+    "arm:PublicKey.PUBLIC_KEY_TYPE_ED25519",
+    "arm:SCAddress.SC_ADDRESS_TYPE_ACCOUNT",
+    "arm:SCAddress.SC_ADDRESS_TYPE_CONTRACT",
+    "arm:SCError.SCE_EVENTS",
+    "arm:SCVal.SCV_ADDRESS",
+    "arm:SCVal.SCV_BYTES",
+    "arm:SCVal.SCV_DURATION",
+    "arm:SCVal.SCV_ERROR",
+    "arm:SCVal.SCV_I128",
+    "arm:SCVal.SCV_LEDGER_KEY_CONTRACT_INSTANCE",
+    "arm:SCVal.SCV_SYMBOL",
+    "arm:SCVal.SCV_TIMEPOINT",
+    "arm:SCVal.SCV_U64",
+    "arm:SCVal.SCV_VEC",
+    "arm:SCVal.SCV_VOID",
+    "arm:SorobanTransactionDataExt.0",
+    "arm:SorobanTransactionMetaExt.0",
+    "arm:StellarValueExt.STELLAR_VALUE_SIGNED_MS",
+    "arm:TransactionEnvelope.ENVELOPE_TYPE_TX",
+    "arm:TransactionExt.1",
+    "arm:TransactionMeta.4",
+    "arm:TransactionPhase.0",
+    "arm:TransactionPhase.1",
+    "arm:TransactionResultExt.0",
+    "arm:TransactionResultResult.txSUCCESS",
+    "enum:ContractDataDurability.PERSISTENT",
+    "enum:ContractEventType.CONTRACT",
+    "enum:ContractEventType.DIAGNOSTIC",
+    "enum:SCErrorCode.SCEC_ARITH_DOMAIN",
+    "enum:SCErrorCode.SCEC_INDEX_BOUNDS",
+    "enum:SCErrorCode.SCEC_INTERNAL_ERROR",
+    "enum:TransactionEventStage.TRANSACTION_EVENT_STAGE_AFTER_ALL_TXS",
+    "enum:TransactionEventStage.TRANSACTION_EVENT_STAGE_BEFORE_ALL_TXS"
+   ],
+   "cells_new_in_protocol": [
+    "arm:StellarValueExt.STELLAR_VALUE_SIGNED_MS"
+   ],
+   "expected": {
+    "decoded": [
+     {
+      "path": "v",
+      "value": 2
+     },
+     {
+      "path": "v2.ledgerHeader.header.ledgerSeq",
+      "value": 5
+     },
+     {
+      "path": "v2.ledgerHeader.header.ledgerVersion",
+      "value": 30
+     },
+     {
+      "path": "v2.ledgerHeader.hash",
+      "value": "d9df1a553fab6743dd4780aa44b7a4f869bbc38e040f390e6f52d0412b1f4d30"
+     },
+     {
+      "path": "v2.ledgerHeader.header.scpValue.closeTime",
+      "value": 4040000000
+     },
+     {
+      "path": "v2.txSet.v1TxSet.phases[1].parallelTxsComponent.executionStages[0][0][0].v1.tx.operations[0].body.invokeHostFunctionOp.hostFunction.invokeContract.args[1].vec[1].error.type",
+      "value": "SCE_EVENTS",
+      "note": "cell arm:SCError.SCE_EVENTS"
+     },
+     {
+      "path": "v2.txSet.v1TxSet.phases[1].parallelTxsComponent.executionStages[0][0][0].v1.tx.operations[0].body.invokeHostFunctionOp.hostFunction.invokeContract.args[1].vec[0].type",
+      "value": "SCV_DURATION",
+      "note": "cell arm:SCVal.SCV_DURATION"
+     },
+     {
+      "path": "v2.txSet.v1TxSet.phases[1].parallelTxsComponent.executionStages[0][0][0].v1.tx.operations[0].body.invokeHostFunctionOp.hostFunction.invokeContract.args[0].type",
+      "value": "SCV_TIMEPOINT",
+      "note": "cell arm:SCVal.SCV_TIMEPOINT"
+     },
+     {
+      "path": "v2.txSet.v1TxSet.phases[1].parallelTxsComponent.executionStages[0][0][0].v1.tx.operations[0].body.invokeHostFunctionOp.hostFunction.invokeContract.args[1].vec[1].error.code",
+      "value": "SCEC_ARITH_DOMAIN",
+      "note": "cell enum:SCErrorCode.SCEC_ARITH_DOMAIN"
+     },
+     {
+      "path": "v2.txSet.v1TxSet.phases[1].parallelTxsComponent.executionStages[0][0][0].v1.tx.operations[0].body.invokeHostFunctionOp.hostFunction.invokeContract.args[1].vec[2].error.code",
+      "value": "SCEC_INDEX_BOUNDS",
+      "note": "cell enum:SCErrorCode.SCEC_INDEX_BOUNDS"
+     },
+     {
+      "path": "v2.txSet.v1TxSet.phases[1].parallelTxsComponent.executionStages[0][0][0].v1.tx.operations[0].body.invokeHostFunctionOp.hostFunction.invokeContract.args[1].vec[3].error.code",
+      "value": "SCEC_INTERNAL_ERROR",
+      "note": "cell enum:SCErrorCode.SCEC_INTERNAL_ERROR"
+     }
+    ]
+   },
+   "validation": {
+    "independent_decoder": "not_run",
+    "rs_stellar_xdr_roundtrip": "not_run",
+    "stellar_core": {
+     "version": "30.0.0",
+     "command": "",
+     "result": "not_run"
+    },
+    "core_golden": "not_applicable"
+   },
+   "sightings": []
   }
  ]
 }

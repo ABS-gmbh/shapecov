@@ -117,6 +117,11 @@ Scenarios (one per run):
   work-limit-p30     Protocol 30, stellar-core 30.0.0. 1100 resting offers, then one offer that would
                      cross them all fails with opEXCEEDED_WORK_LIMIT (core crosses at most 1000 per
                      operation). See tools/localcore_reserve.py. Recorded ledger work-limit.
+  scval-values-p30   Protocol 30, stellar-core 30.0.0. Soroban values put into a ledger on purpose, to
+                     exercise decoders: a contract (tools/echo_wasm.py) is called with a Timepoint and
+                     a Vec of a Duration and three Errors (SCE_EVENTS with SCEC_ARITH_DOMAIN,
+                     SCEC_INDEX_BOUNDS, SCEC_INTERNAL_ERROR), and publishes them as an event's topic
+                     and data. Recorded ledger scval-values.
   muxed-source-refused-p24
                      Protocol 24, stellar-core 30.0.0. The same transaction must be refused by the
                      queue with txSOROBAN_INVALID. Recorded as evidence, not a ledger.
@@ -155,7 +160,7 @@ SCENARIOS = {"muxed-source-p22": IMAGE_V22, "classic-p22": IMAGE_V22, "pools-spo
              "frozen-claim-p28": IMAGE, "pool-share-unsponsor-p28": IMAGE,
              "token-rebind-p28": IMAGE, "blend-pool-name-p28": IMAGE,
              "contract-balances-p30": IMAGE, "reserve-pool-p30": IMAGE, "fee-refund-p22": IMAGE,
-             "work-limit-p30": IMAGE}
+             "work-limit-p30": IMAGE, "scval-values-p30": IMAGE}
 NAME = "shapecov-localcore-gen"
 PASSPHRASES = {"testnet": "Test SDF Network ; September 2015",
                "pubnet": "Public Global Stellar Network ; September 2015"}
@@ -395,6 +400,8 @@ def main():
             localcore_failures.failures(sys.modules[__name__], core, enc, dec, root, step, run, 30)
         elif a.scenario == "fee-refund-p22":
             fee_refund_p22(core, enc, root, step, run)
+        elif a.scenario == "scval-values-p30":
+            scval_values_p30(core, enc, root, step, run)
         elif a.scenario == "work-limit-p30":
             import localcore_reserve
             localcore_reserve.work_limit(sys.modules[__name__], core, enc, dec, root, step, run, 30)
@@ -444,6 +451,59 @@ def fee_refund_p22(core, enc, root, step, run):
     if step("fee-refund-p22: deploy the native asset contract", 22, blob, h, "PENDING, applied")["status"] != "PENDING":
         raise SystemExit("the deploy was refused; see the diagnostics above")
     run["ledger_fee_refund_p22"] = core.close()
+
+
+def scval_values_p30(core, enc, root, step, run):
+    """Soroban values no network ledger is known to carry, put into one ledger on purpose: in an
+    invocation's arguments (the envelope) and in the event the contract publishes from them."""
+    import echo_wasm
+    core.upgrade(30)
+    wasm = echo_wasm.build()
+    h_wasm = hashlib.sha256(wasm).hexdigest()
+    run["wasm"] = h_wasm
+
+    def soroban(read_only, read_write, write_bytes=5_000):
+        return {"ext": {"v": 0}, "resources": {"footprint": {"readOnly": read_only, "readWrite": read_write},
+                "instructions": 10_000_000, "diskReadBytes": 20_000, "writeBytes": write_bytes},
+                "resourceFee": 50_000_000}
+
+    def send(name, seq, fn, sorob, auth=()):
+        operation = {"sourceAccount": None, "body": {"type": "INVOKE_HOST_FUNCTION", "invokeHostFunctionOp": {
+            "hostFunction": fn, "auth": list(auth)}}}
+        blob, h = envelope(enc, core, tx(root.muxed(), seq, [operation], fee=50_010_000, soroban=sorob), root)
+        if step("scval-values-p30: " + name, 30, blob, h, "PENDING, applied")["status"] != "PENDING":
+            raise SystemExit("%s was refused; see the diagnostics above" % name)
+        return h
+
+    code = {"type": "CONTRACT_CODE", "contractCode": {"hash": h_wasm}}
+    send("upload the echo wasm", 1, {"type": "HOST_FUNCTION_TYPE_UPLOAD_CONTRACT_WASM", "wasm": wasm.hex()},
+         soroban([], [code], 10_000))
+    core.close()
+    preimage = {"type": "CONTRACT_ID_PREIMAGE_FROM_ADDRESS", "fromAddress": {
+        "address": {"type": "SC_ADDRESS_TYPE_ACCOUNT", "accountId": root.account()},
+        "salt": hashlib.sha256(b"shapecov scval values").hexdigest()}}
+    cid = hashlib.sha256(enc.encode("HashIDPreimage", {"type": "ENVELOPE_TYPE_CONTRACT_ID", "contractID": {
+        "networkID": core.network_id.hex(), "contractIDPreimage": preimage}})).hexdigest()
+    run["contract"] = strkey.contract(cid)
+    contract = {"type": "SC_ADDRESS_TYPE_CONTRACT", "contractId": cid}
+    instance = {"type": "CONTRACT_DATA", "contractData": {"contract": contract,
+                "key": {"type": "SCV_LEDGER_KEY_CONTRACT_INSTANCE"}, "durability": "PERSISTENT"}}
+    create = {"contractIDPreimage": preimage, "executable": {"type": "CONTRACT_EXECUTABLE_WASM", "wasm_hash": h_wasm}}
+    auth = {"credentials": {"type": "SOROBAN_CREDENTIALS_SOURCE_ACCOUNT"}, "rootInvocation": {
+        "function": {"type": "SOROBAN_AUTHORIZED_FUNCTION_TYPE_CREATE_CONTRACT_HOST_FN", "createContractHostFn": create},
+        "subInvocations": []}}
+    send("deploy", 2, {"type": "HOST_FUNCTION_TYPE_CREATE_CONTRACT", "createContract": create},
+         soroban([code], [instance]), [auth])
+    core.close()
+    error = lambda c: {"type": "SCV_ERROR", "error": {"type": "SCE_EVENTS", "code": c}}
+    args = [{"type": "SCV_TIMEPOINT", "timepoint": 4_102_444_800},  # 2100-01-01T00:00:00Z
+            {"type": "SCV_VEC", "vec": [{"type": "SCV_DURATION", "duration": 86_400},
+                                        error("SCEC_ARITH_DOMAIN"), error("SCEC_INDEX_BOUNDS"),
+                                        error("SCEC_INTERNAL_ERROR")]}]
+    run["args"] = args
+    run["tx_echo"] = send("echo the values", 3, {"type": "HOST_FUNCTION_TYPE_INVOKE_CONTRACT", "invokeContract": {
+        "contractAddress": contract, "functionName": "echo", "args": args}}, soroban([instance, code], []))
+    run["ledger_scval_values"] = core.close()
 
 
 def muxed_source(core, enc, root, step, run, protocol, accepted):

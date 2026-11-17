@@ -1,0 +1,62 @@
+{
+ "history_trades": [],
+ "history_transactions": [
+  {
+   "id": 21474840576,
+   "transaction_hash": "eae7434f0c376097d67e170cce888a9cede79fdb6ce575ea3f44e9ce59bb1e8a",
+   "application_order": 1,
+   "successful": true,
+   "account": "GBRPYHIL2CI3FNQ4BXLFMNDLFJUNPU2HY3ZMFSHONUCEOASW7QC7OX2H",
+   "fee_account": null,
+   "account_muxed": null,
+   "fee_account_muxed": null,
+   "fee_charged": 137592,
+   "operation_count": 1
+  }
+ ],
+ "history_operations": [
+  {
+   "id": 21474840577,
+   "transaction_id": 21474840576,
+   "application_order": 1,
+   "type": 24,
+   "source_account": "GBRPYHIL2CI3FNQ4BXLFMNDLFJUNPU2HY3ZMFSHONUCEOASW7QC7OX2H",
+   "source_account_muxed": null,
+   "details": {
+    "function": "HostFunctionTypeHostFunctionTypeInvokeContract",
+    "parameters": [
+     {
+      "type": "Address",
+      "value": "AAAAEgAAAAHATlbtrdTfsydJX7BIRPDDZCjGQdRQxKgGy1e+PxuBWw=="
+     },
+     {
+      "type": "Sym",
+      "value": "AAAADwAAAARlY2hv"
+     },
+     {
+      "type": "Timepoint",
+      "value": "AAAABwAAAAD0hlcA"
+     },
+     {
+      "type": "Vec",
+      "value": "AAAAEAAAAAEAAAAEAAAACAAAAAAAAVGAAAAAAgAAAAYAAAAAAAAAAgAAAAYAAAABAAAAAgAAAAYAAAAH"
+     }
+    ],
+    "asset_balance_changes": null
+   }
+  }
+ ],
+ "history_effects": [],
+ "history_transaction_participants": [
+  {
+   "tx_id": 21474840576,
+   "address": "GBRPYHIL2CI3FNQ4BXLFMNDLFJUNPU2HY3ZMFSHONUCEOASW7QC7OX2H"
+  }
+ ],
+ "history_operation_participants": [
+  {
+   "op_id": 21474840577,
+   "address": "GBRPYHIL2CI3FNQ4BXLFMNDLFJUNPU2HY3ZMFSHONUCEOASW7QC7OX2H"
+  }
+ ]
+}
