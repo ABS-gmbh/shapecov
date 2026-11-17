@@ -318,16 +318,20 @@ def run(a):
                     GO_IMAGE, binary, "protocol-setup"] + sum((["--protocol-id", p] for p in protocols), []), check=False)
         with open(os.path.join(out, "protocol-setup.log"), "w") as f:
             f.write(setup.stdout or "")
-        if setup.returncode != 0:
+        if setup.returncode != 0 and 'unknown command "protocol-setup"' in (setup.stdout or ""):
+            # commits before April 2026 have no protocol production to turn on
+            obs["protocols"] = "not available at this commit (no protocol-setup command)"
+        elif setup.returncode != 0:
             obs["error"] = "adapter: the commit's own `protocol-setup` failed, see protocol-setup.log"
             obs["adapter_failure"] = True
             return finish(obs, out, t0)
-        # Both cursors by default; a job may set only some (e.g. history production alone).
-        kinds = job.get("protocol_cursors") or ["history", "current_state"]
-        psql("insert into ingest_store (key, value) values %s" % ", ".join(
-            "('protocol_%s_%s_cursor', '%d')" % (p, k, first - 1) for p in protocols for k in kinds))
-        obs["protocol_cursors"] = kinds
-        obs["protocols"] = protocols
+        else:
+            # Both cursors by default; a job may set only some (e.g. history production alone).
+            kinds = job.get("protocol_cursors") or ["history", "current_state"]
+            psql("insert into ingest_store (key, value) values %s" % ", ".join(
+                "('protocol_%s_%s_cursor', '%d')" % (p, k, first - 1) for p in protocols for k in kinds))
+            obs["protocol_cursors"] = kinds
+            obs["protocols"] = protocols
     env = {"DATABASE_URL": DB_URL, "NETWORK_PASSPHRASE": job["network_passphrase"],
            "NETWORK": KNOWN_NETWORKS.get(job["network_passphrase"], "standalone"),
            "INGESTION_MODE": "live", "LOG_LEVEL": "INFO", "STELLAR_ENVIRONMENT": "development", "GET_LEDGERS_LIMIT": "10",

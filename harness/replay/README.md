@@ -66,8 +66,14 @@ several sequences may share a ledger.
 ### Protocol production (SEP-41, Blend)
 
 wallet-backend indexes SEP-41 tokens and Blend only after an operator has run `protocol-setup` and
-the protocol cursors exist (`protocol-migrate` writes them). `run --protocols SEP41,BLEND`, or a
-sequence's `protocols`, does the same: the adapter runs the commit's own `protocol-setup`, then sets
+the protocol cursors exist (`protocol-migrate` writes them). Replays of wallet-backend run that way by
+default (SEP41 and BLEND); `run --protocols none` turns it off, `--protocols ID,…` or a sequence's
+`protocols` chooses. The default was set on 17 November 2026 after the whole corpus was replayed at
+`main` with production on: all 204 results (102 ledgers, both inputs) were identical to those recorded
+without it, in verdict, oracle rows, known issues and stored row counts; the logs gained only the Blend
+warning described below. Results recorded at other commits before that date ran without it. A commit
+older than `protocol-setup` (April 2026) has no production to turn on; the adapter records that and
+replays as before. The adapter does what the operator does: the adapter runs the commit's own `protocol-setup`, then sets
 `protocol_<ID>_history_cursor` and `protocol_<ID>_current_state_cursor` to the ledger before the
 replay, where `protocol-migrate` leaves them once it has migrated up to that ledger. A sequence may set
 only some of them (`protocol_cursors`, e.g. history production alone). wallet-backend's own log then

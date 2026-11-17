@@ -264,6 +264,18 @@ def use_corpus(a):
         CORPUS = os.path.abspath(a.corpus)
 
 
+DEFAULT_PROTOCOLS = {"wallet-backend": ["SEP41", "BLEND"]}
+
+
+def protocols_of(a):
+    """The protocols a run produces: --protocols, 'none' for none, else the adapter's default."""
+    if a.protocols == "none":
+        return []
+    if a.protocols:
+        return a.protocols.split(",")
+    return list(DEFAULT_PROTOCOLS.get(a.adapter, []))
+
+
 def cmd_run(a):
     use_corpus(a)
     work, out = os.path.abspath(a.work), os.path.abspath(a.out)
@@ -349,7 +361,7 @@ def cmd_run(a):
                            "datalake": {"s3_endpoint": "http://%s:9000" % FEEDER,
                                         "bucket_path": "shapecov-lake/" + e["id"], "region": "us-east-1"},
                            "history_archive": {"url": "http://%s:8000/archive/%s" % (FEEDER, e["id"])},
-                           "protocols": (a.protocols or "").split(",") if a.protocols else [],
+                           "protocols": protocols_of(a),
                            "docker_network": NET, "timeout_seconds": a.timeout, "work_dir": work}
                     with open(os.path.join(jdir, "job.json"), "w") as f:
                         json.dump(job, f, indent=1)
@@ -498,7 +510,7 @@ def run_sequence(a, sq, index, info, ref, inp, out, work, mapping, results, req_
            "datalake": {"s3_endpoint": "http://%s:9000" % FEEDER, "bucket_path": "shapecov-lake/" + sq["id"],
                         "region": "us-east-1"},
            "history_archive": {"url": "http://%s:8000/archive/%s" % (FEEDER, sq["id"])},
-           "protocols": sq.get("protocols") or ((a.protocols or "").split(",") if a.protocols else []),
+           "protocols": sq.get("protocols") or protocols_of(a),
            "live_persist_max_batch_size": sq.get("persist_batch"),
            "protocol_cursors": sq.get("protocol_cursors") or ["history", "current_state"],
            "commits": [[index["entries"][m]["seq"] for m in g] for g in sq.get("commits") or []],
@@ -957,8 +969,9 @@ def main():
     p.add_argument("--inputs", default="rpc,datalake")
     p.add_argument("--entries")
     p.add_argument("--all-entries", action="store_true")
-    p.add_argument("--protocols", help="protocol IDs to produce, comma-separated (wallet-backend: SEP41,BLEND): "
-                                       "the adapter runs the commit's protocol-setup and sets the protocol cursors")
+    p.add_argument("--protocols", help="protocol IDs to produce, comma-separated: the adapter runs the commit's "
+                                       "protocol-setup and sets the protocol cursors. wallet-backend's default is "
+                                       "SEP41,BLEND; 'none' turns production off")
     p.add_argument("--sequence", help="names in corpus/sequences.json, comma-separated: each is ingested in one "
                                       "run into one database, judged per ledger and at the end")
     p.add_argument("--max-protocol", type=int)

@@ -79,5 +79,19 @@ class FixedUpstream(unittest.TestCase):
         self.assertIn("record:R11", WB.fixed_upstream())
 
 
+
+class Protocols(unittest.TestCase):
+    """wallet-backend replays produce SEP41 and BLEND unless told otherwise; other adapters produce none."""
+    def a(self, adapter, protocols=None):
+        import argparse
+        return argparse.Namespace(adapter=adapter, protocols=protocols)
+
+    def test_defaults_and_overrides(self):
+        self.assertEqual(replay.protocols_of(self.a("wallet-backend")), ["SEP41", "BLEND"])
+        self.assertEqual(replay.protocols_of(self.a("wallet-backend", "none")), [])
+        self.assertEqual(replay.protocols_of(self.a("wallet-backend", "SEP41")), ["SEP41"])
+        self.assertEqual(replay.protocols_of(self.a("stellar-etl")), [])
+
+
 if __name__ == "__main__":
     unittest.main()
