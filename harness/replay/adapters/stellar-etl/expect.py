@@ -35,6 +35,17 @@ REPORT_INTRO = [
     "pubnet, testnet and futurenet, so entries from stellar-core's test data are `n/a`.",
 ]
 
+REPORT_INTRO_SEQUENCE = [
+    "Each sequence is a run of consecutive corpus ledgers (`corpus/sequences.json`) served as one window.",
+    "stellar-etl reads them from the data lake through the GCS JSON and XML APIs, with the exporter's own",
+    "GCS client pointed at the feeder by `STORAGE_EMULATOR_HOST`. Every export runs once over the whole",
+    "range: `export_transactions`, `export_operations`, `export_effects`, `export_token_transfer`,",
+    "`export_contract_events`, `export_trades`, and `export_ledger_entry_changes` for accounts, trustlines,",
+    "offers, liquidity pools and claimable balances, which writes nothing for a range of one ledger and",
+    "so is checked on sequences only. Each member ledger is judged like a single-ledger replay; the",
+    "sequence's own end-state checks compare the exported entry changes with each ledger's net change.",
+]
+
 EVIDENCE_FILES = ("job.json, observation.json, result.json, feeder-requests.jsonl, and exports/: each command's "
                   "JSON lines (gzipped), log and exit code")
 

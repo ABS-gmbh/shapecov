@@ -641,14 +641,15 @@ def cmd_report(a):
     order += sorted({k[1] for k in results} - set(order))
     inputs = sorted({k[2] for k in results}, reverse=True)
     entries = []
+    sequence_results = {k: r for k, r in results.items() if r.get("sequence")}
     for k in sorted(results):
-        if k[0] not in entries:
+        if k[0] not in entries and k not in sequence_results:
             entries.append(k[0])
     with_exp = [e for e in entries if any(r.get("expectations") for k, r in results.items() if k[0] == e)]
     without = [e for e in entries if e not in with_exp]
     name = adapter_of(out)
     mapping = adapter_mapping(name)
-    intro = getattr(mapping, "REPORT_INTRO", None) or [
+    intro = (sequence_results and getattr(mapping, "REPORT_INTRO_SEQUENCE", None)) or getattr(mapping, "REPORT_INTRO", None) or [
         "Each cell is the result for one entry at one commit, per input: `rpc` is the mock stellar-rpc",
         "`getLedgers` endpoint, `datalake` is the Galexie layout on an S3-compatible store. Every cell is a run",
         "of the indexer's own `ingest` command against PostgreSQL/TimescaleDB with the tables read back."]
@@ -661,6 +662,18 @@ def cmd_report(a):
          "explain the failures, or `unexplained` (a candidate new finding). The details below list each failure."]
     # REPORT_NOTES: what the adapter's mapping states about this indexer (coverage, declared choices).
     notes = list(getattr(mapping, "REPORT_NOTES", None) or [])
+    if sequence_results:
+        # A sequence: its ledgers are ingested in one run; the end-state checks are what it adds.
+        notes = ["## Sequences", "",
+                 "| Sequence | Ledgers | Commit | Input | End-state checks met | Known issues | Unexplained |",
+                 "|---|---|---|---|---|---|---|"]
+        for (sid, commit, inp), r in sorted(sequence_results.items()):
+            o = r.get("oracle") or {}
+            notes.append("| `%s` | %s | `%s` | %s | %d of %d | %s | %d |" % (
+                sid, ", ".join("`%s`" % m for m in r["sequence"]["members"]), commit[:8], inp,
+                o.get("rows_met", 0), o.get("rows_expected", 0),
+                "; ".join("%d: %s" % (n, i) for i, n in sorted((o.get("known") or {}).items())) or "none",
+                len(o.get("unexplained") or [])))
     L += ([""] + notes + [""] if notes else []) + [
          "## Commits", "", "| Commit | Date | Subject | go-stellar-sdk pin | Source or dependencies modified |",
          "|---|---|---|---|---|"]
