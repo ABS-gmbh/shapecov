@@ -73,7 +73,10 @@ default (SEP41 and BLEND); `run --protocols none` turns it off, `--protocols ID,
 without it, in verdict, oracle rows, known issues and stored row counts; the logs gained only the Blend
 warning described below. Results recorded at other commits before that date ran without it. A commit
 older than `protocol-setup` (April 2026) has no production to turn on; the adapter records that and
-replays as before. The adapter does what the operator does: the adapter runs the commit's own `protocol-setup`, then sets
+replays as before. A commit that has `protocol-setup` but not yet one of the protocols (Blend's validator is newer than
+SEP-41's; the sighting commits of August and September 2026 lack it) refuses the whole call with
+`no validator registered`; the adapter drops that protocol, records it as `protocols_unavailable` in
+`observation.json`, and sets up the ones the commit has. The adapter does what the operator does: the adapter runs the commit's own `protocol-setup`, then sets
 `protocol_<ID>_history_cursor` and `protocol_<ID>_current_state_cursor` to the ledger before the
 replay, where `protocol-migrate` leaves them once it has migrated up to that ledger. A sequence may set
 only some of them (`protocol_cursors`, e.g. history production alone). wallet-backend's own log then
