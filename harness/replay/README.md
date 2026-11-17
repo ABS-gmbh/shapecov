@@ -340,8 +340,9 @@ equal. So the harness runs it only on sequences of consecutive corpus ledgers
 ledger with that ledger's net change (created, updated, removed, restored; none for an entry created
 and removed in the same ledger), and no row for an entry the ledger did not change. Results:
 [`out-stellar-etl-sequences/`](out-stellar-etl-sequences/RESULTS.md). All are met: 14 on
-`trustline-churn` (two ledgers) and 32 on `token-rebind` (five); `token-rebind-history`, the same
-ledgers with a wallet-backend expectation of its own, is not recorded for stellar-etl yet.
+`trustline-churn` (two ledgers), 32 on `token-rebind` and on `token-rebind-history` (the same five
+ledgers; its own expectation is wallet-backend's and is left out for stellar-etl), and 12 on
+`blend-pool-name` (two).
 
 The oracle maps onto stellar-etl's own vocabulary (`adapters/stellar-etl/expect.py`): each change
 in ledger state should produce the matching Horizon-model effect (`account_created`,

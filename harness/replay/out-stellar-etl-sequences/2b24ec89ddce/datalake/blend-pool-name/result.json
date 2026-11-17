@@ -1,0 +1,243 @@
+{
+ "adapter": "stellar-etl",
+ "ref": "2b24ec89ddce7fc0beb7795de982c93e6895eaf3",
+ "commit": "2b24ec89ddce7fc0beb7795de982c93e6895eaf3",
+ "input": "datalake",
+ "sdk_pin": "v0.8.1-0.20261106081502-e31e3b146d00",
+ "mode": "sequence blend-pool-name",
+ "entry_id": "blend-pool-name",
+ "protocol_version": 28,
+ "ledger": {
+  "seq": 4,
+  "hash": "d38739781888551522344e77ee80e6ddf8cfe32828a2bc3f26091910e0b5e98e",
+  "close_time": 4030000000,
+  "protocol": 28
+ },
+ "sequence": {
+  "members": [
+   "localcore-blend-upload-3",
+   "localcore-blend-pool-4"
+  ],
+  "blind": false,
+  "built_for": "wallet-backend ff73ff46 (#803)"
+ },
+ "ingested": true,
+ "process": {
+  "outcome": "exited",
+  "exit_code": 0
+ },
+ "seconds": 1.5,
+ "feeder_requests": 35,
+ "evidence": "out-stellar-etl-sequences/2b24ec89ddce/datalake/blend-pool-name",
+ "oracle": {
+  "verdict": "pass",
+  "rows_expected": 12,
+  "rows_met": 12,
+  "rows_checked": 12,
+  "known": {},
+  "unexplained": [],
+  "checks": [
+   {
+    "expect": {
+     "expect": "entry_change",
+     "table": "account",
+     "key": "GBRPYHIL2CI3FNQ4BXLFMNDLFJUNPU2HY3ZMFSHONUCEOASW7QC7OX2H",
+     "ledger": 3,
+     "change": 1,
+     "deleted": false,
+     "derived_from": "oracle: the account is updated in ledger 3 (net of the ledger's changes)",
+     "via": {
+      "what": "entry change",
+      "how": "updated",
+      "table": "account"
+     }
+    },
+    "outcome": "met",
+    "detail": "account GBRPYHIL2CI3FNQ4BXLFMNDL in ledger 3: change 1"
+   },
+   {
+    "expect": {
+     "expect": "entry_changes_only",
+     "table": "account",
+     "ledger": 3,
+     "keys": [
+      "GBRPYHIL2CI3FNQ4BXLFMNDLFJUNPU2HY3ZMFSHONUCEOASW7QC7OX2H"
+     ],
+     "derived_from": "oracle: the account entries ledger 3 changed",
+     "via": {
+      "what": "entry change",
+      "how": "no other row",
+      "table": "account"
+     }
+    },
+    "outcome": "met",
+    "detail": "account rows of ledger 3: only entries the ledger changed"
+   },
+   {
+    "expect": {
+     "expect": "entry_changes_only",
+     "table": "claimable_balance",
+     "ledger": 3,
+     "keys": [],
+     "derived_from": "oracle: the claimable_balance entries ledger 3 changed",
+     "via": {
+      "what": "entry change",
+      "how": "no other row",
+      "table": "claimable_balance"
+     }
+    },
+    "outcome": "met",
+    "detail": "claimable_balance rows of ledger 3: only entries the ledger changed"
+   },
+   {
+    "expect": {
+     "expect": "entry_changes_only",
+     "table": "liquidity_pool",
+     "ledger": 3,
+     "keys": [],
+     "derived_from": "oracle: the liquidity_pool entries ledger 3 changed",
+     "via": {
+      "what": "entry change",
+      "how": "no other row",
+      "table": "liquidity_pool"
+     }
+    },
+    "outcome": "met",
+    "detail": "liquidity_pool rows of ledger 3: only entries the ledger changed"
+   },
+   {
+    "expect": {
+     "expect": "entry_changes_only",
+     "table": "offer",
+     "ledger": 3,
+     "keys": [],
+     "derived_from": "oracle: the offer entries ledger 3 changed",
+     "via": {
+      "what": "entry change",
+      "how": "no other row",
+      "table": "offer"
+     }
+    },
+    "outcome": "met",
+    "detail": "offer rows of ledger 3: only entries the ledger changed"
+   },
+   {
+    "expect": {
+     "expect": "entry_changes_only",
+     "table": "trustline",
+     "ledger": 3,
+     "keys": [],
+     "derived_from": "oracle: the trustline entries ledger 3 changed",
+     "via": {
+      "what": "entry change",
+      "how": "no other row",
+      "table": "trustline"
+     }
+    },
+    "outcome": "met",
+    "detail": "trustline rows of ledger 3: only entries the ledger changed"
+   },
+   {
+    "expect": {
+     "expect": "entry_change",
+     "table": "account",
+     "key": "GBRPYHIL2CI3FNQ4BXLFMNDLFJUNPU2HY3ZMFSHONUCEOASW7QC7OX2H",
+     "ledger": 4,
+     "change": 1,
+     "deleted": false,
+     "derived_from": "oracle: the account is updated in ledger 4 (net of the ledger's changes)",
+     "via": {
+      "what": "entry change",
+      "how": "updated",
+      "table": "account"
+     }
+    },
+    "outcome": "met",
+    "detail": "account GBRPYHIL2CI3FNQ4BXLFMNDL in ledger 4: change 1"
+   },
+   {
+    "expect": {
+     "expect": "entry_changes_only",
+     "table": "account",
+     "ledger": 4,
+     "keys": [
+      "GBRPYHIL2CI3FNQ4BXLFMNDLFJUNPU2HY3ZMFSHONUCEOASW7QC7OX2H"
+     ],
+     "derived_from": "oracle: the account entries ledger 4 changed",
+     "via": {
+      "what": "entry change",
+      "how": "no other row",
+      "table": "account"
+     }
+    },
+    "outcome": "met",
+    "detail": "account rows of ledger 4: only entries the ledger changed"
+   },
+   {
+    "expect": {
+     "expect": "entry_changes_only",
+     "table": "claimable_balance",
+     "ledger": 4,
+     "keys": [],
+     "derived_from": "oracle: the claimable_balance entries ledger 4 changed",
+     "via": {
+      "what": "entry change",
+      "how": "no other row",
+      "table": "claimable_balance"
+     }
+    },
+    "outcome": "met",
+    "detail": "claimable_balance rows of ledger 4: only entries the ledger changed"
+   },
+   {
+    "expect": {
+     "expect": "entry_changes_only",
+     "table": "liquidity_pool",
+     "ledger": 4,
+     "keys": [],
+     "derived_from": "oracle: the liquidity_pool entries ledger 4 changed",
+     "via": {
+      "what": "entry change",
+      "how": "no other row",
+      "table": "liquidity_pool"
+     }
+    },
+    "outcome": "met",
+    "detail": "liquidity_pool rows of ledger 4: only entries the ledger changed"
+   },
+   {
+    "expect": {
+     "expect": "entry_changes_only",
+     "table": "offer",
+     "ledger": 4,
+     "keys": [],
+     "derived_from": "oracle: the offer entries ledger 4 changed",
+     "via": {
+      "what": "entry change",
+      "how": "no other row",
+      "table": "offer"
+     }
+    },
+    "outcome": "met",
+    "detail": "offer rows of ledger 4: only entries the ledger changed"
+   },
+   {
+    "expect": {
+     "expect": "entry_changes_only",
+     "table": "trustline",
+     "ledger": 4,
+     "keys": [],
+     "derived_from": "oracle: the trustline entries ledger 4 changed",
+     "via": {
+      "what": "entry change",
+      "how": "no other row",
+      "table": "trustline"
+     }
+    },
+    "outcome": "met",
+    "detail": "trustline rows of ledger 4: only entries the ledger changed"
+   }
+  ]
+ },
+ "result": "pass"
+}

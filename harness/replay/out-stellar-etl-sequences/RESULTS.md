@@ -20,7 +20,9 @@ explain the failures, or `unexplained` (a candidate new finding). The details be
 
 | Sequence | Ledgers | Commit | Input | End-state checks met | Known issues | Unexplained |
 |---|---|---|---|---|---|---|
+| `blend-pool-name` | `localcore-blend-upload-3`, `localcore-blend-pool-4` | `2b24ec89` | datalake | 12 of 12 | none | 0 |
 | `token-rebind` | `localcore-token-rebind-upload-4`, `localcore-token-rebind-filler-5`, `localcore-token-rebind-deploy-6`, `localcore-token-rebind-mint-7`, `localcore-token-rebind-rebind-8` | `2b24ec89` | datalake | 32 of 32 | none | 0 |
+| `token-rebind-history` | `localcore-token-rebind-upload-4`, `localcore-token-rebind-filler-5`, `localcore-token-rebind-deploy-6`, `localcore-token-rebind-mint-7`, `localcore-token-rebind-rebind-8` | `2b24ec89` | datalake | 32 of 32 | none | 0 |
 | `trustline-churn` | `localcore-trustline-add-4`, `localcore-trustline-churn-5` | `2b24ec89` | datalake | 14 of 14 | none | 0 |
 
 ## Commits
@@ -35,11 +37,18 @@ Only the implicit checks apply: the ledger is ingested without an error and ever
 
 | Entry | Protocol | Input | `2b24ec89` |
 |---|---|---|---|
+| `localcore-blend-pool-4@blend-pool-name` | 28 | datalake | dropped: stellar-etl#462 |
+| `localcore-blend-upload-3@blend-pool-name` | 28 | datalake | pass |
 | `localcore-token-rebind-deploy-6@token-rebind` | 28 | datalake | dropped: stellar-etl#462 |
+| `localcore-token-rebind-deploy-6@token-rebind-history` | 28 | datalake | dropped: stellar-etl#462 |
 | `localcore-token-rebind-filler-5@token-rebind` | 28 | datalake | pass |
+| `localcore-token-rebind-filler-5@token-rebind-history` | 28 | datalake | pass |
 | `localcore-token-rebind-mint-7@token-rebind` | 28 | datalake | mishandled: stellar-etl#452 |
+| `localcore-token-rebind-mint-7@token-rebind-history` | 28 | datalake | mishandled: stellar-etl#452 |
 | `localcore-token-rebind-rebind-8@token-rebind` | 28 | datalake | mishandled: stellar-etl#452 |
+| `localcore-token-rebind-rebind-8@token-rebind-history` | 28 | datalake | mishandled: stellar-etl#452 |
 | `localcore-token-rebind-upload-4@token-rebind` | 28 | datalake | pass |
+| `localcore-token-rebind-upload-4@token-rebind-history` | 28 | datalake | pass |
 | `localcore-trustline-add-4@trustline-churn` | 28 | datalake | pass |
 | `localcore-trustline-churn-5@trustline-churn` | 28 | datalake | pass |
 
@@ -47,7 +56,7 @@ Only the implicit checks apply: the ledger is ingested without an error and ever
 
 | Commit | Input | pass | mishandled | dropped | error |
 |---|---|---|---|---|---|
-| `2b24ec89` | datalake | 6 | 2 | 1 | 0 |
+| `2b24ec89` | datalake | 11 | 4 | 3 | 0 |
 
 ## Oracle checks
 
@@ -58,7 +67,7 @@ checked. A failure is labelled with the open upstream issue that explains it
 
 | Commit | Input | Replays | Rows expected | Rows met | Known issues | Unexplained |
 |---|---|---|---|---|---|---|
-| `2b24ec89` | datalake | 9 | 94 | 91 | stellar-etl#452 (2), stellar-etl#462 (1) | 0 |
+| `2b24ec89` | datalake | 18 | 188 | 181 | stellar-etl#452 (4), stellar-etl#462 (3) | 0 |
 
 
 
@@ -72,4 +81,4 @@ checked. A failure is labelled with the open upstream issue that explains it
 
 | Started (UTC) | Refs | Inputs | Entries | Seconds | Feeder peak RSS (kB) | Ledgers served by RPC | Objects served by S3 |
 |---|---|---|---|---|---|---|---|
-| 2026-11-17T09:24:08+00:00 | `2b24ec89` | datalake | 0 | 7.2 | 37764 | 0 | 0 |
+| 2026-11-17T09:29:55+00:00 | `2b24ec89` | datalake | 0 | 16.2 | 37732 | 0 | 0 |

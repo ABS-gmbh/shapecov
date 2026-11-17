@@ -1,0 +1,45 @@
+{
+ "adapter": "stellar-etl",
+ "ref": "2b24ec89ddce7fc0beb7795de982c93e6895eaf3",
+ "commit": "2b24ec89ddce7fc0beb7795de982c93e6895eaf3",
+ "input": "datalake",
+ "sdk_pin": "v0.8.1-0.20261106081502-e31e3b146d00",
+ "mode": "sequence blend-pool-name",
+ "entry_id": "localcore-blend-upload-3",
+ "protocol_version": 28,
+ "result": "pass",
+ "mishandled": [],
+ "dropped": [],
+ "checks": [],
+ "expectations": 0,
+ "expectations_source": "none (implicit checks only)",
+ "ledger": {
+  "seq": 3,
+  "hash": "6cdc977ffeb6b65287aecf60c449b1adc1209a1e59e3e88d8ee038873773c0a7",
+  "close_time": 4020000000,
+  "protocol": 28
+ },
+ "ingested": true,
+ "row_counts": {
+  "transactions": 1,
+  "operations": 1,
+  "effects": 0,
+  "token_transfer": 2,
+  "contract_events": 21,
+  "trades": 0
+ },
+ "process": {
+  "outcome": "exited",
+  "exit_code": 0
+ },
+ "seconds": 1.5,
+ "evidence": "out-stellar-etl-sequences/2b24ec89ddce/datalake/blend-pool-name/localcore-blend-upload-3",
+ "in_sequence": "blend-pool-name",
+ "oracle": {
+  "verdict": "pass",
+  "rows_expected": 5,
+  "rows_met": 5,
+  "known": {},
+  "unexplained": []
+ }
+}
