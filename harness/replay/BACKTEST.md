@@ -116,6 +116,13 @@ Later the same day, `666a64d4` moved out for the reason above: an earlier readin
 said stellar-core's CAP-67 events reach it, which the decoder's contract filter rules out. In-scope
 fixes for wallet-backend: 18 before, 17 now.
 
+| Step | Fix moved | Direction | Reason | In scope |
+|---|---|---|---|---|
+| start | — | — | — | 17 |
+| 1 | `490aab41` | out | needs a repeated transaction hash | 16 |
+| 2 | `ee82038d`, `f5b67b07` | in | excluded for detection, not content | 18 |
+| 3 | `666a64d4` | out | host never emits such addresses | 17 |
+
 ## wallet-backend: 17 in-scope fixes
 
 **Detected 12 of 17 in-scope fixes; 5 with a blind ledger.** Each row: the fix, the replays at its parent (pass 1 corpus / pass 2 sweep ledgers), and either the ledgers with a failure at the parent that the fix removes, or what would catch it.
